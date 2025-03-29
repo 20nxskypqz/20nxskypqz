@@ -11,43 +11,47 @@
     <header>
         <!-- เมนูสามขีด -->
         <div class="hamburger-menu" onclick="toggleMenu()">
-            &#9776; <!-- ตัวอักษรสามขีด -->
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
         </div>
 
-        <div class="title">
-            <h1>Welcome to 20nxskypqz!</h1>
-        </div>
+        <h1>Welcome to 20nxskypqz!</h1>
 
-        <!-- โหมด Day/Night -->
-        <div class="mode-switcher" onclick="toggleMode()">
-            <span id="sun-icon">&#9728;</span>
-            <span id="moon-icon">&#9790;</span>
+        <!-- ปุ่มสลับโหมดกลางวัน/กลางคืน -->
+        <div class="theme-toggle" onclick="toggleTheme()">
+            <div class="toggle-inner">
+                <div class="icon sun">☀️</div>
+                <div class="icon moon">🌙</div>
+            </div>
         </div>
     </header>
 
-    <!-- เมนู -->
-    <nav id="menu">
+    <!-- เมนูนำทาง -->
+    <nav id="nav-menu" class="hidden">
         <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#home" onclick="closeMenu()">Home</a></li>
+            <li><a href="#about" onclick="closeMenu()">About</a></li>
+            <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
         </ul>
     </nav>
 
-    <section id="home">
-        <h2>Home Page</h2>
-        <p>This is the home page of 20nxskypqz. I'm learning how to create a website using GitHub Pages.</p>
-    </section>
+    <main>
+        <section id="home">
+            <h2>Home Page</h2>
+            <p>This is the home page of 20nxskypqz. I'm learning how to create a website using GitHub Pages.</p>
+        </section>
 
-    <section id="about">
-        <h2>About Me</h2>
-        <p>Here you can add a little bit about yourself or your project.</p>
-    </section>
+        <section id="about">
+            <h2>About Me</h2>
+            <p>Here you can add a little bit about yourself or your project.</p>
+        </section>
 
-    <section id="contact">
-        <h2>Contact</h2>
-        <p>You can add contact details or a contact form here.</p>
-    </section>
+        <section id="contact">
+            <h2>Contact</h2>
+            <p>You can add contact details or a contact form here.</p>
+        </section>
+    </main>
 
     <footer>
         <p>&copy; 2025 20nxskypqz</p>
