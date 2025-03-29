@@ -3,54 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - 20nxskypqz</title>
-    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <title>My Personal Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Niramit', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: linear-gradient(to right, red, orange);
+            color: white;
+        }
+        .menu-toggle {
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .day-night-toggle {
+            cursor: pointer;
+            background-color: white;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .content {
+            text-align: center;
+            padding: 20px;
+        }
+        .links {
+            margin-top: 20px;
+        }
+        .links a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+    </style>
 </head>
-<body data-dark-mode="false">
-    <header>
-        <!-- เมนูสามขีด -->
-        <div class="hamburger-menu" onclick="toggleMenu()">
-            &#9776;
+<body>
+    <div class="header">
+        <div class="menu-toggle">☰</div>
+        <div class="day-night-toggle">Day/Night Mode</div>
+    </div>
+    <div class="content">
+        <h1>Welcome to My Personal Website!</h1>
+        <p>This is my personal website for work and study.</p>
+        <div class="links">
+            <h2>Quick Links</h2>
+            <a href="https://www.google.com" target="_blank">Google</a>
+            <a href="https://www.github.com" target="_blank">GitHub</a>
+            <a href="https://www.stackoverflow.com" target="_blank">Stack Overflow</a>
         </div>
-
-        <div class="title">
-            <h1>Welcome to 20nxskypqz!</h1>
-        </div>
-
-        <!-- ปุ่มโหมดกลางวัน/กลางคืน -->
-        <div class="controls">
-            <input id="sync" type="checkbox" checked hidden/>
-        </div>
-        <button class="toggle" aria-pressed="false" title="Toggle Dark Mode">
-            <span class="toggle__content">
-                <svg aria-hidden="true" class="toggle__backdrop" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 290 228">
-                    <g class="clouds">
-                        <path fill="#D9D9D9" d="M335 147.5c0 27.89-22.61 50.5-50.5 50.5a50.78 50.78 0 0 1-9.29-.853c-2.478 12.606-10.595 23.188-21.615 29.011C245.699 243.749 228.03 256 207.5 256a50.433 50.433 0 0 1-16.034-2.599A41.811 41.811 0 0 1 166 262a41.798 41.798 0 0 1-22.893-6.782A42.21 42.21 0 0 1 135 256a41.82 41.82 0 0 1-19.115-4.592A41.84 41.84 0 0 1 88 262c-1.827 0-3.626-.117-5.391-.343C74.911 270.448 63.604 276 51 276c-23.196 0-42-18.804-42-42s18.804-42 42-42c1.827 0 3.626.117 5.391.343C64.089 183.552 75.396 178 88 178a41.819 41.819 0 0 1 19.115 4.592C114.532 176.002 124.298 172 135 172a41.798 41.798 0 0 1 22.893 6.782 42.066 42.066 0 0 1 7.239-.773C174.137 164.159 189.749 155 207.5 155c.601 0 1.199.01 1.794.031A41.813 41.813 0 0 1 234 147h.002c.269-27.66 22.774-50 50.498-50 27.89 0 50.5 22.61 50.5 50.5Z"/>
-                    </g>
-                </svg>
-            </span>
-        </button>
-    </header>
-
-    <!-- เมนู -->
-    <nav id="menu">
-        <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
-
-    <section id="home">
-        <h2>Home Page</h2>
-        <p>This is the home page of 20nxskypqz.</p>
-    </section>
-
-    <footer>
-        <p>&copy; 2025 20nxskypqz</p>
-    </footer>
-
-    <script src="script.js"></script>
+    </div>
 </body>
 </html>
