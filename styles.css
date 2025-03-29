@@ -10,6 +10,7 @@ body {
     font-family: 'Niramit', sans-serif;
     background-color: #fff; /* สีขาว */
     color: #333; /* สีดำสำหรับข้อความ */
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* ส่วนของ header */
@@ -17,33 +18,62 @@ header {
     background-color: #333; /* สีดำ */
     color: #fff; /* ข้อความสีขาว */
     padding: 20px;
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 header h1 {
     font-size: 2.5em;
+    margin-left: 20px;
 }
 
-/* ส่วนของ navigation */
+/* เมนูสามขีด */
+.hamburger-menu {
+    font-size: 2em;
+    cursor: pointer;
+}
+
+.mode-switcher {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 30px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#sun-icon, #moon-icon {
+    font-size: 1.5em;
+    display: none;
+}
+
+/* เมนู */
+nav {
+    display: none;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    padding-top: 50px;
+}
+
 nav ul {
     list-style: none;
     padding: 0;
 }
 
 nav ul li {
-    display: inline;
-    margin: 0 15px;
+    padding: 15px;
+    text-align: center;
 }
 
 nav ul li a {
-    color: #ff6600; /* สีส้ม */
+    color: #fff;
     text-decoration: none;
     font-size: 1.2em;
-}
-
-/* เมื่อ hover เหนือลิงก์ */
-nav ul li a:hover {
-    color: #6600cc; /* สีม่วง */
 }
 
 /* ส่วนของ sections */
@@ -69,4 +99,40 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
+}
+
+/* โหมด Night */
+body.night-mode {
+    background-color: #333; /* สีดำ */
+    color: #fff;
+}
+
+body.night-mode header {
+    background-color: #222;
+}
+
+body.night-mode nav {
+    background-color: #444;
+}
+
+body.night-mode .mode-switcher {
+    background-color: #666;
+}
+
+/* โหมดดวงอาทิตย์ */
+body.night-mode #moon-icon {
+    display: none;
+}
+
+body #sun-icon {
+    display: none;
+}
+
+body.night-mode #sun-icon {
+    display: block;
+}
+
+/* การแสดงเมนู */
+body.menu-open nav {
+    display: block;
 }
