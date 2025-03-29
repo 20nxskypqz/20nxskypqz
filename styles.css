@@ -1,133 +1,88 @@
-/* รีเซ็ตการตั้งค่าพื้นฐาน */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* กำหนดฟอนต์และพื้นหลัง */
 body {
     font-family: 'Niramit', sans-serif;
     background-color: #fff;
     color: #333;
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* โหมดกลางคืน */
-body.dark-mode {
-    background-color: #333;
-    color: #fff;
-}
-
-/* ส่วนหัว */
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
+body[data-dark-mode="true"] {
     background-color: #222;
     color: #fff;
 }
 
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 /* เมนูสามขีด */
 .hamburger-menu {
-    display: flex;
-    flex-direction: column;
+    font-size: 2em;
     cursor: pointer;
 }
 
-.bar {
-    background-color: #fff;
-    height: 3px;
-    width: 25px;
-    margin: 3px 0;
-}
-
-/* ปุ่มสลับโหมด */
-.theme-toggle {
-    width: 50px;
-    height: 25px;
-    background-color: #ffcc00;
-    border-radius: 25px;
-    position: relative;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 5px;
-}
-
-.theme-toggle .icon {
-    font-size: 16px;
-    transition: opacity 0.3s;
-}
-
-.theme-toggle .sun {
-    opacity: 1;
-}
-
-.theme-toggle .moon {
-    opacity: 0;
-}
-
-/* โหมดกลางคืนสำหรับปุ่มสลับโหมด */
-body.dark-mode .theme-toggle {
-    background-color: #666;
-}
-
-body.dark-mode .theme-toggle .sun {
-    opacity: 0;
-}
-
-body.dark-mode .theme-toggle .moon {
-    opacity: 1;
-}
-
-/* เมนูนำทาง */
+/* เมนู */
 nav {
+    display: none;
     background-color: #444;
     position: fixed;
     top: 0;
-    left: -250px;
-    width: 250px;
+    left: 0;
+    width: 200px;
     height: 100%;
-    padding-top: 60px;
-    transition: left 0.3s;
+    padding-top: 50px;
 }
 
 nav ul {
-    list-style-type: none;
+    list-style: none;
 }
 
 nav ul li {
-    padding: 10px 20px;
+    padding: 15px;
+    text-align: center;
 }
 
 nav ul li a {
     color: #fff;
     text-decoration: none;
+    font-size: 1.2em;
+}
+
+body.menu-open nav {
     display: block;
 }
 
-/* แสดงเมนูเมื่อเปิด */
-nav.show {
-    left: 0;
+/* ปุ่ม Day/Night Mode */
+button.toggle {
+    background: #f39c12;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
-/* ซ่อนเมนู */
-.hidden {
-    display: none;
+body[data-dark-mode="true"] button.toggle {
+    background: #8e44ad;
 }
 
-/* ส่วนหลักของเนื้อหา */
-main {
-    padding: 20px;
-}
-
-/* ส่วนท้าย */
 footer {
     text-align: center;
     padding: 10px;
-    background-color: #222;
+    background-color: #333;
     color: #fff;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
