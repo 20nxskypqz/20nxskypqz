@@ -1,31 +1,21 @@
-// ฟังก์ชันสลับโหมดกลางวัน/กลางคืน
-function toggleTheme() {
-    const body = document.body;
-    body.classList.toggle('dark-mode');
+const button = document.querySelector(".toggle");
+const sync = document.querySelector("#sync");
 
-    // บันทึกสถานะโหมดใน localStorage
-    if (body.classList.contains('dark-mode')) {
-        localStorage.setItem('theme', 'dark');
-    } else {
-        localStorage.setItem('theme', 'light');
+// ฟังก์ชันเปลี่ยนโหมด
+const toggleDarkMode = () => {
+    const isPressed = button.getAttribute("aria-pressed") === "true";
+    const newMode = isPressed ? "false" : "true";
+
+    if (sync.checked) {
+        document.body.setAttribute("data-dark-mode", newMode);
     }
-}
+    button.setAttribute("aria-pressed", newMode);
+};
 
-// ฟังก์ชันเปิด/ปิดเมนูนำทาง
+// คลิกที่ปุ่มแล้วเปลี่ยนโหมด
+button.addEventListener("click", toggleDarkMode);
+
+// ฟังก์ชันเปิด/ปิดเมนู
 function toggleMenu() {
-    const navMenu = document.getElementById('nav-menu');
-    navMenu.classList.toggle('show');
+    document.body.classList.toggle("menu-open");
 }
-
-// ฟังก์ชันปิดเมนู (ใช้เมื่อคลิกลิงก์ในเมนู)
-function closeMenu() {
-    const navMenu = document.getElementById('nav-menu');
-    navMenu.classList.remove('show');
-}
-
-// ตรวจสอบและตั้งค่าโหมดเมื่อโหลดหน้าเว็บ
-window.onload = function() {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-   0
