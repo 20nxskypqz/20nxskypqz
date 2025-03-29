@@ -9,15 +9,30 @@
 </head>
 <body>
     <header>
-        <h1>Welcome to 20nxskypqz!</h1>
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
+        <!-- เมนูสามขีด -->
+        <div class="hamburger-menu" onclick="toggleMenu()">
+            &#9776; <!-- ตัวอักษรสามขีด -->
+        </div>
+
+        <div class="title">
+            <h1>Welcome to 20nxskypqz!</h1>
+        </div>
+
+        <!-- โหมด Day/Night -->
+        <div class="mode-switcher" onclick="toggleMode()">
+            <span id="sun-icon">&#9728;</span>
+            <span id="moon-icon">&#9790;</span>
+        </div>
     </header>
+
+    <!-- เมนู -->
+    <nav id="menu">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
 
     <section id="home">
         <h2>Home Page</h2>
@@ -37,5 +52,7 @@
     <footer>
         <p>&copy; 2025 20nxskypqz</p>
     </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
