@@ -19,7 +19,7 @@
         .header {
             width: 100%;
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
             align-items: center;
             padding: 10px 20px;
             background: linear-gradient(to right, red, orange);
@@ -29,14 +29,6 @@
         .menu-toggle {
             font-size: 24px;
             cursor: pointer;
-        }
-        .day-night-toggle {
-            cursor: pointer;
-            background-color: white;
-            color: black;
-            padding: 5px 10px;
-            border-radius: 5px;
-            margin-left: auto; /* Move the Day/Night toggle to the right */
         }
         .content {
             text-align: center;
@@ -69,7 +61,6 @@
 <body>
     <div class="header">
         <div class="menu-toggle">&#9776;</div>
-        <div class="day-night-toggle">Day/Night Mode</div>
     </div>
     <div class="content">
         <h1>Welcome to 20nxskypqz!</h1>
@@ -84,17 +75,5 @@
     <div class="footer">
         &copy; 2025 20nxskypqz
     </div>
-
-    <div class="controls">
-        <label for="sync">Sync &lt;body&gt;</label>
-        <input id="sync" type="checkbox" checked>
-    </div>
-    <button class="toggle" aria-pressed="false" title="Toggle Dark Mode">
-        <span class="toggle__content">
-            <!-- SVG content -->
-        </span>
-    </button>
-
-    <script src="script.js"></script>
 </body>
 </html>
