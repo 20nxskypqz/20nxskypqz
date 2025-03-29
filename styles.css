@@ -5,13 +5,15 @@
 }
 
 :root {
-    --bg: hsl(219, 30%, 88%);
-    --color: hsl(219 30% 20%);
+    --bg-light: #ffffff;
+    --color-light: #000000;
+    --bg-dark: #000000;
+    --color-dark: #ffffff;
 }
 
 body {
-    background-color: var(--bg);
-    color: var(--color);
+    background-color: var(--bg-light);
+    color: var(--color-light);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -27,7 +29,7 @@ body {
 .links a {
     margin: 0 10px;
     text-decoration: none;
-    color: #007bff;
+    color: #0000ff;
 }
 
 /* Day/Night Toggle Styles */
@@ -42,14 +44,18 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 2px solid #000000; /* Add border */
+    transition: all 0.5s ease; /* Add animation */
 }
 .day-night-toggle::before {
     content: "☀️";
     position: absolute;
     font-size: 20px;
+    transition: all 0.5s ease; /* Add animation */
 }
 .day-night-toggle.night {
     background: linear-gradient(to right, #000066, #0000cc);
+    border: 2px solid #ffffff; /* Change border color */
 }
 .day-night-toggle.night::before {
     content: "🌙";
