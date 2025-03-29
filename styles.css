@@ -1,0 +1,60 @@
+*,
+*:after,
+*:before {
+    box-sizing: border-box;
+}
+
+:root {
+    --slide-ease: cubic-bezier(.4, -0.3, .6, 1.3);
+    --easing: var(--slide-ease);
+    --speed: 0.5s;
+    --width: clamp(200px, 45vmin, 500px);
+    --ar: 8 / 3;
+    --ray: hsl(0 0% 100% / 0.5);
+    --sun: hsl(47, 91%, 58%);
+    --moon: hsl(212, 13%, 82%);
+    --crater: hsl(221, 16%, 68%);
+    --bg: hsl(219, 30%, 88%);
+    --bear-speed: 10s;
+    --color: hsl(219 30% 20%);
+}
+
+html {
+    color-scheme: light only;
+}
+
+[data-dark-mode=true] {
+    --bg: hsl(219, 30%, 12%);
+    --color: hsl(219 30% 98%);
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.controls {
+    margin-bottom: 20px;
+}
+
+button {
+    background-color: var(--sun);
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color var(--speed) var(--easing);
+}
+
+button[aria-pressed="true"] {
+    background-color: var(--moon);
+}
+
+button:focus {
+    outline: none;
+}
