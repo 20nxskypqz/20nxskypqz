@@ -5,17 +5,17 @@
     box-sizing: border-box;
 }
 
-/* กำหนดสีพื้นหลังและฟอนต์ */
+/* กำหนดพื้นหลังและฟอนต์ */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
+    font-family: 'Niramit', sans-serif;
+    background-color: #fff; /* สีขาว */
+    color: #333; /* สีดำสำหรับข้อความ */
 }
 
 /* ส่วนของ header */
 header {
-    background-color: #333;
-    color: #fff;
+    background-color: #333; /* สีดำ */
+    color: #fff; /* ข้อความสีขาว */
     padding: 20px;
     text-align: center;
 }
@@ -24,6 +24,7 @@ header h1 {
     font-size: 2.5em;
 }
 
+/* ส่วนของ navigation */
 nav ul {
     list-style: none;
     padding: 0;
@@ -35,9 +36,14 @@ nav ul li {
 }
 
 nav ul li a {
-    color: #fff;
+    color: #ff6600; /* สีส้ม */
     text-decoration: none;
     font-size: 1.2em;
+}
+
+/* เมื่อ hover เหนือลิงก์ */
+nav ul li a:hover {
+    color: #6600cc; /* สีม่วง */
 }
 
 /* ส่วนของ sections */
@@ -46,6 +52,7 @@ section {
     margin: 20px;
     background-color: #fff;
     border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 section h2 {
@@ -53,10 +60,11 @@ section h2 {
     color: #333;
 }
 
+/* ส่วน footer */
 footer {
     text-align: center;
     padding: 10px;
-    background-color: #333;
+    background-color: #333; /* สีดำ */
     color: #fff;
     position: fixed;
     bottom: 0;
