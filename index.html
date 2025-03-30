@@ -65,7 +65,7 @@
         }
         .time-display, .date-display {
             font-size: 16px;
-            font-weight: bold;
+            font-weight: normal;
         }
         p {
             font-size: 16px;
@@ -81,7 +81,7 @@
         <div class="time-container">
             <h2>Current Date and Time in Thailand</h2>
             <p id="date-display" class="date-display">Date: 2025-03-30</p>
-            <p id="time-display" class="time-display">Time: 09:02:36</p>
+            <p id="time-display" class="time-display">Time: 09:06:32</p>
         </div>
     </div>
     <div class="footer">
@@ -104,11 +104,11 @@
             const dateFormatted = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Bangkok' });
             document.getElementById('date-display').textContent = `Date: ${dateFormatted}`;
             document.getElementById('time-display').textContent = `Time: ${localTime}`;
+            requestAnimationFrame(updateTime);
         }
 
-        // อัปเดตทุก ๆ วินาที
-        setInterval(updateTime, 1000);
-        updateTime(); // เรียกครั้งแรกเพื่อให้แสดงผลทันที
+        // ใช้ requestAnimationFrame เพื่อให้การอัปเดตเวลาเป็นไปอย่างราบรื่น
+        requestAnimationFrame(updateTime);
     </script>
 </body>
 </html>
