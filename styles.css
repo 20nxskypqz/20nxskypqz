@@ -27,4 +27,8 @@ body {
     color: #0000ff;
 }
 
-/* Other existing styles */
+.time-container {
+    text-align: left;
+    width: 100%;
+    padding: 20px;
+}
