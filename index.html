@@ -31,33 +31,6 @@
             font-size: 24px;
             cursor: pointer;
         }
-        .day-night-toggle {
-            cursor: pointer;
-            width: 60px;
-            height: 30px;
-            border-radius: 30px;
-            background: linear-gradient(to right, #ffcc00, #ff9900);
-            position: relative;
-            margin-left: auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #000000; /* Add border */
-            transition: all 0.5s ease; /* Add animation */
-        }
-        .day-night-toggle::before {
-            content: "☀️";
-            position: absolute;
-            font-size: 20px;
-            transition: all 0.5s ease; /* Add animation */
-        }
-        .day-night-toggle.night {
-            background: linear-gradient(to right, #000066, #0000cc);
-            border: 2px solid #ffffff; /* Change border color */
-        }
-        .day-night-toggle.night::before {
-            content: "🌙";
-        }
         .content {
             text-align: center;
             padding: 20px;
@@ -84,12 +57,25 @@
             bottom: 0;
             left: 0;
         }
+        /* Day/Night Toggle Button */
+        .toggle-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        #toggle-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div class="header">
         <div class="menu-toggle">&#9776;</div>
-        <div class="day-night-toggle" id="dayNightToggle"></div>
+        <div class="toggle-container">
+            <button id="toggle-btn">Toggle Mode</button>
+        </div>
     </div>
     <div class="content">
         <h1>Welcome to 20nxskypqz!</h1>
