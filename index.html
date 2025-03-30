@@ -37,6 +37,9 @@
             flex: 1;
             width: 100%;
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .footer {
             text-align: center;
@@ -49,6 +52,11 @@
             bottom: 0;
             left: 0;
         }
+        .time-container {
+            text-align: left;
+            width: 100%;
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
@@ -57,11 +65,31 @@
     </div>
     <div class="content">
         <h1>Welcome to 20nxskypqz!</h1>
+        <div class="time-container">
+            <h2>Current Time in Thailand</h2>
+            <p id="current-time"></p>
+        </div>
     </div>
     <div class="footer">
         &copy; 2025 20nxskypqz
     </div>
 
     <script src="script.js"></script>
+    <script>
+        function updateTime() {
+            const options = {
+                timeZone: 'Asia/Bangkok',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+            const now = new Date().toLocaleTimeString('en-GB', options);
+            document.getElementById('current-time').textContent = now;
+        }
+
+        setInterval(updateTime, 1000);
+        updateTime(); // Initial call to set the time immediately
+    </script>
 </body>
 </html>
