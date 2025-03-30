@@ -80,6 +80,10 @@
             width: 100%;
             height: 100%;
         }
+        .countdown {
+            font-size: 24px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -95,6 +99,10 @@
             <h2>Current Date and Time in Thailand</h2>
             <p id="date-display" class="date-display">Date: 2025-03-30</p>
             <p id="time-display" class="time-display">Time: 09:06:32</p>
+        </div>
+        <div class="countdown">
+            <h2>Countdown to New Year</h2>
+            <p id="countdown-display">Loading...</p>
         </div>
     </div>
     <div class="footer">
@@ -120,8 +128,25 @@
             requestAnimationFrame(updateTime);
         }
 
-        // ใช้ requestAnimationFrame เพื่อให้การอัปเดตเวลาเป็นไปอย่างราบรื่น
+        // ฟังก์ชันเพื่อคำนวณและแสดงเวลาถอยหลัง
+        function updateCountdown() {
+            const now = new Date();
+            const nextYear = now.getFullYear() + 1;
+            const newYear = new Date(`January 1, ${nextYear} 00:00:00`).getTime();
+            const timeLeft = newYear - now.getTime();
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown-display').textContent = `Days: ${days}, Hours: ${hours}, Minutes: ${minutes}, Seconds: ${seconds}`;
+            requestAnimationFrame(updateCountdown);
+        }
+
+        // ใช้ requestAnimationFrame เพื่อให้การอัปเดตเวลาและการนับถอยหลังเป็นไปอย่างราบรื่น
         requestAnimationFrame(updateTime);
+        requestAnimationFrame(updateCountdown);
     </script>
 </body>
 </html>
