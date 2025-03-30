@@ -57,6 +57,12 @@
             width: 100%;
             padding: 20px;
         }
+        iframe.time-iframe {
+            border: none;
+            width: 100%;
+            height: 50px;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -67,7 +73,7 @@
         <h1>Welcome to 20nxskypqz!</h1>
         <div class="time-container">
             <h2>Current Time in Thailand</h2>
-            <p id="current-time"></p>
+            <iframe src="https://time.is/Thailand" class="time-iframe"></iframe>
         </div>
     </div>
     <div class="footer">
@@ -75,21 +81,5 @@
     </div>
 
     <script src="script.js"></script>
-    <script>
-        function updateTime() {
-            const options = {
-                timeZone: 'Asia/Bangkok',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: false
-            };
-            const now = new Date().toLocaleTimeString('en-GB', options);
-            document.getElementById('current-time').textContent = now;
-        }
-
-        setInterval(updateTime, 1000);
-        updateTime(); // Initial call to set the time immediately
-    </script>
 </body>
 </html>
