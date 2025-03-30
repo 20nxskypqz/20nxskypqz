@@ -77,24 +77,21 @@
     <script src="script.js"></script>
     <script>
         async function fetchTime() {
-            const apiKey = 'YOUR_API_KEY'; // Replace with your actual API key
-            const timestamp = Math.floor(Date.now() / 1000);
-            const location = '13.7563,100.5018'; // Latitude and Longitude for Bangkok, Thailand
-            const url = `https://maps.googleapis.com/maps/api/timezone/json?location=${location}&timestamp=${timestamp}&key=${apiKey}`;
+            const url = 'http://worldtimeapi.org/api/timezone/Asia/Bangkok';
 
             try {
                 const response = await fetch(url);
                 const data = await response.json();
 
-                if (data.status === 'OK') {
-                    const localTime = new Date((timestamp + data.dstOffset + data.rawOffset) * 1000);
+                if (response.ok) {
+                    const localTime = new Date(data.datetime);
                     document.getElementById('current-time').textContent = localTime.toLocaleTimeString('en-GB', {
                         hour: '2-digit',
                         minute: '2-digit',
                         second: '2-digit'
                     });
                 } else {
-                    console.error('Error fetching time:', data.status);
+                    console.error('Error fetching time:', data);
                 }
             } catch (error) {
                 console.error('Error fetching time:', error);
