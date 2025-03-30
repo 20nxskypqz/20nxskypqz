@@ -66,8 +66,9 @@
     <div class="content">
         <h1>Welcome to 20nxskypqz!</h1>
         <div class="time-container">
-            <h2>Current Time in Thailand</h2>
-            <p id="current-time"></p>
+            <h2>Current Date and Time in Thailand</h2>
+            <p id="date-display"></p>
+            <p id="time-display"></p>
         </div>
     </div>
     <div class="footer">
@@ -76,30 +77,28 @@
 
     <script src="script.js"></script>
     <script>
-        async function fetchTime() {
-            const url = 'http://worldtimeapi.org/api/timezone/Asia/Bangkok';
+        // แสดงวันที่
+        const dateDisplay = document.getElementById("date-display");
+        const currentDate = new Date();
+        const dateFormatted = currentDate.toISOString().split('T')[0]; // วันที่ในรูปแบบ YYYY-MM-DD
+        dateDisplay.textContent = `Date: ${dateFormatted}`;
 
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-
-                if (response.ok) {
-                    const localTime = new Date(data.datetime);
-                    document.getElementById('current-time').textContent = localTime.toLocaleTimeString('en-GB', {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        second: '2-digit'
-                    });
-                } else {
-                    console.error('Error fetching time:', data);
-                }
-            } catch (error) {
-                console.error('Error fetching time:', error);
-            }
+        // การอัปเดตเวลา
+        function updateTime() {
+            const now = new Date();
+            const options = {
+                timeZone: 'Asia/Bangkok',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+            const localTime = now.toLocaleTimeString('en-GB', options);
+            document.getElementById('time-display').textContent = `Time: ${localTime}`;
         }
 
-        setInterval(fetchTime, 1000);
-        fetchTime(); // Initial call to set the time immediately
+        setInterval(updateTime, 1000);
+        updateTime(); // Initial call to set the time immediately
     </script>
 </body>
 </html>
