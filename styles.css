@@ -32,3 +32,8 @@ body {
     width: 100%;
     padding: 20px;
 }
+
+.time-display, .date-display {
+    font-size: 24px;
+    font-weight: bold;
+}
