@@ -7,8 +7,8 @@
 :root {
     --bg-light: #ffffff;
     --color-light: #000000;
-    --bg-dark: #000000;
-    --color-dark: #ffffff;
+    --bg-dark: #121212;
+    --color-dark: #e0e0e0;
 }
 
 body {
