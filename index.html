@@ -77,13 +77,7 @@
 
     <script src="script.js"></script>
     <script>
-        // แสดงวันที่
-        const dateDisplay = document.getElementById("date-display");
-        const currentDate = new Date();
-        const dateFormatted = currentDate.toISOString().split('T')[0]; // วันที่ในรูปแบบ YYYY-MM-DD
-        dateDisplay.textContent = `Date: ${dateFormatted}`;
-
-        // การอัปเดตเวลา
+        // ฟังก์ชันเพื่ออัปเดตวันที่และเวลา
         function updateTime() {
             const now = new Date();
             const options = {
@@ -94,11 +88,14 @@
                 hour12: false
             };
             const localTime = now.toLocaleTimeString('en-GB', options);
+            const dateFormatted = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Bangkok' });
+            document.getElementById('date-display').textContent = `Date: ${dateFormatted}`;
             document.getElementById('time-display').textContent = `Time: ${localTime}`;
         }
 
+        // อัปเดตทุก ๆ วินาที
         setInterval(updateTime, 1000);
-        updateTime(); // Initial call to set the time immediately
+        updateTime(); // เรียกครั้งแรกเพื่อให้แสดงผลทันที
     </script>
 </body>
 </html>
