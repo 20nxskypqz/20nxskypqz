@@ -1,10 +1,12 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const dayNightToggle = document.getElementById("dayNightToggle");
+document.addEventListener("DOMContentLoaded", function () {
+    const toggleButton = document.getElementById("toggle-btn");
+    const body = document.body;
 
-    dayNightToggle.addEventListener("click", () => {
-        dayNightToggle.classList.toggle("night");
-        const isNight = dayNightToggle.classList.contains("night");
-        document.body.style.backgroundColor = isNight ? "var(--bg-dark)" : "var(--bg-light)";
-        document.body.style.color = isNight ? "var(--color-dark)" : "var(--color-light)";
+    toggleButton.addEventListener("click", function () {
+        body.classList.toggle("dark-mode");
+        body.classList.toggle("light-mode");
     });
+
+    // Set initial mode
+    body.classList.add("light-mode");
 });
