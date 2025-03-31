@@ -77,7 +77,7 @@ body.dark-mode {
     width: 100%;
     max-width: 600px; /* กำหนดความกว้างสูงสุด */
     padding: 20px;
-    margin-left: 20px; /* เพิ่มการจัดตำแหน่งให้ชิดซ้าย */
+    margin: 0 auto; /* จัดให้อยู่ตรงกลางในแนวแกน X */
 }
 
 h1 {
