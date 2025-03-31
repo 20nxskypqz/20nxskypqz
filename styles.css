@@ -77,6 +77,7 @@ body.dark-mode {
     width: 100%;
     max-width: 600px; /* กำหนดความกว้างสูงสุด */
     padding: 20px;
+    margin-left: 20px; /* เพิ่มการจัดตำแหน่งให้ชิดซ้าย */
 }
 
 h1 {
@@ -161,6 +162,7 @@ p {
     .time-container, .countdown {
         padding: 10px;
         max-width: 100%; /* ปรับความกว้างสูงสุดให้เหมาะสมกับหน้าจอขนาดเล็ก */
+        margin-left: 0; /* ยกเลิกการจัดตำแหน่งชิดซ้ายบนหน้าจอขนาดเล็ก */
     }
     .footer {
         position: static;
