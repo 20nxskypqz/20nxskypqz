@@ -31,6 +31,11 @@ function updateCountdown() {
     setTimeout(updateCountdown, 1000);
 }
 
-// เรียกใช้ฟังก์ชันเพื่ออัปเดตเวลาและการนับถอยหลัง
-updateTime();
-updateCountdown();
+// ฟังก์ชันเพื่อเริ่มต้นการอัปเดตเวลาและการนับถอยหลัง
+function initializeUpdates() {
+    updateTime();
+    updateCountdown();
+}
+
+// เรียกใช้ฟังก์ชันเพื่อเริ่มต้นการอัปเดตเวลาและการนับถอยหลังเมื่อ DOM โหลดเสร็จแล้ว
+document.addEventListener('DOMContentLoaded', initializeUpdates);
