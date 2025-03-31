@@ -73,8 +73,9 @@ body.dark-mode {
 }
 
 .time-container, .countdown {
-    text-align: center;
+    text-align: left; /* จัดตำแหน่งทางซ้าย */
     width: 100%;
+    max-width: 600px; /* กำหนดความกว้างสูงสุด */
     padding: 20px;
 }
 
@@ -159,6 +160,7 @@ p {
     }
     .time-container, .countdown {
         padding: 10px;
+        max-width: 100%; /* ปรับความกว้างสูงสุดให้เหมาะสมกับหน้าจอขนาดเล็ก */
     }
     .footer {
         position: static;
