@@ -12,9 +12,54 @@ body {
     color: #000000;
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
+    transition: background 0.5s ease-in-out;
+}
+
+body.light-mode {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+body.dark-mode {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
+    padding: 10px 20px;
+    background: linear-gradient(to right, red, orange);
+    color: white;
+    box-sizing: border-box;
+}
+
+.menu-toggle {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.content {
+    text-align: center;
+    padding: 20px;
+    flex: 1;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer {
+    text-align: center;
+    padding: 10px 20px;
+    background: linear-gradient(to right, red, orange);
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .links {
@@ -65,8 +110,49 @@ p {
 .countdown {
     font-size: 24px;
     margin-top: 20px;
-    text-align: left; /* ขยับไปด้านซ้าย */
-    align-self: flex-start; /* ทำให้เค้าดาวน์อยู่ทางซ้าย */
+    text-align: left;
+    align-self: flex-start;
+}
+
+.toggle-container {
+    position: relative;
+    width: 80px;
+    height: 40px;
+    background: #ddd;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.toggle-container .toggle-circle {
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    left: 5px;
+    transition: 0.3s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+
+.dark-mode .toggle-container {
+    background: #333;
+}
+
+.dark-mode .toggle-circle {
+    left: 45px;
+    background: #222;
+    color: #ff0;
+}
+
+.toggle-container .toggle-circle.light {
+    color: #ff9800;
 }
 
 @media (max-width: 600px) {
