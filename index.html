@@ -6,13 +6,91 @@
     <title>20nxskypqz</title>
     <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Niramit', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #000000;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: linear-gradient(to right, red, orange);
+            color: white;
+            box-sizing: border-box;
+        }
+        .menu-toggle {
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .content {
+            text-align: center;
+            padding: 20px;
+            flex: 1;
+            width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .footer {
+            text-align: center;
+            padding: 10px 20px;
+            background: linear-gradient(to right, red, orange);
+            color: white;
+            width: 100%;
+            box-sizing: border-box;
+            position: relative;
+            bottom: 0;
+            left: 0;
+        }
+        .time-container {
+            text-align: left;
+            width: 100%;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 32px;
+        }
+        h2 {
+            font-size: 28px;
+        }
+        .time-display, .date-display {
+            font-size: 16px;
+            font-weight: normal;
+        }
+        p {
+            font-size: 16px;
+        }
+        .video-container {
+            margin: 20px 0;
+            width: 100%;
+            max-width: 560px;
+            height: 315px;
+        }
+        .video-container iframe {
+            width: 100%;
+            height: 100%;
+        }
+        .countdown {
+            font-size: 24px;
+            margin-top: 20px;
+            text-align: left; /* ขยับไปด้านซ้าย */
+            align-self: flex-start; /* ทำให้เค้าดาวน์อยู่ทางซ้าย */
+        }
+    </style>
 </head>
 <body>
     <div class="header">
         <div class="menu-toggle">&#9776;</div>
-        <div class="toggle-container" onclick="toggleMode()">
-            <div class="toggle-circle light">☀️</div>
-        </div>
     </div>
     <div class="content">
         <h1>Welcome to 20nxskypqz!</h1>
@@ -32,6 +110,45 @@
     <div class="footer">
         &copy; 2025 20nxskypqz
     </div>
+
     <script src="script.js"></script>
+    <script>
+        // ฟังก์ชันเพื่ออัปเดตวันที่และเวลา
+        function updateTime() {
+            const now = new Date();
+            const options = {
+                timeZone: 'Asia/Bangkok',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+            const localTime = now.toLocaleTimeString('en-GB', options);
+            const dateFormatted = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Bangkok' });
+            document.getElementById('date-display').textContent = `Date: ${dateFormatted}`;
+            document.getElementById('time-display').textContent = `Time: ${localTime}`;
+            requestAnimationFrame(updateTime);
+        }
+
+        // ฟังก์ชันเพื่อคำนวณและแสดงเวลาถอยหลัง
+        function updateCountdown() {
+            const now = new Date();
+            const nextYear = now.getFullYear() + 1;
+            const newYear = new Date(`January 1, ${nextYear} 00:00:00`).getTime();
+            const timeLeft = newYear - now.getTime();
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown-display').textContent = `Days: ${days}, Hours: ${hours}, Minutes: ${minutes}, Seconds: ${seconds}`;
+            requestAnimationFrame(updateCountdown);
+        }
+
+        // ใช้ requestAnimationFrame เพื่อให้การอัปเดตเวลาและการนับถอยหลังเป็นไปอย่างราบรื่น
+        requestAnimationFrame(updateTime);
+        requestAnimationFrame(updateCountdown);
+    </script>
 </body>
 </html>
