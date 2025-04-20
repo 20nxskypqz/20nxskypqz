@@ -58,29 +58,31 @@ body.dark-mode {
 .time-and-countdown {
     width: 100%;
     max-width: 600px;
-    margin: 10px auto; /* Center the block itself */
-    padding: 10px; /* Add padding for symmetry */
+    margin: 0 auto 10px auto; /* แก้ตรงนี้ - เอา margin-top ออก */
+    padding: 0; /* แก้ตรงนี้ - เอา padding ออกให้ชิดวิดีโอ */
+    text-align: left; /* แก้ตรงนี้ - ให้เนื้อหาชิดซ้าย */
+    align-self: flex-start; /* แก้ตรงนี้ - ให้กล่องชิดซ้ายของ .content */
 }
 
 .time-container,
 .countdown {
-    text-align: left; /* Align text to the left */
-    margin-bottom: 10px; /* Add slight spacing between sections */
+    text-align: left;
+    margin-bottom: 10px;
 }
 
 h1 {
     font-size: 32px;
-    text-align: center; /* Keep Welcome centered */
+    text-align: center;
 }
 
 h2 {
     font-size: 28px;
-    margin: 0; /* Remove extra margins around h2 */
+    margin: 0;
 }
 
 p {
     font-size: 16px;
-    margin: 5px 0; /* Keep paragraph spacing minimal */
+    margin: 5px 0;
 }
 
 .time-display,
@@ -90,7 +92,7 @@ p {
 }
 
 .video-container {
-    margin: 10px 0; /* Reduce spacing between video and time */
+    margin: 10px 0;
     width: 100%;
     max-width: 560px;
     height: 315px;
@@ -161,7 +163,7 @@ p {
     }
     .time-and-countdown {
         padding: 10px;
-        max-width: 100%; /* Ensure responsiveness on smaller screens */
+        max-width: 100%;
     }
     .footer {
         position: static;
