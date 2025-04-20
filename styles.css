@@ -58,16 +58,14 @@ body.dark-mode {
 .time-and-countdown {
     width: 100%;
     max-width: 600px;
-    margin: 0 auto 10px auto; /* แก้ตรงนี้ - เอา margin-top ออก */
-    padding: 0; /* แก้ตรงนี้ - เอา padding ออกให้ชิดวิดีโอ */
-    text-align: left; /* แก้ตรงนี้ - ให้เนื้อหาชิดซ้าย */
-    align-self: flex-start; /* แก้ตรงนี้ - ให้กล่องชิดซ้ายของ .content */
+    margin: 30px auto;          /* ระยะห่างจากวิดีโอแบบสมดุล */
+    padding: 0 20px;            /* ขยับเนื้อหาด้านในมาชิดซ้ายแบบมี buffer */
 }
 
 .time-container,
 .countdown {
-    text-align: left;
-    margin-bottom: 10px;
+    text-align: left;           /* ชิดซ้ายเฉพาะข้อความ */
+    margin-bottom: 20px;        /* ระยะห่างเท่ากันระหว่างบล็อก */
 }
 
 h1 {
@@ -92,7 +90,7 @@ p {
 }
 
 .video-container {
-    margin: 10px 0;
+    margin: 30px 0;             /* ระยะห่างด้านบน/ล่างเหมาะสม */
     width: 100%;
     max-width: 560px;
     height: 315px;
