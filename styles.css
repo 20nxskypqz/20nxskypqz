@@ -62,14 +62,15 @@ body.dark-mode {
     padding: 0;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* ชิดซ้ายในเดสก์ท็อป */
+    align-items: flex-start; /* ชิดซ้ายสุดในเดสก์ท็อป */
+    text-align: start; /* บังคับให้ข้อความชิดซ้าย */
 }
 
 .time-container,
 .countdown {
     width: 100%;
     margin-bottom: 20px;
-    text-align: left;
+    text-align: left; /* ชิดซ้ายในทุกขนาดหน้าจอ */
 }
 
 h1 {
