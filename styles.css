@@ -62,22 +62,12 @@ body.dark-mode {
     box-sizing: border-box;
 }
 
-.links {
-    margin-top: 20px;
-}
-
-.links a {
-    margin: 0 10px;
-    text-decoration: none;
-    color: #0000ff;
-}
-
 .time-container, .countdown {
-    text-align: left; /* จัดตำแหน่งทางซ้าย */
+    text-align: left; /* จัดข้อความให้อยู่ทางซ้าย */
     width: 100%;
     max-width: 600px; /* กำหนดความกว้างสูงสุด */
     padding: 20px;
-    margin: 0 auto; /* จัดให้อยู่ตรงกลางในแนวแกน X */
+    margin: 0; /* ยกเลิกการจัดให้อยู่ตรงกลาง */
 }
 
 h1 {
@@ -162,7 +152,6 @@ p {
     .time-container, .countdown {
         padding: 10px;
         max-width: 100%; /* ปรับความกว้างสูงสุดให้เหมาะสมกับหน้าจอขนาดเล็ก */
-        margin-left: 0; /* ยกเลิกการจัดตำแหน่งชิดซ้ายบนหน้าจอขนาดเล็ก */
     }
     .footer {
         position: static;
