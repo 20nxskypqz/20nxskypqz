@@ -1,3 +1,4 @@
+/* General Reset */
 *,
 *:after,
 *:before {
@@ -53,21 +54,22 @@ body.dark-mode {
     align-items: center;
 }
 
-/* เพิ่มส่วนนี้สำหรับตำแหน่งของเวลา */
+/* Styling for Time and Countdown Section */
 .time-and-countdown {
     width: 100%;
     max-width: 600px;
-    text-align: left; /* จัดข้อความให้อยู่ทางซ้าย */
-    margin-top: 20px; /* เพิ่มระยะห่างเล็กน้อยจากวิดีโอ */
+    margin: 20px auto 0; /* Center the block itself */
 }
 
-.time-container, .countdown {
-    margin-bottom: 10px; /* เพิ่มระยะห่างเล็กน้อยระหว่างสองส่วน */
+.time-container,
+.countdown {
+    text-align: left; /* Align text to the left */
+    margin-bottom: 20px; /* Add spacing between these sections */
 }
 
 h1 {
     font-size: 32px;
-    text-align: center; /* เฉพาะ h1 ที่ยังคงอยู่ตรงกลาง */
+    text-align: center; /* Keep Welcome centered */
 }
 
 h2 {
@@ -78,7 +80,8 @@ p {
     font-size: 16px;
 }
 
-.time-display, .date-display {
+.time-display,
+.date-display {
     font-size: 16px;
     font-weight: normal;
 }
@@ -155,7 +158,7 @@ p {
     }
     .time-and-countdown {
         padding: 10px;
-        max-width: 100%; /* ปรับความกว้างสูงสุดให้เหมาะสมกับหน้าจอขนาดเล็ก */
+        max-width: 100%; /* Ensure responsiveness on smaller screens */
     }
     .footer {
         position: static;
