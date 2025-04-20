@@ -53,27 +53,16 @@ body.dark-mode {
     align-items: center;
 }
 
-.footer {
-    text-align: center;
-    padding: 10px 20px;
-    background: linear-gradient(to right, red, orange);
-    color: white;
+/* เพิ่มส่วนนี้สำหรับตำแหน่งของเวลา */
+.time-and-countdown {
     width: 100%;
-    box-sizing: border-box;
-}
-
-/* จัดเฉพาะส่วนที่ต้องการชิดซ้าย */
-.left-aligned-section {
+    max-width: 600px;
     text-align: left; /* จัดข้อความให้อยู่ทางซ้าย */
-    padding: 20px;
-    width: 100%;
-    max-width: 600px; /* กำหนดความกว้างสูงสุด */
-    margin: 0 auto; /* จัดให้อยู่ตรงกลางในหน้าต่าง */
+    margin-top: 20px; /* เพิ่มระยะห่างเล็กน้อยจากวิดีโอ */
 }
 
 .time-container, .countdown {
-    text-align: left; /* จัดข้อความให้อยู่ทางซ้าย */
-    margin-bottom: 20px;
+    margin-bottom: 10px; /* เพิ่มระยะห่างเล็กน้อยระหว่างสองส่วน */
 }
 
 h1 {
@@ -108,6 +97,15 @@ p {
 
 .countdown {
     font-size: 24px;
+}
+
+.footer {
+    text-align: center;
+    padding: 10px 20px;
+    background: linear-gradient(to right, red, orange);
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .toggle-container {
@@ -155,7 +153,7 @@ p {
     .content {
         padding: 10px;
     }
-    .left-aligned-section {
+    .time-and-countdown {
         padding: 10px;
         max-width: 100%; /* ปรับความกว้างสูงสุดให้เหมาะสมกับหน้าจอขนาดเล็ก */
     }
