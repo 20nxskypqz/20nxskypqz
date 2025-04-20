@@ -43,14 +43,14 @@ body.dark-mode {
 }
 
 .content {
-    text-align: left; /* จัดให้อยู่ทางซ้าย */
+    text-align: center;
     padding: 20px;
     flex: 1;
     width: 100%;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* จัดเนื้อหาให้อยู่ทางซ้าย */
+    align-items: center;
 }
 
 .footer {
@@ -62,12 +62,18 @@ body.dark-mode {
     box-sizing: border-box;
 }
 
-.time-container, .countdown {
+/* จัดเฉพาะส่วนที่ต้องการชิดซ้าย */
+.left-aligned-section {
     text-align: left; /* จัดข้อความให้อยู่ทางซ้าย */
+    padding: 20px;
     width: 100%;
     max-width: 600px; /* กำหนดความกว้างสูงสุด */
-    padding: 20px;
-    margin: 0; /* ยกเลิกการจัดให้อยู่ตรงกลาง */
+    margin: 0 auto; /* จัดให้อยู่ตรงกลางในหน้าต่าง */
+}
+
+.time-container, .countdown {
+    text-align: left; /* จัดข้อความให้อยู่ทางซ้าย */
+    margin-bottom: 20px;
 }
 
 h1 {
@@ -102,7 +108,6 @@ p {
 
 .countdown {
     font-size: 24px;
-    margin-top: 20px;
 }
 
 .toggle-container {
@@ -149,9 +154,8 @@ p {
 @media (max-width: 600px) {
     .content {
         padding: 10px;
-        align-items: flex-start; /* จัดให้อยู่ทางซ้ายบนหน้าจอเล็ก */
     }
-    .time-container, .countdown {
+    .left-aligned-section {
         padding: 10px;
         max-width: 100%; /* ปรับความกว้างสูงสุดให้เหมาะสมกับหน้าจอขนาดเล็ก */
     }
