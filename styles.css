@@ -58,14 +58,16 @@ body.dark-mode {
 .time-and-countdown {
     width: 100%;
     max-width: 600px;
-    margin: 30px auto;          /* ระยะห่างจากวิดีโอแบบสมดุล */
-    padding: 0 20px;            /* ขยับเนื้อหาด้านในมาชิดซ้ายแบบมี buffer */
+    margin: 30px auto;
+    padding: 0;
 }
 
 .time-container,
 .countdown {
-    text-align: left;           /* ชิดซ้ายเฉพาะข้อความ */
-    margin-bottom: 20px;        /* ระยะห่างเท่ากันระหว่างบล็อก */
+    text-align: left;
+    margin-left: 0;
+    padding-left: 0;
+    margin-bottom: 20px;
 }
 
 h1 {
@@ -90,7 +92,7 @@ p {
 }
 
 .video-container {
-    margin: 30px 0;             /* ระยะห่างด้านบน/ล่างเหมาะสม */
+    margin: 30px 0;
     width: 100%;
     max-width: 560px;
     height: 315px;
@@ -160,7 +162,7 @@ p {
         padding: 10px;
     }
     .time-and-countdown {
-        padding: 10px;
+        padding: 0;
         max-width: 100%;
     }
     .footer {
