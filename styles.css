@@ -58,15 +58,14 @@ body.dark-mode {
 .time-and-countdown {
     width: 100%;
     max-width: 600px;
-    margin: 10px auto; /* Center the block itself and add small spacing */
-    padding-left: 20px; /* Add a small padding to the left */
-    padding-right: 20px; /* Add a small padding to the right for balance */
+    margin: 10px auto; /* Center the block itself */
+    padding: 10px; /* Add padding for symmetry */
 }
 
 .time-container,
 .countdown {
     text-align: left; /* Align text to the left */
-    margin-bottom: 15px; /* Reduce the spacing between sections */
+    margin-bottom: 10px; /* Add slight spacing between sections */
 }
 
 h1 {
@@ -76,10 +75,12 @@ h1 {
 
 h2 {
     font-size: 28px;
+    margin: 0; /* Remove extra margins around h2 */
 }
 
 p {
     font-size: 16px;
+    margin: 5px 0; /* Keep paragraph spacing minimal */
 }
 
 .time-display,
@@ -89,7 +90,7 @@ p {
 }
 
 .video-container {
-    margin: 20px 0;
+    margin: 10px 0; /* Reduce spacing between video and time */
     width: 100%;
     max-width: 560px;
     height: 315px;
