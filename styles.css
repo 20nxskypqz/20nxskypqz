@@ -170,6 +170,6 @@ p {
 
 @media (min-width: 768px) {
     .time-and-countdown {
-        padding-left: 60px;
+        padding-left: 40px;
     }
 }
