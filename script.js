@@ -1,53 +1,249 @@
-function toggleMode() {
-    const isDark = document.body.classList.toggle('dark-mode');
-    document.body.classList.toggle('light-mode', !isDark);
-    const toggleCircle = document.querySelector('.toggle-circle');
-    if (isDark) {
-        toggleCircle.innerHTML = '🌙';
-        toggleCircle.classList.remove('light');
-    } else {
-        toggleCircle.innerHTML = '☀️';
-        toggleCircle.classList.add('light');
+/* General Reset */
+*,
+*:after,
+*:before {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Niramit', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    color: #000000;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    transition: background 0.5s ease-in-out;
+    overflow-x: hidden;
+}
+
+body.light-mode {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+body.dark-mode {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+body.dark-mode .header,
+body.dark-mode .footer {
+    background: linear-gradient(to right, #222, #555);
+    color: #ffffff;
+}
+
+body.dark-mode .side-menu {
+    background: #111;
+}
+
+body.dark-mode .side-menu a {
+    color: #fff;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: linear-gradient(to right, red, orange);
+    color: white;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1100;
+}
+
+.menu-toggle {
+    font-size: 24px;
+    cursor: pointer;
+    position: relative;
+    z-index: 1101;
+}
+
+.side-menu {
+    position: fixed;
+    top: 0;
+    left: -200px;
+    width: 200px;
+    height: 100%;
+    background: #333;
+    color: #fff;
+    padding-top: 60px;
+    transition: left 0.3s ease;
+    z-index: 1000;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.side-menu.open {
+    left: 0;
+}
+
+.close-menu {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.side-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.side-menu li {
+    margin: 0;
+}
+
+.side-menu a {
+    display: block;
+    padding: 10px 20px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.side-menu a:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.content {
+    text-align: center;
+    padding: 20px;
+    flex: 1;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Styling for Time and Countdown Section */
+.time-and-countdown {
+    width: 100%;
+    max-width: 800px;
+    padding: 0 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    margin-top: 20px;
+}
+
+h1 {
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 28px;
+    margin: 0 0 5px 0;
+}
+
+p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.time-display,
+.date-display {
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.time-container p,
+.countdown p {
+    background: transparent;
+    color: inherit;
+}
+
+.video-container {
+    margin: 10px 0;
+    width: 100%;
+    max-width: 560px;
+    height: 315px;
+}
+
+.video-container iframe {
+    width: 100%;
+    height: 100%;
+}
+
+.countdown {
+    font-size: 24px;
+}
+
+.footer {
+    text-align: center;
+    padding: 10px 20px;
+    background: linear-gradient(to right, red, orange);
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.toggle-container {
+    position: relative;
+    width: 80px;
+    height: 40px;
+    background: #ddd;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.toggle-container .toggle-circle {
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    left: 5px;
+    transition: 0.3s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+
+.dark-mode .toggle-container {
+    background: #555;
+}
+
+.dark-mode .toggle-circle {
+    left: 45px;
+    background: #222;
+    color: #ff0;
+}
+
+.toggle-container .toggle-circle.light {
+    color: #ff9800;
+}
+
+@media (max-width: 600px) {
+    .content {
+        padding: 10px;
+    }
+    .time-and-countdown {
+        padding: 10px;
+        max-width: 100%;
+        align-items: flex-start;
+    }
+    .footer {
+        position: static;
     }
 }
 
-function updateTime() {
-    const now = new Date();
-    document.getElementById('date-display').textContent = `Date: ${now.toLocaleDateString('en-GB')}`;
-    document.getElementById('time-display').textContent = `Time: ${now.toLocaleTimeString('en-GB')}`;
-    setTimeout(updateTime, 1000);
-}
-
-function updateCountdown() {
-    const now = new Date();
-    const nextYear = new Date('January 1, 2026 00:00:00').getTime();
-    const timeLeft = nextYear - now.getTime();
-    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-    document.getElementById('countdown-display').textContent = `Days: ${days}, Hours: ${hours}, Minutes: ${minutes}, Seconds: ${seconds}`;
-    setTimeout(updateCountdown, 1000);
-}
-
-function initializeUpdates() {
-    updateTime();
-    updateCountdown();
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    initializeUpdates();
-
-    const menuToggle = document.querySelector('.menu-toggle');
-    const sideMenu = document.querySelector('.side-menu');
-    if (menuToggle && sideMenu) {
-        menuToggle.addEventListener('click', () => {
-            sideMenu.classList.toggle('open');
-        });
+@media (min-width: 768px) {
+    .time-and-countdown {
+        padding-left: 40px;
     }
-
-    const modeToggle = document.getElementById('mode-toggle');
-    if (modeToggle) {
-        modeToggle.addEventListener('click', toggleMode);
-    }
-});
+}
