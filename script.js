@@ -1,8 +1,3 @@
-diff --git a/script.js b/script.js
-index 1e3fa4722acf5c6410189444afc6afd3197dbd29..adb5c3938de72329e392d80c03dae25d4b41c3ce 100644
---- a/script.js
-+++ b/script.js
-@@ -1,41 +1,51 @@
  function toggleMode() {
      document.body.classList.toggle('dark-mode');
      const toggleCircle = document.querySelector('.toggle-circle');
