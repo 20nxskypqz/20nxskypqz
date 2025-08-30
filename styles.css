@@ -1,8 +1,29 @@
 diff --git a/styles.css b/styles.css
-index 1f7c6b6ca042b5541a5207237fb8be4d5931e181..47e6fbe55c4fe33b7305c98590aadd86f9a4a171 100644
+index 1f7c6b6ca042b5541a5207237fb8be4d5931e181..0d561b3fde6257e201b2c12db3739f74ec7a6c05 100644
 --- a/styles.css
 +++ b/styles.css
-@@ -21,50 +21,87 @@ body.light-mode {
+@@ -1,85 +1,127 @@
+ /* General Reset */
+ *,
+ *:after,
+ *:before {
+     box-sizing: border-box;
+ }
+ 
+ body {
+     font-family: 'Niramit', sans-serif;
+     margin: 0;
+     padding: 0;
+     background-color: #ffffff;
+     color: #000000;
+     display: flex;
+     flex-direction: column;
+     min-height: 100vh;
+     transition: background 0.5s ease-in-out;
++    overflow-x: hidden;
+ }
+ 
+ body.light-mode {
      background-color: #ffffff;
      color: #000000;
  }
@@ -38,6 +59,8 @@ index 1f7c6b6ca042b5541a5207237fb8be4d5931e181..47e6fbe55c4fe33b7305c98590aadd86
 +    color: #fff;
 +    padding-top: 60px;
 +    transition: left 0.3s ease;
++    z-index: 1000;
++    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
 +}
 +
 +.side-menu.open {
@@ -70,6 +93,8 @@ index 1f7c6b6ca042b5541a5207237fb8be4d5931e181..47e6fbe55c4fe33b7305c98590aadd86
      padding: 20px;
      flex: 1;
      width: 100%;
++    max-width: 800px;
++    margin: 0 auto;
      box-sizing: border-box;
      display: flex;
      flex-direction: column;
@@ -79,7 +104,8 @@ index 1f7c6b6ca042b5541a5207237fb8be4d5931e181..47e6fbe55c4fe33b7305c98590aadd86
  /* Styling for Time and Countdown Section */
  .time-and-countdown {
      width: 100%;
-     max-width: none;
+-    max-width: none;
++    max-width: 800px;
      padding: 0 40px;
      display: flex;
      flex-direction: column;
@@ -90,3 +116,18 @@ index 1f7c6b6ca042b5541a5207237fb8be4d5931e181..47e6fbe55c4fe33b7305c98590aadd86
  
  h1 {
      font-size: 32px;
+     text-align: center;
+     margin-bottom: 20px;
+ }
+ 
+ h2 {
+     font-size: 28px;
+     margin: 0 0 5px 0;
+ }
+ 
+ p {
+     font-size: 16px;
+     margin: 5px 0;
+ }
+ 
+ .time-display,
