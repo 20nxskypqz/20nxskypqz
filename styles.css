@@ -160,6 +160,9 @@ p {
 .countdown p {
     background: transparent;
     color: inherit;
+    border: 1px solid currentColor;
+    padding: 4px 8px;
+    border-radius: 4px;
 }
 
 .video-container {
