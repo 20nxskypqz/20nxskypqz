@@ -41,10 +41,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const menuToggle = document.querySelector('.menu-toggle');
     const sideMenu = document.querySelector('.side-menu');
     const closeMenu = document.querySelector('.close-menu');
+    const overlay = document.querySelector('.menu-overlay');
     const toggleMenu = () => {
         const isOpen = sideMenu.classList.toggle('open');
         if (menuToggle) {
             menuToggle.innerHTML = isOpen ? '&times;' : '&#9776;';
+        }
+        if (overlay) {
+            overlay.classList.toggle('visible, isOpen');
         }
     };
     if (menuToggle && sideMenu) {
@@ -52,6 +56,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (closeMenu) {
         closeMenu.addEventListener('click', toggleMenu);
+    }
+    if (overlay) {
+        overlay.addEventListener('click', toggleMenu);
     }
 
     const modeToggle = document.getElementById('mode-toggle');
