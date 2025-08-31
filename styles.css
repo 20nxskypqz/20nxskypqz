@@ -189,14 +189,6 @@ p {
     border-radius: 4px;
 }
 
-body.light-mode .time-and-countdown {
-    border-color: #cccccc;
-}
-
-body.dark-mode .time-and-countdown {
-    border-color: #ffffff;
-}
-
 .video-container {
     margin: 10px 0;
     width: 100%;
@@ -263,6 +255,14 @@ body.dark-mode .time-and-countdown {
     color: #ff9800;
 }
 
+body.light-mode .time-and-countdown {
+    border-color: #cccccc;
+}
+
+body.dark-mode .time-and-countdown {
+    border-color: #ffffff;
+}
+
 @media (max-width: 600px) {
     .content {
         padding: 10px;
@@ -279,6 +279,4 @@ body.dark-mode .time-and-countdown {
 
 @media (min-width: 768px) {
     .time-and-countdown {
-        padding-left: 40px;
-    }
-}
+        pad
