@@ -5,12 +5,19 @@
     box-sizing: border-box;
 }
 
+:root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --panel-bg: #ffffff;
+    --panel-text: #000000;
+}
+
 body {
     font-family: 'Niramit', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #ffffff;
-    color: #000000;
+    background: var(--bg-color);
+    color: var(--text-color);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -18,14 +25,11 @@ body {
     overflow-x: hidden;
 }
 
-body.light-mode {
-    background-color: #ffffff;
-    color: #000000;
-}
-
 body.dark-mode {
-    background-color: #000000;
-    color: #ffffff;
+    --bg-color: #000000;
+    --text-color: #ffffff;
+    --panel-bg: #111111;
+    --panel-text: #ffffff;
 }
 
 body.dark-mode .header,
@@ -109,6 +113,21 @@ body.dark-mode .side-menu a {
     background: rgba(255, 255, 255, 0.1);
 }
 
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    display: none;
+    z-index: 900;
+}
+
+.menu-overlay.visible {
+    display: block;
+}
+
 .content {
     text-align: center;
     padding: 20px;
@@ -132,9 +151,9 @@ body.dark-mode .side-menu a {
     align-items: flex-start;
     text-align: left;
     margin-top: 20px;
-    background: #fff;
-    color: #000;
-    border: 1px solid currentColor;
+    background: var(--panel-bg);
+    color: var(--panel-text);
+    border: 1px solid var(--panel-text);
     border-radius: 8px;
 }
 
@@ -158,6 +177,15 @@ p {
 .date-display {
     font-size: 16px;
     font-weight: normal;
+}
+
+.time-container p,
+.countdown p {
+    background: transparent;
+    color: inherit;
+    border: 1px solid var(--panel-text);
+    padding: 4px 8px;
+    border-radius: 4px;
 }
 
 .video-container {
