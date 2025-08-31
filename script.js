@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             menuToggle.innerHTML = isOpen ? '&times;' : '&#9776;';
         }
         if (overlay) {
-            overlay.classList.toggle('visible, isOpen');
+            overlay.classList.toggle('visible', isOpen);
         }
     };
     if (menuToggle && sideMenu) {
