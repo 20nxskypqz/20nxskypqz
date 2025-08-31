@@ -153,8 +153,9 @@ body.dark-mode .side-menu a {
     margin-top: 20px;
     background: var(--panel-bg);
     color: var(--panel-text);
-    border: 1px solid var(--panel-text);
+    border: 2px solid #ffffff;
     border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
 }
 
 h1 {
@@ -186,6 +187,14 @@ p {
     border: 1px solid var(--panel-text);
     padding: 4px 8px;
     border-radius: 4px;
+}
+
+body.light-mode .time-and-countdown {
+    border-color: #cccccc;
+}
+
+body.dark-mode .time-and-countdown {
+    border-color: #ffffff;
 }
 
 .video-container {
