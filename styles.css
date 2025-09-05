@@ -5,11 +5,14 @@
     box-sizing: border-box;
 }
 
+/* Theme variables */
 :root {
     --bg-color: #ffffff;
     --text-color: #000000;
     --panel-bg: #ffffff;
     --panel-text: #000000;
+    --panel-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    --panel-border: #cccccc;
 }
 
 body {
@@ -26,10 +29,12 @@ body {
 }
 
 body.dark-mode {
-    --bg-color: #000000;
-    --text-color: #ffffff;
-    --panel-bg: #111111;
-    --panel-text: #ffffff;
+    --bg-color: #0b0d0f;
+    --text-color: #e8eaed;
+    --panel-bg: #111315;
+    --panel-text: #e8eaed;
+    --panel-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    --panel-border: #ffffff;
 }
 
 body.dark-mode .header,
@@ -145,7 +150,7 @@ body.dark-mode .side-menu a {
 .time-and-countdown {
     width: 100%;
     max-width: 800px;
-    padding: 20px 40px;
+    padding: 28px 36px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -153,9 +158,9 @@ body.dark-mode .side-menu a {
     margin-top: 20px;
     background: var(--panel-bg);
     color: var(--panel-text);
-    border: 2px solid #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    border: 2px solid var(--panel-border);
+    border-radius: 24px;
+    box-shadow: var(--panel-shadow);
 }
 
 h1 {
@@ -255,14 +260,6 @@ p {
     color: #ff9800;
 }
 
-body.light-mode .time-and-countdown {
-    border-color: #cccccc;
-}
-
-body.dark-mode .time-and-countdown {
-    border-color: #ffffff;
-}
-
 @media (max-width: 600px) {
     .content {
         padding: 10px;
@@ -279,4 +276,6 @@ body.dark-mode .time-and-countdown {
 
 @media (min-width: 768px) {
     .time-and-countdown {
-        pad
+        padding-left: 40px;
+    }
+}
