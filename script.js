@@ -12,13 +12,18 @@ function toggleMode() {
 }
 
 function updateTime() {
+    const dateEl = document.getElementById('date-display');
+    const timeEl = document.getElementById('time-display');
+    if (!dateEl || !timeEl) return;
     const now = new Date();
-    document.getElementById('date-display').textContent = `Date: ${now.toLocaleDateString('en-GB')}`;
-    document.getElementById('time-display').textContent = `Time: ${now.toLocaleTimeString('en-GB')}`;
+    dateEl.textContent = `Date: ${now.toLocaleDateString('en-GB')}`;
+    timeEl.textContent = `Time: ${now.toLocaleTimeString('en-GB')}`;
     setTimeout(updateTime, 1000);
 }
 
 function updateCountdown() {
+    const countdownEl = document.getElementById('countdown-display');
+    if (!countdownEl) return;
     const now = new Date();
     const nextYear = new Date('January 1, 2026 00:00:00').getTime();
     const timeLeft = nextYear - now.getTime();
@@ -26,8 +31,7 @@ function updateCountdown() {
     const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-    document.getElementById('countdown-display').textContent =
-        `Days: ${days}, Hours: ${hours}, Minutes: ${minutes}, Seconds: ${seconds}`;
+    countdownEl.textContent = `Days: ${days}, Hours: ${hours}, Minutes: ${minutes}, Seconds: ${seconds}`;
     setTimeout(updateCountdown, 1000);
 }
 
