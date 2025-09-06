@@ -28,7 +28,7 @@ body.dark-mode{
   --panel-border:#ddd;
 }
 
-/* Header / Footer */
+/* Header / Footer (พื้นฐาน) */
 .header{
   width:100%; display:flex; justify-content:space-between; align-items:center;
   padding:10px 20px; background:linear-gradient(to right,red,orange); color:#fff;
@@ -86,19 +86,26 @@ p{  font-size:16px; margin:5px 0; }
 
 /* ===== Conan page only ===== */
 
-/* หัวยาวไม่ขาด + ไล่สีเท่ากันหัว/ท้าย */
+/* หัวยาวไม่ขาด */
 .conan-page .header{ justify-content:flex-start; gap:12px; overflow:visible; position:relative; }
 .conan-page .header::before{
   content:""; position:absolute; inset:0; left:50%; transform:translateX(-50%); width:500vw; background:inherit; z-index:-1;
 }
 
-/* ชื่อเรื่อง: ไม่จัดกลางด้วย CSS — ให้ JS จัดเฉพาะตำแหน่งแนวนอน */
+/* ✅ ท้ายยาวเหมือนหัว และไม่ลอย */
+.conan-page .footer{ position:relative; overflow:visible; }
+.conan-page .footer::before{
+  content:""; position:absolute; inset:0; left:50%; transform:translateX(-50%);
+  width:500vw; background:inherit; z-index:-1;
+}
+
+/* ชื่อเรื่องให้ JS จัดกลางเทียบตารางเท่านั้น */
 .conan-page .title-group{ display:inline-block; margin-top:16px; text-align:center; transform:translateX(0); will-change:transform; }
 .conan-page .page-title-ja{ margin:0; }
 .conan-page .page-title-en{ margin:2px 0 0 0; }
 .conan-page .title-spacer{ height:10px; }
 
-/* SS selector — ชิดซ้าย “ขอบตาราง” (z ต่ำกว่าเมนู) */
+/* SS selector — ชิดซ้าย “ขอบตาราง” */
 .conan-page .season-picker{
   position:relative; width:100%; max-width:1200px; margin:24px 0 12px 0;
   z-index:800; transform:translateX(0); will-change:transform;
