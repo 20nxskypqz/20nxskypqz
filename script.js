@@ -294,4 +294,3 @@ document.addEventListener('DOMContentLoaded', function () {
         renderConanTableFromSheet(sheetId, gid);
     }
 });
-```0
