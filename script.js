@@ -43,7 +43,7 @@ function updateCountdown() {
     var hours = Math.floor((diff / 3600000) % 24);
     var minutes = Math.floor((diff / 60000) % 60);
     var seconds = Math.floor((diff / 1000) % 60);
-    el.textContent = days + ' days ' + hours + ' hours ' + minutes + ' minutes ' + seconds + ' seconds';
+    el.textContent = days + ' days ' + hours + ' hours ' + minutes + ' minutes ' + ' ' + seconds + ' seconds';
   } catch(e) {}
 }
 function initializeUpdates() {
@@ -214,8 +214,7 @@ function renderConanTableFromSheet(sheetId, gid) {
     tbody.innerHTML = '';
     tbody.appendChild(frag);
 
-    // ตารางกลางด้วย CSS แล้ว แค่จับให้ SS ชิดซ้ายขอบตารางก็พอ
-    alignSeasonPickerToTable();
+    alignSeasonPickerToTable();   // SS ซ้ายชนซ้ายตาราง
   }).catch(function(err){
     tbody.innerHTML = '<tr><td colspan="11">Failed to load sheet. Please check sharing (Anyone with the link can view) or Publish to the web. (' + err.message + ')</td></tr>';
     alignSeasonPickerToTable();
@@ -229,17 +228,13 @@ function alignSeasonPickerToTable(){
     var table  = document.querySelector('.conan-page .conan-table');
     if (!picker || !table) return;
 
-    // รีเซ็ตก่อน
-    picker.style.left = '0px';
-    picker.style.position = 'relative';
-    picker.style.transform = 'none';
+    picker.style.transform = 'none';  // รีเซ็ต
 
-    // คำนวณ offset ซ้ายของตารางเทียบกับ container season-picker
     var pRect = picker.getBoundingClientRect();
     var tRect = table.getBoundingClientRect();
     var delta = Math.round(tRect.left - pRect.left);
 
-    // ขยับด้วย translateX ให้ซ้ายชนกันพอดี
+    // ขยับแต่ตัว picker (ไม่ยุ่งตาราง)
     picker.style.transform = 'translateX(' + delta + 'px)';
   } catch(e) {}
 }
