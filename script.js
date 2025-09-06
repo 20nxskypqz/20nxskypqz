@@ -20,7 +20,6 @@ function updateTime() {
     const timeEl = document.getElementById('time-display');
     if (!dateEl || !timeEl) return;
     const now = new Date();
-    // keep original behavior (viewer timezone)
     dateEl.textContent = now.toLocaleDateString('en-GB');
     timeEl.textContent = now.toLocaleTimeString('en-GB');
 }
@@ -31,10 +30,7 @@ function updateCountdown() {
     const target = new Date('January 1, 2026 00:00:00');
     const now = new Date();
     const diff = target - now;
-    if (diff <= 0) {
-        el.textContent = '🎉 Happy New Year 2026!';
-        return;
-    }
+    if (diff <= 0) { el.textContent = '🎉 Happy New Year 2026!'; return; }
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
     const minutes = Math.floor((diff / (1000 * 60)) % 60);
@@ -64,7 +60,6 @@ function gvizFetch(sheetId, gid, tq) {
 }
 
 function rowToArray(row) {
-    // prefer formatted value f, fallback to v
     return (row.c || []).map(c => {
         if (!c) return '';
         if (c.f != null) return String(c.f);
@@ -93,10 +88,7 @@ const COLUMN_ALIASES = {
     checklist: ['Checklist', 'เช็คลิสต์', 'Check']
 };
 
-function normalizeHeader(h) {
-    return String(h || '').trim().toLowerCase();
-}
-
+function normalizeHeader(h) { return String(h || '').trim().toLowerCase(); }
 function findIndexByAliases(headers, aliases) {
     const norm = headers.map(normalizeHeader);
     for (const a of aliases) {
@@ -123,11 +115,7 @@ function buildColumnMap(headerRow) {
     return map;
 }
 
-function getCell(arr, idx) {
-    if (idx === -1) return '';
-    return arr[idx] || '';
-}
-
+function getCell(arr, idx) { return idx === -1 ? '' : (arr[idx] || ''); }
 function isChecked(val) {
     const s = String(val || '').trim().toLowerCase();
     return ['true', 'yes', 'y', '1', '✓', '✔', 'check', 'checked'].includes(s);
@@ -140,18 +128,14 @@ function renderConanTableFromSheet(sheetId, gid) {
 
     tbody.innerHTML = '<tr><td colspan="11">Loading…</td></tr>';
 
-    // query all columns; we'll map by header row
     gvizFetch(sheetId, gid, 'select *').then(json => {
         const arrays = tableToArrays(json);
-        if (!arrays.length) {
-            tbody.innerHTML = '<tr><td colspan="11">No data.</td></tr>';
-            return;
-        }
+        if (!arrays.length) { tbody.innerHTML = '<tr><td colspan="11">No data.</td></tr>'; return; }
+
         const header = arrays[0];
         const dataRows = arrays.slice(1);
         const map = buildColumnMap(header);
 
-        // Build exactly 42 rows (pad if fewer)
         const MAX_ROWS = 42;
         const rows = dataRows.slice(0, MAX_ROWS);
         while (rows.length < MAX_ROWS) rows.push([]);
@@ -214,6 +198,10 @@ function renderConanTableFromSheet(sheetId, gid) {
 
         tbody.innerHTML = '';
         tbody.appendChild(frag);
+
+        /* Ensure the table can scroll fully to the very left (some mobile browsers keep a tiny offset) */
+        const wrapper = document.querySelector('.table-wrapper');
+        if (wrapper) wrapper.scrollLeft = 0;
     }).catch(err => {
         tbody.innerHTML = '<tr><td colspan="11">Failed to load sheet. ' +
             'Please make sure sharing is set to “Anyone with the link can view” or published to the web. (' +
@@ -221,13 +209,9 @@ function renderConanTableFromSheet(sheetId, gid) {
     });
 }
 
-/* ===== Season selector (configurable) =====
-   - Add more seasons by pushing to SEASONS with { label: 'Detective Conan SS.X', gid: '...' }.
-   - We do NOT show any sheet numbers in the UI (as requested).
-*/
+/* ===== Season selector (configurable) ===== */
 const SEASONS = [
     { label: 'Detective Conan SS.1', gid: '0' }
-    // Add more seasons when available, e.g. { label: 'Detective Conan SS.2', gid: '123456789' }
 ];
 
 function setupSeasonPicker(sheetSection) {
@@ -310,3 +294,4 @@ document.addEventListener('DOMContentLoaded', function () {
         renderConanTableFromSheet(sheetId, gid);
     }
 });
+```0
