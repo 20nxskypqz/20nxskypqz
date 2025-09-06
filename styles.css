@@ -105,7 +105,7 @@ body.dark-mode {
 }
 .menu-overlay.visible { display: block; }
 
-/* Content wrapper */
+/* Content wrapper (ค่าเริ่มต้นของทุกหน้า) */
 .content {
     text-align: center;
     padding: 20px;
@@ -165,13 +165,28 @@ p  { font-size: 16px; margin: 5px 0; }
     .time-and-countdown { padding: 10px; max-width: 100%; align-items: flex-start; }
 }
 
+/* ===== Root page only (ทำให้ตัวใหญ่ + ชิดซ้าย) ===== */
+.root-page .content {
+    /* ทับค่ากลางให้เป็นซ้ายเฉพาะหน้า root */
+    align-items: flex-start;
+    text-align: left;
+    max-width: none;   /* ให้หัวไม่ถูกบีบความกว้าง */
+    width: 100%;
+    padding-left: 12px;
+}
+.root-page h1 {
+    font-size: 48px;   /* ใหญ่ขึ้นตามที่สั่ง */
+    text-align: left;
+    margin: 0 0 12px 0;
+}
+
 /* ===== Conan page only (แก้เฉพาะที่สั่ง) ===== */
 
-/* 1) แถบหัวให้ยาว ๆ เหมือน “ม้าย” */
+/* แถบหัวให้ยาว ๆ เหมือน “ม้าย” + เรียงซ้าย: 3 ขีด + โหมด */
 .conan-page .header {
-    justify-content: flex-start;   /* 2) จัดซ้าย: 3 ขีด + โหมด */
+    justify-content: flex-start;
     gap: 12px;
-    overflow: visible;             /* ให้ pseudo-element โผล่เกินได้ */
+    overflow: visible;
     position: relative;
 }
 .conan-page .header::before {
@@ -185,20 +200,19 @@ p  { font-size: 16px; margin: 5px 0; }
     z-index: -1;
 }
 
-/* 3) ขยับชื่อ JA ลงจากหัวอีกนิด */
+/* ขยับชื่อลงจากหัวนิดนึง + ให้ JA/EN ชิดกันขึ้นอีกนิด */
 .conan-page .page-title-ja { margin-top: 16px; }
-
-/* 4) ให้ JA/EN ชิดกันกว่านี้นิดนึง */
 .conan-page .page-title-en { margin-top: 2px; }
 .conan-page .title-spacer { height: 10px; }
 
-/* 5) SS selector ชิดซ้าย */
+/* SS selector — ชิดซ้าย และ “ลงมาอีกนิด” */
 .conan-page .season-picker {
     position: relative;
     width: 100%;
     max-width: 1200px;
     display: flex;
-    justify-content: flex-start;   /* จากเดิม center */
+    justify-content: flex-start;
+    margin-top: 16px;      /* ⬅ เพิ่มระยะลงมานิดหน่อย */
     margin-bottom: 12px;
     align-self: stretch;
 }
@@ -210,14 +224,14 @@ p  { font-size: 16px; margin: 5px 0; }
     font-weight: 700; display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
 }
 .conan-page .season-menu {
-    position: absolute; top: 100%; left: 0;  /* เปิดเมนูจากซ้าย */
+    position: absolute; top: 100%; left: 0;
     margin-top: 8px;
     background: var(--panel-bg); color: var(--panel-text);
     border: 2px solid var(--panel-border); border-radius: 12px; box-shadow: var(--panel-shadow);
     list-style: none; padding: 6px 0; min-width: 220px; z-index: 1200;
 }
 
-/* คอนเทนต์อื่น ๆ ของ Conan (คงเดิม) */
+/* คอนเทนต์ Conan อื่น ๆ (คงเดิม) */
 .conan-page .content {
     max-width: 1200px;
     padding-bottom: 100px;
@@ -238,7 +252,7 @@ p  { font-size: 16px; margin: 5px 0; }
 .conan-page .conan-table {
     width: 100%;
     max-width: 1000px;
-    margin: 0 auto;
+    margin: 0 auto;  /* จะถูก JS ปรับ margin-left ให้เข้าศูนย์แบบคำนวณอีกที */
     border-collapse: separate; border-spacing: 0;
     border: 1px solid var(--panel-border); border-radius: 14px; overflow: hidden;
     background: var(--panel-bg); color: var(--panel-text); box-shadow: var(--panel-shadow);
