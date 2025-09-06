@@ -149,7 +149,7 @@ p  { font-size: 16px; margin: 5px 0; }
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;   /* กลางแนวนอน */
+  align-items: center;
   gap: 2px;
   margin-top: 16px;
   text-align: center;
@@ -187,25 +187,39 @@ p  { font-size: 16px; margin: 5px 0; }
   align-items: center;
 }
 
-/* ✅ ตาราง: ไม่ให้โดน “ขอบซ้ายกิน” และให้กลางจริง ๆ */
+/* ✅ ตาราง: กลับมาขนาดเดิม (ใหญ่) และกึ่งกลางจริง ๆ */
 .conan-page .table-wrapper{
   width: 100%;
   max-width: 1200px;
   margin: 0 auto 12px auto;
   display: flex;
   justify-content: center;          /* จัดกลาง */
-  padding-left: max(16px, env(safe-area-inset-left));   /* กันชนด้านซ้าย */
-  padding-right:max(16px, env(safe-area-inset-right));  /* กันชนด้านขวา */
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right:max(16px, env(safe-area-inset-right));
   box-sizing: border-box;
+  overflow-x: visible;               /* ปกติไม่เลื่อน */
 }
 .conan-page .conan-table{
-  width: 100%;           /* กว้างเท่าคอนเทนเนอร์ (ไม่ล้นจอ) */
-  max-width: 1000px;     /* แต่ไม่เกิน 1000px บนจอใหญ่ */
-  margin-inline: auto;   /* กลางแนวนอน */
-  transform: none !important; /* กัน transform เก่าค้าง */
-  table-layout: fixed;   /* บังคับ wrap คอลัมน์ยาว ๆ */
+  width: auto;            /* ใช้ขนาดธรรมชาติของตาราง */
+  min-width: 1000px;      /* รักษาความกว้างเดิม */
+  max-width: 1200px;      /* เพดานบนบนจอใหญ่ */
+  margin: 0 auto;         /* เผื่อกรณีกว้างไม่เต็ม container */
+  table-layout: auto;     /* ให้คอลัมน์ขยายตามเนื้อหา */
   border-collapse: separate; border-spacing: 0; border: 1px solid var(--panel-border);
   border-radius: 14px; overflow: hidden; background: var(--panel-bg); color: var(--panel-text); box-shadow: var(--panel-shadow);
+}
+
+/* เลย์เอาต์บนจอแคบ: คงขนาดตารางไว้ แล้วให้เลื่อนเฉพาะตัวห่อ */
+@media (max-width: 1100px){
+  .conan-page .table-wrapper{
+    overflow-x: auto;               /* เปิดเลื่อนเฉพาะจอแคบ เพื่อไม่บีบตารางให้เล็ก */
+    justify-content: flex-start;    /* ให้ JS จัดให้อยู่กลางด้วยการตั้ง scrollLeft */
+    -webkit-overflow-scrolling: touch;
+  }
+  .conan-page .conan-table{
+    min-width: 1000px;              /* บังคับให้กว้างเท่าเดิม */
+    max-width: none;
+  }
 }
 
 /* หัวตารางสีน้ำเงินไล่สี */
