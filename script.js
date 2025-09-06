@@ -1,17 +1,28 @@
 /* ===== Theme toggle ===== */
+const FI_DAY_HREF = 'https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-chubby/css/uicons-solid-chubby.css';
+const FI_NIGHT_HREF = 'https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css';
+
+function applyIconTheme(isDark) {
+    const link = document.getElementById('fi-theme');
+    if (link) link.setAttribute('href', isDark ? FI_NIGHT_HREF : FI_DAY_HREF);
+    const icon = document.getElementById('mode-icon');
+    if (icon) {
+        icon.className = isDark ? 'fi fi-sr-moon' : 'fi fi-sc-sun';
+    }
+}
+
 function toggleMode() {
     const isDark = document.body.classList.toggle('dark-mode');
     document.body.classList.toggle('light-mode', !isDark);
     const toggleCircle = document.querySelector('.toggle-circle');
     if (toggleCircle) {
         if (isDark) {
-            toggleCircle.textContent = '🌙';
             toggleCircle.classList.remove('light');
         } else {
-            toggleCircle.textContent = '☀️';
             toggleCircle.classList.add('light');
         }
     }
+    applyIconTheme(isDark);
 }
 
 /* ===== Time / Countdown (Home page) ===== */
@@ -38,15 +49,7 @@ function updateCountdown() {
     const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
     const minutes = Math.floor((diff / (1000 * 60)) % 60);
     const seconds = Math.floor((diff / 1000) % 60);
-    // full words (not d/h/m/s)
-    el.textContent = `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
-}
-
-function initializeUpdates() {
-    updateTime();
-    updateCountdown();
-    setInterval(updateTime, 1000);
-    setInterval(updateCountdown, 1000);
+    el.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
 }
 
 /* ===== Sheets helpers (used by Conan page) ===== */
@@ -158,10 +161,6 @@ function renderConanTableFromSheet(sheetId, gid) {
 
         tbody.innerHTML = '';
         tbody.appendChild(frag);
-
-        // start with leftmost visible (still leaves padding gutter on mobile from CSS)
-        const wrapper = document.querySelector('.conan-page .table-wrapper');
-        if (wrapper) wrapper.scrollLeft = 0;
     }).catch(err => {
         tbody.innerHTML = '<tr><td colspan="11">Failed to load sheet. Please check sharing (Anyone with the link can view) or Publish to the web. (' + err.message + ')</td></tr>';
     });
@@ -228,6 +227,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Theme
     var modeToggle = document.getElementById('mode-toggle');
     if (modeToggle) modeToggle.addEventListener('click', toggleMode);
+
+    // Apply correct icon set on load
+    applyIconTheme(document.body.classList.contains('dark-mode'));
 
     // Home timers
     initializeUpdates();
