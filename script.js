@@ -41,11 +41,9 @@ function updateCountdown() {
     const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
     const minutes = Math.floor((diff / (1000 * 60)) % 60);
     const seconds = Math.floor((diff / 1000) % 60);
-    // full words
     el.textContent = `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
 }
 
-// Make sure these run (and continue running)
 function initializeUpdates() {
     updateTime();
     updateCountdown();
@@ -162,10 +160,43 @@ function renderConanTableFromSheet(sheetId, gid) {
 
         tbody.innerHTML = '';
         tbody.appendChild(frag);
+
+        // === จัดศูนย์ตารางให้กึ่งกลางจริง หลัง render เสร็จ ===
+        centerConanTableToViewport();
     }).catch(err => {
         tbody.innerHTML = '<tr><td colspan="11">Failed to load sheet. Please check sharing (Anyone with the link can view) or Publish to the web. (' + err.message + ')</td></tr>';
     });
 }
+
+/* ===== Center Conan table to viewport middle =====
+   วิธี: วัดความกว้างตาราง -> คำนวณตำแหน่งกึ่งกลางของตาราง ->
+        จัด margin-left ให้กึ่งกลางของตารางทับกับกึ่งกลาง viewport (ตรง copyright) */
+function centerConanTableToViewport() {
+    if (!document.body.classList.contains('conan-page')) return;
+
+    const wrapper = document.querySelector('.conan-page .table-wrapper');
+    const table   = document.querySelector('.conan-page .conan-table');
+    if (!wrapper || !table) return;
+
+    // รีเซ็ตก่อนคำนวณ
+    table.style.marginLeft = '';
+    table.style.marginRight = 'auto';
+
+    const viewportCenter = document.documentElement.clientWidth / 2;
+    const wrapRect       = wrapper.getBoundingClientRect();
+    const tableWidth     = table.offsetWidth;
+
+    // ต้องการให้ left ของ table = (viewportCenter - tableWidth/2) ภายในพิกัดของ wrapper
+    const desiredLeftInViewport = viewportCenter - (tableWidth / 2);
+    const marginLeft = desiredLeftInViewport - wrapRect.left;
+
+    table.style.marginLeft = `${marginLeft}px`;
+}
+
+// ผูก resize ให้คงกลางเสมอ
+window.addEventListener('resize', () => {
+    centerConanTableToViewport();
+});
 
 /* ===== Season selector (Conan) ===== */
 const SEASONS = [
@@ -257,5 +288,8 @@ document.addEventListener('DOMContentLoaded', function () {
             sheetSection.getAttribute('data-sheet-id'),
             sheetSection.getAttribute('data-gid') || '0'
         );
+    } else {
+        // เผื่อกรณีอยู่หน้า Conan แต่ยังไม่ได้ render table (หายาก)
+        centerConanTableToViewport();
     }
 });
