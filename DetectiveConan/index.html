@@ -16,12 +16,9 @@
 </head>
 <body class="light-mode conan-page">
     <header class="header">
-        <!-- ย้ายปุ่มโหมดไปไว้ซ้ายถัดจากเมนู เฉพาะหน้าโคนัน -->
-        <div class="header-left">
-            <button class="menu-toggle" aria-label="Toggle navigation" type="button" aria-expanded="false">&#9776;</button>
-            <div class="toggle-container" id="mode-toggle" aria-label="Toggle light and dark mode">
-                <div class="toggle-circle light">☀️</div>
-            </div>
+        <button class="menu-toggle" aria-label="Toggle navigation" type="button" aria-expanded="false">&#9776;</button>
+        <div class="toggle-container" id="mode-toggle" aria-label="Toggle light and dark mode">
+            <div class="toggle-circle light">☀️</div>
         </div>
     </header>
 
@@ -35,12 +32,13 @@
     <div class="menu-overlay"></div>
 
     <main class="content">
-        <!-- Title -->
+        <!-- Title: separate lines -->
         <h1 class="page-title-ja">名探偵コナン</h1>
         <h1 class="page-title-en">Detective Conan</h1>
+
         <div class="title-spacer"></div>
 
-        <!-- Season selector (คงไว้ทางซ้าย) -->
+        <!-- Season selector -->
         <div class="season-picker" id="season-picker">
             <button class="season-button" type="button" aria-haspopup="listbox" aria-expanded="false">
                 <span class="season-label">Detective Conan SS.1</span>
@@ -49,7 +47,7 @@
             <ul class="season-menu" role="listbox" hidden></ul>
         </div>
 
-        <!-- Table -->
+        <!-- Table output -->
         <section id="conan-sheet"
                  data-sheet-id="1N4GEfiPqnAG8zZuBdpt0AnaD433YD3Qep7Mayop08qQ"
                  data-gid="0">
