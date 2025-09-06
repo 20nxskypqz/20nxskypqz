@@ -196,12 +196,13 @@ p  { font-size: 16px; margin: 5px 0; }
 .conan-page .page-title-en { margin: 4px 0 0 0; }
 .conan-page .title-spacer { height: 12px; }
 
-/* Extend header/footer visually wider than viewport (auto-looking) */
+/* Make header/footer visually MUCH wider on Conan page */
 .conan-page .header, .conan-page .footer { position: relative; }
 .conan-page .header::before, .conan-page .footer::before {
     content: ""; position: absolute; top: 0; left: 50%;
     transform: translateX(-50%);
-    width: 200vw; height: 100%;
+    width: 500vw;   /* ยาวมากๆ ตามที่ขอ */
+    height: 100%;
     background: inherit; z-index: -1;
 }
 
@@ -233,12 +234,16 @@ p  { font-size: 16px; margin: 5px 0; }
     width: 100%; max-width: 1200px;
     overflow-x: auto; -webkit-overflow-scrolling: touch;
     margin-bottom: 12px;
-    padding: 0 12px 0 12px; /* default padding */
 
-    /* push table to the right on narrow screens so it doesn't hug the edge */
+    /* ขยับตารางไปทางขวา “เยอะมากๆๆๆ” โดยทำรางซ้ายหนาๆ */
+    padding-right: 16px;
+    padding-left: 96px;  /* desktop default */
+}
+@media (max-width: 900px) {
+    .conan-page .table-wrapper { padding-left: 160px; }
 }
 @media (max-width: 600px) {
-    .conan-page .table-wrapper { padding-left: 28px; padding-right: 12px; }
+    .conan-page .table-wrapper { padding-left: 260px; } /* มือถือแนวตั้ง: ขยับไปขวาเยอะมาก */
 }
 
 .conan-page .conan-table {
