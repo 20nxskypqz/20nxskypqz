@@ -155,7 +155,7 @@ p  { font-size: 16px; margin: 5px 0; }
   text-align: center;
 }
 
-/* SS selector — ซ้ายสุดของ “ขอบตาราง” และไม่ทับเมนู 3 ขีด */
+/* SS selector — ซ้ายสุดของขอบตาราง และไม่ทับเมนู 3 ขีด */
 .conan-page .season-picker{
   position: relative;
   width: 100%;
@@ -181,23 +181,31 @@ p  { font-size: 16px; margin: 5px 0; }
 }
 
 /* คอนเทนต์ Conan */
-.conan-page .content{max-width:1200px;padding-bottom:100px;align-items:center;}
-.conan-page .footer{position:fixed;left:0;right:0;bottom:0;padding-bottom:calc(10px + env(safe-area-inset-bottom));}
+.conan-page .content{
+  max-width: 1200px;
+  padding-bottom: 100px;
+  align-items: center;
+}
 
-/* ตาราง: จัดกึ่งกลางด้วย CSS 100% (ไม่ใช้ transform แล้ว) */
+/* ✅ ตาราง: ไม่ให้โดน “ขอบซ้ายกิน” และให้กลางจริง ๆ */
 .conan-page .table-wrapper{
   width: 100%;
   max-width: 1200px;
   margin: 0 auto 12px auto;
   display: flex;
-  justify-content: center;   /* ← กึ่งกลางแนวนอนแน่นอน */
+  justify-content: center;          /* จัดกลาง */
+  padding-left: max(16px, env(safe-area-inset-left));   /* กันชนด้านซ้าย */
+  padding-right:max(16px, env(safe-area-inset-right));  /* กันชนด้านขวา */
+  box-sizing: border-box;
 }
 .conan-page .conan-table{
-  width: auto;               /* ให้เป็นความกว้างเนื้อหา */
-  max-width: 1000px;
-  margin: 0 auto;            /* เผื่อกรณี fallback */
+  width: 100%;           /* กว้างเท่าคอนเทนเนอร์ (ไม่ล้นจอ) */
+  max-width: 1000px;     /* แต่ไม่เกิน 1000px บนจอใหญ่ */
+  margin-inline: auto;   /* กลางแนวนอน */
+  transform: none !important; /* กัน transform เก่าค้าง */
+  table-layout: fixed;   /* บังคับ wrap คอลัมน์ยาว ๆ */
   border-collapse: separate; border-spacing: 0; border: 1px solid var(--panel-border);
-  border-radius: 14px; overflow: hidden; background: var(--panel-bg); color: var(--panel-text); box-shadow: var(--panel-shadow); table-layout: auto;
+  border-radius: 14px; overflow: hidden; background: var(--panel-bg); color: var(--panel-text); box-shadow: var(--panel-shadow);
 }
 
 /* หัวตารางสีน้ำเงินไล่สี */
@@ -207,7 +215,10 @@ p  { font-size: 16px; margin: 5px 0; }
 .conan-page .conan-table thead .subhead{font-weight:700;text-align:center;}
 
 /* Cells */
-.conan-page .conan-table tbody td{padding:10px;border-top:1px solid var(--panel-border);border-right:1px solid var(--panel-border);vertical-align:top;white-space:normal;overflow-wrap:anywhere;word-break:break-word;}
+.conan-page .conan-table tbody td{
+  padding:10px;border-top:1px solid var(--panel-border);border-right:1px solid var(--panel-border);
+  vertical-align:top;white-space:normal;overflow-wrap:anywhere;word-break:break-word;
+}
 .conan-page .conan-table tbody td:last-child{border-right:none;}
 .conan-page .conan-table tbody tr:nth-child(odd){background:rgba(0,0,0,0.03);}
 .dark-mode.conan-page .conan-table tbody tr:nth-child(odd){background:rgba(255,255,255,0.03);}
@@ -216,5 +227,6 @@ p  { font-size: 16px; margin: 5px 0; }
 .conan-page .chk{display:inline-block;width:18px;height:18px;border-radius:6px;border:2px solid var(--panel-border);vertical-align:middle;}
 .conan-page .chk--on{background:linear-gradient(135deg,#16a34a,#22c55e);border-color:#16a34a;position:relative;}
 .conan-page .chk--on::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-58%);font-size:14px;font-weight:700;color:#fff;}
+
 /* Icon spacing */
 .home-links a i, .side-menu a i { margin-right: 8px; vertical-align: -2px; }
