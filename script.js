@@ -179,7 +179,7 @@ function renderConanTableFromSheet(sheetId, gid) {
     }
 
     var map = buildColumnMap(headers);
-    if (!dataRows.length) { tbody.innerHTML = '<tr><td colspan="11">No data.</td></tr>'; centerConanLayout(); return; }
+    if (!dataRows.length) { tbody.innerHTML = '<tr><td colspan="11">No data.</td></tr>'; alignSeasonPickerToTable(); return; }
 
     var MAX_ROWS = 42;
     var rows = dataRows.slice(0, MAX_ROWS);
@@ -214,65 +214,33 @@ function renderConanTableFromSheet(sheetId, gid) {
     tbody.innerHTML = '';
     tbody.appendChild(frag);
 
-    centerConanLayout();  // จัดหัวเรื่อง + กึ่งกลางตาราง + SS ชิดซ้ายตาราง
+    // ตารางกลางด้วย CSS แล้ว แค่จับให้ SS ชิดซ้ายขอบตารางก็พอ
+    alignSeasonPickerToTable();
   }).catch(function(err){
     tbody.innerHTML = '<tr><td colspan="11">Failed to load sheet. Please check sharing (Anyone with the link can view) or Publish to the web. (' + err.message + ')</td></tr>';
-    centerConanLayout();
+    alignSeasonPickerToTable();
   });
 }
 
-/* ===================== LAYOUT HELPERS ===================== */
-function viewportWidth(){ return (document.documentElement && document.documentElement.clientWidth) ? document.documentElement.clientWidth : window.innerWidth; }
-
-function centerTitleGroup(){
-  var titleGroup = document.querySelector('.conan-page .title-group');
-  if (!titleGroup) return;
+/* ===================== LAYOUT: จัด SS ให้ชิดซ้ายขอบตาราง ===================== */
+function alignSeasonPickerToTable(){
   try {
-    titleGroup.style.transform = 'translateX(0)';
-    requestAnimationFrame(function(){
-      var rect = titleGroup.getBoundingClientRect();
-      var vpC  = viewportWidth() / 2;
-      var elC  = rect.left + rect.width / 2;
-      var delta= Math.round(vpC - elC);
-      titleGroup.style.transform = 'translateX(' + delta + 'px)';
-    });
-  } catch(e) {}
-}
-
-function centerElementToViewport(el){
-  if (!el) return;
-  try {
-    el.style.transform = 'translateX(0)';
-    requestAnimationFrame(function(){
-      var rect = el.getBoundingClientRect();
-      var vpC  = viewportWidth() / 2;
-      var elC  = rect.left + rect.width / 2;
-      var delta= Math.round(vpC - elC);
-      el.style.transform = 'translateX(' + delta + 'px)';
-    });
-  } catch(e) {}
-}
-
-function alignLeftOfAtoLeftOfB(a, b){
-  if (!a || !b) return;
-  try {
-    a.style.transform = 'translateX(0)';
-    requestAnimationFrame(function(){
-      var ar = a.getBoundingClientRect();
-      var br = b.getBoundingClientRect();
-      var delta = Math.round(br.left - ar.left);
-      a.style.transform = 'translateX(' + delta + 'px)';
-    });
-  } catch(e) {}
-}
-
-function centerConanLayout(){
-  try {
-    centerTitleGroup();
-    var table  = document.querySelector('.conan-page .conan-table');
-    centerElementToViewport(table);                 // กึ่งกลางตารางด้วย transform (ชัวร์สุด)
     var picker = document.getElementById('season-picker');
-    if (picker && table) alignLeftOfAtoLeftOfB(picker, table);  // SS ชิดซ้ายตาราง
+    var table  = document.querySelector('.conan-page .conan-table');
+    if (!picker || !table) return;
+
+    // รีเซ็ตก่อน
+    picker.style.left = '0px';
+    picker.style.position = 'relative';
+    picker.style.transform = 'none';
+
+    // คำนวณ offset ซ้ายของตารางเทียบกับ container season-picker
+    var pRect = picker.getBoundingClientRect();
+    var tRect = table.getBoundingClientRect();
+    var delta = Math.round(tRect.left - pRect.left);
+
+    // ขยับด้วย translateX ให้ซ้ายชนกันพอดี
+    picker.style.transform = 'translateX(' + delta + 'px)';
   } catch(e) {}
 }
 
@@ -285,6 +253,7 @@ function setupSeasonPicker(sheetSection){
   var menu  = picker.querySelector('.season-menu');
   var label = picker.querySelector('.season-label');
 
+  // เติมรายการ
   menu.innerHTML = '';
   for (var i=0;i<SEASONS.length;i++){
     (function(s){
@@ -303,6 +272,7 @@ function setupSeasonPicker(sheetSection){
     })(SEASONS[i]);
   }
 
+  // เปิด/ปิดเมนู
   btn.addEventListener('click', function(){
     var expanded = btn.getAttribute('aria-expanded') === 'true';
     btn.setAttribute('aria-expanded', String(!expanded));
@@ -359,20 +329,15 @@ document.addEventListener('DOMContentLoaded', function () {
         sheetSection.getAttribute('data-gid') || '0'
       );
     } else {
-      centerConanLayout();
+      alignSeasonPickerToTable();
     }
 
-    // หลังฟอนต์โหลด ให้จัดกลางอีกครั้ง
-    try {
-      if (document.fonts && document.fonts.ready && typeof document.fonts.ready.then === 'function') {
-        document.fonts.ready.then(centerConanLayout);
-      }
-    } catch(e){}
-
+    // จัดตำแหน่งอีกครั้งหลังฟอนต์โหลด
+    try { if (document.fonts && document.fonts.ready && typeof document.fonts.ready.then==='function') { document.fonts.ready.then(alignSeasonPickerToTable); } } catch(e){}
   } catch(e) {}
 });
 
 // อัปเดตเมื่อเปลี่ยนขนาดหน้าต่าง/หมุนจอ/โหลดครบ
-window.addEventListener('resize', centerConanLayout);
-window.addEventListener('orientationchange', centerConanLayout);
-window.addEventListener('load', centerConanLayout);
+window.addEventListener('resize', alignSeasonPickerToTable);
+window.addEventListener('orientationchange', alignSeasonPickerToTable);
+window.addEventListener('load', alignSeasonPickerToTable);
