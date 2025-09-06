@@ -376,4 +376,3 @@ document.addEventListener('DOMContentLoaded', function () {
 window.addEventListener('resize', centerConanLayout);
 window.addEventListener('orientationchange', centerConanLayout);
 window.addEventListener('load', centerConanLayout);
-```0
