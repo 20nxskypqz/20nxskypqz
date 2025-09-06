@@ -214,7 +214,7 @@ function renderConanTableFromSheet(sheetId, gid) {
     tbody.innerHTML = '';
     tbody.appendChild(frag);
 
-    centerConanLayout();  // จัดหัวเรื่อง + ให้ SS ชิดซ้ายของตาราง
+    centerConanLayout();  // จัดหัวเรื่อง + กึ่งกลางตาราง + SS ชิดซ้ายตาราง
   }).catch(function(err){
     tbody.innerHTML = '<tr><td colspan="11">Failed to load sheet. Please check sharing (Anyone with the link can view) or Publish to the web. (' + err.message + ')</td></tr>';
     centerConanLayout();
@@ -239,13 +239,18 @@ function centerTitleGroup(){
   } catch(e) {}
 }
 
-function forceCenterTableByCSS(){
-  // ใช้ CSS เป็นหลัก: grid + margin auto -> กลางนิ่งไม่กระดิก
-  var table = document.querySelector('.conan-page .conan-table');
-  if (!table) return;
-  table.style.transform = 'none';
-  table.style.marginLeft = 'auto';
-  table.style.marginRight = 'auto';
+function centerElementToViewport(el){
+  if (!el) return;
+  try {
+    el.style.transform = 'translateX(0)';
+    requestAnimationFrame(function(){
+      var rect = el.getBoundingClientRect();
+      var vpC  = viewportWidth() / 2;
+      var elC  = rect.left + rect.width / 2;
+      var delta= Math.round(vpC - elC);
+      el.style.transform = 'translateX(' + delta + 'px)';
+    });
+  } catch(e) {}
 }
 
 function alignLeftOfAtoLeftOfB(a, b){
@@ -264,10 +269,10 @@ function alignLeftOfAtoLeftOfB(a, b){
 function centerConanLayout(){
   try {
     centerTitleGroup();
-    forceCenterTableByCSS();
-    var picker = document.getElementById('season-picker');
     var table  = document.querySelector('.conan-page .conan-table');
-    if (picker && table) alignLeftOfAtoLeftOfB(picker, table);
+    centerElementToViewport(table);                 // กึ่งกลางตารางด้วย transform (ชัวร์สุด)
+    var picker = document.getElementById('season-picker');
+    if (picker && table) alignLeftOfAtoLeftOfB(picker, table);  // SS ชิดซ้ายตาราง
   } catch(e) {}
 }
 
@@ -357,7 +362,7 @@ document.addEventListener('DOMContentLoaded', function () {
       centerConanLayout();
     }
 
-    // จัด layout อีกครั้งหลังฟอนต์โหลด (กันตัวอักษรกว้างเปลี่ยน)
+    // หลังฟอนต์โหลด ให้จัดกลางอีกครั้ง
     try {
       if (document.fonts && document.fonts.ready && typeof document.fonts.ready.then === 'function') {
         document.fonts.ready.then(centerConanLayout);
@@ -367,8 +372,8 @@ document.addEventListener('DOMContentLoaded', function () {
   } catch(e) {}
 });
 
-// อัปเดตเมื่อเปลี่ยนขนาดหน้าต่าง/หมุนจอ
+// อัปเดตเมื่อเปลี่ยนขนาดหน้าต่าง/หมุนจอ/โหลดครบ
 window.addEventListener('resize', centerConanLayout);
 window.addEventListener('orientationchange', centerConanLayout);
-// จัดหลังโหลดทุกอย่างเสร็จ
 window.addEventListener('load', centerConanLayout);
+```0
