@@ -43,7 +43,7 @@ body.dark-mode {
     --panel-border: #dddddd;
 }
 
-/* Header / Footer (ของเดิม) */
+/* Header / Footer */
 .header {
     width: 100%;
     display: flex;
@@ -66,41 +66,18 @@ body.dark-mode {
 }
 
 /* Menu */
-.menu-toggle {
-    font-size: 24px;
-    cursor: pointer;
-    position: relative;
-    z-index: 1101;
-    background: none;
-    border: none;
-    color: inherit;
-}
-.side-menu {
-    position: fixed;
-    top: 0; left: -200px;
-    width: 200px; height: 100%;
-    background: #333; color: #fff;
-    padding-top: 60px;
-    transition: left 0.3s ease;
-    z-index: 1000;
-    box-shadow: 2px 0 5px rgba(0,0,0,.5);
-}
+.menu-toggle { font-size: 24px; cursor: pointer; position: relative; z-index: 1101; background: none; border: none; color: inherit; }
+.side-menu { position: fixed; top: 0; left: -200px; width: 200px; height: 100%; background: #333; color: #fff; padding-top: 60px; transition: left 0.3s ease; z-index: 1000; box-shadow: 2px 0 5px rgba(0,0,0,.5); }
 .side-menu.open { left: 0; }
-.close-menu {
-    position: absolute; top: 10px; right: 15px;
-    font-size: 24px; cursor: pointer; background: none; border: none; color: inherit;
-}
+.close-menu { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; background: none; border: none; color: inherit; }
 .side-menu ul { list-style: none; padding: 0; margin: 0; }
 .side-menu li { margin: 0; }
 .side-menu a { display: block; padding: 10px 20px; color: #fff; text-decoration: none; }
 .side-menu a:hover { background: rgba(255,255,255,0.1); }
-.menu-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.3); display: none; z-index: 900;
-}
+.menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); display: none; z-index: 900; }
 .menu-overlay.visible { display: block; }
 
-/* Content wrapper (ค่าเริ่มต้นของทุกหน้า) */
+/* Content (default for all pages) */
 .content {
     text-align: center;
     padding: 20px;
@@ -114,7 +91,13 @@ body.dark-mode {
     align-items: center;
 }
 
-/* Home page blocks */
+h1 { font-size: 32px; text-align: center; margin: 0; }
+h2 { font-size: 28px; margin: 0 0 5px 0; }
+p  { font-size: 16px; margin: 5px 0; }
+
+.video-container { margin: 10px 0; width: 100%; max-width: 560px; height: 315px; }
+.video-container iframe { width: 100%; height: 100%; }
+
 .time-and-countdown {
     width: 100%;
     max-width: 800px;
@@ -130,27 +113,11 @@ body.dark-mode {
     border-radius: 24px;
     box-shadow: var(--panel-shadow);
 }
-
-h1 { font-size: 32px; text-align: center; margin: 0; }
-h2 { font-size: 28px; margin: 0 0 5px 0; }
-p  { font-size: 16px; margin: 5px 0; }
-
-.video-container { margin: 10px 0; width: 100%; max-width: 560px; height: 315px; }
-.video-container iframe { width: 100%; height: 100%; }
-
 .countdown { font-size: 24px; }
 
 /* Theme toggle */
-.toggle-container {
-    position: relative; width: 80px; height: 40px; background: #ddd;
-    border-radius: 20px; display: flex; align-items: center; padding: 5px;
-    cursor: pointer; transition: background .3s ease-in-out;
-}
-.toggle-container .toggle-circle {
-    width: 30px; height: 30px; background: #fff; border-radius: 50%;
-    position: absolute; left: 5px; transition: .3s ease-in-out;
-    display: flex; justify-content: center; align-items: center; font-size: 18px;
-}
+.toggle-container { position: relative; width: 80px; height: 40px; background: #ddd; border-radius: 20px; display: flex; align-items: center; padding: 5px; cursor: pointer; transition: background .3s; }
+.toggle-container .toggle-circle { width: 30px; height: 30px; background: #fff; border-radius: 50%; position: absolute; left: 5px; transition: .3s; display: flex; justify-content: center; align-items: center; font-size: 18px; }
 .dark-mode .toggle-container { background: #555; }
 .dark-mode .toggle-circle { left: 45px; background: #222; color: #ff0; }
 .toggle-container .toggle-circle.light { color: #ff9800; }
@@ -161,7 +128,7 @@ p  { font-size: 16px; margin: 5px 0; }
     .time-and-countdown { padding: 10px; max-width: 100%; align-items: flex-start; }
 }
 
-/* ===== Root page only (ทำให้ลิงก์ใหญ่ + สีดำ + ชิดซ้าย) ===== */
+/* ===== Root page only ===== */
 .root-page .content {
     align-items: flex-start;
     text-align: left;
@@ -169,99 +136,69 @@ p  { font-size: 16px; margin: 5px 0; }
     width: 100%;
     padding-left: 12px;
 }
-.root-page h1 { /* Welcome: คงขนาดเดิม */
-    font-size: 32px;
-    text-align: left;
+/* Welcome: ให้ “อยู่ตรงกลาง” แต่ลิงก์ด้านล่างยังชิดซ้าย */
+.root-page h1 {
+    font-size: 32px;        /* ขนาดเดิมตามสั่ง */
+    width: 100%;
+    text-align: center;     /* ← อยู่กลาง */
     margin: 0 0 12px 0;
 }
-/* ลิงก์ Home / DetectiveConan: ใหญ่ขึ้น + สีดำ */
-.root-page .home-links {
-    list-style: none; padding: 0; margin: 24px 0 0;
-}
+/* ลิงก์ Home / DetectiveConan: ใหญ่ + สีดำ + ชิดซ้าย */
+.root-page .home-links { list-style: none; padding: 0; margin: 24px 0 0; }
 .root-page .home-links li { margin: 12px 0; }
 .root-page .home-links a {
-    font-size: 2.2rem;           /* ← ใหญ่ขึ้น */
+    font-size: 2.2rem;
     font-weight: 800;
     text-decoration: none;
-    color: #000;                 /* ← สีดำตามสั่ง */
+    color: #000;
     display: inline-block;
 }
-.root-page .home-links a:hover,
-.root-page .home-links a:focus { text-decoration: underline; outline: none; }
+.root-page .home-links a:hover, .root-page .home-links a:focus { text-decoration: underline; outline: none; }
 
 /* ===== Conan page only ===== */
 
-/* หัวยาว ๆ + ปุ่มโหมดอยู่ซ้ายติด 3 ขีด (คงเดิมจากก่อนหน้า) */
-.conan-page .header {
-    justify-content: flex-start;
-    gap: 12px;
-    overflow: visible;
-    position: relative;
-}
+/* หัวยาว ๆ + ปุ่มโหมดอยู่ซ้ายติด 3 ขีด (เดิม) */
+.conan-page .header { justify-content: flex-start; gap: 12px; overflow: visible; position: relative; }
 .conan-page .header::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 50%;
-    transform: translateX(-50%);
-    width: 500vw;
-    height: 100%;
-    background: inherit;
-    z-index: -1;
+    content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 500vw; height: 100%; background: inherit; z-index: -1;
 }
 
-/* ชื่อ JA/EN */
+/* ชื่อเรื่องให้อยู่ “กึ่งกลาง” */
+.conan-page .page-title-ja,
+.conan-page .page-title-en { width: 100%; text-align: center; }
 .conan-page .page-title-ja { margin-top: 16px; }
 .conan-page .page-title-en { margin-top: 2px; }
 .conan-page .title-spacer  { height: 10px; }
 
-/* SS selector — ชิดซ้าย และ “ลงมาอีกนิด” */
+/* SS selector — ชิดซ้าย และลงมาอีกนิด */
 .conan-page .season-picker {
-    position: relative;
-    width: 100%;
-    max-width: 1200px;
-    display: flex;
-    justify-content: flex-start;
-    margin-top: 24px;    /* ← เพิ่มลงมาอีกนิดจากเดิม */
-    margin-bottom: 12px;
-    align-self: stretch;
+    position: relative; width: 100%; max-width: 1200px;
+    display: flex; justify-content: flex-start;
+    margin-top: 24px; margin-bottom: 12px; align-self: stretch;
 }
 .conan-page .season-button {
-    appearance: none;
-    border: 2px solid var(--panel-border);
+    appearance: none; border: 2px solid var(--panel-border);
     background: var(--panel-bg); color: var(--panel-text);
     padding: 10px 14px; border-radius: 12px; box-shadow: var(--panel-shadow);
     font-weight: 700; display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
 }
 .conan-page .season-menu {
-    position: absolute; top: 100%; left: 0;
-    margin-top: 8px;
+    position: absolute; top: 100%; left: 0; margin-top: 8px;
     background: var(--panel-bg); color: var(--panel-text);
     border: 2px solid var(--panel-border); border-radius: 12px; box-shadow: var(--panel-shadow);
     list-style: none; padding: 6px 0; min-width: 220px; z-index: 1200;
 }
 
 /* คอนเทนต์ Conan */
-.conan-page .content {
-    max-width: 1200px;
-    padding-bottom: 100px;
-    align-items: center;
-}
-.conan-page .footer {
-    position: fixed;
-    left: 0; right: 0; bottom: 0;
-    padding-bottom: calc(10px + env(safe-area-inset-bottom));
-}
+.conan-page .content { max-width: 1200px; padding-bottom: 100px; align-items: center; }
+.conan-page .footer { position: fixed; left: 0; right: 0; bottom: 0; padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
 
-/* ตาราง: ให้กลางแบบ CSS ล้วน */
-.conan-page .table-wrapper {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto 12px auto;
-}
+/* ตาราง: ให้ JS จัดกลาง แต่มีค่าเริ่มต้นเป็น 0 auto */
+.conan-page .table-wrapper { width: 100%; max-width: 1200px; margin: 0 auto 12px auto; }
 .conan-page .conan-table {
-    width: auto;                  /* ให้ใช้ความกว้างจริงของตาราง */
-    max-width: 1000px;
-    margin: 0 auto;               /* ← กลางแน่นอน */
+    width: auto; max-width: 1000px;
+    margin-left: auto; margin-right: auto; /* default center; JS จะ override margin-left */
     border-collapse: separate; border-spacing: 0;
     border: 1px solid var(--panel-border); border-radius: 14px; overflow: hidden;
     background: var(--panel-bg); color: var(--panel-text); box-shadow: var(--panel-shadow);
@@ -269,13 +206,10 @@ p  { font-size: 16px; margin: 5px 0; }
 }
 
 /* หัวตารางสีน้ำเงินไล่สี */
-.conan-page .conan-table thead {
-    background: linear-gradient(to right, var(--conan-blue-1), var(--conan-blue-2));
-}
+.conan-page .conan-table thead { background: linear-gradient(to right, var(--conan-blue-1), var(--conan-blue-2)); }
 .conan-page .conan-table thead th {
     padding: 12px 10px; text-align: left; color: #fff;
-    background: transparent;
-    border-right: 1px solid rgba(255,255,255,0.25);
+    background: transparent; border-right: 1px solid rgba(255,255,255,0.25);
     font-weight: 700; vertical-align: middle;
 }
 .conan-page .conan-table thead th:last-child { border-right: none; }
@@ -284,27 +218,16 @@ p  { font-size: 16px; margin: 5px 0; }
 /* Cells */
 .conan-page .conan-table tbody td {
     padding: 10px; border-top: 1px solid var(--panel-border); border-right: 1px solid var(--panel-border);
-    vertical-align: top;
-    white-space: normal; overflow-wrap: anywhere; word-break: break-word;
+    vertical-align: top; white-space: normal; overflow-wrap: anywhere; word-break: break-word;
 }
 .conan-page .conan-table tbody td:last-child { border-right: none; }
 .conan-page .conan-table tbody tr:nth-child(odd) { background: rgba(0,0,0,0.03); }
 .dark-mode.conan-page .conan-table tbody tr:nth-child(odd) { background: rgba(255,255,255,0.03); }
 
 .conan-page .th-epno { text-align: center; }
-.conan-page .chk {
-    display: inline-block; width: 18px; height: 18px; border-radius: 6px;
-    border: 2px solid var(--panel-border); vertical-align: middle;
-}
-.conan-page .chk--on {
-    background: linear-gradient(135deg, #16a34a, #22c55e);
-    border-color: #16a34a; position: relative;
-}
-.conan-page .chk--on::after {
-    content: '✓'; position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%, -58%); font-size: 14px; font-weight: 700; color: #fff;
-}
+.conan-page .chk { display: inline-block; width: 18px; height: 18px; border-radius: 6px; border: 2px solid var(--panel-border); vertical-align: middle; }
+.conan-page .chk--on { background: linear-gradient(135deg, #16a34a, #22c55e); border-color: #16a34a; position: relative; }
+.conan-page .chk--on::after { content: '✓'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -58%); font-size: 14px; font-weight: 700; color: #fff; }
 
 /* Icon spacing */
-.home-links a i,
-.side-menu a i { margin-right: 8px; vertical-align: -2px; }
+.home-links a i, .side-menu a i { margin-right: 8px; ver
