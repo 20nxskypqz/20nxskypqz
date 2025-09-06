@@ -25,7 +25,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
     transition: background 0.5s ease-in-out;
-    overflow-x: hidden;
+    overflow-x: hidden; /* avoid horizontal scroll on full-bleed blocks */
 }
 
 body.dark-mode {
@@ -51,6 +51,7 @@ body.dark-mode .side-menu a {
     color: #fff;
 }
 
+/* Header */
 .header {
     width: 100%;
     display: flex;
@@ -74,6 +75,7 @@ body.dark-mode .side-menu a {
     color: inherit;
 }
 
+/* Side Menu */
 .side-menu {
     position: fixed;
     top: 0;
@@ -124,6 +126,7 @@ body.dark-mode .side-menu a {
     background: rgba(255, 255, 255, 0.1);
 }
 
+/* Overlay */
 .menu-overlay {
     position: fixed;
     top: 0;
@@ -139,6 +142,7 @@ body.dark-mode .side-menu a {
     display: block;
 }
 
+/* Page content container */
 .content {
     text-align: center;
     padding: 20px;
@@ -152,7 +156,7 @@ body.dark-mode .side-menu a {
     align-items: center;
 }
 
-/* Styling for Time and Countdown Section */
+/* Time & Countdown card */
 .time-and-countdown {
     width: 100%;
     max-width: 800px;
@@ -169,6 +173,7 @@ body.dark-mode .side-menu a {
     box-shadow: var(--panel-shadow);
 }
 
+/* Typography */
 h1 {
     font-size: 32px;
     text-align: center;
@@ -191,7 +196,6 @@ p {
     font-weight: normal;
 }
 
-/* Plain text for date, time, and countdown values */
 .time-container p,
 .countdown p {
     background: transparent;
@@ -201,6 +205,7 @@ p {
     border-radius: 0;
 }
 
+/* Video embed */
 .video-container {
     margin: 10px 0;
     width: 100%;
@@ -213,10 +218,12 @@ p {
     height: 100%;
 }
 
+/* Countdown */
 .countdown {
     font-size: 24px;
 }
 
+/* Footer */
 .footer {
     text-align: center;
     padding: 10px 20px;
@@ -226,6 +233,7 @@ p {
     box-sizing: border-box;
 }
 
+/* Theme toggle */
 .toggle-container {
     position: relative;
     width: 80px;
@@ -267,6 +275,7 @@ p {
     color: #ff9800;
 }
 
+/* Responsive */
 @media (max-width: 600px) {
     .content {
         padding: 10px;
@@ -289,15 +298,22 @@ p {
 
 /* ============================
    Root homepage link list
-   - Left align and larger text
-   (affects only the root page since only it uses .home-links)
+   - Make the links flush to the viewport's left (more left)
+   - Keep text larger
    ============================ */
 .home-links {
     list-style: none;
     padding: 0;
     margin: 24px 0 0;
-    text-align: left;        /* override .content center */
-    align-self: stretch;     /* allow links to align left within .content */
+
+    /* full-bleed to the left (and right) outside the centered .content */
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(50% - 50vw);  /* pull to viewport left */
+    margin-right: calc(50% - 50vw); /* keep symmetric, avoids clipping */
+    padding-left: 20px;              /* breathing room from the very edge */
+
+    text-align: left;
 }
 
 .home-links li {
@@ -305,11 +321,12 @@ p {
 }
 
 .home-links a {
-    font-size: 1.6rem;       /* bigger text as requested */
+    font-size: 1.6rem;   /* already larger from previous step */
     font-weight: 700;
     text-decoration: none;
     color: var(--text-color);
     display: inline-block;
+    line-height: 1.25;
 }
 
 .home-links a:hover,
