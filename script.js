@@ -161,42 +161,13 @@ function renderConanTableFromSheet(sheetId, gid) {
         tbody.innerHTML = '';
         tbody.appendChild(frag);
 
-        // === จัดศูนย์ตารางให้กึ่งกลางจริง หลัง render เสร็จ ===
-        centerConanTableToViewport();
+        /* ลบสไตล์ที่อาจถูกตั้งจากครั้งก่อน เพื่อให้ตารางกลางด้วย CSS */
+        const table = document.querySelector('.conan-page .conan-table');
+        if (table) { table.style.marginLeft = 'auto'; table.style.marginRight = 'auto'; }
     }).catch(err => {
         tbody.innerHTML = '<tr><td colspan="11">Failed to load sheet. Please check sharing (Anyone with the link can view) or Publish to the web. (' + err.message + ')</td></tr>';
     });
 }
-
-/* ===== Center Conan table to viewport middle =====
-   วิธี: วัดความกว้างตาราง -> คำนวณตำแหน่งกึ่งกลางของตาราง ->
-        จัด margin-left ให้กึ่งกลางของตารางทับกับกึ่งกลาง viewport (ตรง copyright) */
-function centerConanTableToViewport() {
-    if (!document.body.classList.contains('conan-page')) return;
-
-    const wrapper = document.querySelector('.conan-page .table-wrapper');
-    const table   = document.querySelector('.conan-page .conan-table');
-    if (!wrapper || !table) return;
-
-    // รีเซ็ตก่อนคำนวณ
-    table.style.marginLeft = '';
-    table.style.marginRight = 'auto';
-
-    const viewportCenter = document.documentElement.clientWidth / 2;
-    const wrapRect       = wrapper.getBoundingClientRect();
-    const tableWidth     = table.offsetWidth;
-
-    // ต้องการให้ left ของ table = (viewportCenter - tableWidth/2) ภายในพิกัดของ wrapper
-    const desiredLeftInViewport = viewportCenter - (tableWidth / 2);
-    const marginLeft = desiredLeftInViewport - wrapRect.left;
-
-    table.style.marginLeft = `${marginLeft}px`;
-}
-
-// ผูก resize ให้คงกลางเสมอ
-window.addEventListener('resize', () => {
-    centerConanTableToViewport();
-});
 
 /* ===== Season selector (Conan) ===== */
 const SEASONS = [
@@ -254,7 +225,6 @@ document.addEventListener('DOMContentLoaded', function () {
         menuToggle.setAttribute('aria-expanded', String(isOpen));
         menuToggle.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Toggle navigation');
     }
-
     function toggleMenu() {
         if (!sideMenu || !menuToggle || !overlay) return;
         var isOpen = sideMenu.classList.toggle('open');
@@ -262,12 +232,9 @@ document.addEventListener('DOMContentLoaded', function () {
         updateMenuIcon(isOpen);
         sideMenu.setAttribute('aria-hidden', String(!isOpen));
     }
-
     if (menuToggle) menuToggle.addEventListener('click', toggleMenu);
     if (closeMenu)  closeMenu.addEventListener('click', toggleMenu);
     if (overlay)    overlay.addEventListener('click', toggleMenu);
-
-    // Ensure correct icon on load
     updateMenuIcon(false);
 
     // Theme
@@ -288,8 +255,5 @@ document.addEventListener('DOMContentLoaded', function () {
             sheetSection.getAttribute('data-sheet-id'),
             sheetSection.getAttribute('data-gid') || '0'
         );
-    } else {
-        // เผื่อกรณีอยู่หน้า Conan แต่ยังไม่ได้ render table (หายาก)
-        centerConanTableToViewport();
     }
 });
