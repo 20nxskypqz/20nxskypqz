@@ -8,35 +8,21 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="light-mode">
-    <div class="header">
-        <div class="menu-toggle">&#9776;</div>
-        <div class="toggle-container" onclick="toggleMode()">
+    <header class="header">
+        <div class="toggle-container" id="mode-toggle" aria-label="Toggle light and dark mode">
             <div class="toggle-circle light">☀️</div>
         </div>
-    </div>
-    <div class="content">
-        <!-- Welcome Section -->
+    </header>
+    <main class="content">
         <h1>Welcome to 20nxskypqz!</h1>
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/I2uS5IhzVCg?si=89MB3GX2VKspUdpV" frameborder="0" allowfullscreen></iframe>
-        </div>
-
-        <!-- Section for Time and Countdown -->
-        <div class="time-and-countdown">
-            <div class="time-container">
-                <h2>Current Date and Time in Thailand</h2>
-                <p id="date-display" class="date-display"></p>
-                <p id="time-display" class="time-display"></p>
-            </div>
-            <div class="countdown">
-                <h2>Countdown to New Year 2026</h2>
-                <p id="countdown-display">Loading...</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="footer">&copy; 2025 20nxskypqz</div>
-
+        <nav>
+            <ul class="home-links">
+                <li><a href="Home/">Home</a></li>
+                <li><a href="DetectiveConan/">DetectiveConan</a></li>
+            </ul>
+        </nav>
+    </main>
+    <footer class="footer">&copy; 2025 20nxskypqz</footer>
     <script src="script.js"></script>
 </body>
 </html>
