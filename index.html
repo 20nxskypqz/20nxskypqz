@@ -9,18 +9,35 @@
 </head>
 <body class="light-mode">
     <header class="header">
+        <button class="menu-toggle" aria-label="Toggle navigation" type="button" aria-expanded="false">&#9776;</button>
         <div class="toggle-container" id="mode-toggle" aria-label="Toggle light and dark mode">
             <div class="toggle-circle light">☀️</div>
         </div>
     </header>
+    <nav class="side-menu" aria-label="Main navigation" aria-hidden="true">
+        <button class="close-menu" aria-label="Close navigation" type="button">&times;</button>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="DetectiveConan/">DetectiveConan</a></li>
+        </ul>
+    </nav>
+    <div class="menu-overlay"></div>
     <main class="content">
         <h1>Welcome to 20nxskypqz!</h1>
-        <nav>
-            <ul class="home-links">
-                <li><a href="Home/">Home</a></li>
-                <li><a href="DetectiveConan/">DetectiveConan</a></li>
-            </ul>
-        </nav>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/I2uS5IhzVCg?si=89MB3GX2VKspUdpV" frameborder="0" allowfullscreen title="Intro video"></iframe>
+        </div>
+        <section class="time-and-countdown">
+            <div class="time-container">
+                <h2>Current Date and Time in Thailand</h2>
+                <p id="date-display" class="date-display"></p>
+                <p id="time-display" class="time-display"></p>
+            </div>
+            <div class="countdown">
+                <h2>Countdown to New Year 2026</h2>
+                <p id="countdown-display">Loading...</p>
+            </div>
+        </section>
     </main>
     <footer class="footer">&copy; 2025 20nxskypqz</footer>
     <script src="script.js"></script>
