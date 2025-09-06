@@ -34,7 +34,6 @@ body {
 }
 
 body.dark-mode {
-    /* โหมดกลางคืน (ชุดเดิม) */
     --bg-color: #0b0d0f;
     --text-color: #e8eaed;
     --panel-bg: #111315;
@@ -138,19 +137,19 @@ p  { font-size: 16px; margin: 5px 0; }
 }
 /* Welcome: ใหญ่เท่าหน้า Home และอยู่กลาง */
 .root-page h1 {
-    font-size: 32px;       /* = หน้า Home */
+    font-size: 32px;
     width: 100%;
-    text-align: center;    /* อยู่กลาง */
+    text-align: center;
     margin: 0 0 12px 0;
 }
-/* ลิงก์ Home / DetectiveConan: ต้องเล็กกว่า Welcome และเปลี่ยนสีตามโหมด */
+/* ลิงก์ Home / DetectiveConan: เล็กกว่า Welcome และเปลี่ยนสีตามโหมด */
 .root-page .home-links { list-style: none; padding: 0; margin: 24px 0 0; }
 .root-page .home-links li { margin: 12px 0; }
 .root-page .home-links a {
-    font-size: 1.8rem;           /* เล็กกว่า 32px */
+    font-size: 1.8rem;
     font-weight: 800;
     text-decoration: none;
-    color: var(--text-color);    /* เปลี่ยนสีตามโหมด */
+    color: var(--text-color);
     display: inline-block;
 }
 .root-page .home-links a:hover, .root-page .home-links a:focus { text-decoration: underline; outline: none; }
@@ -164,72 +163,70 @@ p  { font-size: 16px; margin: 5px 0; }
     width: 500vw; height: 100%; background: inherit; z-index: -1;
 }
 
-/* ชื่อเรื่องให้อยู่ “กึ่งกลาง” แน่นอน */
-.conan-page .page-title-ja,
-.conan-page .page-title-en { width: 100%; text-align: center; }
-.conan-page .page-title-ja { margin-top: 16px; }
-.conan-page .page-title-en { margin-top: 2px; }
-.conan-page .title-spacer  { height: 10px; }
+/* ชื่อเรื่องให้อยู่ “กึ่งกลาง” แน่นอน (ขยับทั้งกลุ่มด้วย JS) */
+.conan-page .title-group{
+  display:inline-block;
+  transform:translateX(0);
+  will-change:transform;
+  margin-top:16px;
+  text-align:center;
+}
+.conan-page .page-title-ja{margin:0;}
+.conan-page .page-title-en{margin:2px 0 0 0;}
+.conan-page .title-spacer{height:10px;}
 
-/* SS selector — ชิดซ้าย และลงมาอีกนิด */
-.conan-page .season-picker {
-    position: relative; width: 100%; max-width: 1200px;
-    display: flex; justify-content: flex-start;
-    margin-top: 24px; margin-bottom: 12px; align-self: stretch;
+/* SS selector — อยู่ซ้าย, เดี๋ยว JS จะจับให้ชิดซ้ายตาราง */
+.conan-page .season-picker{
+  position:relative;
+  width:100%;
+  max-width:1200px;
+  display:flex;
+  justify-content:flex-start;
+  margin-top:24px;margin-bottom:12px;
+  align-self:stretch;
+  transform:translateX(0);
+  will-change:transform;
 }
-.conan-page .season-button {
-    appearance: none; border: 2px solid var(--panel-border);
-    background: var(--panel-bg); color: var(--panel-text);
-    padding: 10px 14px; border-radius: 12px; box-shadow: var(--panel-shadow);
-    font-weight: 700; display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+.conan-page .season-button{
+  appearance:none;border:2px solid var(--panel-border);
+  background:var(--panel-bg);color:var(--panel-text);
+  padding:10px 14px;border-radius:12px;box-shadow:var(--panel-shadow);
+  font-weight:700;display:inline-flex;align-items:center;gap:8px;cursor:pointer;
 }
-.conan-page .season-menu {
-    position: absolute; top: 100%; left: 0; margin-top: 8px;
-    background: var(--panel-bg); color: var(--panel-text);
-    border: 2px solid var(--panel-border); border-radius: 12px; box-shadow: var(--panel-shadow);
-    list-style: none; padding: 6px 0; min-width: 220px; z-index: 1200;
+.conan-page .season-menu{
+  position:absolute;top:100%;left:0;margin-top:8px;
+  background:var(--panel-bg);color:var(--panel-text);
+  border:2px solid var(--panel-border);border-radius:12px;box-shadow:var(--panel-shadow);
+  list-style:none;padding:6px 0;min-width:220px;z-index:1200;
 }
 
 /* คอนเทนต์ Conan */
-.conan-page .content { max-width: 1200px; padding-bottom: 100px; align-items: center; }
-.conan-page .footer { position: fixed; left: 0; right: 0; bottom: 0; padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
+.conan-page .content{max-width:1200px;padding-bottom:100px;align-items:center;}
+.conan-page .footer{position:fixed;left:0;right:0;bottom:0;padding-bottom:calc(10px + env(safe-area-inset-bottom));}
 
-/* ตาราง: ให้ JS จัดกลางด้วย transform (พร้อมค่าเริ่มต้นกลาง) */
-.conan-page .table-wrapper { width: 100%; max-width: 1200px; margin: 0 auto 12px auto; }
-.conan-page .conan-table {
-    width: auto; max-width: 1000px;
-    margin-left: auto; margin-right: auto;
-    transform: translateX(0);             /* JS จะอัปเดตค่านี้ */
-    will-change: transform;
-    border-collapse: separate; border-spacing: 0;
-    border: 1px solid var(--panel-border); border-radius: 14px; overflow: hidden;
-    background: var(--panel-bg); color: var(--panel-text); box-shadow: var(--panel-shadow);
-    table-layout: auto;
+/* ตาราง: ใช้ JS จัดกลางด้วย transform */
+.conan-page .table-wrapper{width:100%;max-width:1200px;margin:0 auto 12px auto;}
+.conan-page .conan-table{
+  width:auto;max-width:1000px;
+  margin-left:auto;margin-right:auto;
+  transform:translateX(0);will-change:transform;
+  border-collapse:separate;border-spacing:0;border:1px solid var(--panel-border);
+  border-radius:14px;overflow:hidden;background:var(--panel-bg);color:var(--panel-text);box-shadow:var(--panel-shadow);table-layout:auto;
 }
 
 /* หัวตารางสีน้ำเงินไล่สี */
-.conan-page .conan-table thead { background: linear-gradient(to right, var(--conan-blue-1), var(--conan-blue-2)); }
-.conan-page .conan-table thead th {
-    padding: 12px 10px; text-align: left; color: #fff;
-    background: transparent; border-right: 1px solid rgba(255,255,255,0.25);
-    font-weight: 700; vertical-align: middle;
-}
-.conan-page .conan-table thead th:last-child { border-right: none; }
-.conan-page .conan-table thead .subhead { font-weight: 700; text-align: center; }
+.conan-page .conan-table thead{background:linear-gradient(to right,var(--conan-blue-1),var(--conan-blue-2));}
+.conan-page .conan-table thead th{padding:12px 10px;text-align:left;color:#fff;background:transparent;border-right:1px solid rgba(255,255,255,0.25);font-weight:700;vertical-align:middle;}
+.conan-page .conan-table thead th:last-child{border-right:none;}
+.conan-page .conan-table thead .subhead{font-weight:700;text-align:center;}
 
 /* Cells */
-.conan-page .conan-table tbody td {
-    padding: 10px; border-top: 1px solid var(--panel-border); border-right: 1px solid var(--panel-border);
-    vertical-align: top; white-space: normal; overflow-wrap: anywhere; word-break: break-word;
-}
-.conan-page .conan-table tbody td:last-child { border-right: none; }
-.conan-page .conan-table tbody tr:nth-child(odd) { background: rgba(0,0,0,0.03); }
-.dark-mode.conan-page .conan-table tbody tr:nth-child(odd) { background: rgba(255,255,255,0.03); }
+.conan-page .conan-table tbody td{padding:10px;border-top:1px solid var(--panel-border);border-right:1px solid var(--panel-border);vertical-align:top;white-space:normal;overflow-wrap:anywhere;word-break:break-word;}
+.conan-page .conan-table tbody td:last-child{border-right:none;}
+.conan-page .conan-table tbody tr:nth-child(odd){background:rgba(0,0,0,0.03);}
+.dark-mode.conan-page .conan-table tbody tr:nth-child(odd){background:rgba(255,255,255,0.03);}
 
-.conan-page .th-epno { text-align: center; }
-.conan-page .chk { display: inline-block; width: 18px; height: 18px; border-radius: 6px; border: 2px solid var(--panel-border); vertical-align: middle; }
-.conan-page .chk--on { background: linear-gradient(135deg, #16a34a, #22c55e); border-color: #16a34a; position: relative; }
-.conan-page .chk--on::after { content: '✓'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -58%); font-size: 14px; font-weight: 700; color: #fff; }
-
-/* Icon spacing */
-.home-links a i, .side-menu a i { margin-right: 8px; vertical-align: -2px; }
+.conan-page .th-epno{text-align:center;}
+.conan-page .chk{display:inline-block;width:18px;height:18px;border-radius:6px;border:2px solid var(--panel-border);vertical-align:middle;}
+.conan-page .chk--on{background:linear-gradient(135deg,#16a34a,#22c55e);border-color:#16a34a;position:relative;}
+.conan-page .chk--on::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-58%);font-size:14px;font-weight:700;color:#fff;}
