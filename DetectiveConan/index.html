@@ -9,12 +9,13 @@
 </head>
 <body class="light-mode">
     <header class="header">
-        <button class="menu-toggle" aria-label="Toggle navigation" type="button">&#9776;</button>
+        <button class="menu-toggle" aria-label="Toggle navigation" type="button" aria-expanded="false">&#9776;</button>
         <div class="toggle-container" id="mode-toggle" aria-label="Toggle light and dark mode">
             <div class="toggle-circle light">☀️</div>
         </div>
     </header>
-    <nav class="side-menu" aria-label="Main navigation">
+
+    <nav class="side-menu" aria-label="Main navigation" aria-hidden="true">
         <button class="close-menu" aria-label="Close navigation" type="button">&times;</button>
         <ul>
             <li><a href="../Home/">Home</a></li>
@@ -22,10 +23,12 @@
         </ul>
     </nav>
     <div class="menu-overlay"></div>
+
     <main class="content">
         <h1>Detective Conan</h1>
         <p>This page is dedicated to Detective Conan content.</p>
     </main>
+
     <footer class="footer">&copy; 2025 20nxskypqz</footer>
     <script src="../script.js"></script>
 </body>
