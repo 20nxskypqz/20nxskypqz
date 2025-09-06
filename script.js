@@ -43,7 +43,7 @@ function updateCountdown() {
     var hours = Math.floor((diff / 3600000) % 24);
     var minutes = Math.floor((diff / 60000) % 60);
     var seconds = Math.floor((diff / 1000) % 60);
-    el.textContent = days + ' days ' + hours + ' hours ' + minutes + ' minutes ' + ' ' + seconds + ' seconds';
+    el.textContent = days + ' days ' + hours + ' hours ' + minutes + ' minutes ' + seconds + ' seconds';
   } catch(e) {}
 }
 function initializeUpdates() {
@@ -179,7 +179,7 @@ function renderConanTableFromSheet(sheetId, gid) {
     }
 
     var map = buildColumnMap(headers);
-    if (!dataRows.length) { tbody.innerHTML = '<tr><td colspan="11">No data.</td></tr>'; alignSeasonPickerToTable(); return; }
+    if (!dataRows.length) { tbody.innerHTML = '<tr><td colspan="11">No data.</td></tr>'; finalizeLayout(); return; }
 
     var MAX_ROWS = 42;
     var rows = dataRows.slice(0, MAX_ROWS);
@@ -214,29 +214,49 @@ function renderConanTableFromSheet(sheetId, gid) {
     tbody.innerHTML = '';
     tbody.appendChild(frag);
 
-    alignSeasonPickerToTable();   // SS ซ้ายชนซ้ายตาราง
+    finalizeLayout();  // จัดสกรอลล์กึ่งกลาง + จัด SS ให้ชิดซ้ายตาราง
   }).catch(function(err){
     tbody.innerHTML = '<tr><td colspan="11">Failed to load sheet. Please check sharing (Anyone with the link can view) or Publish to the web. (' + err.message + ')</td></tr>';
-    alignSeasonPickerToTable();
+    finalizeLayout();
   });
 }
 
-/* ===================== LAYOUT: จัด SS ให้ชิดซ้ายขอบตาราง ===================== */
+/* ===================== LAYOUT HELPERS ===================== */
+function centerTableScroll(){
+  var wrapper = document.querySelector('.conan-page .table-wrapper');
+  var table   = document.querySelector('.conan-page .conan-table');
+  if (!wrapper || !table) return;
+
+  // ถ้าตารางกว้างกว่า viewport ให้ตั้ง scrollLeft ให้อยู่กึ่งกลางตาราง
+  var total = table.scrollWidth;
+  var box   = wrapper.clientWidth;
+  if (total > box) {
+    var target = Math.max(0, Math.round((total - box) / 2));
+    wrapper.scrollLeft = target;
+  } else {
+    wrapper.scrollLeft = 0;
+  }
+}
+
 function alignSeasonPickerToTable(){
   try {
-    var picker = document.getElementById('season-picker');
-    var table  = document.querySelector('.conan-page .conan-table');
+    var picker  = document.getElementById('season-picker');
+    var table   = document.querySelector('.conan-page .conan-table');
     if (!picker || !table) return;
 
-    picker.style.transform = 'none';  // รีเซ็ต
+    picker.style.transform = 'none';  // reset
 
     var pRect = picker.getBoundingClientRect();
     var tRect = table.getBoundingClientRect();
     var delta = Math.round(tRect.left - pRect.left);
 
-    // ขยับแต่ตัว picker (ไม่ยุ่งตาราง)
     picker.style.transform = 'translateX(' + delta + 'px)';
   } catch(e) {}
+}
+
+function finalizeLayout(){
+  centerTableScroll();
+  alignSeasonPickerToTable();
 }
 
 /* ===================== SEASON SELECTOR ===================== */
@@ -324,15 +344,21 @@ document.addEventListener('DOMContentLoaded', function () {
         sheetSection.getAttribute('data-gid') || '0'
       );
     } else {
-      alignSeasonPickerToTable();
+      finalizeLayout();
     }
 
     // จัดตำแหน่งอีกครั้งหลังฟอนต์โหลด
-    try { if (document.fonts && document.fonts.ready && typeof document.fonts.ready.then==='function') { document.fonts.ready.then(alignSeasonPickerToTable); } } catch(e){}
+    try { if (document.fonts && document.fonts.ready && typeof document.fonts.ready.then==='function') { document.fonts.ready.then(finalizeLayout); } } catch(e){}
+
+    // จัดตำแหน่งตามการสกรอลล์ของตัวห่อ
+    var wrapper = document.querySelector('.conan-page .table-wrapper');
+    if (wrapper) {
+      wrapper.addEventListener('scroll', alignSeasonPickerToTable, { passive: true });
+    }
   } catch(e) {}
 });
 
 // อัปเดตเมื่อเปลี่ยนขนาดหน้าต่าง/หมุนจอ/โหลดครบ
-window.addEventListener('resize', alignSeasonPickerToTable);
-window.addEventListener('orientationchange', alignSeasonPickerToTable);
-window.addEventListener('load', alignSeasonPickerToTable);
+window.addEventListener('resize', finalizeLayout);
+window.addEventListener('orientationchange', finalizeLayout);
+window.addEventListener('load', finalizeLayout);
