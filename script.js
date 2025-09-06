@@ -51,7 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const isOpen = sideMenu.classList.toggle('open');
         if (menuToggle) {
             menuToggle.textContent = isOpen ? '×' : '☰';
+            menuToggle.setAttribute('aria-expanded', isOpen);
         }
+        sideMenu.setAttribute('aria-hidden', !isOpen);
         if (overlay) {
             overlay.classList.toggle('visible', isOpen);
         }
