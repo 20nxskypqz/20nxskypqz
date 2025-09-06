@@ -16,9 +16,12 @@
 </head>
 <body class="light-mode conan-page">
     <header class="header">
-        <button class="menu-toggle" aria-label="Toggle navigation" type="button" aria-expanded="false">&#9776;</button>
-        <div class="toggle-container" id="mode-toggle" aria-label="Toggle light and dark mode">
-            <div class="toggle-circle light">☀️</div>
+        <!-- ซ้าย: เมนู 3 ขีด + ปุ่มโหมด (ย้ายมาติดกันทางซ้ายตามที่สั่ง) -->
+        <div class="header-left">
+            <button class="menu-toggle" aria-label="Toggle navigation" type="button" aria-expanded="false">&#9776;</button>
+            <div class="toggle-container" id="mode-toggle" aria-label="Toggle light and dark mode">
+                <div class="toggle-circle light">☀️</div>
+            </div>
         </div>
     </header>
 
@@ -32,12 +35,12 @@
     <div class="menu-overlay"></div>
 
     <main class="content">
-        <!-- Title on two lines -->
+        <!-- กลางหน้า -->
         <h1 class="page-title-ja">名探偵コナン</h1>
         <h1 class="page-title-en">Detective Conan</h1>
         <div class="title-spacer"></div>
 
-        <!-- Season selector -->
+        <!-- Season selector: เอาไว้ “ซ้าย” ตามที่สั่ง -->
         <div class="season-picker" id="season-picker">
             <button class="season-button" type="button" aria-haspopup="listbox" aria-expanded="false">
                 <span class="season-label">Detective Conan SS.1</span>
