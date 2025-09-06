@@ -175,7 +175,7 @@ p  { font-size: 16px; margin: 5px 0; }
 .conan-page .page-title-en{margin:2px 0 0 0;}
 .conan-page .title-spacer{height:10px;}
 
-/* SS selector — อยู่ซ้ายสุดของขอบตาราง และเมนูลอยทับทุกอย่าง */
+/* SS selector — ซ้ายสุดของขอบตาราง และไม่ทับเมนู 3 ขีด */
 .conan-page .season-picker{
   position:relative;
   width:100%;
@@ -186,7 +186,7 @@ p  { font-size: 16px; margin: 5px 0; }
   align-self:stretch;
   transform:translateX(0);
   will-change:transform;
-  z-index: 3000;                 /* ← อยู่เหนือ table */
+  z-index: 800;   /* ต่ำกว่า overlay(900) และ side-menu(1000) */
 }
 .conan-page .season-button{
   appearance:none;border:2px solid var(--panel-border);
@@ -194,35 +194,35 @@ p  { font-size: 16px; margin: 5px 0; }
   padding:10px 14px;border-radius:12px;box-shadow:var(--panel-shadow);
   font-weight:700;display:inline-flex;align-items:center;gap:8px;cursor:pointer;
   position: relative;
-  z-index: 3001;                 /* ปุ่มเหนือหัวตาราง */
+  z-index: 801;
 }
 .conan-page .season-menu{
   position:absolute;top:100%;left:0;margin-top:8px;
   background:var(--panel-bg);color:var(--panel-text);
   border:2px solid var(--panel-border);border-radius:12px;box-shadow:var(--panel-shadow);
   list-style:none;padding:6px 0;min-width:220px;
-  z-index: 4000;                 /* ← เมนูเหนือสุด */
+  z-index: 850;
 }
 
 /* คอนเทนต์ Conan */
 .conan-page .content{max-width:1200px;padding-bottom:100px;align-items:center;}
 .conan-page .footer{position:fixed;left:0;right:0;bottom:0;padding-bottom:calc(10px + env(safe-area-inset-bottom));}
 
-/* ตาราง: ใช้ CSS จัดกึ่งกลาง (นิ่งกว่า transform) */
+/* ตาราง: ใช้ CSS + JS จัดกึ่งกลาง */
 .conan-page .table-wrapper{
   width:100%;
   max-width:1200px;
   margin:0 auto 12px auto;
   position: relative;
   z-index: 1;
-  display: grid;                /* ← จัดกึ่งกลางลูก */
-  justify-items: center;        /* ← center table แนวนอนเสมอ */
+  display: grid;
+  justify-items: center;
 }
 .conan-page .conan-table{
   width:auto;
   max-width:1000px;
-  margin: 0 auto;               /* ← ให้กลางด้วย margin auto */
-  transform:none !important;    /* ← กันค่า transform เก่ามีผล */
+  margin: 0 auto;
+  /* อนุญาตให้ JS ใช้ transform ปรับกึ่งกลางได้ */
   border-collapse:separate;border-spacing:0;border:1px solid var(--panel-border);
   border-radius:14px;overflow:hidden;background:var(--panel-bg);color:var(--panel-text);box-shadow:var(--panel-shadow);table-layout:auto;
 }
