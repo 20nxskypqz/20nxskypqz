@@ -286,3 +286,34 @@ p {
         padding-left: 40px;
     }
 }
+
+/* ============================
+   Root homepage link list
+   - Left align and larger text
+   (affects only the root page since only it uses .home-links)
+   ============================ */
+.home-links {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0 0;
+    text-align: left;        /* override .content center */
+    align-self: stretch;     /* allow links to align left within .content */
+}
+
+.home-links li {
+    margin: 12px 0;
+}
+
+.home-links a {
+    font-size: 1.6rem;       /* bigger text as requested */
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--text-color);
+    display: inline-block;
+}
+
+.home-links a:hover,
+.home-links a:focus {
+    text-decoration: underline;
+    outline: none;
+}
