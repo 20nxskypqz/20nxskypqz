@@ -8,7 +8,6 @@ function applyIconTheme(isDark) {
     const icon = document.getElementById('mode-icon');
     if (icon) icon.className = isDark ? 'fi fi-sr-moon' : 'fi fi-sc-sun';
 }
-
 function toggleMode() {
     const isDark = document.body.classList.toggle('dark-mode');
     document.body.classList.toggle('light-mode', !isDark);
@@ -29,7 +28,6 @@ function updateTime() {
     dateEl.textContent = `Date: ${now.toLocaleDateString('en-GB')}`;
     timeEl.textContent = `Time: ${now.toLocaleTimeString('en-GB')}`;
 }
-
 function updateCountdown() {
     const el = document.getElementById('countdown-display');
     if (!el) return;
@@ -43,7 +41,6 @@ function updateCountdown() {
     const seconds = Math.floor((diff / 1000) % 60);
     el.textContent = `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
 }
-
 function initializeUpdates() {
     updateTime();
     updateCountdown();
@@ -64,13 +61,8 @@ function gvizFetch(sheetId, gid, tq) {
         return JSON.parse(txt.slice(s, e + 1));
     });
 }
-function rowToArray(row) {
-    return (row.c || []).map(c => (c ? (c.f != null ? String(c.f) : (c.v == null ? '' : String(c.v))) : ''));
-}
-function tableToArrays(json) {
-    const rows = json?.table?.rows || [];
-    return rows.map(rowToArray);
-}
+function rowToArray(row) { return (row.c || []).map(c => (c ? (c.f != null ? String(c.f) : (c.v == null ? '' : String(c.v))) : '')); }
+function tableToArrays(json) { const rows = json?.table?.rows || []; return rows.map(rowToArray); }
 const COLUMN_ALIASES = {
     epNoTH: ['Episode No TH','Episode No. (TH)','ตอนที่ (ไทย)','ตอนที่ไทย','EP TH','Ep TH','EP(TH)'],
     epNoJP: ['Episode No JP','Episode No. (JP)','ตอนที่ (ญี่ปุ่น)','ตอนที่ญี่ปุ่น','EP JP','Ep JP','EP(JP)'],
@@ -161,18 +153,46 @@ function renderConanTableFromSheet(sheetId, gid) {
         tbody.innerHTML = '';
         tbody.appendChild(frag);
 
-        /* ลบสไตล์ที่อาจถูกตั้งจากครั้งก่อน เพื่อให้ตารางกลางด้วย CSS */
-        const table = document.querySelector('.conan-page .conan-table');
-        if (table) { table.style.marginLeft = 'auto'; table.style.marginRight = 'auto'; }
+        // จัดตารางให้อยู่ "กึ่งกลางพอดี" ด้วย JS
+        centerConanTableToViewport();
     }).catch(err => {
         tbody.innerHTML = '<tr><td colspan="11">Failed to load sheet. Please check sharing (Anyone with the link can view) or Publish to the web. (' + err.message + ')</td></tr>';
     });
 }
 
+/* ===== Center Conan table with JS =====
+   วิธี: วัดตำแหน่ง wrapper และความกว้างของ table -> คำนวณ margin-left
+   ให้ 'กึ่งกลางของตาราง' ทับ 'กึ่งกลาง viewport' (ตำแหน่งเดียวกับ footer)
+*/
+function centerConanTableToViewport() {
+    if (!document.body.classList.contains('conan-page')) return;
+
+    const wrapper = document.querySelector('.conan-page .table-wrapper');
+    const table   = document.querySelector('.conan-page .conan-table');
+    if (!wrapper || !table) return;
+
+    // default
+    table.style.marginRight = 'auto';
+
+    const viewportCenter = (window.visualViewport ? window.visualViewport.width : document.documentElement.clientWidth) / 2;
+    const wrapRect   = wrapper.getBoundingClientRect();
+    const tableWidth = table.offsetWidth;
+
+    // อยาก "ขยับออกมาอีก" สามารถปรับ OFFSET ได้ (ค่าบวก = ขยับไปทางขวาเล็กน้อย)
+    const OFFSET = 0; // px — ถ้าอยากให้เยื้องขวาอีกนิด เปลี่ยนเป็นเช่น 8 หรือ 12 ได้
+
+    const desiredLeftInViewport = viewportCenter - (tableWidth / 2) + OFFSET;
+    const marginLeft = desiredLeftInViewport - wrapRect.left;
+
+    table.style.marginLeft = `${marginLeft}px`;
+}
+
+// อัปเดตเมื่อเปลี่ยนขนาด/หมุนจอ
+window.addEventListener('resize', centerConanTableToViewport);
+window.addEventListener('orientationchange', centerConanTableToViewport);
+
 /* ===== Season selector (Conan) ===== */
-const SEASONS = [
-    { label: 'Detective Conan SS.1', gid: '0' }
-];
+const SEASONS = [ { label: 'Detective Conan SS.1', gid: '0' } ];
 function setupSeasonPicker(sheetSection) {
     const picker = document.getElementById('season-picker');
     if (!picker || !sheetSection) return;
@@ -211,7 +231,7 @@ function setupSeasonPicker(sheetSection) {
 
 /* ===== Init ===== */
 document.addEventListener('DOMContentLoaded', function () {
-    // Menu (only on pages that have it)
+    // Menu
     var menuToggle = document.querySelector('.menu-toggle');
     var sideMenu   = document.querySelector('.side-menu');
     var closeMenu  = document.querySelector('.close-menu');
@@ -240,8 +260,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Theme
     var modeToggle = document.getElementById('mode-toggle');
     if (modeToggle) modeToggle.addEventListener('click', toggleMode);
-
-    // Apply correct icon set on load
     applyIconTheme(document.body.classList.contains('dark-mode'));
 
     // Home timers
@@ -255,5 +273,8 @@ document.addEventListener('DOMContentLoaded', function () {
             sheetSection.getAttribute('data-sheet-id'),
             sheetSection.getAttribute('data-gid') || '0'
         );
+    } else {
+        // ถ้าอยู่หน้า Conan แต่ยังไม่มีตาราง (กรณีพิเศษ)
+        centerConanTableToViewport();
     }
 });
