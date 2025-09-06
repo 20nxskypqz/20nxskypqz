@@ -9,12 +9,12 @@
 </head>
 <body class="light-mode">
     <header class="header">
-        <button class="menu-toggle" aria-label="Toggle navigation" type="button">&#9776;</button>
+        <button class="menu-toggle" aria-label="Toggle navigation" type="button" aria-expanded="false">&#9776;</button>
         <div class="toggle-container" id="mode-toggle" aria-label="Toggle light and dark mode">
             <div class="toggle-circle light">☀️</div>
         </div>
     </header>
-    <nav class="side-menu" aria-label="Main navigation">
+    <nav class="side-menu" aria-label="Main navigation" aria-hidden="true">
         <button class="close-menu" aria-label="Close navigation" type="button">&times;</button>
         <ul>
             <li><a href="index.html">Home</a></li>
