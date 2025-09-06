@@ -13,14 +13,51 @@ function initializeUpdates(){updateTime();updateCountdown();setInterval(updateTi
 function gvizFetch(sheetId,gid,tq){const url='https://docs.google.com/spreadsheets/d/'+encodeURIComponent(sheetId)+'/gviz/tq?gid='+encodeURIComponent(gid||'0')+(tq?'&tq='+encodeURIComponent(tq):'');return fetch(url).then(r=>r.text()).then(txt=>{const s=txt.indexOf('{');const e=txt.lastIndexOf('}');if(s===-1||e===-1)throw new Error('Unexpected response format');return JSON.parse(txt.slice(s,e+1));});}
 function rowToArray(row){return (row.c||[]).map(c=>(c?(c.f!=null?String(c.f):(c.v==null?'':String(c.v))):''));}
 function tableToArrays(json){const rows=json?.table?.rows||[];return rows.map(rowToArray);}
-function extractHeaders(json){return (json?.table?.cols||[]).map(c=>(c&&c.label?String(c.label):''));}
+function extractHeadersFromCols(json){return (json?.table?.cols||[]).map(c=>(c&&c.label?String(c.label):''));}
 
-const COLUMN_ALIASES={epNoTH:['Episode No TH','Episode No. (TH)','ตอนที่ (ไทย)','ตอนที่ไทย','EP TH','Ep TH','EP(TH)'],epNoJP:['Episode No JP','Episode No. (JP)','ตอนที่ (ญี่ปุ่น)','ตอนที่ญี่ปุ่น','EP JP','Ep JP','EP(JP)'],title:['Episode Title','ชื่อตอน','Title'],airDate:['Air Date','วันออกอากาศ','Broadcast Date','On Air','On-Air Date'],episodeType:['Episode Type','ประเภทตอน'],caseType:['Case Type','ประเภทคดี'],keyCharacters:['Key Characters','ตัวละคร','Characters'],trivia:['Trivia','เกร็ดความรู้'],caseSummary:['Case Summary','สรุปคดี','Summary'],mainPlot:['Main Plot Related','เนื้อเรื่องหลัก','Main Plot'],checklist:['Checklist','เช็คลิสต์','Check']};
+const COLUMN_ALIASES={
+  epNoTH:['Episode No TH','Episode No. (TH)','ตอนที่ (ไทย)','ตอนที่ไทย','EP TH','Ep TH','EP(TH)'],
+  epNoJP:['Episode No JP','Episode No. (JP)','ตอนที่ (ญี่ปุ่น)','ตอนที่ญี่ปุ่น','EP JP','Ep JP','EP(JP)'],
+  title:['Episode Title','ชื่อตอน','Title'],
+  airDate:['Air Date','วันออกอากาศ','Broadcast Date','On Air','On-Air Date'],
+  episodeType:['Episode Type','ประเภทตอน'],
+  caseType:['Case Type','ประเภทคดี'],
+  keyCharacters:['Key Characters','ตัวละคร','Characters'],
+  trivia:['Trivia','เกร็ดความรู้'],
+  caseSummary:['Case Summary','สรุปคดี','Summary'],
+  mainPlot:['Main Plot Related','เนื้อเรื่องหลัก','Main Plot'],
+  checklist:['Checklist','เช็คลิสต์','Check']
+};
+const ALL_ALIAS_SET=new Set(Object.values(COLUMN_ALIASES).flat().map(s=>s.trim().toLowerCase()));
+
 function normalizeHeader(h){return String(h||'').trim().toLowerCase();}
 function findIndexByAliases(headers,aliases){const norm=headers.map(normalizeHeader);for(const a of aliases){const idx=norm.indexOf(a.trim().toLowerCase());if(idx!==-1)return idx;}return -1;}
-function buildColumnMap(headers){return{epNoTH:findIndexByAliases(headers,COLUMN_ALIASES.epNoTH),epNoJP:findIndexByAliases(headers,COLUMN_ALIASES.epNoJP),title:findIndexByAliases(headers,COLUMN_ALIASES.title),airDate:findIndexByAliases(headers,COLUMN_ALIASES.airDate),episodeType:findIndexByAliases(headers,COLUMN_ALIASES.episodeType),caseType:findIndexByAliases(headers,COLUMN_ALIASES.caseType),keyCharacters:findIndexByAliases(headers,COLUMN_ALIASES.keyCharacters),trivia:findIndexByAliases(headers,COLUMN_ALIASES.trivia),caseSummary:findIndexByAliases(headers,COLUMN_ALIASES.caseSummary),mainPlot:findIndexByAliases(headers,COLUMN_ALIASES.mainPlot),checklist:findIndexByAliases(headers,COLUMN_ALIASES.checklist)};}
+function buildColumnMap(headers){return{
+  epNoTH:findIndexByAliases(headers,COLUMN_ALIASES.epNoTH),
+  epNoJP:findIndexByAliases(headers,COLUMN_ALIASES.epNoJP),
+  title:findIndexByAliases(headers,COLUMN_ALIASES.title),
+  airDate:findIndexByAliases(headers,COLUMN_ALIASES.airDate),
+  episodeType:findIndexByAliases(headers,COLUMN_ALIASES.episodeType),
+  caseType:findIndexByAliases(headers,COLUMN_ALIASES.caseType),
+  keyCharacters:findIndexByAliases(headers,COLUMN_ALIASES.keyCharacters),
+  trivia:findIndexByAliases(headers,COLUMN_ALIASES.trivia),
+  caseSummary:findIndexByAliases(headers,COLUMN_ALIASES.caseSummary),
+  mainPlot:findIndexByAliases(headers,COLUMN_ALIASES.mainPlot),
+  checklist:findIndexByAliases(headers,COLUMN_ALIASES.checklist)
+};}
 function getCell(arr,idx){return idx===-1?'':(arr[idx]||'');}
 function isChecked(val){const s=String(val||'').trim().toLowerCase();return ['true','yes','y','1','✓','✔','check','checked'].includes(s);}
+
+/* ===== Detect header row (สำหรับเคสเริ่มที่ A5 เป็นต้นไป) ===== */
+function detectHeaderRowIndex(arrays,maxScan=10){
+  let bestIdx=-1, bestScore=-1;
+  for(let i=0;i<Math.min(arrays.length,maxScan);i++){
+    const row=arrays[i]||[];
+    const score=row.reduce((acc,cell)=>acc + (ALL_ALIAS_SET.has(String(cell||'').trim().toLowerCase())?1:0),0);
+    if(score>bestScore){bestScore=score;bestIdx=i;}
+  }
+  return (bestScore>=2 ? bestIdx : -1);  // ต้องเจออย่างน้อย 2 ช่องที่แมตช์ alias ถึงจะถือว่าเป็น header
+}
 
 /* ===== Render Conan table (42 rows) ===== */
 function renderConanTableFromSheet(sheetId,gid){
@@ -28,12 +65,34 @@ function renderConanTableFromSheet(sheetId,gid){
   tbody.innerHTML='<tr><td colspan="11">Loading…</td></tr>';
 
   gvizFetch(sheetId,gid,'select *').then(json=>{
-    const headers=extractHeaders(json);
-    const arrays=tableToArrays(json);
-    const map=buildColumnMap(headers);
-    if(!arrays.length){tbody.innerHTML='<tr><td colspan="11">No data.</td></tr>';centerConanLayout();return;}
+    const arrays=tableToArrays(json);              // แถวข้อมูลจริง (ไม่มีคอลัมน์ label)
+    const labels=extractHeadersFromCols(json);     // อาจว่างถ้าไม่มี header
+    let headers=[], dataRows=[];
 
-    const MAX_ROWS=42; const rows=arrays.slice(0,MAX_ROWS); while(rows.length<MAX_ROWS) rows.push([]);
+    // 1) ถ้า label จาก cols มีหัวคอลัมน์ >=3 ช่อง ใช้เลย
+    const nonEmptyLabels=labels.filter(x=>String(x).trim()!=='');
+    if(nonEmptyLabels.length>=3){
+      headers=labels;
+      dataRows=arrays;
+    }else{
+      // 2) ลองสแกนหา header row ภายในแถวบนๆ (เผื่อเริ่มที่ A5)
+      const idx=detectHeaderRowIndex(arrays,12);
+      if(idx!==-1){
+        headers=arrays[idx];
+        dataRows=arrays.slice(idx+1);
+      }else{
+        // 3) fallback: ใช้แถวแรกเป็น header
+        headers=arrays[0]||[];
+        dataRows=arrays.slice(1);
+      }
+    }
+
+    const map=buildColumnMap(headers);
+    if(!dataRows.length){tbody.innerHTML='<tr><td colspan="11">No data.</td></tr>';centerConanLayout();return;}
+
+    const MAX_ROWS=42;
+    const rows=dataRows.slice(0,MAX_ROWS);
+    while(rows.length<MAX_ROWS) rows.push([]);
 
     const frag=document.createDocumentFragment();
     rows.forEach(row=>{
@@ -61,8 +120,7 @@ function renderConanTableFromSheet(sheetId,gid){
     });
 
     tbody.innerHTML=''; tbody.appendChild(frag);
-
-    centerConanLayout();  // จัดกลาง + จัด SS
+    centerConanLayout();  // จัดกลาง + จัด SS ให้ชิดซ้ายของตาราง
   }).catch(err=>{
     tbody.innerHTML='<tr><td colspan="11">Failed to load sheet. Please check sharing (Anyone with the link can view) or Publish to the web. ('+err.message+')</td></tr>';
     centerConanLayout();
@@ -97,7 +155,7 @@ function centerConanLayout(){
   centerElementToViewport(titleGroup,0);
   centerElementToViewport(table,0);
 
-  // ให้ SS selector “ซ้ายสุดตรงกับซ้ายของตาราง”
+  // SS selector “ซ้ายสุดตรงกับซ้ายของตาราง”
   const picker=document.getElementById('season-picker');
   if (picker && table) alignLeftOfAtoLeftOfB(picker, table);
 }
@@ -169,5 +227,3 @@ document.addEventListener('DOMContentLoaded',function(){
     );
   }else{
     centerConanLayout();
-  }
-});
