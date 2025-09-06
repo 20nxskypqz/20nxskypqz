@@ -3,10 +3,10 @@ function toggleMode() {
     document.body.classList.toggle('light-mode', !isDark);
     const toggleCircle = document.querySelector('.toggle-circle');
     if (isDark) {
-        toggleCircle.innerHTML = '🌙';
+        toggleCircle.textContent = '🌙';
         toggleCircle.classList.remove('light');
     } else {
-        toggleCircle.innerHTML = '☀️';
+        toggleCircle.textContent = '☀️';
         toggleCircle.classList.add('light');
     }
 }
@@ -18,7 +18,6 @@ function updateTime() {
     const now = new Date();
     dateEl.textContent = `Date: ${now.toLocaleDateString('en-GB')}`;
     timeEl.textContent = `Time: ${now.toLocaleTimeString('en-GB')}`;
-    setTimeout(updateTime, 1000);
 }
 
 function updateCountdown() {
@@ -32,12 +31,13 @@ function updateCountdown() {
     const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
     countdownEl.textContent = `Days: ${days}, Hours: ${hours}, Minutes: ${minutes}, Seconds: ${seconds}`;
-    setTimeout(updateCountdown, 1000);
 }
 
 function initializeUpdates() {
     updateTime();
     updateCountdown();
+    setInterval(updateTime, 1000);
+    setInterval(updateCountdown, 1000);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleMenu = () => {
         const isOpen = sideMenu.classList.toggle('open');
         if (menuToggle) {
-            menuToggle.innerHTML = isOpen ? '&times;' : '&#9776;';
+            menuToggle.textContent = isOpen ? '×' : '☰';
         }
         if (overlay) {
             overlay.classList.toggle('visible', isOpen);
