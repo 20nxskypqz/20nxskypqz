@@ -14,6 +14,7 @@
             <div class="toggle-circle light">☀️</div>
         </div>
     </header>
+
     <nav class="side-menu" aria-label="Main navigation" aria-hidden="true">
         <button class="close-menu" aria-label="Close navigation" type="button">&times;</button>
         <ul>
@@ -22,17 +23,52 @@
         </ul>
     </nav>
     <div class="menu-overlay"></div>
-    <main class="content">
-        <h1>Detective Conan</h1>
-        <p>This page is dedicated to Detective Conan content.</p>
 
-        <!-- SECTION: Google Sheet text output -->
-        <!-- เปลี่ยน data-gid ได้ตามต้องการถ้าอยากดึงแผ่นอื่น -->
-        <section id="conan-sheet" data-sheet-id="1N4GEfiPqnAG8zZuBdpt0AnaD433YD3Qep7Mayop08qQ" data-gid="0">
-            <h2>Conan Sheet Data</h2>
-            <div id="conan-sheet-output">Loading...</div>
+    <main class="content">
+        <!-- Title -->
+        <h1 class="page-title">名探偵コナン Detective Conan</h1>
+
+        <!-- Season selector -->
+        <div class="season-picker" id="season-picker">
+            <button class="season-button" type="button" aria-haspopup="listbox" aria-expanded="false">
+                <span class="season-label">Detective Conan SS.1</span>
+                <i class="fi fi-sr-dropdown-select" aria-hidden="true"></i>
+            </button>
+            <ul class="season-menu" role="listbox" hidden></ul>
+        </div>
+
+        <!-- Table output -->
+        <section id="conan-sheet"
+                 data-sheet-id="1N4GEfiPqnAG8zZuBdpt0AnaD433YD3Qep7Mayop08qQ"
+                 data-gid="0">
+            <div class="table-wrapper">
+                <table class="conan-table" aria-label="Detective Conan Episodes">
+                    <thead>
+                        <tr>
+                            <th colspan="2" class="th-epno">Episode No. / ตอนที่</th>
+                            <th rowspan="2">Episode Title / ชื่อตอน</th>
+                            <th rowspan="2">Air Date / วันออกอากาศ</th>
+                            <th rowspan="2">Episode Type / ประเภทตอน</th>
+                            <th rowspan="2">Case Type / ประเภทคดี</th>
+                            <th rowspan="2">Key Characters / ตัวละคร</th>
+                            <th rowspan="2">Trivia / เกร็ดความรู้</th>
+                            <th rowspan="2">Case Summary / สรุปคดี</th>
+                            <th rowspan="2">Main Plot Related / เนื้อเรื่องหลัก</th>
+                            <th rowspan="2">Checklist / เช็คลิสต์</th>
+                        </tr>
+                        <tr>
+                            <th class="subhead">Thai</th>
+                            <th class="subhead">Japan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="conan-table-body">
+                        <!-- filled by script (exactly 42 rows) -->
+                    </tbody>
+                </table>
+            </div>
         </section>
     </main>
+
     <footer class="footer">&copy; 2025 20nxskypqz</footer>
     <script src="../script.js"></script>
 </body>
