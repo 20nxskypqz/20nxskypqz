@@ -163,7 +163,7 @@ p  { font-size: 16px; margin: 5px 0; }
     width: 500vw; height: 100%; background: inherit; z-index: -1;
 }
 
-/* ชื่อเรื่อง (ให้ JS จัดกลางทั้งกลุ่ม) */
+/* กลุ่มหัวเรื่อง (ให้ JS จัดกลางทั้งกลุ่ม) */
 .conan-page .title-group{
   display:inline-block;
   transform:translateX(0);
@@ -175,7 +175,7 @@ p  { font-size: 16px; margin: 5px 0; }
 .conan-page .page-title-en{margin:2px 0 0 0;}
 .conan-page .title-spacer{height:10px;}
 
-/* SS selector — อยู่ซ้ายสุดของ “ขอบตาราง” และเมนูลอยทับทุกอย่าง */
+/* SS selector — อยู่ซ้ายสุดของขอบตาราง และเมนูลอยทับทุกอย่าง */
 .conan-page .season-picker{
   position:relative;
   width:100%;
@@ -208,12 +208,21 @@ p  { font-size: 16px; margin: 5px 0; }
 .conan-page .content{max-width:1200px;padding-bottom:100px;align-items:center;}
 .conan-page .footer{position:fixed;left:0;right:0;bottom:0;padding-bottom:calc(10px + env(safe-area-inset-bottom));}
 
-/* ตาราง: ใช้ JS จัดกลางด้วย transform */
-.conan-page .table-wrapper{width:100%;max-width:1200px;margin:0 auto 12px auto; position: relative; z-index: 1;}
+/* ตาราง: ใช้ CSS จัดกึ่งกลาง (นิ่งกว่า transform) */
+.conan-page .table-wrapper{
+  width:100%;
+  max-width:1200px;
+  margin:0 auto 12px auto;
+  position: relative;
+  z-index: 1;
+  display: grid;                /* ← จัดกึ่งกลางลูก */
+  justify-items: center;        /* ← center table แนวนอนเสมอ */
+}
 .conan-page .conan-table{
-  width:auto;max-width:1000px;
-  margin-left:auto;margin-right:auto;
-  transform:translateX(0);will-change:transform;
+  width:auto;
+  max-width:1000px;
+  margin: 0 auto;               /* ← ให้กลางด้วย margin auto */
+  transform:none !important;    /* ← กันค่า transform เก่ามีผล */
   border-collapse:separate;border-spacing:0;border:1px solid var(--panel-border);
   border-radius:14px;overflow:hidden;background:var(--panel-bg);color:var(--panel-text);box-shadow:var(--panel-shadow);table-layout:auto;
 }
@@ -234,3 +243,5 @@ p  { font-size: 16px; margin: 5px 0; }
 .conan-page .chk{display:inline-block;width:18px;height:18px;border-radius:6px;border:2px solid var(--panel-border);vertical-align:middle;}
 .conan-page .chk--on{background:linear-gradient(135deg,#16a34a,#22c55e);border-color:#16a34a;position:relative;}
 .conan-page .chk--on::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-58%);font-size:14px;font-weight:700;color:#fff;}
+/* Icon spacing */
+.home-links a i, .side-menu a i { margin-right: 8px; vertical-align: -2px; }
