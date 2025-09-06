@@ -240,7 +240,7 @@ function setupSeasonPicker(sheetSection) {
 
     // Populate menu
     menu.innerHTML = '';
-    SEASONS.forEach((s, i) => {
+    SEASONS.forEach((s) => {
         const li = document.createElement('li');
         li.textContent = s.label;
         li.setAttribute('role', 'option');
@@ -310,3 +310,4 @@ document.addEventListener('DOMContentLoaded', function () {
         renderConanTableFromSheet(sheetId, gid);
     }
 });
+```0
