@@ -1,4 +1,6 @@
 /* Flaticon (used by Conan page dropdown icon) */
+@import url('https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-chubby/css/uicons-solid-chubby.css'); /* day */
+@import url('https://cdn-uicons.flaticon.com/3.0.0/uicons-bold-rounded/css/uicons-bold-rounded.css');  /* for Conan/Menu/Close */
 @import url('https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css');
 
 /* ========== Base ========== */
@@ -57,7 +59,7 @@ body.dark-mode {
 .footer {
     text-align: center;
     padding: 10px 20px;
-    background: linear-gradient(to right, red, orange);  /* ไล่สีให้เหมือนแถบหัว */
+    background: linear-gradient(to right, red, orange);  /* ไล่สีแบบหัว */
     color: white;
     width: 100%;
     box-sizing: border-box;
@@ -133,7 +135,7 @@ body.dark-mode {
     box-shadow: var(--panel-shadow);
 }
 
-h1 { font-size: 32px; text-align: center; margin-bottom: 20px; }
+h1 { font-size: 32px; text-align: center; margin: 0; }
 h2 { font-size: 28px; margin: 0 0 5px 0; }
 p  { font-size: 16px; margin: 5px 0; }
 .time-display, .date-display { font-size: 16px; font-weight: normal; }
@@ -186,24 +188,19 @@ p  { font-size: 16px; margin: 5px 0; }
 }
 .root-page .home-links a:hover, .root-page .home-links a:focus { text-decoration: underline; outline: none; }
 
-/* ===== Conan page only ===== */
+/* ===== Conan page only (เดิม) ===== */
 .conan-page .content {
-    max-width: 1200px;
-    padding-bottom: 100px;        /* กันไม่ให้ footer fixed ทับคอนเทนต์ */
-    align-items: center;          /* ทุกอย่างอยู่ตรงกลาง */
+    max-width: 1200px;              /* ขยายพื้นที่เฉพาะหน้านี้ */
+    padding-bottom: 100px;          /* กัน footer ทับคอนเทนต์ */
+    align-items: center;            /* ทุกอย่างอยู่กลาง */
 }
 
-/* Footer: ติดขอบล่างตลอด + รองรับ safe area (iOS) */
+/* Footer: fixed ล่างเสมอ + safe area */
 .conan-page .footer {
     position: fixed;
     left: 0; right: 0; bottom: 0;
     padding-bottom: calc(10px + env(safe-area-inset-bottom));
 }
-
-/* Title spacings */
-.conan-page .page-title-ja { margin: 8px 0 0 0; }
-.conan-page .page-title-en { margin: 4px 0 0 0; }
-.conan-page .title-spacer { height: 12px; }
 
 /* Season picker — ให้อยู่กลาง */
 .conan-page .season-picker {
@@ -229,33 +226,33 @@ p  { font-size: 16px; margin: 5px 0; }
 .conan-page .season-menu li { padding: 10px 14px; cursor: pointer; }
 .conan-page .season-menu li:hover, .conan-page .season-menu li:focus { background: rgba(0,0,0,0.06); }
 
-/* Table wrapper — ไม่ต้องเลื่อนซ้ายขวา และให้อยู่กลาง */
+/* Table wrapper — ไม่เลื่อนซ้ายขวา และให้อยู่กลาง */
 .conan-page .table-wrapper {
     width: 100%;
     max-width: 1200px;
-    overflow-x: visible;              /* ปิดการเลื่อนแนวนอน */
-    margin: 0 auto 12px auto;         /* อยู่กลาง */
-    padding: 0;                        /* เอา padding ที่เคยดันไปขวาออก */
+    overflow-x: visible;
+    margin: 0 auto 12px auto;
+    padding: 0;
 }
 
-/* Table — ปรับให้กว้างไม่เกิน viewport และอยู่กลาง */
+/* Table — กว้างพอดีและอยู่กลาง */
 .conan-page .conan-table {
     width: 100%;
-    max-width: 1000px;                 /* จำกัดความกว้างเพื่อให้อ่านง่ายและไม่ล้น */
-    margin: 0 auto;                    /* อยู่กลาง */
+    max-width: 1000px;
+    margin: 0 auto;
     border-collapse: separate; border-spacing: 0;
     border: 1px solid var(--panel-border); border-radius: 14px; overflow: hidden;
     background: var(--panel-bg); color: var(--panel-text); box-shadow: var(--panel-shadow);
-    table-layout: auto;                /* ยืดหยุ่นตามข้อมูล */
+    table-layout: auto;
 }
 
-/* หัวตาราง: สีน้ำเงินโคนัน ไล่สีแนวนอนผ่านทุกช่อง */
+/* หัวตาราง: สีน้ำเงินโคนัน ไล่สีแนวนอน */
 .conan-page .conan-table thead {
     background: linear-gradient(to right, var(--conan-blue-1), var(--conan-blue-2));
 }
 .conan-page .conan-table thead th {
     padding: 12px 10px; text-align: left; color: #fff;
-    background: transparent; /* ให้ thead เป็นผู้ไล่สีรวม */
+    background: transparent;
     border-right: 1px solid rgba(255,255,255,0.25);
     font-weight: 700; vertical-align: middle;
 }
@@ -285,4 +282,10 @@ p  { font-size: 16px; margin: 5px 0; }
     content: '✓'; position: absolute; top: 50%; left: 50%;
     transform: translate(-50%, -58%); font-size: 14px; font-weight: 700; color: #fff;
 }
-```0
+
+/* Icon spacing for nav items */
+.home-links a i,
+.side-menu a i {
+    margin-right: 8px;
+    vertical-align: -2px;
+}
