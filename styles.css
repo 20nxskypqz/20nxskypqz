@@ -1,11 +1,12 @@
+/* Flaticon as requested (kept scoped by class usage in HTML) */
 @import url('https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css');
+
+/* ========== Base (คืนค่าทั่วไป, ไม่แตะของที่ไม่เกี่ยว) ========== */
 
 /* General Reset */
 *,
 *:after,
-*:before {
-    box-sizing: border-box;
-}
+*:before { box-sizing: border-box; }
 
 /* Theme variables */
 :root {
@@ -15,10 +16,6 @@
     --panel-text: #000000;
     --panel-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
     --panel-border: #999999;
-
-    /* (kept for future) Conan blues */
-    --conan-blue-1: #0d47a1;
-    --conan-blue-2: #1976d2;
 }
 
 body {
@@ -30,8 +27,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    transition: background 0.5s ease-in-out;
-    overflow-x: hidden; /* page itself has no horizontal scroll */
+    overflow-x: hidden;
 }
 
 body.dark-mode {
@@ -41,31 +37,32 @@ body.dark-mode {
     --panel-text: #e8eaed;
     --panel-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
     --panel-border: #dddddd;
-
-    --conan-blue-1: #0a356d;
-    --conan-blue-2: #115aa3;
 }
 
-/* ===== Top / Bottom bars (make sure they never look cut) ===== */
-.header,
-.footer {
-    width: 100%;
-    color: white;
-    box-sizing: border-box;
-    background: linear-gradient(to right, red, orange);
-}
-
-/* Header */
+/* Header / Footer (กว้างเต็ม ไม่ fixed เพื่อไม่ไปทับคอนเทนต์) */
 .header {
-    position: sticky;      /* stays at the top while scrolling long pages */
-    top: 0;
-    z-index: 1100;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
+    background: linear-gradient(to right, red, orange);
+    color: white;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1100;
 }
 
+.footer {
+    text-align: center;
+    padding: 10px 20px;
+    background: linear-gradient(to right, red, orange);
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Menu */
 .menu-toggle {
     font-size: 24px;
     cursor: pointer;
@@ -76,69 +73,41 @@ body.dark-mode {
     color: inherit;
 }
 
-/* Footer */
-.footer {
-    position: fixed;       /* stick to bottom and always span full viewport width */
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 800;
-    padding: 10px 20px;
-}
-
-/* Side Menu */
 .side-menu {
     position: fixed;
-    top: 0;
-    left: -200px;
-    width: 200px;
-    height: 100%;
-    background: #333;
-    color: #fff;
+    top: 0; left: -200px;
+    width: 200px; height: 100%;
+    background: #333; color: #fff;
     padding-top: 60px;
     transition: left 0.3s ease;
-    z-index: 1200;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    box-shadow: 2px 0 5px rgba(0,0,0,.5);
 }
-
 .side-menu.open { left: 0; }
 
 .close-menu {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 24px;
-    cursor: pointer;
-    background: none;
-    border: none;
-    color: inherit;
+    position: absolute; top: 10px; right: 15px;
+    font-size: 24px; cursor: pointer; background: none; border: none; color: inherit;
 }
 
 .side-menu ul { list-style: none; padding: 0; margin: 0; }
 .side-menu li { margin: 0; }
-.side-menu a {
-    display: block; padding: 10px 20px; color: #fff; text-decoration: none;
-}
-.side-menu a:hover { background: rgba(255, 255, 255, 0.1); }
+.side-menu a { display: block; padding: 10px 20px; color: #fff; text-decoration: none; }
+.side-menu a:hover { background: rgba(255,255,255,0.1); }
 
-/* Overlay */
 .menu-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.3);
-    display: none;
-    z-index: 1100;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.3); display: none; z-index: 900;
 }
 .menu-overlay.visible { display: block; }
 
-/* Page content container */
+/* Content wrapper */
 .content {
     text-align: center;
     padding: 20px;
-    padding-bottom: 160px; /* reserve space so footer never overlaps long tables */
     flex: 1;
     width: 100%;
-    max-width: 1200px;
+    max-width: 800px;     /* เดิม */
     margin: 0 auto;
     box-sizing: border-box;
     display: flex;
@@ -146,7 +115,7 @@ body.dark-mode {
     align-items: center;
 }
 
-/* Time & Countdown card (Home) */
+/* Time & Countdown (หน้า Home เดิม) */
 .time-and-countdown {
     width: 100%;
     max-width: 800px;
@@ -163,159 +132,134 @@ body.dark-mode {
     box-shadow: var(--panel-shadow);
 }
 
-/* Titles (Conan) */
-h1 { font-size: 32px; text-align: center; margin: 0; }
-.page-title-ja { margin-top: 8px; }
-.page-title-en { margin-top: 4px; }
-.title-spacer { height: 12px; } /* เว้นลงมาสักหน่อย */
+h1 { font-size: 32px; text-align: center; margin-bottom: 20px; }
+h2 { font-size: 28px; margin: 0 0 5px 0; }
+p  { font-size: 16px; margin: 5px 0; }
+.time-display, .date-display { font-size: 16px; font-weight: normal; }
 
-/* Footer on very small screens — still keep it full width */
-@media (max-width: 600px) {
-    .content { padding: 10px; padding-bottom: 170px; }
+.time-container p, .countdown p {
+    background: transparent; color: inherit; border: none; padding: 0; border-radius: 0;
 }
 
-/* Root homepage link list (root page only) */
+.video-container { margin: 10px 0; width: 100%; max-width: 560px; height: 315px; }
+.video-container iframe { width: 100%; height: 100%; }
+
+.countdown { font-size: 24px; }
+
+/* Theme toggle */
+.toggle-container {
+    position: relative; width: 80px; height: 40px; background: #ddd;
+    border-radius: 20px; display: flex; align-items: center; padding: 5px;
+    cursor: pointer; transition: background .3s ease-in-out;
+}
+.toggle-container .toggle-circle {
+    width: 30px; height: 30px; background: #fff; border-radius: 50%;
+    position: absolute; left: 5px; transition: .3s ease-in-out;
+    display: flex; justify-content: center; align-items: center; font-size: 18px;
+}
+.dark-mode .toggle-container { background: #555; }
+.dark-mode .toggle-circle { left: 45px; background: #222; color: #ff0; }
+.toggle-container .toggle-circle.light { color: #ff9800; }
+
+/* Responsive */
+@media (max-width: 600px) {
+    .content { padding: 10px; }
+    .time-and-countdown { padding: 10px; max-width: 100%; align-items: flex-start; }
+}
+@media (min-width: 768px) {
+    .time-and-countdown { padding-left: 40px; }
+}
+
+/* Root homepage link list (ตามที่เคยสั่งไว้) */
 .home-links {
-    list-style: none;
-    padding: 0;
-    margin: 24px 0 0;
-
-    width: 100vw;
-    max-width: 100vw;
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
-    padding-left: 20px;
-
-    text-align: left;
+    list-style: none; padding: 0; margin: 24px 0 0;
+    text-align: left; align-self: stretch;
 }
 .home-links li { margin: 12px 0; }
 .home-links a {
-    font-size: 1.6rem; font-weight: 700; text-decoration: none;
-    color: var(--text-color); display: inline-block; line-height: 1.25;
+    font-size: 1.6rem; font-weight: 700; text-decoration: none; color: var(--text-color); display: inline-block;
 }
 .home-links a:hover, .home-links a:focus { text-decoration: underline; outline: none; }
 
-/* ============ Conan page: Season picker ============ */
-.season-picker {
-    position: relative; /* anchor dropdown */
-    width: 100%;
-    max-width: 1200px;
-    display: flex;
-    justify-content: flex-start;
-    margin-bottom: 12px; /* spacing under the title */
-}
+/* ========== Conan page (สcope เฉพาะหน้านี้เท่านั้น) ========== */
 
-.season-button {
+/* ขยายพื้นที่เฉพาะหน้านี้ (ไม่กระทบหน้าอื่น) */
+.conan-page .content { max-width: 1200px; padding-bottom: 40px; }
+
+.conan-page .page-title-ja { margin: 8px 0 0 0; }
+.conan-page .page-title-en { margin: 4px 0 0 0; }
+.conan-page .title-spacer { height: 12px; }
+
+/* Season picker */
+.conan-page .season-picker {
+    position: relative;
+    width: 100%; max-width: 1200px;
+    display: flex; justify-content: flex-start;
+    margin-bottom: 12px;
+}
+.conan-page .season-button {
     appearance: none;
     border: 2px solid var(--panel-border);
-    background: var(--panel-bg);
-    color: var(--panel-text);
-    padding: 10px 14px;
-    border-radius: 12px;
-    box-shadow: var(--panel-shadow);
-    font-weight: 700;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
+    background: var(--panel-bg); color: var(--panel-text);
+    padding: 10px 14px; border-radius: 12px; box-shadow: var(--panel-shadow);
+    font-weight: 700; display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
 }
-.season-button:focus { outline: 3px solid rgba(25, 118, 210, 0.4); outline-offset: 2px; }
-
-.season-menu {
-    position: absolute;
-    top: 100%; left: 0; margin-top: 8px;
-    background: var(--panel-bg);
-    color: var(--panel-text);
-    border: 2px solid var(--panel-border);
-    border-radius: 12px;
-    box-shadow: var(--panel-shadow);
-    list-style: none;
-    padding: 6px 0;
-    min-width: 220px;
-    z-index: 1300;
+.conan-page .season-button:focus { outline: 3px solid rgba(255,255,255,0.0); outline-offset: 2px; }
+.conan-page .season-menu {
+    position: absolute; top: 100%; left: 0; margin-top: 8px;
+    background: var(--panel-bg); color: var(--panel-text);
+    border: 2px solid var(--panel-border); border-radius: 12px; box-shadow: var(--panel-shadow);
+    list-style: none; padding: 6px 0; min-width: 220px; z-index: 1200;
 }
-.season-menu li { padding: 10px 14px; cursor: pointer; }
-.season-menu li:hover, .season-menu li:focus { background: rgba(25, 118, 210, 0.12); }
-
-/* ============ Conan page: Table styles ============ */
-.table-wrapper {
-    width: 100%;
-    max-width: 1200px;
-    overflow-x: auto;                 /* เลื่อนซ้ายขวาในตัว */
-    -webkit-overflow-scrolling: touch;
-    margin-bottom: 12px;
-
-    /* remove hidden left padding so it can scroll fully to the very left */
-    padding-left: 0;
+.conan-page .season-menu li { padding: 10px 14px; cursor: pointer; }
+.conan-page .season-menu li:hover, .conan-page .season-menu li:focus {
+    background: rgba(0,0,0,0.06);
 }
 
-.conan-table {
-    width: 100%;
-    min-width: 1400px;                /* กว้างพอให้มีการเลื่อนแนวนอน */
-    border-collapse: separate;
-    border-spacing: 0;
-    border: 1px solid var(--panel-border);
-    border-radius: 14px;
-    overflow: hidden;
-    background: var(--panel-bg);
-    color: var(--panel-text);
-    box-shadow: var(--panel-shadow);
-    table-layout: auto;               /* ยืดหยุ่นตามข้อมูล */
+/* Table */
+.conan-page .table-wrapper {
+    width: 100%; max-width: 1200px;
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    margin-bottom: 12px; padding: 0; /* เลื่อนซ้ายสุดได้จริง */
 }
-
-/* continuous gradient across entire header (both rows)
-   — match top/bottom bars: red→orange */
-.conan-table thead {
+.conan-page .conan-table {
+    width: 100%; min-width: 1400px;
+    border-collapse: separate; border-spacing: 0;
+    border: 1px solid var(--panel-border); border-radius: 14px; overflow: hidden;
+    background: var(--panel-bg); color: var(--panel-text); box-shadow: var(--panel-shadow);
+    table-layout: auto; /* ยืดหยุ่นตามข้อมูล */
+}
+/* หัวตารางใช้เกรเดียนท์แบบเดียวกับ header/footer */
+.conan-page .conan-table thead {
     background: linear-gradient(to right, red, orange);
 }
-
-.conan-table thead th {
-    padding: 12px 10px;
-    text-align: left;
-    color: #fff;
-    background: transparent;          /* let THEAD show through */
-    border-right: 1px solid rgba(255, 255, 255, 0.25);
-    font-weight: 700;
-    vertical-align: middle;
+.conan-page .conan-table thead th {
+    padding: 12px 10px; text-align: left; color: #fff;
+    background: transparent; /* ให้ thead เป็นผู้ไล่สีรวม */
+    border-right: 1px solid rgba(255,255,255,0.25); font-weight: 700; vertical-align: middle;
 }
-.conan-table thead th:last-child { border-right: none; }
-.conan-table thead .subhead { font-weight: 700; text-align: center; }
+.conan-page .conan-table thead th:last-child { border-right: none; }
+.conan-page .conan-table thead .subhead { font-weight: 700; text-align: center; }
 
-.conan-table tbody td {
-    padding: 10px;
-    border-top: 1px solid var(--panel-border);
-    border-right: 1px solid var(--panel-border);
-    vertical-align: top;
-
-    /* accommodate long content from sheet */
-    white-space: normal;
-    overflow-wrap: anywhere;
-    word-break: break-word;
+.conan-page .conan-table tbody td {
+    padding: 10px; border-top: 1px solid var(--panel-border); border-right: 1px solid var(--panel-border);
+    vertical-align: top; white-space: normal; overflow-wrap: anywhere; word-break: break-word;
 }
-.conan-table tbody td:last-child { border-right: none; }
-.conan-table tbody tr:nth-child(odd) { background: rgba(0,0,0,0.03); }
-.dark-mode .conan-table tbody tr:nth-child(odd) { background: rgba(255,255,255,0.03); }
+.conan-page .conan-table tbody td:last-child { border-right: none; }
+.conan-page .conan-table tbody tr:nth-child(odd) { background: rgba(0,0,0,0.03); }
+.dark-mode.conan-page .conan-table tbody tr:nth-child(odd) { background: rgba(255,255,255,0.03); }
+.conan-page .th-epno { text-align: center; }
 
-.th-epno { text-align: center; }
-
-/* checklist badge */
-.chk {
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    border-radius: 6px;
-    border: 2px solid var(--panel-border);
-    vertical-align: middle;
+/* Checklist badge */
+.conan-page .chk {
+    display: inline-block; width: 18px; height: 18px; border-radius: 6px;
+    border: 2px solid var(--panel-border); vertical-align: middle;
 }
-.chk--on {
+.conan-page .chk--on {
     background: linear-gradient(135deg, #16a34a, #22c55e);
-    border-color: #16a34a;
-    position: relative;
+    border-color: #16a34a; position: relative;
 }
-.chk--on::after {
-    content: '✓';
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -58%);
-    font-size: 14px; font-weight: 700; color: #fff;
+.conan-page .chk--on::after {
+    content: '✓'; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -58%); font-size: 14px; font-weight: 700; color: #fff;
 }
