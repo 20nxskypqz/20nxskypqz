@@ -1,7 +1,6 @@
-/* Flaticon (used by Conan page dropdown icon) */
 @import url('https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css');
 
-/* ========== Base ========== */
+/* ===== Base (อันเดิม) ===== */
 *,
 *:after,
 *:before { box-sizing: border-box; }
@@ -14,7 +13,7 @@
     --panel-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
     --panel-border: #999999;
 
-    /* Conan blue gradient */
+    /* Conan blue gradient for table head */
     --conan-blue-1: #0d47a1;
     --conan-blue-2: #1976d2;
 }
@@ -40,10 +39,12 @@ body.dark-mode {
     --panel-border: #dddddd;
 }
 
-/* Header / Footer (เหมือนกันเป๊ะ) */
-.header,
-.footer {
+/* Header / Footer (อันเดิม) */
+.header {
     width: 100%;
+    display: flex;
+    justify-content: space-between;   /* มีซ้าย-ขว้าได้ */
+    align-items: center;
     padding: 10px 20px;
     background: linear-gradient(to right, red, orange);
     color: white;
@@ -51,48 +52,85 @@ body.dark-mode {
     position: relative;
     z-index: 1100;
 }
-
-/* ขยาย “ความยาว” แถบหัว/ท้าย ให้ยาวมากๆ และเท่ากัน */
-.conan-page .header,
-.conan-page .footer {
-    overflow: visible;
-}
-.conan-page .header::before,
-.conan-page .footer::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 500vw;    /* ยาวมากๆตามที่ขอ */
-    height: 100%;
-    background: inherit;   /* ไล่สีเดียวกับตัวบาร์ */
-    z-index: -1;
+.footer {
+    text-align: center;
+    padding: 10px 20px;
+    background: linear-gradient(to right, red, orange);
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* โครงใน header */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.header-left { display: flex; align-items: center; gap: 10px; }
-
-/* Footer (ติดล่างเสมอ + safe area) */
-.conan-page .footer {
-    position: fixed;
-    left: 0; right: 0; bottom: 0;
-    padding-bottom: calc(10px + env(safe-area-inset-bottom));
-}
-
-/* Menu toggle and theme toggle */
+/* Side menu (อันเดิม) */
 .menu-toggle {
     font-size: 24px;
     cursor: pointer;
+    position: relative;
+    z-index: 1101;
     background: none;
     border: none;
     color: inherit;
 }
+.side-menu {
+    position: fixed;
+    top: 0; left: -200px;
+    width: 200px; height: 100%;
+    background: #333; color: #fff;
+    padding-top: 60px;
+    transition: left 0.3s ease;
+    z-index: 1000;
+    box-shadow: 2px 0 5px rgba(0,0,0,.5);
+}
+.side-menu.open { left: 0; }
+.close-menu {
+    position: absolute; top: 10px; right: 15px;
+    font-size: 24px; cursor: pointer; background: none; border: none; color: inherit;
+}
+.side-menu ul { list-style: none; padding: 0; margin: 0; }
+.side-menu li { margin: 0; }
+.side-menu a { display: block; padding: 10px 20px; color: #fff; text-decoration: none; }
+.side-menu a:hover { background: rgba(255,255,255,0.1); }
+
+.menu-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.3); display: none; z-index: 900;
+}
+.menu-overlay.visible { display: block; }
+
+/* Content (อันเดิม) */
+.content {
+    text-align: center;
+    padding: 20px;
+    flex: 1;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Time & Countdown (Home เดิม) */
+.time-and-countdown {
+    width: 100%;
+    max-width: 800px;
+    padding: 28px 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    margin-top: 20px;
+    background: var(--panel-bg);
+    color: var(--panel-text);
+    border: 2px solid var(--panel-border);
+    border-radius: 24px;
+    box-shadow: var(--panel-shadow);
+}
+
+h1 { font-size: 32px; text-align: center; margin: 0 0 20px 0; }
+
+/* Theme toggle (อันเดิม) */
 .toggle-container {
     position: relative; width: 80px; height: 40px; background: #ddd;
     border-radius: 20px; display: flex; align-items: center; padding: 5px;
@@ -107,68 +145,28 @@ body.dark-mode {
 .dark-mode .toggle-circle { left: 45px; background: #222; color: #ff0; }
 .toggle-container .toggle-circle.light { color: #ff9800; }
 
-/* Side Menu */
-.side-menu {
-    position: fixed;
-    top: 0; left: -200px;
-    width: 200px; height: 100%;
-    background: #333; color: #fff;
-    padding-top: 60px;
-    transition: left 0.3s ease;
-    z-index: 1200;
-    box-shadow: 2px 0 5px rgba(0,0,0,.5);
+/* Responsive (อันเดิม) */
+@media (max-width: 600px) {
+    .content { padding: 10px; }
+    .time-and-countdown { padding: 10px; max-width: 100%; align-items: flex-start; }
 }
-.side-menu.open { left: 0; }
-.close-menu {
-    position: absolute; top: 10px; right: 15px;
-    font-size: 24px; cursor: pointer; background: none; border: none; color: inherit;
-}
-.side-menu ul { list-style: none; padding: 0; margin: 0; }
-.side-menu li { margin: 0; }
-.side-menu a { display: block; padding: 10px 20px; color: #fff; text-decoration: none; }
-.side-menu a:hover { background: rgba(255,255,255,0.1); }
-
-/* Overlay */
-.menu-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.3); display: none; z-index: 1100;
-}
-.menu-overlay.visible { display: block; }
-
-/* Content wrapper (Conan page — ขยายกว้างขึ้น + ทุกอย่างกลาง ยกเว้นตัวเลือก SS) */
-.content {
-    text-align: center;
-    padding: 20px;
-    flex: 1;
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+@media (min-width: 768px) {
+    .time-and-countdown { padding-left: 40px; }
 }
 
-/* เฉพาะหน้า Conan */
+/* ===== Conan page ONLY (เพิ่มเฉพาะที่ขอ) ===== */
+
+/* 1) ขยายหน้ากว้างเฉพาะหน้าโคนัน */
 .conan-page .content {
-    max-width: 1400px;    /* ขยายกว้างกว่าเดิม */
-    padding-bottom: 120px;/* กันไม่ให้ footer บัง */
-    align-items: center;  /* ทุกอย่างกลาง */
+    max-width: 1400px;   /* ขยายจาก 800 เป็น 1400 */
 }
 
-/* Titles */
-h1 { font-size: 32px; text-align: center; margin: 0; }
-.conan-page .page-title-ja { margin-top: 8px; }
-.conan-page .page-title-en { margin-top: 4px; }
-.conan-page .title-spacer { height: 12px; }
-
-/* Season picker: อยู่ “ซ้าย” ของหน้า */
+/* Season picker คงไว้ชิดซ้าย */
 .conan-page .season-picker {
     position: relative;
     width: 100%; max-width: 1400px;
-    display: flex; justify-content: flex-start; /* ซ้าย */
+    display: flex; justify-content: flex-start;
     margin-bottom: 12px;
-    align-self: stretch; /* ให้ยึดตามความกว้างคอนเทนต์ */
 }
 .conan-page .season-button {
     appearance: none;
@@ -182,66 +180,41 @@ h1 { font-size: 32px; text-align: center; margin: 0; }
     margin-top: 8px;
     background: var(--panel-bg); color: var(--panel-text);
     border: 2px solid var(--panel-border); border-radius: 12px; box-shadow: var(--panel-shadow);
-    list-style: none; padding: 6px 0; min-width: 220px; z-index: 1300;
+    list-style: none; padding: 6px 0; min-width: 220px; z-index: 1200;
 }
 
-/* Table wrapper — อยู่กลาง ไม่เลื่อนซ้ายขวา */
+/* 2) ตารางอยู่กลาง และกว้างขึ้นตามหน้า */
 .conan-page .table-wrapper {
     width: 100%; max-width: 1400px;
-    overflow-x: visible;
-    margin: 0 auto 12px auto;   /* กลาง */
+    overflow-x: auto;               /* กลับไปอันเดิม */
+    margin: 0 auto 12px auto;
     padding: 0;
 }
-
-/* Table — กว้างขึ้นและยังอยู่กลาง */
 .conan-page .conan-table {
     width: 100%;
-    max-width: 1300px;          /* ขยายกว้างขึ้น */
-    margin: 0 auto;             /* กลาง */
+    min-width: 1200px;
+    margin: 0 auto;
     border-collapse: separate; border-spacing: 0;
     border: 1px solid var(--panel-border); border-radius: 14px; overflow: hidden;
     background: var(--panel-bg); color: var(--panel-text); box-shadow: var(--panel-shadow);
     table-layout: auto;
 }
-
-/* Header ของตาราง: สีน้ำเงินโคนัน ไล่สีแนวนอน */
-.conan-page .conan-table thead {
-    background: linear-gradient(to right, var(--conan-blue-1), var(--conan-blue-2));
-}
+/* หัวตาราง Conan blue (อันเดิม) */
+.conan-page .conan-table thead { background: linear-gradient(to right, var(--conan-blue-1), var(--conan-blue-2)); }
 .conan-page .conan-table thead th {
     padding: 12px 10px; text-align: left; color: #fff;
-    background: transparent;
-    border-right: 1px solid rgba(255,255,255,0.25);
+    background: transparent; border-right: 1px solid rgba(255,255,255,0.25);
     font-weight: 700; vertical-align: middle;
 }
 .conan-page .conan-table thead th:last-child { border-right: none; }
-.conan-page .conan-table thead .subhead { font-weight: 700; text-align: center; }
+.conan-page .conan-table thead .subhead { text-align: center; }
 
-/* Cells: รองรับข้อมูลยาว */
 .conan-page .conan-table tbody td {
     padding: 10px; border-top: 1px solid var(--panel-border); border-right: 1px solid var(--panel-border);
-    vertical-align: top;
-    white-space: normal; overflow-wrap: anywhere; word-break: break-word;
+    vertical-align: top; white-space: normal; overflow-wrap: anywhere; word-break: break-word;
 }
 .conan-page .conan-table tbody td:last-child { border-right: none; }
-.conan-page .conan-table tbody tr:nth-child(odd) { background: rgba(0,0,0,0.03); }
-.dark-mode.conan-page .conan-table tbody tr:nth-child(odd) { background: rgba(255,255,255,0.03); }
-.conan-page .th-epno { text-align: center; }
 
-/* Checklist badge */
-.conan-page .chk {
-    display: inline-block; width: 18px; height: 18px; border-radius: 6px;
-    border: 2px solid var(--panel-border); vertical-align: middle;
-}
-.conan-page .chk--on {
-    background: linear-gradient(135deg, #16a34a, #22c55e);
-    border-color: #16a34a; position: relative;
-}
-.conan-page .chk--on::after {
-    content: '✓'; position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%, -58%); font-size: 14px; font-weight: 700; color: #fff;
-}
-
-/* Generic pieces used elsewhere (unchanged) */
-.menu-overlay.visible { display: block; }
-```0
+/* ย้ายปุ่มโหมดไปซ้ายเฉพาะหน้าโคนัน */
+.conan-page .header { justify-content: flex-start; gap: 12px; }
+.conan-page .header-left { display: flex; align-items: center; gap: 10px; }
