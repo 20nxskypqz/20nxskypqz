@@ -13,6 +13,10 @@
     --panel-text: #000000;
     --panel-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
     --panel-border: #999999;
+
+    /* Conan blues for table header */
+    --conan-blue-1: #0d47a1;
+    --conan-blue-2: #1976d2;
 }
 
 body {
@@ -35,6 +39,9 @@ body.dark-mode {
     --panel-text: #e8eaed;
     --panel-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
     --panel-border: #dddddd;
+
+    --conan-blue-1: #0a356d;
+    --conan-blue-2: #115aa3;
 }
 
 body.dark-mode .header,
@@ -149,7 +156,7 @@ body.dark-mode .side-menu a {
     padding-bottom: 80px; /* ensure content isn't hidden behind fixed footer */
     flex: 1;
     width: 100%;
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
     box-sizing: border-box;
     display: flex;
@@ -157,7 +164,7 @@ body.dark-mode .side-menu a {
     align-items: center;
 }
 
-/* Time & Countdown card */
+/* Time & Countdown card (Home) */
 .time-and-countdown {
     width: 100%;
     max-width: 800px;
@@ -178,32 +185,11 @@ body.dark-mode .side-menu a {
 h1 {
     font-size: 32px;
     text-align: center;
-    margin-bottom: 20px;
+    margin: 0 0 20px 0;
 }
 
-h2 {
-    font-size: 28px;
-    margin: 0 0 5px 0;
-}
-
-p {
-    font-size: 16px;
-    margin: 5px 0;
-}
-
-.time-display,
-.date-display {
-    font-size: 16px;
-    font-weight: normal;
-}
-
-.time-container p,
-.countdown p {
-    background: transparent;
-    color: inherit;
-    border: none;
-    padding: 0;
-    border-radius: 0;
+.page-title { /* extra spacing for Conan page as requested */
+    margin-bottom: 12px;
 }
 
 /* Video embed */
@@ -219,11 +205,6 @@ p {
     height: 100%;
 }
 
-/* Countdown */
-.countdown {
-    font-size: 24px;
-}
-
 /* Footer */
 .footer {
     text-align: center;
@@ -233,7 +214,7 @@ p {
     width: 100%;
     box-sizing: border-box;
 
-    /* make footer appear at the bottom like before */
+    /* stick to bottom */
     position: fixed;
     left: 0;
     right: 0;
@@ -287,14 +268,13 @@ p {
 @media (max-width: 600px) {
     .content {
         padding: 10px;
-        padding-bottom: 80px; /* keep safe space for footer on small screens too */
+        padding-bottom: 80px;
     }
     .time-and-countdown {
         padding: 10px;
         max-width: 100%;
         align-items: flex-start;
     }
-    /* on very small screens, allow footer to flow to avoid overlay issues */
     .footer {
         position: static;
     }
@@ -306,22 +286,17 @@ p {
     }
 }
 
-/* ============================
-   Root homepage link list
-   - Make the links flush to the viewport's left (more left)
-   - Keep text larger
-   ============================ */
+/* Root homepage link list (root page only) */
 .home-links {
     list-style: none;
     padding: 0;
     margin: 24px 0 0;
 
-    /* full-bleed to the left (and right) outside the centered .content) */
     width: 100vw;
     max-width: 100vw;
-    margin-left: calc(50% - 50vw);  /* pull to viewport left */
-    margin-right: calc(50% - 50vw); /* keep symmetric, avoids clipping */
-    padding-left: 20px;              /* breathing room from the very edge */
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding-left: 20px;
 
     text-align: left;
 }
@@ -331,7 +306,7 @@ p {
 }
 
 .home-links a {
-    font-size: 1.6rem;   /* larger text */
+    font-size: 1.6rem;
     font-weight: 700;
     text-decoration: none;
     color: var(--text-color);
@@ -343,4 +318,152 @@ p {
 .home-links a:focus {
     text-decoration: underline;
     outline: none;
+}
+
+/* ============ Conan page: Season picker ============ */
+.season-picker {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 12px; /* spacing under the title */
+}
+
+.season-button {
+    appearance: none;
+    border: 2px solid var(--panel-border);
+    background: var(--panel-bg);
+    color: var(--panel-text);
+    padding: 10px 14px;
+    border-radius: 12px;
+    box-shadow: var(--panel-shadow);
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.season-button:focus {
+    outline: 3px solid rgba(25, 118, 210, 0.4);
+    outline-offset: 2px;
+}
+
+/* mimic the requested icon class without external libs */
+.fi.fi-sr-dropdown-select::before {
+    content: '▾';
+    display: inline-block;
+    font-size: 16px;
+    line-height: 1;
+    transform: translateY(1px);
+}
+
+.season-menu {
+    position: absolute;
+    margin-top: 44px; /* below the button */
+    background: var(--panel-bg);
+    color: var(--panel-text);
+    border: 2px solid var(--panel-border);
+    border-radius: 12px;
+    box-shadow: var(--panel-shadow);
+    list-style: none;
+    padding: 6px 0;
+    min-width: 220px;
+    z-index: 1200;
+}
+
+.season-menu li {
+    padding: 10px 14px;
+    cursor: pointer;
+}
+
+.season-menu li:hover,
+.season-menu li:focus {
+    background: rgba(25, 118, 210, 0.12);
+}
+
+/* ============ Conan page: Table styles ============ */
+.table-wrapper {
+    width: 100%;
+    max-width: 1000px;
+    overflow-x: auto;
+}
+
+.conan-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--panel-border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--panel-bg);
+    color: var(--panel-text);
+    box-shadow: var(--panel-shadow);
+}
+
+.conan-table thead th {
+    padding: 12px 10px;
+    text-align: left;
+    color: #fff;
+    background: linear-gradient(to right, var(--conan-blue-1), var(--conan-blue-2));
+    border-right: 1px solid rgba(255, 255, 255, 0.25);
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+.conan-table thead th:last-child {
+    border-right: none;
+}
+
+.conan-table thead .subhead {
+    font-weight: 700;
+    text-align: center;
+}
+
+.conan-table tbody td {
+    padding: 10px;
+    border-top: 1px solid var(--panel-border);
+    border-right: 1px solid var(--panel-border);
+    vertical-align: top;
+}
+
+.conan-table tbody td:last-child {
+    border-right: none;
+}
+
+.conan-table tbody tr:nth-child(odd) {
+    background: rgba(0,0,0,0.03);
+}
+
+.dark-mode .conan-table tbody tr:nth-child(odd) {
+    background: rgba(255,255,255,0.03);
+}
+
+.th-epno { text-align: center; }
+
+/* checklist badge */
+.chk {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border-radius: 6px;
+    border: 2px solid var(--panel-border);
+    vertical-align: middle;
+}
+
+.chk--on {
+    background: linear-gradient(135deg, #16a34a, #22c55e);
+    border-color: #16a34a;
+    position: relative;
+}
+
+.chk--on::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -58%);
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
 }
