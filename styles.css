@@ -16,7 +16,7 @@
     --panel-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
     --panel-border: #999999;
 
-    /* Conan blues for header gradient */
+    /* (kept for future) Conan blues */
     --conan-blue-1: #0d47a1;
     --conan-blue-2: #1976d2;
 }
@@ -31,7 +31,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
     transition: background 0.5s ease-in-out;
-    overflow-x: hidden; /* avoid horizontal scroll on full-bleed blocks */
+    overflow-x: hidden; /* page itself has no horizontal scroll */
 }
 
 body.dark-mode {
@@ -46,32 +46,24 @@ body.dark-mode {
     --conan-blue-2: #115aa3;
 }
 
-body.dark-mode .header,
-body.dark-mode .footer {
-    background: linear-gradient(to right, #222, #555);
-    color: #ffffff;
-}
-
-body.dark-mode .side-menu {
-    background: #111;
-}
-
-body.dark-mode .side-menu a {
-    color: #fff;
+/* ===== Top / Bottom bars (make sure they never look cut) ===== */
+.header,
+.footer {
+    width: 100%;
+    color: white;
+    box-sizing: border-box;
+    background: linear-gradient(to right, red, orange);
 }
 
 /* Header */
 .header {
-    width: 100%;
+    position: sticky;      /* stays at the top while scrolling long pages */
+    top: 0;
+    z-index: 1100;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background: linear-gradient(to right, red, orange);
-    color: white;
-    box-sizing: border-box;
-    position: relative;
-    z-index: 1100;
 }
 
 .menu-toggle {
@@ -82,6 +74,16 @@ body.dark-mode .side-menu a {
     background: none;
     border: none;
     color: inherit;
+}
+
+/* Footer */
+.footer {
+    position: fixed;       /* stick to bottom and always span full viewport width */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 800;
+    padding: 10px 20px;
 }
 
 /* Side Menu */
@@ -95,13 +97,11 @@ body.dark-mode .side-menu a {
     color: #fff;
     padding-top: 60px;
     transition: left 0.3s ease;
-    z-index: 1000;
+    z-index: 1200;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
 }
 
-.side-menu.open {
-    left: 0;
-}
+.side-menu.open { left: 0; }
 
 .close-menu {
     position: absolute;
@@ -114,48 +114,28 @@ body.dark-mode .side-menu a {
     color: inherit;
 }
 
-.side-menu ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.side-menu li {
-    margin: 0;
-}
-
+.side-menu ul { list-style: none; padding: 0; margin: 0; }
+.side-menu li { margin: 0; }
 .side-menu a {
-    display: block;
-    padding: 10px 20px;
-    color: #fff;
-    text-decoration: none;
+    display: block; padding: 10px 20px; color: #fff; text-decoration: none;
 }
-
-.side-menu a:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
+.side-menu a:hover { background: rgba(255, 255, 255, 0.1); }
 
 /* Overlay */
 .menu-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.3);
     display: none;
-    z-index: 900;
+    z-index: 1100;
 }
-
-.menu-overlay.visible {
-    display: block;
-}
+.menu-overlay.visible { display: block; }
 
 /* Page content container */
 .content {
     text-align: center;
     padding: 20px;
-    padding-bottom: 140px; /* extra space so footer never covers long table */
+    padding-bottom: 160px; /* reserve space so footer never overlaps long tables */
     flex: 1;
     width: 100%;
     max-width: 1200px;
@@ -184,108 +164,14 @@ body.dark-mode .side-menu a {
 }
 
 /* Titles (Conan) */
-h1 {
-    font-size: 32px;
-    text-align: center;
-    margin: 0;
-}
+h1 { font-size: 32px; text-align: center; margin: 0; }
 .page-title-ja { margin-top: 8px; }
 .page-title-en { margin-top: 4px; }
-
 .title-spacer { height: 12px; } /* เว้นลงมาสักหน่อย */
 
-/* Video embed */
-.video-container {
-    margin: 10px 0;
-    width: 100%;
-    max-width: 560px;
-    height: 315px;
-}
-
-.video-container iframe {
-    width: 100%;
-    height: 100%;
-}
-
-/* Footer */
-.footer {
-    text-align: center;
-    padding: 10px 20px;
-    background: linear-gradient(to right, red, orange);
-    color: white;
-    width: 100%;
-    box-sizing: border-box;
-
-    /* stick to bottom */
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 800;
-}
-
-/* Theme toggle */
-.toggle-container {
-    position: relative;
-    width: 80px;
-    height: 40px;
-    background: #ddd;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    padding: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-}
-
-.toggle-container .toggle-circle {
-    width: 30px;
-    height: 30px;
-    background: #fff;
-    border-radius: 50%;
-    position: absolute;
-    left: 5px;
-    transition: 0.3s ease-in-out;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 18px;
-}
-
-.dark-mode .toggle-container {
-    background: #555;
-}
-
-.dark-mode .toggle-circle {
-    left: 45px;
-    background: #222;
-    color: #ff0;
-}
-
-.toggle-container .toggle-circle.light {
-    color: #ff9800;
-}
-
-/* Responsive */
+/* Footer on very small screens — still keep it full width */
 @media (max-width: 600px) {
-    .content {
-        padding: 10px;
-        padding-bottom: 140px;
-    }
-    .time-and-countdown {
-        padding: 10px;
-        max-width: 100%;
-        align-items: flex-start;
-    }
-    .footer {
-        position: static; /* on very small screens, let it flow naturally */
-    }
-}
-
-@media (min-width: 768px) {
-    .time-and-countdown {
-        padding-left: 40px;
-    }
+    .content { padding: 10px; padding-bottom: 170px; }
 }
 
 /* Root homepage link list (root page only) */
@@ -302,25 +188,12 @@ h1 {
 
     text-align: left;
 }
-
-.home-links li {
-    margin: 12px 0;
-}
-
+.home-links li { margin: 12px 0; }
 .home-links a {
-    font-size: 1.6rem;
-    font-weight: 700;
-    text-decoration: none;
-    color: var(--text-color);
-    display: inline-block;
-    line-height: 1.25;
+    font-size: 1.6rem; font-weight: 700; text-decoration: none;
+    color: var(--text-color); display: inline-block; line-height: 1.25;
 }
-
-.home-links a:hover,
-.home-links a:focus {
-    text-decoration: underline;
-    outline: none;
-}
+.home-links a:hover, .home-links a:focus { text-decoration: underline; outline: none; }
 
 /* ============ Conan page: Season picker ============ */
 .season-picker {
@@ -346,17 +219,11 @@ h1 {
     gap: 8px;
     cursor: pointer;
 }
-
-.season-button:focus {
-    outline: 3px solid rgba(25, 118, 210, 0.4);
-    outline-offset: 2px;
-}
+.season-button:focus { outline: 3px solid rgba(25, 118, 210, 0.4); outline-offset: 2px; }
 
 .season-menu {
     position: absolute;
-    top: 100%;
-    left: 0;
-    margin-top: 8px;
+    top: 100%; left: 0; margin-top: 8px;
     background: var(--panel-bg);
     color: var(--panel-text);
     border: 2px solid var(--panel-border);
@@ -365,18 +232,10 @@ h1 {
     list-style: none;
     padding: 6px 0;
     min-width: 220px;
-    z-index: 1200;
+    z-index: 1300;
 }
-
-.season-menu li {
-    padding: 10px 14px;
-    cursor: pointer;
-}
-
-.season-menu li:hover,
-.season-menu li:focus {
-    background: rgba(25, 118, 210, 0.12);
-}
+.season-menu li { padding: 10px 14px; cursor: pointer; }
+.season-menu li:hover, .season-menu li:focus { background: rgba(25, 118, 210, 0.12); }
 
 /* ============ Conan page: Table styles ============ */
 .table-wrapper {
@@ -385,6 +244,9 @@ h1 {
     overflow-x: auto;                 /* เลื่อนซ้ายขวาในตัว */
     -webkit-overflow-scrolling: touch;
     margin-bottom: 12px;
+
+    /* remove hidden left padding so it can scroll fully to the very left */
+    padding-left: 0;
 }
 
 .conan-table {
@@ -401,9 +263,10 @@ h1 {
     table-layout: auto;               /* ยืดหยุ่นตามข้อมูล */
 }
 
-/* continuous gradient across entire header (both rows) */
+/* continuous gradient across entire header (both rows)
+   — match top/bottom bars: red→orange */
 .conan-table thead {
-    background: linear-gradient(to right, var(--conan-blue-1), var(--conan-blue-2));
+    background: linear-gradient(to right, red, orange);
 }
 
 .conan-table thead th {
@@ -415,15 +278,8 @@ h1 {
     font-weight: 700;
     vertical-align: middle;
 }
-
-.conan-table thead th:last-child {
-    border-right: none;
-}
-
-.conan-table thead .subhead {
-    font-weight: 700;
-    text-align: center;
-}
+.conan-table thead th:last-child { border-right: none; }
+.conan-table thead .subhead { font-weight: 700; text-align: center; }
 
 .conan-table tbody td {
     padding: 10px;
@@ -436,18 +292,9 @@ h1 {
     overflow-wrap: anywhere;
     word-break: break-word;
 }
-
-.conan-table tbody td:last-child {
-    border-right: none;
-}
-
-.conan-table tbody tr:nth-child(odd) {
-    background: rgba(0,0,0,0.03);
-}
-
-.dark-mode .conan-table tbody tr:nth-child(odd) {
-    background: rgba(255,255,255,0.03);
-}
+.conan-table tbody td:last-child { border-right: none; }
+.conan-table tbody tr:nth-child(odd) { background: rgba(0,0,0,0.03); }
+.dark-mode .conan-table tbody tr:nth-child(odd) { background: rgba(255,255,255,0.03); }
 
 .th-epno { text-align: center; }
 
@@ -460,20 +307,15 @@ h1 {
     border: 2px solid var(--panel-border);
     vertical-align: middle;
 }
-
 .chk--on {
     background: linear-gradient(135deg, #16a34a, #22c55e);
     border-color: #16a34a;
     position: relative;
 }
-
 .chk--on::after {
     content: '✓';
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 50%; left: 50%;
     transform: translate(-50%, -58%);
-    font-size: 14px;
-    font-weight: 700;
-    color: #fff;
+    font-size: 14px; font-weight: 700; color: #fff;
 }
