@@ -1,3 +1,5 @@
+@import url('https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css');
+
 /* General Reset */
 *,
 *:after,
@@ -14,7 +16,7 @@
     --panel-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
     --panel-border: #999999;
 
-    /* Conan blues for table header */
+    /* Conan blues for header gradient */
     --conan-blue-1: #0d47a1;
     --conan-blue-2: #1976d2;
 }
@@ -153,10 +155,10 @@ body.dark-mode .side-menu a {
 .content {
     text-align: center;
     padding: 20px;
-    padding-bottom: 80px; /* ensure content isn't hidden behind fixed footer */
+    padding-bottom: 140px; /* extra space so footer never covers long table */
     flex: 1;
     width: 100%;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
     box-sizing: border-box;
     display: flex;
@@ -181,16 +183,16 @@ body.dark-mode .side-menu a {
     box-shadow: var(--panel-shadow);
 }
 
-/* Typography */
+/* Titles (Conan) */
 h1 {
     font-size: 32px;
     text-align: center;
-    margin: 0 0 20px 0;
+    margin: 0;
 }
+.page-title-ja { margin-top: 8px; }
+.page-title-en { margin-top: 4px; }
 
-.page-title { /* extra spacing for Conan page as requested */
-    margin-bottom: 12px;
-}
+.title-spacer { height: 12px; } /* เว้นลงมาสักหน่อย */
 
 /* Video embed */
 .video-container {
@@ -268,7 +270,7 @@ h1 {
 @media (max-width: 600px) {
     .content {
         padding: 10px;
-        padding-bottom: 80px;
+        padding-bottom: 140px;
     }
     .time-and-countdown {
         padding: 10px;
@@ -276,7 +278,7 @@ h1 {
         align-items: flex-start;
     }
     .footer {
-        position: static;
+        position: static; /* on very small screens, let it flow naturally */
     }
 }
 
@@ -322,8 +324,9 @@ h1 {
 
 /* ============ Conan page: Season picker ============ */
 .season-picker {
+    position: relative; /* anchor dropdown */
     width: 100%;
-    max-width: 1000px;
+    max-width: 1200px;
     display: flex;
     justify-content: flex-start;
     margin-bottom: 12px; /* spacing under the title */
@@ -349,18 +352,11 @@ h1 {
     outline-offset: 2px;
 }
 
-/* mimic the requested icon class without external libs */
-.fi.fi-sr-dropdown-select::before {
-    content: '▾';
-    display: inline-block;
-    font-size: 16px;
-    line-height: 1;
-    transform: translateY(1px);
-}
-
 .season-menu {
     position: absolute;
-    margin-top: 44px; /* below the button */
+    top: 100%;
+    left: 0;
+    margin-top: 8px;
     background: var(--panel-bg);
     color: var(--panel-text);
     border: 2px solid var(--panel-border);
@@ -385,12 +381,15 @@ h1 {
 /* ============ Conan page: Table styles ============ */
 .table-wrapper {
     width: 100%;
-    max-width: 1000px;
-    overflow-x: auto;
+    max-width: 1200px;
+    overflow-x: auto;                 /* เลื่อนซ้ายขวาในตัว */
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 12px;
 }
 
 .conan-table {
     width: 100%;
+    min-width: 1400px;                /* กว้างพอให้มีการเลื่อนแนวนอน */
     border-collapse: separate;
     border-spacing: 0;
     border: 1px solid var(--panel-border);
@@ -399,13 +398,19 @@ h1 {
     background: var(--panel-bg);
     color: var(--panel-text);
     box-shadow: var(--panel-shadow);
+    table-layout: auto;               /* ยืดหยุ่นตามข้อมูล */
+}
+
+/* continuous gradient across entire header (both rows) */
+.conan-table thead {
+    background: linear-gradient(to right, var(--conan-blue-1), var(--conan-blue-2));
 }
 
 .conan-table thead th {
     padding: 12px 10px;
     text-align: left;
     color: #fff;
-    background: linear-gradient(to right, var(--conan-blue-1), var(--conan-blue-2));
+    background: transparent;          /* let THEAD show through */
     border-right: 1px solid rgba(255, 255, 255, 0.25);
     font-weight: 700;
     vertical-align: middle;
@@ -425,6 +430,11 @@ h1 {
     border-top: 1px solid var(--panel-border);
     border-right: 1px solid var(--panel-border);
     vertical-align: top;
+
+    /* accommodate long content from sheet */
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .conan-table tbody td:last-child {
