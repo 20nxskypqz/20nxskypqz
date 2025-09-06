@@ -227,3 +227,5 @@ document.addEventListener('DOMContentLoaded',function(){
     );
   }else{
     centerConanLayout();
+  }
+});
