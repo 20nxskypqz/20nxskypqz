@@ -1,4 +1,4 @@
-/* ===== Theme toggle (เดิม) ===== */
+/* ===== Theme toggle ===== */
 function toggleMode() {
     const isDark = document.body.classList.toggle('dark-mode');
     document.body.classList.toggle('light-mode', !isDark);
@@ -14,7 +14,7 @@ function toggleMode() {
     }
 }
 
-/* ===== Time / Countdown (คืนข้อความเดิม Date:/Time:) ===== */
+/* ===== Time / Countdown (Home page) ===== */
 function updateTime() {
     const dateEl = document.getElementById('date-display');
     const timeEl = document.getElementById('time-display');
@@ -23,26 +23,33 @@ function updateTime() {
     dateEl.textContent = `Date: ${now.toLocaleDateString('en-GB')}`;
     timeEl.textContent = `Time: ${now.toLocaleTimeString('en-GB')}`;
 }
+
 function updateCountdown() {
     const el = document.getElementById('countdown-display');
     if (!el) return;
     const target = new Date('January 1, 2026 00:00:00');
     const now = new Date();
     const diff = target - now;
-    if (diff <= 0) { el.textContent = '🎉 Happy New Year 2026!'; return; }
+    if (diff <= 0) {
+        el.textContent = '🎉 Happy New Year 2026!';
+        return;
+    }
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
     const minutes = Math.floor((diff / (1000 * 60)) % 60);
     const seconds = Math.floor((diff / 1000) % 60);
-    el.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    // full words (not d/h/m/s)
+    el.textContent = `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
 }
+
 function initializeUpdates() {
-    updateTime(); updateCountdown();
+    updateTime();
+    updateCountdown();
     setInterval(updateTime, 1000);
     setInterval(updateCountdown, 1000);
 }
 
-/* ===== Sheets (Conan only) ===== */
+/* ===== Sheets helpers (used by Conan page) ===== */
 function gvizFetch(sheetId, gid, tq) {
     const url =
         'https://docs.google.com/spreadsheets/d/' + encodeURIComponent(sheetId) +
@@ -104,9 +111,12 @@ function isChecked(val){
     const s = String(val || '').trim().toLowerCase();
     return ['true','yes','y','1','✓','✔','check','checked'].includes(s);
 }
+
+/* ===== Conan table rendering (42 rows) ===== */
 function renderConanTableFromSheet(sheetId, gid) {
     const tbody = document.getElementById('conan-table-body');
     if (!tbody) return;
+
     tbody.innerHTML = '<tr><td colspan="11">Loading…</td></tr>';
 
     gvizFetch(sheetId, gid, 'select *').then(json => {
@@ -149,7 +159,7 @@ function renderConanTableFromSheet(sheetId, gid) {
         tbody.innerHTML = '';
         tbody.appendChild(frag);
 
-        // เริ่มต้นให้เลื่อนไปซ้ายสุดได้จริง
+        // start with leftmost visible (still leaves padding gutter on mobile from CSS)
         const wrapper = document.querySelector('.conan-page .table-wrapper');
         if (wrapper) wrapper.scrollLeft = 0;
     }).catch(err => {
@@ -157,7 +167,7 @@ function renderConanTableFromSheet(sheetId, gid) {
     });
 }
 
-/* ===== Season selector (Conan only) ===== */
+/* ===== Season selector (Conan) ===== */
 const SEASONS = [
     { label: 'Detective Conan SS.1', gid: '0' }
 ];
@@ -199,12 +209,11 @@ function setupSeasonPicker(sheetSection) {
 
 /* ===== Init ===== */
 document.addEventListener('DOMContentLoaded', function () {
-    // Menu
+    // Menu (only on pages that have it)
     var menuToggle = document.querySelector('.menu-toggle');
-    var sideMenu = document.querySelector('.side-menu');
-    var closeMenu = document.querySelector('.close-menu');
-    var overlay = document.querySelector('.menu-overlay');
-
+    var sideMenu   = document.querySelector('.side-menu');
+    var closeMenu  = document.querySelector('.close-menu');
+    var overlay    = document.querySelector('.menu-overlay');
     function toggleMenu() {
         if (!sideMenu || !menuToggle || !overlay) return;
         var isOpen = sideMenu.classList.toggle('open');
@@ -213,8 +222,8 @@ document.addEventListener('DOMContentLoaded', function () {
         sideMenu.setAttribute('aria-hidden', String(!isOpen));
     }
     if (menuToggle) menuToggle.addEventListener('click', toggleMenu);
-    if (closeMenu)   closeMenu.addEventListener('click', toggleMenu);
-    if (overlay)     overlay.addEventListener('click', toggleMenu);
+    if (closeMenu)  closeMenu.addEventListener('click', toggleMenu);
+    if (overlay)    overlay.addEventListener('click', toggleMenu);
 
     // Theme
     var modeToggle = document.getElementById('mode-toggle');
@@ -223,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Home timers
     initializeUpdates();
 
-    // Conan only
+    // Conan
     var sheetSection = document.getElementById('conan-sheet');
     if (sheetSection) {
         setupSeasonPicker(sheetSection);
