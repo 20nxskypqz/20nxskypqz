@@ -1,88 +1,61 @@
-/* ===================== THEME TOGGLE ===================== */
-var FI_DAY_HREF  = 'https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-chubby/css/uicons-solid-chubby.css';
-var FI_NIGHT_HREF= 'https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css';
-
-function applyIconTheme(isDark) {
-  try {
-    var link = document.getElementById('fi-theme');
-    if (link) link.setAttribute('href', isDark ? FI_NIGHT_HREF : FI_DAY_HREF);
-    var icon = document.getElementById('mode-icon');
-    if (icon) icon.className = isDark ? 'fi fi-sr-moon' : 'fi fi-sc-sun';
-  } catch(e) {}
+/* ================= THEME ================= */
+var FI_DAY_HREF='https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-chubby/css/uicons-solid-chubby.css';
+var FI_NIGHT_HREF='https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css';
+function applyIconTheme(isDark){
+  try{
+    var link=document.getElementById('fi-theme');
+    if(link) link.setAttribute('href', isDark?FI_NIGHT_HREF:FI_DAY_HREF);
+    var icon=document.getElementById('mode-icon');
+    if(icon) icon.className=isDark?'fi fi-sr-moon':'fi fi-sc-sun';
+  }catch(e){}
 }
-function toggleMode() {
-  try {
-    var isDark = document.body.classList.toggle('dark-mode');
+function toggleMode(){
+  try{
+    var isDark=document.body.classList.toggle('dark-mode');
     document.body.classList.toggle('light-mode', !isDark);
-    var c = document.querySelector('.toggle-circle');
-    if (c) { if (isDark) c.classList.remove('light'); else c.classList.add('light'); }
+    var c=document.querySelector('.toggle-circle');
+    if(c){ if(isDark) c.classList.remove('light'); else c.classList.add('light'); }
     applyIconTheme(isDark);
-  } catch(e) {}
+  }catch(e){}
 }
 
-/* ===================== HOME: CLOCK & COUNTDOWN ===================== */
-function updateTime() {
-  try {
-    var dateEl = document.getElementById('date-display');
-    var timeEl = document.getElementById('time-display');
-    if (!dateEl || !timeEl) return;
-    var now = new Date();
-    dateEl.textContent = 'Date: ' + now.toLocaleDateString('en-GB');
-    timeEl.textContent = 'Time: ' + now.toLocaleTimeString('en-GB');
-  } catch(e) {}
-}
-function updateCountdown() {
-  try {
-    var el = document.getElementById('countdown-display');
-    if (!el) return;
-    var target = new Date('January 1, 2026 00:00:00');
-    var now = new Date();
-    var diff = target - now;
-    if (diff <= 0) { el.textContent = '🎉 Happy New Year 2026!'; return; }
-    var days = Math.floor(diff / 86400000);
-    var hours = Math.floor((diff / 3600000) % 24);
-    var minutes = Math.floor((diff / 60000) % 60);
-    var seconds = Math.floor((diff / 1000) % 60);
-    el.textContent = days + ' days ' + hours + ' hours ' + minutes + ' minutes ' + seconds + ' seconds';
-  } catch(e) {}
-}
-function initializeUpdates() {
-  updateTime(); updateCountdown();
-  setInterval(updateTime, 1000);
-  setInterval(updateCountdown, 1000);
-}
+/* ================= HOME CLOCK ================= */
+function updateTime(){ try{
+  var d=document.getElementById('date-display');
+  var t=document.getElementById('time-display');
+  if(!d||!t) return;
+  var now=new Date();
+  d.textContent='Date: '+now.toLocaleDateString('en-GB');
+  t.textContent='Time: '+now.toLocaleTimeString('en-GB');
+} catch(e){} }
+function updateCountdown(){ try{
+  var el=document.getElementById('countdown-display'); if(!el) return;
+  var target=new Date('January 1, 2026 00:00:00'); var now=new Date(); var diff=target-now;
+  if(diff<=0){ el.textContent='🎉 Happy New Year 2026!'; return; }
+  var days=Math.floor(diff/86400000);
+  var hours=Math.floor((diff/3600000)%24);
+  var minutes=Math.floor((diff/60000)%60);
+  var seconds=Math.floor((diff/1000)%60);
+  el.textContent=days+' days '+hours+' hours '+minutes+' minutes '+seconds+' seconds';
+} catch(e){} }
+function initializeUpdates(){ updateTime(); updateCountdown(); setInterval(updateTime,1000); setInterval(updateCountdown,1000); }
 
-/* ===================== GOOGLE SHEETS HELPERS ===================== */
-function gvizFetch(sheetId, gid, tq) {
-  var url = 'https://docs.google.com/spreadsheets/d/' + encodeURIComponent(sheetId) +
-            '/gviz/tq?gid=' + encodeURIComponent(gid || '0') +
-            (tq ? '&tq=' + encodeURIComponent(tq) : '');
-  return fetch(url).then(function(r){ return r.text(); }).then(function(txt){
-    var s = txt.indexOf('{'); var e = txt.lastIndexOf('}');
-    if (s === -1 || e === -1) throw new Error('Unexpected response format');
-    return JSON.parse(txt.slice(s, e + 1));
+/* ================= SHEETS HELPERS ================= */
+function gvizFetch(sheetId,gid,tq){
+  var url='https://docs.google.com/spreadsheets/d/'+encodeURIComponent(sheetId)+'/gviz/tq?gid='+encodeURIComponent(gid||'0')+(tq?'&tq='+encodeURIComponent(tq):'');
+  return fetch(url).then(function(r){return r.text();}).then(function(txt){
+    var s=txt.indexOf('{'); var e=txt.lastIndexOf('}'); if(s===-1||e===-1) throw new Error('Unexpected response format');
+    return JSON.parse(txt.slice(s,e+1));
   });
 }
-function getTable(json){ return (json && json.table) ? json.table : null; }
-function getRows(json){ var t=getTable(json); return (t && t.rows) ? t.rows : []; }
-function getCols(json){ var t=getTable(json); return (t && t.cols) ? t.cols : []; }
-function rowToArray(row){
-  var out = []; var cells = (row && row.c) ? row.c : [];
-  for (var i=0;i<cells.length;i++) {
-    var c = cells[i];
-    out.push( c ? (c.f!=null ? String(c.f) : (c.v==null ? '' : String(c.v))) : '' );
-  }
-  return out;
-}
-function tableToArrays(json){ var rows=getRows(json), out=[]; for (var i=0;i<rows.length;i++) out.push(rowToArray(rows[i])); return out; }
-function extractHeadersFromCols(json){
-  var cols = getCols(json), out=[];
-  for (var i=0;i<cols.length;i++){ var c=cols[i]; out.push((c&&c.label)?String(c.label):''); }
-  return out;
-}
+function getTable(json){return (json&&json.table)?json.table:null;}
+function getRows(json){var t=getTable(json); return (t&&t.rows)?t.rows:[];}
+function getCols(json){var t=getTable(json); return (t&&t.cols)?t.cols:[];}
+function rowToArray(row){var out=[]; var cells=(row&&row.c)?row.c:[]; for(var i=0;i<cells.length;i++){var c=cells[i]; out.push(c?(c.f!=null?String(c.f):(c.v==null?'':String(c.v))):'');} return out;}
+function tableToArrays(json){var rows=getRows(json),out=[]; for(var i=0;i<rows.length;i++) out.push(rowToArray(rows[i])); return out;}
+function extractHeadersFromCols(json){var cols=getCols(json),out=[]; for(var i=0;i<cols.length;i++){var c=cols[i]; out.push((c&&c.label)?String(c.label):'');} return out;}
 
-/* ==== ALIASES ==== */
-var COLUMN_ALIASES = {
+var COLUMN_ALIASES={
   epNoTH:['Episode No TH','Episode No. (TH)','ตอนที่ (ไทย)','ตอนที่ไทย','EP TH','Ep TH','EP(TH)'],
   epNoJP:['Episode No JP','Episode No. (JP)','ตอนที่ (ญี่ปุ่น)','ตอนที่ญี่ปุ่น','EP JP','Ep JP','EP(JP)'],
   title:['Episode Title','ชื่อตอน','Title'],
@@ -95,24 +68,12 @@ var COLUMN_ALIASES = {
   mainPlot:['Main Plot Related','เนื้อเรื่องหลัก','Main Plot'],
   checklist:['Checklist','เช็คลิสต์','Check']
 };
-function flattenAliasObject(obj){
-  var res = [];
-  for (var k in obj) if (Object.prototype.hasOwnProperty.call(obj,k)) {
-    var arr = obj[k];
-    for (var i=0;i<arr.length;i++) res.push(arr[i]);
-  }
-  return res;
-}
-var ALL_ALIAS_ARRAY = flattenAliasObject(COLUMN_ALIASES);
-function normalizeHeader(h){ return String(h || '').trim().toLowerCase(); }
-function findIndexByAliases(headers, aliases){
-  var norm=[], i, j;
-  for (i=0;i<headers.length;i++) norm.push(normalizeHeader(headers[i]));
-  for (j=0;j<aliases.length;j++) {
-    var key = normalizeHeader(aliases[j]);
-    var idx = norm.indexOf(key);
-    if (idx !== -1) return idx;
-  }
+function flattenAliasObject(obj){var res=[]; for(var k in obj) if(Object.prototype.hasOwnProperty.call(obj,k)){var arr=obj[k]; for(var i=0;i<arr.length;i++) res.push(arr[i]);} return res;}
+var ALL_ALIAS_ARRAY=flattenAliasObject(COLUMN_ALIASES);
+function normalizeHeader(h){return String(h||'').trim().toLowerCase();}
+function findIndexByAliases(headers,aliases){
+  var norm=[],i,j; for(i=0;i<headers.length;i++) norm.push(normalizeHeader(headers[i]));
+  for(j=0;j<aliases.length;j++){var key=normalizeHeader(aliases[j]); var idx=norm.indexOf(key); if(idx!==-1) return idx;}
   return -1;
 }
 function buildColumnMap(headers){
@@ -130,235 +91,223 @@ function buildColumnMap(headers){
     checklist:findIndexByAliases(headers,COLUMN_ALIASES.checklist)
   };
 }
-function getCell(arr, idx){ return (idx === -1) ? '' : (arr[idx] || ''); }
-function isChecked(val){
-  var s = String(val || '').trim().toLowerCase();
-  return (s==='true'||s==='yes'||s==='y'||s==='1'||s==='✓'||s==='✔'||s==='check'||s==='checked');
-}
+function getCell(arr,idx){return (idx===-1)?'':(arr[idx]||'');}
+function isChecked(val){var s=String(val||'').trim().toLowerCase(); return (s==='true'||s==='yes'||s==='y'||s==='1'||s==='✓'||s==='✔'||s==='check'||s==='checked');}
 
-/* ==== ตรวจหัวตาราง (รองรับกรณีเริ่ม A5) ==== */
-function detectHeaderRowIndex(arrays, maxScan){
-  if (typeof maxScan !== 'number') maxScan = 12;
-  var bestIdx = -1, bestScore = -1;
+/* header row detection (รองรับเริ่ม A5) */
+function detectHeaderRowIndex(arrays,maxScan){
+  if(typeof maxScan!=='number') maxScan=12;
+  var bestIdx=-1,bestScore=-1;
   function scoreRow(row){
-    var score=0, i, j;
-    for (i=0;i<row.length;i++) {
-      var cell = String(row[i] || '').trim().toLowerCase();
-      for (j=0;j<ALL_ALIAS_ARRAY.length;j++) {
-        if (cell === String(ALL_ALIAS_ARRAY[j]).trim().toLowerCase()) { score++; break; }
+    var score=0,i,j;
+    for(i=0;i<row.length;i++){
+      var cell=String(row[i]||'').trim().toLowerCase();
+      for(j=0;j<ALL_ALIAS_ARRAY.length;j++){
+        if(cell===String(ALL_ALIAS_ARRAY[j]).trim().toLowerCase()){score++; break;}
       }
     }
     return score;
   }
-  for (var r=0; r<arrays.length && r<maxScan; r++) {
-    var sc = scoreRow(arrays[r] || []);
-    if (sc > bestScore) { bestScore = sc; bestIdx = r; }
+  for(var r=0;r<arrays.length&&r<maxScan;r++){
+    var sc=scoreRow(arrays[r]||[]);
+    if(sc>bestScore){bestScore=sc; bestIdx=r;}
   }
-  return (bestScore >= 2) ? bestIdx : -1;
+  return (bestScore>=2)?bestIdx:-1;
 }
 
-/* ===================== CONAN TABLE (42 ROWS) ===================== */
-function renderConanTableFromSheet(sheetId, gid) {
-  var tbody = document.getElementById('conan-table-body');
-  if (!tbody) return;
+/* ============== Conan Table (42 rows) ============== */
+function renderConanTableFromSheet(sheetId,gid){
+  var tbody=document.getElementById('conan-table-body'); if(!tbody) return;
+  tbody.innerHTML='<tr><td colspan="11">Loading…</td></tr>';
 
-  tbody.innerHTML = '<tr><td colspan="11">Loading…</td></tr>';
+  gvizFetch(sheetId,gid,'select *').then(function(json){
+    var arrays=tableToArrays(json);
+    var labels=extractHeadersFromCols(json);
 
-  gvizFetch(sheetId, gid, 'select *').then(function(json){
-    var arrays = tableToArrays(json);
-    var labels = extractHeadersFromCols(json);
+    var headers=[],dataRows=[],nonEmpty=[],i;
+    for(i=0;i<labels.length;i++) if(String(labels[i]).trim()!=='') nonEmpty.push(labels[i]);
 
-    var headers = [], dataRows = [], nonEmpty=[], i;
-    for (i=0;i<labels.length;i++) if (String(labels[i]).trim()!=='') nonEmpty.push(labels[i]);
-
-    if (nonEmpty.length >= 3) { headers = labels; dataRows = arrays; }
-    else {
-      var idx = detectHeaderRowIndex(arrays, 12);
-      if (idx !== -1) { headers = arrays[idx]; dataRows = arrays.slice(idx + 1); }
-      else { headers = arrays[0] || []; dataRows = arrays.slice(1); }
+    if(nonEmpty.length>=3){ headers=labels; dataRows=arrays; }
+    else{
+      var idx=detectHeaderRowIndex(arrays,12);
+      if(idx!==-1){ headers=arrays[idx]; dataRows=arrays.slice(idx+1); }
+      else{ headers=arrays[0]||[]; dataRows=arrays.slice(1); }
     }
 
-    var map = buildColumnMap(headers);
-    if (!dataRows.length) { tbody.innerHTML = '<tr><td colspan="11">No data.</td></tr>'; finalizeLayout(); return; }
+    var map=buildColumnMap(headers);
+    if(!dataRows.length){ tbody.innerHTML='<tr><td colspan="11">No data.</td></tr>'; finalizeConanLayout(); return; }
 
-    var MAX_ROWS = 42;
-    var rows = dataRows.slice(0, MAX_ROWS);
-    while (rows.length < MAX_ROWS) rows.push([]);
+    var MAX_ROWS=42;
+    var rows=dataRows.slice(0,MAX_ROWS); while(rows.length<MAX_ROWS) rows.push([]);
 
-    var frag = document.createDocumentFragment();
-    for (var r=0; r<rows.length; r++) {
-      var row = rows[r];
-      var tr = document.createElement('tr');
+    var frag=document.createDocumentFragment();
+    for(var r=0;r<rows.length;r++){
+      var row=rows[r]; var tr=document.createElement('tr');
 
-      var tdEpTH = document.createElement('td');  tdEpTH.textContent = getCell(row, map.epNoTH); tr.appendChild(tdEpTH);
-      var tdEpJP = document.createElement('td');  tdEpJP.textContent = getCell(row, map.epNoJP); tr.appendChild(tdEpJP);
-      var tdTitle= document.createElement('td');  tdTitle.textContent= getCell(row, map.title);  tr.appendChild(tdTitle);
-      var tdAir  = document.createElement('td');  tdAir.textContent  = getCell(row, map.airDate); tr.appendChild(tdAir);
-      var tdET   = document.createElement('td');  tdET.textContent   = getCell(row, map.episodeType); tr.appendChild(tdET);
-      var tdCT   = document.createElement('td');  tdCT.textContent   = getCell(row, map.caseType); tr.appendChild(tdCT);
-      var tdKC   = document.createElement('td');  tdKC.textContent   = getCell(row, map.keyCharacters); tr.appendChild(tdKC);
-      var tdTv   = document.createElement('td');  tdTv.textContent   = getCell(row, map.trivia); tr.appendChild(tdTv);
-      var tdSum  = document.createElement('td');  tdSum.textContent  = getCell(row, map.caseSummary); tr.appendChild(tdSum);
-      var tdMP   = document.createElement('td');  tdMP.textContent   = getCell(row, map.mainPlot); tr.appendChild(tdMP);
+      var tdEpTH=document.createElement('td'); tdEpTH.textContent=getCell(row,map.epNoTH); tr.appendChild(tdEpTH);
+      var tdEpJP=document.createElement('td'); tdEpJP.textContent=getCell(row,map.epNoJP); tr.appendChild(tdEpJP);
+      var tdTitle=document.createElement('td'); tdTitle.textContent=getCell(row,map.title); tr.appendChild(tdTitle);
+      var tdAir=document.createElement('td'); tdAir.textContent=getCell(row,map.airDate); tr.appendChild(tdAir);
+      var tdET=document.createElement('td'); tdET.textContent=getCell(row,map.episodeType); tr.appendChild(tdET);
+      var tdCT=document.createElement('td'); tdCT.textContent=getCell(row,map.caseType); tr.appendChild(tdCT);
+      var tdKC=document.createElement('td'); tdKC.textContent=getCell(row,map.keyCharacters); tr.appendChild(tdKC);
+      var tdTv=document.createElement('td'); tdTv.textContent=getCell(row,map.trivia); tr.appendChild(tdTv);
+      var tdSum=document.createElement('td'); tdSum.textContent=getCell(row,map.caseSummary); tr.appendChild(tdSum);
+      var tdMP=document.createElement('td'); tdMP.textContent=getCell(row,map.mainPlot); tr.appendChild(tdMP);
 
-      var tdChk  = document.createElement('td');
-      var span   = document.createElement('span');
-      var checked= isChecked(getCell(row, map.checklist));
-      span.className = 'chk' + (checked ? ' chk--on' : '');
-      span.setAttribute('aria-label', checked ? 'Checked' : 'Not checked');
+      var tdChk=document.createElement('td'); var span=document.createElement('span');
+      var checked=isChecked(getCell(row,map.checklist));
+      span.className='chk'+(checked?' chk--on':'');
+      span.setAttribute('aria-label',checked?'Checked':'Not checked');
       tdChk.appendChild(span); tr.appendChild(tdChk);
 
       frag.appendChild(tr);
     }
 
-    tbody.innerHTML = '';
-    tbody.appendChild(frag);
-
-    finalizeLayout();  // จัดสกรอลล์กึ่งกลาง + จัด SS ให้ชิดซ้ายตาราง
+    tbody.innerHTML=''; tbody.appendChild(frag);
+    finalizeConanLayout();   // ← เหลือเฉพาะ 2 อย่าง: (1) SS ชิดซ้ายตาราง (2) หัวเรื่องกลางเท่าศูนย์กลางตาราง
   }).catch(function(err){
-    tbody.innerHTML = '<tr><td colspan="11">Failed to load sheet. Please check sharing (Anyone with the link can view) or Publish to the web. (' + err.message + ')</td></tr>';
-    finalizeLayout();
+    tbody.innerHTML='<tr><td colspan="11">Failed to load sheet. ('+err.message+')</td></tr>';
+    finalizeConanLayout();
   });
 }
 
-/* ===================== LAYOUT HELPERS ===================== */
-function centerTableScroll(){
-  var wrapper = document.querySelector('.conan-page .table-wrapper');
-  var table   = document.querySelector('.conan-page .conan-table');
-  if (!wrapper || !table) return;
-
-  // ถ้าตารางกว้างกว่า viewport ให้ตั้ง scrollLeft ให้อยู่กึ่งกลางตาราง
-  var total = table.scrollWidth;
-  var box   = wrapper.clientWidth;
-  if (total > box) {
-    var target = Math.max(0, Math.round((total - box) / 2));
-    wrapper.scrollLeft = target;
-  } else {
-    wrapper.scrollLeft = 0;
-  }
-}
-
+/* ============== ONLY THESE 2 POSITIONING BEHAVIORS ============== */
+/* 1) SS ชิดซ้ายของตาราง */
 function alignSeasonPickerToTable(){
-  try {
-    var picker  = document.getElementById('season-picker');
-    var table   = document.querySelector('.conan-page .conan-table');
-    if (!picker || !table) return;
+  try{
+    var picker=document.getElementById('season-picker');
+    var table=document.querySelector('.conan-page .conan-table');
+    if(!picker||!table) return;
 
-    picker.style.transform = 'none';  // reset
+    // reset
+    picker.style.transform='none';
 
-    var pRect = picker.getBoundingClientRect();
-    var tRect = table.getBoundingClientRect();
-    var delta = Math.round(tRect.left - pRect.left);
+    var pRect=picker.getBoundingClientRect();
+    var tRect=table.getBoundingClientRect();
+    var delta=Math.round(tRect.left - pRect.left);
 
-    picker.style.transform = 'translateX(' + delta + 'px)';
-  } catch(e) {}
+    picker.style.transform='translateX('+delta+'px)';
+  }catch(e){}
 }
 
-function finalizeLayout(){
-  centerTableScroll();
+/* 2) หัวเรื่อง (JA/EN) ให้อยู่กึ่งกลาง “ตัวตาราง” */
+function centerTitleToTable(){
+  try{
+    var titleGroup=document.querySelector('.conan-page .title-group');
+    var table=document.querySelector('.conan-page .conan-table');
+    if(!titleGroup||!table) return;
+
+    titleGroup.style.transform='translateX(0)';
+    var tr=table.getBoundingClientRect();
+    var tg=titleGroup.getBoundingClientRect();
+
+    var tableCenter=tr.left + tr.width/2;
+    var titleCenter=tg.left + tg.width/2;
+    var shift=Math.round(tableCenter - titleCenter);
+
+    titleGroup.style.transform='translateX('+shift+'px)';
+  }catch(e){}
+}
+
+/* รวมสองอย่างเข้าด้วยกัน */
+function finalizeConanLayout(){
   alignSeasonPickerToTable();
+  centerTitleToTable();
 }
 
-/* ===================== SEASON SELECTOR ===================== */
-var SEASONS = [{ label: 'Detective Conan SS.1', gid: '0' }];
-
+/* ============== SEASON PICKER ============== */
+var SEASONS=[{label:'Detective Conan SS.1', gid:'0'}];
 function setupSeasonPicker(sheetSection){
-  var picker = document.getElementById('season-picker'); if (!picker || !sheetSection) return;
-  var btn   = picker.querySelector('.season-button');
-  var menu  = picker.querySelector('.season-menu');
-  var label = picker.querySelector('.season-label');
+  var picker=document.getElementById('season-picker'); if(!picker||!sheetSection) return;
+  var btn=picker.querySelector('.season-button');
+  var menu=picker.querySelector('.season-menu');
+  var label=picker.querySelector('.season-label');
 
-  // เติมรายการ
-  menu.innerHTML = '';
-  for (var i=0;i<SEASONS.length;i++){
+  menu.innerHTML='';
+  for(var i=0;i<SEASONS.length;i++){
     (function(s){
-      var li = document.createElement('li');
-      li.textContent = s.label;
-      li.setAttribute('role','option');
-      li.tabIndex = 0;
+      var li=document.createElement('li');
+      li.textContent=s.label; li.setAttribute('role','option'); li.tabIndex=0;
       li.addEventListener('click', function(){
-        label.textContent = s.label;
+        label.textContent=s.label;
         sheetSection.setAttribute('data-gid', s.gid);
         renderConanTableFromSheet(sheetSection.getAttribute('data-sheet-id'), s.gid);
-        menu.hidden = true;
-        btn.setAttribute('aria-expanded', 'false');
+        menu.hidden=true; btn.setAttribute('aria-expanded','false');
       });
       menu.appendChild(li);
     })(SEASONS[i]);
   }
 
-  // เปิด/ปิดเมนู
   btn.addEventListener('click', function(){
-    var expanded = btn.getAttribute('aria-expanded') === 'true';
+    var expanded=btn.getAttribute('aria-expanded')==='true';
     btn.setAttribute('aria-expanded', String(!expanded));
-    menu.hidden = expanded;
+    menu.hidden=expanded;
   });
   document.addEventListener('click', function(e){
-    if (!picker.contains(e.target)) { menu.hidden = true; btn.setAttribute('aria-expanded','false'); }
+    if(!picker.contains(e.target)){ menu.hidden=true; btn.setAttribute('aria-expanded','false'); }
   });
 }
 
-/* ===================== MENU & INIT ===================== */
-document.addEventListener('DOMContentLoaded', function () {
-  try {
+/* ============== MENU & INIT ============== */
+document.addEventListener('DOMContentLoaded', function(){
+  try{
     // Menu
-    var menuToggle = document.querySelector('.menu-toggle');
-    var sideMenu   = document.querySelector('.side-menu');
-    var closeMenu  = document.querySelector('.close-menu');
-    var overlay    = document.querySelector('.menu-overlay');
+    var menuToggle=document.querySelector('.menu-toggle');
+    var sideMenu=document.querySelector('.side-menu');
+    var closeMenu=document.querySelector('.close-menu');
+    var overlay=document.querySelector('.menu-overlay');
 
-    function updateMenuIcon(isOpen) {
-      if (!menuToggle) return;
-      var icon = menuToggle.querySelector('i');
-      if (icon) icon.className = isOpen ? 'fi fi-br-cross' : 'fi fi-br-menu-burger';
-      else menuToggle.textContent = isOpen ? '×' : '☰';
+    function updateMenuIcon(isOpen){
+      if(!menuToggle) return;
+      var icon=menuToggle.querySelector('i');
+      if(icon) icon.className=isOpen?'fi fi-br-cross':'fi fi-br-menu-burger';
+      else menuToggle.textContent=isOpen?'×':'☰';
       menuToggle.setAttribute('aria-expanded', String(isOpen));
-      menuToggle.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Toggle navigation');
+      menuToggle.setAttribute('aria-label', isOpen?'Close navigation':'Toggle navigation');
     }
-    function toggleMenu() {
-      if (!sideMenu || !menuToggle || !overlay) return;
-      var isOpen = sideMenu.classList.toggle('open');
+    function toggleMenu(){
+      if(!sideMenu||!menuToggle||!overlay) return;
+      var isOpen=sideMenu.classList.toggle('open');
       overlay.classList.toggle('visible', isOpen);
       updateMenuIcon(isOpen);
       sideMenu.setAttribute('aria-hidden', String(!isOpen));
     }
-    if (menuToggle) menuToggle.addEventListener('click', toggleMenu);
-    if (closeMenu)  closeMenu.addEventListener('click', toggleMenu);
-    if (overlay)    overlay.addEventListener('click', toggleMenu);
+    if(menuToggle) menuToggle.addEventListener('click', toggleMenu);
+    if(closeMenu)  closeMenu.addEventListener('click', toggleMenu);
+    if(overlay)    overlay.addEventListener('click', toggleMenu);
     updateMenuIcon(false);
 
     // Theme
-    var modeToggle = document.getElementById('mode-toggle');
-    if (modeToggle) modeToggle.addEventListener('click', toggleMode);
+    var modeToggle=document.getElementById('mode-toggle');
+    if(modeToggle) modeToggle.addEventListener('click', toggleMode);
     applyIconTheme(document.body.classList.contains('dark-mode'));
 
     // Home timers
     initializeUpdates();
 
     // Conan page
-    var sheetSection = document.getElementById('conan-sheet');
-    if (sheetSection) {
+    var sheetSection=document.getElementById('conan-sheet');
+    if(sheetSection){
       setupSeasonPicker(sheetSection);
       renderConanTableFromSheet(
         sheetSection.getAttribute('data-sheet-id'),
-        sheetSection.getAttribute('data-gid') || '0'
+        sheetSection.getAttribute('data-gid')||'0'
       );
-    } else {
-      finalizeLayout();
+    }else{
+      finalizeConanLayout();
     }
 
-    // จัดตำแหน่งอีกครั้งหลังฟอนต์โหลด
-    try { if (document.fonts && document.fonts.ready && typeof document.fonts.ready.then==='function') { document.fonts.ready.then(finalizeLayout); } } catch(e){}
-
-    // จัดตำแหน่งตามการสกรอลล์ของตัวห่อ
-    var wrapper = document.querySelector('.conan-page .table-wrapper');
-    if (wrapper) {
-      wrapper.addEventListener('scroll', alignSeasonPickerToTable, { passive: true });
+    // ให้ตำแหน่งตามการสกรอลล์ของตัวห่อตารางด้วย (เพราะเราไม่จัดกลางอะไรทั้งนั้น)
+    var wrapper=document.querySelector('.conan-page .table-wrapper');
+    if(wrapper){
+      wrapper.addEventListener('scroll', finalizeConanLayout, {passive:true});
     }
-  } catch(e) {}
+
+    // หลังฟอนต์โหลด/รีไซส์/หมุนจอ — คำนวณใหม่ (เฉพาะ 2 อย่าง)
+    try{ if(document.fonts && document.fonts.ready && typeof document.fonts.ready.then==='function'){ document.fonts.ready.then(finalizeConanLayout); } }catch(e){}
+  }catch(e){}
 });
-
-// อัปเดตเมื่อเปลี่ยนขนาดหน้าต่าง/หมุนจอ/โหลดครบ
-window.addEventListener('resize', finalizeLayout);
-window.addEventListener('orientationchange', finalizeLayout);
-window.addEventListener('load', finalizeLayout);
+window.addEventListener('resize', finalizeConanLayout);
+window.addEventListener('orientationchange', finalizeConanLayout);
+window.addEventListener('load', finalizeConanLayout);
