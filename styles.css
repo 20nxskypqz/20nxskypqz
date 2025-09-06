@@ -12,7 +12,6 @@
     --panel-bg: #ffffff;
     --panel-text: #000000;
     --panel-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-    /* darker gray border so the card stands out on a white background */
     --panel-border: #999999;
 }
 
@@ -35,7 +34,6 @@ body.dark-mode {
     --panel-bg: #111315;
     --panel-text: #e8eaed;
     --panel-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-    /* light gray border against the dark card background */
     --panel-border: #dddddd;
 }
 
