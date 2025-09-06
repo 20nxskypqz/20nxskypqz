@@ -48,7 +48,7 @@ function initializeUpdates() {
     setInterval(updateCountdown, 1000);
 }
 
-/* ===== Sheets helpers (used by Conan page) ===== */
+/* ===== Google Sheets fetch (Conan) ===== */
 function gvizFetch(sheetId, gid, tq) {
     const url =
         'https://docs.google.com/spreadsheets/d/' + encodeURIComponent(sheetId) +
@@ -63,11 +63,13 @@ function gvizFetch(sheetId, gid, tq) {
 }
 function rowToArray(row) { return (row.c || []).map(c => (c ? (c.f != null ? String(c.f) : (c.v == null ? '' : String(c.v))) : '')); }
 function tableToArrays(json) { const rows = json?.table?.rows || []; return rows.map(rowToArray); }
+function extractHeaders(json){ return (json?.table?.cols || []).map(c => (c && c.label ? String(c.label) : '')); }
+
 const COLUMN_ALIASES = {
     epNoTH: ['Episode No TH','Episode No. (TH)','ตอนที่ (ไทย)','ตอนที่ไทย','EP TH','Ep TH','EP(TH)'],
     epNoJP: ['Episode No JP','Episode No. (JP)','ตอนที่ (ญี่ปุ่น)','ตอนที่ญี่ปุ่น','EP JP','Ep JP','EP(JP)'],
     title: ['Episode Title','ชื่อตอน','Title'],
-    airDate: ['Air Date','วันออกอากาศ','Broadcast Date','On Air'],
+    airDate: ['Air Date','วันออกอากาศ','Broadcast Date','On Air','On-Air Date'],
     episodeType: ['Episode Type','ประเภทตอน'],
     caseType: ['Case Type','ประเภทคดี'],
     keyCharacters: ['Key Characters','ตัวละคร','Characters'],
@@ -85,20 +87,20 @@ function findIndexByAliases(headers, aliases){
     }
     return -1;
 }
-function buildColumnMap(headerRow){
-    const map = {}, headers = headerRow || [];
-    map.epNoTH      = findIndexByAliases(headers, COLUMN_ALIASES.epNoTH);
-    map.epNoJP      = findIndexByAliases(headers, COLUMN_ALIASES.epNoJP);
-    map.title       = findIndexByAliases(headers, COLUMN_ALIASES.title);
-    map.airDate     = findIndexByAliases(headers, COLUMN_ALIASES.airDate);
-    map.episodeType = findIndexByAliases(headers, COLUMN_ALIASES.episodeType);
-    map.caseType    = findIndexByAliases(headers, COLUMN_ALIASES.caseType);
-    map.keyCharacters = findIndexByAliases(headers, COLUMN_ALIASES.keyCharacters);
-    map.trivia      = findIndexByAliases(headers, COLUMN_ALIASES.trivia);
-    map.caseSummary = findIndexByAliases(headers, COLUMN_ALIASES.caseSummary);
-    map.mainPlot    = findIndexByAliases(headers, COLUMN_ALIASES.mainPlot);
-    map.checklist   = findIndexByAliases(headers, COLUMN_ALIASES.checklist);
-    return map;
+function buildColumnMap(headers){
+    return {
+        epNoTH:       findIndexByAliases(headers, COLUMN_ALIASES.epNoTH),
+        epNoJP:       findIndexByAliases(headers, COLUMN_ALIASES.epNoJP),
+        title:        findIndexByAliases(headers, COLUMN_ALIASES.title),
+        airDate:      findIndexByAliases(headers, COLUMN_ALIASES.airDate),
+        episodeType:  findIndexByAliases(headers, COLUMN_ALIASES.episodeType),
+        caseType:     findIndexByAliases(headers, COLUMN_ALIASES.caseType),
+        keyCharacters:findIndexByAliases(headers, COLUMN_ALIASES.keyCharacters),
+        trivia:       findIndexByAliases(headers, COLUMN_ALIASES.trivia),
+        caseSummary:  findIndexByAliases(headers, COLUMN_ALIASES.caseSummary),
+        mainPlot:     findIndexByAliases(headers, COLUMN_ALIASES.mainPlot),
+        checklist:    findIndexByAliases(headers, COLUMN_ALIASES.checklist)
+    };
 }
 function getCell(arr, idx){ return idx === -1 ? '' : (arr[idx] || ''); }
 function isChecked(val){
@@ -114,14 +116,14 @@ function renderConanTableFromSheet(sheetId, gid) {
     tbody.innerHTML = '<tr><td colspan="11">Loading…</td></tr>';
 
     gvizFetch(sheetId, gid, 'select *').then(json => {
-        const arrays = tableToArrays(json);
+        const headers = extractHeaders(json);        // ✅ ใช้ header ที่ถูกต้อง
+        const arrays  = tableToArrays(json);         // ✅ แถวข้อมูลจริง (ไม่มี header ปะปน)
+        const map     = buildColumnMap(headers);
+
         if (!arrays.length) { tbody.innerHTML = '<tr><td colspan="11">No data.</td></tr>'; return; }
-        const header = arrays[0];
-        const dataRows = arrays.slice(1);
-        const map = buildColumnMap(header);
 
         const MAX_ROWS = 42;
-        const rows = dataRows.slice(0, MAX_ROWS);
+        const rows = arrays.slice(0, MAX_ROWS);
         while (rows.length < MAX_ROWS) rows.push([]);
 
         const frag = document.createDocumentFragment();
@@ -153,41 +155,39 @@ function renderConanTableFromSheet(sheetId, gid) {
         tbody.innerHTML = '';
         tbody.appendChild(frag);
 
-        // จัดตารางให้อยู่ "กึ่งกลางพอดี" ด้วย JS
+        // จัดตารางให้อยู่ "กึ่งกลางจริง" ด้วย transform
         centerConanTableToViewport();
     }).catch(err => {
         tbody.innerHTML = '<tr><td colspan="11">Failed to load sheet. Please check sharing (Anyone with the link can view) or Publish to the web. (' + err.message + ')</td></tr>';
     });
 }
 
-/* ===== Center Conan table with JS =====
-   วิธี: วัดตำแหน่ง wrapper และความกว้างของ table -> คำนวณ margin-left
-   ให้ 'กึ่งกลางของตาราง' ทับ 'กึ่งกลาง viewport' (ตำแหน่งเดียวกับ footer)
+/* ===== Center Conan table with JS (robust) =====
+   - วัด center ของตาราง (boundingClientRect)
+   - วัด center ของ viewport
+   - เลื่อนด้วย transform เพื่อให้ตรงกลางเป๊ะ
 */
 function centerConanTableToViewport() {
     if (!document.body.classList.contains('conan-page')) return;
 
-    const wrapper = document.querySelector('.conan-page .table-wrapper');
-    const table   = document.querySelector('.conan-page .conan-table');
-    if (!wrapper || !table) return;
+    const table = document.querySelector('.conan-page .conan-table');
+    if (!table) return;
 
-    // default
-    table.style.marginRight = 'auto';
+    // รีเซ็ตก่อนคำนวณใหม่
+    table.style.transform = 'translateX(0)';
 
-    const viewportCenter = (window.visualViewport ? window.visualViewport.width : document.documentElement.clientWidth) / 2;
-    const wrapRect   = wrapper.getBoundingClientRect();
-    const tableWidth = table.offsetWidth;
+    const rect = table.getBoundingClientRect();
+    const viewportCenter = (window.visualViewport ? window.visualViewport.width : window.innerWidth) / 2;
+    const tableCenter    = rect.left + rect.width / 2;
+    const delta          = Math.round(viewportCenter - tableCenter);
 
-    // อยาก "ขยับออกมาอีก" สามารถปรับ OFFSET ได้ (ค่าบวก = ขยับไปทางขวาเล็กน้อย)
-    const OFFSET = 0; // px — ถ้าอยากให้เยื้องขวาอีกนิด เปลี่ยนเป็นเช่น 8 หรือ 12 ได้
+    // OFFSET ปรับเพิ่ม/ลดได้ถ้าต้องขยับขวา/ซ้ายอีกนิด (ค่าเริ่มต้น 0)
+    const OFFSET = 0;
 
-    const desiredLeftInViewport = viewportCenter - (tableWidth / 2) + OFFSET;
-    const marginLeft = desiredLeftInViewport - wrapRect.left;
-
-    table.style.marginLeft = `${marginLeft}px`;
+    table.style.transform = `translateX(${delta + OFFSET}px)`;
 }
 
-// อัปเดตเมื่อเปลี่ยนขนาด/หมุนจอ
+// คอยอัปเดตเมื่อหน้าต่างเปลี่ยนขนาด/หมุนจอ/ซูมบนมือถือ
 window.addEventListener('resize', centerConanTableToViewport);
 window.addEventListener('orientationchange', centerConanTableToViewport);
 
@@ -274,7 +274,6 @@ document.addEventListener('DOMContentLoaded', function () {
             sheetSection.getAttribute('data-gid') || '0'
         );
     } else {
-        // ถ้าอยู่หน้า Conan แต่ยังไม่มีตาราง (กรณีพิเศษ)
         centerConanTableToViewport();
     }
 });
