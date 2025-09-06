@@ -11,22 +11,33 @@
     <!-- Flaticon (dropdown icon) -->
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css">
 
+    <!-- Icon sets -->
+    <!-- Theme-dependent icon set: day=solid-chubby, night=solid-rounded -->
+    <link id="fi-theme" rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-chubby/css/uicons-solid-chubby.css">
+    <!-- Fixed icon sets used across pages -->
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-bold-rounded/css/uicons-bold-rounded.css">
+
     <!-- Project styles -->
     <link rel="stylesheet" href="../styles.css" />
 </head>
 <body class="light-mode conan-page">
     <header class="header">
-        <button class="menu-toggle" aria-label="Toggle navigation" type="button" aria-expanded="false">&#9776;</button>
+        <button class="menu-toggle" aria-label="Toggle navigation" type="button" aria-expanded="false">
+            <i class="fi fi-br-menu-burger" aria-hidden="true"></i>
+        </button>
         <div class="toggle-container" id="mode-toggle" aria-label="Toggle light and dark mode">
-            <div class="toggle-circle light">☀️</div>
+            <div class="toggle-circle light"><i id="mode-icon" class="fi fi-sc-sun" aria-hidden="true"></i></div>
         </div>
     </header>
 
     <nav class="side-menu" aria-label="Main navigation" aria-hidden="true">
-        <button class="close-menu" aria-label="Close navigation" type="button">&times;</button>
+        <button class="close-menu" aria-label="Close navigation" type="button">
+            <i class="fi fi-br-cross" aria-hidden="true"></i>
+        </button>
         <ul>
-            <li><a href="../Home/">Home</a></li>
-            <li><a href="../DetectiveConan/">DetectiveConan</a></li>
+            <li><a href="../Home/"><i class="fi fi-sr-home" aria-hidden="true"></i> Home</a></li>
+            <li><a href="../DetectiveConan/"><i class="fi fi-br-search" aria-hidden="true"></i> DetectiveConan</a></li>
         </ul>
     </nav>
     <div class="menu-overlay"></div>
