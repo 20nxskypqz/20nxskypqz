@@ -6,9 +6,7 @@ function applyIconTheme(isDark) {
     const link = document.getElementById('fi-theme');
     if (link) link.setAttribute('href', isDark ? FI_NIGHT_HREF : FI_DAY_HREF);
     const icon = document.getElementById('mode-icon');
-    if (icon) {
-        icon.className = isDark ? 'fi fi-sr-moon' : 'fi fi-sc-sun';
-    }
+    if (icon) icon.className = isDark ? 'fi fi-sr-moon' : 'fi fi-sc-sun';
 }
 
 function toggleMode() {
@@ -16,11 +14,8 @@ function toggleMode() {
     document.body.classList.toggle('light-mode', !isDark);
     const toggleCircle = document.querySelector('.toggle-circle');
     if (toggleCircle) {
-        if (isDark) {
-            toggleCircle.classList.remove('light');
-        } else {
-            toggleCircle.classList.add('light');
-        }
+        if (isDark) toggleCircle.classList.remove('light');
+        else toggleCircle.classList.add('light');
     }
     applyIconTheme(isDark);
 }
@@ -41,15 +36,21 @@ function updateCountdown() {
     const target = new Date('January 1, 2026 00:00:00');
     const now = new Date();
     const diff = target - now;
-    if (diff <= 0) {
-        el.textContent = '🎉 Happy New Year 2026!';
-        return;
-    }
+    if (diff <= 0) { el.textContent = '🎉 Happy New Year 2026!'; return; }
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
     const minutes = Math.floor((diff / (1000 * 60)) % 60);
     const seconds = Math.floor((diff / 1000) % 60);
-    el.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    // full words
+    el.textContent = `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
+}
+
+// Make sure these run (and continue running)
+function initializeUpdates() {
+    updateTime();
+    updateCountdown();
+    setInterval(updateTime, 1000);
+    setInterval(updateCountdown, 1000);
 }
 
 /* ===== Sheets helpers (used by Conan page) ===== */
@@ -217,12 +218,8 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateMenuIcon(isOpen) {
         if (!menuToggle) return;
         var icon = menuToggle.querySelector('i');
-        if (icon) {
-            icon.className = isOpen ? 'fi fi-br-cross' : 'fi fi-br-menu-burger';
-        } else {
-            // fallback if no <i> exists, use text
-            menuToggle.textContent = isOpen ? '×' : '☰';
-        }
+        if (icon) icon.className = isOpen ? 'fi fi-br-cross' : 'fi fi-br-menu-burger';
+        else menuToggle.textContent = isOpen ? '×' : '☰';
         menuToggle.setAttribute('aria-expanded', String(isOpen));
         menuToggle.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Toggle navigation');
     }
