@@ -165,7 +165,7 @@ function renderConanTableFromSheet(sheetId,gid){
     }
 
     tbody.innerHTML=''; tbody.appendChild(frag);
-    finalizeConanLayout();   // ← เหลือเฉพาะ 2 อย่าง: (1) SS ชิดซ้ายตาราง (2) หัวเรื่องกลางเท่าศูนย์กลางตาราง
+    finalizeConanLayout();   // ← จัด SS & หัวข้อเทียบตาราง
   }).catch(function(err){
     tbody.innerHTML='<tr><td colspan="11">Failed to load sheet. ('+err.message+')</td></tr>';
     finalizeConanLayout();
@@ -173,21 +173,23 @@ function renderConanTableFromSheet(sheetId,gid){
 }
 
 /* ============== ONLY THESE 2 POSITIONING BEHAVIORS ============== */
-/* 1) SS ชิดซ้ายของตาราง */
+/* 1) SS ชิดซ้ายของตาราง (ซ้ายจริง ๆ) */
 function alignSeasonPickerToTable(){
   try{
     var picker=document.getElementById('season-picker');
+    var wrapper=document.querySelector('.conan-page .table-wrapper');
     var table=document.querySelector('.conan-page .conan-table');
-    if(!picker||!table) return;
+    if(!picker||!wrapper||!table) return;
 
-    // reset
-    picker.style.transform='none';
-
+    // ซ้ายของ "ตัวตาราง" = ซ้ายของ wrapper + padding-left - scrollLeft
+    var padLeft=parseFloat(getComputedStyle(wrapper).paddingLeft||'0');
+    var wRect=wrapper.getBoundingClientRect();
     var pRect=picker.getBoundingClientRect();
-    var tRect=table.getBoundingClientRect();
-    var delta=Math.round(tRect.left - pRect.left);
 
-    picker.style.transform='translateX('+delta+'px)';
+    var targetLeft = wRect.left + padLeft - wrapper.scrollLeft; // ซ้ายของเส้นขอบตารางจริง ๆ
+    var offset = Math.round(targetLeft - pRect.left);
+
+    picker.style.transform='translateX('+offset+'px)';
   }catch(e){}
 }
 
@@ -298,13 +300,13 @@ document.addEventListener('DOMContentLoaded', function(){
       finalizeConanLayout();
     }
 
-    // ให้ตำแหน่งตามการสกรอลล์ของตัวห่อตารางด้วย (เพราะเราไม่จัดกลางอะไรทั้งนั้น)
+    // อัปเดตตำแหน่งตามการสกรอลล์ของตัวห่อตาราง
     var wrapper=document.querySelector('.conan-page .table-wrapper');
     if(wrapper){
       wrapper.addEventListener('scroll', finalizeConanLayout, {passive:true});
     }
 
-    // หลังฟอนต์โหลด/รีไซส์/หมุนจอ — คำนวณใหม่ (เฉพาะ 2 อย่าง)
+    // หลังฟอนต์โหลด/รีไซส์/หมุนจอ — คำนวณใหม่
     try{ if(document.fonts && document.fonts.ready && typeof document.fonts.ready.then==='function'){ document.fonts.ready.then(finalizeConanLayout); } }catch(e){}
   }catch(e){}
 });
