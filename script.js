@@ -173,32 +173,40 @@ function renderConanTableFromSheet(sheetId,gid){
 }
 
 /* ============== ONLY THESE 2 POSITIONING BEHAVIORS ============== */
-/* 1) SS ชิดซ้ายของตาราง (ซ้ายจริง ๆ) */
+/* 1) SS ชิดซ้ายของตาราง (ปุ่มก่อนกดก็ซ้ายจริง ๆ) */
 function alignSeasonPickerToTable(){
   try{
-    var picker=document.getElementById('season-picker');            // ตัวคอนเทนเนอร์ของปุ่ม
+    var picker=document.getElementById('season-picker');            // คอนเทนเนอร์ SS
     var wrapper=document.querySelector('.conan-page .table-wrapper');
     var table=document.querySelector('.conan-page .conan-table');
     if(!picker||!wrapper||!table) return;
 
-    // reset ก่อนคำนวณทุกครั้ง (กันค่าทับซ้อน)
+    // รีเซ็ตก่อนคำนวณทุกครั้ง
     picker.style.transform='none';
     picker.style.left='0px';
     picker.style.position='relative';
 
+    // ซ้ายของ "ขอบตารางจริงๆ" = ซ้าย wrapper + padding-left - scrollLeft + เส้นขอบตาราง
     var padLeft=parseFloat(getComputedStyle(wrapper).paddingLeft||'0');
     var borderLeft=parseFloat(getComputedStyle(table).borderLeftWidth||'0');
+    var targetLeft = wrapper.getBoundingClientRect().left + padLeft - wrapper.scrollLeft + borderLeft;
 
-    // ซ้ายของ "ขอบตารางจริงๆ"
-    var wLeft = wrapper.getBoundingClientRect().left;
-    var tableLeft = wLeft + padLeft - wrapper.scrollLeft + borderLeft;
+    // ขยับทั้งคอนเทนเนอร์ให้ซ้ายตรงขอบตาราง
+    var pickerLeftNow = picker.getBoundingClientRect().left;
+    var pickerShift   = Math.round(targetLeft - pickerLeftNow);
+    picker.style.left = pickerShift + 'px';
 
-    // ซ้ายปัจจุบันของ season-picker
-    var pLeft = picker.getBoundingClientRect().left;
-
-    // เลื่อนด้วย 'left' ให้ซ้ายชนกันพอดี
-    var offset = Math.round(tableLeft - pLeft);
-    picker.style.left = offset + 'px';
+    // จากนั้น “จูนปุ่มเอง” ให้ชนซ้ายตารางแบบพิกเซลเป๊ะ (กรณีมี margin/padding/zoom บนอุปกรณ์)
+    var btn = picker.querySelector('.season-button');
+    if(btn){
+      btn.style.marginLeft = '0px'; // reset
+      var btnLeftNow = btn.getBoundingClientRect().left;
+      var btnDelta   = Math.round(targetLeft - btnLeftNow);
+      // จำกัดช่วงเล็ก ๆ เพื่อกันโดนเลื่อนไปไกลเกิน (บั๊กซูมบางเครื่อง)
+      if (Math.abs(btnDelta) > 0) {
+        btn.style.marginLeft = (btnDelta) + 'px';
+      }
+    }
   }catch(e){}
 }
 
