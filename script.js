@@ -176,20 +176,29 @@ function renderConanTableFromSheet(sheetId,gid){
 /* 1) SS ชิดซ้ายของตาราง (ซ้ายจริง ๆ) */
 function alignSeasonPickerToTable(){
   try{
-    var picker=document.getElementById('season-picker');
+    var picker=document.getElementById('season-picker');            // ตัวคอนเทนเนอร์ของปุ่ม
     var wrapper=document.querySelector('.conan-page .table-wrapper');
     var table=document.querySelector('.conan-page .conan-table');
     if(!picker||!wrapper||!table) return;
 
-    // ซ้ายของ "ตัวตาราง" = ซ้ายของ wrapper + padding-left - scrollLeft
+    // reset ก่อนคำนวณทุกครั้ง (กันค่าทับซ้อน)
+    picker.style.transform='none';
+    picker.style.left='0px';
+    picker.style.position='relative';
+
     var padLeft=parseFloat(getComputedStyle(wrapper).paddingLeft||'0');
-    var wRect=wrapper.getBoundingClientRect();
-    var pRect=picker.getBoundingClientRect();
+    var borderLeft=parseFloat(getComputedStyle(table).borderLeftWidth||'0');
 
-    var targetLeft = wRect.left + padLeft - wrapper.scrollLeft; // ซ้ายของเส้นขอบตารางจริง ๆ
-    var offset = Math.round(targetLeft - pRect.left);
+    // ซ้ายของ "ขอบตารางจริงๆ"
+    var wLeft = wrapper.getBoundingClientRect().left;
+    var tableLeft = wLeft + padLeft - wrapper.scrollLeft + borderLeft;
 
-    picker.style.transform='translateX('+offset+'px)';
+    // ซ้ายปัจจุบันของ season-picker
+    var pLeft = picker.getBoundingClientRect().left;
+
+    // เลื่อนด้วย 'left' ให้ซ้ายชนกันพอดี
+    var offset = Math.round(tableLeft - pLeft);
+    picker.style.left = offset + 'px';
   }catch(e){}
 }
 
