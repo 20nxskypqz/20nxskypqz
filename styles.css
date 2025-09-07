@@ -92,16 +92,16 @@ p{  font-size:16px; margin:5px 0; }
   content:""; position:absolute; inset:0; left:50%; transform:translateX(-50%); width:500vw; background:inherit; z-index:-1;
 }
 
-/* ✅ ท้ายยาวเหมือนหัว และ “ติดขอบล่าง” */
+/* ✅ ท้าย: ไล่สีเหมือนหัว และ “ติดขอบล่าง” ทุกอุปกรณ์ */
 .conan-page .footer{
-  position:relative;
-  background:linear-gradient(to right,red,orange); /* ไล่สีเหมือนหัว */
-  margin-top:auto;  /* ถ้าหน้าสั้น ให้ดันลงล่าง */
-  overflow:visible;
+  position:fixed; left:0; right:0; bottom:0; z-index:1100;
+  background:linear-gradient(to right,red,orange) !important;
+  padding-bottom:calc(10px + env(safe-area-inset-bottom)); /* กัน notch / iOS */
 }
-.conan-page .footer::before{
-  content:""; position:absolute; inset:0; left:50%; transform:translateX(-50%);
-  width:500vw; background:inherit; z-index:-1;  /* ขยายความยาวเท่าหัว */
+.conan-page .content{
+  max-width:1200px;
+  padding-bottom:calc(120px + env(safe-area-inset-bottom)); /* เผื่อพื้นที่ใต้ footer ไม่ให้ทับเนื้อหา */
+  align-items:flex-start;
 }
 
 /* ชื่อเรื่องให้ JS จัดกลางเทียบตารางเท่านั้น */
@@ -110,7 +110,7 @@ p{  font-size:16px; margin:5px 0; }
 .conan-page .page-title-en{ margin:2px 0 0 0; }
 .conan-page .title-spacer{ height:10px; }
 
-/* SS selector — ชิดซ้าย “ขอบตาราง” */
+/* SS selector — ชิดซ้าย “ขอบตาราง” (JS จะเล็งซ้ายของตารางจริงๆ) */
 .conan-page .season-picker{
   position:relative; width:100%; max-width:1200px; margin:24px 0 12px 0;
   z-index:800; transform:translateX(0); will-change:transform;
@@ -129,10 +129,7 @@ p{  font-size:16px; margin:5px 0; }
   list-style:none; padding:6px 0; min-width:220px; z-index:850;
 }
 
-/* คอนเทนต์หน้า Conan */
-.conan-page .content{ max-width:1200px; padding-bottom:100px; align-items:flex-start; }
-
-/* ตาราง: ไม่พยายามจัดกลาง — แต่กันชนซ้าย/ขวา 24px ตามสั่ง */
+/* ตาราง: ไม่พยายามจัดกลาง — กันชนซ้าย/ขวา 24px ตามสั่ง */
 .conan-page .table-wrapper{
   width:100%; max-width:1200px; margin:0; padding:0 24px; box-sizing:border-box;
   overflow-x:auto; -webkit-overflow-scrolling:touch;
