@@ -1,4 +1,4 @@
-<!-- html-DetectiveConan-20092025-01 -->
+<!-- html-DetectiveConan-20092025-02 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,12 +9,12 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;700&display=swap" rel="stylesheet">
 
-  <!-- Icon sets (ตามที่ใช้อยู่) -->
-  <link id="fi-theme" rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-chubby/css/uicons-solid-chubby.css"><!-- light (sun) -->
+  <!-- Icons -->
+  <link id="fi-theme" rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-chubby/css/uicons-solid-chubby.css"><!-- day (sun) -->
   <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css"><!-- night (moon) -->
-  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-bold-rounded/css/uicons-bold-rounded.css"><!-- menu/search/close -->
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-bold-rounded/css/uicons-bold-rounded.css"><!-- menu/close/etc -->
 
-  <!-- Project styles -->
+  <!-- Styles -->
   <link rel="stylesheet" href="../styles.css" />
 </head>
 <body class="light-mode conan-page">
@@ -23,7 +23,7 @@
       <i class="fi fi-br-menu-burger" aria-hidden="true"></i>
     </button>
 
-    <!-- toggle day/night -->
+    <!-- Toggle day/night -->
     <div class="toggle-container" id="mode-toggle" aria-label="Toggle light and dark mode">
       <div class="toggle-circle light"><i id="mode-icon" class="fi fi-sc-sun" aria-hidden="true"></i></div>
     </div>
@@ -41,14 +41,14 @@
   <div class="menu-overlay"></div>
 
   <main class="content">
-    <!-- กลุ่มหัวเรื่อง (ให้ JS จัดวางเทียบตาราง แต่ตอนนี้ไม่มีตารางก็แสดงปกติ) -->
+    <!-- หัวเรื่อง: ให้อยู่กลางแบบถาวรด้วย CSS -->
     <div class="title-group">
       <h1 class="page-title-ja">名探偵コナン</h1>
       <h1 class="page-title-en">Detective Conan</h1>
     </div>
     <div class="title-spacer"></div>
 
-    <!-- SS selector (คงไว้ตามสั่ง) -->
+    <!-- SS selector: ชิดซ้ายของหน้า (คงไว้) -->
     <div class="season-picker" id="season-picker">
       <button class="season-button" type="button" aria-haspopup="listbox" aria-expanded="false">
         <span class="season-label">Detective Conan SS.1</span>
@@ -57,7 +57,7 @@
       <ul class="season-menu" role="listbox" hidden></ul>
     </div>
 
-    <!-- *** ตารางถูกลบออกตามสั่ง *** -->
+    <!-- ตารางและโค้ดที่เกี่ยวข้อง “ถูกลบออกทั้งหมดตามสั่ง” -->
   </main>
 
   <footer class="footer">&copy; 2025 20nxskypqz</footer>
