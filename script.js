@@ -1,3 +1,5 @@
+/* js-20092025-02 */
+
 /* ================= THEME ================= */
 var FI_DAY_HREF='https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-chubby/css/uicons-solid-chubby.css';
 var FI_NIGHT_HREF='https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css';
@@ -40,209 +42,16 @@ function updateCountdown(){ try{
 } catch(e){} }
 function initializeUpdates(){ updateTime(); updateCountdown(); setInterval(updateTime,1000); setInterval(updateCountdown,1000); }
 
-/* ================= SHEETS HELPERS ================= */
-function gvizFetch(sheetId,gid,tq){
-  var url='https://docs.google.com/spreadsheets/d/'+encodeURIComponent(sheetId)+'/gviz/tq?gid='+encodeURIComponent(gid||'0')+(tq?'&tq='+encodeURIComponent(tq):'');
-  return fetch(url).then(function(r){return r.text();}).then(function(txt){
-    var s=txt.indexOf('{'); var e=txt.lastIndexOf('}'); if(s===-1||e===-1) throw new Error('Unexpected response format');
-    return JSON.parse(txt.slice(s,e+1));
-  });
-}
-function getTable(json){return (json&&json.table)?json.table:null;}
-function getRows(json){var t=getTable(json); return (t&&t.rows)?t.rows:[];}
-function getCols(json){var t=getTable(json); return (t&&t.cols)?t.cols:[];}
-function rowToArray(row){var out=[]; var cells=(row&&row.c)?row.c:[]; for(var i=0;i<cells.length;i++){var c=cells[i]; out.push(c?(c.f!=null?String(c.f):(c.v==null?'':String(c.v))):'');} return out;}
-function tableToArrays(json){var rows=getRows(json),out=[]; for(var i=0;i<rows.length;i++) out.push(rowToArray(rows[i])); return out;}
-function extractHeadersFromCols(json){var cols=getCols(json),out=[]; for(var i=0;i<cols.length;i++){var c=cols[i]; out.push((c&&c.label)?String(c.label):'');} return out;}
+/* ================= SEASON PICKER (UI เท่านั้น) ================= */
+var SEASONS=[{label:'Detective Conan SS.1', gid:'0'}]; // คงไว้เพื่อโชว์เมนูเฉย ๆ
 
-var COLUMN_ALIASES={
-  epNoTH:['Episode No TH','Episode No. (TH)','ตอนที่ (ไทย)','ตอนที่ไทย','EP TH','Ep TH','EP(TH)'],
-  epNoJP:['Episode No JP','Episode No. (JP)','ตอนที่ (ญี่ปุ่น)','ตอนที่ญี่ปุ่น','EP JP','Ep JP','EP(JP)'],
-  title:['Episode Title','ชื่อตอน','Title'],
-  airDate:['Air Date','วันออกอากาศ','Broadcast Date','On Air','On-Air Date'],
-  episodeType:['Episode Type','ประเภทตอน'],
-  caseType:['Case Type','ประเภทคดี'],
-  keyCharacters:['Key Characters','ตัวละคร','Characters'],
-  trivia:['Trivia','เกร็ดความรู้'],
-  caseSummary:['Case Summary','สรุปคดี','Summary'],
-  mainPlot:['Main Plot Related','เนื้อเรื่องหลัก','Main Plot'],
-  checklist:['Checklist','เช็คลิสต์','Check']
-};
-function flattenAliasObject(obj){var res=[]; for(var k in obj) if(Object.prototype.hasOwnProperty.call(obj,k)){var arr=obj[k]; for(var i=0;i<arr.length;i++) res.push(arr[i]);} return res;}
-var ALL_ALIAS_ARRAY=flattenAliasObject(COLUMN_ALIASES);
-function normalizeHeader(h){return String(h||'').trim().toLowerCase();}
-function findIndexByAliases(headers,aliases){
-  var norm=[],i,j; for(i=0;i<headers.length;i++) norm.push(normalizeHeader(headers[i]));
-  for(j=0;j<aliases.length;j++){var key=normalizeHeader(aliases[j]); var idx=norm.indexOf(key); if(idx!==-1) return idx;}
-  return -1;
-}
-function buildColumnMap(headers){
-  return {
-    epNoTH:findIndexByAliases(headers,COLUMN_ALIASES.epNoTH),
-    epNoJP:findIndexByAliases(headers,COLUMN_ALIASES.epNoJP),
-    title:findIndexByAliases(headers,COLUMN_ALIASES.title),
-    airDate:findIndexByAliases(headers,COLUMN_ALIASES.airDate),
-    episodeType:findIndexByAliases(headers,COLUMN_ALIASES.episodeType),
-    caseType:findIndexByAliases(headers,COLUMN_ALIASES.caseType),
-    keyCharacters:findIndexByAliases(headers,COLUMN_ALIASES.keyCharacters),
-    trivia:findIndexByAliases(headers,COLUMN_ALIASES.trivia),
-    caseSummary:findIndexByAliases(headers,COLUMN_ALIASES.caseSummary),
-    mainPlot:findIndexByAliases(headers,COLUMN_ALIASES.mainPlot),
-    checklist:findIndexByAliases(headers,COLUMN_ALIASES.checklist)
-  };
-}
-function getCell(arr,idx){return (idx===-1)?'':(arr[idx]||'');}
-function isChecked(val){var s=String(val||'').trim().toLowerCase(); return (s==='true'||s==='yes'||s==='y'||s==='1'||s==='✓'||s==='✔'||s==='check'||s==='checked');}
-
-/* header row detection (รองรับเริ่ม A5) */
-function detectHeaderRowIndex(arrays,maxScan){
-  if(typeof maxScan!=='number') maxScan=12;
-  var bestIdx=-1,bestScore=-1;
-  function scoreRow(row){
-    var score=0,i,j;
-    for(i=0;i<row.length;i++){
-      var cell=String(row[i]||'').trim().toLowerCase();
-      for(j=0;j<ALL_ALIAS_ARRAY.length;j++){
-        if(cell===String(ALL_ALIAS_ARRAY[j]).trim().toLowerCase()){score++; break;}
-      }
-    }
-    return score;
-  }
-  for(var r=0;r<arrays.length&&r<maxScan;r++){
-    var sc=scoreRow(arrays[r]||[]);
-    if(sc>bestScore){bestScore=sc; bestIdx=r;}
-  }
-  return (bestScore>=2)?bestIdx:-1;
-}
-
-/* ============== Conan Table (42 rows) ============== */
-function renderConanTableFromSheet(sheetId,gid){
-  var tbody=document.getElementById('conan-table-body'); if(!tbody) return;
-  tbody.innerHTML='<tr><td colspan="11">Loading…</td></tr>';
-
-  gvizFetch(sheetId,gid,'select *').then(function(json){
-    var arrays=tableToArrays(json);
-    var labels=extractHeadersFromCols(json);
-
-    var headers=[],dataRows=[],nonEmpty=[],i;
-    for(i=0;i<labels.length;i++) if(String(labels[i]).trim()!=='') nonEmpty.push(labels[i]);
-
-    if(nonEmpty.length>=3){ headers=labels; dataRows=arrays; }
-    else{
-      var idx=detectHeaderRowIndex(arrays,12);
-      if(idx!==-1){ headers=arrays[idx]; dataRows=arrays.slice(idx+1); }
-      else{ headers=arrays[0]||[]; dataRows=arrays.slice(1); }
-    }
-
-    var map=buildColumnMap(headers);
-    if(!dataRows.length){ tbody.innerHTML='<tr><td colspan="11">No data.</td></tr>'; finalizeConanLayout(); return; }
-
-    var MAX_ROWS=42;
-    var rows=dataRows.slice(0,MAX_ROWS); while(rows.length<MAX_ROWS) rows.push([]);
-
-    var frag=document.createDocumentFragment();
-    for(var r=0;r<rows.length;r++){
-      var row=rows[r]; var tr=document.createElement('tr');
-
-      var tdEpTH=document.createElement('td'); tdEpTH.textContent=getCell(row,map.epNoTH); tr.appendChild(tdEpTH);
-      var tdEpJP=document.createElement('td'); tdEpJP.textContent=getCell(row,map.epNoJP); tr.appendChild(tdEpJP);
-      var tdTitle=document.createElement('td'); tdTitle.textContent=getCell(row,map.title); tr.appendChild(tdTitle);
-      var tdAir=document.createElement('td'); tdAir.textContent=getCell(row,map.airDate); tr.appendChild(tdAir);
-      var tdET=document.createElement('td'); tdET.textContent=getCell(row,map.episodeType); tr.appendChild(tdET);
-      var tdCT=document.createElement('td'); tdCT.textContent=getCell(row,map.caseType); tr.appendChild(tdCT);
-      var tdKC=document.createElement('td'); tdKC.textContent=getCell(row,map.keyCharacters); tr.appendChild(tdKC);
-      var tdTv=document.createElement('td'); tdTv.textContent=getCell(row,map.trivia); tr.appendChild(tdTv);
-      var tdSum=document.createElement('td'); tdSum.textContent=getCell(row,map.caseSummary); tr.appendChild(tdSum);
-      var tdMP=document.createElement('td'); tdMP.textContent=getCell(row,map.mainPlot); tr.appendChild(tdMP);
-
-      var tdChk=document.createElement('td'); var span=document.createElement('span');
-      var checked=isChecked(getCell(row,map.checklist));
-      span.className='chk'+(checked?' chk--on':'');
-      span.setAttribute('aria-label',checked?'Checked':'Not checked');
-      tdChk.appendChild(span); tr.appendChild(tdChk);
-
-      frag.appendChild(tr);
-    }
-
-    tbody.innerHTML=''; tbody.appendChild(frag);
-    finalizeConanLayout();   // ← จัด SS & หัวข้อเทียบตาราง
-  }).catch(function(err){
-    tbody.innerHTML='<tr><td colspan="11">Failed to load sheet. ('+err.message+')</td></tr>';
-    finalizeConanLayout();
-  });
-}
-
-/* ============== ONLY THESE 2 POSITIONING BEHAVIORS ============== */
-/* 1) SS ชิดซ้ายของตาราง (ปุ่มก่อนกดก็ซ้ายจริง ๆ) */
-function alignSeasonPickerToTable(){
-  try{
-    var picker=document.getElementById('season-picker');            // คอนเทนเนอร์ SS
-    var wrapper=document.querySelector('.conan-page .table-wrapper');
-    var table=document.querySelector('.conan-page .conan-table');
-    if(!picker||!wrapper||!table) return;
-
-    // รีเซ็ตก่อนคำนวณทุกครั้ง
-    picker.style.transform='none';
-    picker.style.left='0px';
-    picker.style.position='relative';
-
-    // ซ้ายของ "ขอบตารางจริงๆ" = ซ้าย wrapper + padding-left - scrollLeft + เส้นขอบตาราง
-    var padLeft=parseFloat(getComputedStyle(wrapper).paddingLeft||'0');
-    var borderLeft=parseFloat(getComputedStyle(table).borderLeftWidth||'0');
-    var targetLeft = wrapper.getBoundingClientRect().left + padLeft - wrapper.scrollLeft + borderLeft;
-
-    // ขยับทั้งคอนเทนเนอร์ให้ซ้ายตรงขอบตาราง
-    var pickerLeftNow = picker.getBoundingClientRect().left;
-    var pickerShift   = Math.round(targetLeft - pickerLeftNow);
-    picker.style.left = pickerShift + 'px';
-
-    // จากนั้น “จูนปุ่มเอง” ให้ชนซ้ายตารางแบบพิกเซลเป๊ะ (กรณีมี margin/padding/zoom บนอุปกรณ์)
-    var btn = picker.querySelector('.season-button');
-    if(btn){
-      btn.style.marginLeft = '0px'; // reset
-      var btnLeftNow = btn.getBoundingClientRect().left;
-      var btnDelta   = Math.round(targetLeft - btnLeftNow);
-      // จำกัดช่วงเล็ก ๆ เพื่อกันโดนเลื่อนไปไกลเกิน (บั๊กซูมบางเครื่อง)
-      if (Math.abs(btnDelta) > 0) {
-        btn.style.marginLeft = (btnDelta) + 'px';
-      }
-    }
-  }catch(e){}
-}
-
-/* 2) หัวเรื่อง (JA/EN) ให้อยู่กึ่งกลาง “ตัวตาราง” */
-function centerTitleToTable(){
-  try{
-    var titleGroup=document.querySelector('.conan-page .title-group');
-    var table=document.querySelector('.conan-page .conan-table');
-    if(!titleGroup||!table) return;
-
-    titleGroup.style.transform='translateX(0)';
-    var tr=table.getBoundingClientRect();
-    var tg=titleGroup.getBoundingClientRect();
-
-    var tableCenter=tr.left + tr.width/2;
-    var titleCenter=tg.left + tg.width/2;
-    var shift=Math.round(tableCenter - titleCenter);
-
-    titleGroup.style.transform='translateX('+shift+'px)';
-  }catch(e){}
-}
-
-/* รวมสองอย่างเข้าด้วยกัน */
-function finalizeConanLayout(){
-  alignSeasonPickerToTable();
-  centerTitleToTable();
-}
-
-/* ============== SEASON PICKER ============== */
-var SEASONS=[{label:'Detective Conan SS.1', gid:'0'}];
-function setupSeasonPicker(sheetSection){
-  var picker=document.getElementById('season-picker'); if(!picker||!sheetSection) return;
+function setupSeasonPicker(){
+  var picker=document.getElementById('season-picker'); if(!picker) return;
   var btn=picker.querySelector('.season-button');
   var menu=picker.querySelector('.season-menu');
   var label=picker.querySelector('.season-label');
 
+  // เติมรายการ (UI)
   menu.innerHTML='';
   for(var i=0;i<SEASONS.length;i++){
     (function(s){
@@ -250,8 +59,6 @@ function setupSeasonPicker(sheetSection){
       li.textContent=s.label; li.setAttribute('role','option'); li.tabIndex=0;
       li.addEventListener('click', function(){
         label.textContent=s.label;
-        sheetSection.setAttribute('data-gid', s.gid);
-        renderConanTableFromSheet(sheetSection.getAttribute('data-sheet-id'), s.gid);
         menu.hidden=true; btn.setAttribute('aria-expanded','false');
       });
       menu.appendChild(li);
@@ -268,7 +75,7 @@ function setupSeasonPicker(sheetSection){
   });
 }
 
-/* ============== MENU & INIT ============== */
+/* ================= MENU & INIT ================= */
 document.addEventListener('DOMContentLoaded', function(){
   try{
     // Menu
@@ -305,28 +112,7 @@ document.addEventListener('DOMContentLoaded', function(){
     // Home timers
     initializeUpdates();
 
-    // Conan page
-    var sheetSection=document.getElementById('conan-sheet');
-    if(sheetSection){
-      setupSeasonPicker(sheetSection);
-      renderConanTableFromSheet(
-        sheetSection.getAttribute('data-sheet-id'),
-        sheetSection.getAttribute('data-gid')||'0'
-      );
-    }else{
-      finalizeConanLayout();
-    }
-
-    // อัปเดตตำแหน่งตามการสกรอลล์ของตัวห่อตาราง
-    var wrapper=document.querySelector('.conan-page .table-wrapper');
-    if(wrapper){
-      wrapper.addEventListener('scroll', finalizeConanLayout, {passive:true});
-    }
-
-    // หลังฟอนต์โหลด/รีไซส์/หมุนจอ — คำนวณใหม่
-    try{ if(document.fonts && document.fonts.ready && typeof document.fonts.ready.then==='function'){ document.fonts.ready.then(finalizeConanLayout); } }catch(e){}
+    // Conan page: SS UI only
+    setupSeasonPicker();
   }catch(e){}
 });
-window.addEventListener('resize', finalizeConanLayout);
-window.addEventListener('orientationchange', finalizeConanLayout);
-window.addEventListener('load', finalizeConanLayout);
