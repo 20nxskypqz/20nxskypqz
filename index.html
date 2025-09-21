@@ -1,129 +1,92 @@
-/* js-21092025-02 */
+<!-- html-Root-21092025-02 -->
+<!DOCTYPE html>
+<html lang="en" class="root-page">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>20nxskypqz</title>
 
-/* ================= THEME ================= */
-var FI_DAY_HREF='https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-chubby/css/uicons-solid-chubby.css';
-var FI_NIGHT_HREF='https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css';
-function applyIconTheme(isDark){
-  try{
-    var link=document.getElementById('fi-theme');
-    if(link) link.setAttribute('href', isDark?FI_NIGHT_HREF:FI_DAY_HREF);
-    var icon=document.getElementById('mode-icon');
-    if(icon) icon.className=isDark?'fi fi-sr-moon':'fi fi-sc-sun';
-  }catch(e){}
-}
-function toggleMode(){
-  try{
-    var isDark=document.body.classList.toggle('dark-mode');
-    document.body.classList.toggle('light-mode', !isDark);
-    var c=document.querySelector('.toggle-circle');
-    if(c){ if(isDark) c.classList.remove('light'); else c.classList.add('light'); }
-    applyIconTheme(isDark);
-  }catch(e){}
-}
+  <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;700&display=swap" rel="stylesheet">
 
-/* ================= HOME CLOCK ================= */
-function updateTime(){ try{
-  var d=document.getElementById('date-display');
-  var t=document.getElementById('time-display');
-  if(!d||!t) return;
-  var now=new Date();
-  d.textContent='Date: '+now.toLocaleDateString('en-GB');
-  t.textContent='Time: '+now.toLocaleTimeString('en-GB');
-} catch(e){} }
-function updateCountdown(){ try{
-  var el=document.getElementById('countdown-display'); if(!el) return;
-  var target=new Date('January 1, 2026 00:00:00'); var now=new Date(); var diff=target-now;
-  if(diff<=0){ el.textContent='🎉 Happy New Year 2026!'; return; }
-  var days=Math.floor(diff/86400000);
-  var hours=Math.floor((diff/3600000)%24);
-  var minutes=Math.floor((diff/60000)%60);
-  var seconds=Math.floor((diff/1000)%60);
-  el.textContent=days+' days '+hours+' hours '+minutes+' minutes '+seconds+' seconds';
-} catch(e){} }
-function initializeUpdates(){ updateTime(); updateCountdown(); setInterval(updateTime,1000); setInterval(updateCountdown,1000); }
+  <!-- Icons -->
+  <link id="fi-theme" rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-chubby/css/uicons-solid-chubby.css"><!-- day -->
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css"><!-- night -->
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-bold-rounded/css/uicons-bold-rounded.css"><!-- menu/close -->
 
-/* ================= SIDE MENU: open/close ================= */
-function setupSideMenu(){
-  var menuToggle=document.querySelector('.menu-toggle');
-  var sideMenu=document.querySelector('.side-menu');
-  var closeMenu=document.querySelector('.close-menu');
-  var overlay=document.querySelector('.menu-overlay');
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="light-mode root-page">
+  <header class="header">
+    <button class="menu-toggle" aria-label="Toggle navigation" type="button" aria-expanded="false">
+      <i class="fi fi-br-menu-burger" aria-hidden="true"></i>
+    </button>
 
-  function updateMenuIcon(isOpen){
-    if(!menuToggle) return;
-    var icon=menuToggle.querySelector('i');
-    if(icon) icon.className=isOpen?'fi fi-br-cross':'fi fi-br-menu-burger';
-    else menuToggle.textContent=isOpen?'×':'☰';
-    menuToggle.setAttribute('aria-expanded', String(isOpen));
-    sideMenu && sideMenu.setAttribute('aria-hidden', String(!isOpen));
-  }
-  function toggleMenu(){
-    if(!sideMenu||!menuToggle||!overlay) return;
-    var isOpen=sideMenu.classList.toggle('open');
-    overlay.classList.toggle('visible', isOpen);
-    updateMenuIcon(isOpen);
-  }
-  if(menuToggle) menuToggle.addEventListener('click', toggleMenu);
-  if(closeMenu)  closeMenu.addEventListener('click', toggleMenu);
-  if(overlay)    overlay.addEventListener('click', toggleMenu);
-  updateMenuIcon(false);
-}
+    <div class="toggle-container" id="mode-toggle" aria-label="Toggle light and dark mode">
+      <div class="toggle-circle light"><i id="mode-icon" class="fi fi-sc-sun" aria-hidden="true"></i></div>
+    </div>
+  </header>
 
-/* ================= SIDE MENU: collapsible sections ================= */
-function setupMenuSections(){
-  var toggles=document.querySelectorAll('.menu-section__toggle');
-  toggles.forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var expanded = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', String(!expanded));
-      var list = btn.nextElementSibling;
-      if(list){ list.hidden = expanded; }
-    });
-  });
-}
+  <nav class="side-menu" aria-label="Main navigation" aria-hidden="true">
+    <button class="close-menu" aria-label="Close navigation" type="button">
+      <i class="fi fi-br-cross" aria-hidden="true"></i>
+    </button>
 
-/* ================= SEASON PICKER (UI เท่านั้น) ================= */
-var SEASONS=[{label:'Detective Conan SS.1', gid:'0'}];
-function setupSeasonPicker(){
-  var picker=document.getElementById('season-picker'); if(!picker) return;
-  var btn=picker.querySelector('.season-button');
-  var menu=picker.querySelector('.season-menu');
-  var label=picker.querySelector('.season-label');
+    <!-- ===== Collapsible sections ===== -->
+    <ul class="menu-list">
+      <!-- About -->
+      <li class="menu-section">
+        <button class="menu-section__toggle" type="button" aria-expanded="false">
+          <span>About</span>
+          <i class="fi fi-sr-dropdown-select" aria-hidden="true"></i>
+        </button>
+        <ul class="menu-sublist" role="list" hidden>
+          <li><a href="./Home/"><i class="fi fi-sr-home" aria-hidden="true"></i> Home</a></li>
+        </ul>
+      </li>
 
-  menu.innerHTML='';
-  for(var i=0;i<SEASONS.length;i++){
-    (function(s){
-      var li=document.createElement('li');
-      li.textContent=s.label; li.setAttribute('role','option'); li.tabIndex=0;
-      li.addEventListener('click', function(){
-        label.textContent=s.label;
-        menu.hidden=true; btn.setAttribute('aria-expanded','false');
-      });
-      menu.appendChild(li);
-    })(SEASONS[i]);
-  }
+      <!-- Study -->
+      <li class="menu-section">
+        <button class="menu-section__toggle" type="button" aria-expanded="false">
+          <span>Study</span>
+          <i class="fi fi-sr-dropdown-select" aria-hidden="true"></i>
+        </button>
+        <ul class="menu-sublist" role="list" hidden></ul>
+      </li>
 
-  btn.addEventListener('click', function(){
-    var expanded=btn.getAttribute('aria-expanded')==='true';
-    btn.setAttribute('aria-expanded', String(!expanded));
-    menu.hidden=expanded;
-  });
-  document.addEventListener('click', function(e){
-    if(!picker.contains(e.target)){ menu.hidden=true; btn.setAttribute('aria-expanded','false'); }
-  });
-}
+      <!-- Work -->
+      <li class="menu-section">
+        <button class="menu-section__toggle" type="button" aria-expanded="false">
+          <span>Work</span>
+          <i class="fi fi-sr-dropdown-select" aria-hidden="true"></i>
+        </button>
+        <ul class="menu-sublist" role="list" hidden></ul>
+      </li>
 
-/* ================= INIT ================= */
-document.addEventListener('DOMContentLoaded', function(){
-  try{
-    setupSideMenu();
-    setupMenuSections();
+      <!-- Games -->
+      <li class="menu-section">
+        <button class="menu-section__toggle" type="button" aria-expanded="false">
+          <span>Games</span>
+          <i class="fi fi-sr-dropdown-select" aria-hidden="true"></i>
+        </button>
+        <ul class="menu-sublist" role="list" hidden>
+          <li><a href="./DetectiveConan/"><i class="fi fi-br-search" aria-hidden="true"></i> DetectiveConan</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <div class="menu-overlay"></div>
 
-    var modeToggle=document.getElementById('mode-toggle');
-    if(modeToggle) modeToggle.addEventListener('click', toggleMode);
-    applyIconTheme(document.body.classList.contains('dark-mode'));
+  <main class="content">
+    <h1>Welcome to 20nxskypqz!</h1>
 
-    initializeUpdates();
-    setupSeasonPicker(); // only appears on Conan page
-  }catch(e){}
-});
+    <ul class="home-links">
+      <li><a href="./Home/"><i class="fi fi-sr-home"></i> home</a></li>
+      <li><a href="./DetectiveConan/"><i class="fi fi-br-search"></i> DetectiveConan</a></li>
+    </ul>
+  </main>
+
+  <footer class="footer">&copy; 2025 20nxskypqz</footer>
+
+  <script src="./script.js"></script>
+</body>
+</html>
