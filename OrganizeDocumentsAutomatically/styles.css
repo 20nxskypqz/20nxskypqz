@@ -1,4 +1,4 @@
-/* css-OrganizeDocumentsAutomatically-21092025-04 */
+/* css-OrganizeDocumentsAutomatically-21092025-05 */
 
 /* ===== Base ===== */
 *, *::before, *::after { box-sizing: border-box; }
@@ -8,16 +8,17 @@
   --panel-shadow:0 12px 30px rgba(0,0,0,.08);
   --panel-border:#c9d4df;
   --footer-h:44px;
-  /* กำหนดความกว้างคอนเทนต์ให้ใกล้เคียงหน้า Root/Home */
+  /* ความกว้างคอนเทนต์ให้ “เท่า/ใกล้เคียง” หน้า Root/Home */
   --page-max:760px;
 }
 @media (min-width:1024px){ :root{ --page-max:800px; } }
 
 body{
   font-family:'Niramit', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  margin:0; padding:0;
-  background:var(--bg-color); color:var(--text-color);
-  display:block; min-height:auto; overflow-x:hidden;
+  margin:0; color:var(--text-color); background:var(--bg-color);
+  /* >>> เหมือนหน้า Root/Home: ใช้ flex + min-height:100vh ให้ footer ชิดล่างแบบ sticky */
+  display:flex; flex-direction:column; min-height:100vh;
+  overflow-x:hidden;
 }
 body.dark-mode{
   --bg-color:#0b0d0f; --text-color:#e8eaed;
@@ -34,23 +35,22 @@ body.dark-mode{
 }
 .header::before{ content:""; position:absolute; inset:0; left:50%; transform:translateX(-50%); width:500vw; background:inherit; z-index:-1; }
 
-/* footer fixed + กันคอนเทนต์ทับ */
+/* footer แบบ “sticky” (ไม่ fixed) เหมือน Root/Home */
 .footer{
-  position:fixed; left:0; bottom:0; width:100%;
-  height:var(--footer-h);
+  width:100%;
+  min-height:var(--footer-h);
   display:flex; align-items:center; justify-content:center;
   padding:0 16px;
   background:linear-gradient(to right, red, orange); color:#fff;
-  z-index:1050;
 }
 
 /* ===== Content sizing ให้ใกล้เคียงหน้าอื่น ===== */
 .content{
-  text-align:center;
-  width:100%; max-width:var(--page-max);
+  flex:1;                                      /* ดัน footer ไปชิดล่าง */
+  width:100%; max-width:var(--page-max);       /* ความกว้างเท่าหน้า Root/Home */
   margin:0 auto;
-  padding:16px;
-  padding-bottom:calc(var(--footer-h) + 12px);
+  padding:16px;                                /* ระยะขอบเท่า ๆ กัน */
+  text-align:center;
 }
 .page-header{ text-align:center; margin:8px 0 12px; }
 .title-th{ font-size:28px; font-weight:700; margin:0; color:var(--text-color); }
@@ -99,7 +99,7 @@ body.dark-mode{
 .menu-sublist li a{ display:block; padding:8px 24px; color:#fff; text-decoration:none; font-size:14px; }
 .menu-sublist li a:hover{ background:rgba(255,255,255,.1); }
 
-/* ===== Control Panel (ย่อขนาดให้พอดี) ===== */
+/* ===== Control Panel ===== */
 .control-panel{
   position:sticky; top:0; z-index:10;
   display:flex; align-items:center; justify-content:space-between; gap:6px; flex-wrap:wrap;
