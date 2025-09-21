@@ -1,4 +1,4 @@
-/* css-21092025-02 */
+/* css-21092025-05 */
 
 /* Icons */
 @import url('https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-chubby/css/uicons-solid-chubby.css'); /* day */
@@ -47,9 +47,8 @@ body.dark-mode{
 .menu-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.3); display:none; z-index:900; }
 .menu-overlay.visible{ display:block; }
 
-/* Side menu (accordion structure) */
+/* Side menu (accordion) */
 .menu-group{ display:block; padding:8px 0 16px; }
-
 .menu-section-toggle{
   width:100%; background:transparent; border:none; color:#fff;
   display:flex; align-items:center; justify-content:space-between;
@@ -57,13 +56,8 @@ body.dark-mode{
 }
 .menu-section-toggle i{ transition:transform .2s ease; }
 .menu-section-toggle[aria-expanded="true"] i{ transform:rotate(180deg); }
-
-.menu-sublist{
-  list-style:none; margin:0; padding:0 0 8px 0;
-}
-.menu-sublist li a{
-  display:block; padding:10px 28px; color:#fff; text-decoration:none;
-}
+.menu-sublist{ list-style:none; margin:0; padding:0 0 8px 0; }
+.menu-sublist li a{ display:block; padding:10px 28px; color:#fff; text-decoration:none; }
 .menu-sublist li a:hover{ background:rgba(255,255,255,.1); }
 
 /* Content generic */
@@ -109,7 +103,6 @@ body:not(.conan-page):not(.root-page) .time-and-countdown{ max-width:800px; padd
 .conan-page .header::before{
   content:""; position:absolute; inset:0; left:50%; transform:translateX(-50%); width:500vw; background:inherit; z-index:-1;
 }
-
 /* Footer ติดล่าง + ไล่สีเหมือนหัว (เฉพาะ Conan) */
 .conan-page .footer{
   position:fixed; left:0; right:0; bottom:0; z-index:1100;
@@ -118,7 +111,6 @@ body:not(.conan-page):not(.root-page) .time-and-countdown{ max-width:800px; padd
 }
 /* กันเนื้อหาโดนทับ */
 .conan-page .content{ padding-bottom:calc(120px + env(safe-area-inset-bottom)); }
-
 /* หัวเรื่องกลาง */
 .conan-page .title-group{
   width:100%; display:flex; flex-direction:column; align-items:center; gap:2px;
@@ -127,7 +119,6 @@ body:not(.conan-page):not(.root-page) .time-and-countdown{ max-width:800px; padd
 .conan-page .page-title-ja{ margin:0; }
 .conan-page .page-title-en{ margin:2px 0 0 0; }
 .conan-page .title-spacer{ height:10px; }
-
 /* ปุ่ม SS ชิดซ้าย */
 .conan-page .season-picker{
   width:100%; max-width:1200px; margin:24px 0 12px 0;
