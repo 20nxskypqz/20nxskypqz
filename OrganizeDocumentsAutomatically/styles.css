@@ -1,4 +1,4 @@
-/* css-OrganizeDocumentsAutomatically-21092025-02 */
+/* css-OrganizeDocumentsAutomatically-21092025-03 */
 
 /* ===== Base ===== */
 *, *::before, *::after { box-sizing: border-box; }
@@ -7,12 +7,13 @@
   --panel-bg:#ffffff; --panel-text:#111827;
   --panel-shadow:0 12px 30px rgba(0,0,0,.08);
   --panel-border:#c9d4df;
+  --footer-h: 44px;             /* ความสูง footer โดยประมาณ */
 }
 body{
   font-family:'Niramit', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   margin:0; padding:0;
   background:var(--bg-color); color:var(--text-color);
-  /* FIX: ยกเลิกการยืดหน้าบังคับทั้งจอ */
+  /* หน้าให้พอดีกับเนื้อหา ไม่ยืดเอง */
   display:block; min-height:auto; overflow-x:hidden;
 }
 body.dark-mode{
@@ -29,9 +30,23 @@ body.dark-mode{
   position:relative; z-index:1100; overflow:visible;
 }
 .header::before{ content:""; position:absolute; inset:0; left:50%; transform:translateX(-50%); width:500vw; background:inherit; z-index:-1; }
+
+/* ทำให้ footer ติดขอบล่าง ไม่ลอย และยาวเต็มจอเสมอ */
 .footer{
-  text-align:center; padding:10px 20px; background:linear-gradient(to right, red, orange); color:#fff; width:100%;
+  position:fixed; left:0; bottom:0; width:100%;
+  height:var(--footer-h);
+  display:flex; align-items:center; justify-content:center;
+  padding:0 20px;
+  background:linear-gradient(to right, red, orange); color:#fff;
+  z-index:1050;
 }
+/* กันคอนเทนต์ถูกทับโดย footer ที่ fixed */
+.content{ padding:20px; padding-bottom:calc(var(--footer-h) + 16px); 
+  text-align:center; width:100%; max-width:1000px; margin:0 auto; display:block; }
+.page-header{ text-align:center; margin:10px 0 14px; }
+.title-th{ font-size:34px; font-weight:700; margin:0; color:var(--text-color); }
+.subtitle{ color:#6b7280; margin:6px 0 0; }
+.dark-mode .subtitle{ color:#a7b0ba; }
 
 /* ===== Pill Theme Toggle (capsule) ===== */
 .toggle-container{
@@ -75,17 +90,6 @@ body.dark-mode{
 .menu-sublist li a{ display:block; padding:10px 28px; color:#fff; text-decoration:none; }
 .menu-sublist li a:hover{ background:rgba(255,255,255,.1); }
 
-/* ===== Page Header ===== */
-.content{
-  /* FIX: ไม่บังคับยืดเต็ม viewport */
-  text-align:center; padding:20px; width:100%; max-width:1000px; margin:0 auto;
-  display:block;
-}
-.page-header{ text-align:center; margin:10px 0 14px; }
-.title-th{ font-size:34px; font-weight:700; margin:0; color:var(--text-color); }
-.subtitle{ color:#6b7280; margin:6px 0 0; }
-.dark-mode .subtitle{ color:#a7b0ba; }
-
 /* ===== Control Panel ===== */
 .control-panel{
   position:sticky; top:0; z-index:10;
@@ -117,7 +121,7 @@ body.dark-mode{
 /* ===== Editor ===== */
 .editor{
   width:100%;
-  /* FIX: เอา min-height ออกให้สูงเท่าที่มีเนื้อหา */
+  /* ให้สูงเท่าที่มีเนื้อหา */
   min-height:unset;
   background:var(--panel-bg); color:var(--panel-text);
   border:1px solid var(--panel-border); border-radius:16px;
