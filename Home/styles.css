@@ -1,4 +1,4 @@
-/* css-Home-21092025-04 */
+/* css-Home-21092025-05 */
 
 /* ===== Base (Home page fully isolated) ===== */
 *, *:before, *:after { box-sizing: border-box; }
@@ -56,11 +56,15 @@ body.dark-mode{
   transform:translateX(0);
   transition: transform .25s cubic-bezier(.4,0,.2,1), background .25s, color .25s, box-shadow .25s;
 }
+/* NEW: day icon visible on white knob */
+.toggle-container .toggle-circle i{ color:#f5a623; }
 .dark-mode .toggle-container .toggle-circle{
   transform:translateX(calc(var(--w) - var(--h)));
   background:#222; color:#ffec8b;
   box-shadow:0 4px 10px rgba(0,0,0,.5);
 }
+/* ensure night icon color overrides day */
+.dark-mode .toggle-container .toggle-circle i{ color:#ffec8b; }
 
 /* Side menu */
 .menu-toggle{ font-size:24px; cursor:pointer; position:relative; z-index:1101; background:none; border:none; color:inherit; }
@@ -89,18 +93,18 @@ h1{ font-size:48px; line-height:1.15; margin:0; }
 /* ===== Time + Countdown card (tighter top/bottom + bigger values) ===== */
 .time-and-countdown{
   width:100%; max-width:800px;
-  padding:16px 22px;            /* tighter than before */
+  padding:12px 18px;            /* tighter than before */
   background:var(--panel-bg); color:var(--panel-text);
-  border:2px solid var(--panel-border); border-radius:18px;
+  border:2px solid var(--panel-border); border-radius:16px;
   box-shadow:var(--panel-shadow);
-  text-align:left; display:flex; flex-direction:column; gap:6px;
+  text-align:left; display:flex; flex-direction:column; gap:4px;
 }
 .time-and-countdown h2{
-  font-size:32px; line-height:1.25; margin:4px 0 2px;
+  font-size:30px; line-height:1.25; margin:2px 0 2px;
 }
 .time-and-countdown p{
-  margin:2px 0 4px; line-height:1.35;
-  font-size:20px;               /* bigger value text */
+  margin:0 0 4px; line-height:1.35;
+  font-size:22px;               /* bigger value text */
 }
 .time-and-countdown #date-display,
 .time-and-countdown #time-display,
