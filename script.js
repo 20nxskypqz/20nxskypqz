@@ -126,3 +126,4 @@ document.addEventListener('DOMContentLoaded', function(){
     initializeUpdates();
     setupSeasonPicker(); // only appears on Conan page
   }catch(e){}
+});
