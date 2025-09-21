@@ -1,12 +1,12 @@
-/* css-Home-21092025-03 */
+/* css-Home-21092025-04 */
 
-/* Base + layout duplicated here so Home is fully isolated */
+/* ===== Base (Home page fully isolated) ===== */
 *, *:before, *:after { box-sizing: border-box; }
 :root{
   --bg-color:#fff; --text-color:#000;
   --panel-bg:#fff; --panel-text:#000;
   --panel-shadow:0 12px 30px rgba(0,0,0,.08);
-  --panel-border:#999;
+  --panel-border:#c3c7cd;
 }
 body{
   font-family:'Niramit',sans-serif;
@@ -18,11 +18,50 @@ body.dark-mode{
   --bg-color:#0b0d0f; --text-color:#e8eaed;
   --panel-bg:#111315; --panel-text:#e8eaed;
   --panel-shadow:0 8px 24px rgba(0,0,0,.5);
-  --panel-border:#ddd;
+  --panel-border:#3a424a;
 }
+
 /* Header / Footer */
-.header{ width:100%; display:flex; justify-content:space-between; align-items:center; padding:10px 20px; background:linear-gradient(to right,red,orange); color:#fff; position:relative; z-index:1100; }
-.footer{ text-align:center; padding:10px 20px; background:linear-gradient(to right,red,orange); color:#fff; width:100%; }
+.header{
+  width:100%; display:flex; justify-content:space-between; align-items:center;
+  padding:10px 20px; background:linear-gradient(to right,red,orange); color:#fff;
+  position:relative; z-index:1100;
+}
+.footer{
+  text-align:center; padding:10px 20px; background:linear-gradient(to right,red,orange);
+  color:#fff; width:100%;
+}
+
+/* ===== Pill Toggle (capsule) — same look as root ===== */
+.toggle-container{
+  --w:74px; --h:36px; --pad:3px;
+  width:var(--w); height:var(--h);
+  border-radius:999px; padding:var(--pad);
+  background:#e9eef4; border:2px solid #c9d4df;
+  display:flex; align-items:center; cursor:pointer; position:relative;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,.12);
+  transition: background .25s, border-color .25s, box-shadow .25s;
+}
+.dark-mode .toggle-container{
+  background:#1d2227; border-color:#3a424a;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,.35);
+}
+.toggle-container .toggle-circle{
+  width:calc(var(--h) - 2*var(--pad));
+  height:calc(var(--h) - 2*var(--pad));
+  border-radius:999px; background:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px;
+  box-shadow:0 3px 8px rgba(0,0,0,.25);
+  transform:translateX(0);
+  transition: transform .25s cubic-bezier(.4,0,.2,1), background .25s, color .25s, box-shadow .25s;
+}
+.dark-mode .toggle-container .toggle-circle{
+  transform:translateX(calc(var(--w) - var(--h)));
+  background:#222; color:#ffec8b;
+  box-shadow:0 4px 10px rgba(0,0,0,.5);
+}
+
 /* Side menu */
 .menu-toggle{ font-size:24px; cursor:pointer; position:relative; z-index:1101; background:none; border:none; color:inherit; }
 .side-menu{ position:fixed; top:0; left:-240px; width:240px; height:100%; background:#333; color:#fff; padding-top:60px; transition:left .3s; z-index:1000; box-shadow:2px 0 5px rgba(0,0,0,.5); }
@@ -39,19 +78,32 @@ body.dark-mode{
 .menu-sublist li a{ display:block; padding:10px 28px; color:#fff; text-decoration:none; }
 .menu-sublist li a:hover{ background:rgba(255,255,255,.1); }
 
-/* Content */
+/* ===== Content ===== */
 .content{ text-align:center; padding:20px; flex:1; width:100%; max-width:800px; margin:0 auto; display:flex; flex-direction:column; align-items:center; }
 h1{ font-size:48px; line-height:1.15; margin:0; }
-h2{ font-size:36px; line-height:1.2; margin:18px 0 8px; }
-p{ font-size:16px; margin:5px 0; }
 
 /* YouTube */
 .video-container{ margin:10px 0; width:100%; max-width:560px; height:315px; }
 .video-container iframe{ width:100%; height:100%; }
 
-/* Time + Countdown card */
+/* ===== Time + Countdown card (tighter top/bottom + bigger values) ===== */
 .time-and-countdown{
-  width:100%; max-width:800px; padding:28px 36px; display:flex; flex-direction:column; align-items:flex-start; text-align:left; margin-top:20px;
-  background:var(--panel-bg); color:var(--panel-text); border:2px solid var(--panel-border); border-radius:24px; box-shadow:var(--panel-shadow);
+  width:100%; max-width:800px;
+  padding:16px 22px;            /* tighter than before */
+  background:var(--panel-bg); color:var(--panel-text);
+  border:2px solid var(--panel-border); border-radius:18px;
+  box-shadow:var(--panel-shadow);
+  text-align:left; display:flex; flex-direction:column; gap:6px;
 }
-.time-and-countdown p{ white-space:normal; overflow:visible; }
+.time-and-countdown h2{
+  font-size:32px; line-height:1.25; margin:4px 0 2px;
+}
+.time-and-countdown p{
+  margin:2px 0 4px; line-height:1.35;
+  font-size:20px;               /* bigger value text */
+}
+.time-and-countdown #date-display,
+.time-and-countdown #time-display,
+.time-and-countdown #countdown-display{
+  font-weight:700;
+}
