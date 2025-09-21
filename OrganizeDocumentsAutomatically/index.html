@@ -1,9 +1,11 @@
-<!-- html-OrganizeDocumentsAutomatically-21092025-03 -->
+<!-- html-OrganizeDocumentsAutomatically-21092025-06 -->
 <!DOCTYPE html>
 <html lang="th">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- FIX viewport: ล็อกสเกลให้เท่ากับ Root/Home และไม่ให้ pinch-zoom -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"/>
+
   <title>Organize documents automatically - 20nxskypqz</title>
 
   <!-- Fonts -->
@@ -14,7 +16,7 @@
   <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css"><!-- night + dropdown -->
   <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-bold-rounded/css/uicons-bold-rounded.css"><!-- menu/close -->
 
-  <!-- Tailwind -->
+  <!-- Tailwind (utility) -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Page styles -->
@@ -80,7 +82,7 @@
   </nav>
   <div class="menu-overlay"></div>
 
-  <!-- Loader (FIX: เอา class flex ออก + ใส่ style display:none ให้เริ่มซ่อนแน่นอน) -->
+  <!-- Loader -->
   <div id="loader" class="loader" style="display:none">
     <div class="loader-card">
       <div class="loader-spinner"></div>
