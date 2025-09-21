@@ -1,4 +1,4 @@
-/* js-21092025-06 */
+/* js-21092025-07 */
 
 /* ================= THEME ================= */
 var FI_DAY_HREF='https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-chubby/css/uicons-solid-chubby.css';
@@ -34,12 +34,13 @@ function updateCountdown(){ try{
   var el=document.getElementById('countdown-display'); if(!el) return;
   var target=new Date('January 1, 2026 00:00:00');
   var now=new Date(); var diff=target-now;
-  if(diff<=0){ el.textContent='🎉 Happy New Year 2026!'; return; }
+  if(diff<=0){ el.textContent='Countdown: 🎉 Happy New Year 2026!'; return; }
   var days=Math.floor(diff/86400000);
   var hours=Math.floor((diff/3600000)%24);
   var minutes=Math.floor((diff/60000)%60);
   var seconds=Math.floor((diff/1000)%60);
-  el.textContent=days+' days '+hours+' hours '+minutes+' minutes '+seconds+' seconds';
+  // ใส่ป้าย "Countdown:" ทุกครั้ง เพื่อไม่ให้โดนทับหาย
+  el.textContent='Countdown: '+days+' days '+hours+' hours '+minutes+' minutes '+seconds+' seconds';
 } catch(e){} }
 function initializeUpdates(){ updateTime(); updateCountdown(); setInterval(updateTime,1000); setInterval(updateCountdown,1000); }
 
