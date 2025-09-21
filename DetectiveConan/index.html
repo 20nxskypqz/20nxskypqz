@@ -10,7 +10,7 @@
 
   <!-- Icons -->
   <link id="fi-theme" rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-chubby/css/uicons-solid-chubby.css"><!-- day -->
-  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css"><!-- night -->
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css"><!-- night + dropdown triangle -->
   <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-bold-rounded/css/uicons-bold-rounded.css"><!-- menu/close -->
 
   <link rel="stylesheet" href="../styles.css" />
@@ -26,53 +26,44 @@
     </div>
   </header>
 
+  <!-- Side Menu (Accordion) -->
   <nav class="side-menu" aria-label="Main navigation" aria-hidden="true">
     <button class="close-menu" aria-label="Close navigation" type="button">
       <i class="fi fi-br-cross" aria-hidden="true"></i>
     </button>
 
-    <!-- ===== Collapsible sections ===== -->
-    <ul class="menu-list">
+    <div class="menu-group">
       <!-- About -->
-      <li class="menu-section">
-        <button class="menu-section__toggle" type="button" aria-expanded="false">
-          <span>About</span>
-          <i class="fi fi-sr-dropdown-select" aria-hidden="true"></i>
-        </button>
-        <ul class="menu-sublist" role="list" hidden>
-          <li><a href="../Home/"><i class="fi fi-sr-home" aria-hidden="true"></i> Home</a></li>
-        </ul>
-      </li>
+      <button class="menu-section-toggle" type="button" aria-expanded="false">
+        <span>About</span>
+        <i class="fi fi-sr-dropdown-select" aria-hidden="true"></i>
+      </button>
+      <ul class="menu-sublist" hidden>
+        <li><a href="../Home/"><i class="fi fi-sr-home"></i> Home</a></li>
+        <li><a href="../DetectiveConan/"><i class="fi fi-br-search"></i> DetectiveConan</a></li>
+      </ul>
 
       <!-- Study -->
-      <li class="menu-section">
-        <button class="menu-section__toggle" type="button" aria-expanded="false">
-          <span>Study</span>
-          <i class="fi fi-sr-dropdown-select" aria-hidden="true"></i>
-        </button>
-        <ul class="menu-sublist" role="list" hidden></ul>
-      </li>
+      <button class="menu-section-toggle" type="button" aria-expanded="false">
+        <span>Study</span>
+        <i class="fi fi-sr-dropdown-select" aria-hidden="true"></i>
+      </button>
+      <ul class="menu-sublist" hidden></ul>
 
       <!-- Work -->
-      <li class="menu-section">
-        <button class="menu-section__toggle" type="button" aria-expanded="false">
-          <span>Work</span>
-          <i class="fi fi-sr-dropdown-select" aria-hidden="true"></i>
-        </button>
-        <ul class="menu-sublist" role="list" hidden></ul>
-      </li>
+      <button class="menu-section-toggle" type="button" aria-expanded="false">
+        <span>Work</span>
+        <i class="fi fi-sr-dropdown-select" aria-hidden="true"></i>
+      </button>
+      <ul class="menu-sublist" hidden></ul>
 
       <!-- Games -->
-      <li class="menu-section">
-        <button class="menu-section__toggle" type="button" aria-expanded="false">
-          <span>Games</span>
-          <i class="fi fi-sr-dropdown-select" aria-hidden="true"></i>
-        </button>
-        <ul class="menu-sublist" role="list" hidden>
-          <li><a href="../DetectiveConan/"><i class="fi fi-br-search" aria-hidden="true"></i> DetectiveConan</a></li>
-        </ul>
-      </li>
-    </ul>
+      <button class="menu-section-toggle" type="button" aria-expanded="false">
+        <span>Games</span>
+        <i class="fi fi-sr-dropdown-select" aria-hidden="true"></i>
+      </button>
+      <ul class="menu-sublist" hidden></ul>
+    </div>
   </nav>
   <div class="menu-overlay"></div>
 
@@ -90,8 +81,6 @@
       </button>
       <ul class="season-menu" role="listbox" hidden></ul>
     </div>
-
-    <!-- ตารางและโค้ดที่เกี่ยวข้อง ถูกลบออกทั้งหมดตามสั่ง -->
   </main>
 
   <footer class="footer">&copy; 2025 20nxskypqz</footer>
