@@ -1,4 +1,4 @@
-/* js-20092025-02 */
+/* js-21092025-01 */
 
 /* ================= THEME ================= */
 var FI_DAY_HREF='https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-chubby/css/uicons-solid-chubby.css';
@@ -43,15 +43,13 @@ function updateCountdown(){ try{
 function initializeUpdates(){ updateTime(); updateCountdown(); setInterval(updateTime,1000); setInterval(updateCountdown,1000); }
 
 /* ================= SEASON PICKER (UI เท่านั้น) ================= */
-var SEASONS=[{label:'Detective Conan SS.1', gid:'0'}]; // คงไว้เพื่อโชว์เมนูเฉย ๆ
-
+var SEASONS=[{label:'Detective Conan SS.1', gid:'0'}];
 function setupSeasonPicker(){
   var picker=document.getElementById('season-picker'); if(!picker) return;
   var btn=picker.querySelector('.season-button');
   var menu=picker.querySelector('.season-menu');
   var label=picker.querySelector('.season-label');
 
-  // เติมรายการ (UI)
   menu.innerHTML='';
   for(var i=0;i<SEASONS.length;i++){
     (function(s){
@@ -90,13 +88,11 @@ document.addEventListener('DOMContentLoaded', function(){
       if(icon) icon.className=isOpen?'fi fi-br-cross':'fi fi-br-menu-burger';
       else menuToggle.textContent=isOpen?'×':'☰';
       menuToggle.setAttribute('aria-expanded', String(isOpen));
-      menuToggle.setAttribute('aria-label', isOpen?'Close navigation':'Toggle navigation');
     }
     function toggleMenu(){
       if(!sideMenu||!menuToggle||!overlay) return;
       var isOpen=sideMenu.classList.toggle('open');
       overlay.classList.toggle('visible', isOpen);
-      updateMenuIcon(isOpen);
       sideMenu.setAttribute('aria-hidden', String(!isOpen));
     }
     if(menuToggle) menuToggle.addEventListener('click', toggleMenu);
@@ -112,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function(){
     // Home timers
     initializeUpdates();
 
-    // Conan page: SS UI only
+    // Conan: SS UI only
     setupSeasonPicker();
   }catch(e){}
 });
