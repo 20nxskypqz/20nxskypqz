@@ -1,4 +1,4 @@
-/* css-Root-21092025-04 */
+/* css-Root-21092025-05 */
 
 /* ===== Base (Root page) ===== */
 *, *:before, *:after { box-sizing: border-box; }
@@ -58,11 +58,15 @@ body.dark-mode{
   transform:translateX(0);
   transition: transform .25s cubic-bezier(.4,0,.2,1), background .25s, color .25s, box-shadow .25s;
 }
+/* NEW: make day icon visible on white knob */
+.toggle-container .toggle-circle i{ color:#f5a623; }          /* day icon color */
 .dark-mode .toggle-container .toggle-circle{
   transform:translateX(calc(var(--w) - var(--h)));
   background:#222; color:#ffec8b;
   box-shadow:0 4px 10px rgba(0,0,0,.5);
 }
+/* ensure night icon color overrides day */
+.dark-mode .toggle-container .toggle-circle i{ color:#ffec8b; }
 
 /* Side menu */
 .menu-toggle{ font-size:24px; cursor:pointer; position:relative; z-index:1101; background:none; border:none; color:inherit; }
