@@ -1,6 +1,6 @@
-/* css-DetectiveConan-21092025-03 */
+/* css-DetectiveConan-21092025-04 */
 
-/* Base: isolated for Conan page */
+/* ===== Base (Conan page isolated) ===== */
 *, *:before, *:after { box-sizing: border-box; }
 :root{
   --bg-color:#fff; --text-color:#000;
@@ -18,13 +18,43 @@ body.dark-mode{
   --bg-color:#0b0d0f; --text-color:#e8eaed;
   --panel-bg:#111315; --panel-text:#e8eaed;
   --panel-shadow:0 8px 24px rgba(0,0,0,.5);
-  --panel-border:#ddd;
+  --panel-border:#3a424a;
 }
 
 /* Header / Footer */
 .header{ width:100%; display:flex; justify-content:flex-start; gap:12px; align-items:center; padding:10px 20px; background:linear-gradient(to right,red,orange); color:#fff; position:relative; z-index:1100; overflow:visible; }
 .header::before{ content:""; position:absolute; inset:0; left:50%; transform:translateX(-50%); width:500vw; background:inherit; z-index:-1; }
 .footer{ text-align:center; padding:10px 20px; background:linear-gradient(to right,red,orange); color:#fff; width:100%; position:fixed; left:0; right:0; bottom:0; z-index:1100; padding-bottom:calc(10px + env(safe-area-inset-bottom)); }
+
+/* ===== Pill Toggle (capsule) — same look as other pages ===== */
+.toggle-container{
+  --w:74px; --h:36px; --pad:3px;
+  width:var(--w); height:var(--h);
+  border-radius:999px; padding:var(--pad);
+  background:#e9eef4; border:2px solid #c9d4df;
+  display:flex; align-items:center; cursor:pointer; position:relative;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,.12);
+  transition: background .25s, border-color .25s, box-shadow .25s;
+}
+.dark-mode .toggle-container{
+  background:#1d2227; border-color:#3a424a;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,.35);
+}
+.toggle-container .toggle-circle{
+  width:calc(var(--h) - 2*var(--pad));
+  height:calc(var(--h) - 2*var(--pad));
+  border-radius:999px; background:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px;
+  box-shadow:0 3px 8px rgba(0,0,0,.25);
+  transform:translateX(0);
+  transition: transform .25s cubic-bezier(.4,0,.2,1), background .25s, color .25s, box-shadow .25s;
+}
+.dark-mode .toggle-container .toggle-circle{
+  transform:translateX(calc(var(--w) - var(--h)));
+  background:#222; color:#ffec8b;
+  box-shadow:0 4px 10px rgba(0,0,0,.5);
+}
 
 /* Side menu */
 .menu-toggle{ font-size:24px; cursor:pointer; position:relative; z-index:1101; background:none; border:none; color:inherit; }
