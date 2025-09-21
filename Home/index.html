@@ -1,4 +1,4 @@
-<!-- html-Home-21092025-01 -->
+<!-- html-Home-21092025-02 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,9 +30,48 @@
     <button class="close-menu" aria-label="Close navigation" type="button">
       <i class="fi fi-br-cross" aria-hidden="true"></i>
     </button>
-    <ul>
-      <li><a href="../Home/"><i class="fi fi-sr-home"></i> Home</a></li>
-      <li><a href="../DetectiveConan/"><i class="fi fi-br-search"></i> DetectiveConan</a></li>
+
+    <!-- ===== Collapsible sections ===== -->
+    <ul class="menu-list">
+      <!-- About -->
+      <li class="menu-section">
+        <button class="menu-section__toggle" type="button" aria-expanded="false">
+          <span>About</span>
+          <i class="fi fi-sr-dropdown-select" aria-hidden="true"></i>
+        </button>
+        <ul class="menu-sublist" role="list" hidden>
+          <li><a href="../Home/"><i class="fi fi-sr-home" aria-hidden="true"></i> Home</a></li>
+        </ul>
+      </li>
+
+      <!-- Study -->
+      <li class="menu-section">
+        <button class="menu-section__toggle" type="button" aria-expanded="false">
+          <span>Study</span>
+          <i class="fi fi-sr-dropdown-select" aria-hidden="true"></i>
+        </button>
+        <ul class="menu-sublist" role="list" hidden></ul>
+      </li>
+
+      <!-- Work -->
+      <li class="menu-section">
+        <button class="menu-section__toggle" type="button" aria-expanded="false">
+          <span>Work</span>
+          <i class="fi fi-sr-dropdown-select" aria-hidden="true"></i>
+        </button>
+        <ul class="menu-sublist" role="list" hidden></ul>
+      </li>
+
+      <!-- Games -->
+      <li class="menu-section">
+        <button class="menu-section__toggle" type="button" aria-expanded="false">
+          <span>Games</span>
+          <i class="fi fi-sr-dropdown-select" aria-hidden="true"></i>
+        </button>
+        <ul class="menu-sublist" role="list" hidden>
+          <li><a href="../DetectiveConan/"><i class="fi fi-br-search" aria-hidden="true"></i> DetectiveConan</a></li>
+        </ul>
+      </li>
     </ul>
   </nav>
   <div class="menu-overlay"></div>
