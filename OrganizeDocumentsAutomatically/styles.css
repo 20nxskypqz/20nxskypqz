@@ -1,159 +1,137 @@
-/* css-Organize-documents-automatically-21092025-01 */
+<!-- html-OrganizeDocumentsAutomatically-21092025-03 -->
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Organize documents automatically - 20nxskypqz</title>
 
-/* ===== Base ===== */
-*, *::before, *::after { box-sizing: border-box; }
-:root{
-  --bg-color:#ffffff; --text-color:#111827;
-  --panel-bg:#ffffff; --panel-text:#111827;
-  --panel-shadow:0 12px 30px rgba(0,0,0,.08);
-  --panel-border:#c9d4df;
-}
-body{
-  font-family:'Niramit', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  margin:0; padding:0;
-  background:var(--bg-color); color:var(--text-color);
-  display:flex; flex-direction:column; min-height:100vh; overflow-x:hidden;
-}
-body.dark-mode{
-  --bg-color:#0b0d0f; --text-color:#e8eaed;
-  --panel-bg:#111315; --panel-text:#e8eaed;
-  --panel-shadow:0 8px 24px rgba(0,0,0,.5);
-  --panel-border:#3a424a;
-}
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;700&display=swap" rel="stylesheet">
 
-/* ===== Header / Footer ===== */
-.header{
-  width:100%; display:flex; justify-content:space-between; align-items:center;
-  padding:10px 20px; background:linear-gradient(to right, red, orange); color:#fff;
-  position:relative; z-index:1100; overflow:visible;
-}
-.header::before{ content:""; position:absolute; inset:0; left:50%; transform:translateX(-50%); width:500vw; background:inherit; z-index:-1; }
-.footer{
-  text-align:center; padding:10px 20px; background:linear-gradient(to right, red, orange); color:#fff; width:100%;
-}
+  <!-- Icons -->
+  <link id="fi-theme" rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-chubby/css/uicons-solid-chubby.css"><!-- day -->
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css"><!-- night + dropdown -->
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-bold-rounded/css/uicons-bold-rounded.css"><!-- menu/close -->
 
-/* ===== Pill Theme Toggle (capsule) ===== */
-.toggle-container{
-  --w:74px; --h:36px; --pad:3px;
-  width:var(--w); height:var(--h);
-  border-radius:999px; padding:var(--pad);
-  background:#e9eef4; border:2px solid #c9d4df;
-  display:flex; align-items:center; cursor:pointer; position:relative;
-  box-shadow:inset 0 2px 6px rgba(0,0,0,.12);
-  transition:background .25s, border-color .25s, box-shadow .25s;
-}
-.toggle-container .toggle-circle{
-  width:calc(var(--h) - 2*var(--pad)); height:calc(var(--h) - 2*var(--pad));
-  border-radius:999px; background:#fff; display:flex; align-items:center; justify-content:center;
-  font-size:18px; box-shadow:0 3px 8px rgba(0,0,0,.25);
-  transform:translateX(0);
-  transition:transform .25s cubic-bezier(.4,0,.2,1), background .25s, color .25s, box-shadow .25s;
-}
-.toggle-container .toggle-circle i{ color:#f5a623; } /* day icon visible on white */
-.dark-mode .toggle-container{ background:#1d2227; border-color:#3a424a; box-shadow:inset 0 2px 8px rgba(0,0,0,.35); }
-.dark-mode .toggle-container .toggle-circle{
-  transform:translateX(calc(var(--w) - var(--h))); background:#222; color:#ffec8b; box-shadow:0 4px 10px rgba(0,0,0,.5);
-}
-.dark-mode .toggle-container .toggle-circle i{ color:#ffec8b; }
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-/* ===== Side Menu ===== */
-.menu-toggle{ font-size:24px; cursor:pointer; position:relative; z-index:1101; background:none; border:none; color:inherit; }
-.side-menu{ position:fixed; top:0; left:-240px; width:240px; height:100%; background:#333; color:#fff; padding-top:60px; transition:left .3s; z-index:1000; box-shadow:2px 0 5px rgba(0,0,0,.5); }
-.side-menu.open{ left:0; }
-.close-menu{ position:absolute; top:10px; right:15px; font-size:24px; cursor:pointer; background:none; border:none; color:inherit; }
-.menu-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.3); display:none; z-index:900; }
-.menu-overlay.visible{ display:block; }
+  <!-- Page styles -->
+  <link rel="stylesheet" href="./styles.css" />
 
-.menu-group{ display:block; padding:8px 0 16px; }
-.menu-section-toggle{
-  width:100%; background:transparent; border:none; color:#fff; display:flex; align-items:center; justify-content:space-between; font-weight:800; font-size:16px; padding:12px 20px; cursor:pointer;
-}
-.menu-section-toggle i{ transition:transform .2s ease; }
-.menu-section-toggle[aria-expanded="true"] i{ transform:rotate(180deg); }
-.menu-sublist{ list-style:none; margin:0; padding:0 0 8px 0; }
-.menu-sublist li a{ display:block; padding:10px 28px; color:#fff; text-decoration:none; }
-.menu-sublist li a:hover{ background:rgba(255,255,255,.1); }
+  <!-- Export Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://unpkg.com/html-to-docx@1.8.0/dist/html-to-docx.js"></script>
+</head>
+<body class="light-mode work-page">
+  <!-- Header -->
+  <header class="header">
+    <button class="menu-toggle" aria-label="Toggle navigation" type="button" aria-expanded="false">
+      <i class="fi fi-br-menu-burger" aria-hidden="true"></i>
+    </button>
 
-/* ===== Page Header ===== */
-.content{ text-align:center; padding:20px; flex:1; width:100%; max-width:1000px; margin:0 auto; display:flex; flex-direction:column; align-items:center; }
-.page-header{ text-align:center; margin:10px 0 14px; }
-.title-th{ font-size:34px; font-weight:700; margin:0; color:var(--text-color); }
-.subtitle{ color:#6b7280; margin:6px 0 0; }
-.dark-mode .subtitle{ color:#a7b0ba; }
+    <div class="toggle-container" id="mode-toggle" aria-label="Toggle light/dark mode">
+      <div class="toggle-circle light"><i id="mode-icon" class="fi fi-sc-sun" aria-hidden="true"></i></div>
+    </div>
+  </header>
 
-/* ===== Control Panel ===== */
-.control-panel{
-  position:sticky; top:0; z-index:10;
-  display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap;
-  background:var(--panel-bg); color:var(--panel-text);
-  border:1px solid var(--panel-border); border-radius:12px;
-  padding:10px 12px; box-shadow:var(--panel-shadow);
-  width:100%;
-}
-.btn{ display:inline-flex; align-items:center; gap:8px; font-weight:700; padding:10px 14px; border-radius:10px; border:none; cursor:pointer; transition:transform .15s ease, filter .15s ease; color:#fff; }
-.btn .icon-left{ width:20px; height:20px; }
-.btn:active{ transform:scale(.97); }
-.btn.sky{ background:#0ea5e9; } .btn.sky:hover{ filter:brightness(.95); }
-.btn.blue{ background:#3b82f6; } .btn.blue:hover{ filter:brightness(.95); }
-.btn.red{ background:#ef4444; } .btn.red:hover{ filter:brightness(.95); }
-.btn-group{ display:flex; gap:8px; }
+  <!-- Side Menu (Accordion) -->
+  <nav class="side-menu" aria-label="Main navigation" aria-hidden="true">
+    <button class="close-menu" aria-label="Close navigation" type="button">
+      <i class="fi fi-br-cross" aria-hidden="true"></i>
+    </button>
 
-/* Add menu */
-.add-menu{
-  display:none; position:absolute; top:100%; left:0; margin-top:8px; z-index:20;
-  background:var(--panel-bg); color:var(--panel-text);
-  border:1px solid var(--panel-border); border-radius:12px; box-shadow:var(--panel-shadow);
-  width:220px; padding:6px 0;
-}
-.add-menu .add-block-option{ display:block; padding:8px 12px; color:inherit; text-decoration:none; }
-.add-menu .add-block-option:hover{ background:rgba(0,0,0,.06); }
-.dark-mode .add-menu .add-block-option:hover{ background:rgba(255,255,255,.06); }
+    <div class="menu-group">
+      <!-- About -->
+      <button class="menu-section-toggle" type="button" aria-expanded="false">
+        <span>About</span>
+        <i class="fi fi-sr-dropdown-select" aria-hidden="true"></i>
+      </button>
+      <ul class="menu-sublist" hidden>
+        <li><a href="../Home/"><i class="fi fi-sr-home"></i> Home</a></li>
+        <li><a href="../DetectiveConan/"><i class="fi fi-br-search"></i> DetectiveConan</a></li>
+      </ul>
 
-/* ===== Editor ===== */
-.editor{
-  width:100%; min-height:60vh;
-  background:var(--panel-bg); color:var(--panel-text);
-  border:1px solid var(--panel-border); border-radius:16px;
-  padding:20px 18px; box-shadow:inset 0 1px 8px rgba(0,0,0,.05);
-}
-.placeholder{ text-align:center; color:#9ca3af; padding:60px 0; }
+      <!-- Study -->
+      <button class="menu-section-toggle" type="button" aria-expanded="false">
+        <span>Study</span>
+        <i class="fi fi-sr-dropdown-select" aria-hidden="true"></i>
+      </button>
+      <ul class="menu-sublist" hidden></ul>
 
-.content-block{ position:relative; display:flex; align-items:flex-start; padding:8px; margin:8px 0; border:1px solid transparent; border-radius:10px; }
-.content-block:hover{ border-color:var(--panel-border); }
-.drag-handle{ color:#9ca3af; margin-right:10px; padding-top:4px; opacity:0; transition:opacity .15s; }
-.content-block:hover .drag-handle{ opacity:1; }
-.delete-btn{
-  position:absolute; top:50%; right:-6px; transform:translateY(-50%);
-  background:#ef4444; color:#fff; border:none; border-radius:999px;
-  height:28px; width:28px; display:flex; align-items:center; justify-content:center;
-  opacity:0; transition:opacity .15s;
-}
-.content-block:hover .delete-btn{ opacity:1; }
-.dragging{ opacity:.5; background:#f0f8ff; }
+      <!-- Work -->
+      <button class="menu-section-toggle" type="button" aria-expanded="true">
+        <span>Work</span>
+        <i class="fi fi-sr-dropdown-select" aria-hidden="true"></i>
+      </button>
+      <ul class="menu-sublist">
+        <li><a href="../OrganizeDocumentsAutomatically/"><i class="fi fi-br-folders"></i> Organize documents automatically</a></li>
+      </ul>
 
-/* Editable placeholders */
-[contenteditable]:empty:before{
-  content:attr(placeholder); pointer-events:none; display:block; color:#9ca3af;
-}
+      <!-- Games -->
+      <button class="menu-section-toggle" type="button" aria-expanded="false">
+        <span>Games</span>
+        <i class="fi fi-sr-dropdown-select" aria-hidden="true"></i>
+      </button>
+      <ul class="menu-sublist" hidden></ul>
+    </div>
+  </nav>
+  <div class="menu-overlay"></div>
 
-/* ===== Loader ===== */
-.loader{
-  display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:1000;
-  justify-content:center; align-items:center;
-}
-.loader-card{
-  background:var(--panel-bg); color:var(--panel-text);
-  padding:20px; border-radius:14px; box-shadow:var(--panel-shadow); text-align:center; border:1px solid var(--panel-border);
-}
-.loader-spinner{
-  width:48px; height:48px; border:4px solid #0ea5e9; border-top-color:transparent; border-radius:999px; margin:0 auto 10px; animation:spin 1s linear infinite;
-}
-.loader-text{ margin:0; }
-@keyframes spin{ to{ transform:rotate(360deg); } }
+  <!-- Loader (FIX: เอา class flex ออก + ใส่ style display:none ให้เริ่มซ่อนแน่นอน) -->
+  <div id="loader" class="loader" style="display:none">
+    <div class="loader-card">
+      <div class="loader-spinner"></div>
+      <p id="loader-text" class="loader-text">กำลังประมวลผล...</p>
+    </div>
+  </div>
 
-/* ===== Export text presets (editor classes) ===== */
-.ed-h3c{ width:100%; font-size:28px; font-weight:700; text-align:center; outline:none; border-radius:6px; padding:0 2px; }
-.ed-h1{  width:100%; font-size:28px; font-weight:700; outline:none; border-radius:6px; padding:0 2px; }
-.ed-h2{  width:100%; font-size:24px; font-weight:700; outline:none; border-radius:6px; padding:0 2px; }
-.ed-h4{  width:100%; font-size:18px; font-weight:700; outline:none; border-radius:6px; padding:0 2px; }
-.ed-p{   width:100%; font-size:16px; line-height:1.6; outline:none; border-radius:6px; padding:0 2px; }
+  <!-- Main -->
+  <main class="content">
+    <header class="page-header">
+      <h1 class="title-th">เครื่องมือสร้างเอกสารอัตโนมัติ</h1>
+      <p class="subtitle">เพิ่มเนื้อหา, จัดลำดับ, และดาวน์โหลดเอกสารของคุณ</p>
+    </header>
+
+    <!-- Control Panel -->
+    <div id="control-panel" class="control-panel">
+      <div class="relative">
+        <button id="add-btn" class="btn sky">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-left" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+          เพิ่มเนื้อหา
+        </button>
+        <div id="add-menu" class="add-menu">
+          <a href="#" data-type="h-center" class="add-block-option">หัวเรื่อง (กลาง)</a>
+          <a href="#" data-type="h1" class="add-block-option">หัวข้อหลัก</a>
+          <a href="#" data-type="h2" class="add-block-option">หัวข้อย่อย</a>
+          <a href="#" data-type="h4" class="add-block-option">หัวข้อย่อยของย่อย</a>
+          <a href="#" data-type="p" class="add-block-option">เนื้อหา</a>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button id="download-docx-btn" class="btn blue">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M12 18v-6"></path><path d="m9 15 3 3 3-3"></path></svg>
+          ดาวน์โหลด DOCX
+        </button>
+        <button id="download-pdf-btn" class="btn red">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M12 18v-6"></path><path d="m9 15 3 3 3-3"></path></svg>
+          ดาวน์โหลด PDF
+        </button>
+      </div>
+    </div>
+
+    <!-- Editor Area -->
+    <section id="editor" class="editor">
+      <div id="placeholder" class="placeholder">คลิกปุ่ม “เพิ่มเนื้อหา” เพื่อเริ่มต้น</div>
+    </section>
+  </main>
+
+  <footer class="footer">&copy; 2025 20nxskypqz</footer>
+
+  <!-- Page script -->
+  <script src="./script.js"></script>
+</body>
+</html>
