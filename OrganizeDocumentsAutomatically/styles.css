@@ -1,4 +1,4 @@
-/* css-OrganizeDocumentsAutomatically-21092025-05 */
+/* css-OrganizeDocumentsAutomatically-21092025-06 */
 
 /* ===== Base ===== */
 *, *::before, *::after { box-sizing: border-box; }
@@ -8,17 +8,22 @@
   --panel-shadow:0 12px 30px rgba(0,0,0,.08);
   --panel-border:#c9d4df;
   --footer-h:44px;
-  /* ความกว้างคอนเทนต์ให้ “เท่า/ใกล้เคียง” หน้า Root/Home */
-  --page-max:760px;
+  --page-max:760px;                 /* ให้สเกลเท่ากับหน้า Root/Home */
 }
 @media (min-width:1024px){ :root{ --page-max:800px; } }
 
+html{
+  /* ป้องกัน iOS Safari ขยาย/ย่ออัตโนมัติให้ตัวหนังสือแล้วทำให้ทั้งหน้าดูซูม */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
 body{
   font-family:'Niramit', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   margin:0; color:var(--text-color); background:var(--bg-color);
-  /* >>> เหมือนหน้า Root/Home: ใช้ flex + min-height:100vh ให้ footer ชิดล่างแบบ sticky */
+  /* layout เดียวกับ Root/Home */
   display:flex; flex-direction:column; min-height:100vh;
   overflow-x:hidden;
+  touch-action: manipulation;      /* ลด gesture ที่ทำให้ซูม/สเกลเพี้ยน */
 }
 body.dark-mode{
   --bg-color:#0b0d0f; --text-color:#e8eaed;
@@ -35,21 +40,19 @@ body.dark-mode{
 }
 .header::before{ content:""; position:absolute; inset:0; left:50%; transform:translateX(-50%); width:500vw; background:inherit; z-index:-1; }
 
-/* footer แบบ “sticky” (ไม่ fixed) เหมือน Root/Home */
 .footer{
-  width:100%;
-  min-height:var(--footer-h);
+  width:100%; min-height:var(--footer-h);
   display:flex; align-items:center; justify-content:center;
   padding:0 16px;
   background:linear-gradient(to right, red, orange); color:#fff;
 }
 
-/* ===== Content sizing ให้ใกล้เคียงหน้าอื่น ===== */
+/* ===== Content (สเกลเท่ากับหน้าอื่น) ===== */
 .content{
-  flex:1;                                      /* ดัน footer ไปชิดล่าง */
-  width:100%; max-width:var(--page-max);       /* ความกว้างเท่าหน้า Root/Home */
+  flex:1;
+  width:100%; max-width:var(--page-max);
   margin:0 auto;
-  padding:16px;                                /* ระยะขอบเท่า ๆ กัน */
+  padding:16px;
   text-align:center;
 }
 .page-header{ text-align:center; margin:8px 0 12px; }
