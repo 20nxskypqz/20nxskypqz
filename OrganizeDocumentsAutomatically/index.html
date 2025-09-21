@@ -1,4 +1,4 @@
-<!-- html-OrganizeDocumentsAutomatically-21092025-02 -->
+<!-- html-OrganizeDocumentsAutomatically-21092025-03 -->
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -67,7 +67,6 @@
         <i class="fi fi-sr-dropdown-select" aria-hidden="true"></i>
       </button>
       <ul class="menu-sublist">
-        <!-- self link (โฟลเดอร์ใหม่แบบไม่มีเว้นวรรค) -->
         <li><a href="../OrganizeDocumentsAutomatically/"><i class="fi fi-br-folders"></i> Organize documents automatically</a></li>
       </ul>
 
@@ -81,8 +80,8 @@
   </nav>
   <div class="menu-overlay"></div>
 
-  <!-- Loader -->
-  <div id="loader" class="loader flex">
+  <!-- Loader (FIX: เอา class flex ออก + ใส่ style display:none ให้เริ่มซ่อนแน่นอน) -->
+  <div id="loader" class="loader" style="display:none">
     <div class="loader-card">
       <div class="loader-spinner"></div>
       <p id="loader-text" class="loader-text">กำลังประมวลผล...</p>
