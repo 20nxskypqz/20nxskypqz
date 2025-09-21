@@ -1,4 +1,4 @@
-/* js-21092025-02 */
+/* js-21092025-05 */
 
 /* ================= THEME ================= */
 var FI_DAY_HREF='https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-chubby/css/uicons-solid-chubby.css';
@@ -32,7 +32,8 @@ function updateTime(){ try{
 } catch(e){} }
 function updateCountdown(){ try{
   var el=document.getElementById('countdown-display'); if(!el) return;
-  var target=new Date('January 1, 2026 00:00:00'); var now=new Date(); var diff=target-now;
+  var target=new Date('January 1, 2026 00:00:00');
+  var now=new Date(); var diff=target-now;
   if(diff<=0){ el.textContent='🎉 Happy New Year 2026!'; return; }
   var days=Math.floor(diff/86400000);
   var hours=Math.floor((diff/3600000)%24);
@@ -42,7 +43,7 @@ function updateCountdown(){ try{
 } catch(e){} }
 function initializeUpdates(){ updateTime(); updateCountdown(); setInterval(updateTime,1000); setInterval(updateCountdown,1000); }
 
-/* ================= SIDE MENU: Accordion ================= */
+/* ================= SIDE MENU: Open/Close + Accordion ================= */
 function setupAccordionMenu(){
   try{
     var toggles=document.querySelectorAll('.menu-section-toggle');
@@ -57,6 +58,36 @@ function setupAccordionMenu(){
       });
     });
   }catch(e){}
+}
+
+/* ================= Conan: Season Picker (UI only) ================= */
+function setupSeasonPicker(){
+  var picker=document.getElementById('season-picker'); if(!picker) return;
+  var btn=picker.querySelector('.season-button');
+  var menu=picker.querySelector('.season-menu');
+  var label=picker.querySelector('.season-label');
+  if(!btn || !menu || !label) return;
+
+  // รายการเดียว (ตัวอย่าง) — UI เท่านั้น
+  if(menu.children.length===0){
+    var li=document.createElement('li');
+    li.textContent='Detective Conan SS.1';
+    li.setAttribute('role','option'); li.tabIndex=0;
+    li.addEventListener('click', function(){
+      label.textContent='Detective Conan SS.1';
+      menu.hidden=true; btn.setAttribute('aria-expanded','false');
+    });
+    menu.appendChild(li);
+  }
+
+  btn.addEventListener('click', function(){
+    var expanded=btn.getAttribute('aria-expanded')==='true';
+    btn.setAttribute('aria-expanded', String(!expanded));
+    menu.hidden=expanded;
+  });
+  document.addEventListener('click', function(e){
+    if(!picker.contains(e.target)){ menu.hidden=true; btn.setAttribute('aria-expanded','false'); }
+  });
 }
 
 /* ================= MENU & INIT ================= */
@@ -96,7 +127,8 @@ document.addEventListener('DOMContentLoaded', function(){
     // Home timers
     initializeUpdates();
 
-    // Accordion in side menu
+    // Accordion + Conan SS UI
     setupAccordionMenu();
+    setupSeasonPicker();
   }catch(e){}
 });
