@@ -1,102 +1,150 @@
-/* js-21092025-02 */
+/* css-21092025-02 */
 
-/* ================= THEME ================= */
-var FI_DAY_HREF='https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-chubby/css/uicons-solid-chubby.css';
-var FI_NIGHT_HREF='https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css';
-function applyIconTheme(isDark){
-  try{
-    var link=document.getElementById('fi-theme');
-    if(link) link.setAttribute('href', isDark?FI_NIGHT_HREF:FI_DAY_HREF);
-    var icon=document.getElementById('mode-icon');
-    if(icon) icon.className=isDark?'fi fi-sr-moon':'fi fi-sc-sun';
-  }catch(e){}
-}
-function toggleMode(){
-  try{
-    var isDark=document.body.classList.toggle('dark-mode');
-    document.body.classList.toggle('light-mode', !isDark);
-    var c=document.querySelector('.toggle-circle');
-    if(c){ if(isDark) c.classList.remove('light'); else c.classList.add('light'); }
-    applyIconTheme(isDark);
-  }catch(e){}
+/* Icons */
+@import url('https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-chubby/css/uicons-solid-chubby.css'); /* day */
+@import url('https://cdn-uicons.flaticon.com/3.0.0/uicons-bold-rounded/css/uicons-bold-rounded.css');  /* menu/close/search */
+@import url('https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css'); /* night + dropdown */
+
+/* ===== Base ===== */
+*, *:before, *:after { box-sizing: border-box; }
+
+:root{
+  --bg-color:#fff; --text-color:#000;
+  --panel-bg:#fff; --panel-text:#000;
+  --panel-shadow:0 12px 30px rgba(0,0,0,.08);
+  --panel-border:#999;
 }
 
-/* ================= HOME CLOCK ================= */
-function updateTime(){ try{
-  var d=document.getElementById('date-display');
-  var t=document.getElementById('time-display');
-  if(!d||!t) return;
-  var now=new Date();
-  d.textContent='Date: '+now.toLocaleDateString('en-GB');
-  t.textContent='Time: '+now.toLocaleTimeString('en-GB');
-} catch(e){} }
-function updateCountdown(){ try{
-  var el=document.getElementById('countdown-display'); if(!el) return;
-  var target=new Date('January 1, 2026 00:00:00'); var now=new Date(); var diff=target-now;
-  if(diff<=0){ el.textContent='🎉 Happy New Year 2026!'; return; }
-  var days=Math.floor(diff/86400000);
-  var hours=Math.floor((diff/3600000)%24);
-  var minutes=Math.floor((diff/60000)%60);
-  var seconds=Math.floor((diff/1000)%60);
-  el.textContent=days+' days '+hours+' hours '+minutes+' minutes '+seconds+' seconds';
-} catch(e){} }
-function initializeUpdates(){ updateTime(); updateCountdown(); setInterval(updateTime,1000); setInterval(updateCountdown,1000); }
-
-/* ================= SIDE MENU: Accordion ================= */
-function setupAccordionMenu(){
-  try{
-    var toggles=document.querySelectorAll('.menu-section-toggle');
-    toggles.forEach(function(btn){
-      btn.addEventListener('click', function(){
-        var expanded = btn.getAttribute('aria-expanded') === 'true';
-        btn.setAttribute('aria-expanded', String(!expanded));
-        var list = btn.nextElementSibling;
-        if(list && list.classList.contains('menu-sublist')){
-          list.hidden = expanded;
-        }
-      });
-    });
-  }catch(e){}
+body{
+  font-family:'Niramit',sans-serif;
+  margin:0; padding:0;
+  background:var(--bg-color); color:var(--text-color);
+  display:flex; flex-direction:column; min-height:100vh; overflow-x:hidden;
+}
+body.dark-mode{
+  --bg-color:#0b0d0f; --text-color:#e8eaed;
+  --panel-bg:#111315; --panel-text:#e8eaed;
+  --panel-shadow:0 8px 24px rgba(0,0,0,.5);
+  --panel-border:#ddd;
 }
 
-/* ================= MENU & INIT ================= */
-document.addEventListener('DOMContentLoaded', function(){
-  try{
-    // Menu open/close
-    var menuToggle=document.querySelector('.menu-toggle');
-    var sideMenu=document.querySelector('.side-menu');
-    var closeMenu=document.querySelector('.close-menu');
-    var overlay=document.querySelector('.menu-overlay');
+/* Header / Footer */
+.header{
+  width:100%; display:flex; justify-content:space-between; align-items:center;
+  padding:10px 20px; background:linear-gradient(to right,red,orange); color:#fff;
+  position:relative; z-index:1100;
+}
+.footer{
+  text-align:center; padding:10px 20px; background:linear-gradient(to right,red,orange);
+  color:#fff; width:100%;
+}
 
-    function updateMenuIcon(isOpen){
-      if(!menuToggle) return;
-      var icon=menuToggle.querySelector('i');
-      if(icon) icon.className=isOpen?'fi fi-br-cross':'fi fi-br-menu-burger';
-      else menuToggle.textContent=isOpen?'×':'☰';
-      menuToggle.setAttribute('aria-expanded', String(isOpen));
-      menuToggle.setAttribute('aria-label', isOpen?'Close navigation':'Toggle navigation');
-    }
-    function toggleMenu(){
-      if(!sideMenu||!menuToggle||!overlay) return;
-      var isOpen=sideMenu.classList.toggle('open');
-      overlay.classList.toggle('visible', isOpen);
-      updateMenuIcon(isOpen);
-      sideMenu.setAttribute('aria-hidden', String(!isOpen));
-    }
-    if(menuToggle) menuToggle.addEventListener('click', toggleMenu);
-    if(closeMenu)  closeMenu.addEventListener('click', toggleMenu);
-    if(overlay)    overlay.addEventListener('click', toggleMenu);
-    updateMenuIcon(false);
+/* Side menu (base) */
+.menu-toggle{ font-size:24px; cursor:pointer; position:relative; z-index:1101; background:none; border:none; color:inherit; }
+.side-menu{ position:fixed; top:0; left:-240px; width:240px; height:100%; background:#333; color:#fff; padding-top:60px; transition:left .3s; z-index:1000; box-shadow:2px 0 5px rgba(0,0,0,.5); }
+.side-menu.open{ left:0; }
+.close-menu{ position:absolute; top:10px; right:15px; font-size:24px; cursor:pointer; background:none; border:none; color:inherit; }
+.menu-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.3); display:none; z-index:900; }
+.menu-overlay.visible{ display:block; }
 
-    // Theme
-    var modeToggle=document.getElementById('mode-toggle');
-    if(modeToggle) modeToggle.addEventListener('click', toggleMode);
-    applyIconTheme(document.body.classList.contains('dark-mode'));
+/* Side menu (accordion structure) */
+.menu-group{ display:block; padding:8px 0 16px; }
 
-    // Home timers
-    initializeUpdates();
+.menu-section-toggle{
+  width:100%; background:transparent; border:none; color:#fff;
+  display:flex; align-items:center; justify-content:space-between;
+  font-weight:800; font-size:16px; padding:12px 20px; cursor:pointer;
+}
+.menu-section-toggle i{ transition:transform .2s ease; }
+.menu-section-toggle[aria-expanded="true"] i{ transform:rotate(180deg); }
 
-    // Accordion in side menu
-    setupAccordionMenu();
-  }catch(e){}
-});
+.menu-sublist{
+  list-style:none; margin:0; padding:0 0 8px 0;
+}
+.menu-sublist li a{
+  display:block; padding:10px 28px; color:#fff; text-decoration:none;
+}
+.menu-sublist li a:hover{ background:rgba(255,255,255,.1); }
+
+/* Content generic */
+.content{
+  text-align:center; padding:20px; flex:1; width:100%;
+  max-width:800px; margin:0 auto; display:flex; flex-direction:column; align-items:center;
+}
+h1{ font-size:32px; margin:0; }
+h2{ font-size:28px; margin:0 0 5px 0; }
+p{ font-size:16px; margin:5px 0; }
+
+/* Video & Time blocks (Home) */
+.video-container{ margin:10px 0; width:100%; max-width:560px; height:315px; }
+.video-container iframe{ width:100%; height:100%; }
+.time-and-countdown{
+  width:100%; max-width:800px; padding:28px 36px; display:flex; flex-direction:column; align-items:flex-start; text-align:left; margin-top:20px;
+  background:var(--panel-bg); color:var(--panel-text); border:2px solid var(--panel-border); border-radius:24px; box-shadow:var(--panel-shadow);
+}
+
+/* Theme toggle */
+.toggle-container{ position:relative; width:80px; height:40px; background:#ddd; border-radius:20px; display:flex; align-items:center; padding:5px; cursor:pointer; transition:background .3s; }
+.toggle-container .toggle-circle{ width:30px; height:30px; background:#fff; border-radius:50%; position:absolute; left:5px; transition:.3s; display:flex; justify-content:center; align-items:center; font-size:18px; }
+.dark-mode .toggle-container{ background:#555; }
+.dark-mode .toggle-circle{ left:45px; background:#222; color:#ff0; }
+.toggle-container .toggle-circle.light{ color:#ff9800; }
+
+/* ===== Root page only ===== */
+.root-page .content{ align-items:flex-start; text-align:left; max-width:none; width:100%; padding-left:12px; }
+.root-page h1{ font-size:48px; width:100%; text-align:center; margin:0 0 12px 0; }
+.root-page .home-links{ list-style:none; padding:0; margin:24px 0 0; }
+.root-page .home-links li{ margin:12px 0; }
+.root-page .home-links a{ font-size:1.8rem; font-weight:800; text-decoration:none; color:var(--text-color); display:inline-block; }
+.root-page .home-links a:hover,.root-page .home-links a:focus{ text-decoration:underline; outline:none; }
+
+/* ===== Home page only (restore proportions) ===== */
+body:not(.conan-page):not(.root-page) .content{ max-width:800px; }
+body:not(.conan-page):not(.root-page) h1{ font-size:48px; line-height:1.15; }
+body:not(.conan-page):not(.root-page) .video-container{ max-width:560px; height:315px; }
+body:not(.conan-page):not(.root-page) .time-and-countdown{ max-width:800px; padding:28px 36px; }
+
+/* ===== Conan page only ===== */
+.conan-page .header{ justify-content:flex-start; gap:12px; overflow:visible; position:relative; }
+.conan-page .header::before{
+  content:""; position:absolute; inset:0; left:50%; transform:translateX(-50%); width:500vw; background:inherit; z-index:-1;
+}
+
+/* Footer ติดล่าง + ไล่สีเหมือนหัว (เฉพาะ Conan) */
+.conan-page .footer{
+  position:fixed; left:0; right:0; bottom:0; z-index:1100;
+  background:linear-gradient(to right,red,orange) !important;
+  padding-bottom:calc(10px + env(safe-area-inset-bottom));
+}
+/* กันเนื้อหาโดนทับ */
+.conan-page .content{ padding-bottom:calc(120px + env(safe-area-inset-bottom)); }
+
+/* หัวเรื่องกลาง */
+.conan-page .title-group{
+  width:100%; display:flex; flex-direction:column; align-items:center; gap:2px;
+  margin-top:16px; text-align:center;
+}
+.conan-page .page-title-ja{ margin:0; }
+.conan-page .page-title-en{ margin:2px 0 0 0; }
+.conan-page .title-spacer{ height:10px; }
+
+/* ปุ่ม SS ชิดซ้าย */
+.conan-page .season-picker{
+  width:100%; max-width:1200px; margin:24px 0 12px 0;
+  padding-left:24px;
+  display:flex; justify-content:flex-start; position:relative;
+}
+.conan-page .season-button{
+  appearance:none; border:2px solid var(--panel-border);
+  background:var(--panel-bg); color:var(--panel-text);
+  padding:10px 14px; border-radius:12px; box-shadow:var(--panel-shadow);
+  font-weight:700; display:inline-flex; align-items:center; gap:8px; cursor:pointer;
+}
+.conan-page .season-menu{
+  position:absolute; top:100%; left:24px; margin-top:8px;
+  background:var(--panel-bg); color:var(--panel-text);
+  border:2px solid var(--panel-border); border-radius:12px; box-shadow:var(--panel-shadow);
+  list-style:none; padding:6px 0; min-width:220px; z-index:850;
+}
+
+/* (สำคัญ) โค้ดเกี่ยวกับตาราง Conan ถูกลบออกทั้งหมดแล้ว */
