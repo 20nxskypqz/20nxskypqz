@@ -1,4 +1,4 @@
-// js-OrganizeDocumentsAutomatically-21092025-07
+// js-OrganizeDocumentsAutomatically-21092025-08
 
 /**********************
  * NAV & THEME TOGGLES
@@ -31,27 +31,19 @@ sectionToggles.forEach(btn => {
     btn.setAttribute('aria-expanded', String(!expanded));
     const ul = btn.nextElementSibling;
     if (!ul) return;
-    if (expanded) {
-      ul.setAttribute('hidden', '');
-    } else {
-      ul.removeAttribute('hidden');
-    }
+    if (expanded) ul.setAttribute('hidden', '');
+    else ul.removeAttribute('hidden');
   });
 });
 
-// Theme (day/night) capsule
+// Theme toggle
 const modeToggle = document.getElementById('mode-toggle');
 if (modeToggle) {
   modeToggle.addEventListener('click', () => {
     const body = document.body;
-    const circleIcon = document.getElementById('mode-icon');
+    const icon = document.getElementById('mode-icon');
     body.classList.toggle('dark-mode');
-    const isDark = body.classList.contains('dark-mode');
-    if (isDark) {
-      circleIcon.className = 'fi fi-sr-moon-stars';
-    } else {
-      circleIcon.className = 'fi fi-sc-sun';
-    }
+    icon.className = body.classList.contains('dark-mode') ? 'fi fi-sr-moon-stars' : 'fi fi-sc-sun';
   });
 }
 
@@ -80,7 +72,6 @@ function hideLoader() {
   loader.style.display = 'none';
 }
 
-// Menu
 if (addBtn && addMenu) {
   addBtn.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -101,12 +92,9 @@ if (addBtn && addMenu) {
 
 function checkEditorEmpty() {
   if (!editor || !placeholder) return;
-  if (editor.querySelectorAll('.content-block').length === 0) {
-    placeholder.style.display = 'block';
-  }
+  if (editor.querySelectorAll('.content-block').length === 0) placeholder.style.display = 'block';
 }
 
-// Create block
 function addBlock(type) {
   if (!editor) return;
   if (placeholder) placeholder.style.display = 'none';
@@ -122,27 +110,12 @@ function addBlock(type) {
 
   let content;
   let placeholderText = '';
-  if (type === 'h-center') {
-    content = document.createElement('h3');
-    content.className = 'ed-h3c';
-    placeholderText = 'ใส่หัวเรื่อง...';
-  } else if (type === 'h1') {
-    content = document.createElement('h1');
-    content.className = 'ed-h1';
-    placeholderText = 'ใส่หัวข้อหลัก...';
-  } else if (type === 'h2') {
-    content = document.createElement('h2');
-    content.className = 'ed-h2';
-    placeholderText = 'ใส่หัวข้อย่อย...';
-  } else if (type === 'h4') {
-    content = document.createElement('h4');
-    content.className = 'ed-h4';
-    placeholderText = 'ใส่หัวข้อย่อยของย่อย...';
-  } else {
-    content = document.createElement('p');
-    content.className = 'ed-p';
-    placeholderText = 'ใส่เนื้อหา...';
-  }
+  if (type === 'h-center') { content = document.createElement('h3'); content.className = 'ed-h3c'; placeholderText = 'ใส่หัวเรื่อง...'; }
+  else if (type === 'h1')  { content = document.createElement('h1'); content.className = 'ed-h1'; placeholderText = 'ใส่หัวข้อหลัก...'; }
+  else if (type === 'h2')  { content = document.createElement('h2'); content.className = 'ed-h2'; placeholderText = 'ใส่หัวข้อย่อย...'; }
+  else if (type === 'h4')  { content = document.createElement('h4'); content.className = 'ed-h4'; placeholderText = 'ใส่หัวข้อย่อยของย่อย...'; }
+  else                     { content = document.createElement('p');  content.className = 'ed-p';  placeholderText = 'ใส่เนื้อหา...'; }
+
   content.setAttribute('contenteditable', 'true');
   content.setAttribute('placeholder', placeholderText);
   block.appendChild(content);
@@ -158,7 +131,6 @@ function addBlock(type) {
   content.focus();
 }
 
-// Drag & drop
 function addDragEvents(item) {
   item.addEventListener('dragstart', () => { draggedItem = item; setTimeout(() => item.classList.add('dragging'), 0); });
   item.addEventListener('dragend', () => { setTimeout(() => { if(draggedItem) draggedItem.classList.remove('dragging'); draggedItem = null; }, 0); });
@@ -169,143 +141,96 @@ if (editor) {
     const afterElement = getDragAfterElement(editor, e.clientY);
     const currentDragging = document.querySelector('.dragging');
     if (!currentDragging) return;
-    if (afterElement == null) { editor.appendChild(currentDragging); } else { editor.insertBefore(currentDragging, afterElement); }
+    if (afterElement == null) editor.appendChild(currentDragging);
+    else editor.insertBefore(currentDragging, afterElement);
   });
 }
 function getDragAfterElement(container, y) {
-  const draggableElements = [...container.querySelectorAll('.content-block:not(.dragging)')];
-  return draggableElements.reduce((closest, child) => {
+  const els = [...container.querySelectorAll('.content-block:not(.dragging)')];
+  return els.reduce((closest, child) => {
     const box = child.getBoundingClientRect();
     const offset = y - box.top - box.height / 2;
-    if (offset < 0 && offset > closest.offset) { return { offset: offset, element: child }; } else { return closest; }
+    if (offset < 0 && offset > closest.offset) return { offset, element: child };
+    return closest;
   }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
 
 /**************************************
- * EXPORT HELPERS (DOCX / PDF)
+ * EXPORT HELPERS
  **************************************/
-function getStyledHTMLContent() {
-  // Clone editor and strip editor-only UI
+function getStyledHTMLNode() {
+  // โคลน editor ให้สะอาด (สีดำ พื้นหลังขาว เพื่อส่งออก)
   const clone = editor.cloneNode(true);
   clone.querySelectorAll('.drag-handle, .delete-btn, #placeholder').forEach(el => el.remove());
   clone.querySelectorAll('[contenteditable]').forEach(el => {
     el.removeAttribute('contenteditable');
     el.removeAttribute('placeholder');
     const tag = el.tagName.toLowerCase();
-    let style = 'font-family: Niramit, Sarabun, sans-serif; color:#000;'; // << force black text
-    if (tag === 'h3') style += 'font-size: 26px; font-weight: bold; text-align: center; margin: 1.5em 0;';
-    else if (tag === 'h1') style += 'font-size: 26px; font-weight: bold; margin: 1.2em 0 0.4em 0;';
-    else if (tag === 'h2') style += 'font-size: 22px; font-weight: bold; margin: 1.0em 0 0.4em 0;';
-    else if (tag === 'h4') style += 'font-size: 17px; font-weight: bold; margin: 0.8em 0 0.4em 0;';
-    else if (tag === 'p') style += 'font-size: 15px; line-height: 1.6; margin: 0 0 0.8em 0;';
-    el.setAttribute('style', style);
-    el.className = '';
+    el.style.fontFamily = "Niramit, Sarabun, sans-serif";
+    el.style.color = "#000";
+    if (tag === 'h3') { el.style.fontSize = "26px"; el.style.fontWeight = "700"; el.style.textAlign = "center"; el.style.margin = "1.5em 0"; }
+    else if (tag === 'h1') { el.style.fontSize = "26px"; el.style.fontWeight = "700"; el.style.margin = "1.2em 0 .4em 0"; }
+    else if (tag === 'h2') { el.style.fontSize = "22px"; el.style.fontWeight = "700"; el.style.margin = "1em 0 .4em 0"; }
+    else if (tag === 'h4') { el.style.fontSize = "17px"; el.style.fontWeight = "700"; el.style.margin = ".8em 0 .4em 0"; }
+    else if (tag === 'p')  { el.style.fontSize = "15px"; el.style.lineHeight = "1.6"; el.style.margin = "0 0 .8em 0"; }
   });
   clone.querySelectorAll('.content-block').forEach(el => el.removeAttribute('class'));
 
-  // Return full HTML document with white background + black text
-  const html =
-    `<!DOCTYPE html><html><head><meta charset="UTF-8">
-      <style>
-        body{font-family:Niramit, Sarabun, sans-serif; color:#000; background:#fff; }
-      </style>
-    </head><body>${clone.innerHTML}</body></html>`;
-  return html;
+  const wrapper = document.createElement('div');
+  wrapper.style.background = "#fff";
+  wrapper.style.color = "#000";
+  wrapper.appendChild(clone);
+  return wrapper;
 }
 
-/** DOCX (fix: เปลี่ยนไปใช้ฟังก์ชัน UMD ที่คืน ArrayBuffer แล้วสร้าง Blob เอง) */
+/** DOCX — ใช้ html-docx-js (เสถียรกว่าในเคสเดิม) */
 async function exportDOCX() {
   showLoader('กำลังสร้างไฟล์ DOCX...');
   try {
-    const html = getStyledHTMLContent();
-
-    // รองรับหลายชื่อฟังก์ชันของ UMD build
-    const docxFn =
-      window.htmlToDocx ||
-      window.HTMLtoDOCX ||
-      (window.htmlToDocx && window.htmlToDocx.default);
-
-    if (typeof docxFn !== 'function') {
-      throw new Error('html-to-docx library not loaded');
-    }
-
-    // ขอเนื้อหาเป็น ArrayBuffer แล้วแปลงเป็น Blob
-    const arrayBuffer = await docxFn(html/*, options สามารถใส่เพิ่มภายหลังได้ */);
-    const blob = new Blob([arrayBuffer], {
-      type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-    });
-
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'document.docx';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(link.href);
-  } catch (err) {
-    console.error('DOCX error:', err);
+    const node = getStyledHTMLNode();
+    // html-docx-js ต้องการ string HTML
+    const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>${node.innerHTML}</body></html>`;
+    const blob = window.htmlDocx.asBlob(html); // คืน Blob ทันที
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'document.docx';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(a.href);
+  } catch (e) {
+    console.error('DOCX error:', e);
     alert('เกิดข้อผิดพลาดในการสร้างไฟล์ DOCX');
   } finally {
     hideLoader();
   }
 }
 
-/** PDF (fix: margin 2 ซม. ทุกด้าน + บังคับตัวอักษรสีดำในไฟล์) */
+/** PDF — ใช้ jsPDF.html เพื่อให้เป็น “ข้อความจริง” + margin 1cm */
 async function exportPDF() {
   showLoader('กำลังสร้างไฟล์ PDF...');
   try {
     const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
 
-    // ใช้ container ชั่วคราว ที่กำหนดความกว้าง A4 (px @ 96DPI = ~794px)
-    const printContainer = document.createElement('div');
-    printContainer.style.position = 'absolute';
-    printContainer.style.left = '-99999px';
-    printContainer.style.top = '0';
-    printContainer.style.width = '794px';
-    printContainer.innerHTML = getStyledHTMLContent(); // มี background ขาว + ตัวหนังสือสีดำ
-    document.body.appendChild(printContainer);
+    const node = getStyledHTMLNode();
 
-    const canvas = await html2canvas(printContainer, { scale: 2, useCORS: true });
-    const imgData = canvas.toDataURL('image/png');
-
-    const pdf = new jsPDF({ orientation: 'portrait', unit: 'px', format: 'a4', compress: true });
-
-    const pdfW = pdf.internal.pageSize.getWidth();
-    const pdfH = pdf.internal.pageSize.getHeight();
-
-    // 2 ซม. -> พิกเซล (96dpi): 2 / 2.54 * 96 ≈ 75.6px
-    const margin = Math.round(96 * 2 / 2.54); // ≈ 76px
-    const innerW = pdfW - margin * 2;
-    const innerH = pdfH - margin * 2;
-
-    const imgW = innerW;
-    const imgH = canvas.height * (imgW / canvas.width);
-
-    let heightLeft = imgH;
-    let positionY = margin;
-
-    // หน้าแรก
-    pdf.addImage(imgData, 'PNG', margin, positionY, imgW, imgH);
-    heightLeft -= innerH;
-
-    // หน้าถัดไป (เลื่อนภาพขึ้นทีละหน้า)
-    while (heightLeft > 0) {
-      pdf.addPage();
-      positionY = margin - (imgH - heightLeft);
-      pdf.addImage(imgData, 'PNG', margin, positionY, imgW, imgH);
-      heightLeft -= innerH;
-    }
-
-    pdf.save('document.pdf');
-    document.body.removeChild(printContainer);
-  } catch (err) {
-    console.error('PDF error:', err);
+    await pdf.html(node, {
+      x: 10, y: 10,                 // margin ซ้าย/บน 1 cm (10mm)
+      margin: [10, 10, 10, 10],     // บน-ขวา-ล่าง-ซ้าย (หน่วย mm)
+      autoPaging: 'text',           // ตัดหน้าอัตโนมัติแบบข้อความ
+      html2canvas: { scale: 1 },    // ลดการเรนเดอร์ภาพ (เราจะเอาข้อความเป็นหลัก)
+      callback: function(doc) {
+        doc.save('document.pdf');
+      }
+    });
+  } catch (e) {
+    console.error('PDF error:', e);
     alert('เกิดข้อผิดพลาดในการสร้างไฟล์ PDF');
   } finally {
     hideLoader();
   }
 }
 
-// Bind buttons
 if (downloadDocxBtn) downloadDocxBtn.addEventListener('click', exportDOCX);
 if (downloadPdfBtn) downloadPdfBtn.addEventListener('click', exportPDF);
