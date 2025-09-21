@@ -1,4 +1,4 @@
-<!-- html-Home-21092025-02 -->
+<!-- html-Home-21092025-04 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +10,7 @@
 
   <!-- Icons -->
   <link id="fi-theme" rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-chubby/css/uicons-solid-chubby.css"><!-- day -->
-  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css"><!-- night + dropdown triangle -->
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css"><!-- night + dropdown -->
   <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-bold-rounded/css/uicons-bold-rounded.css"><!-- menu/close -->
 
   <link rel="stylesheet" href="../styles.css" />
@@ -21,7 +21,7 @@
       <i class="fi fi-br-menu-burger" aria-hidden="true"></i>
     </button>
 
-    <div class="toggle-container" id="mode-toggle" aria-label="Toggle light and dark mode">
+    <div class="toggle-container" id="mode-toggle" aria-label="Toggle light/dark mode">
       <div class="toggle-circle light"><i id="mode-icon" class="fi fi-sc-sun" aria-hidden="true"></i></div>
     </div>
   </header>
@@ -70,13 +70,17 @@
   <main class="content">
     <h1>Welcome</h1>
 
+    <!-- YouTube: ใช้คลิปที่คุณสั่ง -->
     <div class="video-container">
-      <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="YouTube video" frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen></iframe>
+      <iframe
+        src="https://www.youtube.com/embed/3KXoolNIH9s"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        title="YouTube video"></iframe>
     </div>
 
+    <!-- เวลา + Countdown -->
     <section class="time-and-countdown">
       <p id="date-display">Date: --/--/----</p>
       <p id="time-display">Time: --:--:--</p>
