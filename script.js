@@ -1,4 +1,4 @@
-/* js-21092025-05 */
+/* js-21092025-06 */
 
 /* ================= THEME ================= */
 var FI_DAY_HREF='https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-chubby/css/uicons-solid-chubby.css';
@@ -68,7 +68,7 @@ function setupSeasonPicker(){
   var label=picker.querySelector('.season-label');
   if(!btn || !menu || !label) return;
 
-  // รายการเดียว (ตัวอย่าง) — UI เท่านั้น
+  // รายการเดียว (UI เท่านั้น)
   if(menu.children.length===0){
     var li=document.createElement('li');
     li.textContent='Detective Conan SS.1';
