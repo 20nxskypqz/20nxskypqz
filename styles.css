@@ -1,4 +1,4 @@
-/* css-21092025-05 */
+/* css-21092025-06 */
 
 /* Icons */
 @import url('https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-chubby/css/uicons-solid-chubby.css'); /* day */
@@ -76,6 +76,8 @@ p{ font-size:16px; margin:5px 0; }
   width:100%; max-width:800px; padding:28px 36px; display:flex; flex-direction:column; align-items:flex-start; text-align:left; margin-top:20px;
   background:var(--panel-bg); color:var(--panel-text); border:2px solid var(--panel-border); border-radius:24px; box-shadow:var(--panel-shadow);
 }
+/* ป้องกันข้อความในกล่องเวลา/เค้าดาวน์ถูกตัด */
+.time-and-countdown p{ white-space:normal; overflow:visible; }
 
 /* Theme toggle */
 .toggle-container{ position:relative; width:80px; height:40px; background:#ddd; border-radius:20px; display:flex; align-items:center; padding:5px; cursor:pointer; transition:background .3s; }
@@ -138,4 +140,4 @@ body:not(.conan-page):not(.root-page) .time-and-countdown{ max-width:800px; padd
   list-style:none; padding:6px 0; min-width:220px; z-index:850;
 }
 
-/* (สำคัญ) โค้ดเกี่ยวกับตาราง Conan ถูกลบออกทั้งหมดแล้ว */
+/* (สำคัญ) โค้ดเกี่ยวกับตาราง Conan ถูกลบออกทั้งหมดแล้ว
