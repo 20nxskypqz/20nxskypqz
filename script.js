@@ -1,4 +1,4 @@
-/* js-21092025-01 */
+/* js-21092025-02 */
 
 /* ================= THEME ================= */
 var FI_DAY_HREF='https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-chubby/css/uicons-solid-chubby.css';
@@ -42,6 +42,46 @@ function updateCountdown(){ try{
 } catch(e){} }
 function initializeUpdates(){ updateTime(); updateCountdown(); setInterval(updateTime,1000); setInterval(updateCountdown,1000); }
 
+/* ================= SIDE MENU: open/close ================= */
+function setupSideMenu(){
+  var menuToggle=document.querySelector('.menu-toggle');
+  var sideMenu=document.querySelector('.side-menu');
+  var closeMenu=document.querySelector('.close-menu');
+  var overlay=document.querySelector('.menu-overlay');
+
+  function updateMenuIcon(isOpen){
+    if(!menuToggle) return;
+    var icon=menuToggle.querySelector('i');
+    if(icon) icon.className=isOpen?'fi fi-br-cross':'fi fi-br-menu-burger';
+    else menuToggle.textContent=isOpen?'×':'☰';
+    menuToggle.setAttribute('aria-expanded', String(isOpen));
+    sideMenu && sideMenu.setAttribute('aria-hidden', String(!isOpen));
+  }
+  function toggleMenu(){
+    if(!sideMenu||!menuToggle||!overlay) return;
+    var isOpen=sideMenu.classList.toggle('open');
+    overlay.classList.toggle('visible', isOpen);
+    updateMenuIcon(isOpen);
+  }
+  if(menuToggle) menuToggle.addEventListener('click', toggleMenu);
+  if(closeMenu)  closeMenu.addEventListener('click', toggleMenu);
+  if(overlay)    overlay.addEventListener('click', toggleMenu);
+  updateMenuIcon(false);
+}
+
+/* ================= SIDE MENU: collapsible sections ================= */
+function setupMenuSections(){
+  var toggles=document.querySelectorAll('.menu-section__toggle');
+  toggles.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      var list = btn.nextElementSibling;
+      if(list){ list.hidden = expanded; }
+    });
+  });
+}
+
 /* ================= SEASON PICKER (UI เท่านั้น) ================= */
 var SEASONS=[{label:'Detective Conan SS.1', gid:'0'}];
 function setupSeasonPicker(){
@@ -73,42 +113,16 @@ function setupSeasonPicker(){
   });
 }
 
-/* ================= MENU & INIT ================= */
+/* ================= INIT ================= */
 document.addEventListener('DOMContentLoaded', function(){
   try{
-    // Menu
-    var menuToggle=document.querySelector('.menu-toggle');
-    var sideMenu=document.querySelector('.side-menu');
-    var closeMenu=document.querySelector('.close-menu');
-    var overlay=document.querySelector('.menu-overlay');
+    setupSideMenu();
+    setupMenuSections();
 
-    function updateMenuIcon(isOpen){
-      if(!menuToggle) return;
-      var icon=menuToggle.querySelector('i');
-      if(icon) icon.className=isOpen?'fi fi-br-cross':'fi fi-br-menu-burger';
-      else menuToggle.textContent=isOpen?'×':'☰';
-      menuToggle.setAttribute('aria-expanded', String(isOpen));
-    }
-    function toggleMenu(){
-      if(!sideMenu||!menuToggle||!overlay) return;
-      var isOpen=sideMenu.classList.toggle('open');
-      overlay.classList.toggle('visible', isOpen);
-      sideMenu.setAttribute('aria-hidden', String(!isOpen));
-    }
-    if(menuToggle) menuToggle.addEventListener('click', toggleMenu);
-    if(closeMenu)  closeMenu.addEventListener('click', toggleMenu);
-    if(overlay)    overlay.addEventListener('click', toggleMenu);
-    updateMenuIcon(false);
-
-    // Theme
     var modeToggle=document.getElementById('mode-toggle');
     if(modeToggle) modeToggle.addEventListener('click', toggleMode);
     applyIconTheme(document.body.classList.contains('dark-mode'));
 
-    // Home timers
     initializeUpdates();
-
-    // Conan: SS UI only
-    setupSeasonPicker();
+    setupSeasonPicker(); // only appears on Conan page
   }catch(e){}
-});
