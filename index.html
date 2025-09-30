@@ -1,67 +1,77 @@
-<!-- html-Root-21092025-18 -->
+<!-- html-Root-21092025-19 -->
 <!DOCTYPE html>
 <html lang="en" class="root-page">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>20nxskypqz</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;700&display=swap" rel="stylesheet" />
 
-  <!-- Icons -->
-  <link id="fi-theme" rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-chubby/css/uicons-solid-chubby.css"><!-- day -->
-  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css"><!-- night + dropdown + folder/download -->
-  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-bold-rounded/css/uicons-bold-rounded.css"><!-- menu/close/+ -->
+  <!-- Material Symbols (เฉพาะชื่อที่ระบุ) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1&icon_names=home" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1&icon_names=close" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1&icon_names=menu" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1&icon_names=arrow_drop_down" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1&icon_names=add" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1&icon_names=picture_as_pdf" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1&icon_names=docs" />
 
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body class="light-mode root-page">
+  <!-- Header -->
   <header class="header">
     <button class="menu-toggle" aria-label="Toggle navigation" type="button" aria-expanded="false">
-      <i class="fi fi-br-menu-burger" aria-hidden="true"></i>
+      <span class="material-symbols-outlined">menu</span>
     </button>
 
     <div class="toggle-container" id="mode-toggle" aria-label="Toggle light/dark mode">
-      <div class="toggle-circle light"><i id="mode-icon" class="fi fi-sc-sun" aria-hidden="true"></i></div>
+      <div class="toggle-circle light">Day</div>
     </div>
   </header>
 
+  <!-- Side Menu -->
   <nav class="side-menu" aria-label="Main navigation" aria-hidden="true">
     <button class="close-menu" aria-label="Close navigation" type="button">
-      <i class="fi fi-br-cross" aria-hidden="true"></i>
+      <span class="material-symbols-outlined">close</span>
     </button>
 
     <div class="menu-group">
       <!-- About -->
       <button class="menu-section-toggle" type="button" aria-expanded="false">
-        <span>About</span><i class="fi fi-sr-dropdown-select"></i>
+        <span>About</span><span class="material-symbols-outlined">arrow_drop_down</span>
       </button>
       <ul class="menu-sublist" hidden>
-        <li><a href="./Home/"><i class="fi fi-sr-home"></i> Home</a></li>
-        <li><a href="./DetectiveConan/"><i class="fi fi-br-search"></i> DetectiveConan</a></li>
+        <li><a href="./Home/"><span class="material-symbols-outlined">home</span> Home</a></li>
+      </ul>
+
+      <!-- Entertainment -->
+      <button class="menu-section-toggle" type="button" aria-expanded="false">
+        <span>Entertainment</span><span class="material-symbols-outlined">arrow_drop_down</span>
+      </button>
+      <ul class="menu-sublist" hidden>
+        <li><a href="./DetectiveConan/">DetectiveConan</a></li>
+      </ul>
+
+      <!-- Work -->
+      <button class="menu-section-toggle" type="button" aria-expanded="false">
+        <span>Work</span><span class="material-symbols-outlined">arrow_drop_down</span>
+      </button>
+      <ul class="menu-sublist" hidden>
+        <li><a href="./OrganizeDocumentsAutomatically/">Organize documents automatically</a></li>
       </ul>
 
       <!-- Study -->
       <button class="menu-section-toggle" type="button" aria-expanded="false">
-        <span>Study</span><i class="fi fi-sr-dropdown-select"></i>
+        <span>Study</span><span class="material-symbols-outlined">arrow_drop_down</span>
       </button>
       <ul class="menu-sublist" hidden></ul>
 
-      <!-- Work -->
-      <button class="menu-section-toggle" type="button" aria-expanded="false">
-        <span>Work</span><i class="fi fi-sr-dropdown-select"></i>
-      </button>
-      <ul class="menu-sublist" hidden>
-        <li>
-          <a href="./OrganizeDocumentsAutomatically/">
-            <i class="fi fi-sr-folder"></i> Organize documents automatically
-          </a>
-        </li>
-      </ul>
-
       <!-- Games -->
       <button class="menu-section-toggle" type="button" aria-expanded="false">
-        <span>Games</span><i class="fi fi-sr-dropdown-select"></i>
+        <span>Games</span><span class="material-symbols-outlined">arrow_drop_down</span>
       </button>
       <ul class="menu-sublist" hidden></ul>
     </div>
@@ -69,19 +79,25 @@
   <div class="menu-overlay"></div>
 
   <main class="content">
-    <h1>Welcome to 20nxskypqz!</h1>
+    <section class="hero">
+      <h1 class="hero-title">Welcome to 20nxskypqz!</h1>
+    </section>
 
-    <!-- แสดงหมวดเหมือนเมนู 3 ขีด (ไอคอน/ชื่อเหมือนกัน) -->
+    <!-- ลิสต์ลิงก์ “เหมือน 3 ขีด” (ยกเว้นขนาดฟอนต์) -->
     <section class="menu-like">
       <h2>About</h2>
       <ul>
-        <li><a href="./Home/"><i class="fi fi-sr-home"></i> Home</a></li>
-        <li><a href="./DetectiveConan/"><i class="fi fi-br-search"></i> DetectiveConan</a></li>
+        <li><a href="./Home/"><span class="material-symbols-outlined">home</span> Home</a></li>
+      </ul>
+
+      <h2>Entertainment</h2>
+      <ul>
+        <li><a href="./DetectiveConan/">DetectiveConan</a></li>
       </ul>
 
       <h2>Work</h2>
       <ul>
-        <li><a href="./OrganizeDocumentsAutomatically/"><i class="fi fi-sr-folder"></i> Organize documents automatically</a></li>
+        <li><a href="./OrganizeDocumentsAutomatically/">Organize documents automatically</a></li>
       </ul>
 
       <h2>Study</h2>
