@@ -1,45 +1,61 @@
-<!-- shared-side-menu-30092025-04 -->
-<nav class="side-menu" aria-label="Main navigation" aria-hidden="true">
-  <button class="close-menu" aria-label="Close navigation" type="button">
-    <span class="material-symbols-outlined">close</span>
+<!-- shared-side-menu-30092025-10 -->
+<!-- โอเวอร์เลย์สำหรับคลิกปิด -->
+<div class="menu-overlay"></div>
+
+<aside class="side-menu" role="navigation" aria-label="Main">
+  <!-- เปลี่ยนเป็น material-icons เพื่อกันโดนฟอนต์มือถือทับ -->
+  <button class="close-menu" aria-label="Close menu" type="button">
+    <span class="material-icons">close</span>
   </button>
 
-  <div class="menu-group">
-    <!-- About -->
-    <button class="menu-section-toggle" type="button" aria-expanded="false">
-      <span>About</span><span class="material-symbols-outlined">arrow_drop_down</span>
-    </button>
-    <ul class="menu-sublist" hidden>
-      <li><a href="/20nxskypqz/Home/"><span class="material-symbols-outlined">home</span> Home</a></li>
-    </ul>
+  <nav>
+    <div class="menu-group">
+      <button class="menu-section-toggle" aria-expanded="false" type="button">
+        <span>About</span>
+        <span class="material-symbols-outlined">arrow_drop_down</span>
+      </button>
+      <ul class="menu-sublist" hidden>
+        <li><a href="/20nxskypqz/Home/"><span class="material-symbols-outlined">home</span> Home</a></li>
+      </ul>
+    </div>
 
-    <!-- Entertainment -->
-    <button class="menu-section-toggle" type="button" aria-expanded="false">
-      <span>Entertainment</span><span class="material-symbols-outlined">arrow_drop_down</span>
-    </button>
-    <ul class="menu-sublist" hidden>
-      <li><a href="/20nxskypqz/DetectiveConan/"><span class="material-symbols-outlined">mystery</span> Conan</a></li>
-    </ul>
+    <div class="menu-group">
+      <button class="menu-section-toggle" aria-expanded="false" type="button">
+        <span>Entertainment</span>
+        <span class="material-symbols-outlined">arrow_drop_down</span>
+      </button>
+      <ul class="menu-sublist" hidden>
+        <!-- Conan ใช้ไอคอน Material Symbols ตามที่เคยกำหนดไว้ -->
+        <li><a href="/20nxskypqz/DetectiveConan/"><span class="material-symbols-outlined">mystery</span> Conan</a></li>
+      </ul>
+    </div>
 
-    <!-- Work -->
-    <button class="menu-section-toggle" type="button" aria-expanded="false">
-      <span>Work</span><span class="material-symbols-outlined">arrow_drop_down</span>
-    </button>
-    <ul class="menu-sublist" hidden>
-      <li><a href="/20nxskypqz/OrganizeDocumentsAutomatically/"><span class="material-symbols-outlined">edit_document</span> Organize documents automatically</a></li>
-    </ul>
+    <div class="menu-group">
+      <button class="menu-section-toggle" aria-expanded="false" type="button">
+        <span>Work</span>
+        <span class="material-symbols-outlined">arrow_drop_down</span>
+      </button>
+      <ul class="menu-sublist" hidden>
+        <li><a href="/20nxskypqz/OrganizeDocumentsAutomatically/">
+          <span class="material-symbols-outlined">edit_document</span> Organize documents automatically
+        </a></li>
+      </ul>
+    </div>
 
-    <!-- Study -->
-    <button class="menu-section-toggle" type="button" aria-expanded="false">
-      <span>Study</span><span class="material-symbols-outlined">arrow_drop_down</span>
-    </button>
-    <ul class="menu-sublist" hidden></ul>
+    <div class="menu-group">
+      <button class="menu-section-toggle" aria-expanded="false" type="button">
+        <span>Study</span>
+        <span class="material-symbols-outlined">arrow_drop_down</span>
+      </button>
+      <ul class="menu-sublist" hidden></ul>
+    </div>
 
-    <!-- Games -->
-    <button class="menu-section-toggle" type="button" aria-expanded="false">
-      <span>Games</span><span class="material-symbols-outlined">arrow_drop_down</span>
-    </button>
-    <ul class="menu-sublist" hidden></ul>
-  </div>
-</nav>
-<div class="menu-overlay"></div>
+    <div class="menu-group">
+      <button class="menu-section-toggle" aria-expanded="false" type="button">
+        <span>Games</span>
+        <span class="material-symbols-outlined">arrow_drop_down</span>
+      </button>
+      <ul class="menu-sublist" hidden></ul>
+    </div>
+  </nav>
+</aside>
