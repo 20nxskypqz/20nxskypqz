@@ -1,4 +1,4 @@
-// js-Root-30092025-05 — Global shared logic
+// js-Root-30092025-06 — Global shared logic
 
 // 1) โหลดไฟล์ shared (*.html) เข้ามาแทนที่ data-include
 async function includeFragments(){
@@ -34,9 +34,8 @@ function wireCommonUI(){
     });
   });
 
-  // Toggle Day/Night capsule (จำสถานะด้วย localStorage) + ไอคอนดวงอาทิตย์/ดวงจันทร์
+  // Toggle Day/Night capsule (จำสถานะด้วย localStorage) + ไอคอนพระอาทิตย์/พระจันทร์
   const modeToggle = document.getElementById('mode-toggle');
-  const toggleCircle = document.querySelector('.toggle-circle');
   const modeIcon = document.getElementById('mode-icon');
 
   // ถ้าไม่เคยตั้งค่าไว้ ให้ auto ตามเวลา: มืด 18:00–05:59
@@ -68,11 +67,15 @@ document.addEventListener('DOMContentLoaded', async ()=>{
   await includeFragments();
   wireCommonUI();
 
-  // ฟังก์ชันพิเศษของหน้า Root: dropdown card
-  const dropBtn = document.getElementById('root-drop-btn');
-  const dropCard = document.getElementById('root-drop-card');
-  dropBtn?.addEventListener('click', ()=>{
-    const hidden = dropCard.hasAttribute('hidden');
-    if(hidden) dropCard.removeAttribute('hidden'); else dropCard.setAttribute('hidden','');
+  // Root page: รองรับ dropdown ต่อหัวข้อ (About/Entertainment/Work/Study/Games)
+  const rootToggles = document.querySelectorAll('.root-section-toggle');
+  rootToggles.forEach(btn=>{
+    const sel = btn.getAttribute('data-target');
+    const card = document.querySelector(sel);
+    btn.addEventListener('click', ()=>{
+      if(!card) return;
+      const hidden = card.hasAttribute('hidden');
+      if(hidden) card.removeAttribute('hidden'); else card.setAttribute('hidden','');
+    });
   });
 });
