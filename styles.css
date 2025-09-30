@@ -1,4 +1,4 @@
-/* css-Root-30092025-18 — Global styles + self-host Material Symbols Outlined */
+/* css-Root-30092025-19 — dropdown icon-only + boxed link cards */
 :root{
   --bg:#f9f9f9; --card:#fff; --ink:#111; --muted:#666;
   --shadow:0 6px 24px rgba(0,0,0,.08);
@@ -13,8 +13,6 @@ body{
   display:flex; flex-direction:column;
   min-height:100vh; min-height:100svh;
 }
-
-/* include fragments shouldn't break full-bleed bars */
 [data-include]{ display:contents; }
 
 /* Font scale */
@@ -24,7 +22,7 @@ h3{ font-size:24px; margin:.8em 0 .4em; text-align:center; }
 h4{ font-size:20px; margin:.6em 0 .3em; text-align:center; }
 p,li{ font-size:16px; }
 
-/* Full-bleed header/footer bars */
+/* Full-bleed bars */
 .full-bleed{
   position:relative; left:50%; right:50%;
   margin-left:-50vw; margin-right:-50vw; width:100vw;
@@ -43,16 +41,14 @@ body.dark-mode .header,
 body.dark-mode .footer{ background:linear-gradient(90deg,#0b1929,#1f2937); }
 body.dark-mode a{ color:#d1defa; }
 
-/* Page content container */
+/* Container */
 .content{ width:100%; max-width:var(--page-max); margin:16px auto; }
 
 /* ===== Self-hosted Material Symbols — OUTLINED only ===== */
 @font-face{
   font-family: 'Material Symbols Outlined';
   src: url('/20nxskypqz/fonts/MaterialSymbolsOutlined.woff2') format('woff2');
-  font-weight: 100 700;
-  font-style: normal;
-  font-display: swap;
+  font-weight: 100 700; font-style: normal; font-display: swap;
 }
 .material-symbols-outlined{
   font-family:'Material Symbols Outlined' !important;
@@ -60,11 +56,7 @@ body.dark-mode a{ color:#d1defa; }
   font-size:24px; display:inline-block; line-height:1;
   text-transform:none; white-space:nowrap; direction:ltr;
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
-  font-variation-settings:
-    'FILL' 0,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 48;
+  font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 48;
 }
 
 /* Toggle capsule */
@@ -115,28 +107,28 @@ body.dark-mode .toggle-circle{ transform:translateX(calc(var(--w) - var(--h))); 
 /* Cards */
 .card{ background:var(--card); border-radius:12px; box-shadow:var(--shadow); padding:16px; margin:12px 0; }
 
-/* Root helper */
+/* Root: helpers */
 .align-left{ text-align:left !important; }
 .drop-wrap{ margin:8px 0 16px; }
-.drop-btn{
-  display:inline-flex; align-items:center; gap:8px;
-  padding:8px 12px; border-radius:10px; border:1px solid #d0d7de;
-  background:#fff; cursor:pointer; box-shadow:var(--shadow);
+
+/* (1) Dropdown icon-only button (no box) */
+.icon-btn{
+  background:transparent; border:none; padding:0; margin:0;
+  cursor:pointer; display:inline-flex; align-items:center; line-height:1;
 }
 
-/* Root page: dropdown links (NO box) */
-.root-links{ list-style:none; padding:0; margin:6px 0 0; }
-.root-links li{ margin:2px 0; }
-.root-links a{
+/* (2) Boxed link list under each section */
+.root-link-card{ display:inline-block; width:max-content; padding:8px 12px; }
+.root-link-card a{
   font-size:24px; color:#000; text-decoration:none;
   white-space:normal; word-break:break-word; display:inline-block; max-width:90vw;
 }
-body.dark-mode .root-links a{ color:#e5e7eb; }
+body.dark-mode .root-link-card a{ color:#e5e7eb; }
 
 /* Home */
 .time-and-countdown h2{ text-align:center; }
 .time-and-countdown .time-line{ text-align:center; font-size:24px; }
-#countdown-display{ font-size:18px; } /* ลดขนาดเฉพาะข้อความเค้าดาวน์ */
+#countdown-display{ font-size:18px; }
 
 /* Spacing */
 .hero{ margin:8px 0 16px; }
