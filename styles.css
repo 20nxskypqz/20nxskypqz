@@ -1,4 +1,4 @@
-/* css-Root-30092025-08 — Global shared styles */
+/* css-Root-30092025-09 — Global shared styles (only icon-fallback changes added) */
 :root{
   --bg:#f9f9f9; --card:#fff; --ink:#111; --muted:#666;
   --shadow:0 6px 24px rgba(0,0,0,.08);
@@ -14,7 +14,7 @@ body{
   min-height:100vh; min-height:100svh;
 }
 
-/* ให้ fragment ที่ include มา “ไม่สร้างกล่อง” ครอบทับ header/footer */
+/* เพื่อไม่ให้กล่อง include มาบัง header/footer แบบ full-bleed */
 [data-include]{ display:contents; }
 
 /* Font scale */
@@ -24,7 +24,7 @@ h3{ font-size:24px; margin:.8em 0 .4em; text-align:center; }
 h4{ font-size:20px; margin:.6em 0 .3em; text-align:center; }
 p,li{ font-size:16px; }
 
-/* Full-bleed bars (หัว/ท้ายชิดขอบซ้าย-ขวาจริง) */
+/* Full-bleed bars */
 .full-bleed{
   position:relative; left:50%; right:50%;
   margin-left:-50vw; margin-right:-50vw; width:100vw;
@@ -39,7 +39,7 @@ p,li{ font-size:16px; }
 /* Content container */
 .content{ width:100%; max-width:var(--page-max); margin:16px auto; }
 
-/* Toggle capsule (เดิม) + ไอคอน Flaticon */
+/* Toggle capsule (คงเดิม) */
 .toggle-container{
   --w:84px; --h:36px; --pad:3px;
   width:var(--w); height:var(--h); border-radius:999px; padding:var(--pad);
@@ -57,12 +57,36 @@ p,li{ font-size:16px; }
 body.dark-mode .toggle-container{ background:#1d2227; border-color:#3a424a; }
 body.dark-mode .toggle-circle{ transform:translateX(calc(var(--w) - var(--h))); }
 
-/* Material Symbols baseline (ยังใช้ในเมนู) */
+/* ===== FIX: กันมือถือเอาฟอนต์มาทับไอคอน ===== */
+
+/* 1) Material Symbols (ยังใช้ในบางที่) — บังคับ family + smoothing */
 .material-symbols-outlined{
+  font-family:'Material Symbols Outlined' !important;
   font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;
+  font-style:normal; font-weight:normal; line-height:1;
+  display:inline-block; text-transform:none; letter-spacing:normal; white-space:nowrap; direction:ltr;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; -moz-osx-font-smoothing:grayscale;
 }
 
-/* บังคับ Flaticon UIcons ไม่ให้โดนฟอนต์เครื่องทับ */
+/* 2) Material Icons — ตามแนวทางที่คุณให้มา */
+.material-icons{
+  font-family:'Material Icons' !important;
+  font-style:normal; font-weight:normal; font-size:24px; line-height:1;
+  display:inline-block; text-transform:none; letter-spacing:normal; white-space:nowrap; direction:ltr;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; -moz-osx-font-smoothing:grayscale;
+  font-feature-settings:'liga';
+}
+/* เผื่อกรณีอยากใช้ไฟล์โลคอลเป็น fallback: ใส่ class .local เพิ่มบน element นั้น */
+@font-face{
+  font-family:'Material Icons Local';
+  src: url('/20nxskypqz/fonts/MaterialIcons-Regular.woff2') format('woff2'),
+       url('/20nxskypqz/fonts/MaterialIcons-Regular.woff') format('woff'),
+       url('/20nxskypqz/fonts/MaterialIcons-Regular.ttf') format('truetype');
+  font-display:swap;
+}
+.material-icons.local{ font-family:'Material Icons Local' !important; }
+
+/* 3) Flaticon UIcons ที่ใช้ Sun/Moon — บังคับ family */
 [class^="fi-"], [class*=" fi-"]{
   font-family:'uicons-solid-rounded','uicons-solid-chubby' !important;
   font-style:normal; font-weight:400;
@@ -94,7 +118,7 @@ body.dark-mode .toggle-circle{ transform:translateX(calc(var(--w) - var(--h))); 
 }
 .menu-sublist li a:hover{ background:rgba(255,255,255,.08); }
 
-/* Cards (กล่องพื้นหลังขาว) + เว้นช่องก่อนกล่องใหม่ */
+/* Cards */
 .card{ background:var(--card); border-radius:12px; box-shadow:var(--shadow); padding:16px; margin:12px 0; }
 
 /* Root helpers */
