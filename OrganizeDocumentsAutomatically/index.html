@@ -1,86 +1,83 @@
-<!-- html-OrganizeDocumentsAutomatically-21092025-07 -->
+<!-- html-OrganizeDocumentsAutomatically-21092025-08 -->
 <!DOCTYPE html>
-<html lang="th">
+<html lang="th" class="work-page">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Organize documents automatically - 20nxskypqz</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;700&display=swap" rel="stylesheet" />
+  <!-- Material Symbols -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1&icon_names=home" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1&icon_names=close" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1&icon_names=menu" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1&icon_names=arrow_drop_down" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1&icon_names=add" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1&icon_names=picture_as_pdf" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1&icon_names=docs" />
 
-  <!-- Icons -->
-  <link id="fi-theme" rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-chubby/css/uicons-solid-chubby.css"><!-- day -->
-  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css"><!-- night + dropdown + folder/download -->
-  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-bold-rounded/css/uicons-bold-rounded.css"><!-- menu/close/+ -->
-
-  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="./styles.css" />
 
-  <!-- Export libs -->
-  <!-- html2canvas ใช้เป็น fallback เท่านั้น (PDF หลักจะใช้ jsPDF.html) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-  <!-- DOCX: ใช้ html-docx-js (ทำงานเสถียรกว่า lib เดิมในบางเคส) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.4.1/html-docx.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- Export libs (คงเดิม) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.4.1/html-docx.js" crossorigin="anonymous"></script>
 </head>
 <body class="light-mode work-page">
   <header class="header">
     <button class="menu-toggle" aria-label="Toggle navigation" type="button" aria-expanded="false">
-      <i class="fi fi-br-menu-burger"></i>
+      <span class="material-symbols-outlined">menu</span>
     </button>
 
     <div class="toggle-container" id="mode-toggle" aria-label="Toggle light/dark mode">
-      <div class="toggle-circle light"><i id="mode-icon" class="fi fi-sc-sun"></i></div>
+      <div class="toggle-circle light">Day</div>
     </div>
   </header>
 
   <nav class="side-menu" aria-label="Main navigation" aria-hidden="true">
-    <!-- เพิ่มกากบาทปิดเมนูชัดเจน -->
     <button class="close-menu" aria-label="Close navigation" type="button">
-      <i class="fi fi-br-cross"></i>
+      <span class="material-symbols-outlined">close</span>
     </button>
 
     <div class="menu-group">
       <button class="menu-section-toggle" type="button" aria-expanded="false">
-        <span>About</span><i class="fi fi-sr-dropdown-select"></i>
+        <span>About</span><span class="material-symbols-outlined">arrow_drop_down</span>
       </button>
       <ul class="menu-sublist" hidden>
-        <li><a href="../Home/"><i class="fi fi-sr-home"></i> Home</a></li>
-        <li><a href="../DetectiveConan/"><i class="fi fi-br-search"></i> DetectiveConan</a></li>
+        <li><a href="../Home/"><span class="material-symbols-outlined">home</span> Home</a></li>
+      </ul>
+
+      <button class="menu-section-toggle" type="button" aria-expanded="false">
+        <span>Entertainment</span><span class="material-symbols-outlined">arrow_drop_down</span>
+      </button>
+      <ul class="menu-sublist" hidden>
+        <li><a href="../DetectiveConan/">DetectiveConan</a></li>
       </ul>
 
       <button class="menu-section-toggle" type="button" aria-expanded="true">
-        <span>Work</span><i class="fi fi-sr-dropdown-select"></i>
+        <span>Work</span><span class="material-symbols-outlined">arrow_drop_down</span>
       </button>
       <ul class="menu-sublist">
-        <li><a href="../OrganizeDocumentsAutomatically/"><i class="fi fi-sr-folder"></i> Organize documents automatically</a></li>
+        <li><a href="../OrganizeDocumentsAutomatically/">Organize documents automatically</a></li>
       </ul>
     </div>
   </nav>
   <div class="menu-overlay"></div>
 
-  <div id="loader" class="loader" style="display:none">
-    <div class="loader-card">
-      <div class="loader-spinner"></div>
-      <p id="loader-text" class="loader-text">กำลังประมวลผล...</p>
-    </div>
-  </div>
-
   <main class="content">
     <header class="page-header">
-      <h1 class="title-th">เครื่องมือสร้างเอกสารอัตโนมัติ</h1>
-      <p class="subtitle">เพิ่มเนื้อหา, จัดลำดับ, และดาวน์โหลดเอกสารของคุณ</p>
+      <h1>เครื่องมือสร้างเอกสารอัตโนมัติ</h1>
+      <p class="muted">เพิ่มเนื้อหา, จัดลำดับ, และดาวน์โหลดเอกสารของคุณ</p>
     </header>
 
     <!-- Control Panel -->
-    <div id="control-panel" class="control-panel">
+    <div id="control-panel" class="control-panel card">
       <div class="relative">
-        <button id="add-btn" class="btn sky">
-          <i class="fi fi-br-plus"></i>
+        <button id="add-btn" class="btn">
+          <span class="material-symbols-outlined">add</span>
           เพิ่มเนื้อหา
         </button>
-        <div id="add-menu" class="add-menu">
+        <div id="add-menu" class="add-menu card" hidden>
           <a href="#" data-type="h-center" class="add-block-option">หัวเรื่อง (กลาง)</a>
           <a href="#" data-type="h1" class="add-block-option">หัวข้อหลัก</a>
           <a href="#" data-type="h2" class="add-block-option">หัวข้อย่อย</a>
@@ -90,16 +87,19 @@
       </div>
 
       <div class="btn-group">
-        <button id="download-docx-btn" class="btn blue">
-          <i class="fi fi-sr-download"></i> ดาวน์โหลด DOCX
+        <button id="download-docx-btn" class="btn">
+          <span class="material-symbols-outlined">docs</span>
+          ดาวน์โหลด DOCX
         </button>
-        <button id="download-pdf-btn" class="btn red">
-          <i class="fi fi-sr-download"></i> ดาวน์โหลด PDF
+        <button id="download-pdf-btn" class="btn danger">
+          <span class="material-symbols-outlined">picture_as_pdf</span>
+          ดาวน์โหลด PDF
         </button>
       </div>
     </div>
 
-    <section id="editor" class="editor">
+    <!-- Editor Area -->
+    <section id="editor" class="editor card">
       <div id="placeholder" class="placeholder">คลิกปุ่ม “เพิ่มเนื้อหา” เพื่อเริ่มต้น</div>
     </section>
   </main>
