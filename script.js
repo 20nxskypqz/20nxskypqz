@@ -1,4 +1,4 @@
-// js-Root-30092025-14 — Global shared logic (Material Symbols Rounded only)
+// js-Root-30092025-16 — Global logic (uses self-hosted Material Symbols Outlined)
 
 async function includeFragments(){
   const incs = document.querySelectorAll('[data-include]');
@@ -32,7 +32,7 @@ function wireCommonUI(){
     });
   });
 
-  // Day/Night toggle — Material Symbols Rounded (light_mode / dark_mode)
+  // Day/Night toggle — OUTLINED icons (light_mode / dark_mode)
   const modeToggle = document.getElementById('mode-toggle');
   const modeIcon = document.getElementById('mode-icon');
 
