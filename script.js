@@ -1,4 +1,4 @@
-// js-Root-30092025-11 — Global shared logic + Material Symbols fallback check
+// js-Root-30092025-14 — Global shared logic (Material Symbols Rounded only)
 
 async function includeFragments(){
   const incs = document.querySelectorAll('[data-include]');
@@ -32,11 +32,11 @@ function wireCommonUI(){
     });
   });
 
-  // Toggle Day/Night — ไอคอน Flaticon (Sun/Moon)
+  // Day/Night toggle — Material Symbols Rounded (light_mode / dark_mode)
   const modeToggle = document.getElementById('mode-toggle');
-  const modeIcon = document.getElementById('mode-icon'); // <i class="fi ...">
+  const modeIcon = document.getElementById('mode-icon');
 
-  // ถ้าไม่เคยตั้งค่าไว้ → auto dark 18:00–05:59
+  // Default: dark 18:00–05:59 if not set
   const saved = localStorage.getItem('theme');
   if(!saved){
     const h = new Date().getHours();
@@ -48,9 +48,7 @@ function wireCommonUI(){
 
   const refreshIcon = ()=>{
     const isDark = document.body.classList.contains('dark-mode');
-    if(modeIcon){
-      modeIcon.className = 'fi ' + (isDark ? 'fi-sr-moon' : 'fi-sc-sun');
-    }
+    if(modeIcon){ modeIcon.textContent = isDark ? 'dark_mode' : 'light_mode'; }
   };
   refreshIcon();
 
@@ -62,26 +60,11 @@ function wireCommonUI(){
   });
 }
 
-/* ===== ตรวจว่าฟอนต์ Material Symbols โหลดใช้ได้ไหม
-   ถ้าไม่ได้ → ใส่ class 'no-msymbols' เพื่อสลับไปใช้ .material-icons fallback ===== */
-function applyMaterialSymbolsFallback(){
-  try{
-    if (!('fonts' in document)) return; // เบราว์เซอร์เก่ากว่า
-    const ok = document.fonts.check("24px 'Material Symbols Outlined'");
-    if(!ok){
-      document.documentElement.classList.add('no-msymbols');
-    }
-  }catch(e){
-    // เงียบ ๆ
-  }
-}
-
 document.addEventListener('DOMContentLoaded', async ()=>{
   await includeFragments();
   wireCommonUI();
-  applyMaterialSymbolsFallback();
 
-  // Root: toggle ของแต่ละหัวข้อ (กล่องเล็กพอดีข้อความ)
+  // Root page: simple dropdown cards
   const rootToggles = document.querySelectorAll('.root-section-toggle');
   rootToggles.forEach(btn=>{
     const sel = btn.getAttribute('data-target');
