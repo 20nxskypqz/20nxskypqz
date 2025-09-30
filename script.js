@@ -1,4 +1,4 @@
-// js-Root-30092025-17 — Global logic (manual dark mode; removed auto-by-time)
+// js-Root-30092025-18 — Manual dark mode only (no auto), root dropdowns w/o boxes
 
 async function includeFragments(){
   const incs = document.querySelectorAll('[data-include]');
@@ -32,11 +32,11 @@ function wireCommonUI(){
     });
   });
 
-  // Day/Night toggle — MANUAL ONLY
+  // Day/Night toggle — MANUAL ONLY (no auto rules at all)
   const modeToggle = document.getElementById('mode-toggle');
   const modeIcon = document.getElementById('mode-icon');
 
-  // apply saved only (no time-based default)
+  // apply saved (if any) — no automatic decision
   const saved = localStorage.getItem('theme');
   if(saved === 'dark'){ document.body.classList.add('dark-mode'); }
 
@@ -58,15 +58,15 @@ document.addEventListener('DOMContentLoaded', async ()=>{
   await includeFragments();
   wireCommonUI();
 
-  // Root page: toggle cards on dropdown click (link box appears only after click)
+  // Root page: show plain dropdown links (no box)
   const rootToggles = document.querySelectorAll('.root-section-toggle');
   rootToggles.forEach(btn=>{
     const sel = btn.getAttribute('data-target');
-    const card = document.querySelector(sel);
+    const list = document.querySelector(sel);
     btn.addEventListener('click', ()=>{
-      if(!card) return;
-      const hidden = card.hasAttribute('hidden');
-      if(hidden) card.removeAttribute('hidden'); else card.setAttribute('hidden','');
+      if(!list) return;
+      const hidden = list.hasAttribute('hidden');
+      if(hidden) list.removeAttribute('hidden'); else list.setAttribute('hidden','');
     });
   });
 });
