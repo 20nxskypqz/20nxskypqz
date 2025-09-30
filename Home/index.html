@@ -1,82 +1,43 @@
-<!-- html-Home-30092025-01 -->
+<!-- html-Home-30092025-03 -->
 <!DOCTYPE html>
 <html lang="en" class="home-page">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Home - 20nxskypqz</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;700&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
-
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="/20nxskypqz/styles.css" />
 </head>
 <body class="light-mode">
-  <header class="header">
-    <button class="menu-toggle" aria-label="Toggle navigation" type="button" aria-expanded="false">
-      <span class="material-symbols-outlined">menu</span>
-    </button>
-    <div class="toggle-container" id="mode-toggle" aria-label="Toggle light/dark mode" role="button" tabindex="0">
-      <div class="toggle-circle"><span id="mode-icon" class="material-symbols-outlined">light_mode</span></div>
-    </div>
-  </header>
-
-  <!-- Side Menu (มี Entertainment แล้วย้าย Conan) -->
-  <nav class="side-menu" aria-hidden="true">
-    <button class="close-menu" aria-label="Close navigation" type="button">
-      <span class="material-symbols-outlined">close</span>
-    </button>
-
-    <div class="menu-group">
-      <button class="menu-section-toggle" type="button" aria-expanded="false">
-        <span>About</span><span class="material-symbols-outlined">arrow_drop_down</span>
-      </button>
-      <ul class="menu-sublist" hidden>
-        <li><a href="../Home/"><span class="material-symbols-outlined">home</span> Home</a></li>
-      </ul>
-
-      <button class="menu-section-toggle" type="button" aria-expanded="false">
-        <span>Entertainment</span><span class="material-symbols-outlined">arrow_drop_down</span>
-      </button>
-      <ul class="menu-sublist" hidden>
-        <li><a href="../DetectiveConan/">DetectiveConan</a></li>
-      </ul>
-
-      <button class="menu-section-toggle" type="button" aria-expanded="false">
-        <span>Work</span><span class="material-symbols-outlined">arrow_drop_down</span>
-      </button>
-      <ul class="menu-sublist" hidden>
-        <li><a href="../OrganizeDocumentsAutomatically/">Organize documents automatically</a></li>
-      </ul>
-    </div>
-  </nav>
-  <div class="menu-overlay"></div>
+  <div data-include="/20nxskypqz/shared/header.html"></div>
+  <div data-include="/20nxskypqz/shared/side-menu.html"></div>
 
   <main class="content">
     <section class="hero">
       <h1 class="hero-title">Welcome to 20nxskypqz!</h1>
     </section>
 
-    <div class="video-container">
+    <div class="video-container card" style="aspect-ratio:16/9; overflow:hidden; background:#000;">
       <iframe
         src="https://www.youtube.com/embed/3KXoolNIH9s"
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowfullscreen
-        title="YouTube video"></iframe>
+        title="YouTube video"
+        style="width:100%; height:100%;"></iframe>
     </div>
 
-    <section class="time-and-countdown">
+    <section class="time-and-countdown card">
       <h2>Current Time in Thailand</h2>
-      <p><span id="date-display">--/--/----</span> • <span id="time-display">--:--:--</span></p>
+      <p id="time-line-1" class="time-line"><span id="date-display">--/--/----</span> <span id="time-display">--:--:--</span></p>
 
       <h2>New Year 2026 Countdown</h2>
-      <p><span id="countdown-display">0 days 0 hours 0 minutes 0 seconds</span></p>
+      <p id="time-line-2" class="time-line"><span id="countdown-display">0 days 0 hours 0 minutes 0 seconds</span></p>
     </section>
   </main>
 
-  <footer class="footer">&copy; 2025 20nxskypqz</footer>
+  <div data-include="/20nxskypqz/shared/footer.html"></div>
 
-  <script src="./script.js"></script>
+  <script src="/20nxskypqz/script.js"></script>
+  <script src="/20nxskypqz/Home/script.js"></script>
 </body>
 </html>
