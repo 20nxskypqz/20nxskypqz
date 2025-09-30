@@ -1,6 +1,4 @@
-// js-OrganizeDocumentsAutomatically-30092025-04
-// (เฉพาะ logic ของ editor & export — เมนู/ธีมใช้จาก /script.js แล้ว)
-
+// js-OrganizeDocumentsAutomatically-30092025-05
 const addBtn = document.getElementById('add-btn');
 const addMenu = document.getElementById('add-menu');
 const editor = document.getElementById('editor');
@@ -15,7 +13,6 @@ let draggedItem = null;
 function showLoader(text='กำลังประมวลผล...'){ if(loader){ loaderText.textContent=text; loader.style.display='flex'; } }
 function hideLoader(){ if(loader){ loader.style.display='none'; } }
 
-// Menu for adding blocks
 if(addBtn && addMenu){
   addBtn.addEventListener('click', e=>{ e.stopPropagation(); addMenu.hidden = !addMenu.hidden; });
   window.addEventListener('click', ()=>{ if(!addMenu.hidden) addMenu.hidden = true; });
@@ -35,7 +32,8 @@ function addBlock(type){
 
   const block=document.createElement('div');
   block.className='content-block';
-  block.style.cssText='position:relative; display:flex; align-items:flex-start; gap:12px; padding:8px; margin:8px 0; border:1px solid transparent; border-radius:10px;';
+  /* เว้นระยะก่อนกล่องใหม่ให้ชัดเจน (12px) */
+  block.style.cssText='position:relative; display:flex; align-items:flex-start; gap:12px; padding:8px; margin:12px 0; border:1px solid transparent; border-radius:10px;';
   block.setAttribute('draggable','true');
 
   const handle=document.createElement('div');
@@ -68,7 +66,6 @@ function addBlock(type){
   content.focus();
 }
 
-// Drag & drop
 function addDragEvents(item){
   item.addEventListener('dragstart', ()=>{ draggedItem=item; item.classList.add('dragging'); });
   item.addEventListener('dragend', ()=>{ draggedItem=null; item.classList.remove('dragging'); });
@@ -92,7 +89,7 @@ function getDragAfterElement(container, y){
   }, {offset:Number.NEGATIVE_INFINITY}).element;
 }
 
-// Export helpers
+// Export helpers (คงเดิม)
 function getStyledHTMLNode(){
   const clone=editor.cloneNode(true);
   clone.querySelectorAll('.drag-handle, .delete-btn, #placeholder').forEach(el=>el?.remove());
@@ -112,10 +109,9 @@ function getStyledHTMLNode(){
   return wrapper;
 }
 
-// DOCX (text selectable)
 async function exportDOCX(){
-  showLoader('กำลังสร้างไฟล์ DOCX...');
   try{
+    showLoader('กำลังสร้างไฟล์ DOCX...');
     const node=getStyledHTMLNode();
     const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>${node.innerHTML}</body></html>`;
     const blob=window.htmlDocx.asBlob(html);
@@ -125,18 +121,14 @@ async function exportDOCX(){
   finally{ hideLoader(); }
 }
 
-// PDF (ข้อความจริง + margin 1cm; คมชัดและคัดลอกข้อความได้)
 async function exportPDF(){
-  showLoader('กำลังสร้างไฟล์ PDF...');
   try{
+    showLoader('กำลังสร้างไฟล์ PDF...');
     const { jsPDF } = window.jspdf;
     const pdf=new jsPDF({orientation:'portrait', unit:'mm', format:'a4'});
     const node=getStyledHTMLNode();
-    await pdf.html(node, {
-      x:10, y:10, margin:[10,10,10,10], autoPaging:'text',
-      html2canvas:{scale:1},
-      callback(doc){ doc.save('document.pdf'); }
-    });
+    await pdf.html(node, { x:10, y:10, margin:[10,10,10,10], autoPaging:'text', html2canvas:{scale:1},
+      callback(doc){ doc.save('document.pdf'); } });
   }catch(e){ console.error('PDF error:',e); alert('เกิดข้อผิดพลาดในการสร้างไฟล์ PDF'); }
   finally{ hideLoader(); }
 }
