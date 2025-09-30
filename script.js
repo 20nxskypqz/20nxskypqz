@@ -1,4 +1,4 @@
-// js-Root-30092025-08 — Global shared logic
+// js-Root-30092025-11 — Global shared logic + Material Symbols fallback check
 
 async function includeFragments(){
   const incs = document.querySelectorAll('[data-include]');
@@ -32,7 +32,7 @@ function wireCommonUI(){
     });
   });
 
-  // Toggle Day/Night — ไอคอน Flaticon แบบเดิม (Sun/Moon)
+  // Toggle Day/Night — ไอคอน Flaticon (Sun/Moon)
   const modeToggle = document.getElementById('mode-toggle');
   const modeIcon = document.getElementById('mode-icon'); // <i class="fi ...">
 
@@ -62,11 +62,26 @@ function wireCommonUI(){
   });
 }
 
+/* ===== ตรวจว่าฟอนต์ Material Symbols โหลดใช้ได้ไหม
+   ถ้าไม่ได้ → ใส่ class 'no-msymbols' เพื่อสลับไปใช้ .material-icons fallback ===== */
+function applyMaterialSymbolsFallback(){
+  try{
+    if (!('fonts' in document)) return; // เบราว์เซอร์เก่ากว่า
+    const ok = document.fonts.check("24px 'Material Symbols Outlined'");
+    if(!ok){
+      document.documentElement.classList.add('no-msymbols');
+    }
+  }catch(e){
+    // เงียบ ๆ
+  }
+}
+
 document.addEventListener('DOMContentLoaded', async ()=>{
   await includeFragments();
   wireCommonUI();
+  applyMaterialSymbolsFallback();
 
-  // Root: toggle สำหรับแต่ละหัวข้อ → แสดง “กล่องเล็กพอดีข้อความ”
+  // Root: toggle ของแต่ละหัวข้อ (กล่องเล็กพอดีข้อความ)
   const rootToggles = document.querySelectorAll('.root-section-toggle');
   rootToggles.forEach(btn=>{
     const sel = btn.getAttribute('data-target');
