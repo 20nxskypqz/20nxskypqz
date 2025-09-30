@@ -1,4 +1,4 @@
-/* css-Root-30092025-09 — Global shared styles (only icon-fallback changes added) */
+/* css-Root-30092025-11 — Global shared styles + icon fallbacks */
 :root{
   --bg:#f9f9f9; --card:#fff; --ink:#111; --muted:#666;
   --shadow:0 6px 24px rgba(0,0,0,.08);
@@ -14,7 +14,7 @@ body{
   min-height:100vh; min-height:100svh;
 }
 
-/* เพื่อไม่ให้กล่อง include มาบัง header/footer แบบ full-bleed */
+/* ไม่ให้กล่อง include มาบัง full-bleed */
 [data-include]{ display:contents; }
 
 /* Font scale */
@@ -39,7 +39,7 @@ p,li{ font-size:16px; }
 /* Content container */
 .content{ width:100%; max-width:var(--page-max); margin:16px auto; }
 
-/* Toggle capsule (คงเดิม) */
+/* Toggle capsule */
 .toggle-container{
   --w:84px; --h:36px; --pad:3px;
   width:var(--w); height:var(--h); border-radius:999px; padding:var(--pad);
@@ -58,8 +58,7 @@ body.dark-mode .toggle-container{ background:#1d2227; border-color:#3a424a; }
 body.dark-mode .toggle-circle{ transform:translateX(calc(var(--w) - var(--h))); }
 
 /* ===== FIX: กันมือถือเอาฟอนต์มาทับไอคอน ===== */
-
-/* 1) Material Symbols (ยังใช้ในบางที่) — บังคับ family + smoothing */
+/* Material Symbols (สำหรับชื่ออย่าง mystery, edit_document) */
 .material-symbols-outlined{
   font-family:'Material Symbols Outlined' !important;
   font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;
@@ -67,8 +66,7 @@ body.dark-mode .toggle-circle{ transform:translateX(calc(var(--w) - var(--h))); 
   display:inline-block; text-transform:none; letter-spacing:normal; white-space:nowrap; direction:ltr;
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; -moz-osx-font-smoothing:grayscale;
 }
-
-/* 2) Material Icons — ตามแนวทางที่คุณให้มา */
+/* Material Icons (สำหรับ menu/close/arrow_drop_down/home/add/description/picture_as_pdf) */
 .material-icons{
   font-family:'Material Icons' !important;
   font-style:normal; font-weight:normal; font-size:24px; line-height:1;
@@ -76,7 +74,7 @@ body.dark-mode .toggle-circle{ transform:translateX(calc(var(--w) - var(--h))); 
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; -moz-osx-font-smoothing:grayscale;
   font-feature-settings:'liga';
 }
-/* เผื่อกรณีอยากใช้ไฟล์โลคอลเป็น fallback: ใส่ class .local เพิ่มบน element นั้น */
+/* Fallback ไฟล์โลคอล (ถ้าจัดเตรียม) */
 @font-face{
   font-family:'Material Icons Local';
   src: url('/20nxskypqz/fonts/MaterialIcons-Regular.woff2') format('woff2'),
@@ -86,11 +84,16 @@ body.dark-mode .toggle-circle{ transform:translateX(calc(var(--w) - var(--h))); 
 }
 .material-icons.local{ font-family:'Material Icons Local' !important; }
 
-/* 3) Flaticon UIcons ที่ใช้ Sun/Moon — บังคับ family */
+/* Flaticon UIcons (พระอาทิตย์/พระจันทร์ในแคปซูล) */
 [class^="fi-"], [class*=" fi-"]{
   font-family:'uicons-solid-rounded','uicons-solid-chubby' !important;
   font-style:normal; font-weight:400;
 }
+
+/* === Dual-icon fallback: Symbols เป็นหลัก, ถ้าโหลดไม่ได้ให้โชว์ Icons === */
+.icon-mi{ display:none; }                 /* fallback icons ซ่อนไว้ก่อน */
+.no-msymbols .icon-symbol{ display:none;} /* ถ้า Symbols ใช้ไม่ได้ → ซ่อนไอคอน Symbols */
+.no-msymbols .icon-mi{ display:inline-block; } /* แล้วโชว์ Material Icons แทน */
 
 /* Side menu */
 .menu-toggle, .close-menu{
