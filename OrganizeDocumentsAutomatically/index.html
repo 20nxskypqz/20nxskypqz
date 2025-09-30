@@ -1,4 +1,4 @@
-<!-- html-OrganizeDocumentsAutomatically-30092025-01 -->
+<!-- html-OrganizeDocumentsAutomatically-30092025-03 -->
 <!DOCTYPE html>
 <html lang="th" class="work-page">
 <head>
@@ -6,10 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Organize documents automatically - 20nxskypqz</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;700&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
-
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="/20nxskypqz/styles.css" />
 
   <!-- Export libs -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
@@ -17,74 +14,47 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.4.1/html-docx.js" crossorigin="anonymous"></script>
 </head>
 <body class="light-mode work-page">
-  <header class="header">
-    <button class="menu-toggle" aria-label="Toggle navigation" type="button" aria-expanded="false">
-      <span class="material-symbols-outlined">menu</span>
-    </button>
 
-    <div class="toggle-container" id="mode-toggle" aria-label="Toggle light/dark mode" role="button" tabindex="0">
-      <div class="toggle-circle"><span id="mode-icon" class="material-symbols-outlined">light_mode</span></div>
+  <!-- Loader -->
+  <div id="loader" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:1000; align-items:center; justify-content:center;">
+    <div class="card" style="text-align:center;">
+      <div style="width:48px; height:48px; border:4px solid #0ea5e9; border-top-color:transparent; border-radius:999px; margin:0 auto 8px; animation:spin 1s linear infinite;"></div>
+      <p id="loader-text">กำลังประมวลผล...</p>
     </div>
-  </header>
+  </div>
+  <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
 
-  <nav class="side-menu" aria-label="Main navigation" aria-hidden="true">
-    <button class="close-menu" aria-label="Close navigation" type="button">
-      <span class="material-symbols-outlined">close</span>
-    </button>
-
-    <div class="menu-group">
-      <button class="menu-section-toggle" type="button" aria-expanded="false">
-        <span>About</span><span class="material-symbols-outlined">arrow_drop_down</span>
-      </button>
-      <ul class="menu-sublist" hidden>
-        <li><a href="../Home/"><span class="material-symbols-outlined">home</span> Home</a></li>
-      </ul>
-
-      <button class="menu-section-toggle" type="button" aria-expanded="false">
-        <span>Entertainment</span><span class="material-symbols-outlined">arrow_drop_down</span>
-      </button>
-      <ul class="menu-sublist" hidden>
-        <li><a href="../DetectiveConan/">DetectiveConan</a></li>
-      </ul>
-
-      <button class="menu-section-toggle" type="button" aria-expanded="true">
-        <span>Work</span><span class="material-symbols-outlined">arrow_drop_down</span>
-      </button>
-      <ul class="menu-sublist">
-        <li><a href="../OrganizeDocumentsAutomatically/">Organize documents automatically</a></li>
-      </ul>
-    </div>
-  </nav>
-  <div class="menu-overlay"></div>
+  <div data-include="/20nxskypqz/shared/header.html"></div>
+  <div data-include="/20nxskypqz/shared/side-menu.html"></div>
 
   <main class="content">
     <header class="page-header">
       <h1>เครื่องมือสร้างเอกสารอัตโนมัติ</h1>
-      <p class="muted">เพิ่มเนื้อหา, จัดลำดับ, และดาวน์โหลดเอกสารของคุณ</p>
+      <p class="muted" style="text-align:center; color:var(--muted)">เพิ่มเนื้อหา, จัดลำดับ, และดาวน์โหลดเอกสารของคุณ</p>
     </header>
 
     <!-- Control Panel -->
-    <div id="control-panel" class="control-panel card">
+    <div id="control-panel" class="card" style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
       <div class="relative">
-        <button id="add-btn" class="btn">
+        <button id="add-btn" class="drop-btn">
           <span class="material-symbols-outlined">add</span>
           เพิ่มเนื้อหา
         </button>
-        <div id="add-menu" class="add-menu card" hidden>
-          <a href="#" data-type="h-center" class="add-block-option">หัวเรื่อง (กลาง)</a>
-          <a href="#" data-type="h1" class="add-block-option">หัวข้อหลัก</a>
-          <a href="#" data-type="h2" class="add-block-option">หัวข้อย่อย</a>
-          <a href="#" data-type="h4" class="add-block-option">หัวข้อย่อยของย่อย</a>
-          <a href="#" data-type="p" class="add-block-option">เนื้อหา</a>
+        <div id="add-menu" class="card" hidden style="position:absolute; top:100%; left:0; margin-top:8px; min-width:220px;">
+          <a href="#" data-type="h-center" class="add-block-option" style="display:block; padding:8px 12px;">หัวเรื่อง (กลาง)</a>
+          <a href="#" data-type="h1" class="add-block-option" style="display:block; padding:8px 12px;">หัวข้อหลัก</a>
+          <a href="#" data-type="h2" class="add-block-option" style="display:block; padding:8px 12px;">หัวข้อย่อย</a>
+          <a href="#" data-type="h4" class="add-block-option" style="display:block; padding:8px 12px;">หัวข้อย่อยของย่อย</a>
+          <a href="#" data-type="p" class="add-block-option" style="display:block; padding:8px 12px;">เนื้อหา</a>
         </div>
       </div>
 
-      <div class="btn-group">
-        <button id="download-docx-btn" class="btn">
+      <div class="btn-group" style="display:flex; gap:8px;">
+        <button id="download-docx-btn" class="drop-btn">
           <span class="material-symbols-outlined">description</span>
           ดาวน์โหลด DOCX
         </button>
-        <button id="download-pdf-btn" class="btn danger">
+        <button id="download-pdf-btn" class="drop-btn">
           <span class="material-symbols-outlined">picture_as_pdf</span>
           ดาวน์โหลด PDF
         </button>
@@ -92,13 +62,14 @@
     </div>
 
     <!-- Editor Area -->
-    <section id="editor" class="editor card">
-      <div id="placeholder" class="placeholder">คลิกปุ่ม “เพิ่มเนื้อหา” เพื่อเริ่มต้น</div>
+    <section id="editor" class="card" style="min-height:40vh;">
+      <div id="placeholder" style="text-align:center; color:#999;">คลิกปุ่ม “เพิ่มเนื้อหา” เพื่อเริ่มต้น</div>
     </section>
   </main>
 
-  <footer class="footer">&copy; 2025 20nxskypqz</footer>
+  <div data-include="/20nxskypqz/shared/footer.html"></div>
 
-  <script src="./script.js"></script>
+  <script src="/20nxskypqz/script.js"></script>
+  <script src="/20nxskypqz/OrganizeDocumentsAutomatically/script.js"></script>
 </body>
 </html>
