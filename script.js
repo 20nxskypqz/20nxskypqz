@@ -1,6 +1,5 @@
-// js-Root-30092025-06 — Global shared logic
+// js-Root-30092025-08 — Global shared logic
 
-// 1) โหลดไฟล์ shared (*.html) เข้ามาแทนที่ data-include
 async function includeFragments(){
   const incs = document.querySelectorAll('[data-include]');
   for (const el of incs){
@@ -10,7 +9,6 @@ async function includeFragments(){
   }
 }
 
-// 2) ผูกเมนู/ธีม หลังโหลด fragments แล้ว
 function wireCommonUI(){
   const sideMenu = document.querySelector('.side-menu');
   const menuToggleBtn = document.querySelector('.menu-toggle');
@@ -34,11 +32,11 @@ function wireCommonUI(){
     });
   });
 
-  // Toggle Day/Night capsule (จำสถานะด้วย localStorage) + ไอคอนพระอาทิตย์/พระจันทร์
+  // Toggle Day/Night — ไอคอน Flaticon แบบเดิม (Sun/Moon)
   const modeToggle = document.getElementById('mode-toggle');
-  const modeIcon = document.getElementById('mode-icon');
+  const modeIcon = document.getElementById('mode-icon'); // <i class="fi ...">
 
-  // ถ้าไม่เคยตั้งค่าไว้ ให้ auto ตามเวลา: มืด 18:00–05:59
+  // ถ้าไม่เคยตั้งค่าไว้ → auto dark 18:00–05:59
   const saved = localStorage.getItem('theme');
   if(!saved){
     const h = new Date().getHours();
@@ -50,7 +48,9 @@ function wireCommonUI(){
 
   const refreshIcon = ()=>{
     const isDark = document.body.classList.contains('dark-mode');
-    if(modeIcon){ modeIcon.textContent = isDark ? 'dark_mode' : 'light_mode'; }
+    if(modeIcon){
+      modeIcon.className = 'fi ' + (isDark ? 'fi-sr-moon' : 'fi-sc-sun');
+    }
   };
   refreshIcon();
 
@@ -62,12 +62,11 @@ function wireCommonUI(){
   });
 }
 
-// 3) บูตระบบ
 document.addEventListener('DOMContentLoaded', async ()=>{
   await includeFragments();
   wireCommonUI();
 
-  // Root page: รองรับ dropdown ต่อหัวข้อ (About/Entertainment/Work/Study/Games)
+  // Root: toggle สำหรับแต่ละหัวข้อ → แสดง “กล่องเล็กพอดีข้อความ”
   const rootToggles = document.querySelectorAll('.root-section-toggle');
   rootToggles.forEach(btn=>{
     const sel = btn.getAttribute('data-target');
