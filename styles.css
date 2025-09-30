@@ -1,4 +1,4 @@
-/* css-Root-30092025-16 — Global styles + self-host Material Symbols Outlined */
+/* css-Root-30092025-17 — Global styles + self-host Material Symbols Outlined */
 :root{
   --bg:#f9f9f9; --card:#fff; --ink:#111; --muted:#666;
   --shadow:0 6px 24px rgba(0,0,0,.08);
@@ -36,6 +36,13 @@ p,li{ font-size:16px; }
 .header{ display:flex; justify-content:space-between; align-items:center; }
 .footer{ margin-top:auto; text-align:center; }
 
+/* Dark mode (manual only) */
+body.dark-mode{ background:#0f1418; color:#e5e7eb; }
+body.dark-mode .card{ background:#172026; color:#e5e7eb; }
+body.dark-mode .header,
+body.dark-mode .footer{ background:linear-gradient(90deg,#0b1929,#1f2937); }
+body.dark-mode a{ color:#d1defa; }
+
 /* Page content container */
 .content{ width:100%; max-width:var(--page-max); margin:16px auto; }
 
@@ -43,7 +50,7 @@ p,li{ font-size:16px; }
 @font-face{
   font-family: 'Material Symbols Outlined';
   src: url('/20nxskypqz/fonts/MaterialSymbolsOutlined.woff2') format('woff2');
-  font-weight: 100 700;   /* variable font axis range */
+  font-weight: 100 700;
   font-style: normal;
   font-display: swap;
 }
@@ -54,7 +61,7 @@ p,li{ font-size:16px; }
   text-transform:none; white-space:nowrap; direction:ltr;
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
   font-variation-settings:
-    'FILL' 0,   /* 0 outline, 1 filled */
+    'FILL' 0,
     'wght' 400,
     'GRAD' 0,
     'opsz' 48;
@@ -101,6 +108,7 @@ body.dark-mode .toggle-circle{ transform:translateX(calc(var(--w) - var(--h))); 
 .menu-sublist li a{
   display:flex; gap:8px; align-items:center; padding:8px 18px;
   color:#fff; text-decoration:none; border-radius:8px;
+  white-space:normal; word-break:break-word; /* ช่วยตัดบรรทัดชื่อยาว */
 }
 .menu-sublist li a:hover{ background:rgba(255,255,255,.08); }
 
@@ -117,9 +125,18 @@ body.dark-mode .toggle-circle{ transform:translateX(calc(var(--w) - var(--h))); 
 }
 .drop-list{ margin-top:10px; }
 
+/* Root page: dropdown link cards */
+.root-link-card{ display:inline-block; width:max-content; padding:8px 12px; }
+.root-link-card a{
+  font-size:24px;
+  white-space:normal; word-break:break-word; /* ให้ชื่อยาวตัดบรรทัด */
+  display:inline-block; max-width:90vw;      /* กันล้นจอ */
+}
+
 /* Home */
 .time-and-countdown h2{ text-align:center; }
 .time-and-countdown .time-line{ text-align:center; font-size:24px; }
+#countdown-display{ font-size:18px; } /* ลดขนาดเฉพาะข้อความเค้าดาวน์ */
 
 /* Spacing */
 .hero{ margin:8px 0 16px; }
