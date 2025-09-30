@@ -1,4 +1,4 @@
-// js-Root-30092025-16 — Global logic (uses self-hosted Material Symbols Outlined)
+// js-Root-30092025-17 — Global logic (manual dark mode; removed auto-by-time)
 
 async function includeFragments(){
   const incs = document.querySelectorAll('[data-include]');
@@ -32,19 +32,13 @@ function wireCommonUI(){
     });
   });
 
-  // Day/Night toggle — OUTLINED icons (light_mode / dark_mode)
+  // Day/Night toggle — MANUAL ONLY
   const modeToggle = document.getElementById('mode-toggle');
   const modeIcon = document.getElementById('mode-icon');
 
-  // Default: dark 18:00–05:59 if not set
+  // apply saved only (no time-based default)
   const saved = localStorage.getItem('theme');
-  if(!saved){
-    const h = new Date().getHours();
-    const darkNow = (h >= 18 || h < 6);
-    if(darkNow) document.body.classList.add('dark-mode');
-  } else if(saved === 'dark'){
-    document.body.classList.add('dark-mode');
-  }
+  if(saved === 'dark'){ document.body.classList.add('dark-mode'); }
 
   const refreshIcon = ()=>{
     const isDark = document.body.classList.contains('dark-mode');
@@ -64,7 +58,7 @@ document.addEventListener('DOMContentLoaded', async ()=>{
   await includeFragments();
   wireCommonUI();
 
-  // Root page: simple dropdown cards
+  // Root page: toggle cards on dropdown click (link box appears only after click)
   const rootToggles = document.querySelectorAll('.root-section-toggle');
   rootToggles.forEach(btn=>{
     const sel = btn.getAttribute('data-target');
