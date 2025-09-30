@@ -1,6 +1,6 @@
-// js-WordleAndContexto-30092025-01 — Wordle & Contexto (Thai) page logic
+// js-WordleAndContexto-30092025-02 — Fix init timing + robust Contexto matching + wide browser support
 
-(function(){
+window.addEventListener('DOMContentLoaded', () => {
   // =========================
   // DATA & STATE
   // =========================
@@ -39,7 +39,7 @@
   let ctxOver = false;
 
   // =========================
-  // DOM refs
+  // DOM refs (ปลอดภัยแล้ว: DOM พร้อมแน่นอน)
   // =========================
   const wordleTab = document.getElementById('wordle-tab');
   const contextoTab = document.getElementById('contexto-tab');
@@ -135,7 +135,10 @@
     }
   }
   function keyEl(label){
-    return kbd.querySelector(`.key[data-key="${CSS.escape(label)}"]`);
+    // หลีกเลี่ยง CSS.escape เพื่อความเข้ากันได้: หาแบบวนลูปแทน
+    const keys = kbd.querySelectorAll('.key');
+    for(const k of keys){ if(k.dataset.key===label) return k; }
+    return null;
   }
   function submitGuess(){
     if(col<5) return; // not full
@@ -199,8 +202,14 @@
   });
 
   // =========================
-  // CONTEXTO
+  // CONTEXTO (robust match)
   // =========================
+  const ZW_RE = /[\u200B\u200C\u200D\uFEFF]/g; // zero-width characters
+  const WS_RE = /\s+/g;
+  const norm = s => s.normalize('NFC').replace(ZW_RE,'').replace(WS_RE,'').trim();
+
+  let ctxIndexMap = new Map(); // normalized word -> rank(1-based)
+
   function startContexto(){
     const keys = Object.keys(CONTEXTO_PUZZLES);
     const pick = keys[Math.floor(Math.random()*keys.length)];
@@ -210,8 +219,13 @@
     ctxListEl.innerHTML = '';
     ctxInput.value = '';
     hideModal();
+
+    // Build normalized index
+    ctxIndexMap = new Map();
+    ctxList.forEach((w, i) => ctxIndexMap.set(norm(w), i+1));
     // console.log('Contexto Ans:', ctxList[0]);
   }
+
   function renderCtx(){
     ctxListEl.innerHTML = '';
     ctxGuesses.forEach(({word,rank})=>{
@@ -225,17 +239,24 @@
       ctxListEl.appendChild(div);
     });
   }
+
   function guessCtx(){
     if(ctxOver) return;
-    const g = ctxInput.value.trim();
+    const raw = ctxInput.value;
+    const g = norm(raw);
     if(!g) return;
-    const rank = ctxList.indexOf(g);
+
+    const rank = ctxIndexMap.get(g) || -1;
+
     if(rank!==-1){
-      if(!ctxGuesses.some(x=>x.word===g)){
-        ctxGuesses.push({word:g, rank:rank+1});
+      // หลีกเลี่ยงซ้ำ: เช็คทั้ง normalized
+      if(!ctxGuesses.some(x=>norm(x.word)===g)){
+        // เก็บเวอร์ชันที่ผู้ใช้พิมพ์ไว้แสดงผลสวย ๆ
+        const displayWord = raw.trim();
+        ctxGuesses.push({word: displayWord, rank});
         ctxGuesses.sort((a,b)=>a.rank-b.rank);
         renderCtx();
-        if(rank===0){ ctxOver=true; setTimeout(()=>showModal('ถูกต้อง!', ctxList[0]), 400); }
+        if(rank===1){ ctxOver=true; setTimeout(()=>showModal('ถูกต้อง!', ctxList[0]), 400); }
       }
     }else{
       alert('ไม่รู้จักคำนี้ ลองคำอื่นนะ');
@@ -246,22 +267,29 @@
   // =========================
   // Events wiring
   // =========================
-  wordleTab.addEventListener('click', ()=> setActiveTab('wordle'));
-  contextoTab.addEventListener('click', ()=> setActiveTab('contexto'));
-  document.getElementById('contexto-guess-btn').addEventListener('click', guessCtx);
-  document.getElementById('contexto-input').addEventListener('keyup', e=>{ if(e.key==='Enter') guessCtx(); });
+  function bindEvents(){
+    wordleTab.addEventListener('click', ()=> setActiveTab('wordle'));
+    contextoTab.addEventListener('click', ()=> setActiveTab('contexto'));
+    ctxBtn.addEventListener('click', guessCtx);
+    ctxInput.addEventListener('keyup', e=>{ if(e.key==='Enter') guessCtx(); });
 
-  document.getElementById('play-again-btn').addEventListener('click', ()=>{
-    if(currentGame==='wordle') startWordle(); else startContexto();
-    hideModal();
-  });
-  modal.addEventListener('click', (e)=>{ if(e.target===modal) hideModal(); });
-  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') hideModal(); });
+    playAgain.addEventListener('click', ()=>{
+      if(currentGame==='wordle') startWordle(); else startContexto();
+      hideModal();
+    });
+    modal.addEventListener('click', (e)=>{ if(e.target===modal) hideModal(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') hideModal(); });
+  }
 
   // =========================
-  // Init
+  // Init (หลัง DOM พร้อม)
   // =========================
-  startWordle();
-  startContexto();   // prepare the other game
-  setActiveTab('wordle');
-})();
+  function init(){
+    bindEvents();
+    startWordle();
+    startContexto();   // เตรียมอีกเกมไว้พร้อม
+    setActiveTab('wordle');
+  }
+
+  init();
+});
