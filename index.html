@@ -1,4 +1,4 @@
-<!-- html-Root-30092025-05 -->
+<!-- html-Root-30092025-06 -->
 <!DOCTYPE html>
 <html lang="en" class="root-page">
 <head>
@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>20nxskypqz</title>
 
-  <!-- Fonts & Icons: preconnect + โหลดชุดรวมเดียว -->
+  <!-- Fonts & Icons (โหลดใน HEAD เพื่อให้สัญลักษณ์ขึ้นครบ) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;700&display=swap" rel="stylesheet" />
@@ -24,18 +24,82 @@
       <h1 class="hero-title">Welcome to 20nxskypqz!</h1>
     </section>
 
-    <section class="drop-wrap">
-      <h2 class="align-left">Sections</h2>
-      <button id="root-drop-btn" class="drop-btn" type="button">
-        <span class="material-symbols-outlined">arrow_drop_down</span> Open
-      </button>
-
-      <div id="root-drop-card" class="card drop-list" hidden>
+    <!-- About -->
+    <section class="root-section">
+      <div class="section-header-row" style="display:flex; align-items:center; gap:8px;">
+        <h2 class="align-left" style="margin:0;">About</h2>
+        <button class="drop-btn root-section-toggle" type="button" data-target="#root-card-about">
+          <span class="material-symbols-outlined">arrow_drop_down</span> Open
+        </button>
+      </div>
+      <div id="root-card-about" class="card" hidden>
         <h3>Quick Links</h3>
         <ul style="list-style:none; padding:0; margin:0;">
           <li style="margin:.3em 0;"><a href="/20nxskypqz/Home/">Home</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Entertainment -->
+    <section class="root-section">
+      <div class="section-header-row" style="display:flex; align-items:center; gap:8px;">
+        <h2 class="align-left" style="margin:0;">Entertainment</h2>
+        <button class="drop-btn root-section-toggle" type="button" data-target="#root-card-entertainment">
+          <span class="material-symbols-outlined">arrow_drop_down</span> Open
+        </button>
+      </div>
+      <div id="root-card-entertainment" class="card" hidden>
+        <h3>Quick Links</h3>
+        <ul style="list-style:none; padding:0; margin:0;">
           <li style="margin:.3em 0;"><a href="/20nxskypqz/DetectiveConan/">Conan</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Work -->
+    <section class="root-section">
+      <div class="section-header-row" style="display:flex; align-items:center; gap:8px;">
+        <h2 class="align-left" style="margin:0;">Work</h2>
+        <button class="drop-btn root-section-toggle" type="button" data-target="#root-card-work">
+          <span class="material-symbols-outlined">arrow_drop_down</span> Open
+        </button>
+      </div>
+      <div id="root-card-work" class="card" hidden>
+        <h3>Quick Links</h3>
+        <ul style="list-style:none; padding:0; margin:0;">
           <li style="margin:.3em 0;"><a href="/20nxskypqz/OrganizeDocumentsAutomatically/">Organize documents automatically</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Study -->
+    <section class="root-section">
+      <div class="section-header-row" style="display:flex; align-items:center; gap:8px;">
+        <h2 class="align-left" style="margin:0;">Study</h2>
+        <button class="drop-btn root-section-toggle" type="button" data-target="#root-card-study">
+          <span class="material-symbols-outlined">arrow_drop_down</span> Open
+        </button>
+      </div>
+      <div id="root-card-study" class="card" hidden>
+        <h3>Quick Links</h3>
+        <ul style="list-style:none; padding:0; margin:0;">
+          <!-- เติมลิงก์ภายหลัง -->
+        </ul>
+      </div>
+    </section>
+
+    <!-- Games -->
+    <section class="root-section">
+      <div class="section-header-row" style="display:flex; align-items:center; gap:8px;">
+        <h2 class="align-left" style="margin:0;">Games</h2>
+        <button class="drop-btn root-section-toggle" type="button" data-target="#root-card-games">
+          <span class="material-symbols-outlined">arrow_drop_down</span> Open
+        </button>
+      </div>
+      <div id="root-card-games" class="card" hidden>
+        <h3>Quick Links</h3>
+        <ul style="list-style:none; padding:0; margin:0;">
+          <!-- เติมลิงก์ภายหลัง -->
         </ul>
       </div>
     </section>
