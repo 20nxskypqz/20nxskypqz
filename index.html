@@ -1,4 +1,4 @@
-<!-- html-Root-30092025-18 — root dropdowns without box; links 24px black -->
+<!-- html-Root-30092025-19 — dropdown icon-only; keep boxed link cards -->
 <!DOCTYPE html>
 <html lang="en" class="root-page">
 <head>
@@ -30,81 +30,92 @@
     <section class="root-section drop-wrap">
       <div class="section-header-row" style="display:flex; align-items:center; gap:8px;">
         <h2 class="align-left" style="margin:0;">About</h2>
-        <button class="drop-btn root-section-toggle" type="button" data-target="#root-links-about">
+        <!-- icon-only dropdown -->
+        <button class="icon-btn root-section-toggle" type="button" data-target="#root-card-about" aria-label="Toggle About">
           <span class="material-symbols-outlined">arrow_drop_down</span>
         </button>
       </div>
-      <!-- plain dropdown (no box) -->
-      <ul id="root-links-about" class="root-links" hidden>
-        <li>
-          <a href="/20nxskypqz/Home/">
-            <span class="material-symbols-outlined">home</span> Home
-          </a>
-        </li>
-      </ul>
+      <!-- boxed link card appears only after click -->
+      <div id="root-card-about" class="card root-link-card" hidden>
+        <ul style="list-style:none; padding:0; margin:0;">
+          <li>
+            <a href="/20nxskypqz/Home/">
+              <span class="material-symbols-outlined">home</span> Home
+            </a>
+          </li>
+        </ul>
+      </div>
     </section>
 
     <!-- Entertainment -->
     <section class="root-section drop-wrap">
       <div class="section-header-row" style="display:flex; align-items:center; gap:8px;">
         <h2 class="align-left" style="margin:0;">Entertainment</h2>
-        <button class="drop-btn root-section-toggle" type="button" data-target="#root-links-entertainment">
+        <button class="icon-btn root-section-toggle" type="button" data-target="#root-card-entertainment" aria-label="Toggle Entertainment">
           <span class="material-symbols-outlined">arrow_drop_down</span>
         </button>
       </div>
-      <ul id="root-links-entertainment" class="root-links" hidden>
-        <li>
-          <a href="/20nxskypqz/DetectiveConan/">
-            <span class="material-symbols-outlined">mystery</span> Detective Conan
-          </a>
-        </li>
-      </ul>
+      <div id="root-card-entertainment" class="card root-link-card" hidden>
+        <ul style="list-style:none; padding:0; margin:0;">
+          <li>
+            <a href="/20nxskypqz/DetectiveConan/">
+              <span class="material-symbols-outlined">mystery</span> Detective Conan
+            </a>
+          </li>
+        </ul>
+      </div>
     </section>
 
     <!-- Work -->
     <section class="root-section drop-wrap">
       <div class="section-header-row" style="display:flex; align-items:center; gap:8px;">
         <h2 class="align-left" style="margin:0;">Work</h2>
-        <button class="drop-btn root-section-toggle" type="button" data-target="#root-links-work">
+        <button class="icon-btn root-section-toggle" type="button" data-target="#root-card-work" aria-label="Toggle Work">
           <span class="material-symbols-outlined">arrow_drop_down</span>
         </button>
       </div>
-      <ul id="root-links-work" class="root-links" hidden>
-        <li>
-          <a href="/20nxskypqz/OrganizeDocumentsAutomatically/">
-            <span class="material-symbols-outlined">edit_document</span>
-            Organize documents automatically
-          </a>
-        </li>
-      </ul>
+      <div id="root-card-work" class="card root-link-card" hidden>
+        <ul style="list-style:none; padding:0; margin:0;">
+          <li>
+            <a href="/20nxskypqz/OrganizeDocumentsAutomatically/">
+              <span class="material-symbols-outlined">edit_document</span>
+              Organize documents automatically
+            </a>
+          </li>
+        </ul>
+      </div>
     </section>
 
     <!-- Study -->
     <section class="root-section drop-wrap">
       <div class="section-header-row" style="display:flex; align-items:center; gap:8px;">
         <h2 class="align-left" style="margin:0;">Study</h2>
-        <button class="drop-btn root-section-toggle" type="button" data-target="#root-links-study">
+        <button class="icon-btn root-section-toggle" type="button" data-target="#root-card-study" aria-label="Toggle Study">
           <span class="material-symbols-outlined">arrow_drop_down</span>
         </button>
       </div>
-      <ul id="root-links-study" class="root-links" hidden>
-        <li>
-          <a href="https://20nxskypqz.github.io/20nxskypqz-Exam-Review/" target="_blank" rel="noopener">
-            Exam-Review
-          </a>
-        </li>
-      </ul>
+      <div id="root-card-study" class="card root-link-card" hidden>
+        <ul style="list-style:none; padding:0; margin:0;">
+          <li>
+            <a href="https://20nxskypqz.github.io/20nxskypqz-Exam-Review/" target="_blank" rel="noopener">
+              Exam-Review
+            </a>
+          </li>
+        </ul>
+      </div>
     </section>
 
     <!-- Games -->
     <section class="root-section drop-wrap">
       <div class="section-header-row" style="display:flex; align-items:center; gap:8px;">
         <h2 class="align-left" style="margin:0;">Games</h2>
-        <button class="drop-btn root-section-toggle" type="button" data-target="#root-links-games">
+        <button class="icon-btn root-section-toggle" type="button" data-target="#root-card-games" aria-label="Toggle Games">
           <span class="material-symbols-outlined">arrow_drop_down</span>
         </button>
       </div>
-      <ul id="root-links-games" class="root-links" hidden></ul>
+      <div id="root-card-games" class="card root-link-card" hidden>
+        <ul style="list-style:none; padding:0; margin:0;"></ul>
+      </div>
     </section>
   </main>
 
