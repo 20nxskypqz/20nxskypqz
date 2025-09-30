@@ -1,4 +1,4 @@
-// js-Root-30092025-04 — Global shared logic
+// js-Root-30092025-05 — Global shared logic
 
 // 1) โหลดไฟล์ shared (*.html) เข้ามาแทนที่ data-include
 async function includeFragments(){
@@ -34,18 +34,32 @@ function wireCommonUI(){
     });
   });
 
-  // Toggle Day/Night capsule (จำสถานะด้วย localStorage)
+  // Toggle Day/Night capsule (จำสถานะด้วย localStorage) + ไอคอนดวงอาทิตย์/ดวงจันทร์
   const modeToggle = document.getElementById('mode-toggle');
   const toggleCircle = document.querySelector('.toggle-circle');
+  const modeIcon = document.getElementById('mode-icon');
+
+  // ถ้าไม่เคยตั้งค่าไว้ ให้ auto ตามเวลา: มืด 18:00–05:59
   const saved = localStorage.getItem('theme');
-  if(saved==='dark'){ document.body.classList.add('dark-mode'); if(toggleCircle) toggleCircle.textContent='Night'; }
-  else { if(toggleCircle) toggleCircle.textContent='Day'; }
+  if(!saved){
+    const h = new Date().getHours();
+    const darkNow = (h >= 18 || h < 6);
+    if(darkNow) document.body.classList.add('dark-mode');
+  } else if(saved === 'dark'){
+    document.body.classList.add('dark-mode');
+  }
+
+  const refreshIcon = ()=>{
+    const isDark = document.body.classList.contains('dark-mode');
+    if(modeIcon){ modeIcon.textContent = isDark ? 'dark_mode' : 'light_mode'; }
+  };
+  refreshIcon();
 
   modeToggle?.addEventListener('click', ()=>{
     document.body.classList.toggle('dark-mode');
     const dark = document.body.classList.contains('dark-mode');
-    if(toggleCircle) toggleCircle.textContent = dark ? 'Night' : 'Day';
     localStorage.setItem('theme', dark ? 'dark' : 'light');
+    refreshIcon();
   });
 }
 
