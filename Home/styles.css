@@ -1,1 +1,4 @@
-/* css-Home-30092025-04 — (optional overrides for Home) */
+/* css-Home-30092025-06 — overrides สำหรับหน้า Home */
+#countdown-display{
+  font-size:20px;
+}
