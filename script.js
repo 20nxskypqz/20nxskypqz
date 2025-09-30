@@ -1,4 +1,4 @@
-// js-Root-30092025-03 — Global shared logic
+// js-Root-30092025-04 — Global shared logic
 
 // 1) โหลดไฟล์ shared (*.html) เข้ามาแทนที่ data-include
 async function includeFragments(){
