@@ -1,4 +1,4 @@
-/* css-Root-30092025-17 — Global styles + self-host Material Symbols Outlined */
+/* css-Root-30092025-18 — Global styles + self-host Material Symbols Outlined */
 :root{
   --bg:#f9f9f9; --card:#fff; --ink:#111; --muted:#666;
   --shadow:0 6px 24px rgba(0,0,0,.08);
@@ -108,7 +108,7 @@ body.dark-mode .toggle-circle{ transform:translateX(calc(var(--w) - var(--h))); 
 .menu-sublist li a{
   display:flex; gap:8px; align-items:center; padding:8px 18px;
   color:#fff; text-decoration:none; border-radius:8px;
-  white-space:normal; word-break:break-word; /* ช่วยตัดบรรทัดชื่อยาว */
+  white-space:normal; word-break:break-word;
 }
 .menu-sublist li a:hover{ background:rgba(255,255,255,.08); }
 
@@ -123,15 +123,15 @@ body.dark-mode .toggle-circle{ transform:translateX(calc(var(--w) - var(--h))); 
   padding:8px 12px; border-radius:10px; border:1px solid #d0d7de;
   background:#fff; cursor:pointer; box-shadow:var(--shadow);
 }
-.drop-list{ margin-top:10px; }
 
-/* Root page: dropdown link cards */
-.root-link-card{ display:inline-block; width:max-content; padding:8px 12px; }
-.root-link-card a{
-  font-size:24px;
-  white-space:normal; word-break:break-word; /* ให้ชื่อยาวตัดบรรทัด */
-  display:inline-block; max-width:90vw;      /* กันล้นจอ */
+/* Root page: dropdown links (NO box) */
+.root-links{ list-style:none; padding:0; margin:6px 0 0; }
+.root-links li{ margin:2px 0; }
+.root-links a{
+  font-size:24px; color:#000; text-decoration:none;
+  white-space:normal; word-break:break-word; display:inline-block; max-width:90vw;
 }
+body.dark-mode .root-links a{ color:#e5e7eb; }
 
 /* Home */
 .time-and-countdown h2{ text-align:center; }
