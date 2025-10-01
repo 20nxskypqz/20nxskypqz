@@ -1,13 +1,9 @@
-<!-- shared-header-30092025-16 — uses Material Symbols OUTLINED (self-hosted) -->
-<header class="header full-bleed">
-  <button class="menu-toggle" aria-label="Toggle navigation" type="button">
-    <span class="material-symbols-outlined">menu</span>
-  </button>
-
-  <!-- Capsule toggle uses OUTLINED icons -->
-  <div class="toggle-container" id="mode-toggle" aria-label="Toggle light/dark mode" role="button" tabindex="0">
-    <div class="toggle-circle">
-      <span class="material-symbols-outlined" id="mode-icon" aria-hidden="true">light_mode</span>
-    </div>
-  </div>
-</header>
+<!-- html-SharedHeader-01102025-01
+     REPLACE your theme-toggle button in the shared header with this block.
+     Note: keep your other header items (menu, brand, etc.) the same.
+-->
+<button class="theme-toggle" aria-label="Toggle theme">
+  <!-- Flaticon icons only (no Google sun/moon) -->
+  <i class="fi fi-sr-brightness"  data-role="sun"  aria-hidden="true"></i>
+  <i class="fi fi-sr-moon-stars" data-role="moon" aria-hidden="true" style="display:none"></i>
+</button>
