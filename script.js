@@ -1,10 +1,9 @@
-/* js-RootShared-01102025-23
-   - HOTFIX: Theme toggle still not clickable → make it bulletproof
-     • Global event delegation (click + touchend + keydown[Enter/Space])
-     • Match multiple selectors & fallback to icon text ('light_mode'/'dark_mode')
-     • Ensure pointer + z-index so it’s tappable even near overlays
-   - Keep: ver.20 time (no flicker, centered via Shadow DOM), dropdown icon dark-mode color fix,
-           always-black outline icon for theme toggle
+/* js-RootShared-01102025-24
+   - FIX: Theme icon stuck on Sun → now shows Sun in light, Moon in dark
+     • Works even if your toggle uses OUTLINED or ROUNDED class
+     • If no icon element exists, we auto-create one
+     • Robust event delegation (click/touch/keyboard) after includes
+   - Keeps: ver.20 time (no flicker, centered via Shadow DOM), dropdown dark-mode color fix
 */
 
 (function () {
@@ -16,56 +15,31 @@
   const qs  = (sel, root=document) => root.querySelector(sel);
   const qsa = (sel, root=document) => Array.from(root.querySelectorAll(sel));
   const THEME_KEY = 'theme@20nxskypqz';
-  const TOGGLE_SELECTORS = [
-    '.theme-toggle',
-    '[data-theme-toggle]',
-    '#theme-toggle',
-    '.toggle-theme',
-    '[aria-label="Toggle theme"]'
-  ];
 
   function applyTheme(mode) {
     const b = document.body;
     if (mode === 'dark') { b.classList.add('dark-mode'); b.classList.remove('light-mode'); }
     else { b.classList.add('light-mode'); b.classList.remove('dark-mode'); }
   }
-
-  function currentTheme() {
-    return document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-  }
-
-  function setThemeIconAll(mode) {
-    const name = (mode === 'dark') ? 'dark_mode' : 'light_mode'; // moon in dark, sun in light
-    qsa('.theme-toggle .material-symbols-outlined, [data-theme-toggle] .material-symbols-outlined, #theme-toggle .material-symbols-outlined, .toggle-theme .material-symbols-outlined').forEach(ic => {
-      ic.textContent = name;
-    });
-  }
-
-  function toggleTheme() {
-    const next = currentTheme() === 'dark' ? 'light' : 'dark';
-    applyTheme(next);
-    localStorage.setItem(THEME_KEY, next);
-    setThemeIconAll(next);
-  }
-
-  // Expose for quick debug (optional)
-  window.__toggleTheme = toggleTheme;
+  const currentTheme = () => document.body.classList.contains('dark-mode') ? 'dark' : 'light';
 
   // -------------------------
-  // Inject CSS helpers
+  // CSS helpers
   // -------------------------
   function injectDropdownIconDarkFix() {
     if (document.getElementById('dropdown-dark-fix')) return;
     const style = document.createElement('style');
     style.id = 'dropdown-dark-fix';
     style.textContent = `
-      .root-section-toggle .material-symbols-outlined { color: currentColor !important; }
+      .root-section-toggle .material-symbols-outlined,
+      .root-section-toggle .material-symbols-rounded { color: currentColor !important; }
       .dark-mode .root-section-toggle { color: #fff !important; }
       .light-mode .root-section-toggle { color: inherit; }
     `;
     document.head.appendChild(style);
   }
 
+  // Force black-outline for the theme icon (your request)
   function injectThemeToggleIconFix() {
     if (document.getElementById('theme-toggle-icon-fix')) return;
     const style = document.createElement('style');
@@ -80,7 +54,11 @@
       .header .theme-toggle .material-symbols-outlined,
       .header [data-theme-toggle] .material-symbols-outlined,
       .header #theme-toggle .material-symbols-outlined,
-      .header .toggle-theme .material-symbols-outlined {
+      .header .toggle-theme .material-symbols-outlined,
+      .header .theme-toggle .material-symbols-rounded,
+      .header [data-theme-toggle] .material-symbols-rounded,
+      .header #theme-toggle .material-symbols-rounded,
+      .header .toggle-theme .material-symbols-rounded {
         color: #000 !important;
         font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 40;
         user-select: none;
@@ -90,7 +68,7 @@
   }
 
   // -------------------------
-  // HTML includes (header/footer/side-menu)
+  // Includes
   // -------------------------
   async function loadIncludes() {
     const includeEls = qsa('[data-include]');
@@ -107,7 +85,7 @@
   }
 
   // -------------------------
-  // Side menu (hamburger)
+  // Side menu
   // -------------------------
   function bindSideMenu() {
     const header  = qs('.header');
@@ -120,7 +98,7 @@
       ...qsa('.header [data-open-menu]', header),
       ...qsa('.header .hamburger', header)
     ];
-    const iconMenu = qsa('.header .material-symbols-outlined', header)
+    const iconMenu = qsa('.header .material-symbols-outlined, .header .material-symbols-rounded', header)
       .filter(el => (el.textContent || '').trim().toLowerCase() === 'menu');
     openBtns.push(...iconMenu);
 
@@ -143,66 +121,79 @@
   }
 
   // -------------------------
-  // Robust Theme Toggle Delegation
+  // THEME TOGGLE (bulletproof)
   // -------------------------
+  const TOGGLE_SELECTORS = [
+    '.theme-toggle',
+    '[data-theme-toggle]',
+    '#theme-toggle',
+    '.toggle-theme',
+    '[aria-label="Toggle theme"]'
+  ];
+
+  function ensureToggleIconEl(toggleEl) {
+    if (!toggleEl) return null;
+    // Look for either OUTLINED or ROUNDED
+    let icon = toggleEl.querySelector('.material-symbols-outlined, .material-symbols-rounded');
+    if (icon) return icon;
+    // If missing, create an OUTLINED one
+    icon = document.createElement('span');
+    icon.className = 'material-symbols-outlined';
+    icon.textContent = 'light_mode'; // default sun (will be updated below)
+    icon.setAttribute('aria-hidden', 'true');
+    toggleEl.appendChild(icon);
+    return icon;
+  }
+
+  function setThemeIconAll(mode) {
+    const name = (mode === 'dark') ? 'dark_mode' : 'light_mode'; // Moon in dark, Sun in light
+    // Update all known toggles
+    const toggles = qsa(TOGGLE_SELECTORS.join(','));
+    toggles.forEach(tg => {
+      const ic = ensureToggleIconEl(tg);
+      if (ic) ic.textContent = name;
+    });
+    // Also update stray icons just in case
+    qsa('.theme-toggle .material-symbols-outlined, .theme-toggle .material-symbols-rounded,' +
+        '[data-theme-toggle] .material-symbols-outlined, [data-theme-toggle] .material-symbols-rounded,' +
+        '#theme-toggle .material-symbols-outlined, #theme-toggle .material-symbols-rounded,' +
+        '.toggle-theme .material-symbols-outlined, .toggle-theme .material-symbols-rounded')
+      .forEach(ic => { ic.textContent = name; });
+  }
+
   function bindThemeToggleDelegation() {
-    // Initial apply & icon sync
+    // Initialize theme + icon
     const initial = (localStorage.getItem(THEME_KEY) === 'dark') ? 'dark' : 'light';
     applyTheme(initial);
     setThemeIconAll(initial);
 
-    // Helper: find toggle element from any clicked node
-    function findToggleEl(start) {
+    function findToggle(start) {
       for (const sel of TOGGLE_SELECTORS) {
-        const found = start.closest(sel);
-        if (found) return found;
+        const hit = start.closest(sel);
+        if (hit) return hit;
       }
-      // fallback: clicking directly on the icon with text light_mode/dark_mode
-      const icon = start.closest('.material-symbols-outlined');
-      if (icon) {
-        const name = (icon.textContent || '').trim().toLowerCase();
-        if (name === 'light_mode' || name === 'dark_mode') {
-          // if icon is inside header, allow it
-          const header = icon.closest('.header');
-          if (header) return icon;
-        }
-      }
+      // Fallback: click on the icon itself
+      const icon = start.closest('.material-symbols-outlined, .material-symbols-rounded');
+      if (icon && icon.closest('.header')) return icon;
       return null;
     }
 
-    // Click handler (capture) — beats other handlers/overlays
-    const onClick = (e) => {
-      const target = e.target;
-      const hit = findToggleEl(target);
+    const handler = (e) => {
+      const hit = findToggle(e.target);
       if (!hit) return;
       e.preventDefault();
-      // don’t stopPropagation fully; allow others if needed
-      toggleTheme();
+      const next = currentTheme() === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+      localStorage.setItem(THEME_KEY, next);
+      setThemeIconAll(next);
     };
 
-    // Touch support
-    const onTouchEnd = (e) => {
-      const target = e.target;
-      const hit = findToggleEl(target);
-      if (!hit) return;
-      e.preventDefault();
-      toggleTheme();
-    };
-
-    // Keyboard support
-    const onKeyDown = (e) => {
-      const target = e.target;
-      const hit = findToggleEl(target);
-      if (!hit) return;
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        toggleTheme();
-      }
-    };
-
-    document.addEventListener('click', onClick, true);
-    document.addEventListener('touchend', onTouchEnd, true);
-    document.addEventListener('keydown', onKeyDown, true);
+    document.addEventListener('click', handler, true);
+    document.addEventListener('touchend', handler, true);
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      handler(e);
+    }, true);
   }
 
   // -------------------------
@@ -251,7 +242,7 @@
   }
 
   // -------------------------
-  // Home: Date & Time (dd/MM/yyyy HH:mm:ss, 2-digit, centered, no flicker) + Countdown
+  // Home time (dd/MM/yyyy HH:mm:ss, centered, no flicker) + Countdown
   // -------------------------
   function initHomeTimeIfPresent() {
     const hostTime = qs('#current-time');
@@ -330,7 +321,7 @@
     injectDropdownIconDarkFix();
     injectThemeToggleIconFix();
     bindSideMenu();
-    bindThemeToggleDelegation(); // << super robust
+    bindThemeToggleDelegation();   // robust toggle + icon sync
     initRootDropdowns();
     initHomeTimeIfPresent();
   }
