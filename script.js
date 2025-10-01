@@ -1,9 +1,12 @@
-/* js-RootShared-01102025-24
-   - FIX: Theme icon stuck on Sun → now shows Sun in light, Moon in dark
-     • Works even if your toggle uses OUTLINED or ROUNDED class
-     • If no icon element exists, we auto-create one
-     • Robust event delegation (click/touch/keyboard) after includes
-   - Keeps: ver.20 time (no flicker, centered via Shadow DOM), dropdown dark-mode color fix
+/* js-RootShared-01102025-25
+   - Theme toggle uses your FLATICON sun/moon (like before), WITH color
+     • Works in 3 ways (auto-detect, no HTML changes needed):
+       (A) If the toggle contains <i data-role="sun"> and <i data-role="moon"> → we show/hide them.
+       (B) Else if an <i> has data-day-class / data-night-class → we swap its className.
+       (C) Else fallback to Material Symbols text 'light_mode' / 'dark_mode'.
+     • Colors: Sun = amber/gold, Moon = black (as you asked).
+   - Keeps: ver.20 time (no flicker, centered via Shadow DOM), dropdown icon dark-mode color fix,
+            robust event delegation for the toggle (click/touch/keyboard)
 */
 
 (function () {
@@ -39,26 +42,37 @@
     document.head.appendChild(style);
   }
 
-  // Force black-outline for the theme icon (your request)
-  function injectThemeToggleIconFix() {
-    if (document.getElementById('theme-toggle-icon-fix')) return;
+  // Colors for FLATICON icons (sun = amber, moon = black outline look)
+  function injectThemeIconColors() {
+    if (document.getElementById('theme-icon-color-fix')) return;
     const style = document.createElement('style');
-    style.id = 'theme-toggle-icon-fix';
+    style.id = 'theme-icon-color-fix';
     style.textContent = `
+      /* ensure the toggle is clickable */
       .header .theme-toggle,
       .header [data-theme-toggle],
       .header #theme-toggle,
-      .header .toggle-theme {
-        cursor: pointer; pointer-events: auto; position: relative; z-index: 5;
+      .header .toggle-theme { cursor: pointer; position: relative; z-index: 5; }
+
+      /* color the specific flaticon <i> if present */
+      .header .theme-toggle i.icon-sun,
+      [data-theme-toggle] i.icon-sun,
+      #theme-toggle i.icon-sun,
+      .toggle-theme i.icon-sun {
+        color: #f5b301 !important; /* amber/gold */
       }
+      .header .theme-toggle i.icon-moon,
+      [data-theme-toggle] i.icon-moon,
+      #theme-toggle i.icon-moon,
+      .toggle-theme i.icon-moon {
+        color: #000 !important;     /* black outline look */
+      }
+
+      /* If you still have Material Symbols as fallback, keep solid black */
       .header .theme-toggle .material-symbols-outlined,
-      .header [data-theme-toggle] .material-symbols-outlined,
-      .header #theme-toggle .material-symbols-outlined,
-      .header .toggle-theme .material-symbols-outlined,
       .header .theme-toggle .material-symbols-rounded,
-      .header [data-theme-toggle] .material-symbols-rounded,
-      .header #theme-toggle .material-symbols-rounded,
-      .header .toggle-theme .material-symbols-rounded {
+      [data-theme-toggle] .material-symbols-outlined,
+      [data-theme-toggle] .material-symbols-rounded {
         color: #000 !important;
         font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 40;
         user-select: none;
@@ -121,7 +135,7 @@
   }
 
   // -------------------------
-  // THEME TOGGLE (bulletproof)
+  // THEME TOGGLE (with FLATICON support)
   // -------------------------
   const TOGGLE_SELECTORS = [
     '.theme-toggle',
@@ -133,32 +147,67 @@
 
   function ensureToggleIconEl(toggleEl) {
     if (!toggleEl) return null;
-    // Look for either OUTLINED or ROUNDED
-    let icon = toggleEl.querySelector('.material-symbols-outlined, .material-symbols-rounded');
-    if (icon) return icon;
-    // If missing, create an OUTLINED one
-    icon = document.createElement('span');
-    icon.className = 'material-symbols-outlined';
-    icon.textContent = 'light_mode'; // default sun (will be updated below)
-    icon.setAttribute('aria-hidden', 'true');
-    toggleEl.appendChild(icon);
-    return icon;
+    // PRIORITY A: two separate <i> icons with data-role
+    const sun = toggleEl.querySelector('i[data-role="sun"]');
+    const moon = toggleEl.querySelector('i[data-role="moon"]');
+    if (sun || moon) return { mode: 'pair', sun, moon };
+
+    // PRIORITY B: one <i> with data-day-class / data-night-class
+    const iOne = toggleEl.querySelector('i[data-day-class][data-night-class]');
+    if (iOne) return { mode: 'swap', one: iOne };
+
+    // PRIORITY C: fallback to Material Symbols inside the toggle (or create one)
+    let ms = toggleEl.querySelector('.material-symbols-outlined, .material-symbols-rounded');
+    if (!ms) {
+      ms = document.createElement('span');
+      ms.className = 'material-symbols-outlined';
+      ms.textContent = 'light_mode';
+      toggleEl.appendChild(ms);
+    }
+    return { mode: 'material', ms };
+  }
+
+  function showFlaticonPair(pair, mode) {
+    if (!pair) return;
+    const { sun, moon } = pair;
+    if (sun) {
+      sun.classList.add('icon-sun');
+      sun.style.display = (mode === 'light') ? '' : 'none';
+    }
+    if (moon) {
+      moon.classList.add('icon-moon');
+      moon.style.display = (mode === 'dark') ? '' : 'none';
+    }
+  }
+
+  function swapFlaticonClass(one, mode) {
+    const dayClass   = one.getAttribute('data-day-class')   || '';
+    const nightClass = one.getAttribute('data-night-class') || '';
+    one.className = ''; // reset
+    one.classList.add('fi'); // base flaticon class
+    if (mode === 'dark') {
+      nightClass.split(/\s+/).filter(Boolean).forEach(c => one.classList.add(c));
+      one.classList.add('icon-moon');
+    } else {
+      dayClass.split(/\s+/).filter(Boolean).forEach(c => one.classList.add(c));
+      one.classList.add('icon-sun');
+    }
   }
 
   function setThemeIconAll(mode) {
-    const name = (mode === 'dark') ? 'dark_mode' : 'light_mode'; // Moon in dark, Sun in light
-    // Update all known toggles
+    // Update all toggles with whatever structure they use
     const toggles = qsa(TOGGLE_SELECTORS.join(','));
     toggles.forEach(tg => {
-      const ic = ensureToggleIconEl(tg);
-      if (ic) ic.textContent = name;
+      const ref = ensureToggleIconEl(tg);
+      if (!ref) return;
+      if (ref.mode === 'pair') {
+        showFlaticonPair(ref, mode);
+      } else if (ref.mode === 'swap') {
+        swapFlaticonClass(ref.one, mode);
+      } else if (ref.mode === 'material') {
+        ref.ms.textContent = (mode === 'dark') ? 'dark_mode' : 'light_mode';
+      }
     });
-    // Also update stray icons just in case
-    qsa('.theme-toggle .material-symbols-outlined, .theme-toggle .material-symbols-rounded,' +
-        '[data-theme-toggle] .material-symbols-outlined, [data-theme-toggle] .material-symbols-rounded,' +
-        '#theme-toggle .material-symbols-outlined, #theme-toggle .material-symbols-rounded,' +
-        '.toggle-theme .material-symbols-outlined, .toggle-theme .material-symbols-rounded')
-      .forEach(ic => { ic.textContent = name; });
   }
 
   function bindThemeToggleDelegation() {
@@ -172,8 +221,8 @@
         const hit = start.closest(sel);
         if (hit) return hit;
       }
-      // Fallback: click on the icon itself
-      const icon = start.closest('.material-symbols-outlined, .material-symbols-rounded');
+      // Fallback: click on a direct icon inside header
+      const icon = start.closest('i, .material-symbols-outlined, .material-symbols-rounded');
       if (icon && icon.closest('.header')) return icon;
       return null;
     }
@@ -319,9 +368,9 @@
   async function boot() {
     await loadIncludes();
     injectDropdownIconDarkFix();
-    injectThemeToggleIconFix();
+    injectThemeIconColors();      // << colors for flaticon sun/moon
     bindSideMenu();
-    bindThemeToggleDelegation();   // robust toggle + icon sync
+    bindThemeToggleDelegation();  // << robust toggle + icon sync (flaticon or fallback)
     initRootDropdowns();
     initHomeTimeIfPresent();
   }
