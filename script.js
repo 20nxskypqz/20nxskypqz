@@ -1,4 +1,4 @@
-// js-Root-30092025-18 — Manual dark mode only (no auto), root dropdowns w/o boxes
+// js-Root-01102025-01 — includes, side menu, dark-mode (manual), root dropdowns
 
 async function includeFragments(){
   const incs = document.querySelectorAll('[data-include]');
@@ -32,20 +32,16 @@ function wireCommonUI(){
     });
   });
 
-  // Day/Night toggle — MANUAL ONLY (no auto rules at all)
+  // Dark mode (manual only)
   const modeToggle = document.getElementById('mode-toggle');
   const modeIcon = document.getElementById('mode-icon');
-
-  // apply saved (if any) — no automatic decision
   const saved = localStorage.getItem('theme');
   if(saved === 'dark'){ document.body.classList.add('dark-mode'); }
-
   const refreshIcon = ()=>{
     const isDark = document.body.classList.contains('dark-mode');
     if(modeIcon){ modeIcon.textContent = isDark ? 'dark_mode' : 'light_mode'; }
   };
   refreshIcon();
-
   modeToggle?.addEventListener('click', ()=>{
     document.body.classList.toggle('dark-mode');
     const dark = document.body.classList.contains('dark-mode');
@@ -54,12 +50,8 @@ function wireCommonUI(){
   });
 }
 
-document.addEventListener('DOMContentLoaded', async ()=>{
-  await includeFragments();
-  wireCommonUI();
-
-  // Root page: show plain dropdown links (no box)
-  const rootToggles = document.querySelectorAll('.root-section-toggle');
+function wireRootDropdowns(){
+  const rootToggles = document.querySelectorAll('.root-section-toggle, .icon-btn.root-section-toggle');
   rootToggles.forEach(btn=>{
     const sel = btn.getAttribute('data-target');
     const list = document.querySelector(sel);
@@ -69,4 +61,10 @@ document.addEventListener('DOMContentLoaded', async ()=>{
       if(hidden) list.removeAttribute('hidden'); else list.setAttribute('hidden','');
     });
   });
+}
+
+document.addEventListener('DOMContentLoaded', async ()=>{
+  await includeFragments();
+  wireCommonUI();
+  wireRootDropdowns();
 });
