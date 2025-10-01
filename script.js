@@ -1,40 +1,23 @@
-/* js-RootShared-01102025-09
-   ✅ แก้ปุ่มกดไม่ได้ (3 ขีด, ปิดเมนู, สลับโหมด)
-   ✅ Event Delegation รองรับทั้งปุ่ม/ไอคอน Material Symbols (menu/close/dark_mode/light_mode)
-   ✅ dropdown หน้ารูท: ซ่อนก่อนเสมอ, กดไอคอนแล้วค่อยแสดง, กดที่อื่นปิด
+/* js-RootShared-01102025-07
+   - รวมสคริปต์ส่วนกลางทุกหน้า (โหลด include, เมนู 3 ขีด, โหมดมืด)
+   - เพิ่ม logic สำหรับปุ่ม dropdown ของหน้ารูท:
+       * ทำให้กดได้จริง
+       * ซ่อนกล่องลิงก์ไว้ก่อนเสมอ (แสดงต่อเมื่อกด dropdown)
+       * สีไอคอนเปลี่ยนอัตโนมัติเมื่อสลับโหมด (อาศัย color: inherit)
 */
 
 (function () {
   "use strict";
 
-  // ---------- Utils ----------
+  // -------------------------
+  // Utilities
+  // -------------------------
   const qs  = (sel, root=document) => root.querySelector(sel);
   const qsa = (sel, root=document) => Array.from(root.querySelectorAll(sel));
 
-  // อ่านชื่อไอคอน Material Symbols จาก element ที่คลิก
-  function iconName(el) {
-    if (!el) return null;
-    const isIcon = (node) =>
-      node.classList && [...node.classList].some(cls => cls.startsWith('material-symbols'));
-    // ไล่ขึ้นไปหา parent ที่เป็น icon ด้วย
-    const iconEl = el.closest ? el.closest('.material-symbols-outlined, .material-symbols-rounded, .material-symbols-sharp') : null;
-    const node = isIcon(el) ? el : iconEl;
-    if (!node) return null;
-    return (node.textContent || '').trim().toLowerCase();
-  }
-
-  // ---------- Theme ----------
-  const THEME_KEY = 'theme@20nxskypqz';
-  const applyTheme = (mode) => {
-    const b = document.body;
-    if (mode === 'dark') {
-      b.classList.add('dark-mode'); b.classList.remove('light-mode');
-    } else {
-      b.classList.add('light-mode'); b.classList.remove('dark-mode');
-    }
-  };
-
-  // ---------- HTML includes ----------
+  // -------------------------
+  // HTML includes (header/footer/side-menu)
+  // -------------------------
   async function loadIncludes() {
     const includeEls = qsa('[data-include]');
     await Promise.all(includeEls.map(async (el) => {
@@ -49,54 +32,153 @@
     }));
   }
 
-  // ---------- Side menu ----------
-  function getMenuElems() {
-    const menu    = qs('.side-menu');
-    const overlay = qs('.menu-overlay');
-    return { menu, overlay };
-  }
-  function openMenu() {
-    const { menu, overlay } = getMenuElems();
+  // -------------------------
+  // Side menu (hamburger)
+  // -------------------------
+  function bindSideMenu() {
+    const openBtn  = qs('.header .menu-button, .header [data-open-menu]');
+    const closeBtn = qs('.side-menu .close-menu');
+    const menu     = qs('.side-menu');
+    const overlay  = qs('.menu-overlay');
+
     if (!menu || !overlay) return;
-    menu.classList.add('open');
-    overlay.classList.add('show');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeMenu() {
-    const { menu, overlay } = getMenuElems();
-    if (!menu || !overlay) return;
-    menu.classList.remove('open');
-    overlay.classList.remove('show');
-    document.body.style.overflow = '';
+
+    const open = () => {
+      menu.classList.add('open');
+      overlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    };
+    const close = () => {
+      menu.classList.remove('open');
+      overlay.classList.remove('show');
+      document.body.style.overflow = '';
+    };
+
+    // เปิด/ปิดด้วยปุ่ม
+    if (openBtn)  openBtn.addEventListener('click', open);
+    if (closeBtn) closeBtn.addEventListener('click', close);
+
+    // ปิดเมื่อคลิกฉากหลัง
+    overlay.addEventListener('click', close);
+
+    // ปิดด้วย ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') close();
+    });
+
+    // Sub-sections ในเมนู 3 ขีด
+    qsa('.menu-section-toggle', menu).forEach(btn => {
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        const sub = btn.parentElement.querySelector('.menu-sublist');
+        if (sub) sub.hidden = expanded ? true : false;
+      });
+    });
   }
 
-  // ---------- Root dropdown panels ----------
-  function hideAllRootPanels() {
+  // -------------------------
+  // Theme (Light/Dark)
+  // -------------------------
+  function bindThemeToggle() {
+    const toggle = qs('.header .theme-toggle');
+    const root = document.body;
+    const KEY = 'theme@20nxskypqz';
+
+    const apply = (mode) => {
+      if (mode === 'dark') {
+        root.classList.add('dark-mode');
+        root.classList.remove('light-mode');
+      } else {
+        root.classList.add('light-mode');
+        root.classList.remove('dark-mode');
+      }
+    };
+
+    // โหลดจาก localStorage
+    const saved = localStorage.getItem(KEY);
+    if (saved === 'dark' || saved === 'light') {
+      apply(saved);
+    } else {
+      // ค่าเริ่มต้น: light
+      apply('light');
+    }
+
+    if (toggle) {
+      toggle.addEventListener('click', () => {
+        const isDark = root.classList.contains('dark-mode');
+        const next = isDark ? 'light' : 'dark';
+        apply(next);
+        localStorage.setItem(KEY, next);
+      });
+    }
+  }
+
+  // -------------------------
+  // ROOT page: dropdown sections
+  //  - ซ่อนการ์ดลิงก์เสมอ (ตอนโหลดหน้า)
+  //  - แสดง/ซ่อนเมื่อกดปุ่ม dropdown
+  //  - ไอคอนเป็นปุ่มที่ "กดได้จริง"
+  //  - สีไอคอนเปลี่ยนตามโหมด (อาศัย color:inherit จาก CSS เดิม)
+  // -------------------------
+  function initRootDropdowns() {
+    // บังคับซ่อนทุกการ์ดในหน้า (กันกรณีมี CSS ไป override)
     qsa('.root-link-card').forEach(panel => {
       panel.hidden = true;
       panel.style.display = 'none';
     });
-    qsa('.root-section-toggle[aria-expanded="true"]').forEach(btn => {
-      btn.setAttribute('aria-expanded', 'false');
-    });
-  }
-  function initRootDropdowns() {
-    // ซ่อนก่อนเสมอ
-    hideAllRootPanels();
-    // ใส่ aria/cursor ให้ปุ่ม toggle
-    qsa('.root-section-toggle').forEach(btn=>{
+
+    // คลิกที่ไอคอน dropdown เพื่อสลับแสดง/ซ่อน
+    qsa('.root-section-toggle').forEach(btn => {
+      // ทำให้กดได้แน่ ๆ (cursor pointer, aria)
       btn.setAttribute('type', 'button');
+      if (!btn.hasAttribute('aria-label')) btn.setAttribute('aria-label', 'Toggle section');
       btn.setAttribute('aria-expanded', 'false');
-      if(!btn.hasAttribute('aria-label')) btn.setAttribute('aria-label', 'Toggle section');
       btn.style.cursor = 'pointer';
+
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const targetSel = btn.getAttribute('data-target');
+        if (!targetSel) return;
+
+        const panel = qs(targetSel);
+        if (!panel) return;
+
+        // toggle
+        const willOpen = panel.hidden === true || panel.style.display === 'none';
+        panel.hidden = !willOpen;
+        panel.style.display = willOpen ? '' : 'none';
+
+        // หมุนลูกศร (ใช้ aria-expanded + CSS ถ้ามี)
+        btn.setAttribute('aria-expanded', String(willOpen));
+      });
+    });
+
+    // คลิกนอก panel เพื่อปิด (optional — ถ้าไม่ต้องการลบส่วนนี้ได้)
+    document.addEventListener('click', (e) => {
+      const withinToggle = e.target.closest('.root-section-toggle');
+      const withinPanel  = e.target.closest('.root-link-card');
+      if (withinToggle || withinPanel) return;
+
+      qsa('.root-link-card').forEach(panel => {
+        panel.hidden = true;
+        panel.style.display = 'none';
+      });
+      qsa('.root-section-toggle[aria-expanded="true"]').forEach(btn => {
+        btn.setAttribute('aria-expanded', 'false');
+      });
     });
   }
 
-  // ---------- Home date/time & countdown (ถ้ามี) ----------
+  // -------------------------
+  // Time/Countdown (โค้ดของหน้าโฮมอาจพึ่ง DOM id เฉพาะ)
+  // -------------------------
   function initHomeTimeIfPresent() {
     const timeEl = qs('#current-time');
     const cdEl   = qs('#countdown-display');
-    if (!timeEl && !cdEl) return;
+    if (!timeEl && !cdEl) return; // ไม่ใช่หน้าโฮม ก็ข้าม
 
     const TZ = 'Asia/Bangkok';
     const pad2 = n => n.toString().padStart(2, '0');
@@ -128,84 +210,15 @@
     setInterval(tick, 1000); tick();
   }
 
-  // ---------- Global Event Delegation ----------
-  function bindGlobalPointer() {
-    // ใช้ pointerdown ให้ติดบนมือถือ/ทัชเร็วขึ้น (และซ้ำด้วย click กันพลาด)
-    const handler = (e) => {
-      const t = e.target;
-
-      // 1) เปิดเมนู (3 ขีด)
-      const openBtn = t.closest('.menu-button, [data-open-menu], [data-menu-open], .hamburger, .header .menu-button, .header .hamburger');
-      const isMenuIcon = t.closest('.header') && iconName(t) === 'menu';
-      if (openBtn || isMenuIcon) {
-        e.preventDefault(); e.stopPropagation();
-        openMenu();
-        return;
-      }
-
-      // 2) ปิดเมนู (กากบาท/ฉากหลัง)
-      const closeBtn = t.closest('.close-menu, [data-menu-close]');
-      const overlayClick = t.closest('.menu-overlay');
-      const isCloseIcon = t.closest('.side-menu') && iconName(t) === 'close';
-      if (closeBtn || overlayClick || isCloseIcon) {
-        e.preventDefault(); e.stopPropagation();
-        closeMenu();
-        return;
-      }
-
-      // 3) สลับธีม (ปุ่มสลับโหมด)
-      const themeBtn = t.closest('.theme-toggle, [data-theme-toggle], #themeToggle');
-      const icon = iconName(t);
-      const isThemeIcon = t.closest('.header') && (icon === 'dark_mode' || icon === 'light_mode');
-      if (themeBtn || isThemeIcon) {
-        e.preventDefault(); e.stopPropagation();
-        const next = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
-        applyTheme(next);
-        localStorage.setItem(THEME_KEY, next);
-        return;
-      }
-
-      // 4) Root: dropdown toggle (ไอคอนลูกศร)
-      const dropBtn = t.closest('.root-section-toggle');
-      if (dropBtn) {
-        e.preventDefault(); e.stopPropagation();
-        const sel = dropBtn.getAttribute('data-target');
-        if (!sel) return;
-        const panel = qs(sel);
-        if (!panel) return;
-
-        const willOpen = panel.hidden === true || panel.style.display === 'none';
-        // ถ้าอยากเปิดได้ทีละอัน ให้ uncomment บรรทัดถัดไป
-        // hideAllRootPanels();
-
-        panel.hidden = !willOpen;
-        panel.style.display = willOpen ? '' : 'none';
-        dropBtn.setAttribute('aria-expanded', String(willOpen));
-        return;
-      }
-
-      // 5) คลิกนอก panel => ปิดการ์ดทั้งหมด (เฉพาะหน้ารูท)
-      const inPanel  = t.closest('.root-link-card');
-      const inToggle = t.closest('.root-section-toggle');
-      if (!inPanel && !inToggle && qs('.root-link-card')) {
-        hideAllRootPanels();
-      }
-    };
-
-    document.addEventListener('pointerdown', handler, { passive:false });
-    document.addEventListener('click', handler, { passive:false });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
-  }
-
-  // ---------- Boot ----------
+  // -------------------------
+  // Boot
+  // -------------------------
   async function boot() {
-    await loadIncludes();                           // 1) โหลดส่วนหัว/เมนู/ท้ายให้เสร็จ
-    const saved = localStorage.getItem(THEME_KEY);  // 2) ใช้ธีมเดิมจาก localStorage
-    applyTheme(saved === 'dark' ? 'dark' : 'light');
-
-    initRootDropdowns();    // 3) เตรียม dropdown หน้า Root (ซ่อนก่อนเสมอ)
-    bindGlobalPointer();    // 4) ผูกอีเวนต์แบบ Delegation (คลุมทั้งหน้า)
-    initHomeTimeIfPresent();// 5) เวลา/เคานต์ดาวน์ (ถ้าเป็นหน้าโฮม)
+    await loadIncludes();       // ใส่ header/side-menu/footer
+    bindSideMenu();             // เมนู 3 ขีด
+    bindThemeToggle();          // โหมดมืด/สว่าง
+    initRootDropdowns();        // ปุ่ม dropdown ที่หน้ารูท
+    initHomeTimeIfPresent();    // เวลา & เคานต์ดาวน์ (ถ้าเป็นหน้าโฮม)
   }
 
   if (document.readyState === 'loading') {
