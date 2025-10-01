@@ -1,5 +1,5 @@
-/* js-RootShared-01102025-13
-   - FIX: Always show Date + Time (dd/MM/yyyy HH:mm:ss) on Home (no alternating)
+/* js-RootShared-01102025-14
+   - FIX: Force HH:mm:ss to always be zero-padded (01:02:03) on Home
    - Keep pre-v7 baseline + dropdown icon dark-mode color fix
 */
 
@@ -168,7 +168,7 @@
   }
 
   // -------------------------
-  // Home: Date & Time (always dd/MM/yyyy HH:mm:ss) + Countdown
+  // Home: Date & Time (always dd/MM/yyyy HH:mm:ss, zero-padded) + Countdown
   // -------------------------
   function initHomeTimeIfPresent() {
     const timeEl = qs('#current-time');
@@ -178,14 +178,22 @@
     const TZ = 'Asia/Bangkok';
     const pad2 = n => n.toString().padStart(2, '0');
 
-    // แสดง "วันที่ + เวลา" ตลอด: dd/MM/yyyy HH:mm:ss (24h, zero-padded)
+    // ใช้ formatToParts แล้ว pad เองเพื่อกัน browser แสดง 1 หลัก
+    const dtfFull = new Intl.DateTimeFormat('en-GB', {
+      timeZone: TZ,
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit',
+      hour12: false
+    });
+
     function formatDateTH24(d){
-      const dd = new Intl.DateTimeFormat('en-GB',{day:'2-digit', timeZone:TZ}).format(d);
-      const mm = new Intl.DateTimeFormat('en-GB',{month:'2-digit', timeZone:TZ}).format(d);
-      const yy = new Intl.DateTimeFormat('en-GB',{year:'numeric', timeZone:TZ}).format(d);
-      const hh = new Intl.DateTimeFormat('en-GB',{hour:'2-digit', hour12:false, timeZone:TZ}).format(d);
-      const mi = new Intl.DateTimeFormat('en-GB',{minute:'2-digit', timeZone:TZ}).format(d);
-      const ss = new Intl.DateTimeFormat('en-GB',{second:'2-digit', timeZone:TZ}).format(d);
+      const parts = dtfFull.formatToParts(d).reduce((acc,p)=>{ acc[p.type]=p.value; return acc; }, {});
+      const dd = pad2(parts.day || '');
+      const mm = pad2(parts.month || '');
+      const yy = parts.year || '';
+      const hh = pad2(parts.hour || '');
+      const mi = pad2(parts.minute || '');
+      const ss = pad2(parts.second || '');
       return `${dd}/${mm}/${yy} ${hh}:${mi}:${ss}`;
     }
 
