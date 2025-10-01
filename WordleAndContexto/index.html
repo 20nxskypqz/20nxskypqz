@@ -1,4 +1,4 @@
-<!-- html-WordleAndContexto-01102025-02 -->
+<!-- html-WordleAndContexto-01102025-03 -->
 <!DOCTYPE html>
 <html lang="th" class="wordle-contexto-page">
 <head>
@@ -11,9 +11,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;700&display=swap" rel="stylesheet" />
 
-  <!-- Material Symbols (เพิ่ม abc) -->
+  <!-- Material Symbols (CDN) — เพิ่มชุดไอคอนที่ header/side-menu ใช้ด้วย -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0&icon_names=menu,close,light_mode,dark_mode,arrow_drop_down,abc" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0&icon_names=menu,close,light_mode,dark_mode,arrow_drop_down,abc,home,school,edit_document,mystery" />
   <style>.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 40; font-family:'Material Symbols Outlined' !important;}</style>
 
   <!-- Styles -->
@@ -31,11 +31,13 @@
       <h3 class="muted" style="text-align:center; color:var(--muted);">เลือกเกมที่ต้องการเล่น</h3>
     </section>
 
+    <!-- Tabs -->
     <section class="card tabs">
       <button id="wordle-tab" class="tab-btn active" type="button">Wordle (ทายคำ 5 ตัวอักษร)</button>
       <button id="contexto-tab" class="tab-btn" type="button">Contexto (ทายคำจากความหมาย)</button>
     </section>
 
+    <!-- WORDLE (ลบแป้นพิมพ์ออก เหลือเฉพาะกระดาน) -->
     <section id="wordle-game" class="game-wrap">
       <div class="card info">
         <p>ทายคำศัพท์ 5 ตัวอักษรให้ถูกต้องภายใน 6 ครั้ง</p>
@@ -44,9 +46,10 @@
         <p><span class="badge badge-gray"></span> = ไม่มีตัวอักษรนี้ในคำ</p>
       </div>
       <div class="board card"><div id="wordle-grid" class="grid"></div></div>
-      <div class="keyboard card"><div id="wordle-keyboard" class="keyboard-rows"></div></div>
+      <!-- (keyboard ถูกลบตามคำสั่ง) -->
     </section>
 
+    <!-- CONTEXTO -->
     <section id="contexto-game" class="game-wrap hidden">
       <div class="card info">
         <p>ทายคำศัพท์ที่มีความหมายใกล้เคียงกับคำใบ้มากที่สุด</p>
@@ -65,6 +68,7 @@
   <script src="/20nxskypqz/script.js"></script>
   <script src="/20nxskypqz/WordleAndContexto/script.js"></script>
 
+  <!-- Modal -->
   <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
     <div id="modal-content" class="modal-content">
       <h2 id="modal-title" class="modal-title"></h2>
