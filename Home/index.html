@@ -1,4 +1,4 @@
-<!-- html-Home-01102025-02 -->
+<!-- html-Home-01102025-03 -->
 <!DOCTYPE html>
 <html lang="en" class="home-page">
 <head>
@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;700&display=swap" rel="stylesheet" />
 
-  <!-- Material Symbols (CDN, รวม abc เพื่อใช้กับเมนูด้านข้าง) -->
+  <!-- Material Symbols (CDN) -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0&icon_names=home,arrow_drop_down,edit_document,mystery,school,menu,close,light_mode,dark_mode,abc" />
   <style>
@@ -32,7 +32,7 @@
       <h1 class="hero-title">Welcome to 20nxskypqz!</h1>
     </section>
 
-    <!-- เวลา + เคานต์ดาวน์ (เหมือนเดิม) -->
+    <!-- เวลา + เคานต์ดาวน์ -->
     <section class="card time-and-countdown">
       <h2>Current Date &amp; Time (Thailand)</h2>
       <p id="current-time" class="time-line">--:--</p>
@@ -40,14 +40,25 @@
       <p id="countdown-display">—</p>
     </section>
 
-    <!-- วิดีโอ/ส่วนอื่น ๆ ที่คุณมีคงไว้ได้เลย -->
+    <!-- YouTube -->
+    <section class="card" style="overflow:hidden;">
+      <h3>Now Playing</h3>
+      <div style="position:relative; padding-top:56.25%; border-radius:12px; overflow:hidden;">
+        <iframe
+          src="https://www.youtube.com/embed/3KXoolNIH9s?si=qgxmT66g6EBwAjhi"
+          title="YouTube video"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          style="position:absolute; inset:0; width:100%; height:100%; border:0;"></iframe>
+      </div>
+    </section>
   </main>
 
   <div data-include="/20nxskypqz/shared/footer.html"></div>
 
   <script src="/20nxskypqz/script.js"></script>
   <script>
-    // ตัวอย่างอัปเดตเวลา & เคานต์ดาวน์ (คงโค้ดเดิมของคุณได้ตามสะดวก)
+    // เวลา + เคานต์ดาวน์
     function fmt(n){return n.toString().padStart(2,'0')}
     function tick(){
       const now=new Date();
