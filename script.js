@@ -1,19 +1,20 @@
-/* js-RootShared-01102025-25
-   - Theme toggle uses your FLATICON sun/moon (like before), WITH color
-     • Works in 3 ways (auto-detect, no HTML changes needed):
-       (A) If the toggle contains <i data-role="sun"> and <i data-role="moon"> → we show/hide them.
-       (B) Else if an <i> has data-day-class / data-night-class → we swap its className.
-       (C) Else fallback to Material Symbols text 'light_mode' / 'dark_mode'.
-     • Colors: Sun = amber/gold, Moon = black (as you asked).
-   - Keeps: ver.20 time (no flicker, centered via Shadow DOM), dropdown icon dark-mode color fix,
-            robust event delegation for the toggle (click/touch/keyboard)
+/* js-RootShared-01102025-28
+   CHANGELOG:
+   - Remove all Google sun/moon (light_mode/dark_mode) handling
+   - Use ONLY Flaticon:
+       Sun  = <i class="fi fi-sr-brightness" data-role="sun"></i>   (orange #ff9800)
+       Moon = <i class="fi fi-sr-moon-stars" data-role="moon"></i> (yellow #ffd600)
+   - Auto-inject Flaticon CSS link into <head> (once)
+   - Color + size via injected <style id="theme-flaticon-styles">
+   - Robust delegated events for toggle (click/touch/keyboard) after includes
+   - Keep: no-flicker centered time (Shadow DOM), dropdown dark-mode color fix, side menu, root dropdowns
 */
 
 (function () {
   "use strict";
 
   // -------------------------
-  // Utilities
+  // Utils
   // -------------------------
   const qs  = (sel, root=document) => root.querySelector(sel);
   const qsa = (sel, root=document) => Array.from(root.querySelectorAll(sel));
@@ -27,8 +28,18 @@
   const currentTheme = () => document.body.classList.contains('dark-mode') ? 'dark' : 'light';
 
   // -------------------------
-  // CSS helpers
+  // Inject CSS helpers
   // -------------------------
+  function ensureFlaticonCSS() {
+    const hrefFrag = 'uicons-solid-rounded/css/uicons-solid-rounded.css';
+    if (![...document.styleSheets].some(s => s?.href?.includes(hrefFrag))) {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://cdn-uicons.flaticon.com/3.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css';
+      document.head.appendChild(link);
+    }
+  }
+
   function injectDropdownIconDarkFix() {
     if (document.getElementById('dropdown-dark-fix')) return;
     const style = document.createElement('style');
@@ -42,47 +53,31 @@
     document.head.appendChild(style);
   }
 
-  // Colors for FLATICON icons (sun = amber, moon = black outline look)
-  function injectThemeIconColors() {
-    if (document.getElementById('theme-icon-color-fix')) return;
+  function injectThemeFlaticonStyles() {
+    if (document.getElementById('theme-flaticon-styles')) return;
     const style = document.createElement('style');
-    style.id = 'theme-icon-color-fix';
+    style.id = 'theme-flaticon-styles';
     style.textContent = `
-      /* ensure the toggle is clickable */
       .header .theme-toggle,
       .header [data-theme-toggle],
       .header #theme-toggle,
-      .header .toggle-theme { cursor: pointer; position: relative; z-index: 5; }
+      .header .toggle-theme {
+        cursor: pointer; position: relative; z-index: 5; display: inline-flex; align-items: center;
+      }
+      .header .theme-toggle i.fi,
+      [data-theme-toggle] i.fi,
+      #theme-toggle i.fi,
+      .toggle-theme i.fi { font-size: 28px; line-height: 1; }
 
-      /* color the specific flaticon <i> if present */
-      .header .theme-toggle i.icon-sun,
-      [data-theme-toggle] i.icon-sun,
-      #theme-toggle i.icon-sun,
-      .toggle-theme i.icon-sun {
-        color: #f5b301 !important; /* amber/gold */
-      }
-      .header .theme-toggle i.icon-moon,
-      [data-theme-toggle] i.icon-moon,
-      #theme-toggle i.icon-moon,
-      .toggle-theme i.icon-moon {
-        color: #000 !important;     /* black outline look */
-      }
-
-      /* If you still have Material Symbols as fallback, keep solid black */
-      .header .theme-toggle .material-symbols-outlined,
-      .header .theme-toggle .material-symbols-rounded,
-      [data-theme-toggle] .material-symbols-outlined,
-      [data-theme-toggle] .material-symbols-rounded {
-        color: #000 !important;
-        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 40;
-        user-select: none;
-      }
+      /* requested colors */
+      i[data-role="sun"]  { color: #ff9800 !important; } /* orange */
+      i[data-role="moon"] { color: #ffd600 !important; } /* yellow */
     `;
     document.head.appendChild(style);
   }
 
   // -------------------------
-  // Includes
+  // Includes (header/footer/side-menu)
   // -------------------------
   async function loadIncludes() {
     const includeEls = qsa('[data-include]');
@@ -135,7 +130,7 @@
   }
 
   // -------------------------
-  // THEME TOGGLE (with FLATICON support)
+  // THEME TOGGLE — Flaticon brightness/moon-stars ONLY
   // -------------------------
   const TOGGLE_SELECTORS = [
     '.theme-toggle',
@@ -145,85 +140,62 @@
     '[aria-label="Toggle theme"]'
   ];
 
-  function ensureToggleIconEl(toggleEl) {
-    if (!toggleEl) return null;
-    // PRIORITY A: two separate <i> icons with data-role
-    const sun = toggleEl.querySelector('i[data-role="sun"]');
-    const moon = toggleEl.querySelector('i[data-role="moon"]');
-    if (sun || moon) return { mode: 'pair', sun, moon };
+  function ensureFlaticonPair(toggleEl) {
+    if (!toggleEl) return { sun: null, moon: null };
+    let sun  = toggleEl.querySelector('i[data-role="sun"]');
+    let moon = toggleEl.querySelector('i[data-role="moon"]');
 
-    // PRIORITY B: one <i> with data-day-class / data-night-class
-    const iOne = toggleEl.querySelector('i[data-day-class][data-night-class]');
-    if (iOne) return { mode: 'swap', one: iOne };
-
-    // PRIORITY C: fallback to Material Symbols inside the toggle (or create one)
-    let ms = toggleEl.querySelector('.material-symbols-outlined, .material-symbols-rounded');
-    if (!ms) {
-      ms = document.createElement('span');
-      ms.className = 'material-symbols-outlined';
-      ms.textContent = 'light_mode';
-      toggleEl.appendChild(ms);
+    if (!sun) {
+      sun = document.createElement('i');
+      sun.className = 'fi fi-sr-brightness';
+      sun.setAttribute('data-role', 'sun');
+      sun.style.display = 'none';
+      toggleEl.appendChild(sun);
+    } else if (!/fi-sr-brightness/.test(sun.className)) {
+      sun.className = 'fi fi-sr-brightness';
     }
-    return { mode: 'material', ms };
+
+    if (!moon) {
+      moon = document.createElement('i');
+      moon.className = 'fi fi-sr-moon-stars';
+      moon.setAttribute('data-role', 'moon');
+      moon.style.display = 'none';
+      toggleEl.appendChild(moon);
+    } else if (!/fi-sr-moon-stars/.test(moon.className)) {
+      moon.className = 'fi fi-sr-moon-stars';
+    }
+
+    return { sun, moon };
   }
 
-  function showFlaticonPair(pair, mode) {
-    if (!pair) return;
-    const { sun, moon } = pair;
-    if (sun) {
-      sun.classList.add('icon-sun');
-      sun.style.display = (mode === 'light') ? '' : 'none';
-    }
-    if (moon) {
-      moon.classList.add('icon-moon');
-      moon.style.display = (mode === 'dark') ? '' : 'none';
-    }
-  }
-
-  function swapFlaticonClass(one, mode) {
-    const dayClass   = one.getAttribute('data-day-class')   || '';
-    const nightClass = one.getAttribute('data-night-class') || '';
-    one.className = ''; // reset
-    one.classList.add('fi'); // base flaticon class
-    if (mode === 'dark') {
-      nightClass.split(/\s+/).filter(Boolean).forEach(c => one.classList.add(c));
-      one.classList.add('icon-moon');
-    } else {
-      dayClass.split(/\s+/).filter(Boolean).forEach(c => one.classList.add(c));
-      one.classList.add('icon-sun');
-    }
-  }
-
-  function setThemeIconAll(mode) {
-    // Update all toggles with whatever structure they use
+  function setThemeIconFlaticon(mode) {
     const toggles = qsa(TOGGLE_SELECTORS.join(','));
     toggles.forEach(tg => {
-      const ref = ensureToggleIconEl(tg);
-      if (!ref) return;
-      if (ref.mode === 'pair') {
-        showFlaticonPair(ref, mode);
-      } else if (ref.mode === 'swap') {
-        swapFlaticonClass(ref.one, mode);
-      } else if (ref.mode === 'material') {
-        ref.ms.textContent = (mode === 'dark') ? 'dark_mode' : 'light_mode';
+      const { sun, moon } = ensureFlaticonPair(tg);
+      if (!sun || !moon) return;
+      if (mode === 'dark') {
+        moon.style.display = 'inline-block';
+        sun.style.display  = 'none';
+      } else {
+        sun.style.display  = 'inline-block';
+        moon.style.display = 'none';
       }
     });
   }
 
   function bindThemeToggleDelegation() {
-    // Initialize theme + icon
     const initial = (localStorage.getItem(THEME_KEY) === 'dark') ? 'dark' : 'light';
     applyTheme(initial);
-    setThemeIconAll(initial);
+    setThemeIconFlaticon(initial);
 
     function findToggle(start) {
       for (const sel of TOGGLE_SELECTORS) {
         const hit = start.closest(sel);
         if (hit) return hit;
       }
-      // Fallback: click on a direct icon inside header
-      const icon = start.closest('i, .material-symbols-outlined, .material-symbols-rounded');
-      if (icon && icon.closest('.header')) return icon;
+      // allow click directly on <i class="fi ..."> inside header
+      const icon = start.closest('i.fi');
+      if (icon && icon.closest('.header')) return icon.closest('.header'); // parent region acts as toggle
       return null;
     }
 
@@ -234,7 +206,7 @@
       const next = currentTheme() === 'dark' ? 'light' : 'dark';
       applyTheme(next);
       localStorage.setItem(THEME_KEY, next);
-      setThemeIconAll(next);
+      setThemeIconFlaticon(next);
     };
 
     document.addEventListener('click', handler, true);
@@ -295,7 +267,7 @@
   // -------------------------
   function initHomeTimeIfPresent() {
     const hostTime = qs('#current-time');
-    const hostCd   = qs('#countdown-display');
+    aconst hostCd   = qs('#countdown-display');
     if (!hostTime && !hostCd) return;
 
     if (window.__HOME_TIME_LOOP__) { clearTimeout(window.__HOME_TIME_LOOP__); window.__HOME_TIME_LOOP__ = null; }
@@ -366,11 +338,12 @@
   // Boot
   // -------------------------
   async function boot() {
+    ensureFlaticonCSS();          // make sure Flaticon set is present (head link)
     await loadIncludes();
     injectDropdownIconDarkFix();
-    injectThemeIconColors();      // << colors for flaticon sun/moon
+    injectThemeFlaticonStyles();  // colors & sizes for Flaticon theme icons
     bindSideMenu();
-    bindThemeToggleDelegation();  // << robust toggle + icon sync (flaticon or fallback)
+    bindThemeToggleDelegation();  // robust toggle using Flaticon icons only
     initRootDropdowns();
     initHomeTimeIfPresent();
   }
