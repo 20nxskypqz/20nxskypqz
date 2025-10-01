@@ -1,7 +1,6 @@
-/* js-RootShared-01102025-11
-   Base: pre-v7 (06r) + FIX dropdown icon color in dark mode
-   - โหลด includes → ค่อย bind ปุ่มแบบเจาะจง (ไม่ใช้ delegation)
-   - แก้สีไอคอน dropdown (สามเหลี่ยม) ให้เป็นสีขาวเมื่อโหมดมืด ด้วย CSS inject
+/* js-RootShared-01102025-12
+   - FIX current time to HH:mm:ss (zero-padded) for Home page
+   - Keep pre-v7 baseline + dropdown icon dark-mode color fix
 */
 
 (function () {
@@ -26,18 +25,11 @@
     const style = document.createElement('style');
     style.id = 'dropdown-dark-fix';
     style.textContent = `
-      /* ให้ไอคอนในปุ่ม dropdown รับสีจากตัวอักษรเสมอ */
       .root-section-toggle .material-symbols-outlined {
         color: currentColor !important;
       }
-      /* โหมดมืด: บังคับให้ปุ่ม (และไอคอนข้างใน) เป็นสีขาว */
-      .dark-mode .root-section-toggle {
-        color: #fff !important;
-      }
-      /* โหมดสว่าง: ใช้สีตัวอักษรมาตรฐานของหน้า */
-      .light-mode .root-section-toggle {
-        color: inherit;
-      }
+      .dark-mode .root-section-toggle { color: #fff !important; }
+      .light-mode .root-section-toggle { color: inherit; }
     `;
     document.head.appendChild(style);
   }
@@ -176,7 +168,7 @@
   }
 
   // -------------------------
-  // Home date/time & countdown (ถ้ามี)
+  // Home time & countdown (HH:mm:ss only for time)
   // -------------------------
   function initHomeTimeIfPresent() {
     const timeEl = qs('#current-time');
@@ -185,19 +177,18 @@
 
     const TZ = 'Asia/Bangkok';
     const pad2 = n => n.toString().padStart(2, '0');
-    const fmt24 = (d) => {
-      const dd = new Intl.DateTimeFormat('en-GB',{day:'2-digit', timeZone:TZ}).format(d);
-      const mm = new Intl.DateTimeFormat('en-GB',{month:'2-digit', timeZone:TZ}).format(d);
-      const yy = new Intl.DateTimeFormat('en-GB',{year:'numeric', timeZone:TZ}).format(d);
-      const hh = new Intl.DateTimeFormat('en-GB',{hour:'2-digit', hour12:false, timeZone:TZ}).format(d);
-      const mi = new Intl.DateTimeFormat('en-GB',{minute:'2-digit', timeZone:TZ}).format(d);
+
+    // เวลาแบบ HH:mm:ss (24 ชม.) — zero-padded ทุกส่วน
+    function formatTimeTH24(d){
+      const hh = new Intl.DateTimeFormat('en-GB',{hour:'2-digit',   hour12:false, timeZone:TZ}).format(d);
+      const mm = new Intl.DateTimeFormat('en-GB',{minute:'2-digit', timeZone:TZ}).format(d);
       const ss = new Intl.DateTimeFormat('en-GB',{second:'2-digit', timeZone:TZ}).format(d);
-      return `${dd}/${mm}/${yy} ${hh}:${mi}:${ss}`;
-    };
+      return `${hh}:${mm}:${ss}`;
+    }
 
     function tick(){
       const now = new Date();
-      if (timeEl) timeEl.textContent = fmt24(now);
+      if (timeEl) timeEl.textContent = formatTimeTH24(now);
 
       if (cdEl) {
         const target = new Date('2026-01-01T00:00:00+07:00').getTime();
@@ -217,12 +208,12 @@
   // Boot
   // -------------------------
   async function boot() {
-    await loadIncludes();           // โหลดส่วน header/menu/footer
-    injectDropdownIconDarkFix();    // ✅ แทรก CSS แก้สีไอคอน dropdown ให้เข้ากับโหมดมืด
-    bindSideMenu();                 // เมนู 3 ขีด
-    bindThemeToggle();              // สลับโหมด
-    initRootDropdowns();            // dropdown หน้า Root
-    initHomeTimeIfPresent();        // เวลา/Countdown (หน้าโฮม)
+    await loadIncludes();
+    injectDropdownIconDarkFix();
+    bindSideMenu();
+    bindThemeToggle();
+    initRootDropdowns();
+    initHomeTimeIfPresent();
   }
 
   if (document.readyState === 'loading') {
