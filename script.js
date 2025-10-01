@@ -1,8 +1,7 @@
-/* js-RootShared-01102025-16
-   - FIX: เวลาไม่สลับ 0/00 อีกต่อไป โดยใช้ requestAnimationFrame (RAF) เขียนค่าที่ "pad แล้ว" ทุกเฟรม
-   - วิธีนี้จะ override การเขียนจากสคริปต์อื่นภายใน ~16ms จนผู้ใช้ไม่เห็นการสลับ
-   - Countdown ยังอัปเดตทุก 1 วินาทีเหมือนเดิม
-   - คงฐาน pre-v7 + แก้สีไอคอน dropdown เมื่อโหมดมืด
+/* js-RootShared-01102025-17
+   - Home time: always dd/MM/yyyy HH:mm:ss (2-digit) without flicker
+   - Single interval (clears old one) using Intl.DateTimeFormat.formatToParts
+   - Keeps pre-v7 baseline + dropdown icon dark-mode color fix
 */
 
 (function () {
@@ -170,44 +169,37 @@
   }
 
   // -------------------------
-  // Home: Date & Time (dd/MM/yyyy HH:mm:ss) [RAF override] + Countdown (1s)
+  // Home: Date & Time (always dd/MM/yyyy HH:mm:ss, zero-padded) + Countdown
+  // Single interval; clears any old timer to avoid alternating writes
   // -------------------------
   function initHomeTimeIfPresent() {
     const timeEl = qs('#current-time');
     const cdEl   = qs('#countdown-display');
     if (!timeEl && !cdEl) return;
 
-    // Singleton state — กันซ้ำหลายตัวเรียกพร้อมกัน
-    if (!window.__HOME_TIME_STATE__) {
-      window.__HOME_TIME_STATE__ = { rafId: null, lastTimeStr: '', cdTimer: null, lastCdStr: '' };
+    // single timer guard
+    if (window.__HOME_TIMER__) {
+      clearInterval(window.__HOME_TIMER__);
+      window.__HOME_TIMER__ = null;
     }
-    const STATE = window.__HOME_TIME_STATE__;
-    if (STATE.rafId)  { cancelAnimationFrame(STATE.rafId); STATE.rafId = null; }
-    if (STATE.cdTimer){ clearInterval(STATE.cdTimer); STATE.cdTimer = null; }
 
     const TZ = 'Asia/Bangkok';
     const pad2 = n => n.toString().padStart(2, '0');
 
-    // เตรียม formatter ล่วงหน้า
     const dtf = new Intl.DateTimeFormat('en-GB', {
       timeZone: TZ,
-      year:'numeric', month:'2-digit', day:'2-digit',
-      hour:'2-digit', minute:'2-digit', second:'2-digit',
-      hour12:false
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit',
+      hour12: false
     });
 
-    function formatDateTH24(d){
-      const parts = dtf.formatToParts(d).reduce((acc,p)=>{ acc[p.type]=p.value; return acc; }, {});
-      const dd = pad2(parts.day || '0');
-      const mm = pad2(parts.month || '0');
-      const yy = parts.year || '';
-      const hh = pad2(parts.hour || '0');
-      const mi = pad2(parts.minute || '0');
-      const ss = pad2(parts.second || '0');
-      return `${dd}/${mm}/${yy} ${hh}:${mi}:${ss}`;
-    }
+    const formatDateTH24 = (d) => {
+      const parts = dtf.formatToParts(d).reduce((o, p) => (o[p.type] = p.value, o), {});
+      // parts.hour/minute/second เป็น 2 หลักตั้งแต่ต้น
+      return `${parts.day}/${parts.month}/${parts.year} ${parts.hour}:${parts.minute}:${parts.second}`;
+    };
 
-    function buildCountdown(now){
+    const buildCountdown = (now) => {
       const target = new Date('2026-01-01T00:00:00+07:00').getTime();
       let diff = Math.max(0, target - now.getTime());
       const days = Math.floor(diff / 86400000); diff %= 86400000;
@@ -215,32 +207,19 @@
       const minutes = Math.floor(diff / 60000);  diff %= 60000;
       const seconds = Math.floor(diff / 1000);
       return `${days} Days ${pad2(hours)} Hours ${pad2(minutes)} Minutes ${pad2(seconds)} Seconds`;
-    }
+    };
 
-    // ใช้ RAF เพื่อเขียนเวลาแบบ pad แล้ว "ทุกเฟรม"
-    function rafLoop(){
+    const tick = () => {
       const now = new Date();
-      const str = formatDateTH24(now);
-      if (timeEl && str !== STATE.lastTimeStr) {
-        STATE.lastTimeStr = str;
-        timeEl.textContent = str;
-      }
-      STATE.rafId = requestAnimationFrame(rafLoop);
-    }
-    rafLoop();
-
-    // Countdown ยังอัปเดตทุกวินาที
-    function tickCd(){
-      const now = new Date();
-      const s = buildCountdown(now);
-      if (cdEl && s !== STATE.lastCdStr) {
-        STATE.lastCdStr = s;
-        cdEl.textContent = s;
+      if (timeEl) timeEl.textContent = formatDateTH24(now);
+      if (cdEl) {
+        cdEl.textContent = buildCountdown(now);
         cdEl.style.textAlign = 'center';
       }
-    }
-    tickCd();
-    STATE.cdTimer = setInterval(tickCd, 1000);
+    };
+
+    tick();
+    window.__HOME_TIMER__ = setInterval(tick, 1000);
   }
 
   // -------------------------
