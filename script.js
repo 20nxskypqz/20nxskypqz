@@ -1,7 +1,8 @@
-/* js-RootShared-01102025-15
-   - FIX: Stop alternating (e.g., "0" vs "00") by enforcing a SINGLE timer & padded parts
-   - Uses singleton timer with last-value check to avoid any flicker/overwrites
-   - Keeps pre-v7 baseline + dropdown icon dark-mode color fix
+/* js-RootShared-01102025-16
+   - FIX: เวลาไม่สลับ 0/00 อีกต่อไป โดยใช้ requestAnimationFrame (RAF) เขียนค่าที่ "pad แล้ว" ทุกเฟรม
+   - วิธีนี้จะ override การเขียนจากสคริปต์อื่นภายใน ~16ms จนผู้ใช้ไม่เห็นการสลับ
+   - Countdown ยังอัปเดตทุก 1 วินาทีเหมือนเดิม
+   - คงฐาน pre-v7 + แก้สีไอคอน dropdown เมื่อโหมดมืด
 */
 
 (function () {
@@ -20,7 +21,9 @@
     else { b.classList.add('light-mode'); b.classList.remove('dark-mode'); }
   }
 
-  // Inject CSS เพื่อบังคับให้ไอคอน dropdown เปลี่ยนสีตามโหมด
+  // -------------------------
+  // Inject CSS: dropdown icon follows text color; white in dark mode
+  // -------------------------
   function injectDropdownIconDarkFix() {
     if (document.getElementById('dropdown-dark-fix')) return;
     const style = document.createElement('style');
@@ -122,7 +125,7 @@
   }
 
   // -------------------------
-  // ROOT page: dropdown sections (ซ่อนก่อนเสมอ)
+  // ROOT page: dropdown sections (hidden by default)
   // -------------------------
   function initRootDropdowns() {
     qsa('.root-link-card').forEach(panel => {
@@ -167,34 +170,34 @@
   }
 
   // -------------------------
-  // Home: Date & Time (always dd/MM/yyyy HH:mm:ss, zero-padded) + Countdown
-  // Enforce SINGLE timer with last-value caching to prevent any alternating writes
+  // Home: Date & Time (dd/MM/yyyy HH:mm:ss) [RAF override] + Countdown (1s)
   // -------------------------
   function initHomeTimeIfPresent() {
     const timeEl = qs('#current-time');
     const cdEl   = qs('#countdown-display');
     if (!timeEl && !cdEl) return;
 
-    // Global-ish singleton state to avoid multiple intervals
+    // Singleton state — กันซ้ำหลายตัวเรียกพร้อมกัน
     if (!window.__HOME_TIME_STATE__) {
-      window.__HOME_TIME_STATE__ = { timer: null, lastTimeStr: '', lastCdStr: '' };
+      window.__HOME_TIME_STATE__ = { rafId: null, lastTimeStr: '', cdTimer: null, lastCdStr: '' };
     }
     const STATE = window.__HOME_TIME_STATE__;
-    if (STATE.timer) { clearInterval(STATE.timer); STATE.timer = null; } // clear old timer if any
+    if (STATE.rafId)  { cancelAnimationFrame(STATE.rafId); STATE.rafId = null; }
+    if (STATE.cdTimer){ clearInterval(STATE.cdTimer); STATE.cdTimer = null; }
 
     const TZ = 'Asia/Bangkok';
     const pad2 = n => n.toString().padStart(2, '0');
 
-    // Build parts strictly and pad ourselves
-    const dtfFull = new Intl.DateTimeFormat('en-GB', {
+    // เตรียม formatter ล่วงหน้า
+    const dtf = new Intl.DateTimeFormat('en-GB', {
       timeZone: TZ,
-      year: 'numeric', month: '2-digit', day: '2-digit',
-      hour: '2-digit', minute: '2-digit', second: '2-digit',
-      hour12: false
+      year:'numeric', month:'2-digit', day:'2-digit',
+      hour:'2-digit', minute:'2-digit', second:'2-digit',
+      hour12:false
     });
 
     function formatDateTH24(d){
-      const parts = dtfFull.formatToParts(d).reduce((acc,p)=>{ acc[p.type]=p.value; return acc; }, {});
+      const parts = dtf.formatToParts(d).reduce((acc,p)=>{ acc[p.type]=p.value; return acc; }, {});
       const dd = pad2(parts.day || '0');
       const mm = pad2(parts.month || '0');
       const yy = parts.year || '';
@@ -214,30 +217,30 @@
       return `${days} Days ${pad2(hours)} Hours ${pad2(minutes)} Minutes ${pad2(seconds)} Seconds`;
     }
 
-    function tick(){
+    // ใช้ RAF เพื่อเขียนเวลาแบบ pad แล้ว "ทุกเฟรม"
+    function rafLoop(){
       const now = new Date();
-
-      if (timeEl) {
-        const next = formatDateTH24(now);
-        if (next !== STATE.lastTimeStr) {
-          STATE.lastTimeStr = next;
-          timeEl.textContent = next; // write only if changed
-        }
+      const str = formatDateTH24(now);
+      if (timeEl && str !== STATE.lastTimeStr) {
+        STATE.lastTimeStr = str;
+        timeEl.textContent = str;
       }
+      STATE.rafId = requestAnimationFrame(rafLoop);
+    }
+    rafLoop();
 
-      if (cdEl) {
-        const nextCd = buildCountdown(now);
-        if (nextCd !== STATE.lastCdStr) {
-          STATE.lastCdStr = nextCd;
-          cdEl.textContent = nextCd;
-          cdEl.style.textAlign = 'center';
-        }
+    // Countdown ยังอัปเดตทุกวินาที
+    function tickCd(){
+      const now = new Date();
+      const s = buildCountdown(now);
+      if (cdEl && s !== STATE.lastCdStr) {
+        STATE.lastCdStr = s;
+        cdEl.textContent = s;
+        cdEl.style.textAlign = 'center';
       }
     }
-
-    // Start single interval
-    tick();
-    STATE.timer = setInterval(tick, 1000);
+    tickCd();
+    STATE.cdTimer = setInterval(tickCd, 1000);
   }
 
   // -------------------------
