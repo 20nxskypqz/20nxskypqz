@@ -1,4 +1,4 @@
-<!-- html-OrganizeDocs-01102025-02 -->
+<!-- html-OrganizeDocs-01102025-03 -->
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;700&display=swap" rel="stylesheet" />
 
-  <!-- Material Symbols (เพิ่ม abc) -->
+  <!-- Material Symbols (CDN) -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0&icon_names=add,docs,picture_as_pdf,menu,close,light_mode,dark_mode,abc" />
   <style>.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 40; font-family:'Material Symbols Outlined' !important;}</style>
@@ -28,29 +28,24 @@
       <h3 class="muted" style="text-align:center; color:var(--muted);">เพิ่มเนื้อหา จัดลำดับ และดาวน์โหลดเอกสารของคุณ</h3>
     </section>
 
-    <!-- Toolbar -->
-    <section class="card" style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center;">
+    <!-- แถวบน: ปุ่มเพิ่มเนื้อหา (อยู่ตรงกลางบรรทัด) -->
+    <section class="card" style="display:flex; justify-content:center;">
       <button id="add-btn" class="btn btn-ghost" type="button">
         <span class="material-symbols-outlined">add</span> เพิ่มเนื้อหา
       </button>
-      <button id="download-docx-btn" class="btn btn-primary" type="button">
+    </section>
+
+    <!-- แถวล่าง: ปุ่มดาวน์โหลด 2 ปุ่ม “แยกคนละบรรทัด” -->
+    <section class="card" style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+      <button id="download-docx-btn" class="btn btn-primary" type="button" style="width:100%; max-width:420px;">
         <span class="material-symbols-outlined">docs</span> ดาวน์โหลด DOCX
       </button>
-      <button id="download-pdf-btn" class="btn btn-danger" type="button">
+      <button id="download-pdf-btn" class="btn btn-danger" type="button" style="width:100%; max-width:420px;">
         <span class="material-symbols-outlined">picture_as_pdf</span> ดาวน์โหลด PDF
       </button>
     </section>
 
-    <div id="add-menu" class="card" style="max-width:520px; margin:0 auto; display:none;">
-      <div style="display:flex; flex-wrap:wrap; gap:8px; justify-content:center;">
-        <button class="btn btn-ghost add-block-option" data-type="h-center">หัวเรื่อง (กลาง)</button>
-        <button class="btn btn-ghost add-block-option" data-type="h1">หัวข้อหลัก</button>
-        <button class="btn btn-ghost add-block-option" data-type="h2">หัวข้อย่อย</button>
-        <button class="btn btn-ghost add-block-option" data-type="h4">หัวข้อย่อยของย่อย</button>
-        <button class="btn btn-ghost add-block-option" data-type="p">เนื้อหา</button>
-      </div>
-    </div>
-
+    <!-- Editor -->
     <section id="editor" class="card" style="min-height:50vh;">
       <div id="placeholder" style="text-align:center; color:var(--muted); padding:40px 0;">
         คลิกปุ่ม “เพิ่มเนื้อหา” เพื่อเริ่มต้น
