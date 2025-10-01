@@ -1,9 +1,7 @@
-/* js-RootShared-01102025-18
-   - FINAL fix: Stable 2-digit time with no flicker
-     • Single tick aligned to the next second (no double writes)
-     • Shadow DOM for #current-time / #countdown-display so other scripts can’t overwrite
-     • Uses Intl.DateTimeFormat('2-digit') parts (already zero-padded)
-   - Keeps pre-v7 baseline behaviors + dropdown icon dark-mode color fix
+/* js-RootShared-01102025-20
+   - FIX: Center the time text (Home) while keeping ver.18 behavior (no flicker)
+   - Shadow DOM host now spans full width and centers its inner text
+   - Keeps dropdown icon dark-mode fix and all previous logic
 */
 
 (function () {
@@ -171,10 +169,8 @@
   }
 
   // -------------------------
-  // Home: Date & Time (dd/MM/yyyy HH:mm:ss, 2-digit, NO FLICKER) + Countdown
-  //  - Single aligned timer (no alternating)
-  //  - Shadow DOM rendering so other scripts can’t overwrite visible text
-  //  - Tabular numbers for stable width
+  // Home: Date & Time (dd/MM/yyyy HH:mm:ss, 2-digit, no flicker) + Countdown
+  // Shadow DOM renderer — now centered
   // -------------------------
   function initHomeTimeIfPresent() {
     const hostTime = qs('#current-time');
@@ -191,8 +187,15 @@
         const shadow = host.attachShadow({ mode: 'open' });
         const style = document.createElement('style');
         style.textContent = `
-          :host { display: inline-block; }
-          .wrap { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; white-space: nowrap; }
+          /* Host now spans 100% width so inner text can center */
+          :host { display: block; width: 100%; }
+          .wrap {
+            display: block;
+            text-align: center;         /* << center text here */
+            font-variant-numeric: tabular-nums;
+            font-feature-settings: "tnum" 1;
+            white-space: nowrap;
+          }
         `;
         const div = document.createElement('span');
         div.className = 'wrap';
@@ -217,7 +220,7 @@
 
     const formatDateTH24 = (d) => {
       const parts = dtf.formatToParts(d).reduce((o, p) => (o[p.type] = p.value, o), {});
-      // parts.* เป็น 2 หลักตั้งแต่ต้น (เพราะ '2-digit')
+      // parts.* are already 2-digit
       return `${parts.day}/${parts.month}/${parts.year} ${parts.hour}:${parts.minute}:${parts.second}`;
     };
 
@@ -235,7 +238,7 @@
       const now = new Date();
 
       if (timeSpan) timeSpan.textContent = formatDateTH24(now);
-      if (cdSpan)   { cdSpan.textContent   = buildCountdown(now); cdSpan.style.textAlign = 'center'; }
+      if (cdSpan)   cdSpan.textContent   = buildCountdown(now);
 
       // Align next tick to the next exact second boundary
       const ms = 1000 - now.getMilliseconds();
@@ -254,7 +257,7 @@
     bindSideMenu();
     bindThemeToggle();
     initRootDropdowns();
-    initHomeTimeIfPresent();
+    initHomeTimeIfPresent(); // << includes centering fix
   }
 
   if (document.readyState === 'loading') {
