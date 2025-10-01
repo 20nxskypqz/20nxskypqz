@@ -1,4 +1,4 @@
-<!-- html-Root-30092025-19 — dropdown icon-only; keep boxed link cards -->
+<!-- html-Root-01102025-01 -->
 <!DOCTYPE html>
 <html lang="en" class="root-page">
 <head>
@@ -11,8 +11,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;700&display=swap" rel="stylesheet" />
 
-  <!-- Preload self-hosted Material Symbols Outlined -->
-  <link rel="preload" href="/20nxskypqz/fonts/MaterialSymbolsOutlined.woff2" as="font" type="font/woff2" crossorigin>
+  <!-- Material Symbols (CDN, แบบเดิมตามที่ขอ) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+  <!-- icon subsets ที่ใช้ในหน้านี้ -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0&icon_names=home,arrow_drop_down,edit_document,mystery,school,menu,close,light_mode,dark_mode" />
+  <style>
+    .material-symbols-outlined{
+      font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 40;
+    }
+  </style>
 
   <link rel="stylesheet" href="/20nxskypqz/styles.css" />
 </head>
@@ -28,14 +35,12 @@
 
     <!-- About -->
     <section class="root-section drop-wrap">
-      <div class="section-header-row" style="display:flex; align-items:center; gap:8px;">
+      <div class="section-header-row">
         <h2 class="align-left" style="margin:0;">About</h2>
-        <!-- icon-only dropdown -->
         <button class="icon-btn root-section-toggle" type="button" data-target="#root-card-about" aria-label="Toggle About">
           <span class="material-symbols-outlined">arrow_drop_down</span>
         </button>
       </div>
-      <!-- boxed link card appears only after click -->
       <div id="root-card-about" class="card root-link-card" hidden>
         <ul style="list-style:none; padding:0; margin:0;">
           <li>
@@ -47,19 +52,19 @@
       </div>
     </section>
 
-    <!-- Entertainment -->
+    <!-- Study -->
     <section class="root-section drop-wrap">
-      <div class="section-header-row" style="display:flex; align-items:center; gap:8px;">
-        <h2 class="align-left" style="margin:0;">Entertainment</h2>
-        <button class="icon-btn root-section-toggle" type="button" data-target="#root-card-entertainment" aria-label="Toggle Entertainment">
+      <div class="section-header-row">
+        <h2 class="align-left" style="margin:0;">Study</h2>
+        <button class="icon-btn root-section-toggle" type="button" data-target="#root-card-study" aria-label="Toggle Study">
           <span class="material-symbols-outlined">arrow_drop_down</span>
         </button>
       </div>
-      <div id="root-card-entertainment" class="card root-link-card" hidden>
+      <div id="root-card-study" class="card root-link-card" hidden>
         <ul style="list-style:none; padding:0; margin:0;">
           <li>
-            <a href="/20nxskypqz/DetectiveConan/">
-              <span class="material-symbols-outlined">mystery</span> Detective Conan
+            <a href="https://20nxskypqz.github.io/20nxskypqz-Exam-Review/" target="_blank" rel="noopener">
+              <span class="material-symbols-outlined">school</span> Exam-Review
             </a>
           </li>
         </ul>
@@ -68,7 +73,7 @@
 
     <!-- Work -->
     <section class="root-section drop-wrap">
-      <div class="section-header-row" style="display:flex; align-items:center; gap:8px;">
+      <div class="section-header-row">
         <h2 class="align-left" style="margin:0;">Work</h2>
         <button class="icon-btn root-section-toggle" type="button" data-target="#root-card-work" aria-label="Toggle Work">
           <span class="material-symbols-outlined">arrow_drop_down</span>
@@ -86,35 +91,41 @@
       </div>
     </section>
 
-    <!-- Study -->
-    <section class="root-section drop-wrap">
-      <div class="section-header-row" style="display:flex; align-items:center; gap:8px;">
-        <h2 class="align-left" style="margin:0;">Study</h2>
-        <button class="icon-btn root-section-toggle" type="button" data-target="#root-card-study" aria-label="Toggle Study">
-          <span class="material-symbols-outlined">arrow_drop_down</span>
-        </button>
-      </div>
-      <div id="root-card-study" class="card root-link-card" hidden>
-        <ul style="list-style:none; padding:0; margin:0;">
-          <li>
-            <a href="https://20nxskypqz.github.io/20nxskypqz-Exam-Review/" target="_blank" rel="noopener">
-              Exam-Review
-            </a>
-          </li>
-        </ul>
-      </div>
-    </section>
-
     <!-- Games -->
     <section class="root-section drop-wrap">
-      <div class="section-header-row" style="display:flex; align-items:center; gap:8px;">
+      <div class="section-header-row">
         <h2 class="align-left" style="margin:0;">Games</h2>
         <button class="icon-btn root-section-toggle" type="button" data-target="#root-card-games" aria-label="Toggle Games">
           <span class="material-symbols-outlined">arrow_drop_down</span>
         </button>
       </div>
       <div id="root-card-games" class="card root-link-card" hidden>
-        <ul style="list-style:none; padding:0; margin:0;"></ul>
+        <ul style="list-style:none; padding:0; margin:0;">
+          <li>
+            <a href="/20nxskypqz/WordleAndContexto/">
+              <span class="material-symbols-outlined">games</span> Wordle & Contexto
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Entertainment -->
+    <section class="root-section drop-wrap">
+      <div class="section-header-row">
+        <h2 class="align-left" style="margin:0;">Entertainment</h2>
+        <button class="icon-btn root-section-toggle" type="button" data-target="#root-card-ent" aria-label="Toggle Entertainment">
+          <span class="material-symbols-outlined">arrow_drop_down</span>
+        </button>
+      </div>
+      <div id="root-card-ent" class="card root-link-card" hidden>
+        <ul style="list-style:none; padding:0; margin:0;">
+          <li>
+            <a href="/20nxskypqz/DetectiveConan/">
+              <span class="material-symbols-outlined">mystery</span> Detective Conan
+            </a>
+          </li>
+        </ul>
       </div>
     </section>
   </main>
