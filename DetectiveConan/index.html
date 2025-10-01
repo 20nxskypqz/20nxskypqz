@@ -1,41 +1,45 @@
-<!-- html-DetectiveConan-30092025-16 — self-hosted MaterialSymbolsOutlined -->
+<!-- html-DetectiveConan-01102025-01 -->
 <!DOCTYPE html>
-<html lang="en" class="conan-page">
+<html lang="ja">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>DetectiveConan - 20nxskypqz</title>
+  <title>名探偵コナン - 20nxskypqz</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;700&display=swap" rel="stylesheet" />
 
-  <!-- Preload self-hosted Material Symbols Outlined -->
-  <link rel="preload" href="/20nxskypqz/fonts/MaterialSymbolsOutlined.woff2" as="font" type="font/woff2" crossorigin>
+  <!-- Material Symbols (CDN แบบเดิม) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0&icon_names=menu,close,light_mode,dark_mode,arrow_drop_down" />
+  <style>.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 40;}</style>
 
   <link rel="stylesheet" href="/20nxskypqz/styles.css" />
 </head>
-<body class="light-mode conan-page">
+<body class="light-mode">
   <div data-include="/20nxskypqz/shared/header.html"></div>
   <div data-include="/20nxskypqz/shared/side-menu.html"></div>
 
   <main class="content">
-    <div class="title-group">
-      <h1 class="page-title-ja">名探偵コナン</h1>
-      <h1 class="page-title-en">Detective Conan</h1>
+    <section class="hero">
+      <h1 class="hero-title">名探偵コナン</h1>
+      <h3 style="margin-top:-6px;">Detective Conan</h3>
+    </section>
+
+    <!-- Season picker (coming back later) -->
+    <div class="season-picker">
+      <div class="season-pill" title="Coming back later">
+        <span class="material-symbols-outlined">arrow_drop_down</span>
+        <strong>Season picker</strong>
+        <span class="muted" style="opacity:.7;">(coming back later)</span>
+      </div>
     </div>
 
-    <div class="card" style="display:flex; justify-content:center;">
-      <button class="drop-btn" type="button" disabled>
-        <span class="material-symbols-outlined">arrow_drop_down</span>
-        Season picker (coming back later)
-      </button>
-    </div>
+    <!-- เนื้อหาหน้าคงเดิม (ถ้ามี) -->
   </main>
 
   <div data-include="/20nxskypqz/shared/footer.html"></div>
-
   <script src="/20nxskypqz/script.js"></script>
-  <script src="/20nxskypqz/DetectiveConan/script.js"></script>
 </body>
 </html>
