@@ -1,7 +1,9 @@
-/* js-RootShared-01102025-17
-   - Home time: always dd/MM/yyyy HH:mm:ss (2-digit) without flicker
-   - Single interval (clears old one) using Intl.DateTimeFormat.formatToParts
-   - Keeps pre-v7 baseline + dropdown icon dark-mode color fix
+/* js-RootShared-01102025-18
+   - FINAL fix: Stable 2-digit time with no flicker
+     • Single tick aligned to the next second (no double writes)
+     • Shadow DOM for #current-time / #countdown-display so other scripts can’t overwrite
+     • Uses Intl.DateTimeFormat('2-digit') parts (already zero-padded)
+   - Keeps pre-v7 baseline behaviors + dropdown icon dark-mode color fix
 */
 
 (function () {
@@ -169,19 +171,39 @@
   }
 
   // -------------------------
-  // Home: Date & Time (always dd/MM/yyyy HH:mm:ss, zero-padded) + Countdown
-  // Single interval; clears any old timer to avoid alternating writes
+  // Home: Date & Time (dd/MM/yyyy HH:mm:ss, 2-digit, NO FLICKER) + Countdown
+  //  - Single aligned timer (no alternating)
+  //  - Shadow DOM rendering so other scripts can’t overwrite visible text
+  //  - Tabular numbers for stable width
   // -------------------------
   function initHomeTimeIfPresent() {
-    const timeEl = qs('#current-time');
-    const cdEl   = qs('#countdown-display');
-    if (!timeEl && !cdEl) return;
+    const hostTime = qs('#current-time');
+    const hostCd   = qs('#countdown-display');
+    if (!hostTime && !hostCd) return;
 
-    // single timer guard
-    if (window.__HOME_TIMER__) {
-      clearInterval(window.__HOME_TIMER__);
-      window.__HOME_TIMER__ = null;
+    // Clear any existing timers from earlier runs
+    if (window.__HOME_TIME_LOOP__) { clearTimeout(window.__HOME_TIME_LOOP__); window.__HOME_TIME_LOOP__ = null; }
+
+    // Attach Shadow DOM to isolate visible content from any other scripts
+    function ensureShadow(host, id){
+      if (!host) return null;
+      if (!host.shadowRoot) {
+        const shadow = host.attachShadow({ mode: 'open' });
+        const style = document.createElement('style');
+        style.textContent = `
+          :host { display: inline-block; }
+          .wrap { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; white-space: nowrap; }
+        `;
+        const div = document.createElement('span');
+        div.className = 'wrap';
+        div.id = id;
+        shadow.append(style, div);
+      }
+      return host.shadowRoot.getElementById(id);
     }
+
+    const timeSpan = ensureShadow(hostTime, 'clock');
+    const cdSpan   = ensureShadow(hostCd,   'cd');
 
     const TZ = 'Asia/Bangkok';
     const pad2 = n => n.toString().padStart(2, '0');
@@ -195,7 +217,7 @@
 
     const formatDateTH24 = (d) => {
       const parts = dtf.formatToParts(d).reduce((o, p) => (o[p.type] = p.value, o), {});
-      // parts.hour/minute/second เป็น 2 หลักตั้งแต่ต้น
+      // parts.* เป็น 2 หลักตั้งแต่ต้น (เพราะ '2-digit')
       return `${parts.day}/${parts.month}/${parts.year} ${parts.hour}:${parts.minute}:${parts.second}`;
     };
 
@@ -209,17 +231,18 @@
       return `${days} Days ${pad2(hours)} Hours ${pad2(minutes)} Minutes ${pad2(seconds)} Seconds`;
     };
 
-    const tick = () => {
+    function tickAligned(){
       const now = new Date();
-      if (timeEl) timeEl.textContent = formatDateTH24(now);
-      if (cdEl) {
-        cdEl.textContent = buildCountdown(now);
-        cdEl.style.textAlign = 'center';
-      }
-    };
 
-    tick();
-    window.__HOME_TIMER__ = setInterval(tick, 1000);
+      if (timeSpan) timeSpan.textContent = formatDateTH24(now);
+      if (cdSpan)   { cdSpan.textContent   = buildCountdown(now); cdSpan.style.textAlign = 'center'; }
+
+      // Align next tick to the next exact second boundary
+      const ms = 1000 - now.getMilliseconds();
+      window.__HOME_TIME_LOOP__ = setTimeout(tickAligned, ms);
+    }
+
+    tickAligned();
   }
 
   // -------------------------
