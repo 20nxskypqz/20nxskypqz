@@ -1,7 +1,7 @@
-/* js-RootShared-01102025-08
-   ✅ แก้ปุ่ม 3 ขีด/สลับโหมดใช้ไม่ได้ ด้วย Event Delegation + ผูกหลัง include
-   ✅ dropdown หน้า Root: กดได้, ซ่อนการ์ดไว้ก่อน, โชว์เมื่อกดเท่านั้น
-   ✅ สีไอคอน dropdown เปลี่ยนตามโหมด (รับมรดกสีตัวอักษร)
+/* js-RootShared-01102025-09
+   ✅ แก้ปุ่มกดไม่ได้ (3 ขีด, ปิดเมนู, สลับโหมด)
+   ✅ Event Delegation รองรับทั้งปุ่ม/ไอคอน Material Symbols (menu/close/dark_mode/light_mode)
+   ✅ dropdown หน้ารูท: ซ่อนก่อนเสมอ, กดไอคอนแล้วค่อยแสดง, กดที่อื่นปิด
 */
 
 (function () {
@@ -11,7 +11,19 @@
   const qs  = (sel, root=document) => root.querySelector(sel);
   const qsa = (sel, root=document) => Array.from(root.querySelectorAll(sel));
 
-  // อ่านค่า theme
+  // อ่านชื่อไอคอน Material Symbols จาก element ที่คลิก
+  function iconName(el) {
+    if (!el) return null;
+    const isIcon = (node) =>
+      node.classList && [...node.classList].some(cls => cls.startsWith('material-symbols'));
+    // ไล่ขึ้นไปหา parent ที่เป็น icon ด้วย
+    const iconEl = el.closest ? el.closest('.material-symbols-outlined, .material-symbols-rounded, .material-symbols-sharp') : null;
+    const node = isIcon(el) ? el : iconEl;
+    if (!node) return null;
+    return (node.textContent || '').trim().toLowerCase();
+  }
+
+  // ---------- Theme ----------
   const THEME_KEY = 'theme@20nxskypqz';
   const applyTheme = (mode) => {
     const b = document.body;
@@ -37,30 +49,7 @@
     }));
   }
 
-  // ---------- Root dropdown panels ----------
-  function hideAllRootPanels() {
-    qsa('.root-link-card').forEach(panel => {
-      panel.hidden = true;
-      panel.style.display = 'none';
-    });
-    qsa('.root-section-toggle[aria-expanded="true"]').forEach(btn => {
-      btn.setAttribute('aria-expanded', 'false');
-    });
-  }
-  function initRootDropdowns() {
-    // ซ่อนก่อนเสมอ
-    hideAllRootPanels();
-
-    // ใส่ aria/cursor ให้ปุ่ม (ถ้ามี)
-    qsa('.root-section-toggle').forEach(btn=>{
-      btn.setAttribute('type', 'button');
-      btn.setAttribute('aria-expanded', 'false');
-      if(!btn.hasAttribute('aria-label')) btn.setAttribute('aria-label', 'Toggle section');
-      btn.style.cursor = 'pointer';
-    });
-  }
-
-  // ---------- Side menu helpers ----------
+  // ---------- Side menu ----------
   function getMenuElems() {
     const menu    = qs('.side-menu');
     const overlay = qs('.menu-overlay');
@@ -81,69 +70,25 @@
     document.body.style.overflow = '';
   }
 
-  // ---------- Event Delegation (คลิกรวมทั้งหน้า) ----------
-  function bindGlobalClicks() {
-    document.addEventListener('click', (e) => {
-      const t = e.target;
-
-      // 1) เปิดเมนู (3 ขีด) — รองรับหลาย selector
-      const openTrigger = t.closest('.menu-button, [data-open-menu], [data-menu-open], .hamburger, .header .menu-button');
-      if (openTrigger) {
-        e.preventDefault(); e.stopPropagation();
-        openMenu();
-        return;
-      }
-
-      // 2) ปิดเมนู (กากบาท/ฉากหลัง)
-      const closeTrigger = t.closest('.close-menu, [data-menu-close]');
-      const overlayClick = t.closest('.menu-overlay');
-      if (closeTrigger || overlayClick) {
-        e.preventDefault(); e.stopPropagation();
-        closeMenu();
-        return;
-      }
-
-      // 3) สลับธีม (ปุ่มสลับโหมด) — รองรับหลาย selector
-      const themeTrigger = t.closest('.theme-toggle, [data-theme-toggle], #themeToggle');
-      if (themeTrigger) {
-        e.preventDefault(); e.stopPropagation();
-        const isDark = document.body.classList.contains('dark-mode');
-        const next = isDark ? 'light' : 'dark';
-        applyTheme(next);
-        localStorage.setItem(THEME_KEY, next);
-        return;
-      }
-
-      // 4) Root: dropdown toggle (แสดง/ซ่อนการ์ด)
-      const dropBtn = t.closest('.root-section-toggle');
-      if (dropBtn) {
-        e.preventDefault(); e.stopPropagation();
-        const sel = dropBtn.getAttribute('data-target');
-        if (!sel) return;
-        const panel = qs(sel);
-        if (!panel) return;
-
-        const willOpen = panel.hidden === true || panel.style.display === 'none';
-        // ปิดตัวอื่น (ถ้าต้องการให้เปิดได้ทีละอัน)
-        // hideAllRootPanels();
-
-        panel.hidden = !willOpen;
-        panel.style.display = willOpen ? '' : 'none';
-        dropBtn.setAttribute('aria-expanded', String(willOpen));
-        return;
-      }
-
-      // 5) คลิกนอกการ์ด => ปิดการ์ดทั้งหมด (เฉพาะหน้ารูท)
-      const inPanel  = t.closest('.root-link-card');
-      const inToggle = t.closest('.root-section-toggle');
-      if (!inPanel && !inToggle && qs('.root-link-card')) {
-        hideAllRootPanels();
-      }
+  // ---------- Root dropdown panels ----------
+  function hideAllRootPanels() {
+    qsa('.root-link-card').forEach(panel => {
+      panel.hidden = true;
+      panel.style.display = 'none';
     });
-
-    // ปิดเมนูด้วย ESC
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeMenu();
+    qsa('.root-section-toggle[aria-expanded="true"]').forEach(btn => {
+      btn.setAttribute('aria-expanded', 'false');
+    });
+  }
+  function initRootDropdowns() {
+    // ซ่อนก่อนเสมอ
+    hideAllRootPanels();
+    // ใส่ aria/cursor ให้ปุ่ม toggle
+    qsa('.root-section-toggle').forEach(btn=>{
+      btn.setAttribute('type', 'button');
+      btn.setAttribute('aria-expanded', 'false');
+      if(!btn.hasAttribute('aria-label')) btn.setAttribute('aria-label', 'Toggle section');
+      btn.style.cursor = 'pointer';
     });
   }
 
@@ -183,23 +128,84 @@
     setInterval(tick, 1000); tick();
   }
 
+  // ---------- Global Event Delegation ----------
+  function bindGlobalPointer() {
+    // ใช้ pointerdown ให้ติดบนมือถือ/ทัชเร็วขึ้น (และซ้ำด้วย click กันพลาด)
+    const handler = (e) => {
+      const t = e.target;
+
+      // 1) เปิดเมนู (3 ขีด)
+      const openBtn = t.closest('.menu-button, [data-open-menu], [data-menu-open], .hamburger, .header .menu-button, .header .hamburger');
+      const isMenuIcon = t.closest('.header') && iconName(t) === 'menu';
+      if (openBtn || isMenuIcon) {
+        e.preventDefault(); e.stopPropagation();
+        openMenu();
+        return;
+      }
+
+      // 2) ปิดเมนู (กากบาท/ฉากหลัง)
+      const closeBtn = t.closest('.close-menu, [data-menu-close]');
+      const overlayClick = t.closest('.menu-overlay');
+      const isCloseIcon = t.closest('.side-menu') && iconName(t) === 'close';
+      if (closeBtn || overlayClick || isCloseIcon) {
+        e.preventDefault(); e.stopPropagation();
+        closeMenu();
+        return;
+      }
+
+      // 3) สลับธีม (ปุ่มสลับโหมด)
+      const themeBtn = t.closest('.theme-toggle, [data-theme-toggle], #themeToggle');
+      const icon = iconName(t);
+      const isThemeIcon = t.closest('.header') && (icon === 'dark_mode' || icon === 'light_mode');
+      if (themeBtn || isThemeIcon) {
+        e.preventDefault(); e.stopPropagation();
+        const next = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+        applyTheme(next);
+        localStorage.setItem(THEME_KEY, next);
+        return;
+      }
+
+      // 4) Root: dropdown toggle (ไอคอนลูกศร)
+      const dropBtn = t.closest('.root-section-toggle');
+      if (dropBtn) {
+        e.preventDefault(); e.stopPropagation();
+        const sel = dropBtn.getAttribute('data-target');
+        if (!sel) return;
+        const panel = qs(sel);
+        if (!panel) return;
+
+        const willOpen = panel.hidden === true || panel.style.display === 'none';
+        // ถ้าอยากเปิดได้ทีละอัน ให้ uncomment บรรทัดถัดไป
+        // hideAllRootPanels();
+
+        panel.hidden = !willOpen;
+        panel.style.display = willOpen ? '' : 'none';
+        dropBtn.setAttribute('aria-expanded', String(willOpen));
+        return;
+      }
+
+      // 5) คลิกนอก panel => ปิดการ์ดทั้งหมด (เฉพาะหน้ารูท)
+      const inPanel  = t.closest('.root-link-card');
+      const inToggle = t.closest('.root-section-toggle');
+      if (!inPanel && !inToggle && qs('.root-link-card')) {
+        hideAllRootPanels();
+      }
+    };
+
+    document.addEventListener('pointerdown', handler, { passive:false });
+    document.addEventListener('click', handler, { passive:false });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+  }
+
   // ---------- Boot ----------
   async function boot() {
-    // โหลด include ก่อน
-    await loadIncludes();
-
-    // โหลด theme จาก localStorage (ไม่ไปยุ่งอัตโนมัติช่วงเวลา)
-    const saved = localStorage.getItem(THEME_KEY);
+    await loadIncludes();                           // 1) โหลดส่วนหัว/เมนู/ท้ายให้เสร็จ
+    const saved = localStorage.getItem(THEME_KEY);  // 2) ใช้ธีมเดิมจาก localStorage
     applyTheme(saved === 'dark' ? 'dark' : 'light');
 
-    // ผูกคลิกแบบ global (รองรับ element ที่เพิ่ง include มาทีหลัง)
-    bindGlobalClicks();
-
-    // เตรียม dropdown หน้า Root
-    initRootDropdowns();
-
-    // เวลา/นับถอยหลัง (เฉพาะหน้าโฮม)
-    initHomeTimeIfPresent();
+    initRootDropdowns();    // 3) เตรียม dropdown หน้า Root (ซ่อนก่อนเสมอ)
+    bindGlobalPointer();    // 4) ผูกอีเวนต์แบบ Delegation (คลุมทั้งหน้า)
+    initHomeTimeIfPresent();// 5) เวลา/เคานต์ดาวน์ (ถ้าเป็นหน้าโฮม)
   }
 
   if (document.readyState === 'loading') {
