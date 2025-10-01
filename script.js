@@ -1,7 +1,9 @@
-/* js-RootShared-01102025-20
-   - FIX: Center the time text (Home) while keeping ver.18 behavior (no flicker)
-   - Shadow DOM host now spans full width and centers its inner text
-   - Keeps dropdown icon dark-mode fix and all previous logic
+/* js-RootShared-01102025-21
+   - Theme toggle icon:
+       • Light mode => Sun (light_mode)
+       • Dark mode  => Moon (dark_mode)
+       • Always black outline (both modes), not faded
+   - Keeps ver.20: Shadow DOM time (no flicker, centered), dropdown dark-mode color fix, single includes
 */
 
 (function () {
@@ -31,6 +33,24 @@
       .root-section-toggle .material-symbols-outlined { color: currentColor !important; }
       .dark-mode .root-section-toggle { color: #fff !important; }
       .light-mode .root-section-toggle { color: inherit; }
+    `;
+    document.head.appendChild(style);
+  }
+
+  // Force THEME TOGGLE icon to be solid black outline in both modes
+  function injectThemeToggleIconFix() {
+    if (document.getElementById('theme-toggle-icon-fix')) return;
+    const style = document.createElement('style');
+    style.id = 'theme-toggle-icon-fix';
+    style.textContent = `
+      .header .theme-toggle .material-symbols-outlined {
+        color: #000 !important;
+        font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 40;
+      }
     `;
     document.head.appendChild(style);
   }
@@ -98,29 +118,38 @@
   }
 
   // -------------------------
-  // Theme (Light/Dark)
+  // Theme (Light/Dark) + ICON SYNC
   // -------------------------
   function bindThemeToggle() {
     const header = qs('.header');
     if (!header) return;
 
     const toggleBtn = qs('.header .theme-toggle', header);
-    const themeIcons = qsa('.header .material-symbols-outlined', header)
-      .filter(el => {
-        const name = (el.textContent || '').trim().toLowerCase();
-        return name === 'dark_mode' || name === 'light_mode';
-      });
 
-    applyTheme(localStorage.getItem(THEME_KEY) === 'dark' ? 'dark' : 'light');
+    const setThemeIcon = (mode) => {
+      if (!toggleBtn) return;
+      const iconEl = toggleBtn.querySelector('.material-symbols-outlined');
+      if (!iconEl) return;
+      // Show SUN in light mode, MOON in dark mode
+      iconEl.textContent = (mode === 'dark') ? 'dark_mode' : 'light_mode';
+    };
+
+    const current = (localStorage.getItem(THEME_KEY) === 'dark') ? 'dark' : 'light';
+    applyTheme(current);
+    setThemeIcon(current);
 
     const handle = () => {
       const next = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
       applyTheme(next);
       localStorage.setItem(THEME_KEY, next);
+      setThemeIcon(next);
     };
 
     if (toggleBtn) toggleBtn.addEventListener('click', handle);
-    themeIcons.forEach(ic => ic.addEventListener('click', handle));
+
+    // Also allow clicking directly on the icon inside the button (if separate)
+    const iconInside = toggleBtn ? toggleBtn.querySelector('.material-symbols-outlined') : null;
+    if (iconInside) iconInside.addEventListener('click', (e) => { e.stopPropagation(); handle(); });
   }
 
   // -------------------------
@@ -170,28 +199,27 @@
 
   // -------------------------
   // Home: Date & Time (dd/MM/yyyy HH:mm:ss, 2-digit, no flicker) + Countdown
-  // Shadow DOM renderer — now centered
+  // Shadow DOM renderer — centered text
   // -------------------------
   function initHomeTimeIfPresent() {
     const hostTime = qs('#current-time');
     const hostCd   = qs('#countdown-display');
     if (!hostTime && !hostCd) return;
 
-    // Clear any existing timers from earlier runs
+    // Clear any existing timers
     if (window.__HOME_TIME_LOOP__) { clearTimeout(window.__HOME_TIME_LOOP__); window.__HOME_TIME_LOOP__ = null; }
 
-    // Attach Shadow DOM to isolate visible content from any other scripts
+    // Attach Shadow DOM to isolate visible content
     function ensureShadow(host, id){
       if (!host) return null;
       if (!host.shadowRoot) {
         const shadow = host.attachShadow({ mode: 'open' });
         const style = document.createElement('style');
         style.textContent = `
-          /* Host now spans 100% width so inner text can center */
           :host { display: block; width: 100%; }
           .wrap {
             display: block;
-            text-align: center;         /* << center text here */
+            text-align: center;         /* centered time text */
             font-variant-numeric: tabular-nums;
             font-feature-settings: "tnum" 1;
             white-space: nowrap;
@@ -220,7 +248,6 @@
 
     const formatDateTH24 = (d) => {
       const parts = dtf.formatToParts(d).reduce((o, p) => (o[p.type] = p.value, o), {});
-      // parts.* are already 2-digit
       return `${parts.day}/${parts.month}/${parts.year} ${parts.hour}:${parts.minute}:${parts.second}`;
     };
 
@@ -240,7 +267,6 @@
       if (timeSpan) timeSpan.textContent = formatDateTH24(now);
       if (cdSpan)   cdSpan.textContent   = buildCountdown(now);
 
-      // Align next tick to the next exact second boundary
       const ms = 1000 - now.getMilliseconds();
       window.__HOME_TIME_LOOP__ = setTimeout(tickAligned, ms);
     }
@@ -254,10 +280,11 @@
   async function boot() {
     await loadIncludes();
     injectDropdownIconDarkFix();
+    injectThemeToggleIconFix();  // << ensure black-outline icon for theme toggle
     bindSideMenu();
-    bindThemeToggle();
+    bindThemeToggle();           // << sets correct icon per mode
     initRootDropdowns();
-    initHomeTimeIfPresent(); // << includes centering fix
+    initHomeTimeIfPresent();
   }
 
   if (document.readyState === 'loading') {
