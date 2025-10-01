@@ -1,9 +1,9 @@
-/* js-RootShared-01102025-21
-   - Theme toggle icon:
-       • Light mode => Sun (light_mode)
-       • Dark mode  => Moon (dark_mode)
-       • Always black outline (both modes), not faded
-   - Keeps ver.20: Shadow DOM time (no flicker, centered), dropdown dark-mode color fix, single includes
+/* js-RootShared-01102025-22
+   - FIX: Theme toggle button not clickable
+     • Add robust event delegation on document for `.theme-toggle` (works after includes/re-renders)
+     • Ensure pointer/cursor styles on the toggle
+     • Keep icon logic: Light = light_mode (sun), Dark = dark_mode (moon), both black outline
+   - Keep ver.20 time (no flicker, centered via Shadow DOM) + dropdown icon dark-mode fix
 */
 
 (function () {
@@ -23,7 +23,7 @@
   }
 
   // -------------------------
-  // Inject CSS: dropdown icon follows text color; white in dark mode
+  // Inject CSS helpers
   // -------------------------
   function injectDropdownIconDarkFix() {
     if (document.getElementById('dropdown-dark-fix')) return;
@@ -37,26 +37,24 @@
     document.head.appendChild(style);
   }
 
-  // Force THEME TOGGLE icon to be solid black outline in both modes
+  // Always black outline icons for theme toggle (as requested)
   function injectThemeToggleIconFix() {
     if (document.getElementById('theme-toggle-icon-fix')) return;
     const style = document.createElement('style');
     style.id = 'theme-toggle-icon-fix';
     style.textContent = `
+      .header .theme-toggle { cursor: pointer; pointer-events: auto; }
       .header .theme-toggle .material-symbols-outlined {
         color: #000 !important;
-        font-variation-settings:
-          'FILL' 0,
-          'wght' 400,
-          'GRAD' 0,
-          'opsz' 40;
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 40;
+        user-select: none;
       }
     `;
     document.head.appendChild(style);
   }
 
   // -------------------------
-  // HTML includes (header/footer/side-menu)
+  // Includes
   // -------------------------
   async function loadIncludes() {
     const includeEls = qsa('[data-include]');
@@ -73,7 +71,7 @@
   }
 
   // -------------------------
-  // Side menu (hamburger)
+  // Side menu
   // -------------------------
   function bindSideMenu() {
     const header  = qs('.header');
@@ -118,42 +116,34 @@
   }
 
   // -------------------------
-  // Theme (Light/Dark) + ICON SYNC
+  // Theme (Light/Dark) — robust delegation
   // -------------------------
   function bindThemeToggle() {
-    const header = qs('.header');
-    if (!header) return;
-
-    const toggleBtn = qs('.header .theme-toggle', header);
-
-    const setThemeIcon = (mode) => {
-      if (!toggleBtn) return;
-      const iconEl = toggleBtn.querySelector('.material-symbols-outlined');
-      if (!iconEl) return;
-      // Show SUN in light mode, MOON in dark mode
-      iconEl.textContent = (mode === 'dark') ? 'dark_mode' : 'light_mode';
-    };
-
+    // initial apply
     const current = (localStorage.getItem(THEME_KEY) === 'dark') ? 'dark' : 'light';
     applyTheme(current);
-    setThemeIcon(current);
+    setThemeIconAll(current);
 
-    const handle = () => {
+    // Delegate click for any current/future .theme-toggle (works even after includes)
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.theme-toggle');
+      if (!btn) return;
+      e.preventDefault();
+      e.stopPropagation();
       const next = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
       applyTheme(next);
       localStorage.setItem(THEME_KEY, next);
-      setThemeIcon(next);
-    };
+      setThemeIconAll(next);
+    }, true); // capture=true to beat overlays in header if any
+  }
 
-    if (toggleBtn) toggleBtn.addEventListener('click', handle);
-
-    // Also allow clicking directly on the icon inside the button (if separate)
-    const iconInside = toggleBtn ? toggleBtn.querySelector('.material-symbols-outlined') : null;
-    if (iconInside) iconInside.addEventListener('click', (e) => { e.stopPropagation(); handle(); });
+  function setThemeIconAll(mode) {
+    const name = (mode === 'dark') ? 'dark_mode' : 'light_mode';
+    qsa('.theme-toggle .material-symbols-outlined').forEach(ic => { ic.textContent = name; });
   }
 
   // -------------------------
-  // ROOT page: dropdown sections (hidden by default)
+  // Root dropdowns
   // -------------------------
   function initRootDropdowns() {
     qsa('.root-link-card').forEach(panel => {
@@ -198,18 +188,15 @@
   }
 
   // -------------------------
-  // Home: Date & Time (dd/MM/yyyy HH:mm:ss, 2-digit, no flicker) + Countdown
-  // Shadow DOM renderer — centered text
+  // Home time (dd/MM/yyyy HH:mm:ss, 2-digit, centered, no flicker) + Countdown
   // -------------------------
   function initHomeTimeIfPresent() {
     const hostTime = qs('#current-time');
     const hostCd   = qs('#countdown-display');
     if (!hostTime && !hostCd) return;
 
-    // Clear any existing timers
     if (window.__HOME_TIME_LOOP__) { clearTimeout(window.__HOME_TIME_LOOP__); window.__HOME_TIME_LOOP__ = null; }
 
-    // Attach Shadow DOM to isolate visible content
     function ensureShadow(host, id){
       if (!host) return null;
       if (!host.shadowRoot) {
@@ -219,7 +206,7 @@
           :host { display: block; width: 100%; }
           .wrap {
             display: block;
-            text-align: center;         /* centered time text */
+            text-align: center;
             font-variant-numeric: tabular-nums;
             font-feature-settings: "tnum" 1;
             white-space: nowrap;
@@ -263,10 +250,8 @@
 
     function tickAligned(){
       const now = new Date();
-
       if (timeSpan) timeSpan.textContent = formatDateTH24(now);
       if (cdSpan)   cdSpan.textContent   = buildCountdown(now);
-
       const ms = 1000 - now.getMilliseconds();
       window.__HOME_TIME_LOOP__ = setTimeout(tickAligned, ms);
     }
@@ -280,9 +265,9 @@
   async function boot() {
     await loadIncludes();
     injectDropdownIconDarkFix();
-    injectThemeToggleIconFix();  // << ensure black-outline icon for theme toggle
+    injectThemeToggleIconFix();
     bindSideMenu();
-    bindThemeToggle();           // << sets correct icon per mode
+    bindThemeToggle();        // ← delegated; works reliably
     initRootDropdowns();
     initHomeTimeIfPresent();
   }
