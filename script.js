@@ -1,5 +1,5 @@
-/* js-RootShared-01102025-12
-   - FIX current time to HH:mm:ss (zero-padded) for Home page
+/* js-RootShared-01102025-13
+   - FIX: Always show Date + Time (dd/MM/yyyy HH:mm:ss) on Home (no alternating)
    - Keep pre-v7 baseline + dropdown icon dark-mode color fix
 */
 
@@ -168,7 +168,7 @@
   }
 
   // -------------------------
-  // Home time & countdown (HH:mm:ss only for time)
+  // Home: Date & Time (always dd/MM/yyyy HH:mm:ss) + Countdown
   // -------------------------
   function initHomeTimeIfPresent() {
     const timeEl = qs('#current-time');
@@ -178,17 +178,20 @@
     const TZ = 'Asia/Bangkok';
     const pad2 = n => n.toString().padStart(2, '0');
 
-    // เวลาแบบ HH:mm:ss (24 ชม.) — zero-padded ทุกส่วน
-    function formatTimeTH24(d){
-      const hh = new Intl.DateTimeFormat('en-GB',{hour:'2-digit',   hour12:false, timeZone:TZ}).format(d);
-      const mm = new Intl.DateTimeFormat('en-GB',{minute:'2-digit', timeZone:TZ}).format(d);
+    // แสดง "วันที่ + เวลา" ตลอด: dd/MM/yyyy HH:mm:ss (24h, zero-padded)
+    function formatDateTH24(d){
+      const dd = new Intl.DateTimeFormat('en-GB',{day:'2-digit', timeZone:TZ}).format(d);
+      const mm = new Intl.DateTimeFormat('en-GB',{month:'2-digit', timeZone:TZ}).format(d);
+      const yy = new Intl.DateTimeFormat('en-GB',{year:'numeric', timeZone:TZ}).format(d);
+      const hh = new Intl.DateTimeFormat('en-GB',{hour:'2-digit', hour12:false, timeZone:TZ}).format(d);
+      const mi = new Intl.DateTimeFormat('en-GB',{minute:'2-digit', timeZone:TZ}).format(d);
       const ss = new Intl.DateTimeFormat('en-GB',{second:'2-digit', timeZone:TZ}).format(d);
-      return `${hh}:${mm}:${ss}`;
+      return `${dd}/${mm}/${yy} ${hh}:${mi}:${ss}`;
     }
 
     function tick(){
       const now = new Date();
-      if (timeEl) timeEl.textContent = formatTimeTH24(now);
+      if (timeEl) timeEl.textContent = formatDateTH24(now);
 
       if (cdEl) {
         const target = new Date('2026-01-01T00:00:00+07:00').getTime();
