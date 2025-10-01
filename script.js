@@ -1,9 +1,11 @@
-/* js-RootShared-01102025-07
-   - รวมสคริปต์ส่วนกลางทุกหน้า (โหลด include, เมนู 3 ขีด, โหมดมืด)
-   - เพิ่ม logic สำหรับปุ่ม dropdown ของหน้ารูท:
-       * ทำให้กดได้จริง
-       * ซ่อนกล่องลิงก์ไว้ก่อนเสมอ (แสดงต่อเมื่อกด dropdown)
-       * สีไอคอนเปลี่ยนอัตโนมัติเมื่อสลับโหมด (อาศัย color: inherit)
+/* js-RootShared-01102025-06r
+   Baseline: behavior pre-v7
+   - โหลด includes ให้เสร็จก่อน แล้วค่อย bind ปุ่มแบบ “เจาะจง” (ไม่ใช้ delegation ทั้งหน้า)
+   - รองรับปุ่ม/ไอคอนยอดฮิตหลายแบบ แต่ไม่มีการดักกว้างเกินไป
+   - เมนู 3 ขีด, ปุ่มปิด, overlay, toggle group ในเมนู — ทำงานตรงไปตรงมา
+   - โหมดมืด: .header .theme-toggle (+ เผื่อไอคอน 'dark_mode'/'light_mode' ในหัว)
+   - หน้า Root: dropdown ซ่อนเสมอ โชว์เฉพาะเมื่อกดไอคอนของหัวข้อนั้น
+   - หน้า Home: เวลา 24 ชม. ไม่มี comma + Countdown EN labels (Days/Hours/Minutes/Seconds)
 */
 
 (function () {
@@ -14,6 +16,13 @@
   // -------------------------
   const qs  = (sel, root=document) => root.querySelector(sel);
   const qsa = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+  const THEME_KEY = 'theme@20nxskypqz';
+
+  function applyTheme(mode) {
+    const b = document.body;
+    if (mode === 'dark') { b.classList.add('dark-mode'); b.classList.remove('light-mode'); }
+    else { b.classList.add('light-mode'); b.classList.remove('dark-mode'); }
+  }
 
   // -------------------------
   // HTML includes (header/footer/side-menu)
@@ -36,13 +45,24 @@
   // Side menu (hamburger)
   // -------------------------
   function bindSideMenu() {
-    const openBtn  = qs('.header .menu-button, .header [data-open-menu]');
+    const header  = qs('.header');
+    const menu    = qs('.side-menu');
+    const overlay = qs('.menu-overlay');
+    if (!menu || !overlay || !header) return;
+
+    // ปุ่มเปิดเมนู: รองรับหลาย selector ที่เราเคยใช้ก่อน v7
+    const openBtns = [
+      ...qsa('.header .menu-button', header),
+      ...qsa('.header [data-open-menu]', header),
+      ...qsa('.header .hamburger', header)
+    ];
+    // เผื่อกรณีใช้ Material Symbols เป็นไอคอน “menu” ในหัว
+    const iconMenu = qsa('.header .material-symbols-outlined', header)
+      .filter(el => (el.textContent || '').trim().toLowerCase() === 'menu');
+    openBtns.push(...iconMenu);
+
+    // ปุ่มปิดเมนู (กากบาทในเมนู)
     const closeBtn = qs('.side-menu .close-menu');
-    const menu     = qs('.side-menu');
-    const overlay  = qs('.menu-overlay');
-
-    if (!menu || !overlay) return;
-
     const open = () => {
       menu.classList.add('open');
       overlay.classList.add('show');
@@ -54,19 +74,12 @@
       document.body.style.overflow = '';
     };
 
-    // เปิด/ปิดด้วยปุ่ม
-    if (openBtn)  openBtn.addEventListener('click', open);
+    openBtns.forEach(btn => btn && btn.addEventListener('click', open));
     if (closeBtn) closeBtn.addEventListener('click', close);
-
-    // ปิดเมื่อคลิกฉากหลัง
     overlay.addEventListener('click', close);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
 
-    // ปิดด้วย ESC
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') close();
-    });
-
-    // Sub-sections ในเมนู 3 ขีด
+    // toggle กลุ่มย่อยในเมนู 3 ขีด (เฉพาะปุ่มในเมนู)
     qsa('.menu-section-toggle', menu).forEach(btn => {
       btn.addEventListener('click', () => {
         const expanded = btn.getAttribute('aria-expanded') === 'true';
@@ -81,56 +94,44 @@
   // Theme (Light/Dark)
   // -------------------------
   function bindThemeToggle() {
-    const toggle = qs('.header .theme-toggle');
-    const root = document.body;
-    const KEY = 'theme@20nxskypqz';
+    const header = qs('.header');
+    if (!header) return;
 
-    const apply = (mode) => {
-      if (mode === 'dark') {
-        root.classList.add('dark-mode');
-        root.classList.remove('light-mode');
-      } else {
-        root.classList.add('light-mode');
-        root.classList.remove('dark-mode');
-      }
+    // ปุ่มสลับโหมดหลัก
+    const toggleBtn = qs('.header .theme-toggle', header);
+
+    // เผื่อมีใช้ Material Symbols เป็นไอคอนสลับโหมดในหัว
+    const themeIcons = qsa('.header .material-symbols-outlined', header)
+      .filter(el => {
+        const name = (el.textContent || '').trim().toLowerCase();
+        return name === 'dark_mode' || name === 'light_mode';
+      });
+
+    // โหลดธีมจาก localStorage (ก่อน v7 ไม่มี auto-time)
+    applyTheme(localStorage.getItem(THEME_KEY) === 'dark' ? 'dark' : 'light');
+
+    const handle = () => {
+      const next = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+      applyTheme(next);
+      localStorage.setItem(THEME_KEY, next);
     };
 
-    // โหลดจาก localStorage
-    const saved = localStorage.getItem(KEY);
-    if (saved === 'dark' || saved === 'light') {
-      apply(saved);
-    } else {
-      // ค่าเริ่มต้น: light
-      apply('light');
-    }
-
-    if (toggle) {
-      toggle.addEventListener('click', () => {
-        const isDark = root.classList.contains('dark-mode');
-        const next = isDark ? 'light' : 'dark';
-        apply(next);
-        localStorage.setItem(KEY, next);
-      });
-    }
+    if (toggleBtn) toggleBtn.addEventListener('click', handle);
+    themeIcons.forEach(ic => ic.addEventListener('click', handle));
   }
 
   // -------------------------
-  // ROOT page: dropdown sections
-  //  - ซ่อนการ์ดลิงก์เสมอ (ตอนโหลดหน้า)
-  //  - แสดง/ซ่อนเมื่อกดปุ่ม dropdown
-  //  - ไอคอนเป็นปุ่มที่ "กดได้จริง"
-  //  - สีไอคอนเปลี่ยนตามโหมด (อาศัย color:inherit จาก CSS เดิม)
+  // ROOT page: dropdown sections (ซ่อนก่อนเสมอ)
   // -------------------------
   function initRootDropdowns() {
-    // บังคับซ่อนทุกการ์ดในหน้า (กันกรณีมี CSS ไป override)
+    // ซ่อนทุกการ์ด
     qsa('.root-link-card').forEach(panel => {
       panel.hidden = true;
       panel.style.display = 'none';
     });
 
-    // คลิกที่ไอคอน dropdown เพื่อสลับแสดง/ซ่อน
+    // ปุ่มไอคอนลูกศรของแต่ละหัวข้อ
     qsa('.root-section-toggle').forEach(btn => {
-      // ทำให้กดได้แน่ ๆ (cursor pointer, aria)
       btn.setAttribute('type', 'button');
       if (!btn.hasAttribute('aria-label')) btn.setAttribute('aria-label', 'Toggle section');
       btn.setAttribute('aria-expanded', 'false');
@@ -139,24 +140,19 @@
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-
         const targetSel = btn.getAttribute('data-target');
         if (!targetSel) return;
-
         const panel = qs(targetSel);
         if (!panel) return;
 
-        // toggle
         const willOpen = panel.hidden === true || panel.style.display === 'none';
         panel.hidden = !willOpen;
         panel.style.display = willOpen ? '' : 'none';
-
-        // หมุนลูกศร (ใช้ aria-expanded + CSS ถ้ามี)
         btn.setAttribute('aria-expanded', String(willOpen));
       });
     });
 
-    // คลิกนอก panel เพื่อปิด (optional — ถ้าไม่ต้องการลบส่วนนี้ได้)
+    // คลิกนอกพื้นที่ => ปิดทั้งหมด
     document.addEventListener('click', (e) => {
       const withinToggle = e.target.closest('.root-section-toggle');
       const withinPanel  = e.target.closest('.root-link-card');
@@ -173,12 +169,12 @@
   }
 
   // -------------------------
-  // Time/Countdown (โค้ดของหน้าโฮมอาจพึ่ง DOM id เฉพาะ)
+  // Home date/time & countdown (ถ้ามี)
   // -------------------------
   function initHomeTimeIfPresent() {
     const timeEl = qs('#current-time');
     const cdEl   = qs('#countdown-display');
-    if (!timeEl && !cdEl) return; // ไม่ใช่หน้าโฮม ก็ข้าม
+    if (!timeEl && !cdEl) return;
 
     const TZ = 'Asia/Bangkok';
     const pad2 = n => n.toString().padStart(2, '0');
@@ -211,14 +207,14 @@
   }
 
   // -------------------------
-  // Boot
+  // Boot (โหลด includes เสร็จแล้วค่อย bind; ไม่มี delegation ทั้งหน้า)
   // -------------------------
   async function boot() {
-    await loadIncludes();       // ใส่ header/side-menu/footer
-    bindSideMenu();             // เมนู 3 ขีด
-    bindThemeToggle();          // โหมดมืด/สว่าง
-    initRootDropdowns();        // ปุ่ม dropdown ที่หน้ารูท
-    initHomeTimeIfPresent();    // เวลา & เคานต์ดาวน์ (ถ้าเป็นหน้าโฮม)
+    await loadIncludes();     // 1) โหลดส่วนหัว/เมนู/ท้ายให้เสร็จก่อน
+    bindSideMenu();           // 2) ค่อย bind ปุ่มเมนู 3 ขีด + ปิดเมนู
+    bindThemeToggle();        // 3) bind ปุ่มสลับโหมด
+    initRootDropdowns();      // 4) dropdown หน้า Root (ซ่อนก่อน)
+    initHomeTimeIfPresent();  // 5) เวลา/Countdown (เฉพาะหน้าโฮม)
   }
 
   if (document.readyState === 'loading') {
