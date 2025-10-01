@@ -1,19 +1,19 @@
-<!-- html-OrganizeDocs-01102025-01 -->
+<!-- html-OrganizeDocs-01102025-02 -->
 <!DOCTYPE html>
 <html lang="th">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Organize documents automatically - 20nxskypqz</title>
+  <title>Organize Documents Automatically - 20nxskypqz</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;700&display=swap" rel="stylesheet" />
 
-  <!-- Material Symbols (CDN แบบเดิม) -->
+  <!-- Material Symbols (เพิ่ม abc) -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0&icon_names=add,docs,picture_as_pdf,menu,close,light_mode,dark_mode" />
-  <style>.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 40;}</style>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0&icon_names=add,docs,picture_as_pdf,menu,close,light_mode,dark_mode,abc" />
+  <style>.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 40; font-family:'Material Symbols Outlined' !important;}</style>
 
   <link rel="stylesheet" href="/20nxskypqz/styles.css" />
   <link rel="stylesheet" href="/20nxskypqz/OrganizeDocumentsAutomatically/styles.css" />
@@ -28,7 +28,7 @@
       <h3 class="muted" style="text-align:center; color:var(--muted);">เพิ่มเนื้อหา จัดลำดับ และดาวน์โหลดเอกสารของคุณ</h3>
     </section>
 
-    <!-- Toolbar: ปุ่มสวย + รองรับโหมดมืด -->
+    <!-- Toolbar -->
     <section class="card" style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center;">
       <button id="add-btn" class="btn btn-ghost" type="button">
         <span class="material-symbols-outlined">add</span> เพิ่มเนื้อหา
@@ -41,7 +41,6 @@
       </button>
     </section>
 
-    <!-- Add menu -->
     <div id="add-menu" class="card" style="max-width:520px; margin:0 auto; display:none;">
       <div style="display:flex; flex-wrap:wrap; gap:8px; justify-content:center;">
         <button class="btn btn-ghost add-block-option" data-type="h-center">หัวเรื่อง (กลาง)</button>
@@ -52,7 +51,6 @@
       </div>
     </div>
 
-    <!-- Editor -->
     <section id="editor" class="card" style="min-height:50vh;">
       <div id="placeholder" style="text-align:center; color:var(--muted); padding:40px 0;">
         คลิกปุ่ม “เพิ่มเนื้อหา” เพื่อเริ่มต้น
