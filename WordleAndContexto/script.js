@@ -1,4 +1,4 @@
-// js-WordleAndContexto-30092025-02 — Fix init timing + robust Contexto matching + wide browser support
+// js-WordleAndContexto-01102025-03 — remove virtual keyboard; keep physical kb; robust Contexto
 
 window.addEventListener('DOMContentLoaded', () => {
   // =========================
@@ -16,17 +16,13 @@ window.addEventListener('DOMContentLoaded', () => {
     'ลงทุน','ธนาคาร','ตัวเลข','ภาษาไทย','อังกฤษ','ญี่ปุ่น','วัฒนธรรม','ประเพณี',
     'ประวัติ','ศาสนา','วัดวา','ธรรมชาติ','สิ่งแวดล้อม','โครงการ','ประชุม','วางแผน'
   ];
-  const KEYBOARD_LAYOUT = [
-    ['ๆ','ไ','ำ','พ','ะ','ั','ี','ร','น','ย','บ','ล'],
-    ['ฟ','ห','ก','ด','เ','้','่','า','ส','ว','ง'],
-    ['ENTER','ผ','ป','แ','อ','ิ','ื','ท','ม','ใ','ฝ','BKSP']
-  ];
-
   let currentGame = 'wordle';
+
   // Wordle
   let target = '';
   let row = 0, col = 0;
   let over = false;
+
   // Contexto
   const CONTEXTO_PUZZLES = {
     'ดวงอาทิตย์': ['ดวงอาทิตย์','ดาวฤกษ์','แสงแดด','ความร้อน','พลังงาน','ท้องฟ้า','กลางวัน','ดวงจันทร์','ดาวเคราะห์','จักรวาล','โลก','ฤดูร้อน','อวกาศ','พระอาทิตย์','สว่าง','เปลวไฟ','ไฟ','สีเหลือง','เมฆ','สีส้ม','ความอบอุ่น','ทะเลทราย','พืช','ต้นไม้','ออกซิเจน','ภูเขา','ทะเล','แม่น้ำ','ลม'],
@@ -39,14 +35,13 @@ window.addEventListener('DOMContentLoaded', () => {
   let ctxOver = false;
 
   // =========================
-  // DOM refs (ปลอดภัยแล้ว: DOM พร้อมแน่นอน)
+  // DOM refs
   // =========================
   const wordleTab = document.getElementById('wordle-tab');
   const contextoTab = document.getElementById('contexto-tab');
   const wordleGame = document.getElementById('wordle-game');
   const contextoGame = document.getElementById('contexto-game');
   const grid = document.getElementById('wordle-grid');
-  const kbd = document.getElementById('wordle-keyboard');
 
   const ctxInput = document.getElementById('contexto-input');
   const ctxBtn = document.getElementById('contexto-guess-btn');
@@ -82,7 +77,7 @@ window.addEventListener('DOMContentLoaded', () => {
   function hideModal(){ modal.classList.add('hidden'); }
 
   // =========================
-  // WORDLE
+  // WORDLE (no virtual keyboard)
   // =========================
   function buildGrid(){
     grid.innerHTML = '';
@@ -95,26 +90,10 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     }
   }
-  function buildKeyboard(){
-    kbd.innerHTML = '';
-    KEYBOARD_LAYOUT.forEach(row=>{
-      const rowDiv = document.createElement('div');
-      rowDiv.className = 'key-row';
-      row.forEach(key=>{
-        const btn = document.createElement('button');
-        btn.className = 'key' + ((key==='ENTER'||key==='BKSP')?' wide':'');
-        btn.textContent = key;
-        btn.dataset.key = key;
-        btn.addEventListener('click', ()=>handleKey(key));
-        rowDiv.appendChild(btn);
-      });
-      kbd.appendChild(rowDiv);
-    });
-  }
   function startWordle(){
     target = WORDLE_WORDS[Math.floor(Math.random()*WORDLE_WORDS.length)];
     row=0; col=0; over=false;
-    buildGrid(); buildKeyboard(); hideModal();
+    buildGrid(); hideModal();
     // console.log('Wordle Ans:', target);
   }
   function setTile(r,c,ch){
@@ -123,8 +102,8 @@ window.addEventListener('DOMContentLoaded', () => {
   }
   function handleKey(key){
     if(over) return;
-    if(key==='ENTER'){ submitGuess(); return; }
-    if(key==='BKSP'){
+    if(key==='Enter'){ submitGuess(); return; }
+    if(key==='Backspace'){
       if(col>0){ col--; setTile(row,col,''); }
       return;
     }
@@ -134,54 +113,33 @@ window.addEventListener('DOMContentLoaded', () => {
       return;
     }
   }
-  function keyEl(label){
-    // หลีกเลี่ยง CSS.escape เพื่อความเข้ากันได้: หาแบบวนลูปแทน
-    const keys = kbd.querySelectorAll('.key');
-    for(const k of keys){ if(k.dataset.key===label) return k; }
-    return null;
-  }
   function submitGuess(){
     if(col<5) return; // not full
     let guess=''; for(let i=0;i<5;i++) guess += document.getElementById(`tile-${row}-${i}`).textContent;
-
-    if(!WORDLE_WORDS.includes(guess)){
-      alert('ไม่พบคำนี้ในพจนานุกรม'); return;
-    }
+    if(!WORDLE_WORDS.includes(guess)){ alert('ไม่พบคำนี้ในพจนานุกรม'); return; }
 
     const targetLetters = target.split('');
     const guessLetters = guess.split('');
     const counts = {};
     targetLetters.forEach(ch=>{ counts[ch]=(counts[ch]||0)+1; });
 
-    // pass 1 exact
+    // exact
     for(let i=0;i<5;i++){
       const t = document.getElementById(`tile-${row}-${i}`);
-      const k = keyEl(guessLetters[i]);
       if(guessLetters[i]===targetLetters[i]){
         t.classList.add('state-correct','flip');
-        k?.classList.remove('state-present','state-absent');
-        k?.classList.add('state-correct');
         counts[guessLetters[i]]--;
       }
     }
-    // pass 2 present/absent
+    // present/absent
     for(let i=0;i<5;i++){
       const t = document.getElementById(`tile-${row}-${i}`);
       if(t.classList.contains('state-correct')) continue;
       const ch = guessLetters[i];
-      const k = keyEl(ch);
       if(targetLetters.includes(ch) && counts[ch]>0){
-        t.classList.add('state-present','flip');
-        if(!k?.classList.contains('state-correct')){
-          k?.classList.remove('state-absent');
-          k?.classList.add('state-present');
-        }
-        counts[ch]--;
+        t.classList.add('state-present','flip'); counts[ch]--;
       }else{
         t.classList.add('state-absent','flip');
-        if(!k?.classList.contains('state-correct') && !k?.classList.contains('state-present')){
-          k?.classList.add('state-absent');
-        }
       }
     }
 
@@ -193,53 +151,46 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Physical keyboard
   document.addEventListener('keyup', (e)=>{
     if(currentGame!=='wordle') return;
-    if(e.key==='Enter') return handleKey('ENTER');
-    if(e.key==='Backspace') return handleKey('BKSP');
-    if(isThaiChar(e.key)) return handleKey(e.key);
+    handleKey(e.key);
   });
 
   // =========================
   // CONTEXTO (robust match)
   // =========================
-  const ZW_RE = /[\u200B\u200C\u200D\uFEFF]/g; // zero-width characters
+  const ZW_RE = /[\u200B\u200C\u200D\uFEFF]/g;
   const WS_RE = /\s+/g;
   const norm = s => s.normalize('NFC').replace(ZW_RE,'').replace(WS_RE,'').trim();
 
-  let ctxIndexMap = new Map(); // normalized word -> rank(1-based)
+  let ctxIndexMap = new Map();
 
   function startContexto(){
     const keys = Object.keys(CONTEXTO_PUZZLES);
     const pick = keys[Math.floor(Math.random()*keys.length)];
     ctxAnswer = pick;
-    ctxList = CONTEXTO_PUZZLES[pick]; // first element is the answer
+    ctxList = CONTEXTO_PUZZLES[pick];
     ctxGuesses = []; ctxOver = false;
     ctxListEl.innerHTML = '';
     ctxInput.value = '';
     hideModal();
 
-    // Build normalized index
     ctxIndexMap = new Map();
-    ctxList.forEach((w, i) => ctxIndexMap.set(norm(w), i+1));
-    // console.log('Contexto Ans:', ctxList[0]);
+    ctxList.forEach((w,i)=> ctxIndexMap.set(norm(w), i+1));
   }
-
   function renderCtx(){
     ctxListEl.innerHTML = '';
     ctxGuesses.forEach(({word,rank})=>{
       const div = document.createElement('div');
       let cls = 'guess-red';
-      if(rank<=1) cls = 'guess-green';
-      else if(rank<=5) cls = 'guess-yellow';
-      else if(rank<=15) cls = 'guess-orange';
+      if(rank<=1) cls='guess-green';
+      else if(rank<=5) cls='guess-yellow';
+      else if(rank<=15) cls='guess-orange';
       div.className = `guess-item ${cls}`;
       div.innerHTML = `<span class="w">${word}</span><span class="r" style="font-size:20px; font-weight:800;">${rank}</span>`;
       ctxListEl.appendChild(div);
     });
   }
-
   function guessCtx(){
     if(ctxOver) return;
     const raw = ctxInput.value;
@@ -247,13 +198,9 @@ window.addEventListener('DOMContentLoaded', () => {
     if(!g) return;
 
     const rank = ctxIndexMap.get(g) || -1;
-
     if(rank!==-1){
-      // หลีกเลี่ยงซ้ำ: เช็คทั้ง normalized
       if(!ctxGuesses.some(x=>norm(x.word)===g)){
-        // เก็บเวอร์ชันที่ผู้ใช้พิมพ์ไว้แสดงผลสวย ๆ
-        const displayWord = raw.trim();
-        ctxGuesses.push({word: displayWord, rank});
+        ctxGuesses.push({word: raw.trim(), rank});
         ctxGuesses.sort((a,b)=>a.rank-b.rank);
         renderCtx();
         if(rank===1){ ctxOver=true; setTimeout(()=>showModal('ถูกต้อง!', ctxList[0]), 400); }
@@ -265,7 +212,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================
-  // Events wiring
+  // Events
   // =========================
   function bindEvents(){
     wordleTab.addEventListener('click', ()=> setActiveTab('wordle'));
@@ -273,23 +220,22 @@ window.addEventListener('DOMContentLoaded', () => {
     ctxBtn.addEventListener('click', guessCtx);
     ctxInput.addEventListener('keyup', e=>{ if(e.key==='Enter') guessCtx(); });
 
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') hideModal(); });
+    modal.addEventListener('click', (e)=>{ if(e.target===modal) hideModal(); });
     playAgain.addEventListener('click', ()=>{
       if(currentGame==='wordle') startWordle(); else startContexto();
       hideModal();
     });
-    modal.addEventListener('click', (e)=>{ if(e.target===modal) hideModal(); });
-    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') hideModal(); });
   }
 
   // =========================
-  // Init (หลัง DOM พร้อม)
+  // Init
   // =========================
   function init(){
     bindEvents();
     startWordle();
-    startContexto();   // เตรียมอีกเกมไว้พร้อม
+    startContexto();
     setActiveTab('wordle');
   }
-
   init();
 });
