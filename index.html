@@ -1,4 +1,4 @@
-<!-- html-Root-01102025-01 -->
+<!-- html-Root-01102025-02 -->
 <!DOCTYPE html>
 <html lang="en" class="root-page">
 <head>
@@ -11,13 +11,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;700&display=swap" rel="stylesheet" />
 
-  <!-- Material Symbols (CDN, แบบเดิมตามที่ขอ) -->
+  <!-- Material Symbols (CDN, รวมทุกไอคอนที่ใช้ รวม abc) -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-  <!-- icon subsets ที่ใช้ในหน้านี้ -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0&icon_names=home,arrow_drop_down,edit_document,mystery,school,menu,close,light_mode,dark_mode" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0&icon_names=home,arrow_drop_down,edit_document,mystery,school,menu,close,light_mode,dark_mode,abc" />
   <style>
     .material-symbols-outlined{
       font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 40;
+      font-family:'Material Symbols Outlined' !important;
     }
   </style>
 
@@ -37,6 +37,7 @@
     <section class="root-section drop-wrap">
       <div class="section-header-row">
         <h2 class="align-left" style="margin:0;">About</h2>
+        <!-- กล่องลิงก์จะแสดงเมื่อกดเฉพาะไอคอนนี้ -->
         <button class="icon-btn root-section-toggle" type="button" data-target="#root-card-about" aria-label="Toggle About">
           <span class="material-symbols-outlined">arrow_drop_down</span>
         </button>
@@ -64,7 +65,8 @@
         <ul style="list-style:none; padding:0; margin:0;">
           <li>
             <a href="https://20nxskypqz.github.io/20nxskypqz-Exam-Review/" target="_blank" rel="noopener">
-              <span class="material-symbols-outlined">school</span> Exam-Review
+              <span class="material-symbols-outlined">school</span>
+              <span>Exam<br>Review</span>
             </a>
           </li>
         </ul>
@@ -84,7 +86,7 @@
           <li>
             <a href="/20nxskypqz/OrganizeDocumentsAutomatically/">
               <span class="material-symbols-outlined">edit_document</span>
-              Organize documents automatically
+              <span>Organize Documents Automatically</span>
             </a>
           </li>
         </ul>
@@ -103,7 +105,7 @@
         <ul style="list-style:none; padding:0; margin:0;">
           <li>
             <a href="/20nxskypqz/WordleAndContexto/">
-              <span class="material-symbols-outlined">games</span> Wordle & Contexto
+              <span class="material-symbols-outlined">abc</span> Wordle &amp; Contexto
             </a>
           </li>
         </ul>
