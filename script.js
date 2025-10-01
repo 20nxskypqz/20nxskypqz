@@ -1,9 +1,10 @@
-/* js-RootShared-01102025-22
-   - FIX: Theme toggle button not clickable
-     • Add robust event delegation on document for `.theme-toggle` (works after includes/re-renders)
-     • Ensure pointer/cursor styles on the toggle
-     • Keep icon logic: Light = light_mode (sun), Dark = dark_mode (moon), both black outline
-   - Keep ver.20 time (no flicker, centered via Shadow DOM) + dropdown icon dark-mode fix
+/* js-RootShared-01102025-23
+   - HOTFIX: Theme toggle still not clickable → make it bulletproof
+     • Global event delegation (click + touchend + keydown[Enter/Space])
+     • Match multiple selectors & fallback to icon text ('light_mode'/'dark_mode')
+     • Ensure pointer + z-index so it’s tappable even near overlays
+   - Keep: ver.20 time (no flicker, centered via Shadow DOM), dropdown icon dark-mode color fix,
+           always-black outline icon for theme toggle
 */
 
 (function () {
@@ -15,12 +16,40 @@
   const qs  = (sel, root=document) => root.querySelector(sel);
   const qsa = (sel, root=document) => Array.from(root.querySelectorAll(sel));
   const THEME_KEY = 'theme@20nxskypqz';
+  const TOGGLE_SELECTORS = [
+    '.theme-toggle',
+    '[data-theme-toggle]',
+    '#theme-toggle',
+    '.toggle-theme',
+    '[aria-label="Toggle theme"]'
+  ];
 
   function applyTheme(mode) {
     const b = document.body;
     if (mode === 'dark') { b.classList.add('dark-mode'); b.classList.remove('light-mode'); }
     else { b.classList.add('light-mode'); b.classList.remove('dark-mode'); }
   }
+
+  function currentTheme() {
+    return document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+  }
+
+  function setThemeIconAll(mode) {
+    const name = (mode === 'dark') ? 'dark_mode' : 'light_mode'; // moon in dark, sun in light
+    qsa('.theme-toggle .material-symbols-outlined, [data-theme-toggle] .material-symbols-outlined, #theme-toggle .material-symbols-outlined, .toggle-theme .material-symbols-outlined').forEach(ic => {
+      ic.textContent = name;
+    });
+  }
+
+  function toggleTheme() {
+    const next = currentTheme() === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    localStorage.setItem(THEME_KEY, next);
+    setThemeIconAll(next);
+  }
+
+  // Expose for quick debug (optional)
+  window.__toggleTheme = toggleTheme;
 
   // -------------------------
   // Inject CSS helpers
@@ -37,14 +66,21 @@
     document.head.appendChild(style);
   }
 
-  // Always black outline icons for theme toggle (as requested)
   function injectThemeToggleIconFix() {
     if (document.getElementById('theme-toggle-icon-fix')) return;
     const style = document.createElement('style');
     style.id = 'theme-toggle-icon-fix';
     style.textContent = `
-      .header .theme-toggle { cursor: pointer; pointer-events: auto; }
-      .header .theme-toggle .material-symbols-outlined {
+      .header .theme-toggle,
+      .header [data-theme-toggle],
+      .header #theme-toggle,
+      .header .toggle-theme {
+        cursor: pointer; pointer-events: auto; position: relative; z-index: 5;
+      }
+      .header .theme-toggle .material-symbols-outlined,
+      .header [data-theme-toggle] .material-symbols-outlined,
+      .header #theme-toggle .material-symbols-outlined,
+      .header .toggle-theme .material-symbols-outlined {
         color: #000 !important;
         font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 40;
         user-select: none;
@@ -54,7 +90,7 @@
   }
 
   // -------------------------
-  // Includes
+  // HTML includes (header/footer/side-menu)
   // -------------------------
   async function loadIncludes() {
     const includeEls = qsa('[data-include]');
@@ -71,7 +107,7 @@
   }
 
   // -------------------------
-  // Side menu
+  // Side menu (hamburger)
   // -------------------------
   function bindSideMenu() {
     const header  = qs('.header');
@@ -104,42 +140,69 @@
     if (closeBtn) closeBtn.addEventListener('click', close);
     overlay.addEventListener('click', close);
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
-
-    qsa('.menu-section-toggle', menu).forEach(btn => {
-      btn.addEventListener('click', () => {
-        const expanded = btn.getAttribute('aria-expanded') === 'true';
-        btn.setAttribute('aria-expanded', String(!expanded));
-        const sub = btn.parentElement.querySelector('.menu-sublist');
-        if (sub) sub.hidden = expanded ? true : false;
-      });
-    });
   }
 
   // -------------------------
-  // Theme (Light/Dark) — robust delegation
+  // Robust Theme Toggle Delegation
   // -------------------------
-  function bindThemeToggle() {
-    // initial apply
-    const current = (localStorage.getItem(THEME_KEY) === 'dark') ? 'dark' : 'light';
-    applyTheme(current);
-    setThemeIconAll(current);
+  function bindThemeToggleDelegation() {
+    // Initial apply & icon sync
+    const initial = (localStorage.getItem(THEME_KEY) === 'dark') ? 'dark' : 'light';
+    applyTheme(initial);
+    setThemeIconAll(initial);
 
-    // Delegate click for any current/future .theme-toggle (works even after includes)
-    document.addEventListener('click', (e) => {
-      const btn = e.target.closest('.theme-toggle');
-      if (!btn) return;
+    // Helper: find toggle element from any clicked node
+    function findToggleEl(start) {
+      for (const sel of TOGGLE_SELECTORS) {
+        const found = start.closest(sel);
+        if (found) return found;
+      }
+      // fallback: clicking directly on the icon with text light_mode/dark_mode
+      const icon = start.closest('.material-symbols-outlined');
+      if (icon) {
+        const name = (icon.textContent || '').trim().toLowerCase();
+        if (name === 'light_mode' || name === 'dark_mode') {
+          // if icon is inside header, allow it
+          const header = icon.closest('.header');
+          if (header) return icon;
+        }
+      }
+      return null;
+    }
+
+    // Click handler (capture) — beats other handlers/overlays
+    const onClick = (e) => {
+      const target = e.target;
+      const hit = findToggleEl(target);
+      if (!hit) return;
       e.preventDefault();
-      e.stopPropagation();
-      const next = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
-      applyTheme(next);
-      localStorage.setItem(THEME_KEY, next);
-      setThemeIconAll(next);
-    }, true); // capture=true to beat overlays in header if any
-  }
+      // don’t stopPropagation fully; allow others if needed
+      toggleTheme();
+    };
 
-  function setThemeIconAll(mode) {
-    const name = (mode === 'dark') ? 'dark_mode' : 'light_mode';
-    qsa('.theme-toggle .material-symbols-outlined').forEach(ic => { ic.textContent = name; });
+    // Touch support
+    const onTouchEnd = (e) => {
+      const target = e.target;
+      const hit = findToggleEl(target);
+      if (!hit) return;
+      e.preventDefault();
+      toggleTheme();
+    };
+
+    // Keyboard support
+    const onKeyDown = (e) => {
+      const target = e.target;
+      const hit = findToggleEl(target);
+      if (!hit) return;
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleTheme();
+      }
+    };
+
+    document.addEventListener('click', onClick, true);
+    document.addEventListener('touchend', onTouchEnd, true);
+    document.addEventListener('keydown', onKeyDown, true);
   }
 
   // -------------------------
@@ -188,7 +251,7 @@
   }
 
   // -------------------------
-  // Home time (dd/MM/yyyy HH:mm:ss, 2-digit, centered, no flicker) + Countdown
+  // Home: Date & Time (dd/MM/yyyy HH:mm:ss, 2-digit, centered, no flicker) + Countdown
   // -------------------------
   function initHomeTimeIfPresent() {
     const hostTime = qs('#current-time');
@@ -267,7 +330,7 @@
     injectDropdownIconDarkFix();
     injectThemeToggleIconFix();
     bindSideMenu();
-    bindThemeToggle();        // ← delegated; works reliably
+    bindThemeToggleDelegation(); // << super robust
     initRootDropdowns();
     initHomeTimeIfPresent();
   }
