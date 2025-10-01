@@ -1,11 +1,7 @@
-/* js-RootShared-01102025-06r
-   Baseline: behavior pre-v7
-   - โหลด includes ให้เสร็จก่อน แล้วค่อย bind ปุ่มแบบ “เจาะจง” (ไม่ใช้ delegation ทั้งหน้า)
-   - รองรับปุ่ม/ไอคอนยอดฮิตหลายแบบ แต่ไม่มีการดักกว้างเกินไป
-   - เมนู 3 ขีด, ปุ่มปิด, overlay, toggle group ในเมนู — ทำงานตรงไปตรงมา
-   - โหมดมืด: .header .theme-toggle (+ เผื่อไอคอน 'dark_mode'/'light_mode' ในหัว)
-   - หน้า Root: dropdown ซ่อนเสมอ โชว์เฉพาะเมื่อกดไอคอนของหัวข้อนั้น
-   - หน้า Home: เวลา 24 ชม. ไม่มี comma + Countdown EN labels (Days/Hours/Minutes/Seconds)
+/* js-RootShared-01102025-11
+   Base: pre-v7 (06r) + FIX dropdown icon color in dark mode
+   - โหลด includes → ค่อย bind ปุ่มแบบเจาะจง (ไม่ใช้ delegation)
+   - แก้สีไอคอน dropdown (สามเหลี่ยม) ให้เป็นสีขาวเมื่อโหมดมืด ด้วย CSS inject
 */
 
 (function () {
@@ -22,6 +18,28 @@
     const b = document.body;
     if (mode === 'dark') { b.classList.add('dark-mode'); b.classList.remove('light-mode'); }
     else { b.classList.add('light-mode'); b.classList.remove('dark-mode'); }
+  }
+
+  // Inject CSS เพื่อบังคับให้ไอคอน dropdown เปลี่ยนสีตามโหมด
+  function injectDropdownIconDarkFix() {
+    if (document.getElementById('dropdown-dark-fix')) return;
+    const style = document.createElement('style');
+    style.id = 'dropdown-dark-fix';
+    style.textContent = `
+      /* ให้ไอคอนในปุ่ม dropdown รับสีจากตัวอักษรเสมอ */
+      .root-section-toggle .material-symbols-outlined {
+        color: currentColor !important;
+      }
+      /* โหมดมืด: บังคับให้ปุ่ม (และไอคอนข้างใน) เป็นสีขาว */
+      .dark-mode .root-section-toggle {
+        color: #fff !important;
+      }
+      /* โหมดสว่าง: ใช้สีตัวอักษรมาตรฐานของหน้า */
+      .light-mode .root-section-toggle {
+        color: inherit;
+      }
+    `;
+    document.head.appendChild(style);
   }
 
   // -------------------------
@@ -50,18 +68,15 @@
     const overlay = qs('.menu-overlay');
     if (!menu || !overlay || !header) return;
 
-    // ปุ่มเปิดเมนู: รองรับหลาย selector ที่เราเคยใช้ก่อน v7
     const openBtns = [
       ...qsa('.header .menu-button', header),
       ...qsa('.header [data-open-menu]', header),
       ...qsa('.header .hamburger', header)
     ];
-    // เผื่อกรณีใช้ Material Symbols เป็นไอคอน “menu” ในหัว
     const iconMenu = qsa('.header .material-symbols-outlined', header)
       .filter(el => (el.textContent || '').trim().toLowerCase() === 'menu');
     openBtns.push(...iconMenu);
 
-    // ปุ่มปิดเมนู (กากบาทในเมนู)
     const closeBtn = qs('.side-menu .close-menu');
     const open = () => {
       menu.classList.add('open');
@@ -79,7 +94,6 @@
     overlay.addEventListener('click', close);
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
 
-    // toggle กลุ่มย่อยในเมนู 3 ขีด (เฉพาะปุ่มในเมนู)
     qsa('.menu-section-toggle', menu).forEach(btn => {
       btn.addEventListener('click', () => {
         const expanded = btn.getAttribute('aria-expanded') === 'true';
@@ -97,17 +111,13 @@
     const header = qs('.header');
     if (!header) return;
 
-    // ปุ่มสลับโหมดหลัก
     const toggleBtn = qs('.header .theme-toggle', header);
-
-    // เผื่อมีใช้ Material Symbols เป็นไอคอนสลับโหมดในหัว
     const themeIcons = qsa('.header .material-symbols-outlined', header)
       .filter(el => {
         const name = (el.textContent || '').trim().toLowerCase();
         return name === 'dark_mode' || name === 'light_mode';
       });
 
-    // โหลดธีมจาก localStorage (ก่อน v7 ไม่มี auto-time)
     applyTheme(localStorage.getItem(THEME_KEY) === 'dark' ? 'dark' : 'light');
 
     const handle = () => {
@@ -124,13 +134,11 @@
   // ROOT page: dropdown sections (ซ่อนก่อนเสมอ)
   // -------------------------
   function initRootDropdowns() {
-    // ซ่อนทุกการ์ด
     qsa('.root-link-card').forEach(panel => {
       panel.hidden = true;
       panel.style.display = 'none';
     });
 
-    // ปุ่มไอคอนลูกศรของแต่ละหัวข้อ
     qsa('.root-section-toggle').forEach(btn => {
       btn.setAttribute('type', 'button');
       if (!btn.hasAttribute('aria-label')) btn.setAttribute('aria-label', 'Toggle section');
@@ -152,7 +160,6 @@
       });
     });
 
-    // คลิกนอกพื้นที่ => ปิดทั้งหมด
     document.addEventListener('click', (e) => {
       const withinToggle = e.target.closest('.root-section-toggle');
       const withinPanel  = e.target.closest('.root-link-card');
@@ -207,14 +214,15 @@
   }
 
   // -------------------------
-  // Boot (โหลด includes เสร็จแล้วค่อย bind; ไม่มี delegation ทั้งหน้า)
+  // Boot
   // -------------------------
   async function boot() {
-    await loadIncludes();     // 1) โหลดส่วนหัว/เมนู/ท้ายให้เสร็จก่อน
-    bindSideMenu();           // 2) ค่อย bind ปุ่มเมนู 3 ขีด + ปิดเมนู
-    bindThemeToggle();        // 3) bind ปุ่มสลับโหมด
-    initRootDropdowns();      // 4) dropdown หน้า Root (ซ่อนก่อน)
-    initHomeTimeIfPresent();  // 5) เวลา/Countdown (เฉพาะหน้าโฮม)
+    await loadIncludes();           // โหลดส่วน header/menu/footer
+    injectDropdownIconDarkFix();    // ✅ แทรก CSS แก้สีไอคอน dropdown ให้เข้ากับโหมดมืด
+    bindSideMenu();                 // เมนู 3 ขีด
+    bindThemeToggle();              // สลับโหมด
+    initRootDropdowns();            // dropdown หน้า Root
+    initHomeTimeIfPresent();        // เวลา/Countdown (หน้าโฮม)
   }
 
   if (document.readyState === 'loading') {
