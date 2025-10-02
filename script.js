@@ -1,10 +1,6 @@
-/* js-RootShared-02102025-10
-   Change: REMOVE ALL slide-menu related logic entirely.
-   Kept features:
-     - HTML includes (header/footer)
-     - Theme toggle (light/dark)
-     - Root-page dropdowns
-     - Home time & New Year 2026 countdown (TH, 24h, aligned)
+/* js-RootShared-02102025-11
+   Add: Basic slide menu wiring for side-menu.html (document-level)
+   Keep: HTML includes, theme toggle, root dropdowns, home time & countdown
 */
 
 (function () {
@@ -29,19 +25,16 @@
   }
 
   // -------------------------
-  // Helper CSS (no slide-menu rules)
+  // Helper CSS (no slide-menu styling here)
   // -------------------------
   function injectHelpersCSS() {
     if (document.getElementById('root-shared-helpers')) return;
     const style = document.createElement('style');
     style.id = 'root-shared-helpers';
     style.textContent = `
-      /* Root dropdown icon color sync */
       .root-section-toggle .material-symbols-outlined { color: currentColor !important; }
       .dark-mode .root-section-toggle { color:#fff !important; }
       .light-mode .root-section-toggle { color:inherit; }
-
-      /* Theme button cursor & icon look */
       .header .theme-toggle { cursor:pointer; }
       .header .theme-toggle .material-symbols-outlined,
       #mode-toggle .material-symbols-outlined {
@@ -49,15 +42,13 @@
         font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 40;
         user-select:none;
       }
-
-      /* Root link cards hidden attr */
       .root-link-card[hidden] { display:none !important; }
     `;
     document.head.appendChild(style);
   }
 
   // -------------------------
-  // HTML includes (header/footer/etc.)
+  // HTML includes (header/footer/side-menu)
   // -------------------------
   async function loadIncludes() {
     const includeEls = qsa('[data-include]');
@@ -67,13 +58,88 @@
       try {
         const res = await fetch(url, { cache: 'no-cache' });
         const html = await res.text();
-        el.outerHTML = html;
+        el.outerHTML = html; // NOTE: <script> inside included HTML won’t auto-execute
       } catch (e) { console.error('Include failed:', url, e); }
     }));
   }
 
   // -------------------------
-  // Root page dropdowns (unchanged)
+  // NEW: Basic Slide Menu (works with side-menu.html)
+  // -------------------------
+  function initSideMenuBasic() {
+    if (window.__SIDEMENU_BOUND__) return; // guard from double-binding
+    const overlay = qs('.smenu-overlay');
+    const drawer  = qs('.smenu');
+
+    // if page has no side-menu included, do nothing
+    if (!overlay || !drawer) return;
+
+    // initial: force closed
+    function forceClosed(){
+      drawer.classList.remove('open');
+      drawer.setAttribute('aria-hidden','true');
+      overlay.classList.remove('show');
+      overlay.hidden = true;
+      document.body.style.overflow = '';
+      // hide all submenu lists by default
+      qsa('.smenu-sub', drawer).forEach(ul => ul.hidden = true);
+      qsa('.smenu-sec-toggle', drawer).forEach(btn => btn.setAttribute('aria-expanded','false'));
+    }
+    function openMenu(){
+      drawer.setAttribute('aria-hidden','false');
+      drawer.classList.add('open');
+      overlay.hidden = false;
+      // force paint for transition
+      void overlay.offsetHeight;
+      overlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMenu(){
+      drawer.classList.remove('open');
+      drawer.setAttribute('aria-hidden','true');
+      overlay.classList.remove('show');
+      setTimeout(()=>{ overlay.hidden = true; }, 200);
+      document.body.style.overflow = '';
+    }
+
+    forceClosed();
+
+    // Document-level delegation:
+    document.addEventListener('click', (e) => {
+      const isHamburger = !!e.target.closest('.menu-toggle');
+      const isCloseBtn  = !!e.target.closest('.smenu-close');
+      const insideDrawer= !!e.target.closest('.smenu');
+      const inHeader    = !!e.target.closest('.basic-header');
+
+      if (isHamburger) { e.preventDefault(); openMenu(); return; }
+      if (isCloseBtn)  { e.preventDefault(); closeMenu(); return; }
+
+      // click outside drawer (while open) → close
+      if (drawer.classList.contains('open') && !insideDrawer && !inHeader) {
+        e.preventDefault(); closeMenu(); return;
+      }
+    });
+
+    // overlay & ESC
+    overlay.addEventListener('click', closeMenu);
+    document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closeMenu(); });
+
+    // section dropdowns (inside drawer)
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.smenu-sec-toggle');
+      if (!btn || !drawer.contains(btn)) return;
+      const sub = btn.parentElement.querySelector('.smenu-sub');
+      if (!sub) return;
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      sub.hidden = expanded;
+    });
+
+    window.__SIDEMENU_BOUND__ = true;
+  }
+
+  // -------------------------
+  // Root page dropdowns
   // -------------------------
   function hideAllRootPanels() {
     qsa('.root-link-card').forEach(panel => { panel.hidden = true; panel.style.display = 'none'; });
@@ -98,7 +164,7 @@
   }
 
   // -------------------------
-  // Theme toggle (unchanged)
+  // Theme toggle
   // -------------------------
   function bindThemeToggle() {
     const initial = (localStorage.getItem(THEME_KEY) === 'dark') ? 'dark' : 'light';
@@ -123,7 +189,7 @@
   }
 
   // -------------------------
-  // Home time & countdown (unchanged)
+  // Home time & countdown
   // -------------------------
   function initHomeTimeIfPresent() {
     const hostTime = qs('#current-time');
@@ -187,8 +253,9 @@
   // Boot
   // -------------------------
   async function boot() {
-    await loadIncludes();        // header/footer first
+    await loadIncludes();        // include header/footer/side-menu first
     injectHelpersCSS();          // helper styles
+    initSideMenuBasic();         // << NEW: wire slide menu after includes
     bindThemeToggle();           // theme
     initRootDropdowns();         // root dropdowns
     initHomeTimeIfPresent();     // time/countdown (if present)
