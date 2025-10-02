@@ -1,10 +1,9 @@
-/* js-RootShared-02102025-08
-   Fix (hard): Slide menu is open from first load & cannot be closed
-   - Aggressive scope detection (detectMenuScope)
-   - Force-close on boot: remove .open, aria-hidden=true, display:none
-   - Open = display:block + .open; Close = display:none + remove .open
-   - Robust close by: close button(s), overlay click, ESC, click-outside
-   - Keep other features intact (root dropdowns, theme toggle, home time)
+/* js-RootShared-02102025-09
+   Fix: Slide menu shows empty content because panels were hidden too broadly
+   - Do NOT globally hide groups inside the slide menu anymore.
+   - Hide only the sublists that are *actually* controlled by a toggle.
+   - Narrow PANEL selectors (remove .menu-group/.dropdown-panel/.submenu-items).
+   - Keep all other features intact.
 */
 
 (function () {
@@ -37,10 +36,11 @@
     'nav[aria-label="mobile"]','[data-mobile-nav]','[data-menu="mobile"]'
   ].join(',');
 
+  // ⬇️ แคบลง: เลือกเฉพาะ "ซับลิสต์" เท่านั้น ไม่รวมกรุ๊ปหัวข้อหลัก
   const PANEL_SEL = [
-    '.nav-sublist','[data-nav-sublist]','.menu-sublist','.submenu','.sublist',
-    '.submenu-list','.dropdown-panel','.menu-group','.submenu-items',
-    'ul[role="group"]','div[role="group"]','[data-sublist]','[data-submenu]'
+    '.nav-sublist','[data-nav-sublist]','[data-sublist]',
+    '.submenu','.sublist',
+    'ul[role="group"]','div[role="group"]'
   ].join(',');
 
   const TOGGLE_SEL = [
@@ -52,13 +52,27 @@
   ].join(',');
 
   // -------------------------
-  // Inject helper CSS (menu overlay + default hidden sublists)
+  // Inject helper CSS
   // -------------------------
   function injectHelpersCSS() {
     if (document.getElementById('root-shared-helpers')) return;
     const style = document.createElement('style');
     style.id = 'root-shared-helpers';
     style.textContent = `
+      /* Root dropdown icon color sync */
+      .root-section-toggle .material-symbols-outlined { color: currentColor !important; }
+      .dark-mode .root-section-toggle { color:#fff !important; }
+      .light-mode .root-section-toggle { color:inherit; }
+
+      /* Theme button cursor */
+      .header .theme-toggle { cursor:pointer; }
+      .header .theme-toggle .material-symbols-outlined,
+      #mode-toggle .material-symbols-outlined {
+        color:#000 !important;
+        font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 40;
+        user-select:none;
+      }
+
       /* Overlay for slide menu */
       .menu-overlay {
         position: fixed; inset: 0;
@@ -68,12 +82,8 @@
       }
       .menu-overlay.show { opacity: 1; pointer-events: auto; }
 
-      /* Root link cards (unchanged) */
+      /* อย่าไปซ่อนทุกอย่างในเมนูอีกแล้ว! ปล่อยให้ panels ถูกซ่อน/โชว์ด้วย JS เท่านั้น */
       .root-link-card[hidden] { display:none !important; }
-
-      /* Hide sublists inside any detected menu scope by default */
-      ${MENU_SCOPE_SEL} ${PANEL_SEL} { display: none; }
-      ${MENU_SCOPE_SEL} .open { display: block; }
     `;
     document.head.appendChild(style);
   }
@@ -95,30 +105,22 @@
   }
 
   // -------------------------
-  // Slide menu: detect scope aggressively
+  // Slide menu detection & overlay
   // -------------------------
   function detectMenuScope() {
-    // 1) Known selectors
     let el = qs(MENU_SCOPE_SEL);
     if (el) return el;
-
-    // 2) Heuristic: any nav/aside/div that looks like a drawer/menu
     const hint = /menu|drawer|side|offcanvas|panel|nav|mobile/i;
     const candidates = qsa('nav,aside,div');
     for (const c of candidates) {
       const id = (c.id || '');
       const cls = (c.className || '');
       if ((hint.test(id) || hint.test(cls)) && c !== qs('.header')) {
-        // must contain at least one link or list
         if (c.querySelector('a, ul, ol, [role="group"]')) return c;
       }
     }
     return null;
   }
-
-  // -------------------------
-  // Overlay
-  // -------------------------
   function ensureOverlay() {
     let ov = qs('.menu-overlay');
     if (!ov) { ov = document.createElement('div'); ov.className='menu-overlay'; document.body.appendChild(ov); }
@@ -132,16 +134,13 @@
     if (!menu) return;
     menu.classList.remove('open');
     menu.setAttribute('aria-hidden','true');
-    // kill any inline "showing" styles
     menu.style.display = 'none';
-    menu.style.visibility = '';
-    menu.style.transform = '';
     if (overlay) overlay.classList.remove('show');
     document.body.style.overflow = '';
   }
   function forceMenuOpen(menu, overlay) {
     if (!menu) return;
-    menu.style.display = 'block';   // beat any CSS that shows it by default
+    menu.style.display = 'block';
     menu.classList.add('open');
     menu.setAttribute('aria-hidden','false');
     if (overlay) overlay.classList.add('show');
@@ -149,7 +148,7 @@
   }
 
   // -------------------------
-  // Bind hamburger & closing behaviors
+  // Bind hamburger & closing
   // -------------------------
   function bindSideMenu() {
     const header = qs('.header');
@@ -157,11 +156,9 @@
     if (!menu || !header) return;
 
     const overlay = ensureOverlay();
-
-    // *** FORCE CLOSED ON BOOT ***
+    // ปิดเมนูไว้ก่อนเสมอ
     forceMenuClosed(menu, overlay);
 
-    // Openers in header (support various markup)
     const openBtns = [
       ...qsa('.header .menu-button', header),
       ...qsa('.header [data-open-menu]', header),
@@ -171,7 +168,6 @@
     ];
     openBtns.forEach(btn => btn && btn.addEventListener('click', (e)=>{ e.preventDefault(); forceMenuOpen(menu, overlay); }));
 
-    // Close buttons inside menu
     const closeBtns = [
       qs('#nav-close', menu),
       qs('.close-menu', menu),
@@ -181,95 +177,85 @@
     ].filter(Boolean);
     closeBtns.forEach(btn => btn && btn.addEventListener('click', (e)=>{ e.preventDefault(); forceMenuClosed(menu, overlay); }));
 
-    // Overlay click
     overlay.addEventListener('click', () => forceMenuClosed(menu, overlay));
-    // ESC key
     document.addEventListener('keydown', (e)=>{ if (e.key==='Escape') forceMenuClosed(menu, overlay); });
-    // Click outside menu
+
     document.addEventListener('click', (e) => {
       if (!menu.classList.contains('open')) return;
-      const insideMenu  = !!e.target.closest(detectMenuScopeSelectorFallback());
+      const insideMenu  = !!e.target.closest(MENU_SCOPE_SEL + ', nav, aside, div');
       const insideHead  = !!e.target.closest('.header');
       if (!insideMenu && !insideHead) forceMenuClosed(menu, overlay);
     });
   }
 
-  // helper: build a permissive selector for “inside menu” checks
-  function detectMenuScopeSelectorFallback() {
-    return MENU_SCOPE_SEL + ', nav, aside, div';
-  }
-
   // -------------------------
-  // Slide-menu dropdowns (scoped)
+  // Slide-menu dropdowns (hide only toggle-controlled panels)
   // -------------------------
   function nearestMenuScope(fromEl) {
-    const sel = detectMenuScopeSelectorFallback();
-    return fromEl.closest?.(sel) || null;
+    return fromEl.closest?.(MENU_SCOPE_SEL + ', nav, aside, div') || null;
   }
-  function closeAllSubLists(scope) {
-    qsa(PANEL_SEL, scope).forEach(el => {
-      el.classList.remove('open','is-open');
-      el.style.maxHeight = '0px';
-      el.style.display = 'none';
-      el.hidden = true;
-    });
-    qsa(TOGGLE_SEL, scope).forEach(tg => tg.setAttribute && tg.setAttribute('aria-expanded','false'));
-  }
-  function findPanelHeuristic(btn, scope) {
+  function findPanelForToggle(btn, scope) {
+    // 1) aria-controls
     const ac = btn.getAttribute && btn.getAttribute('aria-controls');
     if (ac) { const el = scope.querySelector(`#${CSS.escape(ac)}`) || document.getElementById(ac); if (el) return el; }
+    // 2) data-target
     const dt = btn.getAttribute && btn.getAttribute('data-target');
     if (dt) { try { const el = scope.querySelector(dt); if (el) return el; } catch(_){} }
+    // 3) next sibling
     const next = btn.nextElementSibling;
     if (next && next.matches?.(PANEL_SEL)) return next;
+    // 4) holders
     const holders = [ btn.closest('.has-submenu'), btn.closest('li'), btn.parentElement ].filter(Boolean);
     for (const h of holders) {
-      const el = h.querySelector(PANEL_SEL) || h.querySelector('ul,ol,[data-sublist],[data-submenu]');
+      const el = h.querySelector(PANEL_SEL) || h.querySelector('ul[role="group"],div[role="group"]');
       if (el) return el;
     }
     return null;
   }
-  function openPanel(panel, btn) {
+  function hidePanel(panel) {
+    panel.classList.remove('open','is-open');
+    panel.style.maxHeight = '0px';
+    panel.style.display = 'none';
+    panel.hidden = true;
+  }
+  function showPanel(panel) {
     panel.hidden = false;
     panel.style.display = 'block';
     panel.classList.add('open','is-open');
     panel.style.maxHeight = panel.scrollHeight + 'px';
-    panel.style.opacity = '1';
-    panel.style.transform = 'translateY(0)';
-    btn && btn.setAttribute('aria-expanded','true');
   }
-  function closePanel(panel, btn) {
-    panel.classList.remove('is-open');
-    panel.style.maxHeight = '0px';
-    panel.style.opacity = '0';
-    panel.style.transform = 'translateY(-2px)';
-    setTimeout(() => {
-      panel.classList.remove('open');
-      panel.style.display = 'none';
-      panel.hidden = true;
-    }, 260);
-    btn && btn.setAttribute('aria-expanded','false');
-  }
-  function bindMobileNavDropdowns() {
+
+  function hideOnlyTogglePanels() {
     const scope = detectMenuScope();
-    if (scope) closeAllSubLists(scope);
+    if (!scope) return;
+    // หาเฉพาะ panels ที่เข้าถึงได้จาก toggle เท่านั้น
+    const toggles = qsa(TOGGLE_SEL, scope);
+    const seen = new Set();
+    toggles.forEach(tg => {
+      const p = findPanelForToggle(tg, scope);
+      if (p && !seen.has(p)) { hidePanel(p); seen.add(p); }
+    });
+    // ปล่อยกลุ่มเมนูหลักให้มองเห็นตามปกติ
+  }
+
+  function bindMobileNavDropdowns() {
+    hideOnlyTogglePanels();
 
     document.addEventListener('click', (e) => {
       const scopeEl = nearestMenuScope(e.target);
-      // handle only when actually inside the slide-menu area (not root page)
       if (!scopeEl || !scopeEl.classList.contains('open')) return;
 
       let btn = e.target.closest(TOGGLE_SEL);
       if (!btn) return;
 
-      // If matched a Material icon, accept only arrow-ish toggles
+      // ถ้าเป็นไอคอน Material → รับเฉพาะ arrow/dropdown
       if (btn.classList.contains('material-symbols-outlined') || btn.classList.contains('material-icons')) {
         const txt = (btn.textContent || '').trim();
         const isArrow = (txt === 'arrow_drop_down' || txt === 'expand_more' || txt === 'chevron_right' || txt === 'chevron_left');
         if (!isArrow) return;
       }
 
-      // Real link? allow navigate unless explicit toggle attrs
+      // ถ้าเป็นลิงก์จริง ไม่ได้ตั้งใจให้ toggle ก็ปล่อยไป
       const tag = btn.tagName.toLowerCase();
       const href = btn.getAttribute('href');
       const isRealLink = (tag === 'a' && href && href !== '#' &&
@@ -278,19 +264,24 @@
 
       e.preventDefault(); e.stopPropagation();
 
-      const panel = findPanelHeuristic(btn, scopeEl);
+      const panel = findPanelForToggle(btn, scopeEl);
       if (!panel) return;
 
       const willOpen = !panel.classList.contains('is-open');
-      qsa(PANEL_SEL, scopeEl).forEach(p => { if (p !== panel) closePanel(p); });
-      if (willOpen) openPanel(panel, btn);
-      else closePanel(panel, btn);
+      // accordion: ปิดอันอื่นที่เป็น panel จาก toggle เช่นกัน
+      const toggles = qsa(TOGGLE_SEL, scopeEl);
+      const controlled = new Set();
+      toggles.forEach(t => { const p = findPanelForToggle(t, scopeEl); if (p) controlled.add(p); });
+      controlled.forEach(p => { if (p !== panel) hidePanel(p); });
+
+      if (willOpen) showPanel(panel); else hidePanel(panel);
     });
 
     window.addEventListener('resize', () => {
-      qsa(MENU_SCOPE_SEL).forEach(scope2 => {
-        const opened = scope2.querySelector(`${PANEL_SEL}.is-open`);
-        if (opened) opened.style.maxHeight = opened.scrollHeight + 'px';
+      const scope2 = detectMenuScope();
+      if (!scope2) return;
+      qsa(`${PANEL_SEL}.is-open`, scope2).forEach(opened => {
+        opened.style.maxHeight = opened.scrollHeight + 'px';
       });
     });
   }
@@ -411,11 +402,11 @@
   // -------------------------
   async function boot() {
     await loadIncludes();        // header/footer first
-    injectHelpersCSS();          // overlay + defaults
-    bindSideMenu();              // *** force closed, bind open/close ***
-    bindMobileNavDropdowns();    // slide-menu sublists
+    injectHelpersCSS();          // helpers
+    bindSideMenu();              // 3-bars open/close
+    bindMobileNavDropdowns();    // dropdowns in slide menu (hide only toggle-panels)
     bindThemeToggle();           // theme
-    initRootDropdowns();         // root-page dropdowns
+    initRootDropdowns();         // root dropdowns
     initHomeTimeIfPresent();     // time/countdown (if present)
   }
 
