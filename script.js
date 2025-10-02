@@ -1,14 +1,10 @@
-/* js-RootShared-02102025-05
-   Fix: Slide-menu dropdown opens but sub-links not visible
-     - Robust open/close with max-height transition + opacity
-     - Ensure hidden/display/aria expanded handled correctly
-     - Scoped to menu containers only; root dropdown logic kept
-   Keep:
-     - includes -> bind order
-     - theme toggle
-     - hamburger open/close + overlay
-     - root-page dropdowns
-     - home time & countdown (TH 24h, no flicker)
+/* js-RootShared-02102025-06
+   Fix: Slide menu shows as open on load & can't be closed
+     - Force-close menu on boot (remove .open, aria-hidden=true, overlay hide)
+     - Robust close triggers inside menu (buttons & Material Symbols 'close')
+     - Keep existing features unchanged:
+       includes -> bind order, theme toggle, slide-menu dropdowns, root dropdowns,
+       home time & countdown (TH, 24h, aligned tick)
 */
 
 (function () {
@@ -24,6 +20,8 @@
   const MENU_SCOPE_SEL = '#mobile-nav, .mobile-nav, .side-menu, .drawer, nav[aria-label="mobile"], .menu-panel';
   const PANEL_SEL = '.nav-sublist, [data-nav-sublist], .menu-sublist, .submenu, .sublist, ul[role="group"], div[role="group"]';
   const TOGGLE_SEL = '[data-nav-toggle], .nav-section-toggle, [aria-controls], [data-target], .dropdown-toggle, .nav-toggle, .has-submenu > a, .has-submenu > button, .nav-arrow, .material-symbols-outlined';
+
+  const getMenuScope = (root=document) => qs(MENU_SCOPE_SEL, root) || qs(MENU_SCOPE_SEL) || null;
 
   function applyTheme(mode) {
     const b = document.body;
@@ -58,28 +56,9 @@
         user-select:none;
       }
 
-      /* Slide-menu: prepare animated sublists (hidden by default) */
-      ${MENU_SCOPE_SEL} { position: relative; }
-      ${MENU_SCOPE_SEL} ${PANEL_SEL} {
-        display: none;
-        overflow: hidden;
-        max-height: 0;
-        opacity: 0;
-        transform: translateY(-2px);
-        transition: max-height .25s ease, opacity .2s ease, transform .25s ease;
-        z-index: 3; /* float above menu body */
-      }
-      ${MENU_SCOPE_SEL} ${PANEL_SEL}.is-open {
-        display: block;
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      /* For safety: also allow simple .open to work */
-      ${MENU_SCOPE_SEL} .open { display:block; }
-
-      /* Root link cards (kept) */
-      .root-link-card[hidden] { display:none !important; }
+      /* Slide-menu sublists default hidden (animated panels are handled elsewhere) */
+      ${MENU_SCOPE_SEL} ${PANEL_SEL} { display: none; }
+      ${MENU_SCOPE_SEL} .open { display: block; }
     `;
     document.head.appendChild(style);
   }
@@ -108,15 +87,16 @@
     if (!ov) { ov = document.createElement('div'); ov.className='menu-overlay'; document.body.appendChild(ov); }
     return ov;
   }
-  function getMenuScope(root=document) {
-    return qs(MENU_SCOPE_SEL, root) || qs(MENU_SCOPE_SEL, document) || null;
-  }
+
   function bindSideMenu() {
     const header  = qs('.header');
     const menu    = getMenuScope();
     if (!menu || !header) return;
 
     const overlay = ensureOverlay();
+
+    // --- FORCE CLOSED ON BOOT ---
+    forceMenuClosed(menu, overlay);
 
     const openBtns = [
       ...qsa('.header .menu-button', header),
@@ -125,27 +105,53 @@
       ...qsa('.header .menu-toggle', header),
       ...qsa('.header .material-symbols-outlined', header).filter(el => (el.textContent||'').trim()==='menu'),
     ];
-    const closeBtn = qs('#nav-close') || qs('.side-menu .close-menu');
+
+    // many possible close buttons inside the menu
+    const closeBtns = [
+      qs('#nav-close', menu),
+      qs('.close-menu', menu),
+      qs('.menu-close', menu),
+      qs('[data-close-menu]', menu),
+      // Material Symbols "close" icon inside menu
+      qsa('.material-symbols-outlined', menu).find(el => (el.textContent||'').trim()==='close')
+    ].filter(Boolean);
 
     const open = () => {
-      menu.classList.add('open'); overlay.classList.add('show');
-      if (menu.setAttribute) menu.setAttribute('aria-hidden','false');
+      menu.classList.add('open');
+      menu.setAttribute('aria-hidden','false');
+      overlay.classList.add('show');
       document.body.style.overflow = 'hidden';
     };
     const close = () => {
-      menu.classList.remove('open'); overlay.classList.remove('show');
-      if (menu.setAttribute) menu.setAttribute('aria-hidden','true');
-      document.body.style.overflow = '';
+      forceMenuClosed(menu, overlay);
     };
 
-    openBtns.forEach(btn => btn && btn.addEventListener('click', (e)=>{e.preventDefault(); open();}));
-    if (closeBtn) closeBtn.addEventListener('click', (e)=>{e.preventDefault(); close();});
+    openBtns.forEach(btn => btn && btn.addEventListener('click', (e)=>{ e.preventDefault(); open(); }));
+    closeBtns.forEach(btn => btn && btn.addEventListener('click', (e)=>{ e.preventDefault(); close(); }));
+
+    // close on overlay click
     overlay.addEventListener('click', close);
+    // close on ESC
     document.addEventListener('keydown', (e)=>{ if (e.key==='Escape') close(); });
+
+    // optional: click outside menu closes it
+    document.addEventListener('click', (e) => {
+      if (!menu.classList.contains('open')) return;
+      const clickedInsideMenu  = !!e.target.closest(MENU_SCOPE_SEL);
+      const clickedHeaderMenu  = !!e.target.closest('.header');
+      if (!clickedInsideMenu && !clickedHeaderMenu) close();
+    });
+  }
+
+  function forceMenuClosed(menu, overlay) {
+    menu.classList.remove('open');
+    menu.setAttribute('aria-hidden','true');
+    overlay.classList.remove('show');
+    document.body.style.overflow = '';
   }
 
   // -------------------------
-  // Slide-menu dropdowns (scoped)
+  // Slide-menu dropdowns (scoped) — unchanged from previous working logic
   // -------------------------
   function nearestMenuScope(fromEl) {
     return fromEl.closest?.(MENU_SCOPE_SEL) || null;
@@ -160,29 +166,20 @@
     qsa(TOGGLE_SEL, scope).forEach(tg => tg.setAttribute && tg.setAttribute('aria-expanded','false'));
   }
   function panelForToggle(btn, scope) {
-    // 1) aria-controls
     const ac = btn.getAttribute && btn.getAttribute('aria-controls');
     if (ac) { const el = scope.querySelector(`#${CSS.escape(ac)}`) || document.getElementById(ac); if (el) return el; }
-    // 2) data-target
     const dt = btn.getAttribute && btn.getAttribute('data-target');
     if (dt) { try { const el = scope.querySelector(dt); if (el) return el; } catch(_){} }
-    // 3) sibling
     const next = btn.nextElementSibling;
     if (next && next.matches?.(PANEL_SEL)) return next;
-    // 4) within holder
     const holder = btn.closest && btn.closest('.has-submenu');
-    if (holder) {
-      const el = holder.querySelector(PANEL_SEL);
-      if (el) return el;
-    }
+    if (holder) { const el = holder.querySelector(PANEL_SEL); if (el) return el; }
     return null;
   }
   function openPanel(panel, btn) {
-    // make visible and animatable
     panel.hidden = false;
     panel.style.display = 'block';
     panel.classList.add('open','is-open');
-    // set animated height to content
     const h = panel.scrollHeight;
     panel.style.maxHeight = h + 'px';
     panel.style.opacity = '1';
@@ -194,7 +191,6 @@
     panel.style.maxHeight = '0px';
     panel.style.opacity = '0';
     panel.style.transform = 'translateY(-2px)';
-    // after transition, fully hide
     setTimeout(() => {
       panel.classList.remove('open');
       panel.style.display = 'none';
@@ -202,12 +198,8 @@
     }, 260);
     btn && btn.setAttribute('aria-expanded','false');
   }
-
   function bindMobileNavDropdowns() {
-    // initialize all existing scopes hidden
     qsa(MENU_SCOPE_SEL).forEach(scope => closeAllSubLists(scope));
-
-    // delegated click inside menu scopes only
     document.addEventListener('click', (e) => {
       const scope = nearestMenuScope(e.target);
       if (!scope) return;
@@ -215,14 +207,12 @@
       let btn = e.target.closest(TOGGLE_SEL);
       if (!btn) return;
 
-      // Material icon filter: treat only dropdown-ish icons as toggles
       if (btn.classList.contains('material-symbols-outlined')) {
         const txt = (btn.textContent || '').trim();
         const isArrow = (txt === 'arrow_drop_down' || txt === 'expand_more' || txt === 'chevron_right' || txt === 'chevron_left');
         if (!isArrow) return;
       }
 
-      // If it's a real link (not a toggle), let it navigate
       const tag = btn.tagName.toLowerCase();
       const href = btn.getAttribute('href');
       const isRealLink = (tag === 'a' && href && href !== '#' && !btn.hasAttribute('data-nav-toggle') && !btn.hasAttribute('aria-controls') && !btn.hasAttribute('data-target'));
@@ -234,14 +224,11 @@
       if (!panel) return;
 
       const willOpen = !panel.classList.contains('is-open');
-      // accordion behavior
       qsa(PANEL_SEL, scope).forEach(p => { if (p !== panel) closePanel(p); });
-
       if (willOpen) openPanel(panel, btn);
       else closePanel(panel, btn);
     });
 
-    // handle resize: recalc maxHeight of the opened panel to prevent clipping
     window.addEventListener('resize', () => {
       qsa(MENU_SCOPE_SEL).forEach(scope => {
         const opened = scope.querySelector(`${PANEL_SEL}.is-open`);
@@ -251,7 +238,7 @@
   }
 
   // -------------------------
-  // Root page dropdowns (outside the 3-bars menu)
+  // Root page dropdowns — unchanged
   // -------------------------
   function hideAllRootPanels() {
     qsa('.root-link-card').forEach(panel => { panel.hidden = true; panel.style.display = 'none'; });
@@ -276,7 +263,7 @@
   }
 
   // -------------------------
-  // Theme toggle
+  // Theme toggle — unchanged
   // -------------------------
   function bindThemeToggle() {
     const initial = (localStorage.getItem(THEME_KEY) === 'dark') ? 'dark' : 'light';
@@ -301,7 +288,7 @@
   }
 
   // -------------------------
-  // Home time & countdown (TH 24h, no flicker)
+  // Home time & countdown — unchanged
   // -------------------------
   function initHomeTimeIfPresent() {
     const hostTime = qs('#current-time');
@@ -366,9 +353,9 @@
   // -------------------------
   async function boot() {
     await loadIncludes();        // โหลด header/footer ก่อน
-    injectHelpersCSS();          // helper CSS + animated sublists
-    bindSideMenu();              // ปุ่มสามขีด/overlay
-    bindMobileNavDropdowns();    // *** dropdowns in slide menu (scoped) ***
+    injectHelpersCSS();          // helper styles
+    bindSideMenu();              // ปุ่มสามขีด/overlay + FORCE CLOSED on boot
+    bindMobileNavDropdowns();    // dropdowns in slide menu
     bindThemeToggle();           // โหมดสว่าง/มืด
     initRootDropdowns();         // dropdown หน้า root
     initHomeTimeIfPresent();     // เวลา/นับถอยหลัง (ถ้ามี)
