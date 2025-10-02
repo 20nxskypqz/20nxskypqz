@@ -1,14 +1,40 @@
-<!-- shared/header.html — shared-header-30092025-16 (previous version) -->
-<!-- uses Material Symbols OUTLINED (self-hosted) -->
-<header class="header full-bleed">
-  <button class="menu-toggle" aria-label="Toggle navigation" type="button">
+<!-- html-SharedHeader-02102025-02 (slide-menu code removed; header only) -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+<header class="basic-header">
+  <button class="menu-toggle" aria-label="Open menu" type="button">
     <span class="material-symbols-outlined">menu</span>
   </button>
 
-  <!-- Capsule toggle uses OUTLINED icons -->
-  <div class="toggle-container" id="mode-toggle" aria-label="Toggle light/dark mode" role="button" tabindex="0">
-    <div class="toggle-circle">
-      <span class="material-symbols-outlined" id="mode-icon" aria-hidden="true">light_mode</span>
-    </div>
-  </div>
+  <div class="site-title">20nxskypqz</div>
+
+  <!-- ถ้ามีปุ่มสลับโหมดในธีมเดิม ให้ include จากไฟล์/โค้ดส่วนกลางเหมือนเดิม -->
 </header>
+
+<style>
+  :root {
+    --hdr-h: 56px;
+    --ink: #111;
+    --card: #fff;
+    --shadow: 0 10px 30px rgba(0,0,0,.12);
+  }
+  .dark-mode :root, .dark-mode {
+    --ink: #eee;
+    --card:#151515;
+    --shadow: 0 10px 30px rgba(0,0,0,.35);
+  }
+
+  .basic-header{
+    position: sticky; top: 0; left: 0; right: 0; height: var(--hdr-h);
+    display: flex; align-items: center; gap: 10px;
+    padding: 0 12px; background: var(--card); color: var(--ink);
+    box-shadow: var(--shadow); z-index: 50;
+  }
+  .basic-header .menu-toggle{
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border: none; background: transparent; cursor: pointer;
+    color: inherit;
+  }
+  .basic-header .menu-toggle .material-symbols-outlined{ font-size: 28px; line-height: 1; }
+  .basic-header .site-title{ font-weight: 700; font-size: 18px; color: var(--ink); margin-left: 4px; }
+</style>
