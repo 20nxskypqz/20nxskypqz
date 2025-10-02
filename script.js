@@ -1,10 +1,19 @@
-/* script.js — js-RootShared-01102025-33
-   - KEEP base from v22
-   - FIX: mobile-nav dropdowns inside the 3-bars menu
-     • Hides sublists by default
-     • Toggle via .nav-section-toggle / [data-nav-toggle] / [aria-controls] / nextElementSibling
-   - KEEP: includes→bind order (header/footer), theme toggle, side menu, root dropdowns, home time
+/* js-RootShared-02102025-01
+   Base: v22
+   Fix: Mobile-nav dropdowns (inside the 3-bars menu)
+     - Hide sublists by default
+     - Robust event delegation for toggles:
+         [data-nav-toggle], .nav-section-toggle, [aria-controls],
+         .has-submenu > a|button (uses nextElementSibling)
+     - Works with #mobile-nav or .side-menu structures
+   Keep:
+     - includes -> bind order
+     - theme toggle (Material Symbols: #mode-toggle/#mode-icon and legacy .theme-toggle)
+     - hamburger open/close + overlay
+     - root-page dropdowns
+     - home time & countdown (24h TH, no flicker)
 */
+
 (function () {
   "use strict";
 
@@ -20,23 +29,29 @@
     if (mode === 'dark') { b.classList.add('dark-mode'); b.classList.remove('light-mode'); }
     else { b.classList.add('light-mode'); b.classList.remove('dark-mode'); }
   }
+
   function setThemeIconAll(mode) {
     const name = (mode === 'dark') ? 'dark_mode' : 'light_mode';
-    qsa('.theme-toggle .material-symbols-outlined').forEach(ic => ic.textContent = name);
+    // new header capsule
     const modeIcon = qs('#mode-icon'); if (modeIcon) modeIcon.textContent = name;
+    // legacy buttons
+    qsa('.theme-toggle .material-symbols-outlined').forEach(ic => ic.textContent = name);
   }
 
   // -------------------------
   // CSS helpers (injected)
   // -------------------------
-  function injectDropdownIconDarkFix() {
-    if (document.getElementById('dropdown-dark-fix')) return;
+  function injectHelpersCSS() {
+    if (document.getElementById('root-shared-helpers')) return;
     const style = document.createElement('style');
-    style.id = 'dropdown-dark-fix';
+    style.id = 'root-shared-helpers';
     style.textContent = `
+      /* Root-page dropdown icon color sync */
       .root-section-toggle .material-symbols-outlined { color: currentColor !important; }
       .dark-mode .root-section-toggle { color:#fff !important; }
       .light-mode .root-section-toggle { color:inherit; }
+
+      /* Theme button cursor */
       .header .theme-toggle { cursor:pointer; }
       .header .theme-toggle .material-symbols-outlined,
       #mode-toggle .material-symbols-outlined {
@@ -44,9 +59,24 @@
         font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 40;
         user-select:none;
       }
-      /* mobile-nav dropdown basic states (hidden by default) */
-      #mobile-nav .nav-sublist,[data-nav-sublist] { display:none; }
-      #mobile-nav .nav-sublist.open,[data-nav-sublist].open { display:block; }
+
+      /* Ensure mobile-nav sublists are hidden by default */
+      #mobile-nav .nav-sublist,
+      #mobile-nav [data-nav-sublist],
+      #mobile-nav .menu-sublist,
+      #mobile-nav .submenu,
+      .side-menu .nav-sublist,
+      .side-menu [data-nav-sublist],
+      .side-menu .menu-sublist,
+      .side-menu .submenu,
+      #mobile-nav ul[role="group"],
+      .side-menu ul[role="group"],
+      #mobile-nav div[role="group"],
+      .side-menu div[role="group"] {
+        display: none;
+      }
+      #mobile-nav .open,
+      .side-menu .open { display: block; }
     `;
     document.head.appendChild(style);
   }
@@ -56,6 +86,7 @@
   // -------------------------
   async function loadIncludes() {
     const includeEls = qsa('[data-include]');
+    if (includeEls.length === 0) return;
     await Promise.all(includeEls.map(async (el) => {
       const url = el.getAttribute('data-include');
       try {
@@ -67,18 +98,28 @@
   }
 
   // -------------------------
-  // Side menu
+  // Helpers: mobile-nav
   // -------------------------
+  function getMobileNav() {
+    return qs('#mobile-nav') || qs('.side-menu') || null;
+  }
+
   function ensureOverlay() {
     let ov = qs('.menu-overlay');
     if (!ov) { ov = document.createElement('div'); ov.className='menu-overlay'; document.body.appendChild(ov); }
     return ov;
   }
+
+  // -------------------------
+  // Hamburger (open/close menu)
+  // -------------------------
   function bindSideMenu() {
     const header  = qs('.header');
-    const menu    = qs('#mobile-nav') || qs('.side-menu');
+    const menu    = getMobileNav();
     if (!menu || !header) return;
+
     const overlay = ensureOverlay();
+
     const openBtns = [
       ...qsa('.header .menu-button', header),
       ...qsa('.header [data-open-menu]', header),
@@ -106,49 +147,82 @@
   }
 
   // -------------------------
-  // Mobile-nav DROPDOWNS (inside the 3-bars menu)
+  // Mobile-nav: DROPDOWNS inside the slide menu (3-bars)
   // -------------------------
-  function panelForToggle(btn) {
-    // by aria-controls
+  const SUBLIST_SEL = [
+    '.nav-sublist','[data-nav-sublist]','.menu-sublist','.submenu','ul[role="group"]','div[role="group"]'
+  ].join(',');
+
+  function isMobileNavToggle(el) {
+    return !!(
+      el.closest('[data-nav-toggle]') ||
+      el.closest('.nav-section-toggle') ||
+      el.closest('[aria-controls]') ||
+      (el.closest('.has-submenu') && (
+        el.closest('.has-submenu').querySelector(SUBLIST_SEL) ||
+        el.closest('.has-submenu').nextElementSibling && el.closest('.has-submenu').nextElementSibling.matches?.(SUBLIST_SEL)
+      ))
+    );
+  }
+
+  function getToggleButton(el) {
+    return el.closest('[data-nav-toggle], .nav-section-toggle, [aria-controls], .has-submenu > a, .has-submenu > button') || null;
+  }
+
+  function panelForToggle(btn, scope) {
+    // aria-controls
     const ac = btn.getAttribute('aria-controls');
-    if (ac) { const el = document.getElementById(ac); if (el) return el; }
-    // by data-target
+    if (ac) { const el = (scope||document).getElementById?.(ac) || document.getElementById(ac); if (el) return el; }
+    // data-target
     const dt = btn.getAttribute('data-target');
-    if (dt) { const el = qs(dt, btn.closest('#mobile-nav')||document); if (el) return el; }
-    // next sibling common names
+    if (dt) { const el = qs(dt, scope||document); if (el) return el; }
+    // next sibling
     const next = btn.nextElementSibling;
-    if (next && (next.classList.contains('nav-sublist') || next.hasAttribute('data-nav-sublist') ||
-                 next.classList.contains('menu-sublist') || next.classList.contains('submenu'))) {
-      return next;
+    if (next && next.matches?.(SUBLIST_SEL)) return next;
+    // within .has-submenu
+    const holder = btn.closest('.has-submenu');
+    if (holder) {
+      const el = holder.querySelector(SUBLIST_SEL);
+      if (el) return el;
     }
     return null;
   }
-  function closeAllMobileSubLists(root) {
-    qsa('.nav-sublist,[data-nav-sublist],.menu-sublist,.submenu', root).forEach(el=>{
-      el.classList.remove('open'); el.style.display='none';
-    });
-    qsa('.nav-section-toggle,[data-nav-toggle]', root).forEach(tg=>{
-      tg.setAttribute('aria-expanded','false');
-    });
+
+  function hideAllSubLists(nav) {
+    qsa(SUBLIST_SEL, nav).forEach(el => { el.classList.remove('open'); el.style.display = 'none'; });
+    qsa('[data-nav-toggle], .nav-section-toggle, [aria-controls]', nav).forEach(tg => tg.setAttribute('aria-expanded','false'));
   }
+
   function bindMobileNavDropdowns() {
-    const nav = qs('#mobile-nav');
+    const nav = getMobileNav();
     if (!nav) return;
 
-    // Hide all sublists initially
-    closeAllMobileSubLists(nav);
+    // hide all initially
+    hideAllSubLists(nav);
 
-    // Delegate clicks inside #mobile-nav
+    // delegate clicks inside the menu
     nav.addEventListener('click', (e) => {
-      const btn = e.target.closest('.nav-section-toggle,[data-nav-toggle]');
+      if (!isMobileNavToggle(e.target)) return;
+      const btn = getToggleButton(e.target);
       if (!btn) return;
+
+      // if it's an <a href> that acts as toggle, prevent navigation
+      const tag = btn.tagName.toLowerCase();
+      const href = btn.getAttribute('href');
+      if (tag === 'a' && href && href !== '#' && !btn.hasAttribute('data-nav-toggle')) {
+        // This is a real link, not a toggle → allow it
+        return;
+      }
+
       e.preventDefault();
-      const panel = panelForToggle(btn);
+      e.stopPropagation();
+
+      const panel = panelForToggle(btn, nav);
       if (!panel) return;
 
       const willOpen = !panel.classList.contains('open');
-      // close others (accordion behavior)
-      closeAllMobileSubLists(nav);
+      // accordion behavior: close others first
+      hideAllSubLists(nav);
 
       if (willOpen) {
         panel.classList.add('open');
@@ -159,24 +233,64 @@
   }
 
   // -------------------------
-  // Root dropdowns (on the root page)
+  // Theme toggle (Material Symbols)
+  // -------------------------
+  function bindThemeToggle() {
+    const initial = (localStorage.getItem(THEME_KEY) === 'dark') ? 'dark' : 'light';
+    applyTheme(initial);
+    setThemeIconAll(initial);
+
+    function isToggle(el){
+      return !!(el.closest('.theme-toggle') || el.closest('#mode-toggle') || el.closest('[data-theme-toggle]'));
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!isToggle(e.target)) return;
+      e.preventDefault();
+      const next = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+      applyTheme(next);
+      localStorage.setItem(THEME_KEY, next);
+      setThemeIconAll(next);
+    }, true);
+
+    document.addEventListener('keydown', (e) => {
+      if ((e.key === 'Enter' || e.key === ' ') && isToggle(e.target)) {
+        e.preventDefault();
+        const next = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+        applyTheme(next);
+        localStorage.setItem(THEME_KEY, next);
+        setThemeIconAll(next);
+      }
+    }, true);
+  }
+
+  // -------------------------
+  // Root page dropdowns (outside the 3-bars menu)
   // -------------------------
   function initRootDropdowns() {
     qsa('.root-link-card').forEach(panel => { panel.hidden = true; panel.style.display = 'none'; });
     qsa('.root-section-toggle').forEach(btn => {
-      btn.setAttribute('type','button'); btn.setAttribute('aria-expanded','false'); btn.style.cursor='pointer';
+      btn.setAttribute('type','button');
+      btn.setAttribute('aria-expanded','false');
+      btn.style.cursor = 'pointer';
       btn.addEventListener('click', (e) => {
         e.preventDefault(); e.stopPropagation();
         const sel = btn.getAttribute('data-target');
-        const panel = sel ? qs(sel) : null; if (!panel) return;
+        const panel = sel ? qs(sel) : null;
+        if (!panel) return;
         const willOpen = panel.hidden || panel.style.display === 'none';
         // close others
         qsa('.root-link-card').forEach(p => { p.hidden = true; p.style.display = 'none'; });
         qsa('.root-section-toggle[aria-expanded="true"]').forEach(b => b.setAttribute('aria-expanded','false'));
         // open this one
-        if (willOpen) { panel.hidden=false; panel.style.display=''; btn.setAttribute('aria-expanded','true'); }
+        if (willOpen) {
+          panel.hidden = false;
+          panel.style.display = '';
+          btn.setAttribute('aria-expanded', 'true');
+        }
       });
     });
+
     document.addEventListener('click', (e) => {
       if (e.target.closest('.root-section-toggle') || e.target.closest('.root-link-card')) return;
       qsa('.root-link-card').forEach(panel => { panel.hidden = true; panel.style.display = 'none'; });
@@ -185,32 +299,7 @@
   }
 
   // -------------------------
-  // Theme toggle (Material Symbols)
-  // -------------------------
-  function bindThemeToggle() {
-    const initial = (localStorage.getItem(THEME_KEY) === 'dark') ? 'dark' : 'light';
-    applyTheme(initial); setThemeIconAll(initial);
-
-    function isToggle(el){
-      return !!(el.closest('.theme-toggle') || el.closest('#mode-toggle') || el.closest('[data-theme-toggle]'));
-    }
-    document.addEventListener('click', (e) => {
-      if (!isToggle(e.target)) return;
-      e.preventDefault();
-      const next = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
-      applyTheme(next); localStorage.setItem(THEME_KEY, next); setThemeIconAll(next);
-    }, true);
-    document.addEventListener('keydown', (e) => {
-      if ((e.key === 'Enter' || e.key === ' ') && isToggle(e.target)) {
-        e.preventDefault();
-        const next = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
-        applyTheme(next); localStorage.setItem(THEME_KEY, next); setThemeIconAll(next);
-      }
-    }, true);
-  }
-
-  // -------------------------
-  // Home time & countdown (no flicker)
+  // Home time & countdown
   // -------------------------
   function initHomeTimeIfPresent() {
     const hostTime = qs('#current-time');
@@ -274,13 +363,13 @@
   // Boot
   // -------------------------
   async function boot() {
-    await loadIncludes();            // ต้องโหลดหัว/ท้ายก่อน
-    injectDropdownIconDarkFix();     // styles รวม และซ่อน sublist เริ่มต้น
-    bindSideMenu();                  // ปุ่มสามขีด
-    bindMobileNavDropdowns();        // <-- แก้ dropdown ในเมนู 3 ขีด
-    bindThemeToggle();               // โหมดสว่าง/มืด
-    initRootDropdowns();             // dropdown บนหน้า root
-    initHomeTimeIfPresent();         // เวลา/นับถอยหลัง
+    await loadIncludes();        // ต้องโหลด header/footer ก่อน
+    injectHelpersCSS();          // styles helper + hide sublists default
+    bindSideMenu();              // ปุ่มสามขีด/overlay
+    bindMobileNavDropdowns();    // *** FIX: dropdowns in slide menu ***
+    bindThemeToggle();           // โหมดสว่าง/มืด
+    initRootDropdowns();         // dropdown หน้า root
+    initHomeTimeIfPresent();     // เวลา/นับถอยหลัง (ถ้ามี)
   }
 
   if (document.readyState === 'loading') {
