@@ -1,9 +1,26 @@
-<!-- html-SharedHeader-01102025-01
-     REPLACE your theme-toggle button in the shared header with this block.
-     Note: keep your other header items (menu, brand, etc.) the same.
+<!-- html-SharedHeader-01102025-00 (REVERTED)
+     — Previous version before -01
+     — Material Symbols for icons (menu / close / theme)
+     — Works with js-RootShared-01102025-22
+     — NOTE: Make sure Material Symbols CSS is loaded globally in <head>
 -->
-<button class="theme-toggle" aria-label="Toggle theme">
-  <!-- Flaticon icons only (no Google sun/moon) -->
-  <i class="fi fi-sr-brightness"  data-role="sun"  aria-hidden="true"></i>
-  <i class="fi fi-sr-moon-stars" data-role="moon" aria-hidden="true" style="display:none"></i>
-</button>
+<header class="header">
+  <button class="menu-button" aria-label="Open menu">
+    <span class="material-symbols-outlined">menu</span>
+  </button>
+
+  <div class="brand">20nxskypqz</div>
+
+  <button class="theme-toggle" aria-label="Toggle theme">
+    <span class="material-symbols-outlined">light_mode</span>
+  </button>
+</header>
+
+<!-- Side menu + overlay expected by JS -->
+<div class="menu-overlay"></div>
+<aside class="side-menu">
+  <button class="close-menu" aria-label="Close menu">
+    <span class="material-symbols-outlined">close</span>
+  </button>
+  <!-- Keep your existing menu items here -->
+</aside>
