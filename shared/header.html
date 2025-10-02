@@ -1,26 +1,13 @@
-<!-- html-SharedHeader-01102025-00 (REVERTED)
-     — Previous version before -01
-     — Material Symbols for icons (menu / close / theme)
-     — Works with js-RootShared-01102025-22
-     — NOTE: Make sure Material Symbols CSS is loaded globally in <head>
--->
-<header class="header">
-  <button class="menu-button" aria-label="Open menu">
+<!-- shared-header-30092025-16 — uses Material Symbols OUTLINED (self-hosted) -->
+<header class="header full-bleed">
+  <button class="menu-toggle" aria-label="Toggle navigation" type="button">
     <span class="material-symbols-outlined">menu</span>
   </button>
 
-  <div class="brand">20nxskypqz</div>
-
-  <button class="theme-toggle" aria-label="Toggle theme">
-    <span class="material-symbols-outlined">light_mode</span>
-  </button>
+  <!-- Capsule toggle uses OUTLINED icons -->
+  <div class="toggle-container" id="mode-toggle" aria-label="Toggle light/dark mode" role="button" tabindex="0">
+    <div class="toggle-circle">
+      <span class="material-symbols-outlined" id="mode-icon" aria-hidden="true">light_mode</span>
+    </div>
+  </div>
 </header>
-
-<!-- Side menu + overlay expected by JS -->
-<div class="menu-overlay"></div>
-<aside class="side-menu">
-  <button class="close-menu" aria-label="Close menu">
-    <span class="material-symbols-outlined">close</span>
-  </button>
-  <!-- Keep your existing menu items here -->
-</aside>
