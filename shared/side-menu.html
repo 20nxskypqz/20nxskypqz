@@ -1,4 +1,4 @@
-<!-- side-menu-02102025-02 :: slide menu with robust document-level delegation -->
+<!-- side-menu-02102025-03 :: remove Root link + add icons like root page -->
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 
 <!-- Overlay -->
@@ -21,8 +21,13 @@
         <span class="material-symbols-outlined chevron">arrow_drop_down</span>
       </button>
       <ul class="smenu-sub" hidden>
-        <li><a href="/20nxskypqz/">Root</a></li>
-        <li><a href="/20nxskypqz/Home/">Home</a></li>
+        <!-- ⛔️ Removed "Root" per request -->
+        <li>
+          <a href="/20nxskypqz/Home/">
+            <span class="material-symbols-outlined ms">home</span>
+            Home
+          </a>
+        </li>
       </ul>
     </section>
 
@@ -33,7 +38,12 @@
         <span class="material-symbols-outlined chevron">arrow_drop_down</span>
       </button>
       <ul class="smenu-sub" hidden>
-        <li><a href="https://20nxskypqz.github.io/20nxskypqz-Exam-Review/" target="_blank" rel="noopener">Exam&nbsp;Review</a></li>
+        <li>
+          <a href="https://20nxskypqz.github.io/20nxskypqz-Exam-Review/" target="_blank" rel="noopener">
+            <span class="material-symbols-outlined ms">school</span>
+            Exam&nbsp;Review
+          </a>
+        </li>
       </ul>
     </section>
 
@@ -44,7 +54,12 @@
         <span class="material-symbols-outlined chevron">arrow_drop_down</span>
       </button>
       <ul class="smenu-sub" hidden>
-        <li><a href="/20nxskypqz/OrganizeDocumentsAutomatically/">Organize&nbsp;Documents&nbsp;Automatically</a></li>
+        <li>
+          <a href="/20nxskypqz/OrganizeDocumentsAutomatically/">
+            <span class="material-symbols-outlined ms">edit_document</span>
+            Organize&nbsp;Documents&nbsp;Automatically
+          </a>
+        </li>
       </ul>
     </section>
 
@@ -55,7 +70,12 @@
         <span class="material-symbols-outlined chevron">arrow_drop_down</span>
       </button>
       <ul class="smenu-sub" hidden>
-        <li><a href="/20nxskypqz/WordleAndContexto/">Wordle&nbsp;&amp;&nbsp;Contexto</a></li>
+        <li>
+          <a href="/20nxskypqz/WordleAndContexto/">
+            <span class="material-symbols-outlined ms">abc</span>
+            Wordle&nbsp;&amp;&nbsp;Contexto
+          </a>
+        </li>
       </ul>
     </section>
 
@@ -66,7 +86,12 @@
         <span class="material-symbols-outlined chevron">arrow_drop_down</span>
       </button>
       <ul class="smenu-sub" hidden>
-        <li><a href="/20nxskypqz/DetectiveConan/">名探偵コナン&nbsp;Detective&nbsp;Conan</a></li>
+        <li>
+          <a href="/20nxskypqz/DetectiveConan/">
+            <span class="material-symbols-outlined ms">mystery</span>
+            名探偵コナン&nbsp;Detective&nbsp;Conan
+          </a>
+        </li>
       </ul>
     </section>
   </nav>
@@ -128,75 +153,10 @@
   }
   .smenu-sub li a:hover{ background:rgba(11,87,208,.08); }
 
-  /* Icon font */
+  /* Material Symbols */
   .material-symbols-outlined{
     font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 40;
     font-size:24px; line-height:1; vertical-align:middle; user-select:none;
   }
+  .ms{ margin-right:8px; }
 </style>
-
-<script>
-(() => {
-  const $  = (s, r=document) => r.querySelector(s);
-  const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
-
-  const overlay = $('.smenu-overlay');
-  const drawer  = $('.smenu');
-
-  function openMenu(){
-    if (!drawer || !overlay) return;
-    drawer.setAttribute('aria-hidden','false');
-    drawer.classList.add('open');
-    overlay.hidden = false;
-    // force paint for transition
-    void overlay.offsetHeight;
-    overlay.classList.add('show');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeMenu(){
-    if (!drawer || !overlay) return;
-    drawer.classList.remove('open');
-    drawer.setAttribute('aria-hidden','true');
-    overlay.classList.remove('show');
-    setTimeout(()=>{ overlay.hidden = true; }, 200);
-    document.body.style.overflow = '';
-  }
-
-  // ✅ Document-level delegation: header จะมาเมื่อไหร่ก็จับได้
-  document.addEventListener('click', (e) => {
-    const toggleBtn = e.target.closest('.menu-toggle');
-    const closeBtn  = e.target.closest('.smenu-close');
-    const inDrawer  = !!e.target.closest('.smenu');
-
-    if (toggleBtn) {
-      e.preventDefault();
-      openMenu();
-      return;
-    }
-    if (closeBtn || (!inDrawer && !e.target.closest('.basic-header') && overlay && !overlay.hasAttribute('hidden'))) {
-      // คลิกปุ่มปิด หรือคลิคนอก drawer ตอนเมนูเปิด
-      e.preventDefault();
-      closeMenu();
-      return;
-    }
-  });
-
-  // ปิดด้วย overlay และ ESC
-  overlay && overlay.addEventListener('click', closeMenu);
-  document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closeMenu(); });
-
-  // Dropdown ภายในเมนู (กดหัวข้อ → โชว์/ซ่อนลิงก์)
-  document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.smenu-sec-toggle');
-    if (!btn) return;
-    const sub = btn.parentElement.querySelector('.smenu-sub');
-    if (!sub) return;
-    const expanded = btn.getAttribute('aria-expanded') === 'true';
-    btn.setAttribute('aria-expanded', String(!expanded));
-    sub.hidden = expanded;
-  });
-
-  // เริ่มต้น: ซ่อนซับลิสต์ทั้งหมด
-  $$('.smenu-sub', drawer).forEach(ul => ul.hidden = true);
-})();
-</script>
