@@ -1,15 +1,12 @@
-/* js-RootShared-02102025-02
-   Base: v22
-   Fix: Mobile-nav dropdowns inside the 3-bars menu still not clickable
-        - Pure delegated click (document-level) so it works even if DOM is injected/replaced
-        - Very tolerant selectors for toggles/panels
-        - Hide all sublists by default inside the slide menu
-   Keep:
-        - includes -> bind order
-        - theme toggle (Material Symbols: #mode-toggle/#mode-icon and legacy .theme-toggle)
-        - hamburger open/close + overlay
-        - root-page dropdowns
-        - home time & countdown (TH 24h, no flicker)
+/* js-RootShared-02102025-03
+   Fix both:
+   - Mobile slide-menu dropdowns (inside #mobile-nav / .mobile-nav / .side-menu)
+   - Root page dropdowns (buttons .root-section-toggle -> .root-link-card)
+   Notes:
+   • Event delegation ระดับ document (bubbling) เพื่อไม่พังแม้ DOM จะถูก include/แทนที่
+   • ไม่รบกวนลิงก์จริง (กดลิงก์ = ไปหน้า, กดปุ่ม/ไอคอน dropdown = แค่กาง/พับ)
+   • ซ่อน sublists เริ่มต้นทุกครั้ง
+   • คงฟังก์ชัน: include header/footer → bind, theme toggle, hamburger, home time & countdown
 */
 
 (function () {
@@ -36,11 +33,11 @@
   }
 
   // -------------------------
-  // CSS helpers (inject)
+  // CSS helpers (inject once)
   // -------------------------
   const PANEL_SEL = [
     '.nav-sublist','[data-nav-sublist]','.menu-sublist','.submenu','.sublist',
-    '.root-link-card','ul[role="group"]','div[role="group"]'
+    'ul[role="group"]','div[role="group"]'
   ].join(',');
 
   function injectHelpersCSS() {
@@ -62,7 +59,7 @@
         user-select:none;
       }
 
-      /* Ensure slide-menu sublists are hidden by default */
+      /* Hide slide-menu sublists by default */
       #mobile-nav ${PANEL_SEL}, .mobile-nav ${PANEL_SEL}, .side-menu ${PANEL_SEL} { display: none; }
       #mobile-nav .open, .mobile-nav .open, .side-menu .open { display: block; }
     `;
@@ -127,27 +124,32 @@
   }
 
   // -------------------------
-  // Mobile-nav: robust DROPDOWNS (document-level delegation)
+  // Mobile-nav: robust DROPDOWNS (document-level delegation, bubbling)
   // -------------------------
   const TOGGLE_SEL = [
     '[data-nav-toggle]', '.nav-section-toggle', '[aria-controls]', '[data-target]',
-    '.dropdown-toggle', '.nav-toggle', '.has-submenu > a', '.has-submenu > button'
+    '.dropdown-toggle', '.nav-toggle', '.has-submenu > a', '.has-submenu > button',
+    '.nav-arrow', '.material-symbols-outlined'
   ].join(',');
 
   function hideAllSubLists(nav) {
     qsa(PANEL_SEL, nav).forEach(el => { el.classList.remove('open'); el.style.display = 'none'; });
-    qsa(TOGGLE_SEL, nav).forEach(tg => tg.setAttribute('aria-expanded','false'));
+    qsa(TOGGLE_SEL, nav).forEach(tg => tg.setAttribute && tg.setAttribute('aria-expanded','false'));
   }
 
   function panelForToggle(btn, scope) {
     const root = scope || document;
-    const ac = btn.getAttribute('aria-controls');
-    if (ac) { const el = root.getElementById?.(ac) || document.getElementById(ac); if (el) return el; }
-    const dt = btn.getAttribute('data-target');
+    // 1) aria-controls
+    const ac = btn.getAttribute && btn.getAttribute('aria-controls');
+    if (ac) { const el = (root.getElementById?.(ac)) || document.getElementById(ac); if (el) return el; }
+    // 2) data-target (CSS selector relative to scope)
+    const dt = btn.getAttribute && btn.getAttribute('data-target');
     if (dt) { const el = qs(dt, root); if (el) return el; }
+    // 3) next sibling panel
     const next = btn.nextElementSibling;
     if (next && next.matches?.(PANEL_SEL)) return next;
-    const holder = btn.closest('.has-submenu');
+    // 4) within .has-submenu container
+    const holder = btn.closest && btn.closest('.has-submenu');
     if (holder) {
       const el = holder.querySelector(PANEL_SEL);
       if (el) return el;
@@ -156,44 +158,45 @@
   }
 
   function bindMobileNavDropdowns() {
-    const nav = getMobileNav();
-    if (nav) hideAllSubLists(nav);
+    // ซ่อนทั้งหมดเริ่มต้น (ถ้ามี)
+    const navInit = getMobileNav();
+    if (navInit) hideAllSubLists(navInit);
 
-    // Delegate at document level (works even if nav is injected later)
     document.addEventListener('click', (e) => {
-      const scope = getMobileNav();
-      if (!scope) return;
-      const inMenu = !!e.target.closest('#mobile-nav, .mobile-nav, .side-menu');
-      if (!inMenu) return;
+      const nav = getMobileNav();
+      if (!nav) return;
+      if (!e.target.closest('#mobile-nav, .mobile-nav, .side-menu')) return;
 
-      // Accept both explicit toggles and the arrow icon itself
+      // ปุ่มที่นับว่าเป็น "toggle"
       let btn = e.target.closest(TOGGLE_SEL);
-      if (!btn) {
-        const ic = e.target.closest('.material-symbols-outlined');
-        // treat arrow_drop_down as a toggle if present next to a sublist
-        if (ic && (ic.textContent||'').trim()==='arrow_drop_down') {
-          btn = ic;
-        }
-      }
       if (!btn) return;
 
-      // If <a href> real navigation (not a pure toggle), let it navigate
+      // ถ้าเป็น <span class="material-symbols-outlined"> ให้ตรวจว่าเป็นลูกศรจริงๆ
+      if (btn.classList.contains('material-symbols-outlined')) {
+        const txt = (btn.textContent || '').trim();
+        const isArrow = (txt === 'arrow_drop_down' || txt === 'expand_more' || txt === 'chevron_right' || txt === 'chevron_left');
+        if (!isArrow) return; // ไอคอนอื่นไม่ถือว่าเป็น toggle
+      }
+
+      // ถ้าเป็นลิงก์จริง (href ไม่ใช่ #) และไม่มี data-nav-toggle → ไม่บล็อกการนำทาง
       const tag = btn.tagName.toLowerCase();
       const href = btn.getAttribute('href');
-      const actsAsLink = (tag === 'a' && href && href !== '#' && !btn.hasAttribute('data-nav-toggle'));
-      if (actsAsLink) return;
+      const isRealLink = (tag === 'a' && href && href !== '#' && !btn.hasAttribute('data-nav-toggle'));
+      if (isRealLink) return;
 
       e.preventDefault(); e.stopPropagation();
 
-      const panel = panelForToggle(btn, scope);
+      const panel = panelForToggle(btn, nav);
       if (!panel) return;
 
       const willOpen = !panel.classList.contains('open');
-      hideAllSubLists(scope);
+      // accordion: ปิดตัวอื่นก่อน
+      hideAllSubLists(nav);
+
       if (willOpen) {
         panel.classList.add('open');
         panel.style.display = 'block';
-        btn.setAttribute('aria-expanded','true');
+        btn.setAttribute && btn.setAttribute('aria-expanded','true');
       }
     });
   }
@@ -201,32 +204,35 @@
   // -------------------------
   // Root page dropdowns (outside the 3-bars menu)
   // -------------------------
-  function initRootDropdowns() {
+  function hideAllRootPanels() {
     qsa('.root-link-card').forEach(panel => { panel.hidden = true; panel.style.display = 'none'; });
-    qsa('.root-section-toggle').forEach(btn => {
-      btn.setAttribute('type','button');
-      btn.setAttribute('aria-expanded','false');
-      btn.style.cursor = 'pointer';
-      btn.addEventListener('click', (e) => {
-        e.preventDefault(); e.stopPropagation();
-        const sel = btn.getAttribute('data-target');
-        const panel = sel ? qs(sel) : null;
-        if (!panel) return;
-        const willOpen = panel.hidden || panel.style.display === 'none';
-        qsa('.root-link-card').forEach(p => { p.hidden = true; p.style.display = 'none'; });
-        qsa('.root-section-toggle[aria-expanded="true"]').forEach(b => b.setAttribute('aria-expanded','false'));
-        if (willOpen) {
-          panel.hidden = false;
-          panel.style.display = '';
-          btn.setAttribute('aria-expanded', 'true');
-        }
-      });
-    });
+    qsa('.root-section-toggle[aria-expanded="true"]').forEach(btn => btn.setAttribute('aria-expanded','false'));
+  }
+
+  function initRootDropdowns() {
+    hideAllRootPanels();
 
     document.addEventListener('click', (e) => {
-      if (e.target.closest('.root-section-toggle') || e.target.closest('.root-link-card')) return;
-      qsa('.root-link-card').forEach(panel => { panel.hidden = true; panel.style.display = 'none'; });
-      qsa('.root-section-toggle[aria-expanded="true"]').forEach(btn => btn.setAttribute('aria-expanded','false'));
+      const btn = e.target.closest('.root-section-toggle');
+      if (!btn) {
+        // click outside panels & toggles => close
+        if (!e.target.closest('.root-link-card')) {
+          hideAllRootPanels();
+        }
+        return;
+      }
+      e.preventDefault(); e.stopPropagation();
+
+      const sel = btn.getAttribute('data-target');
+      const panel = sel ? qs(sel) : null;
+      if (!panel) return;
+
+      const willOpen = panel.hidden || panel.style.display === 'none';
+      hideAllRootPanels();
+      if (willOpen) {
+        panel.hidden = false; panel.style.display = '';
+        btn.setAttribute('aria-expanded','true');
+      }
     });
   }
 
@@ -238,9 +244,9 @@
     applyTheme(initial);
     setThemeIconAll(initial);
 
-    function isToggle(el){
-      return !!(el.closest('.theme-toggle') || el.closest('#mode-toggle') || el.closest('[data-theme-toggle]'));
-    }
+    const isToggle = (el) =>
+      !!(el.closest('.theme-toggle') || el.closest('#mode-toggle') || el.closest('[data-theme-toggle]'));
+
     document.addEventListener('click', (e) => {
       if (!isToggle(e.target)) return;
       e.preventDefault();
@@ -248,7 +254,7 @@
       applyTheme(next);
       localStorage.setItem(THEME_KEY, next);
       setThemeIconAll(next);
-    }, true);
+    });
 
     document.addEventListener('keydown', (e) => {
       if ((e.key === 'Enter' || e.key === ' ') && isToggle(e.target)) {
@@ -258,7 +264,7 @@
         localStorage.setItem(THEME_KEY, next);
         setThemeIconAll(next);
       }
-    }, true);
+    });
   }
 
   // -------------------------
@@ -327,11 +333,11 @@
   // -------------------------
   async function boot() {
     await loadIncludes();        // ต้องโหลด header/footer ก่อน
-    injectHelpersCSS();          // styles helper + hide sublists default
+    injectHelpersCSS();          // helper CSS + hide sublists default
     bindSideMenu();              // ปุ่มสามขีด/overlay
-    bindMobileNavDropdowns();    // *** robust dropdowns in slide menu ***
+    bindMobileNavDropdowns();    // *** dropdowns in slide menu ***
     bindThemeToggle();           // โหมดสว่าง/มืด
-    initRootDropdowns();         // dropdown หน้า root
+    initRootDropdowns();         // dropdown บนหน้า root
     initHomeTimeIfPresent();     // เวลา/นับถอยหลัง (ถ้ามี)
   }
 
