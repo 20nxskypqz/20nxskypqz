@@ -1,15 +1,14 @@
-/* js-RootShared-02102025-04
-   Fix: Mobile slide-menu dropdowns still not clickable
-     - Document-level delegation but ONLY if the toggle lives inside a recognized menu scope:
-         #mobile-nav, .mobile-nav, .side-menu, .drawer, nav[aria-label="mobile"], .menu-panel
-     - Extremely tolerant selectors for toggles and panels
-     - Hide sublists by default within each menu scope
+/* js-RootShared-02102025-05
+   Fix: Slide-menu dropdown opens but sub-links not visible
+     - Robust open/close with max-height transition + opacity
+     - Ensure hidden/display/aria expanded handled correctly
+     - Scoped to menu containers only; root dropdown logic kept
    Keep:
      - includes -> bind order
-     - theme toggle (Material Symbols: #mode-toggle/#mode-icon + legacy .theme-toggle)
+     - theme toggle
      - hamburger open/close + overlay
-     - root-page dropdowns (separate logic)
-     - home time & countdown (24h TH, no flicker)
+     - root-page dropdowns
+     - home time & countdown (TH 24h, no flicker)
 */
 
 (function () {
@@ -21,6 +20,10 @@
   const qs  = (sel, root=document) => root.querySelector(sel);
   const qsa = (sel, root=document) => Array.from(root.querySelectorAll(sel));
   const THEME_KEY = 'theme@20nxskypqz';
+
+  const MENU_SCOPE_SEL = '#mobile-nav, .mobile-nav, .side-menu, .drawer, nav[aria-label="mobile"], .menu-panel';
+  const PANEL_SEL = '.nav-sublist, [data-nav-sublist], .menu-sublist, .submenu, .sublist, ul[role="group"], div[role="group"]';
+  const TOGGLE_SEL = '[data-nav-toggle], .nav-section-toggle, [aria-controls], [data-target], .dropdown-toggle, .nav-toggle, .has-submenu > a, .has-submenu > button, .nav-arrow, .material-symbols-outlined';
 
   function applyTheme(mode) {
     const b = document.body;
@@ -36,10 +39,6 @@
   // -------------------------
   // CSS helpers (inject once)
   // -------------------------
-  const MENU_SCOPE_SEL = '#mobile-nav, .mobile-nav, .side-menu, .drawer, nav[aria-label="mobile"], .menu-panel';
-  const PANEL_SEL = '.nav-sublist, [data-nav-sublist], .menu-sublist, .submenu, .sublist, ul[role="group"], div[role="group"]';
-  const TOGGLE_SEL = '[data-nav-toggle], .nav-section-toggle, [aria-controls], [data-target], .dropdown-toggle, .nav-toggle, .has-submenu > a, .has-submenu > button, .nav-arrow, .material-symbols-outlined';
-
   function injectHelpersCSS() {
     if (document.getElementById('root-shared-helpers')) return;
     const style = document.createElement('style');
@@ -59,9 +58,28 @@
         user-select:none;
       }
 
-      /* Hide sublists by default INSIDE any menu scope */
-      ${MENU_SCOPE_SEL} ${PANEL_SEL} { display: none; }
-      ${MENU_SCOPE_SEL} .open { display: block; }
+      /* Slide-menu: prepare animated sublists (hidden by default) */
+      ${MENU_SCOPE_SEL} { position: relative; }
+      ${MENU_SCOPE_SEL} ${PANEL_SEL} {
+        display: none;
+        overflow: hidden;
+        max-height: 0;
+        opacity: 0;
+        transform: translateY(-2px);
+        transition: max-height .25s ease, opacity .2s ease, transform .25s ease;
+        z-index: 3; /* float above menu body */
+      }
+      ${MENU_SCOPE_SEL} ${PANEL_SEL}.is-open {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* For safety: also allow simple .open to work */
+      ${MENU_SCOPE_SEL} .open { display:block; }
+
+      /* Root link cards (kept) */
+      .root-link-card[hidden] { display:none !important; }
     `;
     document.head.appendChild(style);
   }
@@ -127,13 +145,18 @@
   }
 
   // -------------------------
-  // Mobile-nav: robust DROPDOWNS (document-level delegation, but ONLY in menu scope)
+  // Slide-menu dropdowns (scoped)
   // -------------------------
   function nearestMenuScope(fromEl) {
     return fromEl.closest?.(MENU_SCOPE_SEL) || null;
   }
-  function hideAllSubLists(scope) {
-    qsa(PANEL_SEL, scope).forEach(el => { el.classList.remove('open'); el.style.display = 'none'; });
+  function closeAllSubLists(scope) {
+    qsa(PANEL_SEL, scope).forEach(el => {
+      el.classList.remove('open','is-open');
+      el.style.maxHeight = '0px';
+      el.style.display = 'none';
+      el.hidden = true;
+    });
     qsa(TOGGLE_SEL, scope).forEach(tg => tg.setAttribute && tg.setAttribute('aria-expanded','false'));
   }
   function panelForToggle(btn, scope) {
@@ -143,10 +166,10 @@
     // 2) data-target
     const dt = btn.getAttribute && btn.getAttribute('data-target');
     if (dt) { try { const el = scope.querySelector(dt); if (el) return el; } catch(_){} }
-    // 3) next sibling
+    // 3) sibling
     const next = btn.nextElementSibling;
     if (next && next.matches?.(PANEL_SEL)) return next;
-    // 4) within .has-submenu container
+    // 4) within holder
     const holder = btn.closest && btn.closest('.has-submenu');
     if (holder) {
       const el = holder.querySelector(PANEL_SEL);
@@ -154,26 +177,52 @@
     }
     return null;
   }
-  function bindMobileNavDropdowns() {
-    // hide in any existing menu scopes
-    qsa(MENU_SCOPE_SEL).forEach(scope => hideAllSubLists(scope));
+  function openPanel(panel, btn) {
+    // make visible and animatable
+    panel.hidden = false;
+    panel.style.display = 'block';
+    panel.classList.add('open','is-open');
+    // set animated height to content
+    const h = panel.scrollHeight;
+    panel.style.maxHeight = h + 'px';
+    panel.style.opacity = '1';
+    panel.style.transform = 'translateY(0)';
+    btn && btn.setAttribute('aria-expanded','true');
+  }
+  function closePanel(panel, btn) {
+    panel.classList.remove('is-open');
+    panel.style.maxHeight = '0px';
+    panel.style.opacity = '0';
+    panel.style.transform = 'translateY(-2px)';
+    // after transition, fully hide
+    setTimeout(() => {
+      panel.classList.remove('open');
+      panel.style.display = 'none';
+      panel.hidden = true;
+    }, 260);
+    btn && btn.setAttribute('aria-expanded','false');
+  }
 
-    // Delegate clicks globally but act only if inside menu scope
+  function bindMobileNavDropdowns() {
+    // initialize all existing scopes hidden
+    qsa(MENU_SCOPE_SEL).forEach(scope => closeAllSubLists(scope));
+
+    // delegated click inside menu scopes only
     document.addEventListener('click', (e) => {
       const scope = nearestMenuScope(e.target);
-      if (!scope) return; // not inside slide menu
+      if (!scope) return;
 
       let btn = e.target.closest(TOGGLE_SEL);
       if (!btn) return;
 
-      // ถ้าเป็น Material icon ให้รับเฉพาะลูกศร
+      // Material icon filter: treat only dropdown-ish icons as toggles
       if (btn.classList.contains('material-symbols-outlined')) {
         const txt = (btn.textContent || '').trim();
         const isArrow = (txt === 'arrow_drop_down' || txt === 'expand_more' || txt === 'chevron_right' || txt === 'chevron_left');
         if (!isArrow) return;
       }
 
-      // เป็นลิงก์จริง → ให้ไปตามปกติ (ถ้าไม่ได้ระบุว่าเป็น toggle)
+      // If it's a real link (not a toggle), let it navigate
       const tag = btn.tagName.toLowerCase();
       const href = btn.getAttribute('href');
       const isRealLink = (tag === 'a' && href && href !== '#' && !btn.hasAttribute('data-nav-toggle') && !btn.hasAttribute('aria-controls') && !btn.hasAttribute('data-target'));
@@ -184,20 +233,25 @@
       const panel = panelForToggle(btn, scope);
       if (!panel) return;
 
-      const willOpen = !panel.classList.contains('open');
-      // accordion behavior within this scope only
-      hideAllSubLists(scope);
+      const willOpen = !panel.classList.contains('is-open');
+      // accordion behavior
+      qsa(PANEL_SEL, scope).forEach(p => { if (p !== panel) closePanel(p); });
 
-      if (willOpen) {
-        panel.classList.add('open');
-        panel.style.display = 'block';
-        btn.setAttribute && btn.setAttribute('aria-expanded','true');
-      }
+      if (willOpen) openPanel(panel, btn);
+      else closePanel(panel, btn);
+    });
+
+    // handle resize: recalc maxHeight of the opened panel to prevent clipping
+    window.addEventListener('resize', () => {
+      qsa(MENU_SCOPE_SEL).forEach(scope => {
+        const opened = scope.querySelector(`${PANEL_SEL}.is-open`);
+        if (opened) opened.style.maxHeight = opened.scrollHeight + 'px';
+      });
     });
   }
 
   // -------------------------
-  // Root page dropdowns (outside the 3-bars menu) — unchanged
+  // Root page dropdowns (outside the 3-bars menu)
   // -------------------------
   function hideAllRootPanels() {
     qsa('.root-link-card').forEach(panel => { panel.hidden = true; panel.style.display = 'none'; });
@@ -222,7 +276,7 @@
   }
 
   // -------------------------
-  // Theme toggle — unchanged
+  // Theme toggle
   // -------------------------
   function bindThemeToggle() {
     const initial = (localStorage.getItem(THEME_KEY) === 'dark') ? 'dark' : 'light';
@@ -247,7 +301,7 @@
   }
 
   // -------------------------
-  // Home time & countdown (TH 24h, no flicker) — unchanged
+  // Home time & countdown (TH 24h, no flicker)
   // -------------------------
   function initHomeTimeIfPresent() {
     const hostTime = qs('#current-time');
@@ -312,7 +366,7 @@
   // -------------------------
   async function boot() {
     await loadIncludes();        // โหลด header/footer ก่อน
-    injectHelpersCSS();          // helper CSS + hide sublists default
+    injectHelpersCSS();          // helper CSS + animated sublists
     bindSideMenu();              // ปุ่มสามขีด/overlay
     bindMobileNavDropdowns();    // *** dropdowns in slide menu (scoped) ***
     bindThemeToggle();           // โหมดสว่าง/มืด
