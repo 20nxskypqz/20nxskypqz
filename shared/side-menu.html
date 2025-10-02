@@ -1,78 +1,201 @@
-<!-- shared-SideMenu-01102025-03 -->
-<nav class="side-menu" aria-label="Site menu">
-  <button class="close-menu" aria-label="Close">
-    <span class="material-symbols-outlined">close</span>
-  </button>
+<!-- side-menu-02102025-01 :: fresh basic slide menu (replaces old content) -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 
-  <!-- About -->
-  <div class="menu-group">
-    <button class="menu-section-toggle" aria-expanded="false">
-      <span>About</span>
-      <span class="material-symbols-outlined">arrow_drop_down</span>
+<!-- Overlay -->
+<div class="smenu-overlay" hidden></div>
+
+<!-- Drawer -->
+<aside class="smenu" aria-hidden="true" tabindex="-1">
+  <div class="smenu-top">
+    <div class="smenu-title">Menu</div>
+    <button class="smenu-close" aria-label="Close menu" type="button">
+      <span class="material-symbols-outlined">close</span>
     </button>
-    <ul class="menu-sublist" hidden>
-      <li><a href="/20nxskypqz/Home/"><span class="material-symbols-outlined">home</span> Home</a></li>
-    </ul>
   </div>
 
-  <!-- Study -->
-  <div class="menu-group">
-    <button class="menu-section-toggle" aria-expanded="false">
-      <span>Study</span>
-      <span class="material-symbols-outlined">arrow_drop_down</span>
-    </button>
-    <ul class="menu-sublist" hidden>
-      <li>
-        <a href="https://20nxskypqz.github.io/20nxskypqz-Exam-Review/" target="_blank" rel="noopener" style="white-space:nowrap;">
-          <span class="material-symbols-outlined">school</span> Exam Review
-        </a>
-      </li>
-    </ul>
-  </div>
+  <nav class="smenu-sections" aria-label="Mobile Navigation">
+    <!-- About -->
+    <section class="smenu-sec">
+      <button class="smenu-sec-toggle" type="button" aria-expanded="false">
+        <span>About</span>
+        <span class="material-symbols-outlined chevron">arrow_drop_down</span>
+      </button>
+      <ul class="smenu-sub" hidden>
+        <li><a href="/20nxskypqz/">Root</a></li>
+        <li><a href="/20nxskypqz/Home/">Home</a></li>
+      </ul>
+    </section>
 
-  <!-- Work -->
-  <div class="menu-group">
-    <button class="menu-section-toggle" aria-expanded="false">
-      <span>Work</span>
-      <span class="material-symbols-outlined">arrow_drop_down</span>
-    </button>
-    <ul class="menu-sublist" hidden>
-      <li>
-        <a href="/20nxskypqz/OrganizeDocumentsAutomatically/">
-          <span class="material-symbols-outlined">edit_document</span> Organize Documents Automatically
-        </a>
-      </li>
-    </ul>
-  </div>
+    <!-- Study -->
+    <section class="smenu-sec">
+      <button class="smenu-sec-toggle" type="button" aria-expanded="false">
+        <span>Study</span>
+        <span class="material-symbols-outlined chevron">arrow_drop_down</span>
+      </button>
+      <ul class="smenu-sub" hidden>
+        <li><a href="https://20nxskypqz.github.io/20nxskypqz-Exam-Review/" target="_blank" rel="noopener">Exam&nbsp;Review</a></li>
+      </ul>
+    </section>
 
-  <!-- Games -->
-  <div class="menu-group">
-    <button class="menu-section-toggle" aria-expanded="false">
-      <span>Games</span>
-      <span class="material-symbols-outlined">arrow_drop_down</span>
-    </button>
-    <ul class="menu-sublist" hidden>
-      <li>
-        <a href="/20nxskypqz/WordleAndContexto/">
-          <span class="material-symbols-outlined">abc</span> Wordle &amp; Contexto
-        </a>
-      </li>
-    </ul>
-  </div>
+    <!-- Work -->
+    <section class="smenu-sec">
+      <button class="smenu-sec-toggle" type="button" aria-expanded="false">
+        <span>Work</span>
+        <span class="material-symbols-outlined chevron">arrow_drop_down</span>
+      </button>
+      <ul class="smenu-sub" hidden>
+        <li><a href="/20nxskypqz/OrganizeDocumentsAutomatically/">Organize&nbsp;Documents&nbsp;Automatically</a></li>
+      </ul>
+    </section>
 
-  <!-- Entertainment -->
-  <div class="menu-group">
-    <button class="menu-section-toggle" aria-expanded="false">
-      <span>Entertainment</span>
-      <span class="material-symbols-outlined">arrow_drop_down</span>
-    </button>
-    <ul class="menu-sublist" hidden>
-      <li>
-        <a href="/20nxskypqz/DetectiveConan/">
-          <span class="material-symbols-outlined">mystery</span> Detective Conan
-        </a>
-      </li>
-    </ul>
-  </div>
-</nav>
-<div class="menu-overlay" aria-hidden="true"></div>
+    <!-- Games -->
+    <section class="smenu-sec">
+      <button class="smenu-sec-toggle" type="button" aria-expanded="false">
+        <span>Games</span>
+        <span class="material-symbols-outlined chevron">arrow_drop_down</span>
+      </button>
+      <ul class="smenu-sub" hidden>
+        <li><a href="/20nxskypqz/WordleAndContexto/">Wordle&nbsp;&amp;&nbsp;Contexto</a></li>
+      </ul>
+    </section>
+
+    <!-- Entertainment -->
+    <section class="smenu-sec">
+      <button class="smenu-sec-toggle" type="button" aria-expanded="false">
+        <span>Entertainment</span>
+        <span class="material-symbols-outlined chevron">arrow_drop_down</span>
+      </button>
+      <ul class="smenu-sub" hidden>
+        <li><a href="/20nxskypqz/DetectiveConan/">名探偵コナン&nbsp;Detective&nbsp;Conan</a></li>
+      </ul>
+    </section>
+  </nav>
+</aside>
+
+<style>
+  :root{
+    --hdr-h:56px;
+    --ink:#111; --card:#fff; --bg-dim:rgba(0,0,0,.45);
+    --shadow:0 10px 30px rgba(0,0,0,.12);
+    --accent:#0b57d0;
+  }
+  .dark-mode :root, .dark-mode{
+    --ink:#eee; --card:#151515; --bg-dim:rgba(0,0,0,.6);
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+    --accent:#8ab4f8;
+  }
+
+  /* Overlay */
+  .smenu-overlay[hidden]{ display:none; }
+  .smenu-overlay{
+    position:fixed; inset:0; background:var(--bg-dim);
+    opacity:0; transition:opacity .2s ease; z-index:90;
+  }
+  .smenu-overlay.show{ opacity:1; }
+
+  /* Drawer */
+  .smenu[aria-hidden="true"]{ display:none; }
+  .smenu{
+    position:fixed; inset:0 auto 0 0; width:300px;
+    background:var(--card); color:var(--ink); box-shadow:var(--shadow);
+    transform:translateX(-100%); transition:transform .25s ease;
+    display:flex; flex-direction:column; z-index:100;
+  }
+  .smenu.open{ transform:translateX(0); }
+  .smenu-top{
+    height:var(--hdr-h); display:flex; align-items:center; justify-content:space-between;
+    padding:0 12px; border-bottom:1px solid rgba(0,0,0,.08);
+  }
+  .smenu-title{ font-weight:700; }
+  .smenu-close{
+    border:0; background:transparent; width:40px; height:40px; cursor:pointer; color:var(--ink);
+  }
+
+  /* Sections */
+  .smenu-sec{ border-bottom:1px solid rgba(0,0,0,.06); }
+  .smenu-sec-toggle{
+    width:100%; text-align:left; border:0; background:transparent; color:var(--ink);
+    font:inherit; padding:12px; display:flex; align-items:center; justify-content:space-between; cursor:pointer;
+  }
+  .smenu-sec-toggle .chevron{ transition:transform .2s ease; }
+  .smenu-sec-toggle[aria-expanded="true"] .chevron{ transform:rotate(180deg); }
+
+  .smenu-sub{ list-style:none; margin:0; padding:0 12px 12px 12px; }
+  .smenu-sub[hidden]{ display:none; }
+  .smenu-sub li a{
+    display:block; padding:10px 10px; border-radius:10px; color:var(--ink);
+    text-decoration:none; background:transparent;
+  }
+  .smenu-sub li a:hover{ background:rgba(11,87,208,.08); }
+
+  /* Icon font */
+  .material-symbols-outlined{
+    font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 40;
+    font-size:24px; line-height:1; vertical-align:middle; user-select:none;
+  }
+</style>
+
+<script>
+(() => {
+  const $  = (s, r=document) => r.querySelector(s);
+  const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+
+  const overlay  = $('.smenu-overlay');
+  const drawer   = $('.smenu');
+  const closeBtn = $('.smenu-close');
+
+  // Try to find header's hamburger (class .menu-toggle)
+  function getHamburger() {
+    return document.querySelector('.menu-toggle');
+  }
+
+  function openMenu() {
+    drawer.setAttribute('aria-hidden','false');
+    drawer.classList.add('open');
+    overlay.hidden = false;
+    // force paint to enable transition
+    void overlay.offsetHeight;
+    overlay.classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMenu() {
+    drawer.classList.remove('open');
+    drawer.setAttribute('aria-hidden','true');
+    overlay.classList.remove('show');
+    setTimeout(() => { overlay.hidden = true; }, 200);
+    document.body.style.overflow = '';
+  }
+
+  // Bind after this fragment is inserted
+  function bind() {
+    const burger = getHamburger();
+    if (burger && !burger.__smenuBound) {
+      burger.addEventListener('click', (e)=>{ e.preventDefault(); openMenu(); });
+      burger.__smenuBound = true;
+    }
+    closeBtn && closeBtn.addEventListener('click', (e)=>{ e.preventDefault(); closeMenu(); });
+    overlay  && overlay.addEventListener('click', closeMenu);
+    document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closeMenu(); });
+
+    // Dropdowns
+    $$('.smenu-sec-toggle', drawer).forEach(btn => {
+      if (btn.__bound) return;
+      btn.addEventListener('click', () => {
+        const sub = btn.parentElement.querySelector('.smenu-sub');
+        if (!sub) return;
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        sub.hidden = expanded;
+      });
+      btn.__bound = true;
+    });
+  }
+
+  // Initial state: keep subs hidden
+  $$('.smenu-sub', drawer).forEach(ul => ul.hidden = true);
+
+  // Bind now & also after a tick (in case header loads slightly later)
+  bind();
+  setTimeout(bind, 0);
+})();
+</script>
