@@ -1,45 +1,93 @@
-<!-- Home-HTML-03102025-[Complete] -->
+<!-- html-Home-01102025-06 -->
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en" class="home-page">
 <head>
-  <meta charset="utf-8" />
-  <title>Home — 20nxskypqz</title>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="../styles.css" rel="stylesheet" />
-  <link href="styles.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <title>Home - 20nxskypqz</title>
+
+  <!-- Base font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- Material Symbols (CDN) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0&icon_names=home,arrow_drop_down,edit_document,mystery,school,menu,close,light_mode,dark_mode,abc" />
+  <style>
+    .material-symbols-outlined{
+      font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 40;
+      font-family:'Material Symbols Outlined' !important;
+    }
+  </style>
+
+  <link rel="stylesheet" href="/20nxskypqz/styles.css" />
 </head>
-<body>
-  <div data-include="/shared/header.html"></div>
-  <div data-include="/shared/side-menu.html"></div>
+<body class="light-mode">
+  <div data-include="/20nxskypqz/shared/header.html"></div>
+  <div data-include="/20nxskypqz/shared/side-menu.html"></div>
 
   <main class="content">
+    <!-- Welcome -->
     <section class="hero">
       <h1 class="hero-title">Welcome to 20nxskypqz!</h1>
     </section>
 
-    <section class="card">
-      <h2>Now Playing</h2>
-      <div class="card">
-        <iframe width="100%" height="315" src="https://www.youtube.com/embed/3KXoolNIH9s?si=qgxmT66g6EBwAjhi"
-          title="YouTube video player" frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen></iframe>
-      </div>
-    </section>
+    <!-- วีดีโอ (ไม่มีหัวข้อ Now Playing และไม่มีกล่อง) -->
+    <div style="position:relative; padding-top:56.25%; border-radius:12px; overflow:hidden; margin:16px 0;">
+      <iframe
+        src="https://www.youtube.com/embed/3KXoolNIH9s?si=qgxmT66g6EBwAjhi"
+        title="YouTube video"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        style="position:absolute; inset:0; width:100%; height:100%; border:0;"></iframe>
+    </div>
 
+    <!-- เวลา + เคานต์ดาวน์ -->
     <section class="card time-and-countdown">
       <h2>Current Date &amp; Time (Thailand)</h2>
-      <div id="current-time" class="time-line"></div>
-
+      <p id="current-time" class="time-line">--:--</p>
       <h2>New Year 2026 Countdown</h2>
-      <div id="countdown-display"></div>
+      <p id="countdown-display" style="text-align:center;">—</p>
     </section>
   </main>
 
-  <div data-include="/shared/footer.html"></div>
+  <div data-include="/20nxskypqz/shared/footer.html"></div>
 
-  <script src="../script.js"></script>
-  <script src="script.js"></script>
+  <script src="/20nxskypqz/script.js"></script>
+  <script>
+    // ===== เวลาแบบ 24 ชั่วโมง และไม่มีคอมมา =====
+    const TZ = 'Asia/Bangkok';
+    function pad2(n){ return n.toString().padStart(2,'0'); }
+    function formatDateTH24(d){
+      // dd/MM/yyyy HH:mm:ss — ไม่มี comma
+      const dd = new Intl.DateTimeFormat('en-GB',{day:'2-digit', timeZone:TZ}).format(d);
+      const mm = new Intl.DateTimeFormat('en-GB',{month:'2-digit', timeZone:TZ}).format(d);
+      const yy = new Intl.DateTimeFormat('en-GB',{year:'numeric', timeZone:TZ}).format(d);
+      const hh = new Intl.DateTimeFormat('en-GB',{hour:'2-digit', hour12:false, timeZone:TZ}).format(d);
+      const mi = new Intl.DateTimeFormat('en-GB',{minute:'2-digit', timeZone:TZ}).format(d);
+      const ss = new Intl.DateTimeFormat('en-GB',{second:'2-digit', timeZone:TZ}).format(d);
+      return `${dd}/${mm}/${yy} ${hh}:${mi}:${ss}`;
+    }
+
+    function tick(){
+      const now = new Date();
+      // Current time (24h, no comma)
+      document.getElementById('current-time').textContent = formatDateTH24(now);
+
+      // ===== Countdown: Days Hours Minutes Seconds (English, Capitalized) =====
+      const target = new Date('2026-01-01T00:00:00+07:00').getTime();
+      let diff = Math.max(0, target - now.getTime());
+
+      const days = Math.floor(diff / 86400000); diff %= 86400000;
+      const hours = Math.floor(diff / 3600000); diff %= 3600000;
+      const minutes = Math.floor(diff / 60000); diff %= 60000;
+      const seconds = Math.floor(diff / 1000);
+
+      document.getElementById('countdown-display').textContent =
+        `${days} Days ${pad2(hours)} Hours ${pad2(minutes)} Minutes ${pad2(seconds)} Seconds`;
+    }
+    setInterval(tick, 1000); tick();
+  </script>
 </body>
 </html>
