@@ -1,34 +1,43 @@
-<!-- DetectiveConan-HTML-03102025-[Complete] -->
+<!-- html-DetectiveConan-01102025-02 -->
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <title>名探偵コナン Detective Conan</title>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="../styles.css" rel="stylesheet" />
-  <link href="styles.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <title>名探偵コナン - 20nxskypqz</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- Material Symbols (เพิ่ม abc) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0&icon_names=menu,close,light_mode,dark_mode,arrow_drop_down,abc" />
+  <style>.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 40; font-family:'Material Symbols Outlined' !important;}</style>
+
+  <link rel="stylesheet" href="/20nxskypqz/styles.css" />
 </head>
-<body>
-  <div data-include="/shared/header.html"></div>
-  <div data-include="/shared/side-menu.html"></div>
+<body class="light-mode">
+  <div data-include="/20nxskypqz/shared/header.html"></div>
+  <div data-include="/20nxskypqz/shared/side-menu.html"></div>
 
   <main class="content">
     <section class="hero">
-      <h1 class="hero-title">名探偵コナン Detective Conan</h1>
+      <h1 class="hero-title">名探偵コナン</h1>
+      <h3 style="margin-top:-6px;">Detective Conan</h3>
     </section>
 
+    <!-- Season picker -->
     <div class="season-picker">
-      <div class="season-pill" title="coming soon">
+      <div class="season-pill" title="Coming back later">
         <span class="material-symbols-outlined">arrow_drop_down</span>
-        Season picker (coming back later)
+        <strong>Season picker</strong>
+        <span class="muted" style="opacity:.7;">(coming back later)</span>
       </div>
     </div>
   </main>
 
-  <div data-include="/shared/footer.html"></div>
-
-  <script src="../script.js"></script>
-  <script src="script.js"></script>
+  <div data-include="/20nxskypqz/shared/footer.html"></div>
+  <script src="/20nxskypqz/script.js"></script>
 </body>
 </html>
