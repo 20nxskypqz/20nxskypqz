@@ -1,3 +1,4 @@
+/* Root-JS-03102025-[Complete] */
 /* js-RootShared-02102025-11
    Add: Basic slide menu wiring for side-menu.html (document-level)
    Keep: HTML includes, theme toggle, root dropdowns, home time & countdown
@@ -36,202 +37,129 @@
       .dark-mode .root-section-toggle { color:#fff !important; }
       .light-mode .root-section-toggle { color:inherit; }
       .header .theme-toggle { cursor:pointer; }
-      .header .theme-toggle .material-symbols-outlined,
-      #mode-toggle .material-symbols-outlined {
-        color:#000 !important;
-        font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 40;
-        user-select:none;
-      }
-      .root-link-card[hidden] { display:none !important; }
+      .header .theme-toggle .material-symbols-outlined { vertical-align: middle; }
     `;
     document.head.appendChild(style);
   }
 
   // -------------------------
-  // HTML includes (header/footer/side-menu)
+  // HTML include (header/footer/side-menu)
   // -------------------------
   async function loadIncludes() {
-    const includeEls = qsa('[data-include]');
-    if (includeEls.length === 0) return;
-    await Promise.all(includeEls.map(async (el) => {
-      const url = el.getAttribute('data-include');
-      try {
-        const res = await fetch(url, { cache: 'no-cache' });
-        const html = await res.text();
-        el.outerHTML = html; // NOTE: <script> inside included HTML won’t auto-execute
-      } catch (e) { console.error('Include failed:', url, e); }
+    const slots = qsa('[data-include]');
+    await Promise.all(slots.map(async slot => {
+      const url = slot.getAttribute('data-include');
+      if (!url) return;
+      const res = await fetch(url, { cache: 'no-store' });
+      slot.outerHTML = await res.text();
     }));
   }
 
   // -------------------------
-  // NEW: Basic Slide Menu (works with side-menu.html)
+  // Slide menu wiring (side-menu.html)
   // -------------------------
-  function initSideMenuBasic() {
-    if (window.__SIDEMENU_BOUND__) return; // guard from double-binding
+  function initSideMenuBasic(){
+    const btn = qs('.menu-toggle');
+    const drawer = qs('.smenu');
     const overlay = qs('.smenu-overlay');
-    const drawer  = qs('.smenu');
+    const closeBtn = qs('.smenu-close');
 
-    // if page has no side-menu included, do nothing
-    if (!overlay || !drawer) return;
+    if (!btn || !drawer || !overlay) return;
 
-    // initial: force closed
-    function forceClosed(){
-      drawer.classList.remove('open');
-      drawer.setAttribute('aria-hidden','true');
-      overlay.classList.remove('show');
-      overlay.hidden = true;
-      document.body.style.overflow = '';
-      // hide all submenu lists by default
-      qsa('.smenu-sub', drawer).forEach(ul => ul.hidden = true);
-      qsa('.smenu-sec-toggle', drawer).forEach(btn => btn.setAttribute('aria-expanded','false'));
-    }
-    function openMenu(){
-      drawer.setAttribute('aria-hidden','false');
+    const open = () => {
       drawer.classList.add('open');
+      drawer.setAttribute('aria-hidden','false');
       overlay.hidden = false;
-      // force paint for transition
-      void overlay.offsetHeight;
       overlay.classList.add('show');
       document.body.style.overflow = 'hidden';
-    }
-    function closeMenu(){
+    };
+    const close = () => {
       drawer.classList.remove('open');
       drawer.setAttribute('aria-hidden','true');
       overlay.classList.remove('show');
-      setTimeout(()=>{ overlay.hidden = true; }, 200);
+      setTimeout(()=> overlay.hidden = true, 200);
       document.body.style.overflow = '';
-    }
-
-    forceClosed();
-
-    // Document-level delegation:
-    document.addEventListener('click', (e) => {
-      const isHamburger = !!e.target.closest('.menu-toggle');
-      const isCloseBtn  = !!e.target.closest('.smenu-close');
-      const insideDrawer= !!e.target.closest('.smenu');
-      const inHeader    = !!e.target.closest('.basic-header');
-
-      if (isHamburger) { e.preventDefault(); openMenu(); return; }
-      if (isCloseBtn)  { e.preventDefault(); closeMenu(); return; }
-
-      // click outside drawer (while open) → close
-      if (drawer.classList.contains('open') && !insideDrawer && !inHeader) {
-        e.preventDefault(); closeMenu(); return;
-      }
-    });
-
-    // overlay & ESC
-    overlay.addEventListener('click', closeMenu);
-    document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closeMenu(); });
-
-    // section dropdowns (inside drawer)
-    document.addEventListener('click', (e) => {
-      const btn = e.target.closest('.smenu-sec-toggle');
-      if (!btn || !drawer.contains(btn)) return;
-      const sub = btn.parentElement.querySelector('.smenu-sub');
-      if (!sub) return;
-      const expanded = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', String(!expanded));
-      sub.hidden = expanded;
-    });
-
-    window.__SIDEMENU_BOUND__ = true;
-  }
-
-  // -------------------------
-  // Root page dropdowns
-  // -------------------------
-  function hideAllRootPanels() {
-    qsa('.root-link-card').forEach(panel => { panel.hidden = true; panel.style.display = 'none'; });
-    qsa('.root-section-toggle[aria-expanded="true"]').forEach(btn => btn.setAttribute('aria-expanded','false'));
-  }
-  function initRootDropdowns() {
-    hideAllRootPanels();
-    document.addEventListener('click', (e) => {
-      const btn = e.target.closest('.root-section-toggle');
-      if (!btn) {
-        if (!e.target.closest('.root-link-card')) hideAllRootPanels();
-        return;
-      }
-      e.preventDefault(); e.stopPropagation();
-      const sel = btn.getAttribute('data-target');
-      const panel = sel ? qs(sel) : null;
-      if (!panel) return;
-      const willOpen = panel.hidden || panel.style.display === 'none';
-      hideAllRootPanels();
-      if (willOpen) { panel.hidden = false; panel.style.display = ''; btn.setAttribute('aria-expanded','true'); }
-    });
-  }
-
-  // -------------------------
-  // Theme toggle
-  // -------------------------
-  function bindThemeToggle() {
-    const initial = (localStorage.getItem(THEME_KEY) === 'dark') ? 'dark' : 'light';
-    applyTheme(initial); setThemeIconAll(initial);
-
-    const isToggle = (el) => !!(el.closest('.theme-toggle') || el.closest('#mode-toggle') || el.closest('[data-theme-toggle]'));
-
-    document.addEventListener('click', (e) => {
-      if (!isToggle(e.target)) return;
-      e.preventDefault();
-      const next = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
-      applyTheme(next); localStorage.setItem(THEME_KEY, next); setThemeIconAll(next);
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if ((e.key === 'Enter' || e.key === ' ') && isToggle(e.target)) {
-        e.preventDefault();
-        const next = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
-        applyTheme(next); localStorage.setItem(THEME_KEY, next); setThemeIconAll(next);
-      }
-    });
-  }
-
-  // -------------------------
-  // Home time & countdown
-  // -------------------------
-  function initHomeTimeIfPresent() {
-    const hostTime = qs('#current-time');
-    const hostCd   = qs('#countdown-display');
-    if (!hostTime && !hostCd) return;
-
-    if (window.__HOME_TIME_LOOP__) { clearTimeout(window.__HOME_TIME_LOOP__); window.__HOME_TIME_LOOP__ = null; }
-
-    function ensureShadow(host, id){
-      if (!host) return null;
-      if (!host.shadowRoot) {
-        const shadow = host.attachShadow({ mode:'open' });
-        const style = document.createElement('style');
-        style.textContent = `
-          :host { display:block; width:100%; }
-          .wrap { display:block; text-align:center; font-variant-numeric:tabular-nums; white-space:nowrap; }
-        `;
-        const div = document.createElement('span'); div.className='wrap'; div.id=id;
-        shadow.append(style, div);
-      }
-      return host.shadowRoot.getElementById(id);
-    }
-
-    const timeSpan = ensureShadow(hostTime,'clock');
-    const cdSpan   = ensureShadow(hostCd,'cd');
-
-    const TZ = 'Asia/Bangkok';
-    const pad2 = n => n.toString().padStart(2,'0');
-
-    const dtf = new Intl.DateTimeFormat('en-GB', {
-      timeZone: TZ, year:'numeric', month:'2-digit', day:'2-digit',
-      hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false
-    });
-
-    const formatDateTH24 = (d) => {
-      const p = dtf.formatToParts(d).reduce((o,part)=>(o[part.type]=part.value,o),{});
-      return `${p.day}/${p.month}/${p.year} ${p.hour}:${p.minute}:${p.second}`;
     };
 
-    const buildCountdown = (now) => {
-      const target = new Date('2026-01-01T00:00:00+07:00').getTime();
-      let diff = Math.max(0, target - now.getTime());
+    btn.addEventListener('click', open);
+    overlay.addEventListener('click', close);
+    if (closeBtn) closeBtn.addEventListener('click', close);
+
+    // sections dropdown inside drawer
+    qsa('.smenu-sec-toggle').forEach(tg => {
+      tg.addEventListener('click', () => {
+        const expanded = tg.getAttribute('aria-expanded') === 'true';
+        tg.setAttribute('aria-expanded', String(!expanded));
+        const ul = tg.parentElement.querySelector('.smenu-sub');
+        if (ul) ul.hidden = expanded;
+      });
+    });
+  }
+
+  // -------------------------
+  // Theme toggle (manual only)
+  // -------------------------
+  function bindThemeToggle(){
+    const toggle = qs('#mode-toggle');
+    if (!toggle) return;
+
+    let mode = (localStorage.getItem(THEME_KEY) || 'light');
+    applyTheme(mode);
+    setThemeIconAll(mode);
+
+    const setMode = (m) => {
+      mode = m;
+      localStorage.setItem(THEME_KEY, mode);
+      applyTheme(mode);
+      setThemeIconAll(mode);
+    };
+
+    toggle.addEventListener('click', ()=>{
+      setMode(mode === 'light' ? 'dark' : 'light');
+    });
+    toggle.addEventListener('keydown', (e)=>{
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setMode(mode === 'light' ? 'dark' : 'light'); }
+    });
+  }
+
+  // -------------------------
+  // Root dropdown cards (show only after click)
+  // -------------------------
+  function initRootDropdowns(){
+    qsa('.root-section-toggle').forEach(btn=>{
+      const targetSel = btn.getAttribute('data-target');
+      const card = targetSel ? qs(targetSel) : null;
+      if (!card) return;
+      btn.addEventListener('click', ()=>{
+        const isHidden = card.hasAttribute('hidden');
+        if (isHidden) card.removeAttribute('hidden'); else card.setAttribute('hidden','');
+      });
+    });
+  }
+
+  // -------------------------
+  // Home: time & countdown (only if present on page)
+  // -------------------------
+  function initHomeTimeIfPresent(){
+    const timeSpan = qs('#current-time-th');
+    const cdSpan   = qs('#countdown-display');
+    if (!timeSpan && !cdSpan) return;
+
+    const pad2 = (n)=> String(n).padStart(2,'0');
+
+    const formatDateTH24 = (d)=>{
+      const y = d.getFullYear();
+      const mo = d.getMonth()+1;
+      const da = d.getDate();
+      const hh = pad2(d.getHours());
+      const mm = pad2(d.getMinutes());
+      const ss = pad2(d.getSeconds());
+      return `${da}/${mo}/${y} ${hh}:${mm}:${ss}`;
+    };
+
+    const NY = new Date(2026, 0, 1, 0, 0, 0); // Jan 1, 2026
+    const buildCountdown = (now)=>{
+      let diff = Math.max(0, NY - now);
       const days = Math.floor(diff/86400000); diff%=86400000;
       const hours = Math.floor(diff/3600000); diff%=3600000;
       const minutes = Math.floor(diff/60000); diff%=60000;
@@ -255,7 +183,7 @@
   async function boot() {
     await loadIncludes();        // include header/footer/side-menu first
     injectHelpersCSS();          // helper styles
-    initSideMenuBasic();         // << NEW: wire slide menu after includes
+    initSideMenuBasic();         // drawer
     bindThemeToggle();           // theme
     initRootDropdowns();         // root dropdowns
     initHomeTimeIfPresent();     // time/countdown (if present)
