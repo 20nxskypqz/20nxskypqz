@@ -1,4 +1,4 @@
-// js-Home-30092025-08 — time & countdown (full units) + 20px via CSS
+// Home-js-03102025-[Complete]
 const dateEl = document.getElementById('date-display');
 const timeEl = document.getElementById('time-display');
 const cdEl = document.getElementById('countdown-display');
