@@ -1,149 +1,87 @@
-/* css-Root-01102025-01 — Global site styles (Material Symbols: ใช้ CDN, ไม่ฝังฟอนต์) */
-:root{
-  --bg:#f9f9f9; --card:#fff; --ink:#111; --muted:#666;
-  --shadow:0 6px 24px rgba(0,0,0,.08);
-  --page-max:700px;
-  --grad-light: linear-gradient(90deg, #e63946, #ff9f1c);
-  --grad-dark:  linear-gradient(90deg,#0b1929,#1f2937);
+/* Root-CSS-03102025-[Complete] */
+:root {
+  --bg:#f9f9f9; --card:#fff; --ink:#111;
+  --muted:#666; --shadow:0 6px 24px rgba(0,0,0,.08);
+  --brand:#0b57d0; --brand2:#0a49b8;
 }
-*{ box-sizing:border-box; }
-html,body{ height:100%; }
-body{
+.dark-mode {
+  --bg:#0e0f12; --card:#15161a; --ink:#eee;
+  --muted:#9ba3af; --shadow:0 6px 24px rgba(0,0,0,.3);
+  --brand:#8ab4f8; --brand2:#6fa0f5;
+}
+* { box-sizing: border-box; }
+html,body { height:100%; }
+body {
   margin:0; background:var(--bg); color:var(--ink);
-  font-family:'Niramit', system-ui, -apple-system, Segoe UI, Arial, sans-serif;
-  line-height:1.8; padding:0 20px;
-  display:flex; flex-direction:column;
-  min-height:100vh; min-height:100svh;
-}
-[data-include]{ display:contents; }
-
-/* Font scale */
-h1{ font-size:32px; margin:.2em 0 .4em; text-align:center; }
-h2{ font-size:28px; margin:.8em 0 .4em; text-align:center; }
-h3{ font-size:24px; margin:.8em 0 .4em; text-align:center; }
-h4{ font-size:20px; margin:.6em 0 .3em; text-align:center; }
-p,li{ font-size:16px; }
-
-/* Full-bleed header/footer bars */
-.full-bleed{ position:relative; left:50%; right:50%; margin-left:-50vw; margin-right:-50vw; width:100vw; }
-.header, .footer{ color:#fff; padding:10px 16px; box-shadow:var(--shadow); border-radius:0; }
-.header{ background:var(--grad-light); display:flex; justify-content:space-between; align-items:center; }
-.footer{ background:var(--grad-light); margin-top:auto; text-align:center; }
-body.dark-mode{ background:#0f1418; color:#e5e7eb; }
-body.dark-mode .card{ background:#172026; color:#e5e7eb; }
-body.dark-mode .header, body.dark-mode .footer{ background:var(--grad-dark); }
-body.dark-mode a{ color:#d1defa; }
-
-/* Content container */
-.content{ width:100%; max-width:var(--page-max); margin:16px auto; }
-
-/* Material Symbols (CDN) — ใช้คลาสรวมเดียว */
-.material-symbols-outlined{
-  font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 40;
-  font-family:'Material Symbols Outlined' !important;
-  font-style:normal; font-weight:normal; line-height:1; display:inline-block;
-  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  font-family: 'Niramit', system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+  line-height:1.8; padding:0;
 }
 
-/* Toggle capsule (manual dark mode) */
+/* Header & Footer (full-bleed bars) */
+.full-bleed { width:100vw; margin-left:50%; transform:translateX(-50%); }
+.header {
+  position:sticky; top:0; z-index:20;
+  height:56px; display:flex; align-items:center; justify-content:space-between;
+  padding:0 12px;
+  background: linear-gradient(90deg, var(--brand), var(--brand2));
+  color:#fff;
+}
+.footer {
+  position:sticky; bottom:0; z-index:10;
+  height:48px; display:flex; align-items:center; justify-content:center;
+  background: linear-gradient(90deg, var(--brand), var(--brand2));
+  color:#fff;
+}
+.content { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+/* Capsule mode toggle */
 .toggle-container{
-  --w:84px; --h:36px; --pad:3px;
-  width:var(--w); height:var(--h); border-radius:999px; padding:var(--pad);
-  background:#e9eef4; border:2px solid #c9d4df;
-  display:flex; align-items:center; box-shadow:inset 0 2px 6px rgba(0,0,0,.12);
-  cursor:pointer; user-select:none;
+  --w:56px; --h:28px;
+  width:var(--w); height:var(--h);
+  border-radius: 999px; background: rgba(255,255,255,.25);
+  padding:3px; display:flex; align-items:center;
+  cursor:pointer; transition:background .2s ease;
 }
+.toggle-container:focus{ outline:2px dashed rgba(255,255,255,.7); outline-offset:2px; }
 .toggle-circle{
-  width:calc(var(--h) - 2*var(--pad)); height:calc(var(--h) - 2*var(--pad));
-  border-radius:999px; background:#fff;
+  width:22px; height:22px; border-radius:999px;
+  background:#fff; color:#111; display:flex; align-items:center; justify-content:center;
+  transition: transform .2s ease, color .2s ease, background .2s ease;
+}
+.dark-mode .toggle-container { background: rgba(255,255,255,.15); }
+.dark-mode .toggle-circle{ background:#111; color:#fff; transform: translateX(calc(56px - 28px)); }
+
+/* Menu button */
+.menu-toggle{
+  border:0; background:transparent; color:#fff; width:40px; height:40px; cursor:pointer;
   display:flex; align-items:center; justify-content:center;
-  box-shadow:0 3px 8px rgba(0,0,0,.25);
-  transition:transform .25s; font-size:20px; color:#111;
 }
-body.dark-mode .toggle-container{ background:#1d2227; border-color:#3a424a; }
-body.dark-mode .toggle-circle{ transform:translateX(calc(var(--w) - var(--h))); color:#e5e7eb; }
 
-/* Side menu */
-.menu-toggle, .close-menu{
-  background:none; border:none; color:inherit; cursor:pointer; font-size:24px; display:flex; align-items:center;
-}
-.side-menu{
-  position:fixed; top:20px; left:20px; bottom:20px; width:280px;
-  background:#222; color:#fff; border-radius:12px; padding:60px 0 12px;
-  box-shadow: var(--shadow); transform:translateX(-120%); transition:transform .25s ease; z-index:1000;
-}
-.side-menu.open{ transform:translateX(0); }
-.close-menu{ position:absolute; top:12px; right:12px; }
-.menu-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.35); display:none; z-index:900; }
-.menu-overlay.visible{ display:block; }
-.menu-group{ padding:0 8px 12px; }
-.menu-section-toggle{
-  width:100%; background:transparent; border:none; color:#fff;
-  display:flex; align-items:center; justify-content:space-between;
-  font-weight:800; font-size:16px; padding:10px 14px; cursor:pointer;
-}
-.menu-sublist{ list-style:none; margin:4px 0 8px; padding:0; }
-.menu-sublist li a{
-  display:flex; gap:8px; align-items:center; padding:8px 18px;
-  color:#fff; text-decoration:none; border-radius:8px;
-  white-space:normal; word-break:break-word;
-}
-.menu-sublist li a:hover{ background:rgba(255,255,255,.08); }
-
-/* Cards */
-.card{ background:var(--card); border-radius:12px; box-shadow:var(--shadow); padding:16px; margin:12px 0; }
-
-/* Root page: section header + icon dropdown */
-.align-left{ text-align:left !important; }
-.drop-wrap{ margin:8px 0 16px; }
-.section-header-row{ display:flex; align-items:center; gap:10px; }
+/* Root sections */
+.hero { text-align:center; margin: 10px 0 18px; }
+.hero-title{ font-size:32px; margin:0; }
+.root-section{ margin: 16px 0; }
+.section-header-row { display:flex; align-items:center; gap:8px; justify-content:space-between; }
+.align-left{ text-align:left; }
 .icon-btn{
-  background:transparent; border:none; padding:6px; margin:0;
-  cursor:pointer; display:inline-flex; align-items:center; line-height:1; border-radius:8px;
+  border:0; background:transparent; cursor:pointer; color:inherit; display:flex; align-items:center; justify-content:center;
 }
-.icon-btn .material-symbols-outlined{ font-size:32px; } /* ใหญ่ขึ้นตามที่ขอ */
-.icon-btn:hover{ background:rgba(0,0,0,.06); }
-body.dark-mode .icon-btn:hover{ background:rgba(255,255,255,.08); }
-
-/* Boxed link card under each section */
-.root-link-card{ display:inline-block; width:100%; max-width:480px; padding:12px 14px; }
+.root-link-card.card{
+  margin-top: 8px;
+  background:var(--card); box-shadow:var(--shadow);
+  padding:10px 12px; border-radius:14px;
+}
 .root-link-card a{
-  font-size:24px; color:#000; text-decoration:none;
-  white-space:normal; word-break:break-word; display:inline-flex; align-items:center; gap:8px;
+  display:inline-flex; align-items:center; gap:6px; color:var(--ink); text-decoration:none;
 }
-body.dark-mode .root-link-card a{ color:#e5e7eb; }
 
-/* Home page helpers */
-.time-and-countdown h2{ text-align:center; }
-.time-and-countdown .time-line{ text-align:center; font-size:24px; }
-#countdown-display{ font-size:18px; }
+/* Side Menu (only base layout comes from side-menu.html’s CSS) */
+.smenu-overlay.show { /* overlay state handled in JS; base style is inside side-menu include */ }
 
-/* Conan - Season picker (placeholder, สวย + รองรับโหมดมืด) */
-.season-picker{
-  display:flex; align-items:center; gap:8px; justify-content:flex-start;
-  width:100%; max-width:var(--page-max); margin:6px auto 14px;
-}
-.season-pill{
-  display:inline-flex; align-items:center; gap:10px; padding:10px 14px;
-  border-radius:999px; border:1px solid #d0d7de; background:#fff; color:#111;
-  box-shadow:var(--shadow); cursor:not-allowed; opacity:.85;
-}
-body.dark-mode .season-pill{ background:#0f1418; color:#e5e7eb; border-color:#3b4652; }
+/* Home page small helpers (if present) */
+#time-card, #countdown-card { text-align:center; }
+#current-time-th { font-size:24px; font-weight:700; }
+#countdown-display { font-size:18px; }
 
-/* Buttons (Docs page toolbar) */
-.btn{
-  display:inline-flex; align-items:center; gap:8px; padding:10px 14px;
-  border-radius:12px; border:1px solid #cfd8e3; background:#fff; color:#111;
-  font-weight:800; cursor:pointer; box-shadow:var(--shadow);
-}
-.btn-primary{ background:#4f46e5; border-color:#4f46e5; color:#fff; }
-.btn-danger{ background:#ef4444; border-color:#ef4444; color:#fff; }
-.btn-ghost{ background:#fff; color:#111; }
-.btn .material-symbols-outlined{ font-size:22px; }
-body.dark-mode .btn-ghost{ background:#0f1418; border-color:#3b4652; color:#e5e7eb; }
-body.dark-mode .btn-primary{ background:#6366f1; border-color:#6366f1; }
-body.dark-mode .btn-danger{ background:#f43f5e; border-color:#f43f5e; }
-
-/* Spacing */
-.hero{ margin:8px 0 16px; }
-.hero-title{ margin:.2em 0 .4em; }
+/* Container width harmonized for all pages */
+.container { max-width: 900px; margin: 0 auto; padding: 20px; }
