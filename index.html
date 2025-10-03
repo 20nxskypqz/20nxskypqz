@@ -1,140 +1,96 @@
-<!-- Root-html-03102025-[Complete] -->
-<!-- html-Root-01102025-04 -->
+<!-- Root-HTML-03102025-[Complete] -->
 <!DOCTYPE html>
-<html lang="en" class="root-page">
+<html lang="th">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8" />
   <title>20nxskypqz</title>
-
-  <!-- Base font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;700&display=swap" rel="stylesheet" />
-
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="styles.css" rel="stylesheet" />
   <!-- Material Symbols (CDN) -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0&icon_names=home,arrow_drop_down,edit_document,mystery,school,menu,close,light_mode,dark_mode,abc" />
-  <style>
-    .material-symbols-outlined{
-      font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 40;
-      font-family:'Material Symbols Outlined' !important;
-    }
-  </style>
-
-  <link rel="stylesheet" href="/20nxskypqz/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
-<body class="light-mode root-page">
-
-  <div data-include="/20nxskypqz/shared/header.html"></div>
-  <div data-include="/20nxskypqz/shared/side-menu.html"></div>
+<body>
+  <!-- include header -->
+  <div data-include="/shared/header.html"></div>
 
   <main class="content">
     <section class="hero">
       <h1 class="hero-title">Welcome to 20nxskypqz!</h1>
     </section>
 
-    <!-- About -->
-    <section class="root-section drop-wrap">
+    <!-- Root sections with dropdown icons -->
+    <section class="card drop-wrap">
       <div class="section-header-row">
-        <h2 class="align-left" style="margin:0;">About</h2>
-        <!-- กล่องลิงก์จะ “แสดงเฉพาะเมื่อกดไอคอน dropdown นี้เท่านั้น” -->
-        <button class="icon-btn root-section-toggle" type="button" data-target="#root-card-about" aria-label="Toggle About">
+        <h2 class="align-left">About</h2>
+        <button class="icon-btn root-dd" data-target="#aboutLinks" aria-label="Open About Links">
           <span class="material-symbols-outlined">arrow_drop_down</span>
         </button>
       </div>
-      <div id="root-card-about" class="card root-link-card" hidden>
-        <ul style="list-style:none; padding:0; margin:0;">
-          <li>
-            <a href="/20nxskypqz/Home/">
-              <span class="material-symbols-outlined">home</span> Home
-            </a>
-          </li>
-        </ul>
+      <div id="aboutLinks" class="root-link-card" hidden>
+        <a href="Home/"> <span class="material-symbols-outlined">home</span> Home </a>
       </div>
     </section>
 
-    <!-- Study -->
-    <section class="root-section drop-wrap">
+    <section class="card drop-wrap">
       <div class="section-header-row">
-        <h2 class="align-left" style="margin:0;">Study</h2>
-        <!-- แสดงกล่อง “เฉพาะเมื่อกด” -->
-        <button class="icon-btn root-section-toggle" type="button" data-target="#root-card-study" aria-label="Toggle Study">
+        <h2 class="align-left">Study</h2>
+        <button class="icon-btn root-dd" data-target="#studyLinks" aria-label="Open Study Links">
           <span class="material-symbols-outlined">arrow_drop_down</span>
         </button>
       </div>
-      <div id="root-card-study" class="card root-link-card" hidden>
-        <ul style="list-style:none; padding:0; margin:0;">
-          <li>
-            <a href="https://20nxskypqz.github.io/20nxskypqz-Exam-Review/">
-              <span class="material-symbols-outlined">school</span> Exam&nbsp;Review
-            </a>
-          </li>
-        </ul>
+      <div id="studyLinks" class="root-link-card" hidden>
+        <a href="https://20nxskypqz.github.io/20nxskypqz-Exam-Review/">
+          <span class="material-symbols-outlined">school</span> Exam Review
+        </a>
       </div>
     </section>
 
-    <!-- Work -->
-    <section class="root-section drop-wrap">
+    <section class="card drop-wrap">
       <div class="section-header-row">
-        <h2 class="align-left" style="margin:0;">Work</h2>
-        <button class="icon-btn root-section-toggle" type="button" data-target="#root-card-work" aria-label="Toggle Work">
+        <h2 class="align-left">Work</h2>
+        <button class="icon-btn root-dd" data-target="#workLinks" aria-label="Open Work Links">
           <span class="material-symbols-outlined">arrow_drop_down</span>
         </button>
       </div>
-      <div id="root-card-work" class="card root-link-card" hidden>
-        <ul style="list-style:none; padding:0; margin:0;">
-          <li>
-            <a href="/20nxskypqz/OrganizeDocumentsAutomatically/">
-              <span class="material-symbols-outlined">edit_document</span>
-              <span>Organize Documents Automatically</span>
-            </a>
-          </li>
-        </ul>
+      <div id="workLinks" class="root-link-card" hidden>
+        <a href="OrganizeDocumentsAutomatically/">
+          <span class="material-symbols-outlined">edit_document</span> Organize Documents Automatically
+        </a>
       </div>
     </section>
 
-    <!-- Games -->
-    <section class="root-section drop-wrap">
+    <section class="card drop-wrap">
       <div class="section-header-row">
-        <h2 class="align-left" style="margin:0;">Games</h2>
-        <button class="icon-btn root-section-toggle" type="button" data-target="#root-card-games" aria-label="Toggle Games">
+        <h2 class="align-left">Games</h2>
+        <button class="icon-btn root-dd" data-target="#gamesLinks" aria-label="Open Games Links">
           <span class="material-symbols-outlined">arrow_drop_down</span>
         </button>
       </div>
-      <div id="root-card-games" class="card root-link-card" hidden>
-        <ul style="list-style:none; padding:0; margin:0;">
-          <li>
-            <a href="/20nxskypqz/WordleAndContexto/">
-              <span class="material-symbols-outlined">abc</span> Wordle &amp; Contexto
-            </a>
-          </li>
-        </ul>
+      <div id="gamesLinks" class="root-link-card" hidden>
+        <a href="WordleAndContexto/">
+          <span class="material-symbols-outlined">abc</span> Wordle &amp; Contexto
+        </a>
       </div>
     </section>
 
-    <!-- Entertainment -->
-    <section class="root-section drop-wrap">
+    <section class="card drop-wrap">
       <div class="section-header-row">
-        <h2 class="align-left" style="margin:0;">Entertainment</h2>
-        <button class="icon-btn root-section-toggle" type="button" data-target="#root-card-ent" aria-label="Toggle Entertainment">
+        <h2 class="align-left">Entertainment</h2>
+        <button class="icon-btn root-dd" data-target="#entLinks" aria-label="Open Entertainment Links">
           <span class="material-symbols-outlined">arrow_drop_down</span>
         </button>
       </div>
-      <div id="root-card-ent" class="card root-link-card" hidden>
-        <ul style="list-style:none; padding:0; margin:0;">
-          <li>
-            <a href="/20nxskypqz/DetectiveConan/">
-              <span class="material-symbols-outlined">mystery</span> Detective Conan
-            </a>
-          </li>
-        </ul>
+      <div id="entLinks" class="root-link-card" hidden>
+        <a href="DetectiveConan/">
+          <span class="material-symbols-outlined">mystery</span> 名探偵コナン Detective Conan
+        </a>
       </div>
     </section>
   </main>
 
-  <div data-include="/20nxskypqz/shared/footer.html"></div>
+  <!-- include footer -->
+  <div data-include="/shared/footer.html"></div>
 
-  <script src="/20nxskypqz/script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
