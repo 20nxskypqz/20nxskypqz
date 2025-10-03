@@ -1,161 +1,80 @@
-<!-- SideMenu-HTML-03102025-[Complete] -->
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+<!-- SharedSideMenu-html-03102025-[Complete] -->
+<!-- side-menu — latest working version you provided -->
+<div class="smenu-overlay"></div>
+<aside class="smenu" aria-hidden="true">
+  <button class="close-menu" type="button" aria-label="Close">
+    <span class="material-symbols-outlined">close</span>
+  </button>
 
-<!-- Overlay -->
-<div class="smenu-overlay" hidden></div>
-
-<!-- Drawer -->
-<aside class="smenu" aria-hidden="true" tabindex="-1">
-  <div class="smenu-top">
-    <div class="smenu-title">Menu</div>
-    <button class="smenu-close" aria-label="Close menu" type="button">
-      <span class="material-symbols-outlined">close</span>
+  <!-- ABOUT -->
+  <section class="menu-group">
+    <button class="menu-section-toggle smenu-sec-toggle" data-target="#sm-about">
+      <span>About</span>
+      <span class="material-symbols-outlined">arrow_drop_down</span>
     </button>
-  </div>
+    <ul id="sm-about" class="menu-sublist smenu-sub" hidden>
+      <li><a href="/20nxskypqz/Home/"><span class="material-symbols-outlined">home</span> Home</a></li>
+    </ul>
+  </section>
 
-  <nav class="smenu-sections" aria-label="Mobile Navigation">
-    <!-- About -->
-    <section class="smenu-sec">
-      <button class="smenu-sec-toggle" type="button" aria-expanded="false">
-        <span>About</span>
-        <span class="material-symbols-outlined chevron">arrow_drop_down</span>
-      </button>
-      <ul class="smenu-sub" hidden>
-        <li>
-          <a href="/20nxskypqz/Home/">
-            <span class="material-symbols-outlined ms">home</span>
-            Home
-          </a>
-        </li>
-      </ul>
-    </section>
+  <!-- STUDY -->
+  <section class="menu-group">
+    <button class="menu-section-toggle smenu-sec-toggle" data-target="#sm-study">
+      <span>Study</span>
+      <span class="material-symbols-outlined">arrow_drop_down</span>
+    </button>
+    <ul id="sm-study" class="menu-sublist smenu-sub" hidden>
+      <li>
+        <a href="https://20nxskypqz.github.io/20nxskypqz-Exam-Review/">
+          <span class="material-symbols-outlined">school</span> Exam&nbsp;Review
+        </a>
+      </li>
+    </ul>
+  </section>
 
-    <!-- Study -->
-    <section class="smenu-sec">
-      <button class="smenu-sec-toggle" type="button" aria-expanded="false">
-        <span>Study</span>
-        <span class="material-symbols-outlined chevron">arrow_drop_down</span>
-      </button>
-      <ul class="smenu-sub" hidden>
-        <li>
-          <a href="https://20nxskypqz.github.io/20nxskypqz-Exam-Review/" target="_blank" rel="noopener">
-            <span class="material-symbols-outlined ms">school</span>
-            Exam&nbsp;Review
-          </a>
-        </li>
-      </ul>
-    </section>
+  <!-- WORK -->
+  <section class="menu-group">
+    <button class="menu-section-toggle smenu-sec-toggle" data-target="#sm-work">
+      <span>Work</span>
+      <span class="material-symbols-outlined">arrow_drop_down</span>
+    </button>
+    <ul id="sm-work" class="menu-sublist smenu-sub" hidden>
+      <li>
+        <a href="/20nxskypqz/OrganizeDocumentsAutomatically/">
+          <span class="material-symbols-outlined">edit_document</span>
+          Organize Documents Automatically
+        </a>
+      </li>
+    </ul>
+  </section>
 
-    <!-- Work -->
-    <section class="smenu-sec">
-      <button class="smenu-sec-toggle" type="button" aria-expanded="false">
-        <span>Work</span>
-        <span class="material-symbols-outlined chevron">arrow_drop_down</span>
-      </button>
-      <ul class="smenu-sub" hidden>
-        <li>
-          <a href="/20nxskypqz/OrganizeDocumentsAutomatically/">
-            <span class="material-symbols-outlined ms">edit_document</span>
-            Organize&nbsp;Documents&nbsp;Automatically
-          </a>
-        </li>
-      </ul>
-    </section>
+  <!-- GAMES -->
+  <section class="menu-group">
+    <button class="menu-section-toggle smenu-sec-toggle" data-target="#sm-games">
+      <span>Games</span>
+      <span class="material-symbols-outlined">arrow_drop_down</span>
+    </button>
+    <ul id="sm-games" class="menu-sublist smenu-sub" hidden>
+      <li>
+        <a href="/20nxskypqz/WordleAndContexto/">
+          <span class="material-symbols-outlined">abc</span> Wordle &amp; Contexto
+        </a>
+      </li>
+    </ul>
+  </section>
 
-    <!-- Games -->
-    <section class="smenu-sec">
-      <button class="smenu-sec-toggle" type="button" aria-expanded="false">
-        <span>Games</span>
-        <span class="material-symbols-outlined chevron">arrow_drop_down</span>
-      </button>
-      <ul class="smenu-sub" hidden>
-        <li>
-          <a href="/20nxskypqz/WordleAndContexto/">
-            <span class="material-symbols-outlined ms">abc</span>
-            Wordle&nbsp;&amp;&nbsp;Contexto
-          </a>
-        </li>
-      </ul>
-    </section>
-
-    <!-- Entertainment -->
-    <section class="smenu-sec">
-      <button class="smenu-sec-toggle" type="button" aria-expanded="false">
-        <span>Entertainment</span>
-        <span class="material-symbols-outlined chevron">arrow_drop_down</span>
-      </button>
-      <ul class="smenu-sub" hidden>
-        <li>
-          <a href="/20nxskypqz/DetectiveConan/">
-            <span class="material-symbols-outlined ms">mystery</span>
-            名探偵コナン&nbsp;Detective&nbsp;Conan
-          </a>
-        </li>
-      </ul>
-    </section>
-  </nav>
+  <!-- ENTERTAINMENT -->
+  <section class="menu-group">
+    <button class="menu-section-toggle smenu-sec-toggle" data-target="#sm-ent">
+      <span>Entertainment</span>
+      <span class="material-symbols-outlined">arrow_drop_down</span>
+    </button>
+    <ul id="sm-ent" class="menu-sublist smenu-sub" hidden>
+      <li>
+        <a href="/20nxskypqz/DetectiveConan/">
+          <span class="material-symbols-outlined">mystery</span> Detective Conan
+        </a>
+      </li>
+    </ul>
+  </section>
 </aside>
-
-<style>
-  :root{
-    --hdr-h:56px;
-    --ink:#111; --card:#fff; --bg-dim:rgba(0,0,0,.45);
-    --shadow:0 10px 30px rgba(0,0,0,.12);
-    --accent:#0b57d0;
-  }
-  .dark-mode :root, .dark-mode{
-    --ink:#eee; --card:#151515; --bg-dim:rgba(0,0,0,.6);
-    --shadow:0 10px 30px rgba(0,0,0,.35);
-    --accent:#8ab4f8;
-  }
-
-  /* Overlay */
-  .smenu-overlay[hidden]{ display:none; }
-  .smenu-overlay{
-    position:fixed; inset:0; background:var(--bg-dim);
-    opacity:0; transition:opacity .2s ease; z-index:90;
-  }
-  .smenu-overlay.show{ opacity:1; }
-
-  /* Drawer */
-  .smenu[aria-hidden="true"]{ display:none; }
-  .smenu{
-    position:fixed; inset:0 auto 0 0; width:300px;
-    background:var(--card); color:var(--ink); box-shadow:var(--shadow);
-    transform:translateX(-100%); transition:transform .25s ease;
-    display:flex; flex-direction:column; z-index:100;
-  }
-  .smenu.open{ transform:translateX(0); }
-  .smenu-top{
-    height:var(--hdr-h); display:flex; align-items:center; justify-content:space-between;
-    padding:0 12px; border-bottom:1px solid rgba(0,0,0,.08);
-  }
-  .smenu-title{ font-weight:700; }
-  .smenu-close{
-    border:0; background:transparent; width:40px; height:40px; cursor:pointer; color:var(--ink);
-  }
-
-  /* Sections */
-  .smenu-sec{ border-bottom:1px solid rgba(0,0,0,.06); }
-  .smenu-sec-toggle{
-    width:100%; text-align:left; border:0; background:transparent; color:var(--ink);
-    font:inherit; padding:12px; display:flex; align-items:center; justify-content:space-between; cursor:pointer;
-  }
-  .smenu-sec-toggle .chevron{ transition:transform .2s ease; }
-  .smenu-sec-toggle[aria-expanded="true"] .chevron{ transform:rotate(180deg); }
-
-  .smenu-sub{ list-style:none; margin:0; padding:0 12px 12px 12px; }
-  .smenu-sub[hidden]{ display:none; }
-  .smenu-sub li a{
-    display:block; padding:10px 10px; border-radius:10px; color:var(--ink);
-    text-decoration:none; background:transparent;
-  }
-  .smenu-sub li a:hover{ background:rgba(11,87,208,.08); }
-
-  /* Material Symbols */
-  .material-symbols-outlined{
-    font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 40;
-    font-size:24px; line-height:1; vertical-align:middle; user-select:none;
-  }
-  .ms{ margin-right:8px; }
-</style>
