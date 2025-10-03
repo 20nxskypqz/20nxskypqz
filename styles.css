@@ -1,5 +1,4 @@
-/* Root-css-03102025-[Complete] */
-/* css-Root-01102025-01 — Global site styles (Material Symbols: ใช้ CDN, ไม่ฝังฟอนต์) */
+/* Root-CSS-03102025-[Complete] */
 :root{
   --bg:#f9f9f9; --card:#fff; --ink:#111; --muted:#666;
   --shadow:0 6px 24px rgba(0,0,0,.08);
@@ -102,7 +101,7 @@ body.dark-mode .toggle-circle{ transform:translateX(calc(var(--w) - var(--h))); 
   background:transparent; border:none; padding:6px; margin:0;
   cursor:pointer; display:inline-flex; align-items:center; line-height:1; border-radius:8px;
 }
-.icon-btn .material-symbols-outlined{ font-size:32px; } /* ใหญ่ขึ้นตามที่ขอ */
+.icon-btn .material-symbols-outlined{ font-size:32px; }
 .icon-btn:hover{ background:rgba(0,0,0,.06); }
 body.dark-mode .icon-btn:hover{ background:rgba(255,255,255,.08); }
 
@@ -119,7 +118,7 @@ body.dark-mode .root-link-card a{ color:#e5e7eb; }
 .time-and-countdown .time-line{ text-align:center; font-size:24px; }
 #countdown-display{ font-size:18px; }
 
-/* Conan - Season picker (placeholder, สวย + รองรับโหมดมืด) */
+/* Conan - Season picker */
 .season-picker{
   display:flex; align-items:center; gap:8px; justify-content:flex-start;
   width:100%; max-width:var(--page-max); margin:6px auto 14px;
@@ -131,7 +130,7 @@ body.dark-mode .root-link-card a{ color:#e5e7eb; }
 }
 body.dark-mode .season-pill{ background:#0f1418; color:#e5e7eb; border-color:#3b4652; }
 
-/* Buttons (Docs page toolbar) */
+/* Buttons (Docs page) */
 .btn{
   display:inline-flex; align-items:center; gap:8px; padding:10px 14px;
   border-radius:12px; border:1px solid #cfd8e3; background:#fff; color:#111;
