@@ -1,1 +1,2 @@
-// js-DetectiveConan-30092025-04 — (reserved for page-specific logic; currently none)
+/* DetectiveConan-JS-03102025-[Complete] */
+// ใช้ /script.js (Root) ควบคุมรวม
