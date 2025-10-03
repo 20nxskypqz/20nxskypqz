@@ -1,1 +1,30 @@
-/* css-OrganizeDocumentsAutomatically-30092025-04 — (optional overrides for Work page) */
+/* OrganizeDocumentsAutomatically-CSS-03102025-[Complete] */
+.btn{
+  display:inline-flex; align-items:center; gap:6px;
+  border:0; padding:10px 14px; border-radius:10px; cursor:pointer;
+  background:var(--card); color:var(--ink); box-shadow:var(--shadow);
+}
+.btn.primary{ background:var(--brand); color:#fff; }
+.btn.danger{ background:#ef4444; color:#fff; }
+
+.dropdown{
+  position:absolute; background:var(--card); box-shadow:var(--shadow);
+  border-radius:10px; padding:6px; z-index:3; min-width:220px;
+}
+.dropdown .dropdown-item{
+  width:100%; text-align:left; border:0; background:transparent;
+  padding:8px 10px; border-radius:8px; cursor:pointer; color:var(--ink);
+}
+.dropdown .dropdown-item:hover{ background:rgba(0,0,0,.06); }
+
+.content-block{
+  display:flex; align-items:flex-start; gap:10px; border:1px solid transparent;
+  padding:6px; border-radius:10px; margin:8px 0;
+}
+.content-block.dragging{ opacity:.6; background:#f0f8ff; }
+.drag-handle{ color:var(--muted); user-select:none; }
+.delete-btn{
+  margin-left:auto; border:0; background:#ef4444; color:#fff; border-radius:50%;
+  width:28px; height:28px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+}
+.editable:empty:before{ content: attr(placeholder); color:#9ca3af; pointer-events:none; display:block; }
