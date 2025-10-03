@@ -1,87 +1,159 @@
-/* Root-CSS-03102025-[Complete] */
-:root {
-  --bg:#f9f9f9; --card:#fff; --ink:#111;
-  --muted:#666; --shadow:0 6px 24px rgba(0,0,0,.08);
-  --brand:#0b57d0; --brand2:#0a49b8;
+/* Root-CSS-03-10-[Complete] — Global site styles (Material Symbols: ใช้ CDN, ไม่ฝังฟอนต์) */
+:root{
+  --bg:#f9f9f9; --card:#fff; --ink:#111; --muted:#666;
+  --shadow:0 6px 24px rgba(0,0,0,.08);
+  --page-max:700px;
+  --grad-light: linear-gradient(90deg, #e63946, #ff9f1c);
+  --grad-dark:  linear-gradient(90deg,#0b1929,#1f2937);
 }
-.dark-mode {
-  --bg:#0e0f12; --card:#15161a; --ink:#eee;
-  --muted:#9ba3af; --shadow:0 6px 24px rgba(0,0,0,.3);
-  --brand:#8ab4f8; --brand2:#6fa0f5;
-}
-* { box-sizing: border-box; }
-html,body { height:100%; }
-body {
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+body{
   margin:0; background:var(--bg); color:var(--ink);
-  font-family: 'Niramit', system-ui, -apple-system, Segoe UI, Arial, sans-serif;
-  line-height:1.8; padding:0;
+  font-family:'Niramit', system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+  line-height:1.8; padding:0 20px;
+  display:flex; flex-direction:column;
+  min-height:100vh; min-height:100svh;
 }
 
-/* Header & Footer (full-bleed bars) */
-.full-bleed { width:100vw; margin-left:50%; transform:translateX(-50%); }
-.header {
-  position:sticky; top:0; z-index:20;
-  height:56px; display:flex; align-items:center; justify-content:space-between;
-  padding:0 12px;
-  background: linear-gradient(90deg, var(--brand), var(--brand2));
-  color:#fff;
-}
-.footer {
-  position:sticky; bottom:0; z-index:10;
-  height:48px; display:flex; align-items:center; justify-content:center;
-  background: linear-gradient(90deg, var(--brand), var(--brand2));
-  color:#fff;
-}
-.content { max-width: 900px; margin: 0 auto; padding: 20px; }
+/* Full-bleed header/footer bars */
+.full-bleed{ position:relative; left:50%; right:50%; margin-left:-50vw; margin-right:-50vw; width:100vw; }
+.header, .footer{ color:#fff; padding:10px 16px; box-shadow:var(--shadow); border-radius:0; }
+.header{ background:var(--grad-light); display:flex; justify-content:space-between; align-items:center; }
+.footer{ background:var(--grad-light); margin-top:auto; text-align:center; }
+body.dark-mode{ background:#0f1418; color:#e5e7eb; }
+body.dark-mode .card{ background:#172026; color:#e5e7eb; }
+body.dark-mode .header, body.dark-mode .footer{ background:var(--grad-dark); }
+body.dark-mode a{ color:#d1defa; }
 
-/* Capsule mode toggle */
-.toggle-container{
-  --w:56px; --h:28px;
-  width:var(--w); height:var(--h);
-  border-radius: 999px; background: rgba(255,255,255,.25);
-  padding:3px; display:flex; align-items:center;
-  cursor:pointer; transition:background .2s ease;
-}
-.toggle-container:focus{ outline:2px dashed rgba(255,255,255,.7); outline-offset:2px; }
-.toggle-circle{
-  width:22px; height:22px; border-radius:999px;
-  background:#fff; color:#111; display:flex; align-items:center; justify-content:center;
-  transition: transform .2s ease, color .2s ease, background .2s ease;
-}
-.dark-mode .toggle-container { background: rgba(255,255,255,.15); }
-.dark-mode .toggle-circle{ background:#111; color:#fff; transform: translateX(calc(56px - 28px)); }
+/* Content container */
+.content{ width:100%; max-width:var(--page-max); margin:16px auto; }
 
-/* Menu button */
+/* Material Symbols (CDN) — ใช้คลาสรวมเดียว */
+.material-symbols-outlined{
+  font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 40;
+  font-family:'Material Symbols Outlined' !important;
+  font-style:normal; font-weight:normal; line-height:1; display:inline-block;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  -moz-osx-font-smoothing:grayscale; user-select:none; vertical-align:middle;
+  font-size:24px;
+}
+
+/* Menu button (hamburger) */
 .menu-toggle{
-  border:0; background:transparent; color:#fff; width:40px; height:40px; cursor:pointer;
-  display:flex; align-items:center; justify-content:center;
+  appearance:none; border:0; background:transparent; color:#fff; cursor:pointer;
+  padding:8px; border-radius:10px;
 }
+.menu-toggle:hover{ background:rgba(255,255,255,.12); }
 
-/* Root sections */
-.hero { text-align:center; margin: 10px 0 18px; }
-.hero-title{ font-size:32px; margin:0; }
-.root-section{ margin: 16px 0; }
-.section-header-row { display:flex; align-items:center; gap:8px; justify-content:space-between; }
-.align-left{ text-align:left; }
-.icon-btn{
-  border:0; background:transparent; cursor:pointer; color:inherit; display:flex; align-items:center; justify-content:center;
+/* Capsule toggle (light/dark) */
+.toggle-container{
+  position:relative; width:64px; height:32px; border-radius:999px;
+  background:rgba(255,255,255,.22); border:1px solid rgba(255,255,255,.4);
+  display:flex; align-items:center; padding:3px; cursor:pointer;
 }
-.root-link-card.card{
-  margin-top: 8px;
-  background:var(--card); box-shadow:var(--shadow);
-  padding:10px 12px; border-radius:14px;
+.toggle-circle{
+  width:26px; height:26px; border-radius:50%;
+  background:#fff; color:#111; display:flex; align-items:center; justify-content:center;
+  transition:transform .25s ease;
 }
-.root-link-card a{
-  display:inline-flex; align-items:center; gap:6px; color:var(--ink); text-decoration:none;
+#mode-icon{ font-size:18px; }
+body.dark-mode .toggle-container{ background:rgba(0,0,0,.35); border-color:rgba(255,255,255,.25); }
+body.dark-mode .toggle-circle{ background:#0f1418; color:#ffd166; }
+
+/* เมื่อเป็น dark-mode ให้ดันวงกลมไปขวา */
+body.dark-mode .toggle-circle{ transform:translateX(30px); }
+
+/* Cards / boxes */
+.card{
+  background:var(--card); border:1px solid #e5e7eb; border-radius:14px;
+  padding:16px; box-shadow:var(--shadow); color:var(--ink);
 }
+.card + .card{ margin-top:14px; }
 
-/* Side Menu (only base layout comes from side-menu.html’s CSS) */
-.smenu-overlay.show { /* overlay state handled in JS; base style is inside side-menu include */ }
+/* Headings scale: 32 → -4 step */
+h1{ font-size:32px; margin:.2em 0 .6em; }
+h2{ font-size:28px; margin:.2em 0 .6em; }
+h3{ font-size:24px; margin:.2em 0 .6em; }
+h4{ font-size:20px; margin:.2em 0 .6em; }
+h5{ font-size:16px; margin:.2em 0 .6em; }
+p,li{ font-size:16px; }
 
-/* Home page small helpers (if present) */
-#time-card, #countdown-card { text-align:center; }
-#current-time-th { font-size:24px; font-weight:700; }
-#countdown-display { font-size:18px; }
+/* Links */
+a{ color:#0b57d0; text-decoration:none; }
+a:hover{ text-decoration:underline; }
 
-/* Container width harmonized for all pages */
-.container { max-width: 900px; margin: 0 auto; padding: 20px; }
+/* Root landing quick links (as small chips) */
+.root-links{
+  display:flex; gap:12px; flex-wrap:wrap; align-items:center; justify-content:flex-start;
+}
+.root-link{
+  display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px;
+  background:#fff; border:1px solid #d0d7de; color:#111; box-shadow:var(--shadow);
+  font-weight:700;
+}
+body.dark-mode .root-link{ background:#172026; color:#e5e7eb; border-color:#2b3744; }
+
+/* Root sections w/ dropdown trigger (triangle only) */
+.section-row{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 14px; border-radius:12px; background:#fff; border:1px solid #e5e7eb;
+  box-shadow:var(--shadow); margin:12px 0;
+}
+.section-row .title{ font-size:28px; font-weight:800; color:#111; }
+.section-row .drop-btn{
+  appearance:none; border:0; background:transparent; cursor:pointer; border-radius:10px; padding:4px;
+  color:#111;
+}
+.section-row .drop-btn .material-symbols-outlined{ font-size:28px; }
+body.dark-mode .section-row{ background:#172026; border-color:#2b3744; }
+body.dark-mode .section-row .title, body.dark-mode .section-row .drop-btn{ color:#e5e7eb; }
+
+/* Root dropdown panel (links show only when JS toggles [hidden]) */
+.link-panel{ margin:10px 0 0; }
+.link-panel[hidden]{ display:none; }
+.link-panel .link-chip{
+  display:inline-flex; align-items:center; gap:8px; padding:8px 12px; margin:6px 8px 0 0;
+  border-radius:10px; border:1px solid #d0d7de; background:#fff; color:#111; text-decoration:none;
+  font-weight:700; box-shadow:var(--shadow);
+}
+body.dark-mode .link-panel .link-chip{ background:#0f1418; color:#e5e7eb; border-color:#3b4652; }
+
+/* Shared “info” grid/cards like Home time boxes */
+.info-grid{ display:grid; gap:12px; }
+@media (min-width:560px){ .info-grid{ grid-template-columns:1fr 1fr; } }
+.info-box{
+  background:#fff; color:#111; border:1px solid #e5e7eb; border-radius:12px; padding:14px;
+  box-shadow:var(--shadow);
+}
+.info-box h3{ margin:.1em 0 .4em; font-size:24px; }
+.info-box .value{ font-size:20px; font-weight:800; }
+
+/* Side menu base (drawer). The specific layout styles live in /shared/side-menu.html */
+.smenu-overlay[hidden]{ display:none; }
+.smenu{ display:none; } /* ปิดไว้ ถ้า JS เปิดจะ override */
+
+/* Utility spacing */
+.mt-8{ margin-top:8px; }
+.mt-12{ margin-top:12px; }
+.mt-16{ margin-top:16px; }
+.mb-8{ margin-bottom:8px; }
+.center{ text-align:center; }
+
+/* Buttons (for Organize page etc.) */
+.btn{
+  display:inline-flex; align-items:center; gap:8px; padding:10px 14px;
+  border-radius:12px; border:1px solid #cfd8e3; background:#fff; color:#111;
+  font-weight:800; cursor:pointer; box-shadow:var(--shadow);
+}
+.btn-primary{ background:#4f46e5; border-color:#4f46e5; color:#fff; }
+.btn-danger{ background:#ef4444; border-color:#ef4444; color:#fff; }
+.btn-ghost{ background:#fff; color:#111; }
+.btn .material-symbols-outlined{ font-size:22px; }
+body.dark-mode .btn-ghost{ background:#0f1418; border-color:#3b4652; color:#e5e7eb; }
+body.dark-mode .btn-primary{ background:#6366f1; border-color:#6366f1; }
+body.dark-mode .btn-danger{ background:#f43f5e; border-color:#f43f5e; }
+
+/* Spacing */
+.hero{ margin:8px 0 16px; }
+.hero-title{ margin:.2em 0 .4em; }
