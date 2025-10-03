@@ -15,6 +15,14 @@ body{
   display:flex; flex-direction:column;
   min-height:100vh; min-height:100svh;
 }
+[data-include]{ display:contents; }
+
+/* Font scale */
+h1{ font-size:32px; margin:.2em 0 .4em; text-align:center; }
+h2{ font-size:28px; margin:.8em 0 .4em; text-align:center; }
+h3{ font-size:24px; margin:.8em 0 .4em; text-align:center; }
+h4{ font-size:20px; margin:.6em 0 .3em; text-align:center; }
+p,li{ font-size:16px; }
 
 /* Full-bleed header/footer bars */
 .full-bleed{ position:relative; left:50%; right:50%; margin-left:-50vw; margin-right:-50vw; width:100vw; }
@@ -35,112 +43,94 @@ body.dark-mode a{ color:#d1defa; }
   font-family:'Material Symbols Outlined' !important;
   font-style:normal; font-weight:normal; line-height:1; display:inline-block;
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
-  -moz-osx-font-smoothing:grayscale; user-select:none; vertical-align:middle;
-  font-size:24px;
 }
 
-/* Menu button (hamburger) */
-.menu-toggle{
-  appearance:none; border:0; background:transparent; color:#fff; cursor:pointer;
-  padding:8px; border-radius:10px;
-}
-.menu-toggle:hover{ background:rgba(255,255,255,.12); }
-
-/* Capsule toggle (light/dark) */
+/* Toggle capsule (manual dark mode) */
 .toggle-container{
-  position:relative; width:64px; height:32px; border-radius:999px;
-  background:rgba(255,255,255,.22); border:1px solid rgba(255,255,255,.4);
-  display:flex; align-items:center; padding:3px; cursor:pointer;
+  --w:84px; --h:36px; --pad:3px;
+  width:var(--w); height:var(--h); border-radius:999px; padding:var(--pad);
+  background:#e9eef4; border:2px solid #c9d4df;
+  display:flex; align-items:center; box-shadow:inset 0 2px 6px rgba(0,0,0,.12);
+  cursor:pointer; user-select:none;
 }
 .toggle-circle{
-  width:26px; height:26px; border-radius:50%;
-  background:#fff; color:#111; display:flex; align-items:center; justify-content:center;
-  transition:transform .25s ease;
+  width:calc(var(--h) - 2*var(--pad)); height:calc(var(--h) - 2*var(--pad));
+  border-radius:999px; background:#fff;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 3px 8px rgba(0,0,0,.25);
+  transition:transform .25s; font-size:20px; color:#111;
 }
-#mode-icon{ font-size:18px; }
-body.dark-mode .toggle-container{ background:rgba(0,0,0,.35); border-color:rgba(255,255,255,.25); }
-body.dark-mode .toggle-circle{ background:#0f1418; color:#ffd166; }
+body.dark-mode .toggle-container{ background:#1d2227; border-color:#3a424a; }
+body.dark-mode .toggle-circle{ transform:translateX(calc(var(--w) - var(--h))); color:#e5e7eb; }
 
-/* เมื่อเป็น dark-mode ให้ดันวงกลมไปขวา */
-body.dark-mode .toggle-circle{ transform:translateX(30px); }
-
-/* Cards / boxes */
-.card{
-  background:var(--card); border:1px solid #e5e7eb; border-radius:14px;
-  padding:16px; box-shadow:var(--shadow); color:var(--ink);
+/* Side menu */
+.menu-toggle, .close-menu{
+  background:none; border:none; color:inherit; cursor:pointer; font-size:24px; display:flex; align-items:center;
 }
-.card + .card{ margin-top:14px; }
-
-/* Headings scale: 32 → -4 step */
-h1{ font-size:32px; margin:.2em 0 .6em; }
-h2{ font-size:28px; margin:.2em 0 .6em; }
-h3{ font-size:24px; margin:.2em 0 .6em; }
-h4{ font-size:20px; margin:.2em 0 .6em; }
-h5{ font-size:16px; margin:.2em 0 .6em; }
-p,li{ font-size:16px; }
-
-/* Links */
-a{ color:#0b57d0; text-decoration:none; }
-a:hover{ text-decoration:underline; }
-
-/* Root landing quick links (as small chips) */
-.root-links{
-  display:flex; gap:12px; flex-wrap:wrap; align-items:center; justify-content:flex-start;
+.side-menu{
+  position:fixed; top:20px; left:20px; bottom:20px; width:280px;
+  background:#222; color:#fff; border-radius:12px; padding:60px 0 12px;
+  box-shadow: var(--shadow); transform:translateX(-120%); transition:transform .25s ease; z-index:1000;
 }
-.root-link{
-  display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px;
-  background:#fff; border:1px solid #d0d7de; color:#111; box-shadow:var(--shadow);
-  font-weight:700;
-}
-body.dark-mode .root-link{ background:#172026; color:#e5e7eb; border-color:#2b3744; }
-
-/* Root sections w/ dropdown trigger (triangle only) */
-.section-row{
+.side-menu.open{ transform:translateX(0); }
+.close-menu{ position:absolute; top:12px; right:12px; }
+.menu-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.35); display:none; z-index:900; }
+.menu-overlay.visible{ display:block; }
+.menu-group{ padding:0 8px 12px; }
+.menu-section-toggle{
+  width:100%; background:transparent; border:none; color:#fff;
   display:flex; align-items:center; justify-content:space-between;
-  padding:10px 14px; border-radius:12px; background:#fff; border:1px solid #e5e7eb;
-  box-shadow:var(--shadow); margin:12px 0;
+  font-weight:800; font-size:16px; padding:10px 14px; cursor:pointer;
 }
-.section-row .title{ font-size:28px; font-weight:800; color:#111; }
-.section-row .drop-btn{
-  appearance:none; border:0; background:transparent; cursor:pointer; border-radius:10px; padding:4px;
-  color:#111;
+.menu-sublist{ list-style:none; margin:4px 0 8px; padding:0; }
+.menu-sublist li a{
+  display:flex; gap:8px; align-items:center; padding:8px 18px;
+  color:#fff; text-decoration:none; border-radius:8px;
+  white-space:normal; word-break:break-word;
 }
-.section-row .drop-btn .material-symbols-outlined{ font-size:28px; }
-body.dark-mode .section-row{ background:#172026; border-color:#2b3744; }
-body.dark-mode .section-row .title, body.dark-mode .section-row .drop-btn{ color:#e5e7eb; }
+.menu-sublist li a:hover{ background:rgba(255,255,255,.08); }
 
-/* Root dropdown panel (links show only when JS toggles [hidden]) */
-.link-panel{ margin:10px 0 0; }
-.link-panel[hidden]{ display:none; }
-.link-panel .link-chip{
-  display:inline-flex; align-items:center; gap:8px; padding:8px 12px; margin:6px 8px 0 0;
-  border-radius:10px; border:1px solid #d0d7de; background:#fff; color:#111; text-decoration:none;
-  font-weight:700; box-shadow:var(--shadow);
+/* Cards */
+.card{ background:var(--card); border-radius:12px; box-shadow:var(--shadow); padding:16px; margin:12px 0; }
+
+/* Root page: section header + icon dropdown */
+.align-left{ text-align:left !important; }
+.drop-wrap{ margin:8px 0 16px; }
+.section-header-row{ display:flex; align-items:center; gap:10px; }
+.icon-btn{
+  background:transparent; border:none; padding:6px; margin:0;
+  cursor:pointer; display:inline-flex; align-items:center; line-height:1; border-radius:8px;
 }
-body.dark-mode .link-panel .link-chip{ background:#0f1418; color:#e5e7eb; border-color:#3b4652; }
+.icon-btn .material-symbols-outlined{ font-size:32px; } /* ใหญ่ขึ้นตามที่ขอ */
+.icon-btn:hover{ background:rgba(0,0,0,.06); }
+body.dark-mode .icon-btn:hover{ background:rgba(255,255,255,.08); }
 
-/* Shared “info” grid/cards like Home time boxes */
-.info-grid{ display:grid; gap:12px; }
-@media (min-width:560px){ .info-grid{ grid-template-columns:1fr 1fr; } }
-.info-box{
-  background:#fff; color:#111; border:1px solid #e5e7eb; border-radius:12px; padding:14px;
-  box-shadow:var(--shadow);
+/* Boxed link card under each section */
+.root-link-card{ display:inline-block; width:100%; max-width:480px; padding:12px 14px; }
+.root-link-card a{
+  font-size:24px; color:#000; text-decoration:none;
+  white-space:normal; word-break:break-word; display:inline-flex; align-items:center; gap:8px;
 }
-.info-box h3{ margin:.1em 0 .4em; font-size:24px; }
-.info-box .value{ font-size:20px; font-weight:800; }
+body.dark-mode .root-link-card a{ color:#e5e7eb; }
 
-/* Side menu base (drawer). The specific layout styles live in /shared/side-menu.html */
-.smenu-overlay[hidden]{ display:none; }
-.smenu{ display:none; } /* ปิดไว้ ถ้า JS เปิดจะ override */
+/* Home page helpers */
+.time-and-countdown h2{ text-align:center; }
+.time-and-countdown .time-line{ text-align:center; font-size:24px; }
+#countdown-display{ font-size:18px; }
 
-/* Utility spacing */
-.mt-8{ margin-top:8px; }
-.mt-12{ margin-top:12px; }
-.mt-16{ margin-top:16px; }
-.mb-8{ margin-bottom:8px; }
-.center{ text-align:center; }
+/* Conan - Season picker (placeholder, สวย + รองรับโหมดมืด) */
+.season-picker{
+  display:flex; align-items:center; gap:8px; justify-content:flex-start;
+  width:100%; max-width:var(--page-max); margin:6px auto 14px;
+}
+.season-pill{
+  display:inline-flex; align-items:center; gap:10px; padding:10px 14px;
+  border-radius:999px; border:1px solid #d0d7de; background:#fff; color:#111;
+  box-shadow:var(--shadow); cursor:not-allowed; opacity:.85;
+}
+body.dark-mode .season-pill{ background:#0f1418; color:#e5e7eb; border-color:#3b4652; }
 
-/* Buttons (for Organize page etc.) */
+/* Buttons (Docs page toolbar) */
 .btn{
   display:inline-flex; align-items:center; gap:8px; padding:10px 14px;
   border-radius:12px; border:1px solid #cfd8e3; background:#fff; color:#111;
@@ -152,7 +142,7 @@ body.dark-mode .link-panel .link-chip{ background:#0f1418; color:#e5e7eb; border
 .btn .material-symbols-outlined{ font-size:22px; }
 body.dark-mode .btn-ghost{ background:#0f1418; border-color:#3b4652; color:#e5e7eb; }
 body.dark-mode .btn-primary{ background:#6366f1; border-color:#6366f1; }
-body.dark-mode .btn-danger{ background:#f43f5e; border-color:#f43f5e; }
+body.dark-mode .btn-danger{ background:#f43b5e; border-color:#f43b5e; }
 
 /* Spacing */
 .hero{ margin:8px 0 16px; }
