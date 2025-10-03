@@ -1,37 +1,35 @@
-/* Home-JavaScript-03102025-[Complete] */
-(function(){
-  const pad2 = (n)=> String(n).padStart(2,'0');
+// js-Home-30092025-08 — time & countdown (full units) + 20px via CSS
+const dateEl = document.getElementById('date-display');
+const timeEl = document.getElementById('time-display');
+const cdEl = document.getElementById('countdown-display');
 
-  function updateTime(){
-    const now = new Date();
-    const tz = 'Asia/Bangkok';
-    const fmtDate = new Intl.DateTimeFormat('en-GB', { timeZone: tz, dateStyle: 'full' }).format(now);
-    const fmtTime = new Intl.DateTimeFormat('en-GB', { timeZone: tz, hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(now);
-    const el = document.getElementById('current-time');
-    if (el) el.textContent = `${fmtDate} ${fmtTime}`;
-  }
+function pad(n){ return n.toString().padStart(2,'0'); }
 
-  function updateCountdown(){
-    const target = new Date('2026-01-01T00:00:00+07:00').getTime();
-    const now = Date.now();
-    let diff = Math.max(0, target - now);
+function tick(){
+  const now = new Date();
 
-    const d = Math.floor(diff / (1000*60*60*24)); diff -= d*(1000*60*60*24);
-    const h = Math.floor(diff / (1000*60*60));     diff -= h*(1000*60*60);
-    const m = Math.floor(diff / (1000*60));        diff -= m*(1000*60);
-    const s = Math.floor(diff / 1000);
+  // Date/Time (TH)
+  const yyyy = now.getFullYear();
+  const mm = pad(now.getMonth() + 1);
+  const dd = pad(now.getDate());
+  const hh = pad(now.getHours());
+  const mi = pad(now.getMinutes());
+  const ss = pad(now.getSeconds());
 
-    const el = document.getElementById('countdown-display');
-    if (el) el.textContent = `${d} Days ${pad2(h)} Hours ${pad2(m)} Minutes ${pad2(s)} Seconds`;
-  }
+  if (dateEl) dateEl.textContent = `${dd}/${mm}/${yyyy}`;
+  if (timeEl) timeEl.textContent = `${hh}:${mi}:${ss}`;
 
-  const onReady = () => {
-    updateTime();
-    updateCountdown();
-    setInterval(updateTime, 1000);
-    setInterval(updateCountdown, 1000);
-  };
+  // Countdown to 2026-01-01 00:00:00 +07:00
+  const target = new Date('2026-01-01T00:00:00+07:00').getTime();
+  const diff = Math.max(0, target - now.getTime());
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', onReady);
-  else onReady();
-})();
+  const days  = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const mins  = Math.floor((diff % 3600000) / 60000);
+  const secs  = Math.floor((diff % 60000) / 1000);
+
+  if (cdEl) cdEl.textContent = `${days} days ${hours} hours ${mins} minutes ${secs} seconds`;
+}
+
+tick();
+setInterval(tick, 1000);
