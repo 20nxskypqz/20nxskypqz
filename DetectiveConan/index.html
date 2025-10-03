@@ -1,19 +1,17 @@
-<!-- html-DetectiveConan-01102025-02 -->
+<!-- DetectiveConan-HTML-03102025-[Complete] -->
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" class="conan-page">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>名探偵コナン - 20nxskypqz</title>
+  <title>名探偵コナン Detective Conan</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;700&display=swap" rel="stylesheet" />
 
-  <!-- Material Symbols (เพิ่ม abc) -->
+  <!-- Material Symbols -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0&icon_names=menu,close,light_mode,dark_mode,arrow_drop_down,abc" />
-  <style>.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 40; font-family:'Material Symbols Outlined' !important;}</style>
 
   <link rel="stylesheet" href="/20nxskypqz/styles.css" />
 </head>
@@ -21,23 +19,24 @@
   <div data-include="/20nxskypqz/shared/header.html"></div>
   <div data-include="/20nxskypqz/shared/side-menu.html"></div>
 
-  <main class="content">
-    <section class="hero">
-      <h1 class="hero-title">名探偵コナン</h1>
-      <h3 style="margin-top:-6px;">Detective Conan</h3>
-    </section>
+  <main class="content container">
+    <h1 style="text-align:center; margin:10px 0 6px;">名探偵コナン</h1>
+    <h2 style="text-align:center; margin:0 0 16px;">Detective Conan</h2>
 
-    <!-- Season picker -->
-    <div class="season-picker">
-      <div class="season-pill" title="Coming back later">
-        <span class="material-symbols-outlined">arrow_drop_down</span>
-        <strong>Season picker</strong>
-        <span class="muted" style="opacity:.7;">(coming back later)</span>
+    <div class="card" style="max-width:900px; margin:0 auto;">
+      <div class="section-header-row" style="justify-content:flex-start; gap:8px;">
+        <button class="icon-btn" type="button" disabled title="Season picker (coming back later)">
+          <span class="material-symbols-outlined">arrow_drop_down</span>
+        </button>
+        <div>Season picker (coming back later)</div>
       </div>
+      <div style="height:16px;"></div>
+      <p style="margin:0; color:var(--muted);">※ ตารางถูกถอดออกตามคำสั่งล่าสุด</p>
     </div>
   </main>
 
   <div data-include="/20nxskypqz/shared/footer.html"></div>
+
   <script src="/20nxskypqz/script.js"></script>
 </body>
 </html>
