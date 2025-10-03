@@ -1,4 +1,8 @@
-/* Root-JavaScript-03102025-[Complete] */
+/* js-RootShared-02102025-11
+   Add: Basic slide menu wiring for side-menu.html (document-level)
+   Keep: HTML includes, theme toggle, root dropdowns, home time & countdown
+*/
+
 (function () {
   "use strict";
 
