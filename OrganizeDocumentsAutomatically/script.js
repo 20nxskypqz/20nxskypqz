@@ -1,195 +1,137 @@
-/* OrganizeDocumentsAutomatically-JavaScript-03102025-[Complete] */
-(function(){
-  const addBtn = document.getElementById('add-btn');
-  const addMenu = document.getElementById('add-menu');
-  const editor = document.getElementById('editor');
-  const placeholder = document.getElementById('placeholder');
-  const downloadDocxBtn = document.getElementById('download-docx-btn');
-  const downloadPdfBtn = document.getElementById('download-pdf-btn');
-  const loader = document.getElementById('loader');
-  const loaderText = document.getElementById('loader-text');
+// js-OrganizeDocumentsAutomatically-30092025-05
+const addBtn = document.getElementById('add-btn');
+const addMenu = document.getElementById('add-menu');
+const editor = document.getElementById('editor');
+const placeholder = document.getElementById('placeholder');
+const downloadDocxBtn = document.getElementById('download-docx-btn');
+const downloadPdfBtn = document.getElementById('download-pdf-btn');
+const loader = document.getElementById('loader');
+const loaderText = document.getElementById('loader-text');
 
-  let draggedItem = null;
+let draggedItem = null;
 
-  const showLoader = (text="กำลังประมวลผล...") => {
-    loaderText.textContent = text;
-    loader.style.display = 'block';
-  };
-  const hideLoader = () => {
-    loader.style.display = 'none';
-  };
+function showLoader(text='กำลังประมวลผล...'){ if(loader){ loaderText.textContent=text; loader.style.display='flex'; } }
+function hideLoader(){ if(loader){ loader.style.display='none'; } }
 
-  const toggleAddMenu = (show) => {
-    addMenu.style.display = show ? 'block' : (addMenu.style.display === 'block' ? 'none' : 'block');
-  };
-
-  if (addBtn) addBtn.addEventListener('click', (e)=>{ e.stopPropagation(); toggleAddMenu(); });
-  window.addEventListener('click', () => { if (addMenu && addMenu.style.display === 'block') addMenu.style.display = 'none'; });
-
-  document.querySelectorAll('.add-block-option').forEach(item => {
-    item.addEventListener('click', (e) => {
-      e.preventDefault();
-      const type = e.currentTarget.getAttribute('data-type');
-      addBlock(type);
-      addMenu.style.display = 'none';
-    });
-  });
-
-  function addBlock(type){
-    if (placeholder) placeholder.style.display = 'none';
-    const block = document.createElement('div');
-    block.className = 'content-block group';
-    block.style.cssText = 'position:relative;display:flex;align-items:flex-start;padding:8px;margin:8px 0;border:1px solid transparent;border-radius:12px;';
-    block.setAttribute('draggable','true');
-
-    const handle = document.createElement('div');
-    handle.className = 'drag-handle';
-    handle.style.cssText = 'cursor:move;color:#9ca3af;margin-right:12px;padding-top:2px;';
-    handle.innerHTML = '<span class="material-symbols-outlined">drag_indicator</span>';
-    block.appendChild(handle);
-
-    let content;
-    let placeholderText = '';
-    if (type === 'h-center') {
-      content = document.createElement('h3');
-      content.style.cssText = 'width:100%;font-size:28px;font-weight:bold;text-align:center;outline:none;padding:2px;border-radius:6px;';
-      placeholderText = 'ใส่หัวเรื่อง...';
-    } else if (type === 'h1') {
-      content = document.createElement('h1');
-      content.style.cssText = 'width:100%;font-size:28px;font-weight:bold;outline:none;padding:2px;border-radius:6px;';
-      placeholderText = 'ใส่หัวข้อหลัก...';
-    } else if (type === 'h2') {
-      content = document.createElement('h2');
-      content.style.cssText = 'width:100%;font-size:24px;outline:none;padding:2px;border-radius:6px;';
-      placeholderText = 'ใส่หัวข้อย่อย...';
-    } else if (type === 'h4') {
-      content = document.createElement('h4');
-      content.style.cssText = 'width:100%;font-size:18px;outline:none;padding:2px;border-radius:6px;';
-      placeholderText = 'ใส่หัวข้อย่อยของย่อย...';
-    } else {
-      content = document.createElement('p');
-      content.style.cssText = 'width:100%;font-size:16px;line-height:1.6;outline:none;padding:2px;border-radius:6px;';
-      placeholderText = 'ใส่เนื้อหา...';
-    }
-    content.setAttribute('contenteditable','true');
-    content.setAttribute('data-placeholder', placeholderText);
-    content.addEventListener('focus', (e)=>{ if (e.target.textContent===placeholderText) e.target.textContent=''; });
-    if (!content.textContent) content.textContent='';
-
-    const deleteBtn = document.createElement('button');
-    deleteBtn.className = 'delete-btn';
-    deleteBtn.style.cssText = 'position:absolute;top:50%;right:-6px;transform:translateY(-50%);background:#ef4444;color:#fff;border-radius:999px;height:28px;width:28px;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;opacity:.0;';
-    deleteBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px;">close</span>';
-    deleteBtn.onmouseenter = ()=> deleteBtn.style.opacity = '1';
-    deleteBtn.onmouseleave = ()=> deleteBtn.style.opacity = '0';
-    deleteBtn.onclick = ()=> { block.remove(); checkEmpty(); };
-
-    block.addEventListener('mouseenter', ()=> deleteBtn.style.opacity='1');
-    block.addEventListener('mouseleave', ()=> deleteBtn.style.opacity='0');
-
-    block.appendChild(content);
-    block.appendChild(deleteBtn);
-    editor.appendChild(block);
-    addDrag(block);
-    content.focus();
-  }
-
-  function addDrag(item){
-    item.addEventListener('dragstart', ()=>{
-      draggedItem = item;
-      setTimeout(()=> item.classList.add('dragging'),0);
-    });
-    item.addEventListener('dragend', ()=>{
-      setTimeout(()=>{
-        if (draggedItem) draggedItem.classList.remove('dragging');
-        draggedItem = null;
-      },0);
-    });
-  }
-
-  editor && editor.addEventListener('dragover',(e)=>{
+if(addBtn && addMenu){
+  addBtn.addEventListener('click', e=>{ e.stopPropagation(); addMenu.hidden = !addMenu.hidden; });
+  window.addEventListener('click', ()=>{ if(!addMenu.hidden) addMenu.hidden = true; });
+  document.addEventListener('click', e=>{
+    const a = e.target.closest('.add-block-option');
+    if(!a) return;
     e.preventDefault();
-    const after = getAfter(editor, e.clientY);
-    const dragging = document.querySelector('.dragging');
-    if (!dragging) return;
-    if (!after) editor.appendChild(dragging);
-    else editor.insertBefore(dragging, after);
+    addBlock(a.getAttribute('data-type'));
+    addMenu.hidden = true;
   });
+}
 
-  function getAfter(container, y){
-    const els = [...container.querySelectorAll('.content-block:not(.dragging)')];
-    return els.reduce((closest, child)=>{
-      const box = child.getBoundingClientRect();
-      const offset = y - box.top - box.height/2;
-      if (offset < 0 && offset > closest.offset) return {offset, element:child};
-      else return closest;
-    }, {offset: -Infinity}).element;
-  }
+function checkEditorEmpty(){ if(editor && placeholder && editor.querySelectorAll('.content-block').length===0){ placeholder.style.display='block'; } }
+function addBlock(type){
+  if(!editor) return;
+  if(placeholder) placeholder.style.display='none';
 
-  function checkEmpty(){
-    if (editor && editor.querySelectorAll('.content-block').length === 0) {
-      if (placeholder) placeholder.style.display = 'block';
-    }
-  }
+  const block=document.createElement('div');
+  block.className='content-block';
+  /* เว้นระยะก่อนกล่องใหม่ให้ชัดเจน (12px) */
+  block.style.cssText='position:relative; display:flex; align-items:flex-start; gap:12px; padding:8px; margin:12px 0; border:1px solid transparent; border-radius:10px;';
+  block.setAttribute('draggable','true');
 
-  function getStyledHTMLContent(){
-    const clone = editor.cloneNode(true);
-    clone.querySelectorAll('.drag-handle, .delete-btn, #placeholder').forEach(el=>el.remove());
-    clone.querySelectorAll('[contenteditable]').forEach(el=>{
-      el.removeAttribute('contenteditable');
-      el.removeAttribute('data-placeholder');
-      const tag = el.tagName.toLowerCase();
-      let style = "font-family: 'Niramit', system-ui, -apple-system, Segoe UI, Arial, sans-serif;";
-      if (tag==='h3') style += 'font-size:28px;font-weight:bold;text-align:center;margin:1.5em 0;';
-      else if (tag==='h1') style += 'font-size:28px;font-weight:bold;margin:1.5em 0 .5em;';
-      else if (tag==='h2') style += 'font-size:24px;font-weight:bold;margin:1.2em 0 .5em;';
-      else if (tag==='h4') style += 'font-size:18px;font-weight:bold;margin:1em 0 .5em;';
-      else if (tag==='p') style += 'font-size:16px;line-height:1.6;margin:0 0 1em;';
-      el.setAttribute('style', style);
-      el.className='';
-    });
-    clone.querySelectorAll('.content-block').forEach(el=>el.removeAttribute('class'));
-    return `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{font-family:'Niramit', system-ui, -apple-system, Segoe UI, Arial, sans-serif;color:#000;margin:1cm;}</style></head><body>${clone.innerHTML}</body></html>`;
-  }
+  const handle=document.createElement('div');
+  handle.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>`;
+  handle.style.cssText='cursor:move; opacity:.5; padding-top:4px;';
+  block.appendChild(handle);
 
-  // DOCX
-  if (downloadDocxBtn) downloadDocxBtn.addEventListener('click', async ()=>{
+  let content, ph='';
+  if(type==='h-center'){ content=document.createElement('h3'); content.style.cssText='width:100%; font-size:24px; font-weight:700; text-align:center; outline:none;'; ph='ใส่หัวเรื่อง...'; }
+  else if(type==='h1'){ content=document.createElement('h1'); content.style.cssText='width:100%; font-size:24px; font-weight:700; outline:none;'; ph='ใส่หัวข้อหลัก...'; }
+  else if(type==='h2'){ content=document.createElement('h2'); content.style.cssText='width:100%; font-size:24px; outline:none;'; ph='ใส่หัวข้อย่อย...'; }
+  else if(type==='h4'){ content=document.createElement('h4'); content.style.cssText='width:100%; font-size:20px; outline:none;'; ph='ใส่หัวข้อย่อยของย่อย...'; }
+  else { content=document.createElement('p'); content.style.cssText='width:100%; font-size:16px; line-height:1.6; outline:none;'; ph='ใส่เนื้อหา...'; }
+
+  content.setAttribute('contenteditable','true');
+  content.setAttribute('placeholder', ph);
+  content.addEventListener('focus', ()=> block.style.borderColor='#d0d7de');
+  content.addEventListener('blur', ()=> block.style.borderColor='transparent');
+
+  block.appendChild(content);
+
+  const del=document.createElement('button');
+  del.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+  del.style.cssText='position:absolute; right:-6px; top:50%; transform:translateY(-50%); width:28px; height:28px; border-radius:999px; background:#ef4444; color:#fff; display:flex; align-items:center; justify-content:center;';
+  del.onclick=()=>{ block.remove(); checkEditorEmpty(); };
+  block.appendChild(del);
+
+  editor.appendChild(block);
+  addDragEvents(block);
+  content.focus();
+}
+
+function addDragEvents(item){
+  item.addEventListener('dragstart', ()=>{ draggedItem=item; item.classList.add('dragging'); });
+  item.addEventListener('dragend', ()=>{ draggedItem=null; item.classList.remove('dragging'); });
+}
+if(editor){
+  editor.addEventListener('dragover', e=>{
+    e.preventDefault();
+    const afterElement=getDragAfterElement(editor, e.clientY);
+    const currentDragging=document.querySelector('.dragging');
+    if(!currentDragging) return;
+    if(afterElement==null) editor.appendChild(currentDragging); else editor.insertBefore(currentDragging, afterElement);
+  });
+}
+function getDragAfterElement(container, y){
+  const els=[...container.querySelectorAll('.content-block:not(.dragging)')];
+  return els.reduce((closest, child)=>{
+    const box=child.getBoundingClientRect();
+    const offset=y - box.top - box.height/2;
+    if(offset<0 && offset>closest.offset) return {offset, element:child};
+    return closest;
+  }, {offset:Number.NEGATIVE_INFINITY}).element;
+}
+
+// Export helpers (คงเดิม)
+function getStyledHTMLNode(){
+  const clone=editor.cloneNode(true);
+  clone.querySelectorAll('.drag-handle, .delete-btn, #placeholder').forEach(el=>el?.remove());
+  clone.querySelectorAll('[contenteditable]').forEach(el=>{
+    el.removeAttribute('contenteditable'); el.removeAttribute('placeholder');
+    const tag=el.tagName.toLowerCase();
+    el.style.fontFamily="Niramit, Sarabun, sans-serif"; el.style.color="#000";
+    if(tag==='h3'){ el.style.fontSize="26px"; el.style.fontWeight="700"; el.style.textAlign="center"; el.style.margin="1.5em 0"; }
+    else if(tag==='h1'){ el.style.fontSize="26px"; el.style.fontWeight="700"; el.style.margin="1.2em 0 .4em 0"; }
+    else if(tag==='h2'){ el.style.fontSize="22px"; el.style.fontWeight="700"; el.style.margin="1em 0 .4em 0"; }
+    else if(tag==='h4'){ el.style.fontSize="17px"; el.style.fontWeight="700"; el.style.margin=".8em 0 .4em 0"; }
+    else if(tag==='p'){ el.style.fontSize="15px"; el.style.lineHeight="1.6"; el.style.margin="0 0 .8em 0"; }
+  });
+  clone.querySelectorAll('.content-block').forEach(el=>el.removeAttribute('class'));
+  const wrapper=document.createElement('div'); wrapper.style.background="#fff"; wrapper.style.color="#000"; wrapper.appendChild(clone);
+  wrapper.style.padding="10mm"; /* ~1cm margin */
+  return wrapper;
+}
+
+async function exportDOCX(){
+  try{
     showLoader('กำลังสร้างไฟล์ DOCX...');
-    try{
-      // use html-to-docx from CDN already loaded on page (per original design)
-      if (!window.htmlToDocx) throw new Error('html-to-docx library not loaded');
-      const blob = await window.htmlToDocx.asBlob(getStyledHTMLContent());
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'document.docx';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(link.href);
-    }catch(err){
-      console.error(err);
-      alert('เกิดข้อผิดพลาดในการสร้างไฟล์ DOCX');
-    }finally{
-      hideLoader();
-    }
-  });
+    const node=getStyledHTMLNode();
+    const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>${node.innerHTML}</body></html>`;
+    const blob=window.htmlDocx.asBlob(html);
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='document.docx';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(a.href);
+  }catch(e){ console.error('DOCX error:',e); alert('เกิดข้อผิดพลาดในการสร้างไฟล์ DOCX'); }
+  finally{ hideLoader(); }
+}
 
-  // PDF (vector text via print)
-  if (downloadPdfBtn) downloadPdfBtn.addEventListener('click', ()=>{
+async function exportPDF(){
+  try{
     showLoader('กำลังสร้างไฟล์ PDF...');
-    try{
-      const win = window.open('', '_blank');
-      win.document.open();
-      win.document.write(getStyledHTMLContent()
-        .replace('<style>','<style>@page{margin:1cm;} body{margin:1cm;color:#000;}'));
-      win.document.close();
-      win.focus();
-      win.print();
-      setTimeout(()=>{ win.close(); hideLoader(); }, 500);
-    }catch(err){
-      console.error(err);
-      alert('เกิดข้อผิดพลาดในการสร้างไฟล์ PDF');
-      hideLoader();
-    }
-  });
-})();
+    const { jsPDF } = window.jspdf;
+    const pdf=new jsPDF({orientation:'portrait', unit:'mm', format:'a4'});
+    const node=getStyledHTMLNode();
+    await pdf.html(node, { x:10, y:10, margin:[10,10,10,10], autoPaging:'text', html2canvas:{scale:1},
+      callback(doc){ doc.save('document.pdf'); } });
+  }catch(e){ console.error('PDF error:',e); alert('เกิดข้อผิดพลาดในการสร้างไฟล์ PDF'); }
+  finally{ hideLoader(); }
+}
+
+downloadDocxBtn?.addEventListener('click', exportDOCX);
+downloadPdfBtn?.addEventListener('click', exportPDF);
