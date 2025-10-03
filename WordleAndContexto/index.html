@@ -1,40 +1,64 @@
-<!-- WordleAndContexto-html-03102025-[Complete] -->
-<!-- html-WordGames-01102025-03 -->
+<!-- WordleAndContexto-HTML-03102025-[Complete] -->
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
+  <title>Wordle &amp; Contexto (TH)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wordle & Contexto - 20nxskypqz</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@400;700&display=swap" rel="stylesheet" />
-
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0&icon_names=abc,menu,close,light_mode,dark_mode" />
-  <style>.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 40; font-family:'Material Symbols Outlined' !important;}</style>
-
-  <link rel="stylesheet" href="/20nxskypqz/styles.css" />
-  <link rel="stylesheet" href="/20nxskypqz/WordleAndContexto/styles.css" />
+  <link href="../styles.css" rel="stylesheet" />
+  <link href="styles.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
-<body class="light-mode">
-  <div data-include="/20nxskypqz/shared/header.html"></div>
-  <div data-include="/20nxskypqz/shared/side-menu.html"></div>
+<body class="bg-slate-900 text-white">
+  <div data-include="/shared/header.html"></div>
+  <div data-include="/shared/side-menu.html"></div>
 
   <main class="content">
-    <section class="hero">
+    <header class="hero" style="text-align:center;">
       <h1 class="hero-title">เกมทายคำศัพท์</h1>
-      <h3 class="muted" style="text-align:center; color:var(--muted);">Wordle &amp; Contexto</h3>
+      <p>เลือกเกมที่ต้องการเล่น</p>
+    </header>
+
+    <div class="card" style="text-align:center;">
+      <button id="wordle-tab" class="btn btn-primary">Wordle</button>
+      <button id="contexto-tab" class="btn btn-ghost">Contexto</button>
+    </div>
+
+    <section id="wordle-game" class="card">
+      <div id="wordle-instructions">
+        <p>ทายคำศัพท์ 5 ตัวอักษรให้ถูกต้องภายใน 6 ครั้ง</p>
+        <p><span style="color:#22c55e;">สีเขียว</span> = ตัวอักษรถูกต้องและตำแหน่งถูกต้อง</p>
+        <p><span style="color:#eab308;">สีเหลือง</span> = มีตัวอักษรนี้ในคำ แต่ผิดตำแหน่ง</p>
+        <p><span style="color:#94a3b8;">สีเทา</span> = ไม่มีตัวอักษรนี้ในคำ</p>
+      </div>
+      <div id="wordle-grid" class="grid"></div>
+      <!-- keyboard intentionally removed per request -->
     </section>
 
-    <div id="wordgames-app" class="card">
-      <!-- UI จะถูกเติมด้วย script ของเพจนี้ -->
+    <section id="contexto-game" class="card" hidden>
+      <div id="contexto-instructions">
+        <p>ทายคำศัพท์ที่มีความหมายใกล้เคียงกับคำใบ้มากที่สุด</p>
+        <p>ยิ่งอันดับน้อย ยิ่งใกล้เคียงมาก อันดับ 1 คือคำตอบที่ถูกต้อง!</p>
+      </div>
+      <div class="card">
+        <input type="text" id="contexto-input" placeholder="พิมพ์คำทาย..." />
+        <button id="contexto-guess-btn" class="btn btn-primary">เดา</button>
+      </div>
+      <div id="contexto-guesses" class="guesses"></div>
+    </section>
+
+    <div id="modal" class="modal" hidden>
+      <div id="modal-content" class="card">
+        <h2 id="modal-title"></h2>
+        <p id="modal-answer" class="answer"></p>
+        <button id="play-again-btn" class="btn btn-primary">เล่นอีกครั้ง</button>
+      </div>
     </div>
   </main>
 
-  <div data-include="/20nxskypqz/shared/footer.html"></div>
+  <div data-include="/shared/footer.html"></div>
 
-  <script src="/20nxskypqz/script.js"></script>
-  <script src="/20nxskypqz/WordleAndContexto/script.js"></script>
+  <script src="../script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
