@@ -1,4 +1,4 @@
-// js-WordleAndContexto-01102025-03 — remove virtual keyboard; keep physical kb; robust Contexto
+// WordleAndContexto-js-03102025-[Complete]
 
 window.addEventListener('DOMContentLoaded', () => {
   // =========================
