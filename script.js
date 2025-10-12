@@ -15,11 +15,6 @@
     if (mode === 'dark') { b.classList.add('dark-mode'); b.classList.remove('light-mode'); }
     else { b.classList.add('light-mode'); b.classList.remove('dark-mode'); }
   }
-  function setThemeIconAll(mode) {
-    const name = (mode === 'dark') ? 'dark_mode' : 'light_mode';
-    const modeIcon = qs('#mode-icon'); if (modeIcon) modeIcon.textContent = name;
-    qsa('.theme-toggle .material-symbols-outlined').forEach(ic => ic.textContent = name);
-  }
 
   // -------------------------
   // Helper CSS (no slide-menu styling here)
@@ -45,19 +40,36 @@
   }
 
   // -------------------------
-  // HTML includes (header/footer/side-menu)
+  // HTML includes (header/footer/side-menu) - (EDITED to handle nested includes)
   // -------------------------
   async function loadIncludes() {
-    const includeEls = qsa('[data-include]');
-    if (includeEls.length === 0) return;
-    await Promise.all(includeEls.map(async (el) => {
-      const url = el.getAttribute('data-include');
-      try {
-        const res = await fetch(url, { cache: 'no-cache' });
-        const html = await res.text();
-        el.outerHTML = html; // NOTE: <script> inside included HTML won’t auto-execute
-      } catch (e) { console.error('Include failed:', url, e); }
-    }));
+    let nodesToInclude = qsa('[data-include]');
+    while (nodesToInclude.length > 0) {
+      for (const node of nodesToInclude) {
+        const url = node.getAttribute('data-include');
+        // Mark as processed to prevent infinite loops
+        node.removeAttribute('data-include');
+        try {
+          const res = await fetch(url, { cache: 'no-cache' });
+          if (!res.ok) throw new Error(`Failed to fetch ${url}`);
+          const html = await res.text();
+          
+          const temp = document.createElement('div');
+          temp.innerHTML = html.trim();
+          
+          const frag = document.createDocumentFragment();
+          while (temp.firstChild) {
+            frag.appendChild(temp.firstChild);
+          }
+          node.replaceWith(frag);
+        } catch (e) {
+          console.error('Include failed:', url, e);
+          node.remove(); // Remove failed include to prevent issues
+        }
+      }
+      // Re-query for any newly added include elements
+      nodesToInclude = qsa('[data-include]');
+    }
   }
 
   // -------------------------
@@ -161,27 +173,22 @@
   }
 
   // -------------------------
-  // Theme toggle
+  // Theme toggle (EDITED for new checkbox toggle)
   // -------------------------
   function bindThemeToggle() {
+    const toggleCheckbox = qs('#mode-toggle-checkbox');
+    if (!toggleCheckbox) return;
+
+    // Set initial state from localStorage
     const initial = (localStorage.getItem(THEME_KEY) === 'dark') ? 'dark' : 'light';
-    applyTheme(initial); setThemeIconAll(initial);
+    applyTheme(initial);
+    toggleCheckbox.checked = (initial === 'dark');
 
-    const isToggle = (el) => !!(el.closest('.theme-toggle') || el.closest('#mode-toggle') || el.closest('[data-theme-toggle]'));
-
-    document.addEventListener('click', (e) => {
-      if (!isToggle(e.target)) return;
-      e.preventDefault();
-      const next = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
-      applyTheme(next); localStorage.setItem(THEME_KEY, next); setThemeIconAll(next);
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if ((e.key === 'Enter' || e.key === ' ') && isToggle(e.target)) {
-        e.preventDefault();
-        const next = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
-        applyTheme(next); localStorage.setItem(THEME_KEY, next); setThemeIconAll(next);
-      }
+    // Add event listener for changes
+    toggleCheckbox.addEventListener('change', () => {
+      const next = toggleCheckbox.checked ? 'dark' : 'light';
+      applyTheme(next);
+      localStorage.setItem(THEME_KEY, next);
     });
   }
 
