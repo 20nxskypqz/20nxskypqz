@@ -45,23 +45,165 @@ body.dark-mode a{ color:#d1defa; }
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
 }
 
-/* Toggle capsule (manual dark mode) */
-.toggle-container{
-  --w:84px; --h:36px; --pad:3px;
-  width:var(--w); height:var(--h); border-radius:999px; padding:var(--pad);
-  background:#e9eef4; border:2px solid #c9d4df;
-  display:flex; align-items:center; box-shadow:inset 0 2px 6px rgba(0,0,0,.12);
-  cursor:pointer; user-select:none;
+
+/* ---------- START: NEW DAY/NIGHT TOGGLE (EDITED) ---------- */
+.toggle-wrapper {
+  display: flex;
+  align-items: center;
 }
-.toggle-circle{
-  width:calc(var(--h) - 2*var(--pad)); height:calc(var(--h) - 2*var(--pad));
-  border-radius:999px; background:#fff;
-  display:flex; align-items:center; justify-content:center;
-  box-shadow:0 3px 8px rgba(0,0,0,.25);
-  transition:transform .25s; font-size:20px; color:#111;
+
+.toggle-checkbox {
+  display: none;
 }
-body.dark-mode .toggle-container{ background:#1d2227; border-color:#3a424a; }
-body.dark-mode .toggle-circle{ transform:translateX(calc(var(--w) - var(--h))); color:#e5e7eb; }
+
+.toggle-label {
+  --toggle-day-bg: #4dabf7;
+  --toggle-night-bg: #1e3a5f;
+  --thumb-day-color: #FFD700;
+  --thumb-night-color: #EAEAEA;
+  
+  display: block;
+  position: relative;
+  width: 80px;
+  height: 36px;
+  background-color: var(--toggle-day-bg);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+.toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 32px;
+  height: 32px;
+  background-color: var(--thumb-day-color);
+  border-radius: 50%;
+  transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  z-index: 10;
+}
+
+.toggle-thumb::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 60%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  transition: all 0.8s ease;
+  opacity: 1;
+}
+
+.moon-crater {
+  position: absolute;
+  background-color: rgba(0,0,0,0.1);
+  border-radius: 50%;
+  transition: all 0.8s ease;
+  opacity: 0;
+}
+.moon-crater-1 { top: 6px; left: 16px; width: 6px; height: 6px; }
+.moon-crater-2 { top: 18px; left: 6px; width: 10px; height: 10px; }
+.moon-crater-3 { top: 10px; left: 4px; width: 4px; height: 4px; }
+
+.cloud {
+  position: absolute;
+  background-color: white;
+  border-radius: 10px;
+  transition: all 1s ease-out;
+  opacity: 0.8;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+}
+.cloud-1 { top: 8px; left: -20px; width: 32px; height: 10px; animation: drift 20s linear infinite; }
+.cloud-2 { top: 18px; left: -32px; width: 24px; height: 8px; animation: drift 25s linear infinite 5s; }
+.cloud-3 { top: 12px; left: -24px; width: 40px; height: 12px; animation: drift 18s linear infinite 2s; }
+
+@keyframes drift {
+  from { transform: translateX(0); }
+  to { transform: translateX(112px); }
+}
+
+.star {
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scale(0);
+  opacity: 0;
+}
+.star-1 { top: 8px; left: 16px; width: 1px; height: 1px; transition-delay: 0.1s; }
+.star-2 { top: 18px; left: 32px; width: 2px; height: 2px; transition-delay: 0.2s; animation: twinkle 2s infinite; }
+.star-3 { top: 24px; left: 12px; width: 1px; height: 1px; transition-delay: 0.3s; }
+.star-4 { top: 12px; left: 48px; width: 1px; height: 1px; transition-delay: 0.4s; }
+.star-5 { top: 20px; left: 60px; width: 1px; height: 1px; transition-delay: 0.5s; animation: twinkle 3s infinite; }
+.star-6 { top: 6px; left: 38px; width: 1px; height: 1px; transition-delay: 0.6s; }
+
+@keyframes twinkle {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(0.5); opacity: 0.5; }
+}
+
+.shooting-star {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  width: 1px;
+  height: 32px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.8), transparent);
+  border-radius: 50%;
+  opacity: 0;
+  transform: rotate(45deg);
+}
+
+.toggle-checkbox:checked + .toggle-label {
+  background-color: var(--toggle-night-bg);
+}
+
+.toggle-checkbox:checked + .toggle-label .toggle-thumb {
+  transform: translateX(44px);
+  background-color: var(--thumb-night-color);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.toggle-checkbox:checked + .toggle-label .toggle-thumb::before {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+}
+.toggle-checkbox:checked + .toggle-label .moon-crater {
+  opacity: 1;
+}
+
+.toggle-checkbox:checked + .toggle-label .cloud {
+  transform: translateX(100px) scale(0.5);
+  opacity: 0;
+}
+
+.toggle-checkbox:checked + .toggle-label .star {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.toggle-checkbox:checked + .toggle-label .shooting-star {
+  animation: shoot 3s ease-out 1.5s;
+}
+
+@keyframes shoot {
+  0% {
+    opacity: 1;
+    transform: translateY(0) translateX(-40px) rotate(45deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(60px) translateX(40px) rotate(45deg);
+  }
+}
+/* ---------- END: NEW DAY/NIGHT TOGGLE ---------- */
+
 
 /* Side menu */
 .menu-toggle, .close-menu{
