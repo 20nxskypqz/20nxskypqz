@@ -1,4 +1,4 @@
-/* Root-css-14102025-[LiquidGlass] */
+/* Root-css-14102025-[LiquidGlass-Fix] */
 :root{
   --bg:#f9f9f9; --card:#fff; --ink:#111; --muted:#666;
   --shadow:0 6px 24px rgba(0,0,0,.08);
@@ -59,7 +59,10 @@ body.dark-mode .slide-menu { background: rgba(15, 20, 24, 0.1); border-right-col
 .card{ background:var(--card); border-radius:12px; box-shadow:var(--shadow); padding:16px; margin:12px 0; }
 .align-left{ text-align:left !important; } .drop-wrap{ margin:8px 0 16px; } .section-header-row{ display:flex; align-items:center; gap:10px; }
 .icon-btn{ background:transparent; border:none; padding:6px; margin:0; cursor:pointer; display:inline-flex; align-items:center; line-height:1; border-radius:8px; }
-.icon-btn .material-symbols-outlined{ font-size:32px; }
+.icon-btn .material-symbols-outlined{
+  font-size:32px;
+  transition: transform .2s ease; /* EDITED: Added transition for smooth rotation */
+}
 .icon-btn:hover{ background:rgba(0,0,0,.06); } body.dark-mode .icon-btn:hover{ background:rgba(255,255,255,.08); }
 .root-link-card{ display:inline-block; width:100%; max-width:480px; padding:12px 14px; }
 .root-link-card a{ font-size:24px; color:#000; text-decoration:none; white-space:normal; word-break:break-word; display:inline-flex; align-items:center; gap:8px; }
