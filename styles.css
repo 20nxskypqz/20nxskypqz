@@ -61,7 +61,7 @@ body.dark-mode .slide-menu { background: rgba(15, 20, 24, 0.1); border-right-col
 .icon-btn{ background:transparent; border:none; padding:6px; margin:0; cursor:pointer; display:inline-flex; align-items:center; line-height:1; border-radius:8px; }
 .icon-btn .material-symbols-outlined{
   font-size:32px;
-  transition: transform .2s ease; /* EDITED: Added transition for smooth rotation */
+  transition: transform .2s ease; /* Added transition for smooth rotation */
 }
 .icon-btn:hover{ background:rgba(0,0,0,.06); } body.dark-mode .icon-btn:hover{ background:rgba(255,255,255,.08); }
 .root-link-card{ display:inline-block; width:100%; max-width:480px; padding:12px 14px; }
