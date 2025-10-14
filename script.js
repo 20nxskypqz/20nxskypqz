@@ -13,12 +13,10 @@
     else { b.classList.add('light-mode'); b.classList.remove('dark-mode'); }
   }
 
-  // ---------- EDITED: Added this function back ----------
   function injectHelpersCSS() {
     if (document.getElementById('root-shared-helpers')) return;
     const style = document.createElement('style');
     style.id = 'root-shared-helpers';
-    // This CSS fixes the arrow color in dark mode
     style.textContent = `
       .root-section-toggle .material-symbols-outlined { color: currentColor !important; }
       .dark-mode .root-section-toggle { color:#fff !important; }
@@ -98,7 +96,6 @@
     });
   }
   
-  // ---------- EDITED: Added arrow rotation logic ----------
   function initRootDropdowns() {
     const toggles = qsa('.root-section-toggle');
     if (toggles.length === 0) return;
@@ -107,7 +104,6 @@
       qsa('.root-link-card').forEach(panel => { panel.hidden = true; });
       toggles.forEach(btn => {
         btn.setAttribute('aria-expanded','false');
-        // Reset arrow rotation
         const icon = btn.querySelector('.material-symbols-outlined');
         if (icon) icon.style.transform = 'rotate(0deg)';
       });
@@ -135,7 +131,6 @@
       if (willOpen) {
         panel.hidden = false;
         btn.setAttribute('aria-expanded','true');
-        // Rotate arrow down
         if (icon) icon.style.transform = 'rotate(180deg)';
       }
     });
@@ -155,12 +150,44 @@
   }
 
   function initHomeTimeIfPresent() {
-    // ... (ส่วนนี้ไม่มีการเปลี่ยนแปลง) ...
+    const hostTime = qs('#current-time');
+    const hostCd   = qs('#countdown-display');
+    if (!hostTime && !hostCd) return;
+    if (window.__HOME_TIME_LOOP__) { clearTimeout(window.__HOME_TIME_LOOP__); window.__HOME_TIME_LOOP__ = null; }
+    function ensureShadow(host, id){
+      if (!host) return null;
+      if (!host.shadowRoot) {
+        const shadow = host.attachShadow({ mode:'open' });
+        shadow.innerHTML = `<style>:host { display:block; width:100%; } .wrap { display:block; text-align:center; font-variant-numeric:tabular-nums; white-space:nowrap; }</style><span class="wrap" id="${id}"></span>`;
+      }
+      return host.shadowRoot.getElementById(id);
+    }
+    const timeSpan = ensureShadow(hostTime,'clock');
+    const cdSpan   = ensureShadow(hostCd,'cd');
+    const TZ = 'Asia/Bangkok';
+    const dtf = new Intl.DateTimeFormat('en-GB', { timeZone: TZ, year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false });
+    const formatDateTH24 = (d) => { const p = dtf.formatToParts(d).reduce((o,part)=>(o[part.type]=part.value,o),{}); return `${p.day}/${p.month}/${p.year} ${p.hour}:${p.minute}:${p.second}`; };
+    const buildCountdown = (now) => {
+      const target = new Date('2026-01-01T00:00:00+07:00').getTime();
+      let diff = Math.max(0, target - now.getTime());
+      const days = Math.floor(diff/86400000); diff%=86400000;
+      const hours = Math.floor(diff/3600000); diff%=3600000;
+      const minutes = Math.floor(diff/60000); diff%=60000;
+      const seconds = Math.floor(diff/1000);
+      return `${days} Days ${String(hours).padStart(2,'0')} Hours ${String(minutes).padStart(2,'0')} Minutes ${String(seconds).padStart(2,'0')} Seconds`;
+    };
+    function tickAligned(){
+      const now = new Date();
+      if (timeSpan) timeSpan.textContent = formatDateTH24(now);
+      if (cdSpan)   cdSpan.textContent   = buildCountdown(now);
+      const ms = 1000 - now.getMilliseconds();
+      window.__HOME_TIME_LOOP__ = setTimeout(tickAligned, ms);
+    }
+    tickAligned();
   }
 
   async function boot() {
     await loadIncludes();
-    // EDITED: Make sure injectHelpersCSS is called
     injectHelpersCSS();
     initSideMenu();
     bindThemeToggle();
