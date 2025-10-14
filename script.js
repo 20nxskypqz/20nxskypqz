@@ -1,11 +1,8 @@
-// Root-js-03102025-[Complete]
+// Root-js-14102025-[LiquidGlass]
 
 (function () {
   "use strict";
 
-  // -------------------------
-  // Utils
-  // -------------------------
   const qs  = (sel, root=document) => root.querySelector(sel);
   const qsa = (sel, root=document) => Array.from(root.querySelectorAll(sel));
   const THEME_KEY = 'theme@20nxskypqz';
@@ -16,175 +13,122 @@
     else { b.classList.add('light-mode'); b.classList.remove('dark-mode'); }
   }
 
-  // -------------------------
-  // Helper CSS (no slide-menu styling here)
-  // -------------------------
-  function injectHelpersCSS() {
-    if (document.getElementById('root-shared-helpers')) return;
-    const style = document.createElement('style');
-    style.id = 'root-shared-helpers';
-    style.textContent = `
-      .root-section-toggle .material-symbols-outlined { color: currentColor !important; }
-      .dark-mode .root-section-toggle { color:#fff !important; }
-      .light-mode .root-section-toggle { color:inherit; }
-      .header .theme-toggle { cursor:pointer; }
-      .header .theme-toggle .material-symbols-outlined,
-      #mode-toggle .material-symbols-outlined {
-        color:#000 !important;
-        font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 40;
-        user-select:none;
-      }
-      .root-link-card[hidden] { display:none !important; }
-    `;
-    document.head.appendChild(style);
-  }
-
-  // -------------------------
-  // HTML includes (header/footer/side-menu) - (EDITED to handle nested includes)
-  // -------------------------
   async function loadIncludes() {
     let nodesToInclude = qsa('[data-include]');
     while (nodesToInclude.length > 0) {
       for (const node of nodesToInclude) {
         const url = node.getAttribute('data-include');
-        // Mark as processed to prevent infinite loops
         node.removeAttribute('data-include');
         try {
           const res = await fetch(url, { cache: 'no-cache' });
           if (!res.ok) throw new Error(`Failed to fetch ${url}`);
           const html = await res.text();
-          
           const temp = document.createElement('div');
           temp.innerHTML = html.trim();
-          
           const frag = document.createDocumentFragment();
-          while (temp.firstChild) {
-            frag.appendChild(temp.firstChild);
-          }
+          while (temp.firstChild) { frag.appendChild(temp.firstChild); }
           node.replaceWith(frag);
-        } catch (e) {
-          console.error('Include failed:', url, e);
-          node.remove(); // Remove failed include to prevent issues
-        }
+        } catch (e) { console.error('Include failed:', url, e); node.remove(); }
       }
-      // Re-query for any newly added include elements
       nodesToInclude = qsa('[data-include]');
     }
   }
 
-  // -------------------------
-  // NEW: Basic Slide Menu (works with side-menu.html)
-  // -------------------------
-  function initSideMenuBasic() {
-    if (window.__SIDEMENU_BOUND__) return; // guard from double-binding
-    const overlay = qs('.smenu-overlay');
-    const drawer  = qs('.smenu');
+  // ---------- EDITED: NEW LIQUID GLASS MENU LOGIC ----------
+  function initSideMenu(){
+    const menuToggle = document.getElementById('menuToggle');
+    const slideMenu  = document.getElementById('sideMenu');
+    const closeBtn   = document.getElementById('closeMenuBtn');
 
-    // if page has no side-menu included, do nothing
-    if (!overlay || !drawer) return;
-
-    // initial: force closed
-    function forceClosed(){
-      drawer.classList.remove('open');
-      drawer.setAttribute('aria-hidden','true');
-      overlay.classList.remove('show');
-      overlay.hidden = true;
-      document.body.style.overflow = '';
-      // hide all submenu lists by default
-      qsa('.smenu-sub', drawer).forEach(ul => ul.hidden = true);
-      qsa('.smenu-sec-toggle', drawer).forEach(btn => btn.setAttribute('aria-expanded','false'));
-    }
-    function openMenu(){
-      drawer.setAttribute('aria-hidden','false');
-      drawer.classList.add('open');
-      overlay.hidden = false;
-      // force paint for transition
-      void overlay.offsetHeight;
-      overlay.classList.add('show');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeMenu(){
-      drawer.classList.remove('open');
-      drawer.setAttribute('aria-hidden','true');
-      overlay.classList.remove('show');
-      setTimeout(()=>{ overlay.hidden = true; }, 200);
-      document.body.style.overflow = '';
+    if (!menuToggle || !slideMenu || !closeBtn) {
+      // console.warn('Side menu elements not found for this page.');
+      return;
     }
 
-    forceClosed();
+    const openMenu = () => {
+      slideMenu.classList.add('active');
+      document.body.classList.add('menu-active');
+      slideMenu.setAttribute('aria-hidden', 'false');
+    };
 
-    // Document-level delegation:
-    document.addEventListener('click', (e) => {
-      const isHamburger = !!e.target.closest('.menu-toggle');
-      const isCloseBtn  = !!e.target.closest('.smenu-close');
-      const insideDrawer= !!e.target.closest('.smenu');
-      const inHeader    = !!e.target.closest('.basic-header');
+    const closeMenu = () => {
+      slideMenu.classList.remove('active');
+      document.body.classList.remove('menu-active');
+      slideMenu.setAttribute('aria-hidden', 'true');
+    };
 
-      if (isHamburger) { e.preventDefault(); openMenu(); return; }
-      if (isCloseBtn)  { e.preventDefault(); closeMenu(); return; }
+    menuToggle.addEventListener('click', (e) => { e.stopPropagation(); openMenu(); });
+    closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closeMenu(); });
 
-      // click outside drawer (while open) → close
-      if (drawer.classList.contains('open') && !insideDrawer && !inHeader) {
-        e.preventDefault(); closeMenu(); return;
+    slideMenu.addEventListener('click', (e) => {
+      const btn = e.target.closest('.menu-section-toggle');
+      if (btn) {
+        e.stopPropagation();
+        const key = btn.getAttribute('data-menu-tier');
+        const tier = document.getElementById('menu-' + key);
+        if (!tier) return;
+        
+        const willShow = tier.hasAttribute('hidden');
+        if (willShow) tier.removeAttribute('hidden'); else tier.setAttribute('hidden', '');
+
+        const caret = btn.querySelector('.material-symbols-outlined');
+        if (caret) caret.style.transform = willShow ? 'rotate(180deg)' : 'rotate(0deg)';
       }
     });
 
-    // overlay & ESC
-    overlay.addEventListener('click', closeMenu);
-    document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closeMenu(); });
-
-    // section dropdowns (inside drawer)
     document.addEventListener('click', (e) => {
-      const btn = e.target.closest('.smenu-sec-toggle');
-      if (!btn || !drawer.contains(btn)) return;
-      const sub = btn.parentElement.querySelector('.smenu-sub');
-      if (!sub) return;
-      const expanded = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', String(!expanded));
-      sub.hidden = expanded;
+      if (slideMenu.classList.contains('active') && !e.target.closest('#sideMenu')) {
+        closeMenu();
+      }
     });
-
-    window.__SIDEMENU_BOUND__ = true;
+    
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && slideMenu.classList.contains('active')) {
+        closeMenu();
+      }
+    });
   }
-
-  // -------------------------
-  // Root page dropdowns
-  // -------------------------
-  function hideAllRootPanels() {
-    qsa('.root-link-card').forEach(panel => { panel.hidden = true; panel.style.display = 'none'; });
-    qsa('.root-section-toggle[aria-expanded="true"]').forEach(btn => btn.setAttribute('aria-expanded','false'));
-  }
+  
+  // ---------- Root page dropdowns (Unchanged) ----------
   function initRootDropdowns() {
+    const toggles = qsa('.root-section-toggle');
+    if (toggles.length === 0) return;
+
+    const hideAllRootPanels = () => {
+      qsa('.root-link-card').forEach(panel => { panel.hidden = true; });
+      toggles.forEach(btn => btn.setAttribute('aria-expanded','false'));
+    }
+    
     hideAllRootPanels();
+
     document.addEventListener('click', (e) => {
       const btn = e.target.closest('.root-section-toggle');
       if (!btn) {
         if (!e.target.closest('.root-link-card')) hideAllRootPanels();
         return;
       }
-      e.preventDefault(); e.stopPropagation();
+      e.preventDefault();
+      e.stopPropagation();
       const sel = btn.getAttribute('data-target');
       const panel = sel ? qs(sel) : null;
       if (!panel) return;
-      const willOpen = panel.hidden || panel.style.display === 'none';
+      
+      const willOpen = panel.hidden;
       hideAllRootPanels();
-      if (willOpen) { panel.hidden = false; panel.style.display = ''; btn.setAttribute('aria-expanded','true'); }
+      if (willOpen) {
+        panel.hidden = false;
+        btn.setAttribute('aria-expanded','true');
+      }
     });
   }
 
-  // -------------------------
-  // Theme toggle (EDITED for new checkbox toggle)
-  // -------------------------
+  // ---------- Theme toggle (Unchanged) ----------
   function bindThemeToggle() {
     const toggleCheckbox = qs('#mode-toggle-checkbox');
     if (!toggleCheckbox) return;
-
-    // Set initial state from localStorage
     const initial = (localStorage.getItem(THEME_KEY) === 'dark') ? 'dark' : 'light';
     applyTheme(initial);
     toggleCheckbox.checked = (initial === 'dark');
-
-    // Add event listener for changes
     toggleCheckbox.addEventListener('change', () => {
       const next = toggleCheckbox.checked ? 'dark' : 'light';
       applyTheme(next);
@@ -192,47 +136,25 @@
     });
   }
 
-  // -------------------------
-  // Home time & countdown
-  // -------------------------
+  // ---------- Home time & countdown (Unchanged) ----------
   function initHomeTimeIfPresent() {
     const hostTime = qs('#current-time');
     const hostCd   = qs('#countdown-display');
     if (!hostTime && !hostCd) return;
-
     if (window.__HOME_TIME_LOOP__) { clearTimeout(window.__HOME_TIME_LOOP__); window.__HOME_TIME_LOOP__ = null; }
-
     function ensureShadow(host, id){
       if (!host) return null;
       if (!host.shadowRoot) {
         const shadow = host.attachShadow({ mode:'open' });
-        const style = document.createElement('style');
-        style.textContent = `
-          :host { display:block; width:100%; }
-          .wrap { display:block; text-align:center; font-variant-numeric:tabular-nums; white-space:nowrap; }
-        `;
-        const div = document.createElement('span'); div.className='wrap'; div.id=id;
-        shadow.append(style, div);
+        shadow.innerHTML = `<style>:host { display:block; width:100%; } .wrap { display:block; text-align:center; font-variant-numeric:tabular-nums; white-space:nowrap; }</style><span class="wrap" id="${id}"></span>`;
       }
       return host.shadowRoot.getElementById(id);
     }
-
     const timeSpan = ensureShadow(hostTime,'clock');
     const cdSpan   = ensureShadow(hostCd,'cd');
-
     const TZ = 'Asia/Bangkok';
-    const pad2 = n => n.toString().padStart(2,'0');
-
-    const dtf = new Intl.DateTimeFormat('en-GB', {
-      timeZone: TZ, year:'numeric', month:'2-digit', day:'2-digit',
-      hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false
-    });
-
-    const formatDateTH24 = (d) => {
-      const p = dtf.formatToParts(d).reduce((o,part)=>(o[part.type]=part.value,o),{});
-      return `${p.day}/${p.month}/${p.year} ${p.hour}:${p.minute}:${p.second}`;
-    };
-
+    const dtf = new Intl.DateTimeFormat('en-GB', { timeZone: TZ, year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false });
+    const formatDateTH24 = (d) => { const p = dtf.formatToParts(d).reduce((o,part)=>(o[part.type]=part.value,o),{}); return `${p.day}/${p.month}/${p.year} ${p.hour}:${p.minute}:${p.second}`; };
     const buildCountdown = (now) => {
       const target = new Date('2026-01-01T00:00:00+07:00').getTime();
       let diff = Math.max(0, target - now.getTime());
@@ -240,9 +162,8 @@
       const hours = Math.floor(diff/3600000); diff%=3600000;
       const minutes = Math.floor(diff/60000); diff%=60000;
       const seconds = Math.floor(diff/1000);
-      return `${days} Days ${pad2(hours)} Hours ${pad2(minutes)} Minutes ${pad2(seconds)} Seconds`;
+      return `${days} Days ${String(hours).padStart(2,'0')} Hours ${String(minutes).padStart(2,'0')} Minutes ${String(seconds).padStart(2,'0')} Seconds`;
     };
-
     function tickAligned(){
       const now = new Date();
       if (timeSpan) timeSpan.textContent = formatDateTH24(now);
@@ -257,12 +178,12 @@
   // Boot
   // -------------------------
   async function boot() {
-    await loadIncludes();        // include header/footer/side-menu first
-    injectHelpersCSS();          // helper styles
-    initSideMenuBasic();         // << NEW: wire slide menu after includes
-    bindThemeToggle();           // theme
-    initRootDropdowns();         // root dropdowns
-    initHomeTimeIfPresent();     // time/countdown (if present)
+    await loadIncludes();
+    // EDITED: Replaced initSideMenuBasic with initSideMenu
+    initSideMenu();
+    bindThemeToggle();
+    initRootDropdowns();
+    initHomeTimeIfPresent();
   }
 
   if (document.readyState === 'loading') {
