@@ -1,4 +1,4 @@
-/* Root-css-14102025-[LiquidGlass-Fix] */
+/* Root-css-141025-[Restored] */
 :root{
   --bg:#f9f9f9; --card:#fff; --ink:#111; --muted:#666;
   --shadow:0 6px 24px rgba(0,0,0,.08);
@@ -37,7 +37,7 @@ body.dark-mode a{ color:#d1defa; }
 /* Day/Night Toggle Styles (Unchanged) */
 .toggle-wrapper { display: flex; align-items: center; } .toggle-checkbox { display: none; } .toggle-label { --toggle-day-bg: #4dabf7; --toggle-night-bg: #1e3a5f; --thumb-day-color: #FFD700; --thumb-night-color: #EAEAEA; display: block; position: relative; width: 80px; height: 36px; background-color: var(--toggle-day-bg); border-radius: 20px; cursor: pointer; transition: background-color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); overflow: hidden; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.2); } .toggle-thumb { position: absolute; top: 2px; left: 2px; width: 32px; height: 32px; background-color: var(--thumb-day-color); border-radius: 50%; transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); z-index: 10; } .toggle-thumb::before { content: ''; position: absolute; top: 50%; left: 50%; width: 100%; height: 100%; background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 60%); border-radius: 50%; transform: translate(-50%, -50%) scale(1); transition: all 0.8s ease; opacity: 1; } .moon-crater { position: absolute; background-color: rgba(0,0,0,0.1); border-radius: 50%; transition: all 0.8s ease; opacity: 0; } .moon-crater-1 { top: 6px; left: 16px; width: 6px; height: 6px; } .moon-crater-2 { top: 18px; left: 6px; width: 10px; height: 10px; } .moon-crater-3 { top: 10px; left: 4px; width: 4px; height: 4px; } .cloud { position: absolute; background-color: white; border-radius: 10px; transition: all 1s ease-out; opacity: 0.8; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1)); } .cloud-1 { top: 8px; left: -20px; width: 32px; height: 10px; animation: drift 20s linear infinite; } .cloud-2 { top: 18px; left: -32px; width: 24px; height: 8px; animation: drift 25s linear infinite 5s; } .cloud-3 { top: 12px; left: -24px; width: 40px; height: 12px; animation: drift 18s linear infinite 2s; } @keyframes drift { from { transform: translateX(0); } to { transform: translateX(112px); } } .star { position: absolute; background-color: white; border-radius: 50%; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); transform: scale(0); opacity: 0; } .star-1 { top: 8px; left: 16px; width: 1px; height: 1px; transition-delay: 0.1s; } .star-2 { top: 18px; left: 32px; width: 2px; height: 2px; transition-delay: 0.2s; animation: twinkle 2s infinite; } .star-3 { top: 24px; left: 12px; width: 1px; height: 1px; transition-delay: 0.3s; } .star-4 { top: 12px; left: 48px; width: 1px; height: 1px; transition-delay: 0.4s; } .star-5 { top: 20px; left: 60px; width: 1px; height: 1px; transition-delay: 0.5s; animation: twinkle 3s infinite; } .star-6 { top: 6px; left: 38px; width: 1px; height: 1px; transition-delay: 0.6s; } @keyframes twinkle { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(0.5); opacity: 0.5; } } .shooting-star { position: absolute; top: -20px; left: 50%; width: 1px; height: 32px; background: linear-gradient(to bottom, rgba(255,255,255,0.8), transparent); border-radius: 50%; opacity: 0; transform: rotate(45deg); } .toggle-checkbox:checked + .toggle-label { background-color: var(--toggle-night-bg); } .toggle-checkbox:checked + .toggle-label .toggle-thumb { transform: translateX(44px); background-color: var(--thumb-night-color); box-shadow: 0 0 6px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 255, 255, 0.3); } .toggle-checkbox:checked + .toggle-label .toggle-thumb::before { opacity: 0; transform: translate(-50%, -50%) scale(0); } .toggle-checkbox:checked + .toggle-label .moon-crater { opacity: 1; } .toggle-checkbox:checked + .toggle-label .cloud { transform: translateX(100px) scale(0.5); opacity: 0; } .toggle-checkbox:checked + .toggle-label .star { transform: scale(1); opacity: 1; } .toggle-checkbox:checked + .toggle-label .shooting-star { animation: shoot 3s ease-out 1.5s; } @keyframes shoot { 0% { opacity: 1; transform: translateY(0) translateX(-40px) rotate(45deg); } 100% { opacity: 0; transform: translateY(60px) translateX(40px) rotate(45deg); } }
 
-/* ---------- START: NEW LIQUID GLASS MENU STYLES ---------- */
+/* ---------- START: LIQUID GLASS MENU STYLES ---------- */
 .menu-toggle { background: none; border: none; color: inherit; cursor: pointer; font-size: 24px; display: flex; align-items: center; z-index: 1001; }
 .slide-menu { position: fixed; top: 0; left: 0; width: 300px; height: 100%; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-right: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2); z-index: 1000; transform: translateX(-100%); visibility: hidden; transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), visibility 0.6s; }
 .slide-menu.active { transform: translateX(0); visibility: visible; }
@@ -55,16 +55,17 @@ body.dark-mode .slide-menu { background: rgba(15, 20, 24, 0.1); border-right-col
 .menu-section-toggle .material-symbols-outlined{ transition:transform .2s ease; }
 /* ---------- END: LIQUID GLASS MENU STYLES ---------- */
 
-/* Other Styles */
+/* --- RESTORED STYLES --- */
 .card{ background:var(--card); border-radius:12px; box-shadow:var(--shadow); padding:16px; margin:12px 0; }
-.align-left{ text-align:left !important; } .drop-wrap{ margin:8px 0 16px; } .section-header-row{ display:flex; align-items:center; gap:10px; }
+.align-left{ text-align:left !important; }
+.drop-wrap{ margin:8px 0 16px; }
+.section-header-row{ display:flex; align-items:center; gap:10px; }
 .icon-btn{ background:transparent; border:none; padding:6px; margin:0; cursor:pointer; display:inline-flex; align-items:center; line-height:1; border-radius:8px; }
-.icon-btn .material-symbols-outlined{
-  font-size:32px;
-  transition: transform .2s ease; /* Added transition for smooth rotation */
-}
-.icon-btn:hover{ background:rgba(0,0,0,.06); } body.dark-mode .icon-btn:hover{ background:rgba(255,255,255,.08); }
+.icon-btn .material-symbols-outlined{ font-size:32px; transition: transform .2s ease; }
+.icon-btn:hover{ background:rgba(0,0,0,.06); }
+body.dark-mode .icon-btn:hover{ background:rgba(255,255,255,.08); }
 .root-link-card{ display:inline-block; width:100%; max-width:480px; padding:12px 14px; }
 .root-link-card a{ font-size:24px; color:#000; text-decoration:none; white-space:normal; word-break:break-word; display:inline-flex; align-items:center; gap:8px; }
 body.dark-mode .root-link-card a{ color:#e5e7eb; }
-.hero{ margin:8px 0 16px; } .hero-title{ margin:.2em 0 .4em; }
+.hero{ margin:8px 0 16px; }
+.hero-title{ margin:.2em 0 .4em; }
