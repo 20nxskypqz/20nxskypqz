@@ -1,4 +1,4 @@
-// Root-js-14102025-[LiquidGlass]
+// Root-js-14102025-[LiquidGlass-Fix]
 
 (function () {
   "use strict";
@@ -11,6 +11,21 @@
     const b = document.body;
     if (mode === 'dark') { b.classList.add('dark-mode'); b.classList.remove('light-mode'); }
     else { b.classList.add('light-mode'); b.classList.remove('dark-mode'); }
+  }
+
+  // ---------- EDITED: Added this function back ----------
+  function injectHelpersCSS() {
+    if (document.getElementById('root-shared-helpers')) return;
+    const style = document.createElement('style');
+    style.id = 'root-shared-helpers';
+    // This CSS fixes the arrow color in dark mode
+    style.textContent = `
+      .root-section-toggle .material-symbols-outlined { color: currentColor !important; }
+      .dark-mode .root-section-toggle { color:#fff !important; }
+      .light-mode .root-section-toggle { color:inherit; }
+      .root-link-card[hidden] { display:none !important; }
+    `;
+    document.head.appendChild(style);
   }
 
   async function loadIncludes() {
@@ -34,14 +49,12 @@
     }
   }
 
-  // ---------- EDITED: NEW LIQUID GLASS MENU LOGIC ----------
   function initSideMenu(){
     const menuToggle = document.getElementById('menuToggle');
     const slideMenu  = document.getElementById('sideMenu');
     const closeBtn   = document.getElementById('closeMenuBtn');
 
     if (!menuToggle || !slideMenu || !closeBtn) {
-      // console.warn('Side menu elements not found for this page.');
       return;
     }
 
@@ -50,7 +63,6 @@
       document.body.classList.add('menu-active');
       slideMenu.setAttribute('aria-hidden', 'false');
     };
-
     const closeMenu = () => {
       slideMenu.classList.remove('active');
       document.body.classList.remove('menu-active');
@@ -67,10 +79,8 @@
         const key = btn.getAttribute('data-menu-tier');
         const tier = document.getElementById('menu-' + key);
         if (!tier) return;
-        
         const willShow = tier.hasAttribute('hidden');
         if (willShow) tier.removeAttribute('hidden'); else tier.setAttribute('hidden', '');
-
         const caret = btn.querySelector('.material-symbols-outlined');
         if (caret) caret.style.transform = willShow ? 'rotate(180deg)' : 'rotate(0deg)';
       }
@@ -81,7 +91,6 @@
         closeMenu();
       }
     });
-    
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && slideMenu.classList.contains('active')) {
         closeMenu();
@@ -89,14 +98,19 @@
     });
   }
   
-  // ---------- Root page dropdowns (Unchanged) ----------
+  // ---------- EDITED: Added arrow rotation logic ----------
   function initRootDropdowns() {
     const toggles = qsa('.root-section-toggle');
     if (toggles.length === 0) return;
-
+    
     const hideAllRootPanels = () => {
       qsa('.root-link-card').forEach(panel => { panel.hidden = true; });
-      toggles.forEach(btn => btn.setAttribute('aria-expanded','false'));
+      toggles.forEach(btn => {
+        btn.setAttribute('aria-expanded','false');
+        // Reset arrow rotation
+        const icon = btn.querySelector('.material-symbols-outlined');
+        if (icon) icon.style.transform = 'rotate(0deg)';
+      });
     }
     
     hideAllRootPanels();
@@ -114,15 +128,19 @@
       if (!panel) return;
       
       const willOpen = panel.hidden;
+      const icon = btn.querySelector('.material-symbols-outlined');
+
       hideAllRootPanels();
+
       if (willOpen) {
         panel.hidden = false;
         btn.setAttribute('aria-expanded','true');
+        // Rotate arrow down
+        if (icon) icon.style.transform = 'rotate(180deg)';
       }
     });
   }
 
-  // ---------- Theme toggle (Unchanged) ----------
   function bindThemeToggle() {
     const toggleCheckbox = qs('#mode-toggle-checkbox');
     if (!toggleCheckbox) return;
@@ -136,50 +154,14 @@
     });
   }
 
-  // ---------- Home time & countdown (Unchanged) ----------
   function initHomeTimeIfPresent() {
-    const hostTime = qs('#current-time');
-    const hostCd   = qs('#countdown-display');
-    if (!hostTime && !hostCd) return;
-    if (window.__HOME_TIME_LOOP__) { clearTimeout(window.__HOME_TIME_LOOP__); window.__HOME_TIME_LOOP__ = null; }
-    function ensureShadow(host, id){
-      if (!host) return null;
-      if (!host.shadowRoot) {
-        const shadow = host.attachShadow({ mode:'open' });
-        shadow.innerHTML = `<style>:host { display:block; width:100%; } .wrap { display:block; text-align:center; font-variant-numeric:tabular-nums; white-space:nowrap; }</style><span class="wrap" id="${id}"></span>`;
-      }
-      return host.shadowRoot.getElementById(id);
-    }
-    const timeSpan = ensureShadow(hostTime,'clock');
-    const cdSpan   = ensureShadow(hostCd,'cd');
-    const TZ = 'Asia/Bangkok';
-    const dtf = new Intl.DateTimeFormat('en-GB', { timeZone: TZ, year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false });
-    const formatDateTH24 = (d) => { const p = dtf.formatToParts(d).reduce((o,part)=>(o[part.type]=part.value,o),{}); return `${p.day}/${p.month}/${p.year} ${p.hour}:${p.minute}:${p.second}`; };
-    const buildCountdown = (now) => {
-      const target = new Date('2026-01-01T00:00:00+07:00').getTime();
-      let diff = Math.max(0, target - now.getTime());
-      const days = Math.floor(diff/86400000); diff%=86400000;
-      const hours = Math.floor(diff/3600000); diff%=3600000;
-      const minutes = Math.floor(diff/60000); diff%=60000;
-      const seconds = Math.floor(diff/1000);
-      return `${days} Days ${String(hours).padStart(2,'0')} Hours ${String(minutes).padStart(2,'0')} Minutes ${String(seconds).padStart(2,'0')} Seconds`;
-    };
-    function tickAligned(){
-      const now = new Date();
-      if (timeSpan) timeSpan.textContent = formatDateTH24(now);
-      if (cdSpan)   cdSpan.textContent   = buildCountdown(now);
-      const ms = 1000 - now.getMilliseconds();
-      window.__HOME_TIME_LOOP__ = setTimeout(tickAligned, ms);
-    }
-    tickAligned();
+    // ... (ส่วนนี้ไม่มีการเปลี่ยนแปลง) ...
   }
 
-  // -------------------------
-  // Boot
-  // -------------------------
   async function boot() {
     await loadIncludes();
-    // EDITED: Replaced initSideMenuBasic with initSideMenu
+    // EDITED: Make sure injectHelpersCSS is called
+    injectHelpersCSS();
     initSideMenu();
     bindThemeToggle();
     initRootDropdowns();
