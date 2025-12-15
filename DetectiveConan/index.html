@@ -131,422 +131,53 @@
     // Data compiled from: detectiveconan.fandom.com (episode list), detectiveconanworld.com (season summary), en.wikipedia.org (Season 1 page), conanth.com (Thai episode list)
     // ---------------------------------------------------------
     const episodes = [
-        // --- 1-10: detailed entries (kept and slightly normalized) ---
-        {
-            id: 1,
-            titleTH: "คดีฆาตกรรมรถไฟเหาะ",
-            titleJP: "ジェットコースター殺人事件",
-            titleEN: "Roller Coaster Murder Case",
-            date: "1996-01-08",
-            season: "Season 1",
-            duration: "24 min",
-            type: "manga",
-            source: "Vol.1 (File 1)",
-            mangaRef: "Vol.1 - File 1",
-            // Checklist fields (if unknown, use '-')
-            caseType: "ฆาตกรรม",
-            numberOfCases: 1,
-            caseSubType: "คดีฉับพลัน (กลางแจ้ง)",
-            motive: "แค้น",
-            complexity: 3,
-            location: "สวนสนุก",
-            scene: "รถไฟเหาะ",
-            time: "กลางคืน",
-            environment: "-",
-            victim: "ชายในกลุ่ม",
-            culprit: "ฮิโตมิ (ในสตอรี่บอร์ดอนิเมะ)",
-            suspects: ["ไอโกะ","เรโกะ","ฮิโตมิ"],
-            keyCharacters: ["Shinichi","Ran","Kogoro"],
-            newAppearance: "-",
-            clues: ["รอยเปื้อน","สร้อยหาย"],
-            trick: "ใช้ลวด/ตะขอในกระเป๋า",
-            mistake: "ทิ้งอุปกรณ์ไว้",
-            howSolved: "ตรรกะและสังเกต",
-            frontUsed: "-",
-            plotResult: "จับกุม / ชินอิจิเกิดเหตุการณ์ถูกกรอกยา",
-            mainPlot: "ต้นกำเนิดโคนัน",
-            tiesToBlackOrg: "มีเงื่อนงำ (แนะนำองค์กร)",
-            characterDevelopment: "ชินอิจิถูกทำร้ายและหดตัว",
-            longTermClues: "APTX-4869 (เหตุการณ์ตั้งต้น)",
-            relatedEpisodes: "-",
-            trivia: "มังงะ-อนิเมะมีความต่างเรื่องความรุนแรง"
-        },
-        {
-            id: 2,
-            titleTH: "คดีลักพาตัวลูกสาวประธานบริษัท",
-            titleJP: "社長令嬢誘拐事件",
-            titleEN: "Company President's Daughter Kidnapping Case",
-            date: "1996-01-15",
-            season: "Season 1",
-            duration: "24 min",
-            type: "manga",
-            source: "Vol.1 (File 2–5)",
-            mangaRef: "Vol.1 - File 2-5",
-            caseType: "ลักพาตัว",
-            numberOfCases: 1,
-            caseSubType: "เรียกค่าไถ่ / จัดฉาก",
-            motive: "เงิน",
-            complexity: 2,
-            location: "บ้านตระกูล / โกดัง",
-            scene: "บ้าน/โรงเรียน/โกดัง",
-            time: "กลางวัน-กลางคืน",
-            environment: "-",
-            victim: "ทานิ อากิโกะ",
-            culprit: "พ่อบ้าน (ผู้บงการ)",
-            suspects: ["พ่อบ้าน","ผู้ต้องสงสัยไม่ทราบตัว"],
-            keyCharacters: ["Conan","Ran","Kogoro","Agasa"],
-            newAppearance: "-",
-            clues: ["สุนัขไม่เห่า","เวลาการโทร"],
-            trick: "ใช้สุนัขเป็นเครื่องมือข่มขู่",
-            mistake: "สุนัขจำเจ้าของได้",
-            howSolved: "ตรรกะ/พฤติกรรมสัตว์",
-            frontUsed: "-",
-            plotResult: "ช่วยเหลือตัวประกันสำเร็จ / จับกุม",
-            mainPlot: "ครั้งแรกในร่างโคนันที่อยู่บ้านโมริ",
-            tiesToBlackOrg: "-",
-            characterDevelopment: "โคนันเริ่มปรับบทบาท",
-            longTermClues: "-",
-            relatedEpisodes: "-",
-            trivia: "ฉากโคนันใช้สุนัขยักษ์ไล่ล่า (อนิเมะ)",
-        },
-        {
-            id: 3,
-            titleTH: "คดีฆาตกรรมในห้องปิดตายของยอดดารา",
-            titleJP: "アイドル密室殺人事件",
-            titleEN: "Idol's Locked Room Murder Case",
-            date: "1996-01-22",
-            season: "Season 1",
-            duration: "24 min",
-            type: "manga",
-            source: "Vol.1 (File 6–9)",
-            mangaRef: "Vol.1 - File 6-9",
-            caseType: "ฆาตกรรม (จัดฉาก/ห้องปิดตาย)",
-            numberOfCases: 1,
-            caseSubType: "ห้องปิดตาย",
-            motive: "อารมณ์ส่วนตัว/ความเข้าใจผิด",
-            complexity: 4,
-            location: "อพาร์ตเมนต์ / ห้องพัก",
-            scene: "ห้องของไอดอล",
-            time: "กลางคืน",
-            environment: "-",
-            victim: "ฟูจิเอะ",
-            culprit: "ผู้ตาย (จัดฉาก/ฆ่าตัวตาย)",
-            suspects: ["ผู้จัดการ","คู่แข่ง"],
-            keyCharacters: ["Conan","Ran","Kogoro","Yoko Okino"],
-            newAppearance: "Yoko Okino (ปรากฏตัว)",
-            clues: ["รอยบุ๋ม","เส้นผม"],
-            trick: "ใช้ก้อนน้ำแข็งตั้งมีดและปล่อยให้ละลาย",
-            mistake: "รอยบุ๋มหลงเหลือ",
-            howSolved: "ตรรกะ/การทดลองเล็กน้อย",
-            frontUsed: "-",
-            plotResult: "ไขปริศนา / ไม่มีการจับกุมใหญ่",
-            mainPlot: "เปิดตัวไอดอลที่โคโกโร่ชื่นชอบ",
-            tiesToBlackOrg: "-",
-            characterDevelopment: "เพิ่มมิติให้โคโกโร่",
-            longTermClues: "-",
-            relatedEpisodes: "-",
-            trivia: "ฉากมีความน่ากลัวสูงในซีซันแรก",
-        },
-        {
-            id: 4,
-            titleTH: "คดีลายแทงรหัสลับ",
-            titleJP: "大都会暗号マップ事件",
-            titleEN: "The Coded Map of the City",
-            date: "1996-01-29",
-            season: "Season 1",
-            duration: "24 min",
-            type: "manga",
-            source: "Vol.4 (File 7–9)",
-            mangaRef: "Vol.4 - File 7-9",
-            caseType: "รหัสลับ / ล่าสมบัติ",
-            numberOfCases: 1,
-            caseSubType: "การตามรหัสข้ามสถานที่",
-            motive: "สมบัติ/เงิน",
-            complexity: 3,
-            location: "โตเกียว / หอคอย",
-            scene: "หอคอย / ตึก",
-            time: "กลางวัน-กลางคืน",
-            environment: "คืนที่มีไฟนีออน",
-            victim: "-",
-            culprit: "แก๊งโจร (Cabana)",
-            suspects: ["-"],
-            keyCharacters: ["Conan","Genta","Ayumi","Mitsuhiko"],
-            newAppearance: "-",
-            clues: ["รูปวาดบนกระดาษ","ป้ายไฟ"],
-            trick: "สังเกตรูปร่างป้ายไฟในเมือง",
-            mistake: "ทิ้งรหัสให้เด็กพบ",
-            howSolved: "สังเกตรูปแบบเมือง",
-            frontUsed: "-",
-            plotResult: "จับกุมแก๊ง / ได้เหรียญ",
-            mainPlot: "เปิดตัว Detective Boys",
-            tiesToBlackOrg: "-",
-            characterDevelopment: "เด็กร่วมมือแก้ปริศนา",
-            longTermClues: "-",
-            relatedEpisodes: "-",
-            trivia: "โชว์สกิลแก้รหัสของเด็กๆ",
-        },
-        {
-            id: 5,
-            titleTH: "คดีระเบิดรถไฟชินคันเซ็น",
-            titleJP: "新幹線大爆破事件",
-            titleEN: "The Shinkansen's Bomb Case",
-            date: "1996-02-05",
-            season: "Season 1",
-            duration: "24 min",
-            type: "manga",
-            source: "Vol.4 (File 4–6)",
-            mangaRef: "Vol.4 - File 4-6",
-            caseType: "วางระเบิด",
-            numberOfCases: 1,
-            caseSubType: "ข่มขู่/ระเบิดบนยานพาหนะ",
-            motive: "เรียกค่าไถ่/ปิดปาก",
-            complexity: 4,
-            location: "รถไฟชินคันเซ็น",
-            scene: "ตู้โดยสาร/ตู้เสบียง",
-            time: "กลางวัน",
-            environment: "ภายในรถไฟ",
-            victim: "-",
-            culprit: "โจรธรรมดา (อนิเมะปรับเนื้อหา)",
-            suspects: ["ผู้โดยสารมีถุงดำ"],
-            keyCharacters: ["Conan","Ran","Detective Boys"],
-            newAppearance: "-",
-            clues: ["บทสนทนาเรื่องทองคำ","การสังเกตการชะลอของรถ"],
-            trick: "ชนวนระเบิดตั้งตามความเร็ว/การเปิดกระเป๋า",
-            mistake: "คุยเสียงดังให้โคนันได้ยิน",
-            howSolved: "ตรรกะและความกล้าหาญในการกู้ระเบิด",
-            frontUsed: "-",
-            plotResult: "กู้ระเบิดสำเร็จ / จับกุม",
-            mainPlot: "มีการปูเรื่ององค์กรชุดดำในมังงะ (ต่างจากอนิเมะ)",
-            tiesToBlackOrg: "ในมังงะเชื่อมโยง",
-            characterDevelopment: "-",
-            longTermClues: "-",
-            relatedEpisodes: "-",
-            trivia: "มังงะกับอนิเมะต่างกันในประเด็นองค์กรชุดดำ",
-        },
-        {
-            id: 6,
-            titleTH: "คดีฆาตกรรมวันวาเลนไทน์",
-            titleJP: "バレンタイン殺人事件",
-            titleEN: "Valentine Murder Case",
-            date: "1996-02-12",
-            season: "Season 1",
-            duration: "24 min",
-            type: "original",
-            source: "TV Original",
-            mangaRef: "-",
-            caseType: "ฆาตกรรม (วางยาพิษ)",
-            numberOfCases: 1,
-            caseSubType: "วางยาพิษ",
-            motive: "มรดก/ความขัดแย้งในครอบครัว",
-            complexity: 3,
-            location: "บ้านงานปาร์ตี้",
-            scene: "สวนในบ้าน",
-            time: "วันวาเลนไทน์",
-            environment: "งานปาร์ตี้",
-            victim: "มินากาวะ คัตสึฮิโกะ",
-            culprit: "แม่เลี้ยง",
-            suspects: ["เพื่อนร่วมงาน","แม่เลี้ยง"],
-            keyCharacters: ["Conan","Ran","Sonoko"],
-            newAppearance: "Sonoko (อนิเมะ)",
-            clues: ["ตำแหน่งแก้วกาแฟ","พฤติกรรมการกินเค้ก"],
-            trick: "วางยาพิษในแก้วกาแฟ แต่สลับตำแหน่ง",
-            mistake: "มั่นใจเกินไปในการสลับแก้ว",
-            howSolved: "ตรรกะและสังเกตตำแหน่งของแก้ว",
-            frontUsed: "-",
-            plotResult: "จับกุม",
-            mainPlot: "เปิดตัวโซโนโกะ",
-            tiesToBlackOrg: "-",
-            characterDevelopment: "แนะนำเพื่อนรัน",
-            longTermClues: "-",
-            relatedEpisodes: "-",
-            trivia: "อนิเมะตอนนี้เป็นต้นฉบับ (filler)",
-        },
-        {
-            id: 7,
-            titleTH: "คดีข่มขู่ของขวัญรายเดือน",
-            titleJP: "月いちプレゼント脅迫事件",
-            titleEN: "Once-A-Month Present Threat Case",
-            date: "1996-02-19",
-            season: "Season 1",
-            duration: "24 min",
-            type: "manga",
-            source: "Vol.3 (File 7-10)",
-            mangaRef: "Vol.3 - File 7-10",
-            caseType: "ข่มขู่",
-            numberOfCases: 1,
-            caseSubType: "ความเข้าใจผิด",
-            motive: "แค้น/ขอบคุณ (พลิกผัน)",
-            complexity: 2,
-            location: "คลินิก/สวนสาธารณะ",
-            scene: "ห้องตรวจ/สวน",
-            time: "กลางวัน",
-            environment: "-",
-            victim: "ยูตะ (เกือบถูกทำร้าย)",
-            culprit: "โอกิโนะ",
-            suspects: ["คนส่งของ","คนไข้เก่า"],
-            keyCharacters: ["Conan","Ran","Kogoro"],
-            newAppearance: "-",
-            clues: ["ของขวัญทุกเดือน","จดหมาย"],
-            trick: "ส่งของขวัญเรื่อยๆเพื่อกดดัน",
-            mistake: "-",
-            howSolved: "การรวบรวมข้อมูลย้อนหลัง",
-            frontUsed: "-",
-            plotResult: "ปรับความเข้าใจ / ไม่มีผู้ตาย",
-            mainPlot: "รันเริ่มสงสัยในตัวโคนัน",
-            tiesToBlackOrg: "-",
-            characterDevelopment: "รันสงสัยชินอิจิเป็นโคนัน (เริ่มตั้งข้อสงสัย)",
-            longTermClues: "-",
-            relatedEpisodes: "-",
-            trivia: "ตอนซึ้ง มีฉากเกมตู้ปิดบังตัวตน",
-        },
-        {
-            id: 8,
-            titleTH: "คดีฆาตกรรมเจ้าของหอศิลป์",
-            titleJP: "美術館オーナー殺人事件",
-            titleEN: "Art Museum Owner Murder Case",
-            date: "1996-02-26",
-            season: "Season 1",
-            duration: "24 min",
-            type: "manga",
-            source: "Vol.4 (File 1-3)",
-            mangaRef: "Vol.4 - File 1-3",
-            caseType: "ฆาตกรรม",
-            numberOfCases: 1,
-            caseSubType: "จัดฉากเป็นงานศิลปะ",
-            motive: "แค้น/ผลประโยชน์",
-            complexity: 3,
-            location: "หอศิลป์",
-            scene: "ห้องจัดแสดง",
-            time: "กลางคืน",
-            environment: "ปิดทำการ",
-            victim: "เจ้าของหอศิลป์",
-            culprit: "ผู้อำนวยการหอศิลป์",
-            suspects: ["พนักงาน"],
-            keyCharacters: ["Conan","Ran","Kogoro"],
-            newAppearance: "-",
-            clues: ["ปากกาลูกลื่น","กระดาษชื่อ"],
-            trick: "จัดฉากฆาตกรรมเป็นงานศิลปะ",
-            mistake: "เผลอเก็บปากกาไว้ในกระเป๋า",
-            howSolved: "ตรรกะและหลักฐานเล็กน้อย",
-            frontUsed: "-",
-            plotResult: "จับกุม",
-            mainPlot: "รูปปั้นความยุติธรรมเป็นสัญลักษณ์",
-            tiesToBlackOrg: "-",
-            characterDevelopment: "-",
-            longTermClues: "-",
-            relatedEpisodes: "-",
-            trivia: "ฉากน่ากลัวในซีซันแรก",
-        },
-        {
-            id: 9,
-            titleTH: "คดีฆาตกรรมอำพราง",
-            titleJP: "天下一夜祭殺人事件",
-            titleEN: "Tenkaichi Night Festival Murder Case",
-            date: "1996-03-04",
-            season: "Season 1",
-            duration: "24 min",
-            type: "manga",
-            source: "Vol.6 (File 9-10), Vol.7 (File 1)",
-            mangaRef: "Vol.6-7",
-            caseType: "ฆาตกรรม (สร้าง alibi)",
-            numberOfCases: 1,
-            caseSubType: "สร้างพยาน/สลับตัว",
-            motive: "ขโมยงานเขียน/แค้น",
-            complexity: 4,
-            location: "จังหวัด/เทศกาล/โรงแรม",
-            scene: "โรงแรม/งานเทศกาล",
-            time: "กลางคืน",
-            environment: "งานเทศกาล",
-            victim: "นักเขียน",
-            culprit: "เพื่อนนักเขียน",
-            suspects: ["เพื่อนสนิท"],
-            keyCharacters: ["Conan","Ran","Kogoro"],
-            newAppearance: "Yokomizo (เปิดตัว)",
-            clues: ["รูปถ่ายใช้แล้วทิ้ง","เสื้อผ้า"],
-            trick: "ปลอมตัวเป็นเหยื่อ/สร้างพยานภาพถ่าย",
-            mistake: "ผิดพลาดในรายละเอียดรูปถ่าย",
-            howSolved: "ตรวจสอบความไม่สอดคล้องในรูป",
-            frontUsed: "-",
-            plotResult: "จับกุม",
-            mainPlot: "เปิดตัวสารวัตรโยโกมิโซะ",
-            tiesToBlackOrg: "-",
-            characterDevelopment: "-",
-            longTermClues: "-",
-            relatedEpisodes: "-",
-            trivia: "คลาสสิกทริคสลับตัวและรูปถ่าย",
-        },
-        {
-            id: 10,
-            titleTH: "คดีข่มขู่นักฟุตบอลอาชีพ",
-            titleJP: "プロサッカー選手脅迫事件",
-            titleEN: "Pro Soccer Player Threat Case",
-            date: "1996-03-11",
-            season: "Season 1",
-            duration: "24 min",
-            type: "manga",
-            source: "Vol.7 (File 8-10)",
-            mangaRef: "Vol.7 - File 8-10",
-            caseType: "ลักพาตัว / ข่มขู่",
-            numberOfCases: 1,
-            caseSubType: "แบล็คเมล์เพื่อพนัน",
-            motive: "เงิน/พนัน",
-            complexity: 3,
-            location: "สนาม/อพาร์ตเมนต์",
-            scene: "ห้องพักนักกีฬา",
-            time: "กลางวัน",
-            environment: "สนามกีฬา",
-            victim: "น้องชายถูกลักพาตัว",
-            culprit: "นักฟุตบอลรุ่นน้อง",
-            suspects: ["แฟนคลับ","นักพนัน"],
-            keyCharacters: ["Conan","Ran","Kogoro","Detective Boys"],
-            newAppearance: "-",
-            clues: ["วิดีโอเกม/มีดบนของเล่น"],
-            trick: "ข่มขู่น้องชายเพื่อบังคับแข่งแพ้",
-            mistake: "รอยมีด/วิดีโอเกมเปิดค้าง",
-            howSolved: "สังเกตสิ่งผิดปกติรอบๆ",
-            frontUsed: "-",
-            plotResult: "ช่วยเหลือตัวประกัน/จับกุม",
-            mainPlot: "เปิดตัวตัวละครฝ่ายสนับสนุน",
-            tiesToBlackOrg: "-",
-            characterDevelopment: "-",
-            longTermClues: "-",
-            relatedEpisodes: "-",
-            trivia: "โคนันโชว์ทักษะฟุตบอล",
-        },
-
-        // --- 11-42: minimal but full-keyed entries (fields filled with '-' where not available) ---
-        { id: 11, titleTH: "คดีฆาตกรรมเปียโนโซนาต้า 'แสงจันทร์' (Part 1)", titleJP: "ピアノソナタ『月光』殺人事件 (前編)", titleEN: "Moonlight Sonata Murder Case (Part 1)", date: "1996-04-08", season: "Season 1", duration: "24 min", type: "manga", source: "Vol.7 (special)", mangaRef: "Vol.7", caseType: "ฆาตกรรม", numberOfCases: 1, caseSubType: "สองตอน", motive: "-", complexity: 4, location: "-", scene: "-", time: "-", environment: "-", victim: "-", culprit: "-", suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: "-", clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 12, titleTH: "คดีฆาตกรรมเปียโนโซนาต้า 'แสงจันทร์' (Part 2)", titleJP: "ピアノソナタ『月光』殺人事件 (後編)", titleEN: "Moonlight Sonata Murder Case (Part 2)", date: "1996-04-15", season: "Season 1", duration: "24 min", type: "manga", source: "Vol.7", mangaRef: "Vol.7", caseType: "ฆาตกรรม", numberOfCases: 1, caseSubType: "สองตอน", motive: '-', complexity: 4, location: '-', scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 13, titleTH: "คดีลักพาตัวอายูมิ", titleJP: "歩美ちゃん誘拐事件", titleEN: "Ayumi's Kidnapping Case", date: "1996-04-22", season: "Season 1", duration: "24 min", type: "manga", source: "Vol.9", mangaRef: "Vol.9", caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: '-', scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Detective Boys","Conan"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 14, titleTH: "คดีข้อความปริศนา", titleJP: "謎のメッセージ狙撃事件", titleEN: "Mysterious Message Sniping Case", date: "1996-04-29", season: "Season 1", duration: "24 min", type: "original", source: "TV Original", mangaRef: '-', caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: '-', scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 15, titleTH: "คดีฆาตกรรมศพที่หายไป", titleJP: "消えた死体殺人事件", titleEN: "The Missing Corpse Murder Case", date: "1996-05-13", season: "Season 1", duration: "24 min", type: "manga", source: "Vol.6", mangaRef: "Vol.6", caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: '-', scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 16, titleTH: "คดีฆาตกรรมนักสะสมของเก่า", titleJP: "骨董品コレクター殺人事件", titleEN: "Antique Collector Murder Case", date: "1996-05-20", season: "Season 1", duration: "24 min", type: "manga", source: "Vol.6", mangaRef: "Vol.6", caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: '-', scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 17, titleTH: "คดีจี้ห้างสรรพสินค้า", titleJP: "デパートジャック事件", titleEN: "Department Store Jacking Case", date: "1996-05-27", season: "Season 1", duration: "24 min", type: "original", source: "TV Original", mangaRef: '-', caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: "ห้างสรรพสินค้า", scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 18, titleTH: "คดีฆาตกรรมเจ้าสาวเดือนมิถุนา", titleJP: "6月の花嫁殺人事件", titleEN: "June Bride Murder Case", date: "1996-06-03", season: "Season 1", duration: "24 min", type: "manga", source: "Vol.8", mangaRef: "Vol.8", caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: '-', scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 19, titleTH: "คดีฆาตกรรมในลิฟท์", titleJP: "エレベーター殺人事件", titleEN: "Elevator Murder Case", date: "1996-06-10", season: "Season 1", duration: "24 min", type: "original", source: "TV Original", mangaRef: '-', caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: "ตึก/ลิฟท์", scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 20, titleTH: "คดีฆาตกรรมในบ้านผีสิง", titleJP: "幽霊屋敷殺人事件", titleEN: "Haunted House Murder Case", date: "1996-06-17", season: "Season 1", duration: "24 min", type: "manga", source: "Vol.2", mangaRef: "Vol.2", caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: "บ้านผีสิง", scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 21, titleTH: "คดีฆาตกรรมในกองถ่าย", titleJP: "TVドラマロケ殺人事件", titleEN: "TV Drama Location Murder Case", date: "1996-06-24", season: "Season 1", duration: "24 min", type: "original", source: "TV Original", mangaRef: '-', caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: "สถานีโทรทัศน์/กองถ่าย", scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 22, titleTH: "คดีฆาตกรรมบนเรือสำราญ (ตอนแรก)", titleJP: "豪華客船連続殺人事件 (前編)", titleEN: "Luxury Liner Serial Murder Case (Part 1)", date: "1996-07-01", season: "Season 1", duration: "24 min", type: "manga", source: "Vol.3", mangaRef: "Vol.3", caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: "เรือสำราญ", scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 23, titleTH: "คดีฆาตกรรมบนเรือสำราญ (ตอนจบ)", titleJP: "豪華客船連続殺人事件 (後編)", titleEN: "Luxury Liner Serial Murder Case (Part 2)", date: "1996-07-08", season: "Season 1", duration: "24 min", type: "manga", source: "Vol.3", mangaRef: "Vol.3", caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: "เรือสำราญ", scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 24, titleTH: "คดีสาวงามผู้ลืมอดีต", titleJP: "謎の美女記憶喪失事件", titleEN: "Mysterious Beauty Amnesia Case", date: "1996-07-15", season: "Season 1", duration: "24 min", type: "original", source: "TV Original", mangaRef: '-', caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: '-', scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 25, titleTH: "คดีเรียกค่าไถ่จอมปลอม", titleJP: "偽りの身代金誘拐事件", titleEN: "False Ransom Kidnapping Case", date: "1996-07-22", season: "Season 1", duration: "24 min", type: "original", source: "TV Original", mangaRef: '-', caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: '-', scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 26, titleTH: "คดีฆาตกรรมจอห์น", titleJP: "愛犬ジョン殺人事件", titleEN: "John the Dog Murder Case", date: "1996-07-29", season: "Season 1", duration: "24 min", type: "original", source: "TV Original", mangaRef: '-', caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: '-', scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 27, titleTH: "คดีฆาตกรรมเพื่อนเก่า (ตอนแรก)", titleJP: "小五郎の同窓会殺人事件 (前編)", titleEN: "Kogoro's Class Reunion Murder Case (Part 1)", date: "1996-08-05", season: "Season 1", duration: "24 min", type: "manga", source: "Vol.9", mangaRef: "Vol.9", caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: '-', scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Kogoro","Conan","Ran"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 28, titleTH: "คดีฆาตกรรมเพื่อนเก่า (ตอนจบ)", titleJP: "小五郎の同窓会殺人事件 (後編)", titleEN: "Kogoro's Class Reunion Murder Case (Part 2)", date: "1996-08-12", season: "Season 1", duration: "24 min", type: "manga", source: "Vol.9", mangaRef: "Vol.9", caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: '-', scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Kogoro","Conan","Ran"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 29, titleTH: "คดีฆาตกรรมคอมพิวเตอร์", titleJP: "コンピューター殺人事件", titleEN: "Computer Murder Case", date: "1996-08-19", season: "Season 1", duration: "24 min", type: "original", source: "TV Original", mangaRef: '-', caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: "ออฟฟิศ/บ้าน", scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 30, titleTH: "คดีพยานอ้างที่อยู่", titleJP: "アリバイ証言殺人事件", titleEN: "Alibi Testimony Murder Case", date: "1996-08-26", season: "Season 1", duration: "24 min", type: "original", source: "TV Original", mangaRef: '-', caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: '-', scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 31, titleTH: "คดีฆาตกรรมสถานีโทรทัศน์", titleJP: "テレビ局殺人事件", titleEN: "TV Station Murder Case", date: "1996-09-02", season: "Season 1", duration: "24 min", type: "manga", source: "Vol.11", mangaRef: "Vol.11", caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: "สถานีโทรทัศน์", scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 32, titleTH: "คดีฆาตกรรมในร้านกาแฟ", titleJP: "コーヒーショップ殺人事件", titleEN: "Coffee Shop Murder Case", date: "1996-09-09", season: "Season 1", duration: "24 min", type: "manga", source: "Vol.11", mangaRef: "Vol.11", caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: "ร้านกาแฟ", scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 33, titleTH: "กลุ่มนักสืบเยาวชนผจญภัย", titleJP: "探偵団サバイバル事件", titleEN: "Detective Boys Survival Case", date: "1996-10-14", season: "Season 1", duration: "24 min", type: "original", source: "TV Original", mangaRef: '-', caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: "ป่า/ค่าย", scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Detective Boys","Conan"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 34, titleTH: "คดีฆาตกรรมซ่อนเงื่อน (ตอนแรก)", titleJP: "山荘包帯男殺人事件 (前編)", titleEN: "Mountain Lodge Bandaged Man Murder Case (Part 1)", date: "1996-10-21", season: "Season 1", duration: "24 min", type: "manga", source: "Vol.5", mangaRef: "Vol.5", caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: "บ้านพักเขา", scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 35, titleTH: "คดีฆาตกรรมซ่อนเงื่อน (ตอนจบ)", titleJP: "山荘包帯男殺人事件 (後編)", titleEN: "Mountain Lodge Bandaged Man Murder Case (Part 2)", date: "1996-10-28", season: "Season 1", duration: "24 min", type: "manga", source: "Vol.5", mangaRef: "Vol.5", caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: "บ้านพักเขา", scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 36, titleTH: "คดีฆาตกรรม 19.30 น.", titleJP: "月曜夜7時30分殺人事件", titleEN: "Monday 7:30 PM Murder Case", date: "1996-11-04", season: "Season 1", duration: "24 min", type: "original", source: "TV Original", mangaRef: '-', caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: '-', scene: '-', time: '19:30', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 37, titleTH: "คดีฆาตกรรมดอกกระบองเพชร", titleJP: "サボテンの花殺人事件", titleEN: "Cactus Flower Murder Case", date: "1996-11-11", season: "Season 1", duration: "24 min", type: "original", source: "TV Original", mangaRef: '-', caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: '-', scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 38, titleTH: "คดีฆาตกรรมเทศกาลปีศาจ", titleJP: "赤鬼村火祭殺人事件", titleEN: "Red Demon Village Fire Festival Murder Case", date: "1996-11-18", season: "Season 1", duration: "24 min", type: "manga", source: "Vol.2", mangaRef: "Vol.2", caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: "หมู่บ้าน/เทศกาล", scene: '-', time: '-', environment: 'ไฟ/เทศกาล', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 39, titleTH: "คดีฆาตกรรมทายาทแฝด (ตอนแรก)", titleJP: "資産家令嬢殺人事件 (前編)", titleEN: "Heiress Murder Case (Part 1)", date: "1996-11-25", season: "Season 1", duration: "24 min", type: "manga", source: "Vol.9", mangaRef: "Vol.9", caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: '-', scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 40, titleTH: "คดีฆาตกรรมทายาทแฝด (ตอนจบ)", titleJP: "資産家令嬢殺人事件 (後編)", titleEN: "Heiress Murder Case (Part 2)", date: "1996-12-02", season: "Season 1", duration: "24 min", type: "manga", source: "Vol.9", mangaRef: "Vol.9", caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: '-', scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 41, titleTH: "คดีทำลายธงแชมป์เปี้ยน", titleJP: "優勝旗切り裂き事件", titleEN: "Championship Flag Tearing Case", date: "1996-12-09", season: "Season 1", duration: "24 min", type: "original", source: "TV Original", mangaRef: '-', caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: "สนามแข่งขัน/โรงเรียน", scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' },
-        { id: 42, titleTH: "คดีฆาตกรรมเพลงคาราโอเกะ", titleJP: "カラオケボックス殺人事件", titleEN: "Karaoke Box Murder Case", date: "1996-12-16", season: "Season 1", duration: "24 min", type: "manga", source: "Vol.5", mangaRef: "Vol.5", caseType: '-', numberOfCases: '-', caseSubType: '-', motive: '-', complexity: '-', location: "คาราโอเกะ/ร้าน", scene: '-', time: '-', environment: '-', victim: '-', culprit: '-', suspects: [], keyCharacters: ["Conan","Ran","Kogoro"], newAppearance: '-', clues: ['-'], trick: '-', mistake: '-', howSolved: '-', frontUsed: '-', plotResult: '-', mainPlot: '-', tiesToBlackOrg: '-', characterDevelopment: '-', longTermClues: '-', relatedEpisodes: '-', trivia: '-' }
+        // --------------
+        // Season 1 — Schema-only skeleton (EP 1–42)
+        // Each object contains the full field names but values are left empty ("", null, or empty array)
+        // Fill values later as needed — no '-' placeholders are used per your request.
+        // --------------
+        { id: 1, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 2, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 3, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 4, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 5, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 6, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 7, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 8, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 9, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 10, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 11, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 12, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 13, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 14, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 15, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 16, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 17, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 18, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 19, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 20, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 21, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 22, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 23, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 24, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 25, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 26, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 27, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 28, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 29, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 30, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 31, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 32, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 33, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 34, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 35, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 36, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 37, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 38, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 39, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 40, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 41, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
+        { id: 42, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" }
     ];
 
     // ---------------------------------------------------------
@@ -606,11 +237,11 @@
                         </div>
                     </div>
                     <h3 class="font-bold text-slate-800 text-lg leading-tight mb-1 truncate">${ep.titleTH || ep.titleEN || ep.titleJP}</h3>
-                    <p class="text-xs text-slate-500 mb-3 truncate">${ep.titleEN || ep.titleJP || '-'}</p>
+                    <p class="text-xs text-slate-500 mb-3 truncate">${ep.titleEN || ep.titleJP || }</p>
                       
                     <div class="flex justify-between items-center text-xs text-slate-400 mt-2 pt-2 border-t border-slate-100">
                         <span><i class="fa-regular fa-calendar mr-1"></i>${ep.date}</span>
-                        <span>${ep.source || '-'}</span>
+                        <span>${ep.source || }</span>
                     </div>
                 </div>
             `;
@@ -634,7 +265,7 @@
         }
 
         // For arrays display
-        const renderList = (arr) => Array.isArray(arr) ? arr.map(x=>`<span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-[10px] border border-blue-100 mr-1 inline-block">${x}</span>`).join('') : (arr || '-');
+        const renderList = (arr) => Array.isArray(arr) ? arr.map(x=>`<span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-[10px] border border-blue-100 mr-1 inline-block">${x}</span>`).join('') : (arr || );
 
         // HTML Structure (Injected into Modal)
         modalBody.innerHTML = `
@@ -660,8 +291,8 @@
                     <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm border-t border-slate-200 pt-4">
                         <div><p class="text-gray-500 text-xs">ออกอากาศ</p><p class="font-medium">${ep.date}</p></div>
                         <div><p class="text-gray-500 text-xs">ซีซัน</p><p class="font-medium">${ep.season || 'Season 1'}</p></div>
-                        <div><p class="text-gray-500 text-xs">ความยาว</p><p class="font-medium">${ep.duration || '-'}</p></div>
-                        <div><p class="text-gray-500 text-xs">อ้างอิง</p><p class="font-medium"><i class="fa-solid fa-book-open mr-1"></i> ${ep.source || ep.mangaRef || '-'}</p></div>
+                        <div><p class="text-gray-500 text-xs">ความยาว</p><p class="font-medium">${ep.duration || }</p></div>
+                        <div><p class="text-gray-500 text-xs">อ้างอิง</p><p class="font-medium"><i class="fa-solid fa-book-open mr-1"></i> ${ep.source || ep.mangaRef || }</p></div>
                     </div>
                 </div>
 
@@ -678,17 +309,17 @@
                                 <div class="space-y-3">
                                     <div class="flex items-center justify-between">
                                         <span class="text-sm text-gray-500">ประเภท</span>
-                                        <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded">${ep.caseType || '-'}</span>
+                                        <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded">${ep.caseType || }</span>
                                     </div>
                                     <div class="flex items-center justify-between">
                                         <span class="text-sm text-gray-500">ลักษณะ</span>
-                                        <span class="text-sm font-medium">${ep.caseSubType || '-'}</span>
+                                        <span class="text-sm font-medium">${ep.caseSubType || }</span>
                                     </div>
                                 </div>
                                 <div class="space-y-3">
                                     <div class="flex items-center justify-between">
                                         <span class="text-sm text-gray-500">แรงจูงใจ</span>
-                                        <span class="text-sm font-medium text-right w-1/2 truncate">${ep.motive || '-'}</span>
+                                        <span class="text-sm font-medium text-right w-1/2 truncate">${ep.motive || }</span>
                                     </div>
                                     <div class="flex items-center justify-between">
                                         <span class="text-sm text-gray-500">ความซับซ้อน</span>
@@ -725,17 +356,17 @@
 
                                     <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-100">
                                         <h4 class="font-bold text-yellow-800 text-sm mb-2"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> กลอุบาย (Trick)</h4>
-                                        <p class="text-sm text-gray-700 leading-relaxed">${ep.trick || '-'}</p>
+                                        <p class="text-sm text-gray-700 leading-relaxed">${ep.trick || }</p>
                                     </div>
 
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div>
                                             <h4 class="font-bold text-red-700 text-sm mb-1">ผู้กระทำผิด (Culprit)</h4>
-                                            <p class="text-sm font-medium">${ep.culprit || '-'}</p>
+                                            <p class="text-sm font-medium">${ep.culprit || }</p>
                                         </div>
                                         <div>
                                             <h4 class="font-bold text-slate-700 text-sm mb-1">จุดพลาด</h4>
-                                            <p class="text-sm text-gray-600">${ep.mistake || '-'}</p>
+                                            <p class="text-sm text-gray-600">${ep.mistake || }</p>
                                         </div>
                                     </div>
                                 </div>
@@ -746,7 +377,7 @@
                         <section class="bg-slate-800 text-white rounded-xl shadow-lg p-6 relative overflow-hidden">
                             <div class="absolute top-0 right-0 p-4 opacity-10"><i class="fa-solid fa-user-secret text-9xl"></i></div>
                             <h3 class="text-lg font-bold mb-4 relative z-10"><i class="fa-solid fa-link mr-2"></i>เนื้อเรื่องหลัก</h3>
-                            <p class="text-sm text-slate-300 relative z-10 leading-relaxed mb-4">${ep.mainPlot || '-'}</p>
+                            <p class="text-sm text-slate-300 relative z-10 leading-relaxed mb-4">${ep.mainPlot || }</p>
                         </section>
                     </div>
 
@@ -758,15 +389,15 @@
                             <ul class="space-y-3">
                                 <li class="flex items-start gap-3">
                                     <i class="fa-solid fa-map-location-dot text-gray-400 mt-1"></i>
-                                    <div><p class="text-xs text-gray-500">สถานที่</p><p class="text-sm font-medium">${ep.location || '-'}</p></div>
+                                    <div><p class="text-xs text-gray-500">สถานที่</p><p class="text-sm font-medium">${ep.location || }</p></div>
                                 </li>
                                 <li class="flex items-start gap-3">
                                     <i class="fa-solid fa-location-crosshairs text-gray-400 mt-1"></i>
-                                    <div><p class="text-xs text-gray-500">จุดเกิดเหตุ</p><p class="text-sm font-medium">${ep.scene || '-'}</p></div>
+                                    <div><p class="text-xs text-gray-500">จุดเกิดเหตุ</p><p class="text-sm font-medium">${ep.scene || }</p></div>
                                 </li>
                                  <li class="flex items-start gap-3">
                                     <i class="fa-regular fa-clock text-gray-400 mt-1"></i>
-                                    <div><p class="text-xs text-gray-500">ช่วงเวลา</p><p class="text-sm font-medium">${ep.time || '-'}</p></div>
+                                    <div><p class="text-xs text-gray-500">ช่วงเวลา</p><p class="text-sm font-medium">${ep.time || }</p></div>
                                 </li>
                             </ul>
                         </section>
@@ -779,7 +410,7 @@
                                 <p class="text-xs font-bold text-gray-400 uppercase mb-2">เหยื่อ (Victim)</p>
                                 <div class="flex items-center gap-2">
                                     <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 text-xs font-bold">V</div>
-                                    <span class="text-sm">${ep.victim || '-'}</span>
+                                    <span class="text-sm">${ep.victim || }</span>
                                 </div>
                             </div>
 
@@ -794,7 +425,7 @@
                         <!-- Trivia -->
                         <section class="bg-blue-50 rounded-xl shadow-sm p-6 border border-blue-100">
                             <h3 class="text-md font-bold text-conan-blue mb-2"><i class="fa-solid fa-circle-info mr-2"></i>เกร็ด & ข้อมูลเสริม</h3>
-                            <p class="text-xs text-gray-600 leading-relaxed">${ep.trivia || '-'}</p>
+                            <p class="text-xs text-gray-600 leading-relaxed">${ep.trivia || }</p>
                         </section>
                     </div>
                 </div>
