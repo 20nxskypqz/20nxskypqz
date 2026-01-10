@@ -1,463 +1,840 @@
-<!DOCTYPE html><html lang="th">
+<!DOCTYPE html>
+<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conan Database - Season 1 (Detailed Edition)</title>
+    <title>Conan Case Files : Season 1 Database</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Kanit -->
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Niramit -->
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><script>
-    tailwind.config = {
-        theme: {
-            extend: {
-                fontFamily: {
-                    sans: ['Kanit', 'sans-serif'],
-                },
-                colors: {
-                    conan: {
-                        blue: '#1e3a8a',
-                        red: '#dc2626',
-                        bg: '#f8fafc',
-                        brick: '#7f1d1d'
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Niramit', 'sans-serif'],
+                    },
+                    colors: {
+                        conanBlue: '#0047AB',
+                        conanRed: '#E60012',
+                        conanBrick: '#B22222',
+                        conanGrey: '#F3F4F6',
+                        conanDark: '#1a1a1a'
+                    },
+                    backgroundImage: {
+                        'brick-pattern': "url('https://www.transparenttextures.com/patterns/brick-wall.png')",
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
                     }
                 }
             }
         }
-    }
-</script>
-<style>
-    body {
-        background-color: #f8fafc;
-        background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
-        background-size: 24px 24px;
-    }
-    .brick-pattern {
-        background-color: #7f1d1d;
-        background-image:   
-            linear-gradient(335deg, rgba(255,255,255,0.05) 23px, transparent 23px),
-            linear-gradient(155deg, rgba(255,255,255,0.05) 23px, transparent 23px);
-        background-size: 58px 58px;
-    }
-    .card-hover:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    }
-    .spoiler-content {
-        filter: blur(8px);
-        user-select: none;
-        transition: all 0.3s ease;
-    }
-    .spoiler-active .spoiler-content {
-        filter: none;
-        user-select: text;
-    }
-    .spoiler-overlay {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(255,255,255,0.6);
-        z-index: 10;
-        cursor: pointer;
-        color: #dc2626;
-        font-weight: bold;
-    }
-    .spoiler-active .spoiler-overlay { display: none; }
-      
-    /* Modal Animation */
-    .modal { opacity: 0; visibility: hidden; transition: all 0.3s ease; }
-    .modal.active { opacity: 1; visibility: visible; }
-    .modal-content { transform: scale(0.95); transition: all 0.3s ease; }
-    .modal.active .modal-content { transform: scale(1); }
-</style>
+    </script>
 
-</head>
-<body class="font-sans text-slate-800"><!-- Navbar -->
-<nav class="bg-conan-blue text-white sticky top-0 z-40 shadow-lg border-b-4 border-conan-red">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 bg-conan-red rounded-full flex items-center justify-center font-bold text-white border-2 border-white">C</div>
-                <span class="font-bold text-xl tracking-wide">ConanDB <span class="text-sm font-light opacity-80">Season 1</span></span>
-            </div>
-            <!-- Filters -->
-            <div class="hidden md:flex space-x-2">
-                <button onclick="filterEpisodes('all')" class="bg-blue-900 hover:bg-blue-700 px-3 py-1 rounded text-xs">ทั้งหมด</button>
-                <button onclick="filterEpisodes('manga')" class="hover:bg-blue-700 px-3 py-1 rounded text-xs">Canon (มังงะ)</button>
-                <button onclick="filterEpisodes('original')" class="hover:bg-blue-700 px-3 py-1 rounded text-xs">TV Original</button>
-            </div>
-        </div>
-    </div>
-</nav>
-
-<!-- Main Grid -->
-<main class="max-w-7xl mx-auto px-4 py-8">
-    <div class="mb-6 flex flex-col md:flex-row gap-4 justify-between items-center">
-        <h1 class="text-2xl font-bold text-slate-800 border-l-4 border-conan-red pl-3">รายชื่อตอน (EP 1 - 42)</h1>
-        <div class="relative w-full md:w-64">
-            <input type="text" id="searchInput" placeholder="ค้นหาชื่อตอน..." class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:border-conan-blue focus:ring-1 focus:ring-conan-blue shadow-sm">
-            <i class="fa-solid fa-magnifying-glass absolute left-4 top-3 text-gray-400"></i>
-        </div>
-    </div>
-
-    <div id="episodeGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        <!-- JS Injects Cards Here -->
-    </div>
-</main>
-
-<!-- Full Detail Modal (The V1 Design) -->
-<div id="detailModal" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-0 md:p-4 overflow-y-auto">
-    <div class="modal-content bg-white w-full max-w-5xl rounded-xl shadow-2xl relative min-h-[90vh] md:h-auto flex flex-col overflow-hidden">
-          
-        <!-- Close Button -->
-        <button onclick="closeModal()" class="fixed top-4 right-4 z-50 w-10 h-10 bg-slate-800 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition shadow-lg border-2 border-white">
-            <i class="fa-solid fa-xmark text-xl"></i>
-        </button>
-
-        <!-- Modal Content Body (Scrollable) -->
-        <div id="modalBody" class="overflow-y-auto h-full max-h-[90vh]">
-            <!-- Content injected via JS -->
-        </div>
-    </div>
-</div>
-
-<!-- DATA & SCRIPT -->
-<script>
-    // ---------------------------------------------------------
-    // 📂 DATABASE: SEASON 1 (EP 1-42 FULL DETAILED / best-effort)
-    // Data compiled from: detectiveconan.fandom.com (episode list), detectiveconanworld.com (season summary), en.wikipedia.org (Season 1 page), conanth.com (Thai episode list)
-    // ---------------------------------------------------------
-    const episodes = [
-        // --------------
-        // Season 1 — Schema-only skeleton (EP 1–42)
-        // Each object contains the full field names but values are left empty ("", null, or empty array)
-        // Fill values later as needed — no '-' placeholders are used per your request.
-        // --------------
-        { id: 1, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 2, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 3, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 4, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 5, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 6, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 7, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 8, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 9, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 10, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 11, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 12, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 13, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 14, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 15, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 16, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 17, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 18, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 19, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 20, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 21, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 22, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 23, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 24, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 25, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 26, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 27, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 28, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 29, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 30, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 31, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 32, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 33, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 34, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 35, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 36, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 37, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 38, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 39, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 40, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 41, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" },
-        { id: 42, titleTH: "", titleJP: "", titleEN: "", date: "", season: "Season 1", duration: "", type: "", source: "", mangaRef: "", caseType: "", numberOfCases: null, caseSubType: "", motive: "", complexity: null, location: "", scene: "", time: "", environment: "", victim: "", culprit: "", suspects: [], keyCharacters: [], newAppearance: "", clues: [], trick: "", mistake: "", howSolved: "", frontUsed: "", plotResult: "", mainPlot: "", tiesToBlackOrg: "", characterDevelopment: "", longTermClues: "", relatedEpisodes: "", trivia: "" }
-    ];
-
-    // ---------------------------------------------------------
-    // 🔧 APP LOGIC (unchanged, but adapted to new keys)
-    // ---------------------------------------------------------
-      
-    const grid = document.getElementById('episodeGrid');
-    const modal = document.getElementById('detailModal');
-    const modalBody = document.getElementById('modalBody');
-    const searchInput = document.getElementById('searchInput');
-
-    // Initial Render
-    renderEpisodes(episodes);
-
-    // Filter Function
-    function filterEpisodes(filter) {
-        let filtered = episodes;
-        if (filter === 'manga') filtered = episodes.filter(e => e.type === 'manga');
-        if (filter === 'original') filtered = episodes.filter(e => e.type === 'original');
-        renderEpisodes(filtered);
-    }
-
-    // Search Function
-    searchInput.addEventListener('input', (e) => {
-        const term = e.target.value.toLowerCase();
-        const filtered = episodes.filter(ep =>   
-            (ep.titleTH && ep.titleTH.toLowerCase().includes(term)) ||   
-            (ep.titleEN && ep.titleEN.toLowerCase().includes(term)) ||
-            ep.id.toString().includes(term) ||
-            (ep.titleJP && ep.titleJP.toLowerCase().includes(term))
-        );
-        renderEpisodes(filtered);
-    });
-
-    // Render Cards (Grid View)
-    function renderEpisodes(data) {
-        grid.innerHTML = '';
-        data.forEach(ep => {
-            const isManga = ep.type === 'manga';
-            const isBlackOrg = (ep.tags || []).includes('blackorg');
-              
-            const card = document.createElement('div');
-            card.className = 'bg-white rounded-lg shadow-sm overflow-hidden border border-slate-200 card-hover cursor-pointer relative';
-            card.onclick = () => openDetail(ep.id);
-              
-            // top color bar (fallbacks for dynamic classes)
-            const topColor = isBlackOrg ? 'black' : (isManga ? 'conan-blue' : 'conan-red');
-            
-            card.innerHTML = `
-                <div class="h-2" style="background-color: ${isBlackOrg ? '#000' : (isManga ? '#1e3a8a' : '#dc2626')}"></div>
-                <div class="p-4">
-                    <div class="flex justify-between items-start mb-2">
-                        <span class="text-xs font-bold px-2 py-1 rounded bg-slate-100 text-slate-600">EP ${ep.id}</span>
-                        <div class="flex gap-1">
-                            ${isBlackOrg ? '<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-black text-white">BO</span>' : ''}
-                            <span class="text-[10px] font-bold px-1.5 py-0.5 rounded ${isManga ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}">${isManga ? 'Manga' : 'Original'}</span>
-                        </div>
-                    </div>
-                    <h3 class="font-bold text-slate-800 text-lg leading-tight mb-1 truncate">${ep.titleTH || ep.titleEN || ep.titleJP}</h3>
-                    <p class="text-xs text-slate-500 mb-3 truncate">${ep.titleEN || ep.titleJP || }</p>
-                      
-                    <div class="flex justify-between items-center text-xs text-slate-400 mt-2 pt-2 border-t border-slate-100">
-                        <span><i class="fa-regular fa-calendar mr-1"></i>${ep.date}</span>
-                        <span>${ep.source || }</span>
-                    </div>
-                </div>
-            `;
-            grid.appendChild(card);
-        });
-    }
-
-    // Open Modal (The Detail View V1 Style)
-    function openDetail(id) {
-        const ep = episodes.find(e => e.id === id);
-        if(!ep) return;
-          
-        // Generate Star Rating
-        let stars = '';
-        if(ep.complexity && typeof ep.complexity === 'number') {
-            for(let i=1; i<=5; i++) {
-                stars += i <= ep.complexity ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star"></i>';
-            }
-        } else {
-            stars = '<span class="text-gray-300">-</span>';
+    <style>
+        body {
+            background-color: #f0f0f0;
+            overflow-x: hidden;
+        }
+        
+        .brick-bg {
+            background-color: #8B0000;
+            background-image: linear-gradient(335deg, rgba(0,0,0,0.3) 23px, transparent 23px),
+            linear-gradient(155deg, rgba(0,0,0,0.3) 23px, transparent 23px),
+            linear-gradient(335deg, rgba(0,0,0,0.3) 23px, transparent 23px),
+            linear-gradient(155deg, rgba(0,0,0,0.3) 23px, transparent 23px);
+            background-size: 58px 58px;
+            background-position: 0px 2px, 4px 35px, 29px 31px, 34px 6px;
         }
 
-        // For arrays display
-        const renderList = (arr) => Array.isArray(arr) ? arr.map(x=>`<span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-[10px] border border-blue-100 mr-1 inline-block">${x}</span>`).join('') : (arr || );
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
 
-        // HTML Structure (Injected into Modal)
-        modalBody.innerHTML = `
-            <div class="bg-white">
-                <!-- Header -->
-                <div class="p-6 md:p-8 border-l-8 ${ (ep.tags || []).includes('blackorg') ? 'border-black' : 'border-conan-blue'} bg-slate-50">
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
-                        <span class="bg-slate-800 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-2 md:mb-0">
-                            Episode ${ep.id}
-                        </span>
-                        <div class="flex gap-2">
-                            <span class="bg-${ep.type === 'manga' ? 'green' : 'orange'}-100 text-${ep.type === 'manga' ? 'green' : 'orange'}-800 text-xs font-semibold px-2.5 py-0.5 rounded border border-${ep.type === 'manga' ? 'green' : 'orange'}-400">
-                                ${ep.type === 'manga' ? 'Manga Adapted' : 'Anime Original'}
-                            </span>
-                            ${(ep.tags || []).includes('blackorg') ? '<span class="bg-black text-white text-xs font-semibold px-2.5 py-0.5 rounded">Black Org</span>' : ''}
-                        </div>
-                    </div>
-                      
-                    <h1 class="text-2xl md:text-4xl font-bold text-slate-900 mb-2">${ep.titleTH || ep.titleEN || ep.titleJP}</h1>
-                    <h2 class="text-lg text-slate-500 mb-1">${ep.titleJP || ''}</h2>
-                    <p class="text-sm text-slate-400 italic">${ep.titleEN || ''}</p>
+        /* Abstract Cover Art - CSS Only */
+        .art-ep1 {
+            background: linear-gradient(45deg, #0047AB, #000044);
+            position: relative;
+            overflow: hidden;
+        }
+        .art-ep1::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(transparent, transparent 10px, rgba(255, 255, 255, 0.1) 10px, rgba(255, 255, 255, 0.1) 20px);
+            transform: rotate(45deg);
+        }
 
-                    <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm border-t border-slate-200 pt-4">
-                        <div><p class="text-gray-500 text-xs">ออกอากาศ</p><p class="font-medium">${ep.date}</p></div>
-                        <div><p class="text-gray-500 text-xs">ซีซัน</p><p class="font-medium">${ep.season || 'Season 1'}</p></div>
-                        <div><p class="text-gray-500 text-xs">ความยาว</p><p class="font-medium">${ep.duration || }</p></div>
-                        <div><p class="text-gray-500 text-xs">อ้างอิง</p><p class="font-medium"><i class="fa-solid fa-book-open mr-1"></i> ${ep.source || ep.mangaRef || }</p></div>
-                    </div>
+        .art-ep2 {
+            background: linear-gradient(45deg, #E60012, #8B0000);
+            position: relative;
+            overflow: hidden;
+        }
+        .art-ep2::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.2) 0%, transparent 40%);
+        }
+
+        .art-ep3 {
+            background: linear-gradient(45deg, #FFD700, #FF69B4); /* Gold to Pink for Idol */
+            position: relative;
+            overflow: hidden;
+        }
+        .art-ep3::before {
+            content: '\f005'; /* Star Icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            font-size: 8rem;
+            color: rgba(255,255,255,0.1);
+            top: -20px;
+            right: -20px;
+            transform: rotate(15deg);
+        }
+
+        /* Checklist Section Style */
+        .section-header {
+            display: flex;
+            align-items: center;
+            background-color: #0047AB;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px 8px 0 0;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .section-body {
+            background-color: white;
+            padding: 16px;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border: 1px solid #e5e7eb;
+            border-top: none;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px dashed #eee;
+            font-size: 0.95rem;
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .label {
+            color: #6b7280;
+            font-weight: 500;
+        }
+        .value {
+            font-weight: 600;
+            color: #1f2937;
+            text-align: right;
+            max-width: 60%;
+        }
+
+        /* Spoiler Styles */
+        .spoiler-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .spoiler-cover {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background-color: #f3f4f6;
+            cursor: pointer;
+            padding: 1rem;
+            transition: all 0.2s ease;
+        }
+        .spoiler-cover:hover {
+            background-color: #e5e7eb;
+        }
+        .spoiler-content {
+            animation: fadeIn 0.3s ease-out;
+        }
+        .hidden {
+            display: none !important;
+        }
+
+        /* Character Badge Colors */
+        .char-shinichi { background-color: #1e3a8a; color: white; } /* Blue 800 */
+        .char-conan { background-color: #2563eb; color: white; } /* Blue 600 */
+        .char-ran { background-color: #ec4899; color: white; } /* Pink 500 */
+        .char-kogoro { background-color: #9ca3af; color: #111827; } /* Gray 400 */
+        .char-blackorg { background-color: #000000; color: white; border: 1px solid #374151; }
+        .char-detectiveboys { background-color: #facc15; color: #713f12; } /* Yellow 400 */
+        .char-police { background-color: #1e3a8a; color: white; } /* Dark Blue */
+        .char-agasa { background-color: #fef9c3; color: #854d0e; } /* Yellow 100 */
+        .char-yoko { background-color: #f472b6; color: white; } /* Pink 400 */
+    </style>
+</head>
+<body class="text-gray-800 bg-gray-100 font-sans min-h-screen flex flex-col">
+
+    <!-- Navigation -->
+    <nav class="bg-conanBlue text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="showPage('list')">
+                <div class="w-10 h-10 bg-conanRed rounded-full flex items-center justify-center border-2 border-white shadow-md">
+                    <i class="fa-solid fa-glasses text-white text-lg"></i>
                 </div>
-
-                <!-- 2 Column Content -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-0 lg:gap-8 p-6 md:p-8">
-                      
-                    <!-- Left Column: Case Details -->
-                    <div class="lg:col-span-2 space-y-8">
-                          
-                        <!-- Structure -->
-                        <section>
-                            <h3 class="text-lg font-bold text-conan-blue mb-4 border-b pb-2"><i class="fa-solid fa-gavel mr-2"></i>โครงสร้างคดี</h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-lg border border-slate-100">
-                                <div class="space-y-3">
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-sm text-gray-500">ประเภท</span>
-                                        <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded">${ep.caseType || }</span>
-                                    </div>
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-sm text-gray-500">ลักษณะ</span>
-                                        <span class="text-sm font-medium">${ep.caseSubType || }</span>
-                                    </div>
-                                </div>
-                                <div class="space-y-3">
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-sm text-gray-500">แรงจูงใจ</span>
-                                        <span class="text-sm font-medium text-right w-1/2 truncate">${ep.motive || }</span>
-                                    </div>
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-sm text-gray-500">ความซับซ้อน</span>
-                                        <div class="flex text-yellow-400 text-xs">${stars}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-
-                        <!-- Spoiler Section -->
-                        <section class="bg-white rounded-xl shadow-sm overflow-hidden border border-slate-300 relative spoiler-container" id="spoilerBox">
-                            <div class="bg-slate-100 p-4 border-b border-slate-300 flex justify-between items-center">
-                                <h3 class="text-lg font-bold text-slate-700"><i class="fa-solid fa-lightbulb mr-2 text-yellow-500"></i>การไขคดี & บทสรุป</h3>
-                                <button onclick="toggleSpoiler()" class="text-xs bg-slate-800 text-white px-3 py-1 rounded hover:bg-slate-700 transition">
-                                    <i class="fa-solid fa-eye mr-1"></i> เฉลย
-                                </button>
-                            </div>
-                              
-                            <div class="p-6 relative min-h-[200px]">
-                                <div class="spoiler-overlay" onclick="toggleSpoiler()">
-                                    <div class="text-center">
-                                        <i class="fa-solid fa-triangle-exclamation text-4xl mb-2 text-red-500"></i>
-                                        <p>แตะเพื่อดูเนื้อหาเฉลยคดี</p>
-                                    </div>
-                                </div>
-                                  
-                                <div class="spoiler-content space-y-6">
-                                    <div>
-                                        <h4 class="font-bold text-conan-blue text-sm mb-2">เบาะแสสำคัญ (Key Clues)</h4>
-                                        <ul class="list-disc list-inside text-sm text-gray-700 space-y-1 ml-2">
-                                            ${(ep.clues && Array.isArray(ep.clues)) ? ep.clues.map(c => `<li>${c}</li>`).join('') : '<li>-</li>'}
-                                        </ul>
-                                    </div>
-
-                                    <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-100">
-                                        <h4 class="font-bold text-yellow-800 text-sm mb-2"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> กลอุบาย (Trick)</h4>
-                                        <p class="text-sm text-gray-700 leading-relaxed">${ep.trick || }</p>
-                                    </div>
-
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div>
-                                            <h4 class="font-bold text-red-700 text-sm mb-1">ผู้กระทำผิด (Culprit)</h4>
-                                            <p class="text-sm font-medium">${ep.culprit || }</p>
-                                        </div>
-                                        <div>
-                                            <h4 class="font-bold text-slate-700 text-sm mb-1">จุดพลาด</h4>
-                                            <p class="text-sm text-gray-600">${ep.mistake || }</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-
-                        <!-- Plot Relevance -->
-                        <section class="bg-slate-800 text-white rounded-xl shadow-lg p-6 relative overflow-hidden">
-                            <div class="absolute top-0 right-0 p-4 opacity-10"><i class="fa-solid fa-user-secret text-9xl"></i></div>
-                            <h3 class="text-lg font-bold mb-4 relative z-10"><i class="fa-solid fa-link mr-2"></i>เนื้อเรื่องหลัก</h3>
-                            <p class="text-sm text-slate-300 relative z-10 leading-relaxed mb-4">${ep.mainPlot || }</p>
-                        </section>
-                    </div>
-
-                    <!-- Right Column: Sidebar -->
-                    <div class="space-y-6">
-                        <!-- Location -->
-                        <section class="bg-white rounded-xl shadow-sm p-6 border border-slate-200">
-                            <h3 class="text-md font-bold text-conan-blue mb-3 border-b pb-2">สถานที่ & เวลา</h3>
-                            <ul class="space-y-3">
-                                <li class="flex items-start gap-3">
-                                    <i class="fa-solid fa-map-location-dot text-gray-400 mt-1"></i>
-                                    <div><p class="text-xs text-gray-500">สถานที่</p><p class="text-sm font-medium">${ep.location || }</p></div>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <i class="fa-solid fa-location-crosshairs text-gray-400 mt-1"></i>
-                                    <div><p class="text-xs text-gray-500">จุดเกิดเหตุ</p><p class="text-sm font-medium">${ep.scene || }</p></div>
-                                </li>
-                                 <li class="flex items-start gap-3">
-                                    <i class="fa-regular fa-clock text-gray-400 mt-1"></i>
-                                    <div><p class="text-xs text-gray-500">ช่วงเวลา</p><p class="text-sm font-medium">${ep.time || }</p></div>
-                                </li>
-                            </ul>
-                        </section>
-
-                        <!-- Characters -->
-                        <section class="bg-white rounded-xl shadow-sm p-6 border border-slate-200">
-                            <h3 class="text-md font-bold text-conan-blue mb-4 border-b pb-2">ตัวละคร</h3>
-                              
-                            <div class="mb-4">
-                                <p class="text-xs font-bold text-gray-400 uppercase mb-2">เหยื่อ (Victim)</p>
-                                <div class="flex items-center gap-2">
-                                    <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 text-xs font-bold">V</div>
-                                    <span class="text-sm">${ep.victim || }</span>
-                                </div>
-                            </div>
-
-                            <div>
-                                <p class="text-xs font-bold text-gray-400 uppercase mb-2">ตัวละครหลัก</p>
-                                <div class="flex flex-wrap gap-1">
-                                     ${renderList(ep.keyCharacters)}
-                                </div>
-                            </div>
-                        </section>
-
-                        <!-- Trivia -->
-                        <section class="bg-blue-50 rounded-xl shadow-sm p-6 border border-blue-100">
-                            <h3 class="text-md font-bold text-conan-blue mb-2"><i class="fa-solid fa-circle-info mr-2"></i>เกร็ด & ข้อมูลเสริม</h3>
-                            <p class="text-xs text-gray-600 leading-relaxed">${ep.trivia || }</p>
-                        </section>
-                    </div>
-                </div>
-                  
-                <div class="bg-slate-100 p-4 text-center text-xs text-gray-500 brick-pattern">
-                    ConanDB Season 1 - Episode ${ep.id}
+                <div class="leading-tight">
+                    <span class="block text-lg font-bold tracking-wider">DETECTIVE CONAN</span>
+                    <span class="block text-xs font-light opacity-80">DATABASE : SEASON 1</span>
                 </div>
             </div>
-        `;
+            <div class="hidden md:flex space-x-6 text-sm font-light">
+                <button onclick="showPage('list')" class="hover:text-conanRed transition font-medium"><i class="fa-solid fa-list mr-1"></i> SEASON 1</button>
+            </div>
+        </div>
+    </nav>
 
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
+    <!-- ========================================= -->
+    <!-- MAIN LIST PAGE -->
+    <!-- ========================================= -->
+    <div id="page-list" class="flex-grow animate-fade-in">
+        <header class="brick-bg text-white py-16 px-4 shadow-inner text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">SEASON 1 <span class="text-2xl font-light opacity-80">(1996)</span></h1>
+            <p class="text-lg opacity-90">จุดเริ่มต้นแห่งตำนานยอดนักสืบ</p>
+        </header>
 
-    // Close Modal
-    function closeModal() {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
+        <main class="max-w-6xl mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- EP.1 Card -->
+                <div onclick="showPage('ep1')" class="bg-white rounded-xl overflow-hidden shadow-lg card-hover cursor-pointer group border border-gray-200">
+                    <div class="h-40 art-ep1 flex items-center justify-center text-white relative">
+                        <i class="fa-solid fa-train-subway text-6xl opacity-30 absolute right-4 bottom-4"></i>
+                        <div class="z-10 text-center">
+                            <span class="bg-conanRed px-2 py-1 rounded text-xs font-bold mb-2 inline-block">EP.1</span>
+                            <h2 class="text-2xl font-bold drop-shadow">คดีฆาตกรรมบนรถไฟเหาะ</h2>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-xs text-gray-500 mb-2 truncate">ジェットコースター殺人事件 (Jetto Kōsutā Satsujin Jiken)</p>
+                        <div class="flex gap-2 text-xs">
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Manga-adapted</span>
+                            <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded"><i class="fa-solid fa-skull mr-1"></i> ฆาตกรรม</span>
+                        </div>
+                    </div>
+                </div>
 
-    // Toggle Spoiler
-    window.toggleSpoiler = function() {
-        const container = document.getElementById('spoilerBox');
-        container.classList.toggle('spoiler-active');
-    }
+                <!-- EP.2 Card -->
+                <div onclick="showPage('ep2')" class="bg-white rounded-xl overflow-hidden shadow-lg card-hover cursor-pointer group border border-gray-200">
+                    <div class="h-40 art-ep2 flex items-center justify-center text-white relative">
+                        <i class="fa-solid fa-child-reaching text-6xl opacity-30 absolute right-4 bottom-4"></i>
+                        <div class="z-10 text-center">
+                            <span class="bg-conanBlue px-2 py-1 rounded text-xs font-bold mb-2 inline-block">EP.2</span>
+                            <h2 class="text-2xl font-bold drop-shadow">คดีลักพาตัวลูกสาวประธาน</h2>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-xs text-gray-500 mb-2 truncate">社長令嬢誘拐事件 (Shachō Reijō Yūkai Jiken)</p>
+                        <div class="flex gap-2 text-xs">
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Manga-adapted</span>
+                            <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded"><i class="fa-solid fa-user-secret mr-1"></i> ลักพาตัว</span>
+                        </div>
+                    </div>
+                </div>
 
-    // Close on outside click
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-    });
+                 <!-- EP.3 Card -->
+                 <div onclick="showPage('ep3')" class="bg-white rounded-xl overflow-hidden shadow-lg card-hover cursor-pointer group border border-gray-200">
+                    <div class="h-40 art-ep3 flex items-center justify-center text-white relative">
+                        <i class="fa-solid fa-microphone-lines text-6xl opacity-30 absolute right-4 bottom-4"></i>
+                        <div class="z-10 text-center">
+                            <span class="bg-black/50 px-2 py-1 rounded text-xs font-bold mb-2 inline-block">EP.3</span>
+                            <h2 class="text-2xl font-bold drop-shadow">คดีฆาตกรรมในห้องปิดตาย</h2>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-xs text-gray-500 mb-2 truncate">アイドル密室殺人事件 (Aidoru Misshitsu Satsujin Jiken)</p>
+                        <div class="flex gap-2 text-xs">
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Manga-adapted</span>
+                            <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded"><i class="fa-solid fa-door-closed mr-1"></i> ห้องปิดตาย</span>
+                        </div>
+                    </div>
+                </div>
 
-</script>
+            </div>
+        </main>
+    </div>
 
+    <!-- ========================================= -->
+    <!-- EPISODE 1 DETAIL PAGE -->
+    <!-- ========================================= -->
+    <div id="page-ep1" class="hidden flex-grow animate-fade-in pb-12">
+        <!-- Sticky Header -->
+        <div class="bg-gray-800 text-white px-4 py-2 sticky top-[64px] z-40 shadow-md">
+            <button onclick="showPage('list')" class="max-w-7xl mx-auto flex items-center hover:text-conanRed w-full font-bold text-sm">
+                <i class="fa-solid fa-arrow-left mr-2"></i> กลับหน้ารวม
+            </button>
+        </div>
+
+        <!-- Banner -->
+        <div class="art-ep1 py-10 px-4 text-white text-center shadow-inner">
+            <div class="inline-block bg-conanRed px-3 py-1 rounded-full text-xs font-bold mb-2 shadow">EPISODE JP : 1 / TH : 1</div>
+            <h1 class="text-3xl md:text-4xl font-bold mb-1">คดีฆาตกรรมบนรถไฟเหาะ</h1>
+            <h2 class="text-lg font-light mb-1">Roller Coaster Murder Case</h2>
+            <h3 class="text-sm opacity-80 italic">ジェットコースター殺人事件 (Jetto Kōsutā Satsujin Jiken)</h3>
+        </div>
+
+        <!-- Content Grid -->
+        <main class="max-w-7xl mx-auto px-4 mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- 1. ข้อมูลทั่วไป -->
+            <div class="col-span-1">
+                <div class="section-header"><i class="fa-solid fa-circle-info mr-2"></i> 1. ข้อมูลทั่วไป</div>
+                <div class="section-body">
+                    <div class="info-row"><span class="label">วันที่ออกอากาศ :</span><span class="value">8 ม.ค. 1996</span></div>
+                    <div class="info-row"><span class="label">ซีซัน / ปี :</span><span class="value">Season 1 (1996)</span></div>
+                    <div class="info-row"><span class="label">ความยาว :</span><span class="value">24 นาที</span></div>
+                    <div class="info-row"><span class="label">Source Type :</span><span class="value bg-blue-100 text-blue-800 px-2 rounded text-xs">Manga-adapted</span></div>
+                    <div class="info-row"><span class="label">อ้างอิงมังงะ :</span><span class="value">Vol.1 File 1</span></div>
+                </div>
+            </div>
+
+            <!-- 2. โครงสร้างคดี -->
+            <div class="col-span-1">
+                <div class="section-header bg-conanRed"><i class="fa-solid fa-sitemap mr-2"></i> 2. โครงสร้างคดี</div>
+                <div class="section-body">
+                    <div class="info-row"><span class="label">ประเภทคดีหลัก :</span><span class="value text-red-600">ฆาตกรรม</span></div>
+                    <div class="info-row"><span class="label">จำนวนคดี :</span><span class="value">2 (คดีเกริ่นนำ + คดีหลัก)</span></div>
+                    <div class="info-row"><span class="label">ลักษณะคดี :</span><span class="value">คดีฉับพลัน / วางแผนสั้น</span></div>
+                    <div class="info-row"><span class="label">แรงจูงใจ :</span><span class="value">ความแค้น (ชู้สาว)</span></div>
+                    <div class="info-row"><span class="label">ระดับความซับซ้อน :</span><span class="value text-yellow-500"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i> (กลาง)</span></div>
+                </div>
+            </div>
+
+            <!-- 3. สถานที่และเวลา -->
+            <div class="col-span-1">
+                <div class="section-header bg-green-700"><i class="fa-solid fa-location-dot mr-2"></i> 3. สถานที่และเวลา</div>
+                <div class="section-body">
+                    <div class="info-row"><span class="label">สถานที่หลัก :</span><span class="value">สวนสนุกทรอปิคอลแลนด์</span></div>
+                    <div class="info-row"><span class="label">จุดเกิดเหตุ :</span><span class="value">รถไฟเหาะ Mystery Coaster</span></div>
+                    <div class="info-row"><span class="label">ช่วงเวลา :</span><span class="value">กลางวัน - เย็น</span></div>
+                    <div class="info-row"><span class="label">สภาพแวดล้อม :</span><span class="value">คนพลุกพล่าน / สวนสนุก</span></div>
+                </div>
+            </div>
+
+            <!-- 4. ตัวละครที่เกี่ยวข้อง -->
+            <div class="col-span-1 md:col-span-2 lg:col-span-3">
+                <div class="section-header bg-gray-700"><i class="fa-solid fa-users mr-2"></i> 4. ตัวละครที่เกี่ยวข้อง</div>
+                <div class="section-body grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- Cards -->
+                    <div class="bg-gray-50 p-3 rounded border text-center">
+                        <div class="text-xs font-bold text-gray-500 uppercase">เหยื่อ (Victim)</div>
+                        <i class="fa-solid fa-skull text-2xl text-gray-400 my-2"></i>
+                        <div class="font-bold">คิชิดะ</div>
+                        <div class="text-xs text-red-500">ศีรษะขาด (Decapitated)</div>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded border text-center">
+                        <div class="text-xs font-bold text-gray-500 uppercase">ผู้ต้องสงสัย</div>
+                        <div class="flex justify-center gap-4 my-2 text-xl text-conanBlue">
+                            <span title="Aiko"><i class="fa-solid fa-person-dress"></i> A</span>
+                            <span title="Reiko"><i class="fa-solid fa-glasses"></i> B</span>
+                        </div>
+                        <div class="font-bold">ไอโกะ & เรโกะ</div>
+                        <div class="text-xs text-gray-500">เพื่อนร่วมทาง</div>
+                    </div>
+                    
+                    <!-- SPOILER CULPRIT EP1 -->
+                    <div class="bg-red-50 rounded border border-red-200 text-center relative overflow-hidden spoiler-container">
+                        <div id="spoiler-cover-ep1-culprit" class="spoiler-cover" onclick="toggleSpoiler('ep1-culprit')">
+                            <i class="fa-solid fa-user-secret text-3xl text-gray-400 mb-1"></i>
+                            <span class="font-bold text-gray-500 text-sm">คนร้าย (Culprit)</span>
+                            <span class="text-xs text-conanRed mt-1"><i class="fa-solid fa-eye mr-1"></i> กดเพื่อดูเฉลย</span>
+                        </div>
+                        <div id="spoiler-content-ep1-culprit" class="hidden spoiler-content p-3 h-full flex flex-col items-center justify-center">
+                            <button onclick="toggleSpoiler('ep1-culprit')" class="absolute top-1 right-2 text-gray-400 hover:text-gray-600 text-xs"><i class="fa-solid fa-eye-slash"></i> ซ่อน</button>
+                            <i class="fa-solid fa-person-falling text-2xl text-conanRed my-2"></i>
+                            <div class="font-bold text-conanRed">ฮิโตมิ</div>
+                            <div class="text-xs text-gray-500">นักยิมนาสติก</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-3 rounded border">
+                         <div class="text-xs font-bold text-gray-500 uppercase mb-1">ตัวละครหลัก & พิเศษ</div>
+                         <div class="flex flex-wrap gap-2 text-xs">
+                             <span class="px-2 py-1 rounded char-shinichi">คุโด้ ชินอิจิ</span>
+                             <span class="px-2 py-1 rounded char-ran">โมริ รัน</span>
+                             <span class="px-2 py-1 rounded char-police">สารวัตรเมงูระ</span>
+                             <span class="px-2 py-1 rounded char-blackorg">ยิน & วอดก้า (New)</span>
+                             <span class="px-2 py-1 rounded char-detectiveboys">แก๊งนักสืบเยาวชน (New)</span>
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. หลักฐานและการไขคดี -->
+            <div class="col-span-1 md:col-span-2">
+                <div class="section-header bg-purple-700"><i class="fa-solid fa-magnifying-glass mr-2"></i> 5. หลักฐานและการไขคดี</div>
+                <div class="section-body space-y-3">
+                    <div class="flex gap-2">
+                        <div class="min-w-[140px] font-bold text-purple-800">เบาะแสสำคัญ :</div>
+                        <ul class="text-sm list-disc pl-4 text-gray-700">
+                            <li>น้ำตาของฮิโตมิไหลออก "ด้านข้าง" (เพราะนั่งกลับหัวไม่ได้นั่งปกติ)</li>
+                            <li>ผู้หญิงที่เล่นยิมนาสติกจะมีสมดุลร่างกายและกล้ามเนื้อขาดี</li>
+                            <li>ความเร็วลมปะทะขณะรถไฟเหาะวิ่ง</li>
+                        </ul>
+                    </div>
+                    <div class="flex gap-2 items-start">
+                        <div class="min-w-[140px] font-bold text-purple-800 pt-1">กลอุบาย (Trick) :</div>
+                        <!-- SPOILER TRICK EP1 -->
+                        <div class="flex-grow spoiler-container min-h-[60px]">
+                            <div id="spoiler-cover-ep1-trick" class="spoiler-cover py-2" onclick="toggleSpoiler('ep1-trick')">
+                                <span class="text-sm font-bold text-gray-500"><i class="fa-solid fa-unlock-keyhole mr-1"></i> กดเพื่อดูทริคฆาตกรรม</span>
+                            </div>
+                            <div id="spoiler-content-ep1-trick" class="hidden spoiler-content bg-gray-50 p-3 rounded border text-sm text-gray-700 relative">
+                                 <button onclick="toggleSpoiler('ep1-trick')" class="absolute top-1 right-2 text-gray-400 hover:text-gray-600 text-xs"><i class="fa-solid fa-eye-slash"></i></button>
+                                 <p>ใช้อุปกรณ์ในกระเป๋า (ตะขอ + ลวดเปียโน/สร้อยมุก) เกี่ยวรางรถไฟและคล้องคอเหยื่อ โดยใช้ขาเกี่ยวที่กั้นนิรภัยเพื่อทรงตัวโหนไปด้านหลัง อาศัยแรงความเร็วรถไฟกระชากศีรษะเหยื่อ</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. บทสรุปคดี -->
+            <div class="col-span-1">
+                <div class="section-header bg-orange-700"><i class="fa-solid fa-gavel mr-2"></i> 6. บทสรุปคดี</div>
+                <div class="section-body text-sm space-y-2">
+                    <div class="info-row"><span class="label">วิธีเปิดโปง :</span><span class="value text-xs">ชี้ให้ดูรอยช้ำที่ขา และให้ลองทำท่าทางจำลอง</span></div>
+                    <div class="info-row"><span class="label">ผลลัพธ์ :</span><span class="value text-red-600">จับกุม (สารภาพ)</span></div>
+                    <div class="info-row"><span class="label">บทลงโทษ :</span><span class="value">ถูกดำเนินคดีฆาตกรรม</span></div>
+                    <div class="mt-2 pt-2 border-t text-gray-600 italic text-xs">
+                        "ฉากท้าย : ชินอิจิแยกทางกับรันเพื่อตามชายชุดดำไป"
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. ความเชื่อมโยง -->
+            <div class="col-span-1 md:col-span-2">
+                <div class="section-header bg-black"><i class="fa-solid fa-link mr-2"></i> 7. ความเชื่อมโยงเนื้อเรื่องหลัก</div>
+                <div class="section-body grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div class="border p-2 rounded">
+                        <strong class="text-red-600 block mb-1"><i class="fa-solid fa-user-secret"></i> องค์กรชุดดำ :</strong>
+                        <p>ปรากฏตัวครั้งแรก (ยิน & วอดก้า) ทำธุรกรรมเถื่อน (ค้าอาวุธ/แบล็คเมล์)</p>
+                    </div>
+                    <div class="border p-2 rounded">
+                        <strong class="text-blue-600 block mb-1"><i class="fa-solid fa-arrow-up-right-dots"></i> พัฒนาการ :</strong>
+                        <p>ชินอิจิถูกตีหัวและกรอกยาพิษ <strong>APTX 4869</strong> จนตัวหดเล็กลง</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. เกร็ดข้อมูล -->
+            <div class="col-span-1">
+                <div class="section-header bg-yellow-600"><i class="fa-solid fa-lightbulb mr-2"></i> 8. เกร็ดข้อมูล</div>
+                <div class="section-body text-sm space-y-2">
+                    <p><strong><i class="fa-solid fa-book-open"></i> Manga vs Anime :</strong> ในมังงะชินอิจิโดนวอดก้าตีด้วยไม้ แต่ในอนิเมะเป็นกระบองเหล็ก</p>
+                    <p><strong><i class="fa-solid fa-tree"></i> Location :</strong> Tropical Land ได้แรงบันดาลใจจาก Disneyland + Shima Spain Village</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- EPISODE 2 DETAIL PAGE -->
+    <!-- ========================================= -->
+    <div id="page-ep2" class="hidden flex-grow animate-fade-in pb-12">
+        <div class="bg-gray-800 text-white px-4 py-2 sticky top-[64px] z-40 shadow-md">
+            <button onclick="showPage('list')" class="max-w-7xl mx-auto flex items-center hover:text-conanRed w-full font-bold text-sm">
+                <i class="fa-solid fa-arrow-left mr-2"></i> กลับหน้ารวม
+            </button>
+        </div>
+
+        <div class="art-ep2 py-10 px-4 text-white text-center shadow-inner">
+            <div class="inline-block bg-conanBlue px-3 py-1 rounded-full text-xs font-bold mb-2 shadow">EPISODE JP : 2 / TH : 2</div>
+            <h1 class="text-3xl md:text-4xl font-bold mb-1">คดีลักพาตัวลูกสาวประธานบริษัท</h1>
+            <h2 class="text-lg font-light mb-1">Company President's Daughter Kidnapping Case</h2>
+            <h3 class="text-sm opacity-80 italic">社長令嬢誘拐事件 (Shachō Reijō Yūkai Jiken)</h3>
+        </div>
+
+        <main class="max-w-7xl mx-auto px-4 mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- 1. ข้อมูลทั่วไป -->
+            <div class="col-span-1">
+                <div class="section-header"><i class="fa-solid fa-circle-info mr-2"></i> 1. ข้อมูลทั่วไป</div>
+                <div class="section-body">
+                    <div class="info-row"><span class="label">วันที่ออกอากาศ :</span><span class="value">15 ม.ค. 1996</span></div>
+                    <div class="info-row"><span class="label">ซีซัน / ปี :</span><span class="value">Season 1 (1996)</span></div>
+                    <div class="info-row"><span class="label">ความยาว :</span><span class="value">24 นาที</span></div>
+                    <div class="info-row"><span class="label">Source Type :</span><span class="value bg-blue-100 text-blue-800 px-2 rounded text-xs">Manga-adapted</span></div>
+                    <div class="info-row"><span class="label">อ้างอิงมังงะ :</span><span class="value">Vol.1 File 2-5</span></div>
+                </div>
+            </div>
+
+             <!-- 2. โครงสร้างคดี -->
+             <div class="col-span-1">
+                <div class="section-header bg-conanRed"><i class="fa-solid fa-sitemap mr-2"></i> 2. โครงสร้างคดี</div>
+                <div class="section-body">
+                    <div class="info-row"><span class="label">ประเภทคดีหลัก :</span><span class="value text-red-600">ลักพาตัว (Kidnapping)</span></div>
+                    <div class="info-row"><span class="label">จำนวนคดี :</span><span class="value">1 (ซ้อนแผน)</span></div>
+                    <div class="info-row"><span class="label">ลักษณะคดี :</span><span class="value">วางแผนล่วงหน้า (ปลอม) -> ฉับพลัน (จริง)</span></div>
+                    <div class="info-row"><span class="label">แรงจูงใจ :</span><span class="value">เงิน (คนร้ายจริง) / เรียกร้องความสนใจ (ลูกสาว)</span></div>
+                    <div class="info-row"><span class="label">ระดับความซับซ้อน :</span><span class="value text-yellow-500"><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i> (ต่ำ)</span></div>
+                </div>
+            </div>
+
+            <!-- 3. สถานที่และเวลา -->
+            <div class="col-span-1">
+                <div class="section-header bg-green-700"><i class="fa-solid fa-location-dot mr-2"></i> 3. สถานที่และเวลา</div>
+                <div class="section-body">
+                    <div class="info-row"><span class="label">สถานที่หลัก :</span><span class="value">คฤหาสน์ทานิ & โรงแรม</span></div>
+                    <div class="info-row"><span class="label">สถานที่ย่อย :</span><span class="value">โกดังร้าง / โรงเรียน</span></div>
+                    <div class="info-row"><span class="label">ช่วงเวลา :</span><span class="value">กลางวัน -> กลางคืน</span></div>
+                    <div class="info-row"><span class="label">สภาพแวดล้อม :</span><span class="value">เมือง / ย่านโรงงาน</span></div>
+                </div>
+            </div>
+
+            <!-- 4. ตัวละครที่เกี่ยวข้อง -->
+            <div class="col-span-1 md:col-span-2 lg:col-span-3">
+                <div class="section-header bg-gray-700"><i class="fa-solid fa-users mr-2"></i> 4. ตัวละครที่เกี่ยวข้อง</div>
+                <div class="section-body grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-gray-50 p-3 rounded border text-center">
+                        <div class="text-xs font-bold text-gray-500 uppercase">เหยื่อ (Victim)</div>
+                        <i class="fa-solid fa-child-reaching text-2xl text-pink-400 my-2"></i>
+                        <div class="font-bold">อากิโกะ ทานิ</div>
+                        <div class="text-xs text-gray-500">ลูกสาวประธาน</div>
+                    </div>
+                    
+                    <!-- SPOILER CULPRIT EP2 -->
+                    <div class="bg-red-50 rounded border border-red-200 text-center relative overflow-hidden spoiler-container">
+                        <div id="spoiler-cover-ep2-culprit" class="spoiler-cover" onclick="toggleSpoiler('ep2-culprit')">
+                             <i class="fa-solid fa-user-secret text-3xl text-gray-400 mb-1"></i>
+                             <span class="font-bold text-gray-500 text-sm">คนร้าย (Culprit)</span>
+                             <span class="text-xs text-conanRed mt-1"><i class="fa-solid fa-eye mr-1"></i> กดเพื่อดูเฉลย</span>
+                        </div>
+                        <div id="spoiler-content-ep2-culprit" class="hidden spoiler-content p-3 h-full flex flex-col items-center justify-center">
+                             <button onclick="toggleSpoiler('ep2-culprit')" class="absolute top-1 right-2 text-gray-400 hover:text-gray-600 text-xs"><i class="fa-solid fa-eye-slash"></i> ซ่อน</button>
+                             <i class="fa-solid fa-user-large text-2xl text-conanRed my-2"></i>
+                             <div class="font-bold text-conanRed">ชายร่างยักษ์</div>
+                             <div class="text-xs text-gray-500">โจรเรียกค่าไถ่ (และพ่อบ้านอาโซ)</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-3 rounded border text-center">
+                         <div class="text-xs font-bold text-gray-500 uppercase">ผู้ว่าจ้าง</div>
+                         <i class="fa-solid fa-user-tie text-2xl text-blue-500 my-2"></i>
+                         <div class="font-bold">ประธานทานิ</div>
+                         <div class="text-xs text-gray-500">พ่อของเหยื่อ</div>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded border">
+                         <div class="text-xs font-bold text-gray-500 uppercase mb-1">ตัวละครหลัก & พิเศษ</div>
+                         <div class="flex flex-wrap gap-2 text-xs">
+                             <span class="px-2 py-1 rounded char-conan">เอโดงาวะ โคนัน (New)</span>
+                             <span class="px-2 py-1 rounded char-ran">โมริ รัน</span>
+                             <span class="px-2 py-1 rounded char-kogoro">โมริ โคโกโร่</span>
+                             <span class="px-2 py-1 rounded char-agasa">ดร.อากาสะ</span>
+                             <span class="px-2 py-1 rounded char-agasa"><i class="fa-solid fa-dog"></i> จัมโบ้ (สุนัข)</span>
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. หลักฐานและการไขคดี -->
+            <div class="col-span-1 md:col-span-2">
+                <div class="section-header bg-purple-700"><i class="fa-solid fa-magnifying-glass mr-2"></i> 5. หลักฐานและการไขคดี</div>
+                <div class="section-body space-y-3">
+                    <div class="flex gap-2">
+                        <div class="min-w-[140px] font-bold text-purple-800">เบาะแสสำคัญ :</div>
+                        <ul class="text-sm list-disc pl-4 text-gray-700">
+                            <li><strong>จัมโบ้ (สุนัข) :</strong> มีนิสัยเชื่องกับอากิโกะมาก (คนร้ายคิดว่าดุ)</li>
+                            <li><strong>เวลาที่หายไป :</strong> ไม่มีพยานเห็นคนแปลกหน้าเข้าออกในช่วงเวลาเกิดเหตุ (เพราะซ่อนในบ้าน)</li>
+                            <li><strong>วิวจากหน้าต่าง :</strong> อากิโกะโทรมาบอกว่าเห็น "โรงเรียน" และ "ปล่องไฟ" (ใช้ระบุพิกัดโกดัง)</li>
+                        </ul>
+                    </div>
+                    <div class="flex gap-2 items-start">
+                        <div class="min-w-[140px] font-bold text-purple-800 pt-1">กลอุบาย (Trick) :</div>
+                        
+                        <!-- SPOILER TRICK EP2 -->
+                         <div class="flex-grow spoiler-container min-h-[60px]">
+                            <div id="spoiler-cover-ep2-trick" class="spoiler-cover py-2" onclick="toggleSpoiler('ep2-trick')">
+                                <span class="text-sm font-bold text-gray-500"><i class="fa-solid fa-unlock-keyhole mr-1"></i> กดเพื่อดูทริค</span>
+                            </div>
+                            <div id="spoiler-content-ep2-trick" class="hidden spoiler-content bg-gray-50 p-3 rounded border text-sm text-gray-700 relative">
+                                 <button onclick="toggleSpoiler('ep2-trick')" class="absolute top-1 right-2 text-gray-400 hover:text-gray-600 text-xs"><i class="fa-solid fa-eye-slash"></i></button>
+                                 <p><strong>แผนซ้อนแผน :</strong> เดิมทีลูกสาวร่วมมือกับพ่อบ้านแกล้งถูกลักพาตัว (Fake) โดยซ่อนตัวในโรงแรมเพื่อเรียกร้องความสนใจ แต่ถูกคนร้ายตัวจริงบุกเข้ามาลักพาตัวไปจริงๆ (Real)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. ความเชื่อมโยง -->
+            <div class="col-span-1 md:col-span-2">
+                <div class="section-header bg-black"><i class="fa-solid fa-link mr-2"></i> 7. ความเชื่อมโยงเนื้อเรื่องหลัก</div>
+                <div class="section-body grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div class="border p-2 rounded">
+                        <strong class="text-red-600 block mb-1"><i class="fa-solid fa-user-secret"></i> องค์กรชุดดำ :</strong>
+                        <p>ไม่มีบทบาทในตอนนี้</p>
+                    </div>
+                    <div class="border p-2 rounded">
+                        <strong class="text-blue-600 block mb-1"><i class="fa-solid fa-arrow-up-right-dots"></i> พัฒนาการ :</strong>
+                        <p>ชินอิจิกลายเป็น <strong>"เอโดงาวะ โคนัน"</strong> (เอาชื่อมาจาก สันหนังสือ) และย้ายเข้าไปอยู่สำนักงานนักสืบโมริ</p>
+                    </div>
+                </div>
+            </div>
+             <!-- 8. เกร็ดข้อมูล -->
+             <div class="col-span-1">
+                <div class="section-header bg-yellow-600"><i class="fa-solid fa-lightbulb mr-2"></i> 8. เกร็ดข้อมูล</div>
+                <div class="section-body text-sm space-y-2">
+                    <p><strong><i class="fa-solid fa-star"></i> Gadgets :</strong> ตอนนี้โคนันยังไม่มีอุปกรณ์ไฮเทค (หูฟัง/นาฬิกา) ต้องใช้ไหวพริบล้วนๆ</p>
+                    <p><strong><i class="fa-solid fa-tag"></i> Name Origin :</strong> ชื่อ "เอโดงาวะ โคนัน" มาจาก "เอโดงาวะ รัมโป" และ "อาเธอร์ โคนัน ดอยล์"</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- EPISODE 3 DETAIL PAGE -->
+    <!-- ========================================= -->
+    <div id="page-ep3" class="hidden flex-grow animate-fade-in pb-12">
+        <div class="bg-gray-800 text-white px-4 py-2 sticky top-[64px] z-40 shadow-md">
+            <button onclick="showPage('list')" class="max-w-7xl mx-auto flex items-center hover:text-conanRed w-full font-bold text-sm">
+                <i class="fa-solid fa-arrow-left mr-2"></i> กลับหน้ารวม
+            </button>
+        </div>
+
+        <div class="art-ep3 py-10 px-4 text-white text-center shadow-inner">
+            <div class="inline-block bg-black/50 px-3 py-1 rounded-full text-xs font-bold mb-2 shadow">EPISODE JP : 3 / TH : 3</div>
+            <h1 class="text-3xl md:text-4xl font-bold mb-1">คดีฆาตกรรมในห้องปิดตายของยอดดารา</h1>
+            <h2 class="text-lg font-light mb-1">An Idol's Locked Room Murder Case</h2>
+            <h3 class="text-sm opacity-80 italic">アイドル密室殺人事件 (Aidoru Misshitsu Satsujin Jiken)</h3>
+        </div>
+
+        <main class="max-w-7xl mx-auto px-4 mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- 1. ข้อมูลทั่วไป -->
+            <div class="col-span-1">
+                <div class="section-header"><i class="fa-solid fa-circle-info mr-2"></i> 1. ข้อมูลทั่วไป</div>
+                <div class="section-body">
+                    <div class="info-row"><span class="label">วันที่ออกอากาศ :</span><span class="value">22 ม.ค. 1996</span></div>
+                    <div class="info-row"><span class="label">ซีซัน / ปี :</span><span class="value">Season 1 (1996)</span></div>
+                    <div class="info-row"><span class="label">ความยาว :</span><span class="value">24 นาที</span></div>
+                    <div class="info-row"><span class="label">Source Type :</span><span class="value bg-blue-100 text-blue-800 px-2 rounded text-xs">Manga-adapted</span></div>
+                    <div class="info-row"><span class="label">อ้างอิงมังงะ :</span><span class="value">Vol.1 File 6-9</span></div>
+                </div>
+            </div>
+
+            <!-- 2. โครงสร้างคดี -->
+            <div class="col-span-1">
+                <div class="section-header bg-conanRed"><i class="fa-solid fa-sitemap mr-2"></i> 2. โครงสร้างคดี</div>
+                <div class="section-body">
+                    <div class="info-row"><span class="label">ประเภทคดีหลัก :</span><span class="value text-red-600">ฆาตกรรม (Murder)</span></div>
+                    <div class="info-row"><span class="label">จำนวนคดี :</span><span class="value">1</span></div>
+                    <div class="info-row"><span class="label">ลักษณะคดี :</span><span class="value">ห้องปิดตาย (Locked Room)</span></div>
+                    <div class="info-row"><span class="label">แรงจูงใจ :</span><span class="value">ความเข้าใจผิด (ความรัก)</span></div>
+                    <div class="info-row"><span class="label">ระดับความซับซ้อน :</span><span class="value text-yellow-500"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i> (กลาง)</span></div>
+                </div>
+            </div>
+
+            <!-- 3. สถานที่และเวลา -->
+            <div class="col-span-1">
+                <div class="section-header bg-green-700"><i class="fa-solid fa-location-dot mr-2"></i> 3. สถานที่และเวลา</div>
+                <div class="section-body">
+                    <div class="info-row"><span class="label">สถานที่หลัก :</span><span class="value">แมนชั่นของโอกิโนะ โยโกะ</span></div>
+                    <div class="info-row"><span class="label">จุดเกิดเหตุ :</span><span class="value">ห้องนั่งเล่น</span></div>
+                    <div class="info-row"><span class="label">ช่วงเวลา :</span><span class="value">กลางวัน</span></div>
+                    <div class="info-row"><span class="label">สภาพแวดล้อม :</span><span class="value">ในห้องพักอาศัย</span></div>
+                </div>
+            </div>
+
+            <!-- 4. ตัวละครที่เกี่ยวข้อง -->
+            <div class="col-span-1 md:col-span-2 lg:col-span-3">
+                <div class="section-header bg-gray-700"><i class="fa-solid fa-users mr-2"></i> 4. ตัวละครที่เกี่ยวข้อง</div>
+                <div class="section-body grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-gray-50 p-3 rounded border text-center">
+                        <div class="text-xs font-bold text-gray-500 uppercase">เหยื่อ (Victim)</div>
+                        <i class="fa-solid fa-user-xmark text-2xl text-gray-400 my-2"></i>
+                        <div class="font-bold">ฟูจิเอะ อากิโยชิ</div>
+                        <div class="text-xs text-gray-500">แฟนเก่าโยโกะ</div>
+                    </div>
+                    
+                    <!-- SPOILER CULPRIT EP3 -->
+                    <div class="bg-red-50 rounded border border-red-200 text-center relative overflow-hidden spoiler-container">
+                        <div id="spoiler-cover-ep3-culprit" class="spoiler-cover" onclick="toggleSpoiler('ep3-culprit')">
+                             <i class="fa-solid fa-user-secret text-3xl text-gray-400 mb-1"></i>
+                             <span class="font-bold text-gray-500 text-sm">คนร้าย (Culprit)</span>
+                             <span class="text-xs text-conanRed mt-1"><i class="fa-solid fa-eye mr-1"></i> กดเพื่อดูเฉลย</span>
+                        </div>
+                        <div id="spoiler-content-ep3-culprit" class="hidden spoiler-content p-3 h-full flex flex-col items-center justify-center">
+                             <button onclick="toggleSpoiler('ep3-culprit')" class="absolute top-1 right-2 text-gray-400 hover:text-gray-600 text-xs"><i class="fa-solid fa-eye-slash"></i> ซ่อน</button>
+                             <i class="fa-solid fa-user-xmark text-2xl text-conanRed my-2"></i>
+                             <div class="font-bold text-conanRed">ฟูจิเอะ อากิโยชิ</div>
+                             <div class="text-xs text-gray-500">ฆ่าตัวตายเพื่อใส่ร้าย (Suicide)</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-3 rounded border text-center">
+                         <div class="text-xs font-bold text-gray-500 uppercase">ผู้ต้องสงสัย</div>
+                         <div class="flex flex-wrap justify-center gap-2 mt-2">
+                             <span class="text-xs bg-gray-200 rounded px-1">โอกิโนะ โยโกะ</span>
+                             <span class="text-xs bg-gray-200 rounded px-1">ยามากิชิ เออิจิ (ผู้จัดการ)</span>
+                             <span class="text-xs bg-gray-200 rounded px-1">อิเคซาวะ ยูโกะ (คู่แข่ง)</span>
+                         </div>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded border">
+                         <div class="text-xs font-bold text-gray-500 uppercase mb-1">ตัวละครหลัก & พิเศษ</div>
+                         <div class="flex flex-wrap gap-2 text-xs">
+                             <span class="px-2 py-1 rounded char-conan">โคนัน</span>
+                             <span class="px-2 py-1 rounded char-ran">รัน</span>
+                             <span class="px-2 py-1 rounded char-kogoro">โคโกโร่</span>
+                             <span class="px-2 py-1 rounded char-police">สารวัตรเมงูระ</span>
+                             <span class="px-2 py-1 rounded char-yoko">โอกิโนะ โยโกะ (New)</span>
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. หลักฐานและการไขคดี -->
+            <div class="col-span-1 md:col-span-2">
+                <div class="section-header bg-purple-700"><i class="fa-solid fa-magnifying-glass mr-2"></i> 5. หลักฐานและการไขคดี</div>
+                <div class="section-body space-y-3">
+                    <div class="flex gap-2">
+                        <div class="min-w-[140px] font-bold text-purple-800">เบาะแสสำคัญ :</div>
+                        <ul class="text-sm list-disc pl-4 text-gray-700">
+                            <li><strong>ก้อนน้ำแข็ง :</strong> รอยเปียกบนพื้นห้อง (เกิดจากน้ำแข็งละลาย)</li>
+                            <li><strong>อุณหภูมิห้อง :</strong> แอร์ถูกเปิดแรงสุดเพื่อเร่งให้น้ำแข็งละลาย</li>
+                            <li><strong>เส้นผม :</strong> ผมที่พบไม่ใช่ของโยโกะ แต่เป็นของยูโกะ (ที่มีลักษณะคล้ายกัน)</li>
+                        </ul>
+                    </div>
+                    <div class="flex gap-2 items-start">
+                        <div class="min-w-[140px] font-bold text-purple-800 pt-1">กลอุบาย (Trick) :</div>
+                        
+                        <!-- SPOILER TRICK EP3 -->
+                         <div class="flex-grow spoiler-container min-h-[60px]">
+                            <div id="spoiler-cover-ep3-trick" class="spoiler-cover py-2" onclick="toggleSpoiler('ep3-trick')">
+                                <span class="text-sm font-bold text-gray-500"><i class="fa-solid fa-unlock-keyhole mr-1"></i> กดเพื่อดูทริค</span>
+                            </div>
+                            <div id="spoiler-content-ep3-trick" class="hidden spoiler-content bg-gray-50 p-3 rounded border text-sm text-gray-700 relative">
+                                 <button onclick="toggleSpoiler('ep3-trick')" class="absolute top-1 right-2 text-gray-400 hover:text-gray-600 text-xs"><i class="fa-solid fa-eye-slash"></i></button>
+                                 <p><strong>น้ำแข็งสังหาร :</strong> ผู้ตายนำก้อนน้ำแข็งมาวาง เอาด้ามมีดฝังในหลุมที่ขุดบนพื้น แล้วตั้งมีดในน้ำแข็ง จากนั้นกระโดดทิ้งตัวลงมาเสียบมีดเอง เพื่อสร้างสถานการณ์ว่าเป็นคดีฆาตกรรม</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <div class="min-w-[140px] font-bold text-blue-600">วิธีไขคดี :</div>
+                        <div class="text-sm text-gray-700">ใช้หูกระต่ายเปลี่ยนเสียงเลียนเสียงโมริ โคโกโร่ (หลังจากเตะที่เขี่ยบุหรี่ใส่จนสลบ)</div>
+                    </div>
+                     <div class="flex gap-2">
+                        <div class="min-w-[140px] font-bold text-gray-600">หน้าฉาก :</div>
+                        <div class="text-sm text-gray-700">โมริ โคโกโร่ (นิทราครั้งแรก? - ยังไม่เชิงนิทรา แค่สลบแล้วโคนันแอบพูด)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. บทสรุปคดี -->
+            <div class="col-span-1">
+                <div class="section-header bg-orange-700"><i class="fa-solid fa-gavel mr-2"></i> 6. บทสรุปคดี</div>
+                <div class="section-body text-sm space-y-2">
+                    <div class="info-row"><span class="label">วิธีเปิดโปง :</span><span class="value text-xs">โคนัน (เสียงโคโกโร่) อธิบายทริคน้ำแข็ง</span></div>
+                    <div class="info-row"><span class="label">ผลลัพธ์ :</span><span class="value text-red-600">ปรับความเข้าใจ</span></div>
+                    <div class="info-row"><span class="label">บทสรุป :</span><span class="value">เป็นการฆ่าตัวตายเพราะเข้าใจผิดว่าถูกทิ้ง</span></div>
+                    <div class="mt-2 pt-2 border-t text-gray-600 italic text-xs">
+                        "ไดอารี่ที่พบเฉลยความจริงอันน่าเศร้าของความรัก"
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. ความเชื่อมโยง -->
+            <div class="col-span-1 md:col-span-2">
+                <div class="section-header bg-black"><i class="fa-solid fa-link mr-2"></i> 7. ความเชื่อมโยงเนื้อเรื่องหลัก</div>
+                <div class="section-body grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div class="border p-2 rounded">
+                        <strong class="text-red-600 block mb-1"><i class="fa-solid fa-user-secret"></i> องค์กรชุดดำ :</strong>
+                        <p>ไม่มีบทบาทในตอนนี้</p>
+                    </div>
+                    <div class="border p-2 rounded">
+                        <strong class="text-blue-600 block mb-1"><i class="fa-solid fa-microchip"></i> พัฒนาการ :</strong>
+                        <p>ดร.อากาสะ มอบ <strong>"หูกระต่ายเปลี่ยนเสียง"</strong> ให้โคนันเป็นครั้งแรก และโคนันใช้มันไขคดีในนามโคโกโร่เป็นครั้งแรก (ต้นกำเนิดโคโกโร่นิทรา)</p>
+                    </div>
+                </div>
+            </div>
+
+             <!-- 8. เกร็ดข้อมูล -->
+             <div class="col-span-1">
+                <div class="section-header bg-yellow-600"><i class="fa-solid fa-lightbulb mr-2"></i> 8. เกร็ดข้อมูล</div>
+                <div class="section-body text-sm space-y-2">
+                    <p><strong><i class="fa-solid fa-star"></i> Debut :</strong> เป็นตอนแรกที่ <strong>โอกิโนะ โยโกะ</strong> ปรากฏตัว และเธอกลายเป็นตัวละครสมทบที่มีบทบาทเรื่อยๆ (โดยเฉพาะเป็นขวัญใจของโคโกโร่)</p>
+                    <p><strong><i class="fa-solid fa-note-sticky"></i> Note :</strong> ในตอนนี้โคนันยังไม่มีนาฬิกายิงยาสลบ เขาใช้วิธีเตะที่เขี่ยบุหรี่ใส่หัวโคโกโร่เพื่อให้สลบแทน</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-conanBlue text-white py-8 mt-auto border-t-4 border-conanRed">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <div class="flex justify-center items-center gap-2 mb-4">
+                <div class="w-8 h-4 bg-conanRed" style="clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);"></div>
+                <span class="font-bold tracking-widest">EDOGAWA CONAN</span>
+            </div>
+            <p class="text-sm opacity-70">Unofficial Fan Page for Educational Purpose</p>
+            <p class="text-xs opacity-50 mt-2">Data Sources : ConanTH , Detective Conan World , Fandom</p>
+            <p class="text-xs font-bold text-yellow-300 mt-4 tracking-widest">BY : 20nxskypqz</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            document.getElementById('page-list').classList.add('hidden');
+            document.getElementById('page-ep1').classList.add('hidden');
+            document.getElementById('page-ep2').classList.add('hidden');
+            document.getElementById('page-ep3').classList.add('hidden');
+            
+            // Show selected page
+            const selectedPage = document.getElementById('page-' + pageId);
+            if(selectedPage) selectedPage.classList.remove('hidden');
+            
+            // Reset scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function toggleSpoiler(id) {
+            const cover = document.getElementById('spoiler-cover-' + id);
+            const content = document.getElementById('spoiler-content-' + id);
+            
+            if (cover && content) {
+                if (cover.classList.contains('hidden')) {
+                    // Reveal Cover, Hide Content
+                    cover.classList.remove('hidden');
+                    content.classList.add('hidden');
+                } else {
+                    // Hide Cover, Reveal Content
+                    cover.classList.add('hidden');
+                    content.classList.remove('hidden');
+                }
+            }
+        }
+    </script>
 </body>
 </html>
