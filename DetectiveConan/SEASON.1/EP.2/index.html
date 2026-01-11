@@ -45,8 +45,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
             border: 1px solid #e5e7eb; border-top: none; 
         }
-        
-        /* Info Row */
         .info-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed #eee; font-size: 0.95rem; }
         .info-row:last-child { border-bottom: none; }
         .label { color: #6b7280; font-weight: 500; }
@@ -75,7 +73,7 @@
 
     <!-- Sticky Back Button -->
     <div class="bg-gray-800 text-white px-4 py-3 sticky top-0 z-50 shadow-md">
-        <a href="../index.html" class="max-w-7xl mx-auto flex items-center hover:text-conanRed w-full font-bold text-sm">
+        <a href="../" class="max-w-7xl mx-auto flex items-center hover:text-conanRed w-full font-bold text-sm">
             <i class="fa-solid fa-arrow-left mr-2"></i> กลับหน้ารวม (Back to Menu)
         </a>
     </div>
@@ -318,11 +316,9 @@
             
             if (cover && content) {
                 if (cover.classList.contains('hidden')) {
-                    // Reveal Cover, Hide Content
                     cover.classList.remove('hidden');
                     content.classList.add('hidden');
                 } else {
-                    // Hide Cover, Reveal Content
                     cover.classList.add('hidden');
                     content.classList.remove('hidden');
                 }
