@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EP.5 - The Shinkansen's Bomb Case</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Niramit -->
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Niramit', 'sans-serif'] },
+                    colors: {
+                        conanBlue: '#0047AB',
+                        conanRed: '#E60012',
+                        conanBrick: '#B22222',
+                    },
+                    animation: { 'fade-in': 'fadeIn 0.5s ease-out' },
+                    keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f0f0f0; }
+        /* EP.5 Theme: Danger Red/Orange */
+        .art-ep5 { background: linear-gradient(135deg, #ef4444, #f97316); position: relative; overflow: hidden; }
+        
+        /* Layout Components */
+        .section-header { 
+            display: flex; align-items: center; 
+            background-color: #0047AB; color: white; 
+            padding: 10px 16px; border-radius: 8px 8px 0 0; 
+            font-weight: bold; font-size: 1.1em; 
+            border-bottom: 2px solid #E60012;
+        }
+        .section-body { 
+            background-color: white; padding: 16px; 
+            border-radius: 0 0 8px 8px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+            border: 1px solid #e5e7eb; border-top: none; 
+        }
+        
+        /* Info Row */
+        .info-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed #eee; font-size: 0.95rem; }
+        .info-row:last-child { border-bottom: none; }
+        .label { color: #6b7280; font-weight: 500; }
+        .value { font-weight: 600; color: #1f2937; text-align: right; max-width: 65%; }
+        
+        /* Spoiler UI */
+        .spoiler-container { position: relative; overflow: hidden; border-radius: 0.5rem; transition: all 0.3s ease; }
+        .spoiler-cover { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; background-color: #f3f4f6; cursor: pointer; padding: 1rem; transition: all 0.2s ease; }
+        .spoiler-cover:hover { background-color: #e5e7eb; }
+        .hidden { display: none !important; }
+
+        /* Character Badge System */
+        .char-badge { padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; display: inline-block; margin: 2px; white-space: nowrap; }
+        
+        /* Main Characters */
+        .char-conan { background-color: #2563eb; color: white; }      /* Blue 600 */
+        .char-ran { background-color: #ec4899; color: white; }        /* Pink 500 */
+        .char-kogoro { background-color: #4b5563; color: white; }     /* Gray 600 */
+        .char-detectiveboys { background-color: #facc15; color: #713f12; } /* Yellow 400 */
+        .char-blackorg { background-color: #000000; color: white; border: 1px solid #374151; }
+        
+        /* Episode Specific Guests */
+        .char-culprit { background-color: #dc2626; color: white; } /* Red */
+        .char-guest { background-color: #e5e7eb; color: #374151; } /* Gray */
+    </style>
+</head>
+<body class="text-gray-800 bg-gray-100 font-sans min-h-screen flex flex-col animate-fade-in">
+
+    <!-- Sticky Back Button -->
+    <div class="bg-gray-800 text-white px-4 py-3 sticky top-0 z-50 shadow-md">
+        <a href="../" class="max-w-7xl mx-auto flex items-center hover:text-conanRed w-full font-bold text-sm">
+            <i class="fa-solid fa-arrow-left mr-2"></i> กลับหน้ารวม (Back to Menu)
+        </a>
+    </div>
+
+    <!-- Banner -->
+    <div class="art-ep5 py-12 px-4 text-white text-center shadow-inner">
+        <div class="inline-block bg-black/20 px-3 py-1 rounded-full text-xs font-bold mb-2 shadow backdrop-blur-sm">EPISODE JP : 5 / TH : 5</div>
+        <h1 class="text-3xl md:text-4xl font-bold mb-1 drop-shadow-md">คดีรถไฟชินคันเซ็นมรณะ</h1>
+        <h2 class="text-lg font-light mb-1 drop-shadow-sm">The Shinkansen's Bomb Case</h2>
+        <h3 class="text-sm opacity-90 italic">新幹線大爆破事件 (Shinkansen Dai Bakuha Jiken)</h3>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 mt-6 pb-12 space-y-6">
+
+        <!-- 1️⃣ ข้อมูลทั่วไป -->
+        <section>
+            <div class="section-header"><i class="fa-solid fa-circle-info mr-2"></i> 1. ข้อมูลทั่วไปของตอน</div>
+            <div class="section-body grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
+                <div class="info-row"><span class="label">Episode No. (JP / TH) :</span><span class="value">5 / 5</span></div>
+                <div class="info-row"><span class="label">ชื่อเรื่อง (JP) :</span><span class="value">新幹線大爆破事件</span></div>
+                <div class="info-row"><span class="label">วันที่ออกอากาศ :</span><span class="value">5 ก.พ. 1996</span></div>
+                <div class="info-row"><span class="label">ซีซัน / ช่วงปี :</span><span class="value">Season 1 (1996)</span></div>
+                <div class="info-row"><span class="label">ความยาวตอน :</span><span class="value">24 นาที</span></div>
+                <div class="info-row"><span class="label">Source Type :</span><span class="value bg-blue-100 text-blue-800 px-2 rounded text-xs">Manga-adapted</span></div>
+                <div class="info-row"><span class="label">อ้างอิงมังงะ :</span><span class="value">Vol.4 File 4-6</span></div>
+            </div>
+        </section>
+
+        <!-- 2️⃣ โครงสร้างคดี -->
+        <section>
+            <div class="section-header bg-conanRed"><i class="fa-solid fa-sitemap mr-2"></i> 2. โครงสร้างคดี</div>
+            <div class="section-body">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8">
+                    <div class="info-row"><span class="label">ประเภทคดีหลัก :</span><span class="value text-red-600">ขู่วางระเบิด (Bomb Threat)</span></div>
+                    <div class="info-row"><span class="label">จำนวนคดีในตอน :</span><span class="value">1 คดี</span></div>
+                    <div class="info-row"><span class="label">ลักษณะคดี :</span><span class="value">คดีฉับพลัน / จำกัดเวลา (Time Limit)</span></div>
+                    <div class="info-row"><span class="label">แรงจูงใจหลัก :</span><span class="value">เงิน (ซื้อขายข้อมูล)</span></div>
+                    <div class="info-row"><span class="label">ระดับความซับซ้อน :</span><span class="value text-yellow-500"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> (กลาง)</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3️⃣ สถานที่และเวลา -->
+        <section>
+            <div class="section-header bg-green-700"><i class="fa-solid fa-location-dot mr-2"></i> 3. สถานที่และเวลา</div>
+            <div class="section-body">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <ul class="text-sm list-disc pl-4 space-y-1 text-gray-700">
+                            <li><strong>สถานที่หลัก :</strong> รถไฟชินคันเซ็น (สายโทไกโด)</li>
+                            <li><strong>จุดเกิดเหตุ :</strong> ตู้โดยสาร / ตู้เสบียง</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul class="text-sm list-disc pl-4 space-y-1 text-gray-700">
+                            <li><strong>ช่วงเวลาเกิดเหตุ :</strong> กลางวัน</li>
+                            <li><strong>สภาพแวดล้อม :</strong> บนรถไฟความเร็วสูง (สถานการณ์ปิดตาย)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4️⃣ ตัวละครที่เกี่ยวข้อง -->
+        <section>
+            <div class="section-header bg-gray-700"><i class="fa-solid fa-users mr-2"></i> 4. ตัวละครที่เกี่ยวข้อง</div>
+            <div class="section-body">
+                <div class="mb-4">
+                    <h4 class="text-sm font-bold text-gray-500 uppercase mb-2">ตัวละครหลัก</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="char-badge char-conan">เอโดงาวะ โคนัน</span>
+                        <span class="char-badge char-ran">โมริ รัน</span>
+                        <span class="char-badge char-kogoro">โมริ โคโกโร่</span>
+                        <span class="char-badge char-detectiveboys">แก๊งนักสืบเยาวชน</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Suspects -->
+                    <div class="bg-gray-50 p-3 rounded border">
+                        <div class="text-sm font-bold text-blue-600 mb-2">กลุ่มผู้ต้องสงสัย (ชายชุดดำ?)</div>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between"><span>ผู้ต้องสงสัย 1 :</span> <span class="char-badge char-blackorg">ชายหน้าเหมือน "ยิน"</span></div>
+                            <div class="flex justify-between"><span>ผู้ต้องสงสัย 2 :</span> <span class="char-badge char-blackorg">ชายหน้าเหมือน "วอดก้า"</span></div>
+                            <div class="flex justify-between"><span>เหยื่อ (คนถือระเบิด) :</span> <span class="char-badge char-guest">หญิงสาวนักธุรกิจ</span></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Spoiler Culprit -->
+                    <div class="bg-red-50 p-3 rounded border border-red-100">
+                        <div class="text-sm font-bold text-red-600 mb-2">ผู้กระทำผิด (Culprit)</div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-700">คนร้าย :</span>
+                            <!-- Spoiler Toggle -->
+                            <span class="char-badge bg-red-100 text-red-800 border border-red-300 cursor-pointer" onclick="toggleSpoiler('culprit')">
+                                <i class="fa-solid fa-eye mr-1"></i> กดดูเฉลย
+                            </span>
+                        </div>
+                        <div id="spoiler-culprit" class="hidden animate-fade-in text-center p-2 bg-white rounded border border-red-200">
+                            <span class="char-badge bg-black text-white">ชายชุดดำตัวปลอม</span>
+                            <p class="text-xs text-gray-500 mt-1">ตั้งใจระเบิดเพื่อฆ่าปิดปากหลังได้รับเงิน</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5️⃣ หลักฐานและการไขคดี -->
+        <section>
+            <div class="section-header bg-purple-700"><i class="fa-solid fa-magnifying-glass mr-2"></i> 5. หลักฐานและการไขคดี</div>
+            <div class="section-body space-y-6">
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <h5 class="font-bold text-conanBlue text-sm mb-2">เบาะแสสำคัญ (Key Clues)</h5>
+                        <ul class="text-sm list-disc pl-4 text-gray-700 space-y-2">
+                            <li><strong>การดักฟัง :</strong> โคนันติดเครื่องดักฟังไว้ที่ที่นั่งของชายชุดดำ และได้ยินแผนการวางระเบิด</li>
+                            <li><strong>คำใบ้ที่อยู่ระเบิด :</strong> ระเบิดอยู่ในกระเป๋าเอกสารสีดำ ของคนที่ "มองเห็นภูเขาไฟฟูจิ" และ "ไปที่ตู้เสบียง"</li>
+                            <li><strong>กลไกการระเบิด :</strong> ระเบิดเวลา (Time Bomb) ที่ตั้งไว้เวลา 15:10 น.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5 class="font-bold text-red-600 text-sm mb-2">กลอุบาย (Trick)</h5>
+                        <div class="spoiler-container bg-gray-100 rounded border border-gray-300">
+                            <div id="spoiler-cover-trick" class="spoiler-cover py-4" onclick="toggleSpoiler('trick')">
+                                <span class="text-sm font-bold text-gray-500"><i class="fa-solid fa-unlock-keyhole mr-1"></i> กดเพื่อดูความจริง</span>
+                            </div>
+                            <div id="spoiler-content-trick" class="hidden bg-white p-4 text-sm text-gray-700 relative">
+                                <button onclick="toggleSpoiler('trick')" class="absolute top-1 right-2 text-gray-400 hover:text-gray-600"><i class="fa-solid fa-eye-slash"></i></button>
+                                <p class="mb-2"><strong>การส่งมอบระเบิด :</strong></p>
+                                <p>คนร้ายทำทีเป็นแลกเปลี่ยนกระเป๋ากับเหยื่อ โดยบอกว่าเป็นกระเป๋าใส่เงินค่าข้อมูล แต่จริงๆ แล้วซ่อนระเบิดไว้ และตั้งเวลาให้ระเบิดทำงานเพื่อฆ่าปิดปากเหยื่อหลังจากตนลงรถไฟไปแล้ว</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm border-t pt-3">
+                    <div>
+                        <strong>วิธีไขคดีของโคนัน :</strong> ใช้คำใบ้จากการดักฟังเพื่อตามหาตัวคนถือกระเป๋าระเบิด และหยุดยั้งการระเบิดให้ทันเวลา
+                    </div>
+                    <div>
+                        <strong>ใครถูกใช้เป็น "หน้าฉาก" :</strong> ไม่มี (โคนันจัดการเองทั้งหมด)
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6️⃣ บทสรุปคดี -->
+        <section>
+            <div class="section-header bg-orange-700"><i class="fa-solid fa-gavel mr-2"></i> 6. บทสรุปคดี</div>
+            <div class="section-body">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-700">
+                    <div>
+                        <strong>วิธีหยุดระเบิด :</strong>
+                        <p class="mt-1">โคนันหาตัวคนถือกระเป๋าเจอ แต่เธอไม่เชื่อ โคนันจึงเตะกระเป๋าออกนอกรถไฟในวินาทีสุดท้ายก่อนระเบิดทำงาน</p>
+                    </div>
+                    <div>
+                        <ul class="space-y-1">
+                            <li class="flex justify-between"><span>ผลลัพธ์ :</span> <span class="text-red-600 font-bold">ระเบิดทำงาน (นอกรถไฟ)</span></li>
+                            <li class="flex justify-between"><span>บทลงโทษ :</span> <span>คนร้ายถูกจับกุมโดยตำรวจสถานีถัดไป</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-4 pt-3 border-t text-sm text-gray-600 italic text-center">
+                    "ฉากจบ : โคนันโล่งอกที่ช่วยทุกคนได้ แต่เสียดายที่ชายชุดดำสองคนนั้นไม่ใช่ ยิน กับ วอดก้า ตัวจริง"
+                </div>
+            </div>
+        </section>
+
+        <!-- 7️⃣ ความเชื่อมโยงกับเนื้อเรื่องหลัก -->
+        <section>
+            <div class="section-header bg-black"><i class="fa-solid fa-link mr-2"></i> 7. ความเชื่อมโยงกับเนื้อเรื่องหลัก</div>
+            <div class="section-body grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div class="border p-3 rounded bg-gray-50">
+                    <strong class="text-red-600 block mb-2"><i class="fa-solid fa-user-secret mr-1"></i> เกี่ยวข้ององค์กรชุดดำ (มี/แต่ปลอม)</strong>
+                    <p class="text-gray-500">ในอนิเมะ ชายสองคนนี้เป็นเพียง "คนหน้าเหมือน" ไม่ใช่ตัวจริง (ทำให้โคนันยังไม่ได้ข้อมูลองค์กรเพิ่ม)</p>
+                </div>
+                <div class="border p-3 rounded bg-gray-50">
+                    <strong class="text-blue-600 block mb-2"><i class="fa-solid fa-microchip mr-1"></i> อุปกรณ์ใหม่ (Gadget Debut)</strong>
+                    <ul class="list-disc pl-4 space-y-1 text-gray-700">
+                        <li><strong>รองเท้าเพิ่มพลังเตะ (Power-Enhancing Kick Shoes) :</strong> ถูกใช้งานครั้งแรกเพื่อเตะกระเป๋าระเบิด</li>
+                        <li><strong>แว่นตาติดตาม (Criminal Tracking Glasses) :</strong> ใช้ดักฟังเสียง (มีฟังก์ชันเครื่องดักฟังติดอยู่)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8️⃣ เกร็ด & ข้อมูลเสริม -->
+        <section>
+            <div class="section-header bg-yellow-600"><i class="fa-solid fa-lightbulb mr-2"></i> 8. เกร็ด & ข้อมูลเสริม</div>
+            <div class="section-body text-sm space-y-3">
+                <div class="flex items-start gap-2">
+                    <i class="fa-solid fa-circle-exclamation text-red-500 mt-1"></i>
+                    <div>
+                        <strong>Major Plot Hole (Anime vs Manga) :</strong> 
+                        <span class="text-gray-700">ในมังงะ ชายชุดดำคือ <strong>ยินและวอดก้าตัวจริง</strong> และโคนันได้รู้โค้ดเนมของพวกเขาในตอนนี้ แต่ในอนิเมะทีมงานเปลี่ยนเป็น "คนหน้าเหมือน" ทำให้ในอนาคตต้องมีการแก้ไขบทเพื่อให้โคนันรู้ชื่อของยินและวอดก้าอีกครั้ง (ในตอนคดีฆาตกรรมบริษัทเกม)</span>
+                    </div>
+                </div>
+                <div class="flex items-start gap-2">
+                    <i class="fa-solid fa-train text-blue-500 mt-1"></i>
+                    <div>
+                        <strong>Real Location :</strong> 
+                        <span class="text-gray-700">เหตุการณ์เกิดขึ้นบนรถไฟ <strong>Tokaido Shinkansen Series 100</strong> ซึ่งเป็นรุ่นที่นิยมมากในยุคนั้น (สังเกตจากตู้เสบียงสองชั้น)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-conanBlue text-white py-10 mt-auto border-t-4 border-conanRed">
+        <div class="max-w-4xl mx-auto px-4 text-center space-y-6">
+            <!-- Conan Intro Quote -->
+            <div class="text-sm md:text-base font-light italic opacity-90 space-y-2 leading-relaxed">
+                <p><i class="fa-solid fa-quote-left text-conanRed mr-2"></i>ผมชื่อเอโดงาวะ โคนัน ตัวจริงก็คือคุโด้ ชินอิจิ ที่โดนยาพิษจนกลายเป็นเด็ก ถึงจะตัวเล็กแต่สมองยังคงเป็นของยอดนักสืบคนเดิม</p>
+                <p>กาลเวลายิ่งผ่านไป คดีปริศนาที่ท้าทายก็ยิ่งเพิ่มขึ้นทุกที<i class="fa-solid fa-quote-right text-conanRed ml-2"></i></p>
+            </div>
+            
+            <div class="w-16 h-1 bg-white/20 mx-auto rounded"></div>
+
+            <!-- Credits -->
+            <p class="text-xs font-bold text-yellow-300 tracking-widest">BY : 20nxskypqz</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        function toggleSpoiler(id) {
+            const cover = document.getElementById('spoiler-cover-' + id);
+            const content = document.getElementById('spoiler-content-' + id);
+            
+            if (cover && content) {
+                if (cover.classList.contains('hidden')) {
+                    cover.classList.remove('hidden');
+                    content.classList.add('hidden');
+                } else {
+                    cover.classList.add('hidden');
+                    content.classList.remove('hidden');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
