@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EP.2 - Company President's Daughter Kidnapping Case</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Niramit -->
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Niramit', 'sans-serif'] },
+                    colors: {
+                        conanBlue: '#0047AB',
+                        conanRed: '#E60012',
+                        conanBrick: '#B22222',
+                    },
+                    animation: { 'fade-in': 'fadeIn 0.5s ease-out' },
+                    keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f0f0f0; }
+        .art-ep2 { background: linear-gradient(45deg, #E60012, #8B0000); position: relative; overflow: hidden; }
+        
+        /* Layout Components */
+        .section-header { 
+            display: flex; align-items: center; 
+            background-color: #0047AB; color: white; 
+            padding: 10px 16px; border-radius: 8px 8px 0 0; 
+            font-weight: bold; font-size: 1.1em; 
+            border-bottom: 2px solid #E60012;
+        }
+        .section-body { 
+            background-color: white; padding: 16px; 
+            border-radius: 0 0 8px 8px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+            border: 1px solid #e5e7eb; border-top: none; 
+        }
+        
+        /* Info Row */
+        .info-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed #eee; font-size: 0.95rem; }
+        .info-row:last-child { border-bottom: none; }
+        .label { color: #6b7280; font-weight: 500; }
+        .value { font-weight: 600; color: #1f2937; text-align: right; max-width: 65%; }
+        
+        /* Spoiler UI */
+        .spoiler-container { position: relative; overflow: hidden; border-radius: 0.5rem; transition: all 0.3s ease; }
+        .spoiler-cover { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; background-color: #f3f4f6; cursor: pointer; padding: 1rem; }
+        .hidden { display: none !important; }
+
+        /* Character Badge System */
+        .char-badge { padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; display: inline-block; margin: 2px; white-space: nowrap; }
+        
+        /* Main Characters */
+        .char-conan { background-color: #2563eb; color: white; }      /* Blue 600 */
+        .char-ran { background-color: #ec4899; color: white; }        /* Pink 500 */
+        .char-kogoro { background-color: #4b5563; color: white; }     /* Gray 600 */
+        .char-agasa { background-color: #fef08a; color: #854d0e; }    /* Yellow 200 */
+        
+        /* Episode Specific Guests (Gray) */
+        .char-guest { background-color: #e5e7eb; color: #374151; }
+        .char-animal { background-color: #dcfce7; color: #166534; }   /* Green 100 */
+    </style>
+</head>
+<body class="text-gray-800 bg-gray-100 font-sans min-h-screen flex flex-col animate-fade-in">
+
+    <!-- Sticky Back Button -->
+    <div class="bg-gray-800 text-white px-4 py-3 sticky top-0 z-50 shadow-md">
+        <a href="../index.html" class="max-w-7xl mx-auto flex items-center hover:text-conanRed w-full font-bold text-sm">
+            <i class="fa-solid fa-arrow-left mr-2"></i> กลับหน้ารวม (Back to Menu)
+        </a>
+    </div>
+
+    <!-- Banner -->
+    <div class="art-ep2 py-12 px-4 text-white text-center shadow-inner">
+        <div class="inline-block bg-conanBlue px-3 py-1 rounded-full text-xs font-bold mb-2 shadow">EPISODE JP : 2 / TH : 2</div>
+        <h1 class="text-3xl md:text-4xl font-bold mb-1">คดีลักพาตัวลูกสาวประธานบริษัท</h1>
+        <h2 class="text-lg font-light mb-1">Company President's Daughter Kidnapping Case</h2>
+        <h3 class="text-sm opacity-80 italic">社長令嬢誘拐事件 (Shachō Reijō Yūkai Jiken)</h3>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 mt-6 pb-12 space-y-6">
+
+        <!-- 1️⃣ ข้อมูลทั่วไป -->
+        <section>
+            <div class="section-header"><i class="fa-solid fa-circle-info mr-2"></i> 1. ข้อมูลทั่วไปของตอน</div>
+            <div class="section-body grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
+                <div class="info-row"><span class="label">Episode No. (JP / TH) :</span><span class="value">2 / 2</span></div>
+                <div class="info-row"><span class="label">ชื่อเรื่อง (JP) :</span><span class="value">社長令嬢誘拐事件</span></div>
+                <div class="info-row"><span class="label">วันที่ออกอากาศ :</span><span class="value">15 ม.ค. 1996</span></div>
+                <div class="info-row"><span class="label">ซีซัน / ช่วงปี :</span><span class="value">Season 1 (1996)</span></div>
+                <div class="info-row"><span class="label">ความยาวตอน :</span><span class="value">24 นาที</span></div>
+                <div class="info-row"><span class="label">Source Type :</span><span class="value bg-blue-100 text-blue-800 px-2 rounded text-xs">Manga-adapted</span></div>
+                <div class="info-row"><span class="label">อ้างอิงมังงะ :</span><span class="value">Vol.1 File 2-5</span></div>
+            </div>
+        </section>
+
+        <!-- 2️⃣ โครงสร้างคดี -->
+        <section>
+            <div class="section-header bg-conanRed"><i class="fa-solid fa-sitemap mr-2"></i> 2. โครงสร้างคดี</div>
+            <div class="section-body">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8">
+                    <div class="info-row"><span class="label">ประเภทคดีหลัก :</span><span class="value text-red-600">ลักพาตัว (Kidnapping)</span></div>
+                    <div class="info-row"><span class="label">จำนวนคดีในตอน :</span><span class="value">1 คดี (แต่มี 2 ชั้นเชิง)</span></div>
+                    <div class="info-row"><span class="label">ลักษณะคดี :</span><span class="value">แผนซ้อนแผน (Fake -> Real)</span></div>
+                    <div class="info-row"><span class="label">แรงจูงใจหลัก :</span><span class="value">เงิน (คนร้ายจริง) / เรียกร้องความสนใจ (เหยื่อ)</span></div>
+                    <div class="info-row"><span class="label">ระดับความซับซ้อน :</span><span class="value text-yellow-500"><i class="fa-solid fa-star"></i> (ต่ำ)</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3️⃣ สถานที่และเวลา -->
+        <section>
+            <div class="section-header bg-green-700"><i class="fa-solid fa-location-dot mr-2"></i> 3. สถานที่และเวลา</div>
+            <div class="section-body">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <ul class="text-sm list-disc pl-4 space-y-1 text-gray-700">
+                            <li><strong>สถานที่หลัก :</strong> คฤหาสน์ของประธานทานิ (Tani Mansion)</li>
+                            <li><strong>สถานที่ย่อย :</strong> โรงแรม (ที่ซ่อนตัวแรก) / โกดังร้าง (ที่ซ่อนคนร้ายจริง)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul class="text-sm list-disc pl-4 space-y-1 text-gray-700">
+                            <li><strong>ช่วงเวลาเกิดเหตุ :</strong> กลางวัน ต่อเนื่องถึง กลางคืน</li>
+                            <li><strong>สภาพแวดล้อม :</strong> บ้านพักอาศัย / ย่านโรงงาน</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4️⃣ ตัวละครที่เกี่ยวข้อง -->
+        <section>
+            <div class="section-header bg-gray-700"><i class="fa-solid fa-users mr-2"></i> 4. ตัวละครที่เกี่ยวข้อง</div>
+            <div class="section-body">
+                <div class="mb-4">
+                    <h4 class="text-sm font-bold text-gray-500 uppercase mb-2">ตัวละครหลัก</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="char-badge char-conan">เอโดงาวะ โคนัน</span>
+                        <span class="char-badge char-ran">โมริ รัน</span>
+                        <span class="char-badge char-kogoro">โมริ โคโกโร่</span>
+                        <span class="char-badge char-agasa">ดร.อากาสะ</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-gray-50 p-3 rounded border">
+                        <div class="text-sm font-bold text-blue-600 mb-2">ผู้เสียหาย & เกี่ยวข้อง</div>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between"><span>เหยื่อ (Victim) :</span> <span class="char-badge char-guest">อากิโกะ ทานิ</span></div>
+                            <div class="flex justify-between"><span>ผู้ว่าจ้าง :</span> <span class="char-badge char-guest">ประธานทานิ (พ่อ)</span></div>
+                            <div class="flex justify-between"><span>ผู้สมรู้ร่วมคิด :</span> <span class="char-badge char-guest">อาโซ (พ่อบ้าน)</span></div>
+                            <div class="flex justify-between"><span>ผู้ช่วยพิเศษ :</span> <span class="char-badge char-animal"><i class="fa-solid fa-dog mr-1"></i> จัมโบ้ (สุนัข)</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-red-50 p-3 rounded border border-red-100">
+                        <div class="text-sm font-bold text-red-600 mb-2">ผู้กระทำผิด (Culprit)</div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-700">คนร้ายตัวจริง :</span>
+                            <!-- Spoiler Toggle -->
+                            <span class="char-badge char-guest cursor-pointer bg-red-100 text-red-800 border border-red-300" onclick="toggleSpoiler('culprit')">
+                                <i class="fa-solid fa-eye mr-1"></i> กดดูเฉลย
+                            </span>
+                        </div>
+                        <div id="spoiler-culprit" class="hidden animate-fade-in text-center p-2 bg-white rounded border border-red-200">
+                            <span class="char-badge bg-red-600 text-white">ชายร่างยักษ์</span>
+                            <p class="text-xs text-gray-500 mt-1">โจรเรียกค่าไถ่ (ไม่มีชื่อ)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5️⃣ หลักฐานและการไขคดี -->
+        <section>
+            <div class="section-header bg-purple-700"><i class="fa-solid fa-magnifying-glass mr-2"></i> 5. หลักฐานและการไขคดี</div>
+            <div class="section-body space-y-6">
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <h5 class="font-bold text-conanBlue text-sm mb-2">เบาะแสสำคัญ (Key Clues)</h5>
+                        <ul class="text-sm list-disc pl-4 text-gray-700 space-y-2">
+                            <li><strong>จัมโบ้ (สุนัข) :</strong> ปกติเป็นหมาดุแต่กลับไม่เห่าตอนคนร้ายพาตัวอากิโกะไป และยอมให้โคนันขี่หลัง แสดงว่าคุ้นเคยกับคนพามันไป</li>
+                            <li><strong>เวลาที่หายไป :</strong> ในช่วงเวลาที่หายตัวไป พ่อบ้านรดน้ำต้นไม้อยู่หน้าบ้านแต่ไม่เห็นใคร แสดงว่าเหยื่อไม่ได้ออกจากบ้าน (ซ่อนตัว)</li>
+                            <li><strong>วิวจากหน้าต่าง :</strong> อากิโกะโทรมาบอกว่าเห็น "โรงเรียน" และ "ปล่องไฟโรงงาน" จากหน้าต่างที่ซ่อน</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5 class="font-bold text-red-600 text-sm mb-2">กลอุบาย (Trick)</h5>
+                        <div class="spoiler-container bg-gray-100 rounded border border-gray-300">
+                            <div id="spoiler-cover-trick" class="spoiler-cover py-4" onclick="toggleSpoiler('trick')">
+                                <span class="text-sm font-bold text-gray-500"><i class="fa-solid fa-unlock-keyhole mr-1"></i> กดเพื่อดูความจริง</span>
+                            </div>
+                            <div id="spoiler-content-trick" class="hidden bg-white p-4 text-sm text-gray-700 relative">
+                                <button onclick="toggleSpoiler('trick')" class="absolute top-1 right-2 text-gray-400 hover:text-gray-600"><i class="fa-solid fa-eye-slash"></i></button>
+                                <p class="mb-2"><strong>แผนซ้อนแผน (Double Kidnapping) :</strong></p>
+                                <p class="mb-1">1. <strong>แผนปลอม :</strong> อากิโกะร่วมมือกับพ่อบ้าน แกล้งถูกลักพาตัวเพื่อเรียกร้องความสนใจ โดยซ่อนตัวอยู่ในโกดังโรงแรมใกล้ๆ บ้าน</p>
+                                <p>2. <strong>แผนจริง :</strong> ขณะที่อากิโกะรอพ่อมารับตามแผน มีชายแปลกหน้า (คนร้ายตัวจริง) บุกเข้ามาลักพาตัวเธอไปจริงๆ</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-sm text-gray-600">
+                            <strong>ข้อผิดพลาดของคนร้าย :</strong> ไม่รู้ว่า "จัมโบ้" เชื่องกับอากิโกะมาก ทำให้สุนัขสามารถดมกลิ่นตามไปถูกทาง
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm border-t pt-3">
+                    <div>
+                        <strong>วิธีไขคดีของโคนัน :</strong> ใช้สุนัขดมกลิ่นตามหา และใช้ความรู้เรื่องภูมิศาสตร์ (ทิศทางเงา / ตำแหน่งโรงเรียน) เพื่อหาพิกัดโกดัง
+                    </div>
+                    <div>
+                        <strong>ใครถูกใช้เป็น "หน้าฉาก" :</strong> ไม่มี (โคนันแกล้งทำเป็นเด็กขี่หมาเล่น แล้วให้รันจัดการคนร้าย)
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6️⃣ บทสรุปคดี -->
+        <section>
+            <div class="section-header bg-orange-700"><i class="fa-solid fa-gavel mr-2"></i> 6. บทสรุปคดี</div>
+            <div class="section-body">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-700">
+                    <div>
+                        <strong>วิธีเปิดโปงคนร้าย :</strong>
+                        <p class="mt-1">โคนันและรันบุกเข้าไปในโกดังร้าง รันใช้วิชาคาราเต้จัดการคนร้ายจนหมอบ</p>
+                    </div>
+                    <div>
+                        <ul class="space-y-1">
+                            <li class="flex justify-between"><span>ผลลัพธ์ :</span> <span class="text-red-600 font-bold">ถูกจับกุม</span></li>
+                            <li class="flex justify-between"><span>บทลงโทษ :</span> <span>คนร้ายถูกดำเนินคดี / พ่อบ้านถูกตักเตือน</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-4 pt-3 border-t text-sm text-gray-600 italic text-center">
+                    "ฉากจบ : ประธานทานิปรับความเข้าใจกับลูกสาว และยอมลดเวลาทำงานเพื่อมาดูแลเธอมากขึ้น"
+                </div>
+            </div>
+        </section>
+
+        <!-- 7️⃣ ความเชื่อมโยงกับเนื้อเรื่องหลัก -->
+        <section>
+            <div class="section-header bg-black"><i class="fa-solid fa-link mr-2"></i> 7. ความเชื่อมโยงกับเนื้อเรื่องหลัก</div>
+            <div class="section-body grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div class="border p-3 rounded bg-gray-50">
+                    <strong class="text-red-600 block mb-2"><i class="fa-solid fa-user-secret mr-1"></i> เกี่ยวข้ององค์กรชุดดำ (ไม่มี)</strong>
+                    <p class="text-gray-500">ตอนนี้ยังไม่มีบทบาทขององค์กรชุดดำ</p>
+                </div>
+                <div class="border p-3 rounded bg-gray-50">
+                    <strong class="text-blue-600 block mb-2"><i class="fa-solid fa-arrow-up-right-dots mr-1"></i> พัฒนาการตัวละคร</strong>
+                    <ul class="list-disc pl-4 space-y-1 text-gray-700">
+                        <li><strong>ชื่อใหม่ :</strong> ชินอิจิรีบตั้งชื่อปลอมว่า <strong>"เอโดงาวะ โคนัน"</strong> (จาก เอโดงาวะ รัมโป + โคนัน ดอยล์)</li>
+                        <li><strong>ที่อยู่ใหม่ :</strong> โคนันย้ายเข้ามาอาศัยที่สำนักงานนักสืบโมริ เพื่อหาข่าวองค์กรชุดดำ</li>
+                    </ul>
+                </div>
+                <div class="border p-3 rounded md:col-span-2 bg-blue-50">
+                    <strong class="block mb-1"><i class="fa-solid fa-bridge mr-1"></i> ตอนปูเรื่อง</strong>
+                    <p class="text-gray-700">เป็นตอนแรกที่โคนันเริ่มใช้ชีวิตเป็นเด็กประถม และพยายามช่วยโคโกโร่ไขคดี (แบบทุลักทุเลเพราะยังไม่มีอุปกรณ์ช่วย)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8️⃣ เกร็ด & ข้อมูลเสริม -->
+        <section>
+            <div class="section-header bg-yellow-600"><i class="fa-solid fa-lightbulb mr-2"></i> 8. เกร็ด & ข้อมูลเสริม</div>
+            <div class="section-body text-sm space-y-3">
+                <div class="flex items-start gap-2">
+                    <i class="fa-solid fa-star text-yellow-500 mt-1"></i>
+                    <div>
+                        <strong>No Gadgets :</strong> 
+                        <span class="text-gray-700">นี่เป็นคดีแรกที่โคนันไขคดีในร่างเด็กโดย <strong>ไม่มีอุปกรณ์ไฮเทคใดๆ</strong> (หูฟัง , นาฬิกา , รองเท้า ยังไม่ถูกประดิษฐ์) ต้องพึ่งพาสุนัขและไหวพริบล้วนๆ</span>
+                    </div>
+                </div>
+                <div class="flex items-start gap-2">
+                    <i class="fa-solid fa-circle-question text-blue-500 mt-1"></i>
+                    <div>
+                        <strong>จุดที่แฟนพูดถึง :</strong> 
+                        <span class="text-gray-700">ฉากที่โคนันพยายามใบ้ให้โคโกโร่รู้ตัวคนร้าย แต่กลับโดนเขกกะโหลกจนหัวปูด เป็นจุดเริ่มต้นความฮาของคู่นี้</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-conanBlue text-white py-10 mt-auto border-t-4 border-conanRed">
+        <div class="max-w-4xl mx-auto px-4 text-center space-y-6">
+            <!-- Conan Intro Quote -->
+            <div class="text-sm md:text-base font-light italic opacity-90 space-y-2 leading-relaxed">
+                <p><i class="fa-solid fa-quote-left text-conanRed mr-2"></i>ผมชื่อเอโดงาวะ โคนัน ตัวจริงก็คือคุโด้ ชินอิจิ ที่โดนยาพิษจนกลายเป็นเด็ก ถึงจะตัวเล็กแต่สมองยังคงเป็นของยอดนักสืบคนเดิม</p>
+                <p>กาลเวลายิ่งผ่านไป คดีปริศนาที่ท้าทายก็ยิ่งเพิ่มขึ้นทุกที<i class="fa-solid fa-quote-right text-conanRed ml-2"></i></p>
+            </div>
+            
+            <div class="w-16 h-1 bg-white/20 mx-auto rounded"></div>
+
+            <!-- Credits -->
+            <p class="text-xs font-bold text-yellow-300 tracking-widest">BY : 20nxskypqz</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        function toggleSpoiler(id) {
+            const cover = document.getElementById('spoiler-cover-' + id);
+            const content = document.getElementById('spoiler-content-' + id);
+            
+            if (cover && content) {
+                if (cover.classList.contains('hidden')) {
+                    // Reveal Cover, Hide Content
+                    cover.classList.remove('hidden');
+                    content.classList.add('hidden');
+                } else {
+                    // Hide Cover, Reveal Content
+                    cover.classList.add('hidden');
+                    content.classList.remove('hidden');
+                }
+            } else {
+                // For simple text toggle
+                const element = document.getElementById('spoiler-' + id);
+                if (element) {
+                    if (element.classList.contains('hidden')) {
+                        element.classList.remove('hidden');
+                    } else {
+                        element.classList.add('hidden');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
