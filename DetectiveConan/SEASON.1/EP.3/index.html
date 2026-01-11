@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EP.3 - An Idol's Locked Room Murder Case</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Niramit -->
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Niramit', 'sans-serif'] },
+                    colors: {
+                        conanBlue: '#0047AB',
+                        conanRed: '#E60012',
+                        conanBrick: '#B22222',
+                    },
+                    animation: { 'fade-in': 'fadeIn 0.5s ease-out' },
+                    keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f0f0f0; }
+        /* EP.3 Theme: Gold/Pink for Idol Yoko */
+        .art-ep3 { background: linear-gradient(45deg, #fbbf24, #ec4899); position: relative; overflow: hidden; }
+        
+        /* Layout Components */
+        .section-header { 
+            display: flex; align-items: center; 
+            background-color: #0047AB; color: white; 
+            padding: 10px 16px; border-radius: 8px 8px 0 0; 
+            font-weight: bold; font-size: 1.1em; 
+            border-bottom: 2px solid #E60012;
+        }
+        .section-body { 
+            background-color: white; padding: 16px; 
+            border-radius: 0 0 8px 8px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+            border: 1px solid #e5e7eb; border-top: none; 
+        }
+        
+        /* Info Row */
+        .info-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed #eee; font-size: 0.95rem; }
+        .info-row:last-child { border-bottom: none; }
+        .label { color: #6b7280; font-weight: 500; }
+        .value { font-weight: 600; color: #1f2937; text-align: right; max-width: 65%; }
+        
+        /* Spoiler UI */
+        .spoiler-container { position: relative; overflow: hidden; border-radius: 0.5rem; transition: all 0.3s ease; }
+        .spoiler-cover { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; background-color: #f3f4f6; cursor: pointer; padding: 1rem; }
+        .hidden { display: none !important; }
+
+        /* Character Badge System */
+        .char-badge { padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; display: inline-block; margin: 2px; white-space: nowrap; }
+        
+        /* Main Characters */
+        .char-conan { background-color: #2563eb; color: white; }      /* Blue 600 */
+        .char-ran { background-color: #ec4899; color: white; }        /* Pink 500 */
+        .char-kogoro { background-color: #4b5563; color: white; }     /* Gray 600 */
+        .char-megure { background-color: #c2410c; color: white; }     /* Orange 700 */
+        .char-agasa { background-color: #fef08a; color: #854d0e; }    /* Yellow 200 */
+        
+        /* Episode Specific Guests */
+        .char-guest { background-color: #e5e7eb; color: #374151; }    /* Gray */
+        .char-yoko { background-color: #fce7f3; color: #be185d; border: 1px solid #f9a8d4; } /* Pink for Yoko */
+    </style>
+</head>
+<body class="text-gray-800 bg-gray-100 font-sans min-h-screen flex flex-col animate-fade-in">
+
+    <!-- Sticky Back Button -->
+    <div class="bg-gray-800 text-white px-4 py-3 sticky top-0 z-50 shadow-md">
+        <a href="../" class="max-w-7xl mx-auto flex items-center hover:text-conanRed w-full font-bold text-sm">
+            <i class="fa-solid fa-arrow-left mr-2"></i> กลับหน้ารวม (Back to Menu)
+        </a>
+    </div>
+
+    <!-- Banner -->
+    <div class="art-ep3 py-12 px-4 text-white text-center shadow-inner">
+        <div class="inline-block bg-black/20 px-3 py-1 rounded-full text-xs font-bold mb-2 shadow backdrop-blur-sm">EPISODE JP : 3 / TH : 3</div>
+        <h1 class="text-3xl md:text-4xl font-bold mb-1 drop-shadow-md">คดีฆาตกรรมในห้องปิดตายของยอดดารา</h1>
+        <h2 class="text-lg font-light mb-1 drop-shadow-sm">An Idol's Locked Room Murder Case</h2>
+        <h3 class="text-sm opacity-90 italic">アイドル密室殺人事件 (Aidoru Misshitsu Satsujin Jiken)</h3>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 mt-6 pb-12 space-y-6">
+
+        <!-- 1️⃣ ข้อมูลทั่วไป -->
+        <section>
+            <div class="section-header"><i class="fa-solid fa-circle-info mr-2"></i> 1. ข้อมูลทั่วไปของตอน</div>
+            <div class="section-body grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
+                <div class="info-row"><span class="label">Episode No. (JP / TH) :</span><span class="value">3 / 3</span></div>
+                <div class="info-row"><span class="label">ชื่อเรื่อง (JP) :</span><span class="value">アイドル密室殺人事件</span></div>
+                <div class="info-row"><span class="label">วันที่ออกอากาศ :</span><span class="value">22 ม.ค. 1996</span></div>
+                <div class="info-row"><span class="label">ซีซัน / ช่วงปี :</span><span class="value">Season 1 (1996)</span></div>
+                <div class="info-row"><span class="label">ความยาวตอน :</span><span class="value">24 นาที</span></div>
+                <div class="info-row"><span class="label">Source Type :</span><span class="value bg-blue-100 text-blue-800 px-2 rounded text-xs">Manga-adapted</span></div>
+                <div class="info-row"><span class="label">อ้างอิงมังงะ :</span><span class="value">Vol.1 File 6-9</span></div>
+            </div>
+        </section>
+
+        <!-- 2️⃣ โครงสร้างคดี -->
+        <section>
+            <div class="section-header bg-conanRed"><i class="fa-solid fa-sitemap mr-2"></i> 2. โครงสร้างคดี</div>
+            <div class="section-body">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8">
+                    <div class="info-row"><span class="label">ประเภทคดีหลัก :</span><span class="value text-red-600">ฆาตกรรม (อำพราง)</span></div>
+                    <div class="info-row"><span class="label">จำนวนคดีในตอน :</span><span class="value">1 คดี</span></div>
+                    <div class="info-row"><span class="label">ลักษณะคดี :</span><span class="value">ห้องปิดตาย (Locked Room) / ฆ่าตัวตาย</span></div>
+                    <div class="info-row"><span class="label">แรงจูงใจหลัก :</span><span class="value">ความเข้าใจผิด (ความรัก)</span></div>
+                    <div class="info-row"><span class="label">ระดับความซับซ้อน :</span><span class="value text-yellow-500"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i> (กลาง)</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3️⃣ สถานที่และเวลา -->
+        <section>
+            <div class="section-header bg-green-700"><i class="fa-solid fa-location-dot mr-2"></i> 3. สถานที่และเวลา</div>
+            <div class="section-body">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <ul class="text-sm list-disc pl-4 space-y-1 text-gray-700">
+                            <li><strong>สถานที่หลัก :</strong> แมนชั่นหรูของ โอกิโนะ โยโกะ</li>
+                            <li><strong>จุดเกิดเหตุ :</strong> ห้องนั่งเล่น (หน้าโซฟา)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul class="text-sm list-disc pl-4 space-y-1 text-gray-700">
+                            <li><strong>ช่วงเวลาเกิดเหตุ :</strong> กลางวัน (แดดร้อน)</li>
+                            <li><strong>สภาพแวดล้อม :</strong> ห้องปิดล็อค , เครื่องปรับอากาศเปิดแรงสุด</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4️⃣ ตัวละครที่เกี่ยวข้อง -->
+        <section>
+            <div class="section-header bg-gray-700"><i class="fa-solid fa-users mr-2"></i> 4. ตัวละครที่เกี่ยวข้อง</div>
+            <div class="section-body">
+                <div class="mb-4">
+                    <h4 class="text-sm font-bold text-gray-500 uppercase mb-2">ตัวละครหลัก</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="char-badge char-conan">เอโดงาวะ โคนัน</span>
+                        <span class="char-badge char-ran">โมริ รัน</span>
+                        <span class="char-badge char-kogoro">โมริ โคโกโร่</span>
+                        <span class="char-badge char-megure">สารวัตรเมงูระ</span>
+                        <span class="char-badge char-agasa">ดร.อากาสะ</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-gray-50 p-3 rounded border">
+                        <div class="text-sm font-bold text-blue-600 mb-2">ผู้เสียหาย & ผู้ต้องสงสัย</div>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between"><span>เหยื่อ (Victim) :</span> <span class="char-badge char-guest">ฟูจิเอะ อากิโยชิ</span></div>
+                            <div class="flex justify-between"><span>ผู้ต้องสงสัย 1 :</span> <span class="char-badge char-yoko">โอกิโนะ โยโกะ (ไอดอล)</span></div>
+                            <div class="flex justify-between"><span>ผู้ต้องสงสัย 2 :</span> <span class="char-badge char-guest">ยามากิชิ เออิจิ (ผู้จัดการ)</span></div>
+                            <div class="flex justify-between"><span>ผู้ต้องสงสัย 3 :</span> <span class="char-badge char-guest">อิเคซาวะ ยูโกะ (คู่แข่ง)</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-red-50 p-3 rounded border border-red-100">
+                        <div class="text-sm font-bold text-red-600 mb-2">ผู้กระทำผิด (Culprit)</div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-700">คนร้ายตัวจริง :</span>
+                            <!-- Spoiler Toggle -->
+                            <span class="char-badge char-guest cursor-pointer bg-red-100 text-red-800 border border-red-300" onclick="toggleSpoiler('culprit')">
+                                <i class="fa-solid fa-eye mr-1"></i> กดดูเฉลย
+                            </span>
+                        </div>
+                        <div id="spoiler-culprit" class="hidden animate-fade-in text-center p-2 bg-white rounded border border-red-200">
+                            <span class="char-badge bg-red-600 text-white">ฟูจิเอะ อากิโยชิ</span>
+                            <p class="text-xs text-gray-500 mt-1">เป็นการฆ่าตัวตาย (Suicide) เพื่อใส่ร้ายโยโกะ</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5️⃣ หลักฐานและการไขคดี -->
+        <section>
+            <div class="section-header bg-purple-700"><i class="fa-solid fa-magnifying-glass mr-2"></i> 5. หลักฐานและการไขคดี</div>
+            <div class="section-body space-y-6">
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <h5 class="font-bold text-conanBlue text-sm mb-2">เบาะแสสำคัญ (Key Clues)</h5>
+                        <ul class="text-sm list-disc pl-4 text-gray-700 space-y-2">
+                            <li><strong>รอยเปียกบนพื้น :</strong> มีรอยน้ำเป็นวงกลมรอบๆ ศพ ทั้งที่ในห้องไม่มีน้ำหก แสดงถึงการละลายของ "น้ำแข็ง"</li>
+                            <li><strong>อุณหภูมิห้อง :</strong> เครื่องปรับอากาศถูกเปิดทิ้งไว้แรงสุด เพื่อเร่งให้น้ำแข็งละลายทำลายหลักฐาน</li>
+                            <li><strong>หลุมขนาดเล็ก :</strong> มีรอยบุ๋มเล็กๆ บนพื้นห้อง (จุดที่ด้ามมีดถูกปักไว้)</li>
+                            <li><strong>เส้นผมปริศนา :</strong> เส้นผมที่พบไม่ใช่ของโยโกะ แต่เป็นของ "ยูโกะ" ที่หน้าตาคล้ายกัน</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5 class="font-bold text-red-600 text-sm mb-2">กลอุบาย (Trick)</h5>
+                        <div class="spoiler-container bg-gray-100 rounded border border-gray-300">
+                            <div id="spoiler-cover-trick" class="spoiler-cover py-4" onclick="toggleSpoiler('trick')">
+                                <span class="text-sm font-bold text-gray-500"><i class="fa-solid fa-unlock-keyhole mr-1"></i> กดเพื่อดูความจริง</span>
+                            </div>
+                            <div id="spoiler-content-trick" class="hidden bg-white p-4 text-sm text-gray-700 relative">
+                                <button onclick="toggleSpoiler('trick')" class="absolute top-1 right-2 text-gray-400 hover:text-gray-600"><i class="fa-solid fa-eye-slash"></i></button>
+                                <p class="mb-2"><strong>ทริคน้ำแข็งสังหาร (Ice Knife Trick) :</strong></p>
+                                <p class="mb-1">ผู้ตายเตรียมการโดยการขุดหลุมเล็กๆ บนพื้นเพื่อยึดด้ามมีด นำก้อนน้ำแข็งมาวางรอบมีดให้ตั้งตรง แล้วกระโดดจากเก้าอี้ทิ้งตัวลงมาเสียบตัวเอง</p>
+                                <p>จากนั้นเปิดแอร์แรงสุดเพื่อให้น้ำแข็งละลายจนเหลือแต่รอยน้ำ ทำให้ดูเหมือนถูกคนอื่นแทงจากด้านหลัง</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-sm text-gray-600">
+                            <strong>ข้อผิดพลาด :</strong> รอยน้ำที่เหลืออยู่มากเกินไปผิดสังเกต และรอยบุ๋มที่พื้น
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm border-t pt-3">
+                    <div>
+                        <strong>วิธีไขคดีของโคนัน :</strong> ใช้ตรรกะเรื่องการละลายของน้ำแข็ง และใช้หูกระต่ายเปลี่ยนเสียงเลียนเสียงโคโกโร่
+                    </div>
+                    <div>
+                        <strong>ใครถูกใช้เป็น "หน้าฉาก" :</strong> โมริ โคโกโร่ (แต่ยังไม่ใช่นิทราเต็มรูปแบบ โคนันเตะที่เขี่ยบุหรี่ใส่หัวจนสลบแล้วแอบพูดแทน)
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6️⃣ บทสรุปคดี -->
+        <section>
+            <div class="section-header bg-orange-700"><i class="fa-solid fa-gavel mr-2"></i> 6. บทสรุปคดี</div>
+            <div class="section-body">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-700">
+                    <div>
+                        <strong>วิธีเปิดโปงความจริง :</strong>
+                        <p class="mt-1">โคนัน (เสียงโคโกโร่) อธิบายทริคน้ำแข็ง และเปิดเผยไดอารี่ของผู้ตายที่ซ่อนอยู่</p>
+                    </div>
+                    <div>
+                        <ul class="space-y-1">
+                            <li class="flex justify-between"><span>ผลลัพธ์ :</span> <span class="text-gray-600 font-bold">เสียชีวิต (ฆ่าตัวตาย)</span></li>
+                            <li class="flex justify-between"><span>สาเหตุ :</span> <span>เข้าใจผิดว่าถูกโยโกะทิ้ง (จริงๆ เป็นยูโกะที่มาที่ห้อง)</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-4 pt-3 border-t text-sm text-gray-600 italic text-center">
+                    "ฉากจบ : ความจริงในไดอารี่เปิดเผยว่าผู้ตายยังรักโยโกะมาก แต่ผิดหวังที่ถูกปฏิเสธ (โดยคนหน้าเหมือน)"
+                </div>
+            </div>
+        </section>
+
+        <!-- 7️⃣ ความเชื่อมโยงกับเนื้อเรื่องหลัก -->
+        <section>
+            <div class="section-header bg-black"><i class="fa-solid fa-link mr-2"></i> 7. ความเชื่อมโยงกับเนื้อเรื่องหลัก</div>
+            <div class="section-body grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div class="border p-3 rounded bg-gray-50">
+                    <strong class="text-red-600 block mb-2"><i class="fa-solid fa-user-secret mr-1"></i> เกี่ยวข้ององค์กรชุดดำ (ไม่มี)</strong>
+                    <p class="text-gray-500">ตอนนี้ยังไม่มีบทบาทขององค์กรชุดดำ</p>
+                </div>
+                <div class="border p-3 rounded bg-gray-50">
+                    <strong class="text-blue-600 block mb-2"><i class="fa-solid fa-microchip mr-1"></i> พัฒนาการ & อุปกรณ์ใหม่</strong>
+                    <ul class="list-disc pl-4 space-y-1 text-gray-700">
+                        <li><strong>หูกระต่ายเปลี่ยนเสียง (Voice-Changing Bowtie) :</strong> ดร.อากาสะ ประดิษฐ์ให้โคนันเป็นครั้งแรก</li>
+                        <li><strong>โคโกโร่นิทรา (Prototype) :</strong> เป็นครั้งแรกที่โคนันทำให้โคโกโร่สลบ (ด้วยแรงกายภาพ) และไขคดีแทน</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8️⃣ เกร็ด & ข้อมูลเสริม -->
+        <section>
+            <div class="section-header bg-yellow-600"><i class="fa-solid fa-lightbulb mr-2"></i> 8. เกร็ด & ข้อมูลเสริม</div>
+            <div class="section-body text-sm space-y-3">
+                <div class="flex items-start gap-2">
+                    <i class="fa-solid fa-star text-pink-500 mt-1"></i>
+                    <div>
+                        <strong>Yoko Okino Debut :</strong> 
+                        <span class="text-gray-700">ตอนแรกที่ <strong>โอกิโนะ โยโกะ</strong> ปรากฏตัว และกลายเป็นไอดอลขวัญใจของโคโกโร่ตลอดทั้งเรื่อง</span>
+                    </div>
+                </div>
+                <div class="flex items-start gap-2">
+                    <i class="fa-solid fa-book-open text-yellow-600 mt-1"></i>
+                    <div>
+                        <strong>Manga vs Anime :</strong> 
+                        <span class="text-gray-700">ในมังงะ โคนันเตะที่เขี่ยบุหรี่ใส่หัวโคโกโร่จนสลบ แต่ในอนิเมะบางเวอร์ชันอาจมีการปรับเปลี่ยนมุมกล้องเพื่อลดความรุนแรง</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-conanBlue text-white py-10 mt-auto border-t-4 border-conanRed">
+        <div class="max-w-4xl mx-auto px-4 text-center space-y-6">
+            <div class="text-sm md:text-base font-light italic opacity-90 space-y-2 leading-relaxed">
+                <p><i class="fa-solid fa-quote-left text-conanRed mr-2"></i>ผมชื่อเอโดงาวะ โคนัน ตัวจริงก็คือคุโด้ ชินอิจิ ที่โดนยาพิษจนกลายเป็นเด็ก ถึงจะตัวเล็กแต่สมองยังคงเป็นของยอดนักสืบคนเดิม</p>
+                <p>กาลเวลายิ่งผ่านไป คดีปริศนาที่ท้าทายก็ยิ่งเพิ่มขึ้นทุกที<i class="fa-solid fa-quote-right text-conanRed ml-2"></i></p>
+            </div>
+            <div class="w-16 h-1 bg-white/20 mx-auto rounded"></div>
+            <p class="text-xs font-bold text-yellow-300 tracking-widest">BY : 20nxskypqz</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        function toggleSpoiler(id) {
+            const cover = document.getElementById('spoiler-cover-' + id);
+            const content = document.getElementById('spoiler-content-' + id);
+            
+            if (cover && content) {
+                if (cover.classList.contains('hidden')) {
+                    // Reveal Cover, Hide Content
+                    cover.classList.remove('hidden');
+                    content.classList.add('hidden');
+                } else {
+                    // Hide Cover, Reveal Content
+                    cover.classList.add('hidden');
+                    content.classList.remove('hidden');
+                }
+            } else {
+                // For simple text toggle
+                const element = document.getElementById('spoiler-' + id);
+                if (element) {
+                    if (element.classList.contains('hidden')) {
+                        element.classList.remove('hidden');
+                    } else {
+                        element.classList.add('hidden');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
