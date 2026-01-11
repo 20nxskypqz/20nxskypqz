@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conan Database : Season 1</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Niramit -->
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Niramit', 'sans-serif'],
+                    },
+                    colors: {
+                        conanBlue: '#0047AB',
+                        conanRed: '#E60012',
+                        conanBrick: '#B22222',
+                    },
+                    backgroundImage: {
+                        'brick-pattern': "url('https://www.transparenttextures.com/patterns/brick-wall.png')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #f0f0f0; }
+        .brick-bg {
+            background-color: #8B0000;
+            background-image: linear-gradient(335deg, rgba(0,0,0,0.3) 23px, transparent 23px),
+            linear-gradient(155deg, rgba(0,0,0,0.3) 23px, transparent 23px),
+            linear-gradient(335deg, rgba(0,0,0,0.3) 23px, transparent 23px),
+            linear-gradient(155deg, rgba(0,0,0,0.3) 23px, transparent 23px);
+            background-size: 58px 58px;
+            background-position: 0px 2px, 4px 35px, 29px 31px, 34px 6px;
+        }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        
+        /* Art Gradients */
+        .art-ep1 { background: linear-gradient(45deg, #0047AB, #000044); position: relative; overflow: hidden; }
+        .art-ep2 { background: linear-gradient(45deg, #E60012, #8B0000); position: relative; overflow: hidden; }
+        .art-ep3 { background: linear-gradient(45deg, #FFD700, #FF69B4); position: relative; overflow: hidden; }
+    </style>
+</head>
+<body class="text-gray-800 bg-gray-100 font-sans min-h-screen flex flex-col">
+
+    <!-- Navigation -->
+    <nav class="bg-conanBlue text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-conanRed rounded-full flex items-center justify-center border-2 border-white shadow-md">
+                    <i class="fa-solid fa-glasses text-white text-lg"></i>
+                </div>
+                <div class="leading-tight">
+                    <span class="block text-lg font-bold tracking-wider">DETECTIVE CONAN</span>
+                    <span class="block text-xs font-light opacity-80">DATABASE : SEASON 1</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="flex-grow">
+        <header class="brick-bg text-white py-16 px-4 shadow-inner text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">SEASON 1 <span class="text-2xl font-light opacity-80">(1996)</span></h1>
+            <p class="text-lg opacity-90">จุดเริ่มต้นแห่งตำนานยอดนักสืบ</p>
+        </header>
+
+        <main class="max-w-6xl mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- EP.1 Link -->
+                <a href="ep1.html" class="bg-white rounded-xl overflow-hidden shadow-lg card-hover group border border-gray-200 block">
+                    <div class="h-40 art-ep1 flex items-center justify-center text-white relative">
+                        <i class="fa-solid fa-train-subway text-6xl opacity-30 absolute right-4 bottom-4"></i>
+                        <div class="z-10 text-center">
+                            <span class="bg-conanRed px-2 py-1 rounded text-xs font-bold mb-2 inline-block">EP.1</span>
+                            <h2 class="text-2xl font-bold drop-shadow">คดีฆาตกรรมบนรถไฟเหาะ</h2>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-xs text-gray-500 mb-2 truncate">ジェットコースター殺人事件</p>
+                        <div class="flex gap-2 text-xs">
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Manga-adapted</span>
+                            <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded"><i class="fa-solid fa-skull mr-1"></i> ฆาตกรรม</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- EP.2 Link -->
+                <a href="ep2.html" class="bg-white rounded-xl overflow-hidden shadow-lg card-hover group border border-gray-200 block">
+                    <div class="h-40 art-ep2 flex items-center justify-center text-white relative">
+                        <i class="fa-solid fa-child-reaching text-6xl opacity-30 absolute right-4 bottom-4"></i>
+                        <div class="z-10 text-center">
+                            <span class="bg-conanBlue px-2 py-1 rounded text-xs font-bold mb-2 inline-block">EP.2</span>
+                            <h2 class="text-2xl font-bold drop-shadow">คดีลักพาตัวลูกสาวประธาน</h2>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-xs text-gray-500 mb-2 truncate">社長令嬢誘拐事件</p>
+                        <div class="flex gap-2 text-xs">
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Manga-adapted</span>
+                            <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded"><i class="fa-solid fa-user-secret mr-1"></i> ลักพาตัว</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- EP.3 Link -->
+                <a href="ep3.html" class="bg-white rounded-xl overflow-hidden shadow-lg card-hover group border border-gray-200 block">
+                    <div class="h-40 art-ep3 flex items-center justify-center text-white relative">
+                        <i class="fa-solid fa-microphone-lines text-6xl opacity-30 absolute right-4 bottom-4"></i>
+                        <div class="z-10 text-center">
+                            <span class="bg-black/50 px-2 py-1 rounded text-xs font-bold mb-2 inline-block">EP.3</span>
+                            <h2 class="text-2xl font-bold drop-shadow">คดีฆาตกรรมในห้องปิดตาย</h2>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-xs text-gray-500 mb-2 truncate">アイドル密室殺人事件</p>
+                        <div class="flex gap-2 text-xs">
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Manga-adapted</span>
+                            <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded"><i class="fa-solid fa-door-closed mr-1"></i> ห้องปิดตาย</span>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-conanBlue text-white py-8 mt-auto border-t-4 border-conanRed">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <p class="text-xs font-bold text-yellow-300 tracking-widest">BY : 20nxskypqz</p>
+        </div>
+    </footer>
+</body>
+</html>
