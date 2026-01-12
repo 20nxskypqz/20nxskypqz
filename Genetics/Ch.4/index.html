@@ -43,6 +43,20 @@
             margin-top: 1rem;
             border-radius: 0 0.5rem 0.5rem 0;
         }
+        .arrow-flow {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            color: #475569;
+        }
+        .arrow-flow span {
+            background: #e2e8f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
@@ -90,22 +104,25 @@
             );
         };
 
-        const TermDefinition = ({ term, def }) => (
-            <div className="mb-2">
-                <span className="font-bold text-indigo-700">{term} : </span>
-                <span className="text-slate-700">{def}</span>
+        const ExperimentBox = ({ scientist, year, discovery }) => (
+            <div className="border-l-4 border-violet-400 bg-violet-50 p-3 rounded-r-lg mb-3">
+                <div className="flex justify-between items-start">
+                    <span className="font-bold text-violet-900">{scientist}</span>
+                    <span className="text-xs bg-white px-2 py-0.5 rounded text-violet-400 border border-violet-100">{year}</span>
+                </div>
+                <p className="text-sm text-slate-700 mt-1">{discovery}</p>
             </div>
         );
 
         const ProcessStep = ({ number, title, details, color = "bg-slate-200" }) => (
             <div className="flex gap-4 relative">
                 <div className="flex flex-col items-center">
-                    <div className={`w-8 h-8 rounded-full ${color} text-white flex items-center justify-center font-bold z-10 shadow-sm`}>
+                    <div className={`w-8 h-8 rounded-full ${color} text-white flex items-center justify-center font-bold z-10 shadow-sm flex-shrink-0`}>
                         {number}
                     </div>
                     <div className="w-0.5 h-full bg-slate-200 -mt-1 -mb-1"></div>
                 </div>
-                <div className="pb-8">
+                <div className="pb-8 w-full">
                     <h5 className="font-bold text-lg text-slate-800 mb-1">{title}</h5>
                     <div className="text-slate-600 text-sm bg-slate-50 p-3 rounded border border-slate-100">
                         {details}
@@ -160,156 +177,221 @@
                         <div id="sec-1">
                             <SectionHeader number="4.1" title="โครโมโซม (Chromosome)" color="bg-indigo-600" />
                             
-                            <DetailCard title="องค์ประกอบทางเคมีและโครงสร้าง" icon={() => <i data-lucide="layers" className="w-6 h-6 text-indigo-600" />}>
-                                <p>โครโมโซมไม่ได้มีแค่ DNA แต่ประกอบด้วย <strong>DNA (35%)</strong> + <strong>โปรตีน (60%)</strong> + <strong>RNA (5%)</strong></p>
-                                <div className="sub-card">
-                                    <h4 className="font-bold text-indigo-700 mb-2">กลไกการขดตัว (DNA Packaging)</h4>
-                                    <ol className="list-decimal pl-5 space-y-2 text-sm">
-                                        <li><strong>Nucleosome (นิวคลีโอโซม) :</strong> หน่วยพื้นฐานที่สุด เกิดจาก DNA ยาวประมาณ 146 คู่เบส พันรอบแกนโปรตีน <strong>ฮิสโตน (Histone)</strong> จำนวน 8 โมเลกุล (Octamer) เหมือนลูกปัดบนเส้นด้าย</li>
-                                        <li><strong>Solenoid :</strong> นิวคลีโอโซมมาเรียงต่อกันและขดตัวเป็นเกลียวแน่นขึ้น กลายเป็นเส้นใย <strong>โครมาทิน (Chromatin)</strong></li>
-                                        <li><strong>Chromosome :</strong> ในระยะ Metaphase ของการแบ่งเซลล์ เส้นใยโครมาทินจะขดตัวแน่นที่สุด กลายเป็นแท่งโครโมโซมที่เราคุ้นตา</li>
-                                    </ol>
+                            <DetailCard title="ภาพรวมของโครงสร้างทางพันธุกรรม" icon={() => <i data-lucide="sitemap" className="w-6 h-6 text-indigo-600" />}>
+                                <p className="mb-2 text-sm">ในร่างกายสิ่งมีชีวิตประกอบด้วยลำดับชั้นจากใหญ่ไปเล็ก คือ :</p>
+                                <div className="arrow-flow">
+                                    <span>สิ่งมีชีวิต (Organism)</span> ➜ <span>เซลล์ (Cell)</span> ➜ <span>นิวเคลียส</span> ➜ <span>โครโมโซม</span> ➜ <span>ดีเอ็นเอ (DNA)</span> ➜ <span>ยีน (Gene)</span>
                                 </div>
                             </DetailCard>
 
-                            <DetailCard title="ส่วนประกอบสำคัญบนโครโมโซม" icon={() => <i data-lucide="maximize" className="w-6 h-6 text-indigo-600" />}>
-                                <ul className="space-y-3">
-                                    <li>
-                                        <strong>Centromere (เซนโทรเมียร์) :</strong> บริเวณคอดกิ่วของโครโมโซม เป็นจุดที่ Sister Chromatids เชื่อมติดกัน
-                                    </li>
-                                    <li>
-                                        <strong>Kinetochore (ไคนีโทคอร์) :</strong> โปรตีนที่เกาะอยู่บริเวณเซนโทรเมียร์ ทำหน้าที่เป็นจุดเกาะของเส้นใยสปินเดิล (Spindle fiber) เพื่อดึงโครโมโซมแยกออกจากกันตอนแบ่งเซลล์
-                                    </li>
-                                    <li>
-                                        <strong>Telomere (เทโลเมียร์) :</strong> ปลายสุดของโครโมโซม ช่วยป้องกันไม่ให้โครโมโซมถูกทำลาย หรือไปเชื่อมติดกับโครโมโซมอื่น (จะสั้นลงเรื่อยๆ เมื่อเซลล์แบ่งตัว)
-                                    </li>
-                                    <li>
-                                        <strong>Homologous Chromosome :</strong> คู่โครโมโซมที่มีรูปร่างเหมือนกัน ขนาดเท่ากัน มียีนควบคุมลักษณะเดียวกันอยู่ที่ตำแหน่งตรงกัน (Locus เดียวกัน) แท่งหนึ่งมาจากพ่อ อีกแท่งมาจากแม่
-                                    </li>
-                                </ul>
+                            <DetailCard title="4.1.1 รูปร่าง ลักษณะ และจำนวน" icon={() => <i data-lucide="scan-eye" className="w-6 h-6 text-indigo-600" />}>
+                                <div className="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h5 className="font-bold text-indigo-700 text-sm mb-2">การมองเห็น</h5>
+                                        <ul className="list-disc pl-5 text-sm space-y-1 text-slate-600">
+                                            <li><strong>Interphase :</strong> เห็นเป็นเส้นใยโครมาทิน (Chromatin)</li>
+                                            <li><strong>Metaphase :</strong> เห็นชัดที่สุด ขดตัวแน่นเป็นแท่งโครโมโซม</li>
+                                        </ul>
+                                        <h5 className="font-bold text-indigo-700 text-sm mt-4 mb-2">โครงสร้าง</h5>
+                                        <ul className="list-disc pl-5 text-sm space-y-1 text-slate-600">
+                                            <li><strong>Chromatid :</strong> 1 แท่งอาจมี 1 หรือ 2 โครมาทิด (Sister chromatids)</li>
+                                            <li><strong>Centromere :</strong> รอยคอดเชื่อมโครมาทิด (ใช้นับจำนวนโครโมโซม)</li>
+                                        </ul>
+                                    </div>
+                                    <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                                        <h5 className="font-bold text-slate-800 text-sm mb-4 text-center">ประเภทโครโมโซม (แบ่งตามตำแหน่งเซนโทรเมียร์)</h5>
+                                        <div className="grid grid-cols-2 gap-3 text-center text-xs">
+                                            {/* Metacentric */}
+                                            <div className="p-3 border rounded bg-white shadow-sm hover:shadow-md transition">
+                                                <div className="h-16 w-1.5 bg-indigo-300 mx-auto relative mb-2 rounded-full">
+                                                    <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-4 h-4 bg-indigo-600 rounded-full border-2 border-white shadow-sm" title="Centromere"></div>
+                                                </div>
+                                                <div className="font-bold text-indigo-700 mb-1">Metacentric</div>
+                                                <div className="text-slate-500 text-[10px]">ตำแหน่งกึ่งกลาง<br/>(แขนยาวเท่ากัน)</div>
+                                            </div>
+
+                                            {/* Submetacentric */}
+                                            <div className="p-3 border rounded bg-white shadow-sm hover:shadow-md transition">
+                                                <div className="h-16 w-1.5 bg-indigo-300 mx-auto relative mb-2 rounded-full">
+                                                    <div className="absolute top-[30%] -translate-y-1/2 left-1/2 -translate-x-1/2 w-4 h-4 bg-indigo-600 rounded-full border-2 border-white shadow-sm"></div>
+                                                </div>
+                                                <div className="font-bold text-indigo-700 mb-1">Submetacentric</div>
+                                                <div className="text-slate-500 text-[10px]">ค่อนไปทางด้านหนึ่ง<br/>(แขนไม่เท่ากัน)</div>
+                                            </div>
+
+                                            {/* Acrocentric */}
+                                            <div className="p-3 border rounded bg-white shadow-sm hover:shadow-md transition">
+                                                <div className="h-16 w-1.5 bg-indigo-300 mx-auto relative mb-2 rounded-full">
+                                                    <div className="absolute top-[15%] -translate-y-1/2 left-1/2 -translate-x-1/2 w-4 h-4 bg-indigo-600 rounded-full border-2 border-white shadow-sm"></div>
+                                                </div>
+                                                <div className="font-bold text-indigo-700 mb-1">Acrocentric</div>
+                                                <div className="text-slate-500 text-[10px]">ใกล้ปลายมาก<br/>(แขนข้างหนึ่งสั้นกุด)</div>
+                                            </div>
+
+                                            {/* Telocentric */}
+                                            <div className="p-3 border rounded bg-white shadow-sm hover:shadow-md transition">
+                                                <div className="h-16 w-1.5 bg-indigo-300 mx-auto relative mb-2 rounded-full">
+                                                    <div className="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 w-4 h-4 bg-indigo-600 rounded-full border-2 border-white shadow-sm"></div>
+                                                </div>
+                                                <div className="font-bold text-indigo-700 mb-1">Telocentric</div>
+                                                <div className="text-slate-500 text-[10px]">อยู่ที่ปลายสุด<br/>(รูปร่างเป็นแท่ง)</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </DetailCard>
+
+                            <DetailCard title="4.1.2 ส่วนประกอบของโครโมโซม" icon={() => <i data-lucide="layers" className="w-6 h-6 text-indigo-600" />}>
+                                <div className="space-y-4">
+                                    <div className="sub-card">
+                                        <h5 className="font-bold text-indigo-800 mb-1">ในยูแคริโอต (Eukaryote)</h5>
+                                        <p className="text-sm">ประกอบด้วย <strong>DNA (1/3)</strong> + <strong>โปรตีน (2/3)</strong> โดยโปรตีนหลักคือ <strong>ฮิสโตน (Histone)</strong> ซึ่งมีประจุบวก จับกับ DNA ที่มีประจุลบ</p>
+                                        <ul className="list-disc pl-5 mt-2 text-sm text-slate-600">
+                                            <li><strong>Nucleosome :</strong> DNA พันรอบฮิสโตน 8 โมเลกุล</li>
+                                            <li><strong>Chromatin :</strong> นิวคลีโอโซมขดตัวแน่นขึ้น</li>
+                                        </ul>
+                                    </div>
+                                    <div className="sub-card !border-l-orange-300 !bg-orange-50">
+                                        <h5 className="font-bold text-orange-800 mb-1">ในโพรแคริโอต (Prokaryote) เช่น แบคทีเรีย</h5>
+                                        <ul className="list-disc pl-5 text-sm text-slate-600">
+                                            <li>โครโมโซมเป็นวง (Circular DNA) 1 โมเลกุล อยู่ในไซโทพลาซึม</li>
+                                            <li>ไม่มีฮิสโตน แต่มีโปรตีนอื่นช่วย</li>
+                                            <li>อาจมี <strong>Plasmid</strong> (DNA วงแหวนขนาดเล็กนอกโครโมโซม)</li>
+                                        </ul>
+                                    </div>
+                                    <p className="text-sm bg-indigo-50 p-2 rounded text-indigo-900">
+                                        <strong>จีโนม (Genome) :</strong> สารพันธุกรรมทั้งหมดในเซลล์ (รวมในนิวเคลียส , ไมโทคอนเดรีย , คลอโรพลาสต์)
+                                    </p>
+                                </div>
                             </DetailCard>
                         </div>
 
                         {/* 4.2 DNA */}
                         <div id="sec-2">
-                            <SectionHeader number="4.2" title="สารพันธุกรรม (DNA)" color="bg-teal-600" />
+                            <SectionHeader number="4.2" title="สารพันธุกรรม" color="bg-violet-600" />
 
-                            <div className="grid md:grid-cols-2 gap-6">
-                                <DetailCard title="นิวคลีโอไทด์ (Nucleotide)" icon={() => <i data-lucide="box" className="w-6 h-6 text-teal-600" />}>
-                                    <p className="mb-3 text-sm">หน่วยย่อยที่สุดของ DNA ประกอบด้วย 3 ส่วน เชื่อมต่อกันด้วยพันธะโควาเลนต์ :</p>
-                                    <ul className="space-y-2 text-sm">
-                                        <li className="bg-teal-50 p-2 rounded">
-                                            <strong>1. น้ำตาลเพนโทส :</strong> ใน DNA คือ Deoxyribose (ขาด O ที่คาร์บอนตำแหน่งที่ 2') / ใน RNA คือ Ribose
-                                        </li>
-                                        <li className="bg-teal-50 p-2 rounded">
-                                            <strong>2. หมู่ฟอสเฟต (Phosphate Group) :</strong> เกาะที่คาร์บอนตำแหน่งที่ 5' ทำให้ DNA มีประจุเป็นลบและมีความเป็นกรด
-                                        </li>
-                                        <li className="bg-teal-50 p-2 rounded">
-                                            <strong>3. ไนโตรจีนัสเบส (Nitrogenous Base) :</strong> เกาะที่คาร์บอนตำแหน่งที่ 1' แบ่งเป็น 2 กลุ่ม
-                                            <ul className="pl-4 mt-1 list-disc text-xs text-slate-600">
-                                                <li><strong>Purine (พิวรีน) :</strong> เบสวงแหวนคู่ ได้แก่ <strong>A</strong> (Adenine) , <strong>G</strong> (Guanine)</li>
-                                                <li><strong>Pyrimidine (ไพริมิดีน) :</strong> เบสวงแหวนเดี่ยว ได้แก่ <strong>T</strong> (Thymine) , <strong>C</strong> (Cytosine) , *U (Uracil ใน RNA)</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </DetailCard>
+                            <DetailCard title="4.2.1 การค้นพบสารพันธุกรรม" icon={() => <i data-lucide="microscope" className="w-6 h-6 text-violet-600" />}>
+                                <ExperimentBox scientist="Friedrich Miescher" year="2412" discovery="พบสารในนิวเคลียสมี N และ P เรียกว่า 'Nuclein' ต่อมาคือ กรดนิวคลีอิก" />
+                                <ExperimentBox scientist="Robert Feulgen" year="2457" discovery="ย้อมสี DNA ได้สีแดงติดที่โครโมโซม ➜ สรุปว่า DNA อยู่ที่โครโมโซม" />
+                                <ExperimentBox scientist="Frederick Griffith" year="2471" discovery="ทดลองแบคทีเรียปอดบวมในหนู พบปรากฏการณ์ Transformation (สารจากสายพันธุ์ S ที่ตาย เปลี่ยน R ให้ก่อโรคได้)" />
+                                <ExperimentBox scientist="Avery, MacLeod, McCarty" year="2487" discovery="พิสูจน์ต่อจากกริฟฟิท พบว่าเมื่อเติมเอนไซม์ DNase (ย่อย DNA) การแปลงพันธุ์หยุดชะงัก ➜ สรุป DNA คือสารพันธุกรรม" />
+                            </DetailCard>
 
-                                <DetailCard title="พันธะเคมีใน DNA" icon={() => <i data-lucide="link" className="w-6 h-6 text-teal-600" />}>
-                                    <div className="space-y-4">
-                                        <div>
-                                            <h5 className="font-bold text-teal-700 text-sm">พันธะภายในสาย (Backbone)</h5>
-                                            <p className="text-sm">เชื่อมด้วยพันธะ <strong>Phosphodiester bond</strong> ระหว่างหมู่ฟอสเฟตของนิวคลีโอไทด์หนึ่ง กับน้ำตาลตำแหน่ง 3' ของอีกนิวคลีโอไทด์ถัดไป (ทิศทาง 5' ➔ 3')</p>
-                                        </div>
-                                        <div>
-                                            <h5 className="font-bold text-teal-700 text-sm">พันธะระหว่างสาย (Rungs)</h5>
-                                            <p className="text-sm">เชื่อมคู่เบสด้วย <strong>Hydrogen bond</strong> (พันธะไฮโดรเจน) ซึ่งไม่แข็งแรงมาก ทำให้แยกสายได้ง่ายตอนจำลองตัว</p>
-                                            <div className="flex gap-2 mt-2 text-xs font-mono">
-                                                <span className="bg-slate-100 px-2 py-1 rounded border">A = T (2 พันธะ)</span>
-                                                <span className="bg-slate-100 px-2 py-1 rounded border">G ≡ C (3 พันธะ)</span>
-                                            </div>
-                                            <p className="text-xs text-slate-500 mt-1">*คู่ G-C จะแยกออกจากกันยากกว่า A-T เพราะพันธะเยอะกว่า</p>
-                                        </div>
+                            <DetailCard title="4.2.2 องค์ประกอบทางเคมีของ DNA" icon={() => <i data-lucide="flask-conical" className="w-6 h-6 text-violet-600" />}>
+                                <p className="text-sm mb-3">DNA เป็นพอลินิวคลีโอไทด์ ประกอบด้วยหน่วยย่อย <strong>นิวคลีโอไทด์ (Nucleotide)</strong> 3 ส่วน :</p>
+                                <div className="grid md:grid-cols-3 gap-4 text-sm">
+                                    <div className="bg-violet-50 p-3 rounded">
+                                        <strong className="block text-violet-700 mb-1">1. น้ำตาล</strong>
+                                        ดีออกซีไรโบส (Deoxyribose)
                                     </div>
-                                </DetailCard>
-                            </div>
+                                    <div className="bg-violet-50 p-3 rounded">
+                                        <strong className="block text-violet-700 mb-1">2. หมู่ฟอสเฟต</strong>
+                                        ทำให้มีประจุลบ
+                                    </div>
+                                    <div className="bg-violet-50 p-3 rounded">
+                                        <strong className="block text-violet-700 mb-1">3. ไนโตรจีนัสเบส</strong>
+                                        <ul className="text-xs list-disc pl-4 mt-1">
+                                            <li><strong>Purine (2 วง) :</strong> A , G</li>
+                                            <li><strong>Pyrimidine (1 วง) :</strong> C , T</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div className="mt-4 text-sm space-y-2">
+                                    <p><strong>การเชื่อมต่อ :</strong> พันธะ <strong>Phosphodiester</strong> เชื่อมตำแหน่ง C5' กับ C3' (ทิศ 5' ➜ 3')</p>
+                                    <p><strong>กฎของชาร์กาฟฟ์ :</strong> ปริมาณ A ≈ T และ C ≈ G เสมอ</p>
+                                </div>
+                            </DetailCard>
+
+                            <DetailCard title="4.2.3 โครงสร้างของ DNA (Double Helix)" icon={() => <i data-lucide="dna" className="w-6 h-6 text-violet-600" />}>
+                                <ul className="list-disc pl-5 text-sm space-y-2 text-slate-700">
+                                    <li>เสนอโดย <strong>Watson & Crick</strong> (2496) อ้างอิงภาพ X-ray ของ <strong>Rosalind Franklin</strong></li>
+                                    <li>เป็นเกลียวคู่ (Double Helix) เวียนขวา</li>
+                                    <li>สายทั้งสองเรียงทิศตรงข้ามกัน (Antiparallel)</li>
+                                    <li>ยึดกันด้วย <strong>พันธะไฮโดรเจน</strong>
+                                        <ul className="list-none pl-4 mt-1 font-mono text-xs bg-slate-100 p-2 rounded w-fit">
+                                            <li>A = T (2 พันธะ)</li>
+                                            <li>C ≡ G (3 พันธะ - แข็งแรงกว่า)</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </DetailCard>
                         </div>
 
                         {/* 4.3 Synthesis */}
                         <div id="sec-3">
-                            <SectionHeader number="4.3" title="การสังเคราะห์ DNA และโปรตีน" color="bg-emerald-600" />
+                            <SectionHeader number="4.3" title="สมบัติของสารพันธุกรรม" color="bg-emerald-600" />
 
-                            <DetailCard title="1. การจำลอง DNA (DNA Replication)" icon={() => <i data-lucide="copy" className="w-6 h-6 text-emerald-600" />}>
-                                <InfoBox title="Semiconservative Model" type="success">
-                                    การจำลองแบบกึ่งอนุรักษ์ : DNA ลูกผสม 2 โมเลกุลที่ได้ จะมีสายเก่า 1 สายและสายใหม่ 1 สายเสมอ
+                            <DetailCard title="4.3.1 การจำลอง DNA (DNA Replication)" icon={() => <i data-lucide="copy" className="w-6 h-6 text-emerald-600" />}>
+                                <InfoBox title="Semiconservative (กึ่งอนุรักษ์)" type="success">
+                                    DNA ใหม่ 1 โมเลกุล จะมีสายเก่า 1 สายและสายใหม่ 1 สายเสมอ (เกิดระยะ S ของ Interphase)
                                 </InfoBox>
-                                <div className="mt-6 space-y-0">
+                                <div className="mt-6">
                                     <ProcessStep 
                                         number="1" 
-                                        title="การคลายเกลียว (Unwinding)"
+                                        title="Helicase"
                                         color="bg-emerald-500"
-                                        details={<span>เอนไซม์ <strong>Helicase</strong> จะทำลายพันธะไฮโดรเจนเพื่อแยก DNA สองสายออกจากกัน เกิดเป็น Replication Fork</span>}
+                                        details="สลายพันธะไฮโดรเจนเพื่อคลายเกลียว DNA"
                                     />
                                     <ProcessStep 
                                         number="2" 
-                                        title="การสร้างสายใหม่ (Elongation)"
+                                        title="SSB Protein"
+                                        color="bg-emerald-500"
+                                        details="จับสาย DNA เดี่ยวไว้ ไม่ให้กลับมาพันกันเอง"
+                                    />
+                                    <ProcessStep 
+                                        number="3" 
+                                        title="Primase"
+                                        color="bg-emerald-500"
+                                        details="สร้าง RNA Primer เพื่อเป็นจุดเริ่มต้นให้ DNA Polymerase ทำงาน"
+                                    />
+                                    <ProcessStep 
+                                        number="4" 
+                                        title="DNA Polymerase"
                                         color="bg-emerald-500"
                                         details={
-                                            <div className="space-y-2">
-                                                <p>เอนไซม์ <strong>DNA Polymerase</strong> จะนำนิวคลีโอไทด์อิสระมาต่อสายใหม่ <strong>ในทิศทาง 5' ไป 3' เสมอ</strong> ทำให้เกิดการสร้าง 2 แบบ :</p>
-                                                <ul className="list-disc pl-4 space-y-1">
-                                                    <li><strong>Leading Strand :</strong> สร้างต่อเนื่องยาวไปตามทิศการคลายเกลียว</li>
-                                                    <li><strong>Lagging Strand :</strong> สร้างสวนทางกับการคลายเกลียว จึงต้องสร้างเป็นท่อนสั้นๆ เรียกว่า <strong>Okazaki fragment</strong></li>
+                                            <div>
+                                                นำนิวคลีโอไทด์มาต่อสายใหม่ <strong>(ทิศ 5' ➜ 3' เสมอ)</strong>
+                                                <ul className="list-disc pl-4 mt-2 text-xs">
+                                                    <li><strong>Leading Strand :</strong> สร้างยาวต่อเนื่อง (ทิศเดียวกับการคลายเกลียว)</li>
+                                                    <li><strong>Lagging Strand :</strong> สร้างเป็นชิ้นสั้นๆ เรียกว่า <strong>Okazaki fragments</strong></li>
                                                 </ul>
                                             </div>
                                         }
                                     />
                                     <ProcessStep 
-                                        number="3" 
-                                        title="การเชื่อมต่อ (Joining)"
+                                        number="5" 
+                                        title="DNA Ligase"
                                         color="bg-emerald-500"
-                                        details={<span>เอนไซม์ <strong>DNA Ligase</strong> จะทำหน้าที่เชื่อมท่อน Okazaki fragment เข้าด้วยกันให้เป็นสายยาวสมบูรณ์</span>}
+                                        details="เชื่อมชิ้นส่วน Okazaki เข้าด้วยกันให้สมบูรณ์"
                                     />
                                 </div>
                             </DetailCard>
 
-                            <DetailCard title="2. การสังเคราะห์โปรตีน (Protein Synthesis)" icon={() => <i data-lucide="cpu" className="w-6 h-6 text-emerald-600" />}>
-                                <div className="grid md:grid-cols-2 gap-8">
-                                    <div className="bg-slate-50 p-4 rounded-lg border border-emerald-100">
-                                        <h4 className="font-bold text-emerald-800 mb-2 border-b border-emerald-200 pb-2">Transcription (การถอดรหัส)</h4>
-                                        <p className="text-sm mb-2 text-slate-500">📍 เกิดในนิวเคลียส</p>
-                                        <ul className="text-sm space-y-2">
-                                            <li>• <strong>RNA Polymerase</strong> เข้าจับที่สาย DNA แม่แบบ</li>
-                                            <li>• สร้างสาย mRNA ในทิศ 5' ➔ 3' โดยเปลี่ยนเบสคู่สมจาก <strong>A เป็น U</strong> (เช่น DNA : T-A-C ➔ mRNA : A-U-G)</li>
-                                            <li>• เมื่อเสร็จสิ้น mRNA จะเคลื่อนออกจากนิวเคลียสไปยังไซโทพลาสซึม</li>
+                            <DetailCard title="4.3.2 การสังเคราะห์โปรตีน (Central Dogma)" icon={() => <i data-lucide="cpu" className="w-6 h-6 text-emerald-600" />}>
+                                <div className="flex justify-center mb-6 bg-slate-100 p-3 rounded-lg text-sm font-bold text-slate-700">
+                                    DNA ➜ Transcription ➜ mRNA ➜ Translation ➜ Protein
+                                </div>
+                                <div className="grid md:grid-cols-2 gap-6">
+                                    <div className="bg-emerald-50 p-4 rounded-lg">
+                                        <h4 className="font-bold text-emerald-800 mb-2 border-b border-emerald-200 pb-2">1. การถอดรหัส (Transcription)</h4>
+                                        <ul className="text-sm space-y-2 list-disc pl-4">
+                                            <li>เกิดใน <strong>นิวเคลียส</strong> โดย RNA Polymerase</li>
+                                            <li>ใช้ DNA เป็นแม่แบบ สร้าง mRNA ทิศ 5' ➜ 3'</li>
+                                            <li>ในยูแคริโอต ได้ pre-mRNA ต้องตัดส่วน Intron ออกก่อน เหลือแต่ Exon</li>
                                         </ul>
                                     </div>
-                                    
-                                    <div className="bg-slate-50 p-4 rounded-lg border border-emerald-100">
-                                        <h4 className="font-bold text-emerald-800 mb-2 border-b border-emerald-200 pb-2">Translation (การแปลรหัส)</h4>
-                                        <p className="text-sm mb-2 text-slate-500">📍 เกิดที่ไรโบโซม (Ribosome)</p>
-                                        <ul className="text-sm space-y-2">
-                                            <li>• ไรโบโซมอ่านรหัสบน mRNA ทีละ 3 ตัว เรียกว่า <strong>Codon</strong></li>
-                                            <li>• <strong>tRNA</strong> ที่มี <strong>Anticodon</strong> คู่สมกัน จะนำกรดแอมิโนจำเพาะมาส่ง</li>
-                                            <li>• เกิดพันธะเพปไทด์เชื่อมกรดแอมิโนต่อกันเป็นสายยาว (Polypeptide)</li>
+                                    <div className="bg-emerald-50 p-4 rounded-lg">
+                                        <h4 className="font-bold text-emerald-800 mb-2 border-b border-emerald-200 pb-2">2. การแปลรหัส (Translation)</h4>
+                                        <ul className="text-sm space-y-2 list-disc pl-4">
+                                            <li>เกิดที่ <strong>ไรโบโซม</strong> ในไซโทพลาซึม</li>
+                                            <li>อ่านรหัสบน mRNA ทีละ 3 เบส <strong>(Codon)</strong></li>
+                                            <li><strong>Start Codon :</strong> AUG (Methionine)</li>
+                                            <li><strong>Stop Codon :</strong> UAA , UAG , UGA (หยุดสร้าง)</li>
                                         </ul>
                                     </div>
                                 </div>
-
-                                <div className="mt-4 bg-white border rounded-lg p-4">
-                                    <h5 className="font-bold text-slate-700 mb-2 text-center">รหัสพันธุกรรมที่ควรรู้ (Genetic Code)</h5>
-                                    <div className="flex justify-center gap-4 text-sm">
-                                        <div className="text-center">
-                                            <div className="font-mono font-bold text-emerald-600">AUG</div>
-                                            <div className="text-xs">Start Codon (Methionine)</div>
-                                            <div className="text-xs text-slate-400">เริ่มเสมอ</div>
-                                        </div>
-                                        <div className="w-px bg-slate-200"></div>
-                                        <div className="text-center">
-                                            <div className="font-mono font-bold text-rose-500">UAA , UAG , UGA</div>
-                                            <div className="text-xs">Stop Codon</div>
-                                            <div className="text-xs text-slate-400">ไม่แปลเป็นกรดแอมิโน</div>
-                                        </div>
-                                    </div>
+                                <div className="mt-4 text-sm bg-white p-3 rounded border">
+                                    <strong>ชนิด RNA :</strong> <span className="text-emerald-600">mRNA</span> (แม่แบบ) , <span className="text-emerald-600">tRNA</span> (ขนส่งกรดอะมิโน) , <span className="text-emerald-600">rRNA</span> (องค์ประกอบไรโบโซม)
                                 </div>
                             </DetailCard>
                         </div>
@@ -318,61 +400,52 @@
                         <div id="sec-4">
                             <SectionHeader number="4.4" title="มิวเทชัน (Mutation)" color="bg-rose-600" />
                             
-                            <DetailCard title="1. มิวเทชันระดับยีน (Gene Mutation)" icon={() => <i data-lucide="file-warning" className="w-6 h-6 text-rose-600" />}>
-                                <p className="mb-4">คือการเปลี่ยนแปลงลำดับนิวคลีโอไทด์เพียงจุดเดียว (Point Mutation) ส่งผลได้ 2 แบบใหญ่ๆ :</p>
-                                
+                            <DetailCard title="4.4.1 มิวเทชันระดับยีน (Gene Mutation)" icon={() => <i data-lucide="file-warning" className="w-6 h-6 text-rose-600" />}>
                                 <div className="space-y-4">
-                                    <div className="bg-rose-50 p-4 rounded-lg border-l-4 border-rose-400">
-                                        <h5 className="font-bold text-rose-800">ก. การแทนที่คู่เบส (Base Substitution)</h5>
-                                        <p className="text-sm text-slate-700 mt-1">เปลี่ยนเบสตัวหนึ่งเป็นอีกตัวหนึ่ง ผลกระทบอาจน้อยหรือมาก</p>
-                                        <ul className="list-disc pl-5 mt-2 text-sm text-slate-600">
-                                            <li><strong>Silent Mutation :</strong> กรดแอมิโนไม่เปลี่ยน (โปรตีนเหมือนเดิม)</li>
-                                            <li><strong>Missense Mutation :</strong> กรดแอมิโนเปลี่ยนไป (เช่น โรคโลหิตจาง Sickle Cell เกิดจากเบส A แทนที่ T ทำให้กรดแอมิโน Glu กลายเป็น Val โปรตีนฮีโมโกลบินจึงเสียรูป)</li>
-                                            <li><strong>Nonsense Mutation :</strong> เปลี่ยนเป็นรหัสหยุด (Stop Codon) เร็วเกินไป โปรตีนกุดด้วน ทำงานไม่ได้</li>
+                                    <div>
+                                        <h5 className="font-bold text-rose-800 text-sm">ก. การแทนที่คู่เบส (Base-pair substitution)</h5>
+                                        <ul className="list-disc pl-5 text-sm text-slate-700">
+                                            <li><strong>Silent :</strong> กรดอะมิโนเหมือนเดิม (ไม่มีผล)</li>
+                                            <li><strong>Missense :</strong> กรดอะมิโนเปลี่ยน (เช่น โลหิตจาง Sickle Cell : A เป็น T ➜ Glu เป็น Val)</li>
+                                            <li><strong>Nonsense :</strong> กลายเป็นรหัสหยุด (Stop codon) โปรตีนสั้นลง</li>
                                         </ul>
                                     </div>
-
-                                    <div className="bg-orange-50 p-4 rounded-lg border-l-4 border-orange-400">
-                                        <h5 className="font-bold text-orange-800">ข. การเพิ่มหรือลดนิวคลีโอไทด์ (Frameshift Mutation)</h5>
-                                        <p className="text-sm text-slate-700 mt-1">รุนแรงมาก! เพราะเบสหายไปหรือเพิ่มขึ้น 1 ตัว ทำให้กรอบการอ่านรหัส (Reading Frame) เปลี่ยนไปทั้งหมดตั้งแต่จุดที่เกิดเหตุ กรดแอมิโนจะเพี้ยนไปหมดตลอดสาย</p>
+                                    <div>
+                                        <h5 className="font-bold text-rose-800 text-sm">ข. การเพิ่ม/ลดนิวคลีโอไทด์ (Insertion/Deletion)</h5>
+                                        <p className="text-sm text-slate-700 pl-5">เกิด <strong>Frameshift mutation</strong> (เลื่อนกรอบการอ่าน) ลำดับเปลี่ยนหมด รุนแรงมาก</p>
                                     </div>
                                 </div>
                             </DetailCard>
 
-                            <DetailCard title="2. มิวเทชันระดับโครโมโซม" icon={() => <i data-lucide="git-merge" className="w-6 h-6 text-rose-600" />}>
-                                <p className="mb-3">เกิดจากการแบ่งเซลล์ผิดพลาด (Nondisjunction) ทำให้จำนวนหรือรูปร่างโครโมโซมเปลี่ยนไป</p>
-                                <div className="overflow-x-auto">
-                                    <table className="w-full text-sm text-left text-slate-600">
-                                        <thead className="text-xs text-slate-700 uppercase bg-slate-100">
-                                            <tr>
-                                                <th className="px-4 py-2">ชื่อกลุ่มอาการ</th>
-                                                <th className="px-4 py-2">ความผิดปกติ</th>
-                                                <th className="px-4 py-2">ลักษณะอาการ</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr className="bg-white border-b">
-                                                <td className="px-4 py-2 font-medium text-slate-900">Down Syndrome</td>
-                                                <td className="px-4 py-2">คู่ที่ 21 เกินมา 1 แท่ง (Trisomy 21)</td>
-                                                <td className="px-4 py-2">ปัญญาอ่อน , ดั้งจมูกแบน , ลิ้นจุกปาก</td>
-                                            </tr>
-                                            <tr className="bg-slate-50 border-b">
-                                                <td className="px-4 py-2 font-medium text-slate-900">Cri-du-chat</td>
-                                                <td className="px-4 py-2">แขนโครโมโซมคู่ที่ 5 ขาดหาย (Deletion)</td>
-                                                <td className="px-4 py-2">เสียงร้องแหลมเหมือนแมว , ศีรษะเล็ก</td>
-                                            </tr>
-                                            <tr className="bg-white border-b">
-                                                <td className="px-4 py-2 font-medium text-slate-900">Turner Syndrome</td>
-                                                <td className="px-4 py-2">โครโมโซม X หายไป 1 แท่ง (XO)</td>
-                                                <td className="px-4 py-2">หญิงเตี้ย , คอเป็นแผง , เป็นหมัน</td>
-                                            </tr>
-                                            <tr className="bg-slate-50 border-b">
-                                                <td className="px-4 py-2 font-medium text-slate-900">Klinefelter</td>
-                                                <td className="px-4 py-2">โครโมโซม X เกินในชาย (XXY)</td>
-                                                <td className="px-4 py-2">ชายมีเต้านม , อัณฑะเล็ก , เป็นหมัน</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                            <DetailCard title="4.4.2 มิวเทชันระดับโครโมโซม" icon={() => <i data-lucide="git-merge" className="w-6 h-6 text-rose-600" />}>
+                                <div className="mb-4">
+                                    <h5 className="font-bold text-slate-800 text-sm mb-2">1. เปลี่ยนแปลงโครงสร้าง</h5>
+                                    <ul className="text-sm space-y-1 pl-4 list-disc text-slate-600">
+                                        <li><strong>Deletion :</strong> ชิ้นส่วนหาย (เช่น Cri-du-chat แขนคู่ที่ 5 หาย ➜ ร้องเสียงแมว)</li>
+                                        <li><strong>Duplication, Inversion, Translocation</strong></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h5 className="font-bold text-slate-800 text-sm mb-2">2. เปลี่ยนแปลงจำนวน (Aneuploidy)</h5>
+                                    <p className="text-xs text-slate-500 mb-2">สาเหตุ : Non-disjunction (ไม่แยกคู่)</p>
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-sm text-left text-slate-600 border rounded-lg overflow-hidden">
+                                            <thead className="bg-slate-100 text-xs uppercase text-slate-700">
+                                                <tr>
+                                                    <th className="px-4 py-2">กลุ่มอาการ</th>
+                                                    <th className="px-4 py-2">ความผิดปกติ</th>
+                                                    <th className="px-4 py-2">ลักษณะ</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-slate-100">
+                                                <tr><td className="px-4 py-2 font-medium">Down's</td><td className="px-4 py-2">คู่ที่ 21 เกิน (Trisomy 21)</td><td className="px-4 py-2">ปัญญาอ่อน , ดั้งแบน</td></tr>
+                                                <tr><td className="px-4 py-2 font-medium">Edward's</td><td className="px-4 py-2">คู่ที่ 18 เกิน</td><td className="px-4 py-2">ปากแหว่ง , นิ้วซ้อน</td></tr>
+                                                <tr><td className="px-4 py-2 font-medium">Patau's</td><td className="px-4 py-2">คู่ที่ 13 เกิน</td><td className="px-4 py-2">ตาเล็ก , ปากแหว่ง</td></tr>
+                                                <tr><td className="px-4 py-2 font-medium">Turner's</td><td className="px-4 py-2">XO (หญิง)</td><td className="px-4 py-2">เตี้ย , คอแผง , เป็นหมัน</td></tr>
+                                                <tr><td className="px-4 py-2 font-medium">Klinefelter's</td><td className="px-4 py-2">XXY (ชาย)</td><td className="px-4 py-2">เต้านมโต , อัณฑะเล็ก</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </DetailCard>
                         </div>
