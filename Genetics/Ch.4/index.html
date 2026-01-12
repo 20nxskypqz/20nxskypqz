@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>บทที่ 4 : โครโมโซมและสารพันธุกรรม</title>
+    <title>บทที่ 4 : โครโมโซมและสารพันธุกรรม (ฉบับเจาะลึก)</title>
     
     <!-- React & ReactDOM -->
     <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
@@ -26,22 +26,22 @@
     <style>
         body {
             font-family: 'Niramit', sans-serif;
-            background-color: #f0fdfa; /* Teal-50 background for fresh look */
-            color: #0f172a;
+            background-color: #f1f5f9;
+            color: #1e293b;
+            line-height: 1.6;
         }
-        .section-gradient-1 { border-color: #0ea5e9; } /* Sky Blue */
-        .section-gradient-2 { border-color: #8b5cf6; } /* Violet */
-        .section-gradient-3 { border-color: #10b981; } /* Emerald */
-        .section-gradient-4 { border-color: #f43f5e; } /* Rose */
-        
-        .dna-helix {
-            background: repeating-linear-gradient(
-                45deg,
-                #cbd5e1,
-                #cbd5e1 10px,
-                transparent 10px,
-                transparent 20px
-            );
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, #0d9488, #2563eb);
+        }
+        .sub-card {
+            background-color: #f8fafc;
+            border-left: 3px solid #cbd5e1;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0 0.5rem 0.5rem 0;
         }
     </style>
 </head>
@@ -52,54 +52,65 @@
         const { useState, useEffect } = React;
 
         // Components
-        const SectionHeader = ({ number, title, subtitle, color }) => (
-            <div className={`mb-8 border-l-4 ${color} pl-4`}>
-                <h2 className="text-3xl font-bold text-slate-800 flex items-center gap-2">
-                    <span className={`text-xl px-2 py-1 rounded text-white ${color.replace('border-', 'bg-')}`}>{number}</span>
-                    {title}
-                </h2>
-                <p className="text-slate-500 mt-1 text-lg">{subtitle}</p>
+        const SectionHeader = ({ number, title, color }) => (
+            <div className="flex items-center gap-4 mb-8 mt-12">
+                <div className={`text-3xl font-bold px-4 py-2 rounded-lg text-white shadow-lg ${color}`}>
+                    {number}
+                </div>
+                <div className="flex-1 border-b-2 border-slate-200 pb-2">
+                    <h2 className="text-3xl font-bold text-slate-800">{title}</h2>
+                </div>
             </div>
         );
 
-        const ContentCard = ({ title, children, icon: Icon, badge }) => (
-            <div className="bg-white rounded-xl shadow-md p-6 mb-6 border border-slate-100 transition hover:shadow-lg relative overflow-hidden">
-                {badge && <div className="absolute top-0 right-0 bg-slate-100 text-slate-500 text-xs px-2 py-1 rounded-bl-lg">{badge}</div>}
-                <div className="flex items-center gap-3 mb-4 pb-3 border-b border-slate-100">
-                    {Icon && <Icon className="w-6 h-6 text-teal-600" />}
-                    <h3 className="text-xl font-semibold text-slate-800">{title}</h3>
+        const DetailCard = ({ title, children, icon: Icon, colorClass = "text-slate-600" }) => (
+            <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition p-6 mb-6 border border-slate-200">
+                <div className="flex items-center gap-3 mb-4 border-b border-slate-100 pb-3">
+                    {Icon && <Icon className={`w-6 h-6 ${colorClass}`} />}
+                    <h3 className="text-xl font-bold text-slate-800">{title}</h3>
                 </div>
-                <div className="text-slate-600 leading-relaxed space-y-4">
+                <div className="text-slate-700 space-y-4">
                     {children}
                 </div>
             </div>
         );
 
-        const ProcessStep = ({ step, title, desc }) => (
-            <div className="flex gap-4 items-start">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center font-bold text-sm">
-                    {step}
+        const InfoBox = ({ title, children, type = "info" }) => {
+            const styles = {
+                info: "bg-blue-50 border-blue-200 text-blue-900",
+                warning: "bg-amber-50 border-amber-200 text-amber-900",
+                success: "bg-emerald-50 border-emerald-200 text-emerald-900",
+                danger: "bg-rose-50 border-rose-200 text-rose-900"
+            };
+            return (
+                <div className={`p-4 rounded-lg border ${styles[type]} text-sm`}>
+                    <strong className="block mb-1 text-base">{title}</strong>
+                    {children}
                 </div>
-                <div>
-                    <h5 className="font-bold text-slate-700">{title}</h5>
-                    <p className="text-sm text-slate-600">{desc}</p>
-                </div>
+            );
+        };
+
+        const TermDefinition = ({ term, def }) => (
+            <div className="mb-2">
+                <span className="font-bold text-indigo-700">{term} : </span>
+                <span className="text-slate-700">{def}</span>
             </div>
         );
 
-        const KeyTerm = ({ term, desc }) => (
-            <div className="bg-slate-50 p-3 rounded-lg border-l-4 border-teal-400">
-                <span className="font-bold text-teal-900">{term} :</span> <span className="text-slate-700">{desc}</span>
-            </div>
-        );
-
-        const ExperimentBox = ({ scientist, discovery, year }) => (
-            <div className="border border-slate-200 rounded-lg p-4 bg-white hover:border-teal-300 transition">
-                <div className="flex justify-between items-start mb-2">
-                    <span className="font-bold text-slate-800">{scientist}</span>
-                    {year && <span className="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded">{year}</span>}
+        const ProcessStep = ({ number, title, details, color = "bg-slate-200" }) => (
+            <div className="flex gap-4 relative">
+                <div className="flex flex-col items-center">
+                    <div className={`w-8 h-8 rounded-full ${color} text-white flex items-center justify-center font-bold z-10 shadow-sm`}>
+                        {number}
+                    </div>
+                    <div className="w-0.5 h-full bg-slate-200 -mt-1 -mb-1"></div>
                 </div>
-                <p className="text-sm text-slate-600">{discovery}</p>
+                <div className="pb-8">
+                    <h5 className="font-bold text-lg text-slate-800 mb-1">{title}</h5>
+                    <div className="text-slate-600 text-sm bg-slate-50 p-3 rounded border border-slate-100">
+                        {details}
+                    </div>
+                </div>
             </div>
         );
 
@@ -116,312 +127,269 @@
             };
 
             return (
-                <div className="min-h-screen pb-20 bg-slate-50">
-                    {/* Navigation */}
-                    <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
-                        <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
-                            <div className="font-bold text-xl text-teal-700 flex items-center gap-2">
-                                <i data-lucide="dna" className="w-6 h-6"></i>
-                                Genetics Ch.4
+                <div className="min-h-screen pb-20">
+                    {/* Navbar */}
+                    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+                        <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+                            <div className="font-bold text-xl text-slate-800 flex items-center gap-2">
+                                <i data-lucide="dna" className="text-indigo-600"></i>
+                                <span>Biology <span className="text-indigo-600">Chapter 4</span></span>
                             </div>
-                            <div className="hidden md:flex space-x-4 text-sm font-medium">
-                                {['4.1 โครโมโซม', '4.2 DNA', '4.3 สังเคราะห์โปรตีน', '4.4 มิวเทชัน'].map((item, index) => {
-                                    const id = `section-${index + 1}`;
-                                    return (
-                                        <button 
-                                            key={id}
-                                            onClick={() => scrollTo(id)}
-                                            className="hover:text-teal-600 transition text-slate-600 px-3 py-2 rounded-md hover:bg-slate-50"
-                                        >
-                                            {item}
-                                        </button>
-                                    )
-                                })}
+                            <div className="hidden md:flex gap-1 text-sm font-medium">
+                                {['โครโมโซม', 'DNA', 'สังเคราะห์โปรตีน', 'มิวเทชัน'].map((item, idx) => (
+                                    <button key={idx} onClick={() => scrollTo(`sec-${idx+1}`)} className="px-4 py-2 hover:bg-indigo-50 text-slate-600 rounded-lg transition">
+                                        {item}
+                                    </button>
+                                ))}
                             </div>
                         </div>
                     </nav>
 
-                    {/* Hero */}
-                    <header className="bg-gradient-to-br from-teal-800 via-emerald-800 to-cyan-900 text-white py-20 px-4 text-center relative overflow-hidden">
-                        <div className="absolute inset-0 opacity-20">
-                            <div className="absolute top-10 left-10 w-32 h-32 rounded-full border-4 border-white blur-xl"></div>
-                            <div className="absolute bottom-10 right-10 w-48 h-48 rounded-full bg-white blur-3xl"></div>
+                    {/* Header */}
+                    <header className="bg-slate-900 text-white py-20 px-4 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-600 rounded-full blur-[100px] opacity-20 transform translate-x-1/2 -translate-y-1/2"></div>
+                        <div className="absolute bottom-0 left-0 w-96 h-96 bg-teal-500 rounded-full blur-[100px] opacity-20 transform -translate-x-1/2 translate-y-1/2"></div>
+                        <div className="max-w-4xl mx-auto text-center relative z-10">
+                            <h1 className="text-4xl md:text-5xl font-bold mb-4">โครโมโซมและสารพันธุกรรม</h1>
                         </div>
-                        <h1 className="text-4xl md:text-6xl font-bold mb-4 relative z-10">บทที่ 4 : โครโมโซมและสารพันธุกรรม</h1>
                     </header>
 
-                    {/* Main Content */}
-                    <main className="max-w-4xl mx-auto px-4 py-12 space-y-16">
+                    <main className="max-w-5xl mx-auto px-4 py-8">
 
-                        {/* SECTION 4.1 */}
-                        <div id="section-1">
-                            <SectionHeader 
-                                number="4.1" 
-                                title="โครโมโซม (Chromosome)" 
-                                subtitle="ที่อยู่ของสารพันธุกรรมและโครงสร้างที่ซับซ้อน"
-                                color="border-sky-500"
-                            />
+                        {/* 4.1 Chromosome */}
+                        <div id="sec-1">
+                            <SectionHeader number="4.1" title="โครโมโซม (Chromosome)" color="bg-indigo-600" />
                             
-                            <ContentCard title="โครงสร้างของโครโมโซม" icon={() => <i data-lucide="layers" className="text-sky-500 w-6 h-6"/>}>
-                                <div className="flex flex-col md:flex-row gap-6 items-center">
-                                    <div className="flex-1 space-y-3">
-                                        <p className="text-sm">DNA ในนิวเคลียสไม่ได้อยู่เป็นเส้นเดี่ยวๆ แต่มีการขดตัวพันกับโปรตีนเพื่อให้เก็บในนิวเคลียสได้</p>
-                                        <div className="bg-sky-50 p-4 rounded-lg space-y-2 text-sm border border-sky-100">
-                                            <div className="flex items-center gap-2">
-                                                <span className="w-6 h-6 rounded-full bg-sky-200 text-sky-800 flex items-center justify-center text-xs font-bold">1</span>
-                                                <span><strong>DNA</strong> พันรอบกลุ่มโปรตีน <strong>Histone</strong> (ก้อนละ 8 โมเลกุล)</span>
-                                            </div>
-                                            <div className="flex items-center gap-2">
-                                                <span className="w-6 h-6 rounded-full bg-sky-300 text-sky-900 flex items-center justify-center text-xs font-bold">2</span>
-                                                <span>กลายเป็นหน่วยย่อยเรียกว่า <strong>นิวคลีโอโซม (Nucleosome)</strong></span>
-                                            </div>
-                                            <div className="flex items-center gap-2">
-                                                <span className="w-6 h-6 rounded-full bg-sky-400 text-white flex items-center justify-center text-xs font-bold">3</span>
-                                                <span>ขดตัวแน่นขึ้นเป็นเส้นใย <strong>โครมาทิน (Chromatin)</strong></span>
-                                            </div>
-                                            <div className="flex items-center gap-2">
-                                                <span className="w-6 h-6 rounded-full bg-sky-600 text-white flex items-center justify-center text-xs font-bold">4</span>
-                                                <span>ขดตัวแน่นที่สุดในระยะ Metaphase กลายเป็นแท่ง <strong>โครโมโซม</strong></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="w-full md:w-1/3 bg-slate-100 rounded-lg p-4 text-center text-xs text-slate-500">
-                                        <div className="w-2 h-20 bg-sky-300 mx-auto rounded-full mb-1"></div>
-                                        <div className="w-20 h-20 border-4 border-sky-500 rounded-full mx-auto flex items-center justify-center relative">
-                                            <div className="absolute w-24 h-2 bg-sky-500 rotate-45"></div>
-                                            <div className="absolute w-24 h-2 bg-sky-500 -rotate-45"></div>
-                                        </div>
-                                        <p className="mt-2">1 Chromosome = 2 Chromatids</p>
-                                        <p>(เชื่อมกันที่ Centromere)</p>
-                                    </div>
+                            <DetailCard title="องค์ประกอบทางเคมีและโครงสร้าง" icon={() => <i data-lucide="layers" className="w-6 h-6 text-indigo-600" />}>
+                                <p>โครโมโซมไม่ได้มีแค่ DNA แต่ประกอบด้วย <strong>DNA (35%)</strong> + <strong>โปรตีน (60%)</strong> + <strong>RNA (5%)</strong></p>
+                                <div className="sub-card">
+                                    <h4 className="font-bold text-indigo-700 mb-2">กลไกการขดตัว (DNA Packaging)</h4>
+                                    <ol className="list-decimal pl-5 space-y-2 text-sm">
+                                        <li><strong>Nucleosome (นิวคลีโอโซม) :</strong> หน่วยพื้นฐานที่สุด เกิดจาก DNA ยาวประมาณ 146 คู่เบส พันรอบแกนโปรตีน <strong>ฮิสโตน (Histone)</strong> จำนวน 8 โมเลกุล (Octamer) เหมือนลูกปัดบนเส้นด้าย</li>
+                                        <li><strong>Solenoid :</strong> นิวคลีโอโซมมาเรียงต่อกันและขดตัวเป็นเกลียวแน่นขึ้น กลายเป็นเส้นใย <strong>โครมาทิน (Chromatin)</strong></li>
+                                        <li><strong>Chromosome :</strong> ในระยะ Metaphase ของการแบ่งเซลล์ เส้นใยโครมาทินจะขดตัวแน่นที่สุด กลายเป็นแท่งโครโมโซมที่เราคุ้นตา</li>
+                                    </ol>
                                 </div>
-                            </ContentCard>
+                            </DetailCard>
 
-                            <ContentCard title="รูปร่างของโครโมโซม" icon={() => <i data-lucide="activity" className="text-sky-500 w-6 h-6"/>}>
-                                <p className="mb-4 text-sm">จำแนกตามตำแหน่งของ <strong>เซนโทรเมียร์ (Centromere)</strong></p>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-center text-xs">
-                                    <div className="p-2 border rounded bg-slate-50">
-                                        <div className="h-12 w-1 bg-sky-400 mx-auto relative mb-2"><div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-3 h-3 bg-sky-600 rounded-full"></div></div>
-                                        <strong>Metacentric</strong><br/>อยู่ตรงกลาง (แขนเท่ากัน)
-                                    </div>
-                                    <div className="p-2 border rounded bg-slate-50">
-                                        <div className="h-12 w-1 bg-sky-400 mx-auto relative mb-2"><div className="absolute top-1/3 -translate-y-1/2 left-1/2 -translate-x-1/2 w-3 h-3 bg-sky-600 rounded-full"></div></div>
-                                        <strong>Submetacentric</strong><br/>ค่อนไปทางด้านใดด้านหนึ่ง
-                                    </div>
-                                    <div className="p-2 border rounded bg-slate-50">
-                                        <div className="h-12 w-1 bg-sky-400 mx-auto relative mb-2"><div className="absolute top-1/4 -translate-y-1/2 left-1/2 -translate-x-1/2 w-3 h-3 bg-sky-600 rounded-full"></div></div>
-                                        <strong>Acrocentric</strong><br/>ค่อนไปทางปลายมาก
-                                    </div>
-                                    <div className="p-2 border rounded bg-slate-50">
-                                        <div className="h-12 w-1 bg-sky-400 mx-auto relative mb-2"><div className="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 w-3 h-3 bg-sky-600 rounded-full"></div></div>
-                                        <strong>Telocentric</strong><br/>อยู่ที่ปลายสุด
-                                    </div>
-                                </div>
-                            </ContentCard>
+                            <DetailCard title="ส่วนประกอบสำคัญบนโครโมโซม" icon={() => <i data-lucide="maximize" className="w-6 h-6 text-indigo-600" />}>
+                                <ul className="space-y-3">
+                                    <li>
+                                        <strong>Centromere (เซนโทรเมียร์) :</strong> บริเวณคอดกิ่วของโครโมโซม เป็นจุดที่ Sister Chromatids เชื่อมติดกัน
+                                    </li>
+                                    <li>
+                                        <strong>Kinetochore (ไคนีโทคอร์) :</strong> โปรตีนที่เกาะอยู่บริเวณเซนโทรเมียร์ ทำหน้าที่เป็นจุดเกาะของเส้นใยสปินเดิล (Spindle fiber) เพื่อดึงโครโมโซมแยกออกจากกันตอนแบ่งเซลล์
+                                    </li>
+                                    <li>
+                                        <strong>Telomere (เทโลเมียร์) :</strong> ปลายสุดของโครโมโซม ช่วยป้องกันไม่ให้โครโมโซมถูกทำลาย หรือไปเชื่อมติดกับโครโมโซมอื่น (จะสั้นลงเรื่อยๆ เมื่อเซลล์แบ่งตัว)
+                                    </li>
+                                    <li>
+                                        <strong>Homologous Chromosome :</strong> คู่โครโมโซมที่มีรูปร่างเหมือนกัน ขนาดเท่ากัน มียีนควบคุมลักษณะเดียวกันอยู่ที่ตำแหน่งตรงกัน (Locus เดียวกัน) แท่งหนึ่งมาจากพ่อ อีกแท่งมาจากแม่
+                                    </li>
+                                </ul>
+                            </DetailCard>
                         </div>
 
-                        {/* SECTION 4.2 */}
-                        <div id="section-2">
-                            <SectionHeader 
-                                number="4.2" 
-                                title="สารพันธุกรรม (Genetic Material)" 
-                                subtitle="การค้นพบ DNA และโครงสร้างเกลียวคู่"
-                                color="border-violet-500"
-                            />
-
-                            <ContentCard title="เส้นทางสู่การค้นพบ DNA" icon={() => <i data-lucide="search" className="text-violet-500 w-6 h-6"/>}>
-                                <div className="grid md:grid-cols-2 gap-4">
-                                    <ExperimentBox 
-                                        scientist="Friedrich Miescher" 
-                                        year="2412" 
-                                        discovery="พบสารในนิวเคลียสที่มีธาตุ N และ P สูง ตั้งชื่อว่า 'Nuclein' (ต่อมาคือกรดนิวคลีอิก)" 
-                                    />
-                                    <ExperimentBox 
-                                        scientist="Frederick Griffith" 
-                                        year="2471" 
-                                        discovery="การทดลองแบคทีเรียปอดบวม (หนูตาย) พบปรากฏการณ์ Transformation (การแปลงพันธุ์)" 
-                                    />
-                                    <ExperimentBox 
-                                        scientist="Avery, MacLeod, McCarty" 
-                                        year="2487" 
-                                        discovery="พิสูจน์ว่าสารที่ทำให้เกิด Transformation คือ DNA (ไม่ใช่โปรตีน)" 
-                                    />
-                                    <ExperimentBox 
-                                        scientist="Watson & Crick" 
-                                        year="2496" 
-                                        discovery="เสนอแบบจำลองโครงสร้าง DNA แบบเกลียวคู่ (Double Helix) ที่สมบูรณ์" 
-                                    />
-                                </div>
-                            </ContentCard>
-
-                            <ContentCard title="โครงสร้างทางเคมีของ DNA" icon={() => <i data-lucide="box" className="text-violet-500 w-6 h-6"/>}>
-                                <div className="flex flex-col md:flex-row gap-8">
-                                    <div className="flex-1 space-y-4">
-                                        <p className="text-sm">ประกอบด้วยหน่วยย่อยเรียกว่า <strong>นิวคลีโอไทด์ (Nucleotide)</strong> 3 ส่วน :</p>
-                                        <ul className="list-disc pl-5 text-sm space-y-1 text-slate-700">
-                                            <li><strong>น้ำตาลดีออกซีไรโบส</strong> (Deoxyribose sugar)</li>
-                                            <li><strong>หมู่ฟอสเฟต</strong> (Phosphate Group)</li>
-                                            <li><strong>ไนโตรจีนัสเบส</strong> (Nitrogenous Base) : A , T , C , G</li>
-                                        </ul>
-                                        <div className="bg-violet-50 p-4 rounded-lg border border-violet-200">
-                                            <h4 className="font-bold text-violet-800 mb-2">กฎของชาร์กาฟ (Chargaff's Rule)</h4>
-                                            <p className="text-sm">เบสคู่สมจะจับคู่กันเสมอด้วยพันธะไฮโดรเจน</p>
-                                            <div className="flex gap-4 mt-2 justify-center">
-                                                <span className="bg-white px-3 py-1 rounded shadow text-slate-800 font-mono">A = T (2 พันธะ)</span>
-                                                <span className="bg-white px-3 py-1 rounded shadow text-slate-800 font-mono">C ≡ G (3 พันธะ)</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="flex-1 bg-slate-800 rounded-lg p-6 text-white flex flex-col justify-center items-center relative overflow-hidden">
-                                        <div className="absolute inset-0 opacity-10 dna-helix"></div>
-                                        <h4 className="text-lg font-bold mb-2 relative z-10">Double Helix</h4>
-                                        <p className="text-xs text-center text-slate-300 relative z-10">
-                                            สายพอลินิวคลีโอไทด์ 2 สายเรียงตัวทิศตรงข้าม (Antiparallel)<br/>
-                                            5' ➜ 3'<br/>
-                                            3' ➜ 5'
-                                        </p>
-                                    </div>
-                                </div>
-                            </ContentCard>
-                        </div>
-
-                        {/* SECTION 4.3 */}
-                        <div id="section-3">
-                            <SectionHeader 
-                                number="4.3" 
-                                title="สมบัติของสารพันธุกรรม" 
-                                subtitle="Central Dogma : จาก DNA สู่ โปรตีน"
-                                color="border-emerald-500"
-                            />
-
-                            <div className="flex justify-center mb-8">
-                                <div className="bg-white shadow-lg rounded-full px-8 py-4 flex items-center gap-4 text-sm font-bold border border-emerald-100">
-                                    <span className="text-emerald-700">DNA</span>
-                                    <i data-lucide="arrow-right" className="text-slate-400"></i>
-                                    <span className="text-emerald-600">mRNA</span>
-                                    <i data-lucide="arrow-right" className="text-slate-400"></i>
-                                    <span className="text-emerald-500">Protein</span>
-                                </div>
-                            </div>
-
-                            <ContentCard title="1. การจำลอง DNA (DNA Replication)" icon={() => <i data-lucide="copy" className="text-emerald-500 w-6 h-6"/>}>
-                                <div className="space-y-3">
-                                    <p className="text-sm">เกิดขึ้นในระยะ S ของ Interphase เป็นแบบ <strong>กึ่งอนุรักษ์ (Semiconservative)</strong> คือ ได้ DNA ใหม่ 2 โมเลกุล แต่ละโมเลกุลมีสายเก่า 1 สาย และสายใหม่ 1 สาย</p>
-                                    <div className="bg-emerald-50 p-4 rounded-lg text-sm border border-emerald-100 space-y-2">
-                                        <p><strong>ทิศทางการสร้าง :</strong> สร้างจาก 5' ไป 3' เสมอ</p>
-                                        <ul className="list-disc pl-5 text-emerald-900">
-                                            <li><strong>Leading Strand :</strong> สร้างต่อเนื่อง ยาวไปตามการคลายเกลียว</li>
-                                            <li><strong>Lagging Strand :</strong> สร้างเป็นท่อนสั้นๆ (Okazaki fragment) แล้วเชื่อมต่อกันด้วยเอนไซม์ Ligase</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </ContentCard>
-
-                            <ContentCard title="2. การสังเคราะห์โปรตีน (Protein Synthesis)" icon={() => <i data-lucide="cpu" className="text-emerald-500 w-6 h-6"/>}>
-                                <div className="space-y-6">
-                                    <ProcessStep 
-                                        step="1" 
-                                        title="การถอดรหัส (Transcription)" 
-                                        desc="เกิดในนิวเคลียส : สร้าง mRNA โดยใช้ DNA เป็นแม่แบบ (เปลี่ยนเบส T เป็น U)" 
-                                    />
-                                    <ProcessStep 
-                                        step="2" 
-                                        title="การแปลรหัส (Translation)" 
-                                        desc="เกิดที่ไรโบโซม (ในไซโทพลาสซึม) : อ่านรหัสบน mRNA ทีละ 3 ตัว (Codon) เพื่อนำกรดแอมิโนมาต่อกัน" 
-                                    />
-                                    
-                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                                        <div className="bg-slate-50 p-3 rounded text-center border">
-                                            <div className="text-xs text-slate-500 mb-1">Start Codon</div>
-                                            <div className="font-mono font-bold text-emerald-600 text-lg">AUG</div>
-                                            <div className="text-xs text-slate-400">(Methionine)</div>
-                                        </div>
-                                        <div className="bg-slate-50 p-3 rounded text-center border">
-                                            <div className="text-xs text-slate-500 mb-1">Stop Codon</div>
-                                            <div className="font-mono font-bold text-red-500 text-lg">UAA , UAG , UGA</div>
-                                            <div className="text-xs text-slate-400">(หยุดสร้าง)</div>
-                                        </div>
-                                        <div className="bg-slate-50 p-3 rounded text-center border">
-                                            <div className="text-xs text-slate-500 mb-1">ตัวช่วยสำคัญ</div>
-                                            <div className="font-bold text-slate-700">tRNA</div>
-                                            <div className="text-xs text-slate-400">นำกรดแอมิโนมาส่ง</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </ContentCard>
-                        </div>
-
-                        {/* SECTION 4.4 */}
-                        <div id="section-4">
-                            <SectionHeader 
-                                number="4.4" 
-                                title="มิวเทชัน (Mutation)" 
-                                subtitle="การเปลี่ยนแปลงทางพันธุกรรมและผลกระทบ"
-                                color="border-rose-500"
-                            />
-
-                            <ContentCard title="สาเหตุของการเกิดมิวเทชัน" icon={() => <i data-lucide="alert-triangle" className="text-rose-500 w-6 h-6"/>}>
-                                <div className="flex flex-col md:flex-row gap-4 text-sm">
-                                    <div className="flex-1 bg-rose-50 p-4 rounded-lg">
-                                        <strong className="text-rose-700 block mb-2">มิวทาเจน (Mutagen) สิ่งก่อกลายพันธุ์</strong>
-                                        <ul className="list-disc pl-5 space-y-1">
-                                            <li><strong>รังสี :</strong> X-ray , Gamma , UV</li>
-                                            <li><strong>สารเคมี :</strong> สารในควันบุหรี่ , อะฟลาทอกซิน (ถั่วลิสงขึ้นรา) , สารกันเสียบางชนิด</li>
-                                        </ul>
-                                    </div>
-                                    <div className="flex-1 bg-rose-50 p-4 rounded-lg">
-                                        <strong className="text-rose-700 block mb-2">ประเภทของการมิวเทชัน</strong>
-                                        <ul className="list-decimal pl-5 space-y-1">
-                                            <li>ระดับยีน (Gene Mutation)</li>
-                                            <li>ระดับโครโมโซม (Chromosome Mutation)</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </ContentCard>
+                        {/* 4.2 DNA */}
+                        <div id="sec-2">
+                            <SectionHeader number="4.2" title="สารพันธุกรรม (DNA)" color="bg-teal-600" />
 
                             <div className="grid md:grid-cols-2 gap-6">
-                                <ContentCard title="มิวเทชันระดับยีน" icon={() => <i data-lucide="file-code" className="text-rose-500 w-6 h-6"/>}>
-                                    <p className="text-sm mb-3">การเปลี่ยนแปลงลำดับเบสใน DNA (แทนที่ , เพิ่ม , หายไป)</p>
-                                    <div className="bg-white border rounded p-3 mb-3">
-                                        <strong className="text-slate-700 text-sm">โรคโลหิตจางซิกเคิลเซลล์ (Sickle Cell Anemia)</strong>
-                                        <p className="text-xs text-slate-500 mt-1">เกิดจากการแทนที่คู่เบส ทำให้กรดแอมิโนเปลี่ยน (Glutamic acid ➜ Valine) เม็ดเลือดแดงจึงเปลี่ยนรูป</p>
-                                    </div>
-                                </ContentCard>
+                                <DetailCard title="นิวคลีโอไทด์ (Nucleotide)" icon={() => <i data-lucide="box" className="w-6 h-6 text-teal-600" />}>
+                                    <p className="mb-3 text-sm">หน่วยย่อยที่สุดของ DNA ประกอบด้วย 3 ส่วน เชื่อมต่อกันด้วยพันธะโควาเลนต์ :</p>
+                                    <ul className="space-y-2 text-sm">
+                                        <li className="bg-teal-50 p-2 rounded">
+                                            <strong>1. น้ำตาลเพนโทส :</strong> ใน DNA คือ Deoxyribose (ขาด O ที่คาร์บอนตำแหน่งที่ 2') / ใน RNA คือ Ribose
+                                        </li>
+                                        <li className="bg-teal-50 p-2 rounded">
+                                            <strong>2. หมู่ฟอสเฟต (Phosphate Group) :</strong> เกาะที่คาร์บอนตำแหน่งที่ 5' ทำให้ DNA มีประจุเป็นลบและมีความเป็นกรด
+                                        </li>
+                                        <li className="bg-teal-50 p-2 rounded">
+                                            <strong>3. ไนโตรจีนัสเบส (Nitrogenous Base) :</strong> เกาะที่คาร์บอนตำแหน่งที่ 1' แบ่งเป็น 2 กลุ่ม
+                                            <ul className="pl-4 mt-1 list-disc text-xs text-slate-600">
+                                                <li><strong>Purine (พิวรีน) :</strong> เบสวงแหวนคู่ ได้แก่ <strong>A</strong> (Adenine) , <strong>G</strong> (Guanine)</li>
+                                                <li><strong>Pyrimidine (ไพริมิดีน) :</strong> เบสวงแหวนเดี่ยว ได้แก่ <strong>T</strong> (Thymine) , <strong>C</strong> (Cytosine) , *U (Uracil ใน RNA)</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </DetailCard>
 
-                                <ContentCard title="มิวเทชันระดับโครโมโซม" icon={() => <i data-lucide="git-merge" className="text-rose-500 w-6 h-6"/>}>
-                                    <p className="text-sm mb-3">เปลี่ยนแปลงโครงสร้างหรือจำนวน</p>
-                                    <div className="space-y-2 text-sm">
-                                        <div className="flex justify-between items-center bg-slate-50 p-2 rounded">
-                                            <span><strong>Cri-du-chat</strong> (Cat cry)</span>
-                                            <span className="text-xs text-slate-500">แขนโครโมโซมคู่ที่ 5 ขาดหาย</span>
+                                <DetailCard title="พันธะเคมีใน DNA" icon={() => <i data-lucide="link" className="w-6 h-6 text-teal-600" />}>
+                                    <div className="space-y-4">
+                                        <div>
+                                            <h5 className="font-bold text-teal-700 text-sm">พันธะภายในสาย (Backbone)</h5>
+                                            <p className="text-sm">เชื่อมด้วยพันธะ <strong>Phosphodiester bond</strong> ระหว่างหมู่ฟอสเฟตของนิวคลีโอไทด์หนึ่ง กับน้ำตาลตำแหน่ง 3' ของอีกนิวคลีโอไทด์ถัดไป (ทิศทาง 5' ➔ 3')</p>
                                         </div>
-                                        <div className="flex justify-between items-center bg-slate-50 p-2 rounded">
-                                            <span><strong>Down Syndrome</strong></span>
-                                            <span className="text-xs text-slate-500">คู่ที่ 21 เกินมา 1 แท่ง (Trisomy 21)</span>
-                                        </div>
-                                        <div className="flex justify-between items-center bg-slate-50 p-2 rounded">
-                                            <span><strong>Polyploidy</strong> (ในพืช)</span>
-                                            <span className="text-xs text-slate-500">3n , 4n (ผลใหญ่ , ไร้เมล็ด)</span>
+                                        <div>
+                                            <h5 className="font-bold text-teal-700 text-sm">พันธะระหว่างสาย (Rungs)</h5>
+                                            <p className="text-sm">เชื่อมคู่เบสด้วย <strong>Hydrogen bond</strong> (พันธะไฮโดรเจน) ซึ่งไม่แข็งแรงมาก ทำให้แยกสายได้ง่ายตอนจำลองตัว</p>
+                                            <div className="flex gap-2 mt-2 text-xs font-mono">
+                                                <span className="bg-slate-100 px-2 py-1 rounded border">A = T (2 พันธะ)</span>
+                                                <span className="bg-slate-100 px-2 py-1 rounded border">G ≡ C (3 พันธะ)</span>
+                                            </div>
+                                            <p className="text-xs text-slate-500 mt-1">*คู่ G-C จะแยกออกจากกันยากกว่า A-T เพราะพันธะเยอะกว่า</p>
                                         </div>
                                     </div>
-                                </ContentCard>
+                                </DetailCard>
                             </div>
+                        </div>
+
+                        {/* 4.3 Synthesis */}
+                        <div id="sec-3">
+                            <SectionHeader number="4.3" title="การสังเคราะห์ DNA และโปรตีน" color="bg-emerald-600" />
+
+                            <DetailCard title="1. การจำลอง DNA (DNA Replication)" icon={() => <i data-lucide="copy" className="w-6 h-6 text-emerald-600" />}>
+                                <InfoBox title="Semiconservative Model" type="success">
+                                    การจำลองแบบกึ่งอนุรักษ์ : DNA ลูกผสม 2 โมเลกุลที่ได้ จะมีสายเก่า 1 สายและสายใหม่ 1 สายเสมอ
+                                </InfoBox>
+                                <div className="mt-6 space-y-0">
+                                    <ProcessStep 
+                                        number="1" 
+                                        title="การคลายเกลียว (Unwinding)"
+                                        color="bg-emerald-500"
+                                        details={<span>เอนไซม์ <strong>Helicase</strong> จะทำลายพันธะไฮโดรเจนเพื่อแยก DNA สองสายออกจากกัน เกิดเป็น Replication Fork</span>}
+                                    />
+                                    <ProcessStep 
+                                        number="2" 
+                                        title="การสร้างสายใหม่ (Elongation)"
+                                        color="bg-emerald-500"
+                                        details={
+                                            <div className="space-y-2">
+                                                <p>เอนไซม์ <strong>DNA Polymerase</strong> จะนำนิวคลีโอไทด์อิสระมาต่อสายใหม่ <strong>ในทิศทาง 5' ไป 3' เสมอ</strong> ทำให้เกิดการสร้าง 2 แบบ :</p>
+                                                <ul className="list-disc pl-4 space-y-1">
+                                                    <li><strong>Leading Strand :</strong> สร้างต่อเนื่องยาวไปตามทิศการคลายเกลียว</li>
+                                                    <li><strong>Lagging Strand :</strong> สร้างสวนทางกับการคลายเกลียว จึงต้องสร้างเป็นท่อนสั้นๆ เรียกว่า <strong>Okazaki fragment</strong></li>
+                                                </ul>
+                                            </div>
+                                        }
+                                    />
+                                    <ProcessStep 
+                                        number="3" 
+                                        title="การเชื่อมต่อ (Joining)"
+                                        color="bg-emerald-500"
+                                        details={<span>เอนไซม์ <strong>DNA Ligase</strong> จะทำหน้าที่เชื่อมท่อน Okazaki fragment เข้าด้วยกันให้เป็นสายยาวสมบูรณ์</span>}
+                                    />
+                                </div>
+                            </DetailCard>
+
+                            <DetailCard title="2. การสังเคราะห์โปรตีน (Protein Synthesis)" icon={() => <i data-lucide="cpu" className="w-6 h-6 text-emerald-600" />}>
+                                <div className="grid md:grid-cols-2 gap-8">
+                                    <div className="bg-slate-50 p-4 rounded-lg border border-emerald-100">
+                                        <h4 className="font-bold text-emerald-800 mb-2 border-b border-emerald-200 pb-2">Transcription (การถอดรหัส)</h4>
+                                        <p className="text-sm mb-2 text-slate-500">📍 เกิดในนิวเคลียส</p>
+                                        <ul className="text-sm space-y-2">
+                                            <li>• <strong>RNA Polymerase</strong> เข้าจับที่สาย DNA แม่แบบ</li>
+                                            <li>• สร้างสาย mRNA ในทิศ 5' ➔ 3' โดยเปลี่ยนเบสคู่สมจาก <strong>A เป็น U</strong> (เช่น DNA : T-A-C ➔ mRNA : A-U-G)</li>
+                                            <li>• เมื่อเสร็จสิ้น mRNA จะเคลื่อนออกจากนิวเคลียสไปยังไซโทพลาสซึม</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div className="bg-slate-50 p-4 rounded-lg border border-emerald-100">
+                                        <h4 className="font-bold text-emerald-800 mb-2 border-b border-emerald-200 pb-2">Translation (การแปลรหัส)</h4>
+                                        <p className="text-sm mb-2 text-slate-500">📍 เกิดที่ไรโบโซม (Ribosome)</p>
+                                        <ul className="text-sm space-y-2">
+                                            <li>• ไรโบโซมอ่านรหัสบน mRNA ทีละ 3 ตัว เรียกว่า <strong>Codon</strong></li>
+                                            <li>• <strong>tRNA</strong> ที่มี <strong>Anticodon</strong> คู่สมกัน จะนำกรดแอมิโนจำเพาะมาส่ง</li>
+                                            <li>• เกิดพันธะเพปไทด์เชื่อมกรดแอมิโนต่อกันเป็นสายยาว (Polypeptide)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div className="mt-4 bg-white border rounded-lg p-4">
+                                    <h5 className="font-bold text-slate-700 mb-2 text-center">รหัสพันธุกรรมที่ควรรู้ (Genetic Code)</h5>
+                                    <div className="flex justify-center gap-4 text-sm">
+                                        <div className="text-center">
+                                            <div className="font-mono font-bold text-emerald-600">AUG</div>
+                                            <div className="text-xs">Start Codon (Methionine)</div>
+                                            <div className="text-xs text-slate-400">เริ่มเสมอ</div>
+                                        </div>
+                                        <div className="w-px bg-slate-200"></div>
+                                        <div className="text-center">
+                                            <div className="font-mono font-bold text-rose-500">UAA , UAG , UGA</div>
+                                            <div className="text-xs">Stop Codon</div>
+                                            <div className="text-xs text-slate-400">ไม่แปลเป็นกรดแอมิโน</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </DetailCard>
+                        </div>
+
+                        {/* 4.4 Mutation */}
+                        <div id="sec-4">
+                            <SectionHeader number="4.4" title="มิวเทชัน (Mutation)" color="bg-rose-600" />
+                            
+                            <DetailCard title="1. มิวเทชันระดับยีน (Gene Mutation)" icon={() => <i data-lucide="file-warning" className="w-6 h-6 text-rose-600" />}>
+                                <p className="mb-4">คือการเปลี่ยนแปลงลำดับนิวคลีโอไทด์เพียงจุดเดียว (Point Mutation) ส่งผลได้ 2 แบบใหญ่ๆ :</p>
+                                
+                                <div className="space-y-4">
+                                    <div className="bg-rose-50 p-4 rounded-lg border-l-4 border-rose-400">
+                                        <h5 className="font-bold text-rose-800">ก. การแทนที่คู่เบส (Base Substitution)</h5>
+                                        <p className="text-sm text-slate-700 mt-1">เปลี่ยนเบสตัวหนึ่งเป็นอีกตัวหนึ่ง ผลกระทบอาจน้อยหรือมาก</p>
+                                        <ul className="list-disc pl-5 mt-2 text-sm text-slate-600">
+                                            <li><strong>Silent Mutation :</strong> กรดแอมิโนไม่เปลี่ยน (โปรตีนเหมือนเดิม)</li>
+                                            <li><strong>Missense Mutation :</strong> กรดแอมิโนเปลี่ยนไป (เช่น โรคโลหิตจาง Sickle Cell เกิดจากเบส A แทนที่ T ทำให้กรดแอมิโน Glu กลายเป็น Val โปรตีนฮีโมโกลบินจึงเสียรูป)</li>
+                                            <li><strong>Nonsense Mutation :</strong> เปลี่ยนเป็นรหัสหยุด (Stop Codon) เร็วเกินไป โปรตีนกุดด้วน ทำงานไม่ได้</li>
+                                        </ul>
+                                    </div>
+
+                                    <div className="bg-orange-50 p-4 rounded-lg border-l-4 border-orange-400">
+                                        <h5 className="font-bold text-orange-800">ข. การเพิ่มหรือลดนิวคลีโอไทด์ (Frameshift Mutation)</h5>
+                                        <p className="text-sm text-slate-700 mt-1">รุนแรงมาก! เพราะเบสหายไปหรือเพิ่มขึ้น 1 ตัว ทำให้กรอบการอ่านรหัส (Reading Frame) เปลี่ยนไปทั้งหมดตั้งแต่จุดที่เกิดเหตุ กรดแอมิโนจะเพี้ยนไปหมดตลอดสาย</p>
+                                    </div>
+                                </div>
+                            </DetailCard>
+
+                            <DetailCard title="2. มิวเทชันระดับโครโมโซม" icon={() => <i data-lucide="git-merge" className="w-6 h-6 text-rose-600" />}>
+                                <p className="mb-3">เกิดจากการแบ่งเซลล์ผิดพลาด (Nondisjunction) ทำให้จำนวนหรือรูปร่างโครโมโซมเปลี่ยนไป</p>
+                                <div className="overflow-x-auto">
+                                    <table className="w-full text-sm text-left text-slate-600">
+                                        <thead className="text-xs text-slate-700 uppercase bg-slate-100">
+                                            <tr>
+                                                <th className="px-4 py-2">ชื่อกลุ่มอาการ</th>
+                                                <th className="px-4 py-2">ความผิดปกติ</th>
+                                                <th className="px-4 py-2">ลักษณะอาการ</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr className="bg-white border-b">
+                                                <td className="px-4 py-2 font-medium text-slate-900">Down Syndrome</td>
+                                                <td className="px-4 py-2">คู่ที่ 21 เกินมา 1 แท่ง (Trisomy 21)</td>
+                                                <td className="px-4 py-2">ปัญญาอ่อน , ดั้งจมูกแบน , ลิ้นจุกปาก</td>
+                                            </tr>
+                                            <tr className="bg-slate-50 border-b">
+                                                <td className="px-4 py-2 font-medium text-slate-900">Cri-du-chat</td>
+                                                <td className="px-4 py-2">แขนโครโมโซมคู่ที่ 5 ขาดหาย (Deletion)</td>
+                                                <td className="px-4 py-2">เสียงร้องแหลมเหมือนแมว , ศีรษะเล็ก</td>
+                                            </tr>
+                                            <tr className="bg-white border-b">
+                                                <td className="px-4 py-2 font-medium text-slate-900">Turner Syndrome</td>
+                                                <td className="px-4 py-2">โครโมโซม X หายไป 1 แท่ง (XO)</td>
+                                                <td className="px-4 py-2">หญิงเตี้ย , คอเป็นแผง , เป็นหมัน</td>
+                                            </tr>
+                                            <tr className="bg-slate-50 border-b">
+                                                <td className="px-4 py-2 font-medium text-slate-900">Klinefelter</td>
+                                                <td className="px-4 py-2">โครโมโซม X เกินในชาย (XXY)</td>
+                                                <td className="px-4 py-2">ชายมีเต้านม , อัณฑะเล็ก , เป็นหมัน</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </DetailCard>
                         </div>
 
                         {/* Footer */}
-                        <div className="mt-12 text-center text-slate-400 text-sm pb-8">
-                            <p>รวบรวมเนื้อหาจากสไลด์ประกอบการสอน บทที่ 4 : โครโมโซมและสารพันธุกรรม</p>
+                        <div className="text-center mt-12 mb-8 text-slate-400 text-sm">
+                            <p>รวบรวมและเรียบเรียงจากสื่อการสอน สสวท. บทที่ 4 ชีววิทยา เล่ม 2</p>
                         </div>
 
                     </main>
 
-                    {/* Back to Top Button */}
+                    {/* Scroll to Top */}
                     <button 
                         onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
-                        className="fixed bottom-6 right-6 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition transform hover:-translate-y-1 z-50"
-                        title="Back to Top"
+                        className="fixed bottom-6 right-6 bg-slate-800 hover:bg-slate-700 text-white p-3 rounded-full shadow-xl transition hover:scale-110 z-50"
                     >
-                        <i data-lucide="arrow-up" className="w-6 h-6"></i>
+                        <i data-lucide="arrow-up" className="w-5 h-5"></i>
                     </button>
                 </div>
             );
@@ -431,4 +399,4 @@
         root.render(<App />);
     </script>
 </body>
-  </html>
+</html>
