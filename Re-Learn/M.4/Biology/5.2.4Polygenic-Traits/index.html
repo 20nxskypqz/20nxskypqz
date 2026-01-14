@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5.2.4 ลักษณะควบคุมด้วยยีนหลายคู่</title>
+    <!-- Google Fonts: Niramit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Niramit', sans-serif;
+            background-color: #fffbf0; /* Warm/Cream background */
+            color: #431407; /* Brown-900 text */
+        }
+        /* Force Niramit on all elements */
+        code, kbd, samp, pre, blockquote, span, div, h1, h2, h3, h4, h5, h6, p, strong, i, svg, sup, sub {
+            font-family: 'Niramit', sans-serif !important;
+        }
+        .gradient-header {
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%); /* Amber Gradient */
+        }
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        /* Chart Bars for Distribution */
+        .bar-chart-container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            height: 150px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #ddd;
+        }
+        .bar {
+            width: 12%;
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .bar:hover {
+            transform: scaleY(1.05);
+            transform-origin: bottom;
+        }
+        /* SVG Icon Classes */
+        .icon-sm { width: 1.25rem; height: 1.25rem; flex-shrink: 0; }
+        .icon-md { width: 1.5rem; height: 1.5rem; flex-shrink: 0; }
+        .icon-lg { width: 2rem; height: 2rem; flex-shrink: 0; }
+        .icon-xl { width: 3rem; height: 3rem; flex-shrink: 0; }
+    </style>
+</head>
+<body class="antialiased selection:bg-amber-200 selection:text-amber-900">
+
+    <!-- Header Section -->
+    <header class="gradient-header text-white py-12 px-4 shadow-lg mb-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-flex items-center bg-white/20 backdrop-blur-sm px-4 py-1 rounded-full text-sm font-medium mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon-sm mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                </svg>
+                ชีววิทยา
+            </div>
+            <h1 class="text-3xl md:text-5xl font-bold mb-4 leading-tight break-words">
+                บทที่ 5 : การถ่ายทอดลักษณะทางพันธุกรรม
+            </h1>
+            <h2 class="text-xl md:text-3xl font-semibold mb-2 break-words">
+                5.2.4 ลักษณะควบคุมด้วยยีนหลายคู่
+            </h2>
+            <h3 class="text-lg md:text-xl font-light opacity-90 break-words">
+                (Polygenic Traits)
+            </h3>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 pb-16 space-y-12">
+
+        <!-- 1. บทนำ -->
+        <section class="bg-white rounded-2xl p-6 md:p-8 card-shadow border-t-8 border-amber-600">
+            <h3 class="text-2xl font-bold text-amber-800 mb-6 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon-md mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                Polygenic Trait คืออะไร ?
+            </h3>
+            <p class="text-gray-700 leading-relaxed text-lg mb-4">
+                ลองสังเกตลักษณะของมนุษย์ เช่น <strong>สีผิว , สีตา , หรือ ความสูง</strong> เราจะพบว่าไม่สามารถแบ่งกลุ่มได้ชัดเจนแค่ ขาว/ดำ หรือ สูง/เตี้ย แต่จะพบความหลากหลายไล่ระดับกันไป
+            </p>
+            <div class="bg-amber-50 p-4 rounded-xl border border-amber-100">
+                <p class="font-bold text-amber-900 mb-2">คำนิยาม :</p>
+                <p class="text-gray-700">
+                    ลักษณะทางพันธุกรรมหนึ่งลักษณะ ที่ถูกควบคุมโดย <strong>ยีนมากกว่า 1 คู่ (Polygene)</strong> ทำงานร่วมกัน ทำให้เกิดความแตกต่างแบบลดหลั่นกันไป (Continuous Variation)
+                </p>
+            </div>
+        </section>
+
+        <!-- 2. กรณีศึกษา : สีเมล็ดข้าวสาลี -->
+        <section class="bg-white rounded-2xl p-6 md:p-8 card-shadow relative overflow-hidden">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <span class="bg-amber-600 text-white text-sm px-3 py-1 rounded-full mr-3">Case Study</span>
+                สีของเมล็ดข้าวสาลี
+            </h3>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <!-- Concept -->
+                <div>
+                    <h4 class="font-bold text-amber-700 mb-2">การควบคุมพันธุกรรม</h4>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li>• ควบคุมโดยยีน <strong>3 คู่</strong> : R<sub>1</sub> , R<sub>2</sub> , R<sub>3</sub></li>
+                        <li>• <strong>แอลลีลเด่น (R)</strong> : สร้างสีแดง (ยิ่งมากยิ่งเข้ม)</li>
+                        <li>• <strong>แอลลีลด้อย (r)</strong> : สีขาว (ไม่สร้างสี)</li>
+                    </ul>
+                    
+                    <div class="mt-4 bg-gray-50 p-3 rounded-lg border border-gray-200 text-sm">
+                        <p class="font-bold mb-1">การทดลอง (P Generation)</p>
+                        <div class="flex items-center justify-between">
+                            <div class="text-center">
+                                <span class="block w-8 h-8 bg-red-900 rounded-full mx-auto mb-1"></span>
+                                <span class="text-xs">แดงเข้มจัด</span>
+                            </div>
+                            <span class="text-gray-400 font-bold">X</span>
+                            <div class="text-center">
+                                <span class="block w-8 h-8 bg-gray-100 border border-gray-300 rounded-full mx-auto mb-1"></span>
+                                <span class="text-xs">ขาว</span>
+                            </div>
+                            <span class="text-gray-400 font-bold"><i class="fas fa-arrow-right"></i></span>
+                            <div class="text-center">
+                                <span class="block w-8 h-8 bg-red-500 rounded-full mx-auto mb-1"></span>
+                                <span class="text-xs font-bold text-red-600">F1 : แดงปานกลาง</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Graph Visualization -->
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                    <h4 class="font-bold text-gray-700 mb-4 text-center">กราฟการกระจายตัวในรุ่น F2 (Bell Curve)</h4>
+                    
+                    <!-- CSS Bar Chart simulating Bell Curve -->
+                    <div class="bar-chart-container px-2">
+                        <!-- 0 Dominant -->
+                        <div class="bar bg-gray-200" style="height: 5%;" title="ขาว (1/64)">
+                            <span class="absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs text-gray-500">1</span>
+                        </div>
+                        <!-- 1 Dominant -->
+                        <div class="bar bg-red-200" style="height: 20%;" title="แดงอ่อนมาก (6/64)"></div>
+                        <!-- 2 Dominant -->
+                        <div class="bar bg-red-300" style="height: 50%;" title="แดงอ่อน (15/64)"></div>
+                        <!-- 3 Dominant -->
+                        <div class="bar bg-red-500" style="height: 80%;" title="แดงปานกลาง (20/64)">
+                            <span class="absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs text-red-600 font-bold">20</span>
+                        </div>
+                        <!-- 4 Dominant -->
+                        <div class="bar bg-red-600" style="height: 50%;" title="แดงเข้ม (15/64)"></div>
+                        <!-- 5 Dominant -->
+                        <div class="bar bg-red-800" style="height: 20%;" title="แดงเข้มมาก (6/64)"></div>
+                        <!-- 6 Dominant -->
+                        <div class="bar bg-red-950" style="height: 5%;" title="แดงเข้มจัด (1/64)">
+                            <span class="absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs text-gray-500">1</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between text-[10px] text-gray-500 mt-1 px-1">
+                        <span>ขาว</span>
+                        <span>(ความเข้มสี)</span>
+                        <span>แดงเข้มจัด</span>
+                    </div>
+                    <p class="text-xs text-center mt-3 text-gray-600">
+                        พบว่าประชากรส่วนใหญ่มี <strong>สีปานกลาง</strong> (Normal Distribution)
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. โจทย์ปัญหา -->
+        <section class="bg-amber-50 rounded-2xl p-6 md:p-8 card-shadow border border-amber-200">
+            <h3 class="text-2xl font-bold text-amber-900 mb-6 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon-md mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+                โจทย์ปัญหาท้าทายความคิด
+            </h3>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <p class="font-bold text-gray-800 mb-4">
+                    ผสมพันธุ์ต้น : <span class="font-mono bg-gray-100 px-2 rounded text-red-600">R<sub>1</sub>r<sub>1</sub> R<sub>2</sub>r<sub>2</sub> R<sub>3</sub>R<sub>3</sub></span>  X  <span class="font-mono bg-gray-100 px-2 rounded text-red-600">R<sub>1</sub>r<sub>1</sub> R<sub>2</sub>R<sub>2</sub> r<sub>3</sub>r<sub>3</sub></span>
+                </p>
+                
+                <div class="grid md:grid-cols-2 gap-6 text-sm">
+                    <!-- Step 1 -->
+                    <div>
+                        <h5 class="font-bold text-amber-700 mb-2">1. หาจำนวนแบบเซลล์สืบพันธุ์</h5>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>
+                                <strong>ต้นที่ 1 :</strong> Hetero 2 คู่ , Homo 1 คู่<br>
+                                <span class="pl-4">→ 2<sup>2</sup> x 1 = <strong>4 แบบ</strong></span>
+                            </li>
+                            <li>
+                                <strong>ต้นที่ 2 :</strong> Hetero 1 คู่ , Homo 2 คู่<br>
+                                <span class="pl-4">→ 2<sup>1</sup> x 1 x 1 = <strong>2 แบบ</strong></span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div>
+                        <h5 class="font-bold text-amber-700 mb-2">2. หาจำนวนฟีโนไทป์ (ระดับสี) ในลูก</h5>
+                        <p class="text-gray-600 mb-2">พิจารณา <strong>ผลรวมแอลลีลเด่น</strong> ของลูกที่เป็นไปได้</p>
+                        <div class="bg-amber-50 p-2 rounded text-xs font-mono">
+                            สูงสุด = 3 (ต้น1) + 2 (ต้น2) = 5 แอลลีล<br>
+                            ต่ำสุด = 2 (ต้น1) + 1 (ต้น2) = 3 แอลลีล
+                        </div>
+                        <p class="mt-2 font-bold text-red-600">
+                            ตอบ : มีฟีโนไทป์ได้ 3-4 แบบ (ไล่ระดับความเข้ม)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. ตารางเปรียบเทียบ Continuous vs Discontinuous -->
+        <section class="bg-gray-800 text-white rounded-3xl p-6 md:p-8 shadow-xl">
+            <h3 class="text-xl font-bold mb-6 text-center text-gray-200">
+                รูปแบบความแปรผันทางพันธุกรรม (Variation)
+            </h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm">
+                    <thead>
+                        <tr class="border-b border-gray-600">
+                            <th class="py-3 px-4 text-gray-400 w-1/3">หัวข้อ</th>
+                            <th class="py-3 px-4 text-amber-300 w-1/3">แปรผันต่อเนื่อง (Continuous)</th>
+                            <th class="py-3 px-4 text-blue-300 w-1/3">แปรผันไม่ต่อเนื่อง (Discontinuous)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-700">
+                        <tr>
+                            <td class="py-3 px-4 text-gray-400 font-bold">ลักษณะ</td>
+                            <td class="py-3 px-4">ลดหลั่นกัน วัดค่าได้ (Quantitive)</td>
+                            <td class="py-3 px-4">แยกกลุ่มชัดเจน (Qualitative)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 text-gray-400 font-bold">การควบคุม</td>
+                            <td class="py-3 px-4">ยีนหลายคู่ (Polygenic)</td>
+                            <td class="py-3 px-4">ยีนน้อยคู่ (Single locus)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 text-gray-400 font-bold">กราฟ</td>
+                            <td class="py-3 px-4">ระฆังคว่ำ (Normal Curve)</td>
+                            <td class="py-3 px-4">แท่งแยกกลุ่ม (Bar Chart)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 text-gray-400 font-bold">ตัวอย่าง</td>
+                            <td class="py-3 px-4">ความสูง , สีผิว , น้ำหนัก</td>
+                            <td class="py-3 px-4">หมู่เลือด , การมีติ่งหู</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 5. สรุปความแตกต่าง -->
+        <section class="bg-white rounded-xl p-6 border-l-4 border-red-500 shadow-sm mt-8">
+            <h4 class="font-bold text-gray-800 mb-2">ข้อควรระวัง : อย่าสับสน !</h4>
+            <div class="grid md:grid-cols-2 gap-4 text-sm">
+                <div>
+                    <strong class="text-red-600 block mb-1">Multiple Alleles</strong>
+                    <p class="text-gray-600">
+                        คือ ยีน <strong>1 ตำแหน่ง</strong> แต่มีตัวเลือกแอลลีลเยอะ (>2 แบบ)<br>
+                        (เช่น หมู่เลือด ABO มี I<sup>A</sup>, I<sup>B</sup>, i)
+                    </p>
+                </div>
+                <div>
+                    <strong class="text-amber-600 block mb-1">Polygenic Traits</strong>
+                    <p class="text-gray-600">
+                        คือ ลักษณะเดียว แต่คุมโดย <strong>ยีนหลายตำแหน่ง</strong> ทำงานช่วยกัน<br>
+                        (เช่น ความสูง คุมโดยยีน A, B, C, D...)
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</body>
+</html>
