@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5.3 ยีนบนโครโมโซมเดียวกัน (Linkage)</title>
+    <!-- Google Fonts: Niramit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Niramit', sans-serif;
+            background-color: #f3e8ff; /* Purple-50 background */
+            color: #581c87; /* Purple-900 text */
+        }
+        /* Force Niramit on all elements */
+        code, kbd, samp, pre, blockquote, span, div, h1, h2, h3, h4, h5, h6, p, strong, i, svg, sup, sub {
+            font-family: 'Niramit', sans-serif !important;
+        }
+        .gradient-header {
+            background: linear-gradient(135deg, #7c3aed 0%, #d97706 100%); /* Violet to Amber */
+        }
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        /* Custom Chromosome Icon Style */
+        .chromosome {
+            position: relative;
+            width: 20px;
+            height: 60px;
+            background: #ddd;
+            border-radius: 10px;
+            margin: 0 5px;
+        }
+        .chromosome::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: -2px;
+            width: 24px;
+            height: 10px;
+            background: #999;
+            border-radius: 50%;
+        }
+        /* SVG Icon Classes */
+        .icon-sm { width: 1.25rem; height: 1.25rem; flex-shrink: 0; }
+        .icon-md { width: 1.5rem; height: 1.5rem; flex-shrink: 0; }
+        .icon-lg { width: 2rem; height: 2rem; flex-shrink: 0; }
+        .icon-xl { width: 3rem; height: 3rem; flex-shrink: 0; }
+    </style>
+</head>
+<body class="antialiased selection:bg-purple-200 selection:text-purple-900">
+
+    <!-- Header Section -->
+    <header class="gradient-header text-white py-12 px-4 shadow-lg mb-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-flex items-center bg-white/20 backdrop-blur-sm px-4 py-1 rounded-full text-sm font-medium mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon-sm mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                </svg>
+                ชีววิทยา
+            </div>
+            <h1 class="text-3xl md:text-5xl font-bold mb-4 leading-tight break-words">
+                บทที่ 5 : การถ่ายทอดลักษณะทางพันธุกรรม
+            </h1>
+            <h2 class="text-xl md:text-3xl font-semibold mb-2 break-words">
+                5.3 ยีนบนโครโมโซมเดียวกัน
+            </h2>
+            <h3 class="text-lg md:text-xl font-light opacity-90 break-words">
+                (Linkage)
+            </h3>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 pb-16 space-y-12">
+
+        <!-- 1. บทนำ -->
+        <section class="bg-white rounded-2xl p-6 md:p-8 card-shadow border-t-8 border-purple-500">
+            <h3 class="text-2xl font-bold text-purple-800 mb-6 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon-md mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                คำถามชวนคิด ?
+            </h3>
+            
+            <div class="grid md:grid-cols-2 gap-6 items-center">
+                <div class="bg-purple-50 p-5 rounded-xl border border-purple-100 text-center">
+                    <p class="text-sm text-gray-500 mb-1">มนุษย์มียีนประมาณ</p>
+                    <p class="text-3xl font-bold text-purple-700">25,000 ยีน</p>
+                </div>
+                <div class="bg-amber-50 p-5 rounded-xl border border-amber-100 text-center">
+                    <p class="text-sm text-gray-500 mb-1">แต่มีโครโมโซมเพียง</p>
+                    <p class="text-3xl font-bold text-amber-600">23 คู่</p>
+                </div>
+            </div>
+
+            <div class="mt-6 text-center text-lg text-gray-700 font-medium">
+                "ยีนที่อยู่บนโครโมโซมเดียวกัน ... จะถูกถ่ายทอดไปด้วยกันหรือไม่ ?"
+            </div>
+        </section>
+
+        <!-- 2. นิยาม Linkage -->
+        <section class="bg-gradient-to-r from-purple-900 to-indigo-900 text-white rounded-3xl p-8 shadow-xl relative overflow-hidden">
+            <div class="absolute right-0 top-0 opacity-10 transform translate-x-1/4 -translate-y-1/4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-64 h-64" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                </svg>
+            </div>
+
+            <h3 class="text-2xl font-bold mb-4 relative z-10">ลิงเกจ (Linkage)</h3>
+            <p class="text-purple-100 text-lg leading-relaxed relative z-10 mb-6">
+                คือ กลุ่มของยีนที่มีตำแหน่งอยู่บน <strong>โครโมโซมแท่งเดียวกัน</strong> ซึ่งมักจะถูกถ่ายทอดไปพร้อมๆ กันสู่รุ่นลูกหลาน (โดยเฉพาะถ้ายีนอยู่ใกล้ชิดกันมาก)
+            </p>
+        </section>
+
+        <!-- 3. กรณีศึกษาแมลงหวี่ -->
+        <section class="bg-white rounded-2xl p-6 md:p-8 card-shadow">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon-md mr-3 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                </svg>
+                กรณีศึกษา : แมลงหวี่ของมอร์แกน
+            </h3>
+
+            <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 mb-6">
+                <h4 class="font-bold text-gray-700 mb-3 border-b pb-2">กำหนดสัญลักษณ์พันธุกรรม :</h4>
+                <div class="grid md:grid-cols-2 gap-4 text-sm">
+                    <div class="flex flex-col">
+                        <span class="font-bold text-gray-800 mb-1">1. ลักษณะสีลำตัว</span>
+                        <div class="flex gap-2">
+                            <span class="bg-amber-100 text-amber-800 px-2 py-1 rounded">b<sup>+</sup> = น้ำตาล (เด่น)</span>
+                            <span class="bg-gray-200 text-gray-600 px-2 py-1 rounded">b = ดำ (ด้อย)</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-bold text-gray-800 mb-1">2. ลักษณะปีก</span>
+                        <div class="flex gap-2">
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">vg<sup>+</sup> = ปกติ (เด่น)</span>
+                            <span class="bg-red-100 text-red-800 px-2 py-1 rounded">vg = กุด (ด้อย)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3 Cases Comparison -->
+            <div class="space-y-6">
+                <h4 class="font-bold text-purple-800 text-lg text-center bg-purple-100 py-2 rounded-lg">
+                    เปรียบเทียบรูปแบบการถ่ายทอด 3 กรณี
+                </h4>
+
+                <!-- Case 1 -->
+                <div class="border-l-4 border-gray-400 pl-4 py-2">
+                    <h5 class="font-bold text-gray-700">กรณี 1 : กฎของเมนเดล (แยกอิสระ)</h5>
+                    <p class="text-sm text-gray-500 mb-2">ยีนอยู่คนละโครโมโซม</p>
+                    <div class="flex gap-1 text-sm bg-gray-100 p-2 rounded justify-center font-mono">
+                        <span class="w-1/4 text-center">1</span> : 
+                        <span class="w-1/4 text-center">1</span> : 
+                        <span class="w-1/4 text-center">1</span> : 
+                        <span class="w-1/4 text-center">1</span>
+                    </div>
+                </div>
+
+                <!-- Case 2 -->
+                <div class="border-l-4 border-amber-500 pl-4 py-2">
+                    <h5 class="font-bold text-amber-700">กรณี 2 : ลิงเกจสมบูรณ์ (Complete Linkage)</h5>
+                    <p class="text-sm text-gray-500 mb-2">ยีนติดกันแน่น ไม่มีการแลกเปลี่ยน</p>
+                    <div class="flex gap-1 text-sm bg-amber-50 p-2 rounded justify-center font-mono font-bold text-amber-900">
+                        <span class="w-1/2 text-center bg-amber-100 rounded">1 (เหมือนแม่)</span> : 
+                        <span class="w-1/2 text-center bg-amber-100 rounded">1 (เหมือนพ่อ)</span>
+                    </div>
+                    <p class="text-xs text-amber-600 mt-1 text-center">*ไม่พบลักษณะใหม่</p>
+                </div>
+
+                <!-- Case 3 -->
+                <div class="border-l-4 border-purple-600 pl-4 py-2 bg-purple-50 rounded-r-lg">
+                    <div class="flex justify-between items-center mb-2">
+                        <h5 class="font-bold text-purple-800">กรณี 3 : ผลการทดลองจริง (Linkage + Crossing Over)</h5>
+                        <span class="bg-purple-600 text-white text-xs px-2 py-1 rounded">เกิดจริง</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-4 gap-2 text-center text-sm mb-2">
+                        <div class="col-span-1 bg-white p-2 rounded border border-purple-200">
+                            <span class="block font-bold text-lg">965</span>
+                            <span class="text-xs text-gray-500">น้ำตาล-ปกติ</span>
+                        </div>
+                        <div class="col-span-1 bg-white p-2 rounded border border-purple-200">
+                            <span class="block font-bold text-lg">944</span>
+                            <span class="text-xs text-gray-500">ดำ-กุด</span>
+                        </div>
+                        <div class="col-span-1 bg-white p-2 rounded border border-purple-200 border-dashed">
+                            <span class="block font-bold text-lg text-red-500">206</span>
+                            <span class="text-xs text-red-400">น้ำตาล-กุด</span>
+                        </div>
+                        <div class="col-span-1 bg-white p-2 rounded border border-purple-200 border-dashed">
+                            <span class="block font-bold text-lg text-red-500">185</span>
+                            <span class="text-xs text-red-400">ดำ-ปกติ</span>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center text-sm font-bold text-purple-900 bg-white/50 p-2 rounded">
+                        อัตราส่วนประมาณ 9 : 9 : <span class="text-red-600">2 : 2</span>
+                    </div>
+                    <p class="text-xs text-purple-600 mt-2 text-center">
+                        พบ <span class="text-red-500 font-bold">ลักษณะใหม่ (Recombinant)</span> จำนวนน้อย เกิดจากการแลกเปลี่ยนชิ้นส่วน
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Crossing Over -->
+        <section class="bg-white rounded-2xl p-6 md:p-8 card-shadow border-t-8 border-pink-500">
+            <h3 class="text-2xl font-bold text-pink-700 mb-6 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon-md mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                </svg>
+                คำอธิบาย : ครอสซิงโอเวอร์ (Crossing Over)
+            </h3>
+
+            <div class="flex flex-col md:flex-row gap-6 items-center">
+                <div class="w-full md:w-2/3">
+                    <p class="text-gray-700 mb-4">
+                        เกิดในระยะ <strong>Prophase I</strong> ของการแบ่งเซลล์แบบไมโอซิส เมื่อโครโมโซมคู่เหมือนมาเข้าคู่กัน และเกิดการไขว้กันของโครมาทิด
+                    </p>
+                    <ul class="list-disc list-inside space-y-2 text-sm text-gray-600 bg-pink-50 p-4 rounded-xl">
+                        <li><strong>Parental Type :</strong> แบบเดิม (ไม่ไขว้) พบจำนวนมาก</li>
+                        <li><strong>Recombinant Type :</strong> แบบใหม่ (เกิดจากการไขว้) พบจำนวนน้อย</li>
+                    </ul>
+                </div>
+                
+                <!-- Visual Concept -->
+                <div class="w-full md:w-1/3 flex justify-center items-center p-4 bg-gray-50 rounded-xl border border-gray-200">
+                    <div class="relative w-32 h-32">
+                        <!-- Chromosome A -->
+                        <div class="absolute left-8 top-0 w-4 h-32 bg-blue-400 rounded-full transform -rotate-12 opacity-80 mix-blend-multiply"></div>
+                        <!-- Chromosome B -->
+                        <div class="absolute right-8 top-0 w-4 h-32 bg-red-400 rounded-full transform rotate-12 opacity-80 mix-blend-multiply"></div>
+                        <!-- X mark -->
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white px-2 py-1 rounded text-xs font-bold text-pink-600 shadow-sm border border-pink-200">
+                            Chiasma
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</body>
+</html>
