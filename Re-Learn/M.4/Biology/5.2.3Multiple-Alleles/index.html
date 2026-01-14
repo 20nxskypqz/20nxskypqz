@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5.2.3 มัลติเพิลแอลลีล</title>
+    <!-- Google Fonts: Niramit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Niramit', sans-serif;
+            background-color: #fff7ed; /* Orange-50 background */
+            color: #7c2d12; /* Orange-900 text */
+        }
+        /* Force Niramit on all elements */
+        code, kbd, samp, pre, blockquote, span, div, h1, h2, h3, h4, h5, h6, p, strong, i, svg, sup {
+            font-family: 'Niramit', sans-serif !important;
+        }
+        .gradient-header {
+            background: linear-gradient(135deg, #ef4444 0%, #d97706 100%); /* Red to Amber */
+        }
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        /* Blood Drop Shape */
+        .blood-drop {
+            border-radius: 0 50% 50% 50%;
+            transform: rotate(45deg);
+        }
+        /* SVG Icon Classes */
+        .icon-sm { width: 1.25rem; height: 1.25rem; flex-shrink: 0; }
+        .icon-md { width: 1.5rem; height: 1.5rem; flex-shrink: 0; }
+        .icon-lg { width: 2rem; height: 2rem; flex-shrink: 0; }
+        .icon-xl { width: 3rem; height: 3rem; flex-shrink: 0; }
+    </style>
+</head>
+<body class="antialiased selection:bg-orange-200 selection:text-orange-900">
+
+    <!-- Header Section -->
+    <header class="gradient-header text-white py-12 px-4 shadow-lg mb-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-flex items-center bg-white/20 backdrop-blur-sm px-4 py-1 rounded-full text-sm font-medium mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon-sm mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                </svg>
+                ชีววิทยา
+            </div>
+            <h1 class="text-3xl md:text-5xl font-bold mb-4 leading-tight break-words">
+                บทที่ 5 : การถ่ายทอดลักษณะทางพันธุกรรม
+            </h1>
+            <h2 class="text-xl md:text-3xl font-semibold mb-2 break-words">
+                5.2.3 มัลติเพิลแอลลีล
+            </h2>
+            <h3 class="text-lg md:text-xl font-light opacity-90 break-words">
+                (Multiple Alleles)
+            </h3>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 pb-16 space-y-12">
+
+        <!-- 1. บทนำ -->
+        <section class="bg-white rounded-2xl p-6 md:p-8 card-shadow border-t-8 border-orange-500">
+            <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon-md mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                ทำความรู้จักกับ "มัลติเพิลแอลลีล"
+            </h3>
+            <p class="text-gray-700 leading-relaxed text-lg mb-4">
+                ปกติเราเจอยีนที่มีแค่ 2 รูปแบบ (เช่น สูง/เตี้ย) , แต่ในธรรมชาติ ลักษณะบางอย่างถูกควบคุมด้วยยีนที่มีรูปแบบของแอลลีล <strong>มากกว่า 2 รูปแบบ</strong>
+            </p>
+            <div class="bg-orange-50 p-4 rounded-xl border border-orange-200">
+                <p class="text-orange-900 font-bold mb-2">ข้อควรจำ :</p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700">
+                    <li>ใน <strong>ประชากร</strong> : มีแอลลีลได้หลายแบบ (เช่น 3 , 4 , หรือมากกว่า)</li>
+                    <li>ใน <strong>สิ่งมีชีวิต 1 ตัว</strong> : มีแอลลีลได้เพียง <span class="bg-orange-200 px-1 rounded">2 แอลลีล</span> เท่านั้น (คู่กันบนโครโมโซมคู่เหมือน)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 2. หมู่เลือด ABO -->
+        <section class="bg-red-50 rounded-2xl p-6 md:p-8 card-shadow border border-red-100 relative overflow-hidden">
+            <!-- Background Element -->
+            <div class="absolute -right-10 -top-10 opacity-5 text-red-900">
+                 <svg xmlns="http://www.w3.org/2000/svg" class="w-64 h-64" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12,21.35L10.55,20.03C5.4,15.36,2,12.27,2,8.5C2,5.41,4.42,3,7.5,3c1.74,0,3.41,0.81,4.5,2.08C13.09,3.81,14.76,3,16.5,3C19.58,3,22,5.41,22,8.5c0,3.77-3.4,6.86-8.55,11.53L12,21.35Z"/>
+                </svg>
+            </div>
+
+            <h3 class="text-2xl font-bold text-red-800 mb-6 flex items-start md:items-center relative z-10 flex-col md:flex-row">
+                <span class="text-red-600 mr-2 font-black text-2xl">1</span>
+                <span>กรณีศึกษา : หมู่เลือดระบบ ABO</span>
+            </h3>
+
+            <!-- Gene Info -->
+            <div class="grid md:grid-cols-2 gap-6 mb-8 relative z-10">
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-red-100">
+                    <h4 class="font-bold text-gray-800 mb-3 border-b pb-2">ยีนและแอลลีล (3 รูปแบบ)</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex justify-between"><span class="font-bold text-red-600">I<sup>A</sup></span> <span>สร้างแอนติเจน A (เด่น)</span></li>
+                        <li class="flex justify-between"><span class="font-bold text-red-600">I<sup>B</sup></span> <span>สร้างแอนติเจน B (เด่น)</span></li>
+                        <li class="flex justify-between"><span class="font-bold text-gray-500">i</span> <span>ไม่สร้างแอนติเจน (ด้อย)</span></li>
+                    </ul>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-red-100">
+                    <h4 class="font-bold text-gray-800 mb-3 border-b pb-2">ความสัมพันธ์</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center">
+                            <span class="bg-red-100 text-red-800 px-2 py-0.5 rounded mr-2 font-bold">I<sup>A</sup> = I<sup>B</sup></span>
+                            <span>ความเด่นร่วม (Codominance)</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="bg-red-100 text-red-800 px-2 py-0.5 rounded mr-2 font-bold">I<sup>A</sup> , I<sup>B</sup> > i</span>
+                            <span>ข่มแอลลีล i สมบูรณ์</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Table Card -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8 relative z-10">
+                <div class="bg-red-600 text-white p-3 text-center font-bold">ตารางจีโนไทป์และฟีโนไทป์</div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-red-50 text-red-900">
+                            <tr>
+                                <th class="p-3">หมู่เลือด (Phenotype)</th>
+                                <th class="p-3">จีโนไทป์ (Genotype)</th>
+                                <th class="p-3">ลักษณะเม็ดเลือด</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-red-100">
+                            <tr>
+                                <td class="p-3 font-bold text-red-700"><span class="blood-drop inline-block w-3 h-3 bg-red-600 mr-2"></span>A</td>
+                                <td class="p-3">I<sup>A</sup>I<sup>A</sup> , I<sup>A</sup>i</td>
+                                <td class="p-3 text-gray-600">มีแอนติเจน A</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-red-700"><span class="blood-drop inline-block w-3 h-3 bg-red-600 mr-2"></span>B</td>
+                                <td class="p-3">I<sup>B</sup>I<sup>B</sup> , I<sup>B</sup>i</td>
+                                <td class="p-3 text-gray-600">มีแอนติเจน B</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-purple-700"><span class="blood-drop inline-block w-3 h-3 bg-purple-600 mr-2"></span>AB</td>
+                                <td class="p-3">I<sup>A</sup>I<sup>B</sup></td>
+                                <td class="p-3 text-gray-600">มีทั้ง A และ B</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-gray-500"><span class="blood-drop inline-block w-3 h-3 border border-gray-400 mr-2 bg-white"></span>O</td>
+                                <td class="p-3">ii</td>
+                                <td class="p-3 text-gray-600">ไม่มีแอนติเจน</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Problems -->
+            <div class="space-y-4 relative z-10">
+                <h4 class="font-bold text-red-800 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon-sm mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                    ตัวอย่างโจทย์พันธุศาสตร์
+                </h4>
+
+                <!-- Prob 1 -->
+                <div class="bg-white p-4 rounded-lg border-l-4 border-red-500 shadow-sm">
+                    <p class="font-bold text-gray-800 mb-2">โจทย์ 1 : พ่อ AB (I<sup>A</sup>I<sup>B</sup>) x แม่ O (ii)</p>
+                    <div class="flex flex-wrap gap-2 mb-2 text-sm text-gray-600">
+                        <span class="bg-gray-100 px-2 rounded">ลูก : I<sup>A</sup>i (A)</span>
+                        <span class="bg-gray-100 px-2 rounded">ลูก : I<sup>B</sup>i (B)</span>
+                    </div>
+                    <p class="text-sm font-bold text-red-600">ตอบ : มีหมู่ A และ B อย่างละ 50% (อัตราส่วน 1 : 1)</p>
+                </div>
+
+                <!-- Prob 2 -->
+                <div class="bg-white p-4 rounded-lg border-l-4 border-red-500 shadow-sm">
+                    <p class="font-bold text-gray-800 mb-2">โจทย์ 2 : ชาย B พันทาง (I<sup>B</sup>i) x หญิง A พันธุ์แท้ (I<sup>A</sup>I<sup>A</sup>)</p>
+                    <div class="flex flex-wrap gap-2 mb-2 text-sm text-gray-600">
+                        <span class="bg-gray-100 px-2 rounded">ลูก : I<sup>A</sup>I<sup>B</sup> (AB)</span>
+                        <span class="bg-gray-100 px-2 rounded">ลูก : I<sup>A</sup>i (A)</span>
+                    </div>
+                    <p class="text-sm font-bold text-red-600">ตอบ : มีหมู่ AB และ A อย่างละ 50% (อัตราส่วน 1 : 1)</p>
+                </div>
+
+                <!-- Prob 3 -->
+                <div class="bg-white p-4 rounded-lg border-l-4 border-red-500 shadow-sm">
+                    <p class="font-bold text-gray-800 mb-2">โจทย์ 3 : พ่อ A x แม่ B ... ได้ลูกคนแรก O</p>
+                    <p class="text-sm text-gray-600 mb-1">วิเคราะห์ : ลูก O คือ <strong>ii</strong> แสดงว่าต้องรับ <strong>i</strong> จากพ่อและแม่คนละตัว</p>
+                    <p class="text-sm font-bold text-red-600">ตอบ : พ่อต้องเป็น I<sup>A</sup>i และ แม่ต้องเป็น I<sup>B</sup>i</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. สีขนกระต่าย -->
+        <section class="bg-amber-50 rounded-2xl p-6 md:p-8 card-shadow border border-amber-100 relative overflow-hidden">
+            <!-- Background Element -->
+            <div class="absolute -right-10 -top-10 opacity-5 text-amber-900">
+                 <svg xmlns="http://www.w3.org/2000/svg" class="w-64 h-64" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20Z"/>
+                </svg>
+            </div>
+
+            <h3 class="text-2xl font-bold text-amber-800 mb-6 flex items-start md:items-center relative z-10 flex-col md:flex-row">
+                <span class="text-amber-600 mr-2 font-black text-2xl">2</span>
+                <span>กรณีศึกษา : สีขนของกระต่าย</span>
+            </h3>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm mb-6 relative z-10">
+                <h4 class="font-bold text-gray-800 mb-4 border-b pb-2">ลำดับความเด่น (Dominance Hierarchy)</h4>
+                
+                <div class="flex flex-col md:flex-row items-center justify-between gap-2 text-center text-sm">
+                    <div class="flex-1 bg-gray-800 text-white p-3 rounded-lg w-full">
+                        <span class="block text-xl font-bold mb-1">C</span>
+                        <span>สีดำ (Agouti)</span>
+                        <span class="block text-xs text-gray-400 mt-1">เด่นสุด</span>
+                    </div>
+                    <span class="text-2xl font-bold text-gray-400">></span>
+                    <div class="flex-1 bg-gray-500 text-white p-3 rounded-lg w-full">
+                        <span class="block text-xl font-bold mb-1">c<sup>ch</sup></span>
+                        <span>สีชินชิล่า (เทาเงิน)</span>
+                    </div>
+                    <span class="text-2xl font-bold text-gray-400">></span>
+                    <div class="flex-1 bg-gray-200 text-gray-800 p-3 rounded-lg w-full border border-gray-300">
+                        <span class="block text-xl font-bold mb-1">c<sup>h</sup></span>
+                        <span>ฮิมาลายัน (จุดดำ)</span>
+                    </div>
+                    <span class="text-2xl font-bold text-gray-400">></span>
+                    <div class="flex-1 bg-white text-gray-800 p-3 rounded-lg w-full border border-gray-200">
+                        <span class="block text-xl font-bold mb-1">c</span>
+                        <span>สีเผือก (Albino)</span>
+                        <span class="block text-xs text-gray-400 mt-1">ด้อยสุด</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rabbit Problem -->
+            <div class="bg-white/80 p-6 rounded-xl border border-amber-200 relative z-10">
+                <h4 class="font-bold text-amber-900 mb-4 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon-sm mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                    โจทย์ตัวอย่าง : หาโอกาสสีขน
+                </h4>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Step 1 -->
+                    <div>
+                        <span class="bg-amber-100 text-amber-800 px-2 py-1 rounded text-xs font-bold block w-fit mb-2">ขั้นที่ 1 : หารุ่น F1</span>
+                        <div class="bg-gray-50 p-3 rounded border border-gray-200 text-sm">
+                            <p class="mb-1"><strong>ดำแท้ (CC)</strong> x <strong>ฮิมาลายันแท้ (c<sup>h</sup>c<sup>h</sup>)</strong></p>
+                            <p class="text-gray-500 text-xs mb-2">↓</p>
+                            <p class="font-bold text-gray-800">ได้ลูก F1 : Cc<sup>h</sup></p>
+                            <p class="text-xs text-gray-500">(แสดงออกสีดำ เพราะ C ข่ม c<sup>h</sup>)</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div>
+                        <span class="bg-amber-100 text-amber-800 px-2 py-1 rounded text-xs font-bold block w-fit mb-2">ขั้นที่ 2 : หารุ่น F2</span>
+                        <div class="bg-gray-50 p-3 rounded border border-gray-200 text-sm">
+                            <p class="mb-1"><strong>F1 (Cc<sup>h</sup>)</strong> x <strong>สีเผือก (cc)</strong></p>
+                            <ul class="mt-2 space-y-1">
+                                <li class="flex justify-between">
+                                    <span>Cc</span>
+                                    <span class="font-bold text-gray-800">สีดำ</span>
+                                </li>
+                                <li class="flex justify-between">
+                                    <span>c<sup>h</sup>c</span>
+                                    <span class="font-bold text-gray-800">สีฮิมาลายัน</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 pt-4 border-t border-amber-200 text-center">
+                    <p class="font-bold text-amber-900">คำถาม : โอกาสที่ F2 จะมีสีขนเหมือน F1 (สีดำ) ?</p>
+                    <p class="text-2xl font-bold text-amber-600 mt-1">50% <span class="text-base font-normal text-gray-600">(หรือ 1/2)</span></p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</body>
+</html>
