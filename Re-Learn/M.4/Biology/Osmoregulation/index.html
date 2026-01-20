@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บทที่ 2 การรักษาดุลยภาพของร่างกาย</title>
+    
+    <!-- Google Fonts: Niramit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Niramit', sans-serif;
+        }
+        .scroll-smooth {
+            scroll-behavior: smooth;
+        }
+        /* Animation for background elements */
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 selection:bg-blue-200 scroll-smooth">
+
+    <!-- Navigation -->
+    <nav class="bg-white sticky top-0 z-50 shadow-sm border-b border-slate-100">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <span class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                    <i data-lucide="activity" class="text-blue-600"></i>
+                    Body Balance
+                </span>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-4 text-sm font-medium text-slate-600">
+                    <a href="#waste" class="hover:text-blue-600 transition-colors">ของเสีย</a>
+                    <a href="#water" class="hover:text-blue-600 transition-colors">สมดุลน้ำ</a>
+                    <a href="#kidney" class="hover:text-blue-600 transition-colors">ไตและการทำงาน</a>
+                    <a href="#disease" class="hover:text-blue-600 transition-colors">โรคและอาการ</a>
+                    <a href="#minerals" class="hover:text-blue-600 transition-colors">แร่ธาตุ</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-4 py-8 space-y-12">
+
+        <!-- Hero Section -->
+        <section class="text-center py-12 bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl text-white shadow-xl relative overflow-hidden">
+            <!-- Decorative background element -->
+            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-64 h-64 bg-teal-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+
+            <div class="relative z-10">
+                <h1 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">บทที่ 2 การรักษาดุลยภาพของร่างกาย</h1>
+                <h2 class="text-xl md:text-2xl text-blue-200 font-medium mb-6">2.1 การรักษาดุลยภาพของน้ำและสารในร่างกาย</h2>
+                
+                <div class="mt-8 flex justify-center gap-4 flex-wrap text-sm md:text-base">
+                    <div class="bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full flex items-center gap-2 border border-white/20">
+                        <i data-lucide="thermometer-sun" width="18"></i> อุณหภูมิ
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full flex items-center gap-2 border border-white/20">
+                        <i data-lucide="droplets" width="18"></i> ระดับน้ำ
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full flex items-center gap-2 border border-white/20">
+                        <i data-lucide="scale" width="18"></i> แร่ธาตุ
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 1: Waste -->
+        <section id="waste">
+            <div class="flex items-start gap-4 mb-6 border-b border-slate-200 pb-4">
+                <div class="p-3 bg-blue-50 rounded-lg text-blue-600">
+                    <i data-lucide="trash-2" width="32" height="32"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">ของเสียและการขับถ่าย</h2>
+                    <p class="text-slate-500 mt-1">ทำความเข้าใจสิ่งที่ร่างกายกำจัดออก</p>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Card 1 -->
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-slate-100 hover:shadow-md transition-shadow">
+                    <h3 class="font-bold text-lg mb-4 flex items-center gap-2 text-slate-700">
+                        <div class="p-2 bg-orange-100 rounded-lg text-orange-600"><i data-lucide="alert-triangle" width="18"></i></div>
+                        ของเสียที่ต้องกำจัด ได้แก่
+                    </h3>
+                    <ul class="list-disc list-inside space-y-2 text-slate-600 ml-2">
+                        <li>ปัสสาวะ</li>
+                        <li>เหงื่อ</li>
+                        <li>อุจจาระ</li>
+                        <li>แก๊สคาร์บอนไดออกไซด์</li>
+                        <li>ยูเรีย</li>
+                    </ul>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-slate-100 hover:shadow-md transition-shadow">
+                    <h3 class="font-bold text-lg mb-4 flex items-center gap-2 text-slate-700">
+                        <div class="p-2 bg-blue-100 rounded-lg text-blue-600"><i data-lucide="zap" width="18"></i></div>
+                        เมแทบอลิซึม (Metabolism)
+                    </h3>
+                    <p class="text-slate-600 leading-relaxed">
+                        คือ ปฏิกิริยาเคมีต่าง ๆ ที่เกิดขึ้นภายในสิ่งมีชีวิต เช่น การหายใจระดับเซลล์เพื่อให้ได้พลังงานสำหรับการดำรงชีวิต
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-8">
+                <h3 class="text-xl font-bold text-center mb-8 text-slate-700 leading-relaxed">
+                    ความเข้าใจเรื่อง<br>
+                    <span class="text-blue-600">"การถ่ายอุจจาระ"</span> vs <span class="text-emerald-600">"การขับถ่าย"</span>
+                </h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-red-50 p-6 rounded-xl border border-red-100 shadow-sm relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4 opacity-5">
+                            <i data-lucide="x-circle" width="100" height="100"></i>
+                        </div>
+                        <div class="flex items-center gap-2 text-red-700 font-bold mb-3 relative z-10">
+                            <i data-lucide="x" width="24"></i> ความเข้าใจคลาดเคลื่อน
+                        </div>
+                        <p class="text-slate-700 relative z-10">ของเสียที่เกิดจากการทำงานของระบบขับถ่าย (excretory system) ของร่างกายมนุษย์จะถูกกำจัดออกไปอยู่ในรูปของปัสสาวะ และอุจจาระ</p>
+                    </div>
+                    <div class="bg-emerald-50 p-6 rounded-xl border border-emerald-100 shadow-sm relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4 opacity-5">
+                            <i data-lucide="check-circle-2" width="100" height="100"></i>
+                        </div>
+                        <div class="flex items-center gap-2 text-emerald-700 font-bold mb-3 relative z-10">
+                            <i data-lucide="check-circle" width="24"></i> ความเข้าใจที่ถูกต้อง
+                        </div>
+                        <p class="mb-4 text-slate-700 relative z-10">
+                            <strong>การขับถ่าย</strong> หมายถึง การกำจัดของเสียซึ่งเกิดจากกระบวนการเมแทบอลิซึมในเซลล์ซึ่งมีไนโตรเจนเป็นองค์ประกอบ และจะถูกขับถ่ายออกในรูปของปัสสาวะ
+                        </p>
+                        <p class="text-slate-700 relative z-10">
+                            <strong>การถ่ายอุจจาระ (defecation)</strong> ไม่จัดเป็นการขับถ่าย เพราะอุจจาระเป็นกากอาหารที่ร่างกายย่อยไม่ได้ในระบบย่อยอาหาร (digestive system)
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-4 bg-slate-100 p-4 rounded-lg text-center text-sm text-slate-500">
+                    สำหรับของเสียอื่น ๆ เช่น เหงื่อถูกกำจัดออกทางผิวหนัง แก๊สคาร์บอนไดออกไซด์ถูกกำจัดออกโดยระบบหายใจ
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Water Balance -->
+        <section id="water">
+            <div class="flex items-start gap-4 mb-6 border-b border-slate-200 pb-4">
+                <div class="p-3 bg-blue-50 rounded-lg text-blue-600">
+                    <i data-lucide="droplets" width="32" height="32"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">สมดุลน้ำในร่างกาย</h2>
+                    <p class="text-slate-500 mt-1">น้ำคือส่วนประกอบหลัก 65-70% ของน้ำหนักตัว</p>
+                </div>
+            </div>
+
+            <!-- FIGURE 1 (MODIFIED) -->
+            <div class="mb-8 p-6 bg-slate-100 rounded-xl border border-slate-200">
+                <h4 class="text-center font-bold text-slate-700 mb-4 bg-white w-fit mx-auto block px-6 py-2 rounded-full shadow-sm border border-slate-200">
+                    ดุลยภาพของน้ำ (Input vs Output)
+                </h4>
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6 max-w-4xl mx-auto">
+                    <!-- Input -->
+                    <div class="flex-1 bg-white p-5 rounded-lg shadow-sm w-full border-t-4 border-emerald-500">
+                        <div class="text-emerald-600 font-bold mb-4 flex justify-center items-center gap-2 pb-2 border-b border-slate-100">
+                            <i data-lucide="arrow-down-circle"></i> รับเข้า (2,500 ml)
+                        </div>
+                        <div class="space-y-3 text-sm text-slate-600">
+                            <div class="flex justify-between items-center">
+                                <span>เครื่องดื่ม</span>
+                                <span class="font-bold text-slate-800">1,600 ml</span>
+                            </div>
+                            <div class="w-full bg-slate-100 h-1.5 rounded-full"><div class="bg-emerald-400 h-1.5 rounded-full" style="width: 64%"></div></div>
+                            
+                            <div class="flex justify-between items-center mt-2">
+                                <span>อาหาร</span>
+                                <span class="font-bold text-slate-800">700 ml</span>
+                            </div>
+                            <div class="w-full bg-slate-100 h-1.5 rounded-full"><div class="bg-emerald-400 h-1.5 rounded-full" style="width: 28%"></div></div>
+
+                            <div class="flex justify-between items-center mt-2">
+                                <span>เมแทบอลิซึม</span>
+                                <span class="font-bold text-slate-800">200 ml</span>
+                            </div>
+                            <div class="w-full bg-slate-100 h-1.5 rounded-full"><div class="bg-emerald-400 h-1.5 rounded-full" style="width: 8%"></div></div>
+                        </div>
+                    </div>
+
+                    <!-- Balance Icon -->
+                    <div class="text-slate-400">
+                        <i data-lucide="arrow-right-left" width="32" height="32"></i>
+                    </div>
+
+                    <!-- Output -->
+                    <div class="flex-1 bg-white p-5 rounded-lg shadow-sm w-full border-t-4 border-rose-500">
+                        <div class="text-rose-600 font-bold mb-4 flex justify-center items-center gap-2 pb-2 border-b border-slate-100">
+                            <i data-lucide="arrow-up-circle"></i> ขับออก (2,500 ml)
+                        </div>
+                        <div class="space-y-3 text-sm text-slate-600">
+                            <div class="flex justify-between items-center">
+                                <span>ปัสสาวะ</span>
+                                <span class="font-bold text-slate-800">1,500 ml</span>
+                            </div>
+                            <div class="w-full bg-slate-100 h-1.5 rounded-full"><div class="bg-rose-400 h-1.5 rounded-full" style="width: 60%"></div></div>
+
+                            <div class="flex justify-between items-center mt-2">
+                                <span>การระเหย</span>
+                                <span class="font-bold text-slate-800">700 ml</span>
+                            </div>
+                            <div class="w-full bg-slate-100 h-1.5 rounded-full"><div class="bg-rose-400 h-1.5 rounded-full" style="width: 28%"></div></div>
+
+                            <div class="flex justify-between items-center mt-2">
+                                <span>อุจจาระ</span>
+                                <span class="font-bold text-slate-800">200 ml</span>
+                            </div>
+                            <div class="w-full bg-slate-100 h-1.5 rounded-full"><div class="bg-rose-400 h-1.5 rounded-full" style="width: 8%"></div></div>
+
+                            <div class="flex justify-between items-center mt-2">
+                                <span>เหงื่อ</span>
+                                <span class="font-bold text-slate-800">100 ml</span>
+                            </div>
+                            <div class="w-full bg-slate-100 h-1.5 rounded-full"><div class="bg-rose-400 h-1.5 rounded-full" style="width: 4%"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-center text-xs text-slate-500 mt-4">
+                    ร่างกายต้องรักษาปริมาณน้ำที่รับเข้าและขับออกให้สมดุลกัน เพื่อรักษาดุลยภาพ
+                </p>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-slate-100">
+                    <h3 class="font-bold text-lg mb-6 text-slate-700 flex items-center gap-2">
+                        <i data-lucide="pie-chart" width="20" class="text-slate-400"></i>
+                        การกระจายตัวของน้ำในร่างกาย
+                    </h3>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <div class="flex justify-between items-end mb-2">
+                                <span class="font-medium text-slate-600">น้ำภายในเซลล์ (Intracellular fluid : ICF)</span>
+                                <span class="text-2xl font-bold text-blue-600">65%</span>
+                            </div>
+                            <div class="w-full bg-slate-100 rounded-full h-3">
+                                <div class="bg-blue-600 h-3 rounded-full shadow-lg shadow-blue-200" style="width: 65%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-end mb-2">
+                                <span class="font-medium text-slate-600">น้ำภายนอกเซลล์ (Extracellular fluid : ECF)</span>
+                                <span class="text-2xl font-bold text-sky-500">35%</span>
+                            </div>
+                            <div class="w-full bg-slate-100 rounded-full h-3">
+                                <div class="bg-sky-500 h-3 rounded-full shadow-lg shadow-sky-200" style="width: 35%"></div>
+                            </div>
+                            <div class="mt-4 text-sm bg-sky-50 p-4 rounded-xl text-slate-600">
+                                <strong>น้ำภายนอกเซลล์แบ่งย่อยเป็น 3 ส่วน ได้แก่</strong>
+                                <ol class="list-decimal list-inside mt-2 space-y-1">
+                                    <li>น้ำภายในหลอดเลือด และน้ำเหลือง (Intravascular fluid)</li>
+                                    <li>น้ำในเนื้อเยื่อระหว่างเซลล์ (Interstitial fluid)</li>
+                                    <li>น้ำในช่องว่างต่างๆ (Transcellular fluid) เช่น น้ำในลูกตา เยื่อบุช่องท้อง เยื่อหุ้มปอด ไขข้อ น้ำในสมองและไขสันหลัง (CSF)</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-xl shadow-sm p-6 border border-slate-100">
+                        <h4 class="font-bold text-slate-700 mb-3 flex items-center gap-2">
+                            <div class="p-1.5 bg-indigo-100 rounded text-indigo-600"><i data-lucide="list" width="16"></i></div>
+                            หน้าที่ของน้ำ
+                        </h4>
+                        <ul class="list-disc list-inside text-slate-600 space-y-2 ml-1">
+                            <li>ตัวกลางในการเกิดปฏิกิริยาเคมี</li>
+                            <li>ช่วยปรับอุณหภูมิร่างกาย</li>
+                            <li>ช่วยลำเลียงแก๊ส สารอาหาร และของเสีย</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm p-6 border border-slate-100">
+                        <h4 class="font-bold text-slate-700 mb-3 flex items-center gap-2">
+                            <div class="p-1.5 bg-teal-100 rounded text-teal-600"><i data-lucide="arrow-down-up" width="16"></i></div>
+                            ปริมาณการรับและเสียน้ำสูงสุด
+                        </h4>
+                        <ul class="space-y-3 text-slate-600">
+                            <li class="flex justify-between items-center bg-slate-50 p-2 rounded">
+                                <span>ได้รับมากสุด (เครื่องดื่ม)</span>
+                                <span class="font-bold text-emerald-600">1,600 ml</span>
+                            </li>
+                            <li class="flex justify-between items-center bg-slate-50 p-2 rounded">
+                                <span>สูญเสียมากสุด (ปัสสาวะ)</span>
+                                <span class="font-bold text-rose-500">1,500 ml</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-slate-100 relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-32 h-32 bg-purple-50 rounded-bl-full -mr-8 -mt-8 z-0"></div>
+                    
+                    <div class="relative z-10">
+                        <h3 class="font-bold text-lg mb-4 flex items-center gap-2 text-slate-700">
+                            <div class="p-2 bg-purple-100 rounded-lg text-purple-600"><i data-lucide="brain" width="20"></i></div>
+                            กลไกการควบคุมสมดุลน้ำ
+                        </h3>
+                        
+                        <div class="bg-slate-50 p-4 rounded-xl mb-4 border-l-4 border-slate-400">
+                            <p class="font-bold text-slate-800 text-lg mb-2">ร่างกายรู้ได้อย่างไร ?</p>
+                            <p class="text-slate-600">
+                                เมื่อน้ำลดลงจะเกิดการ <strong>กระหายน้ำ</strong> และเมื่อน้ำมากจะ <strong>ปัสสาวะ</strong> ออกไป โดยมี <strong>สมองส่วนไฮโพทาลามัส (Hypothalamus)</strong> ทำหน้าที่ควบคุม
+                            </p>
+                        </div>
+                        
+                        <div class="bg-purple-50 p-5 rounded-xl border border-purple-100">
+                            <h4 class="font-bold text-purple-800 mb-2 flex items-center gap-2">
+                                <i data-lucide="corner-down-right" width="18"></i> กรณี ร่างกายมีน้ำมาก / น้ำในเลือดเพิ่มขึ้น
+                            </h4>
+                            <p class="text-sm mt-2 text-slate-700 leading-relaxed">
+                                ความเข้มข้นเลือดลดลง &rarr; ลดการกระตุ้นไฮโพทาลามัส &rarr; ต่อมใต้สมองส่วนหลังหลั่ง <strong>ADH ลดลง</strong> &rarr;
+                                ท่อหน่วยไตลดการดูดกลับน้ำ &rarr; <span class="text-blue-600 font-bold bg-blue-50 px-2 py-0.5 rounded">ขับปัสสาวะปริมาณมากและเจือจาง</span>
+                            </p>
+                            <p class="text-xs text-slate-500 mt-2 italic flex items-center gap-1">
+                                <i data-lucide="clock" width="12"></i> จะเกิดขึ้นชัดเจนในนาทีที่ 60-90 จนกลับสู่ปกติ
+                            </p>
+                        </div>
+
+                        <div class="mt-4 text-sm text-slate-500 flex items-center gap-2">
+                            <i data-lucide="share-2" width="14"></i>
+                            <strong>ระบบที่ประสานงานกัน ได้แก่</strong> ระบบขับถ่าย ระบบหมุนเวียนเลือด ระบบประสาท และระบบต่อมไร้ท่อ (ฮอร์โมน)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-amber-50 border border-amber-200 p-5 rounded-xl flex gap-4 shadow-sm items-start">
+                    <div class="min-w-fit p-2 bg-white rounded-full shadow-sm text-amber-500">
+                        <i data-lucide="coffee" width="20"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-amber-800 text-lg">ไดยูเรติก (Diuretic)</span>
+                        <p class="text-amber-900 mt-1 leading-relaxed">
+                            คือสารที่มีสมบัติทำให้เซลล์ท่อหน่วยไตสูญเสียน้ำออกไปมากกว่าการดูดกลับน้ำเข้ามา (ทำให้ปัสสาวะบ่อย) ตัวอย่างเช่น <strong>คาเฟอีน</strong> (ชา กาแฟ น้ำอัดลม ช็อกโกแลต)
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FIGURE 2 (MODIFIED - CENTERED) -->
+                <div class="mt-8 p-6 bg-slate-800 rounded-xl border border-slate-700 text-slate-200">
+                    <h4 class="text-center font-bold text-white mb-8 bg-slate-700 w-fit mx-auto block px-6 py-2 rounded-full shadow-sm border border-slate-600">
+                        แผนผังการควบคุมสมดุลน้ำในเลือด
+                    </h4>
+                    
+                    <div class="grid md:grid-cols-2 gap-8 relative">
+                        <!-- Divider for mobile/desktop -->
+                        <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-slate-600 -ml-px"></div>
+
+                        <!-- Case 1: Low Water -->
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-2 justify-center mb-2">
+                                <span class="bg-red-500/20 text-red-300 px-3 py-1 rounded-full text-xs font-bold border border-red-500/30">กรณีน้ำน้อย / เข้มข้นสูง</span>
+                            </div>
+
+                            <div class="bg-slate-700 p-3 rounded-lg border border-slate-600 text-center text-sm">
+                                <div class="mb-2 text-blue-300"><i data-lucide="droplets" class="mx-auto"></i></div>
+                                ปริมาณน้ำในเลือด <span class="text-red-400 font-bold">ต่ำ</span>
+                            </div>
+
+                            <div class="flex justify-center"><i data-lucide="arrow-down" class="text-slate-500"></i></div>
+
+                            <div class="bg-slate-700 p-3 rounded-lg border border-slate-600 text-center text-sm">
+                                <div class="mb-2 text-purple-300"><i data-lucide="brain" class="mx-auto"></i></div>
+                                สมองไฮโพทาลามัส <span class="text-green-400 font-bold">กระตุ้น</span>
+                            </div>
+
+                            <div class="flex justify-center"><i data-lucide="arrow-down" class="text-slate-500"></i></div>
+
+                            <div class="bg-slate-700 p-3 rounded-lg border border-slate-600 text-center text-sm">
+                                <div class="mb-2 text-yellow-300"><i data-lucide="syringe" class="mx-auto"></i></div>
+                                ต่อมใต้สมองส่วนหลัง <span class="text-green-400 font-bold">หลั่ง ADH มาก</span>
+                            </div>
+
+                            <div class="flex justify-center"><i data-lucide="arrow-down" class="text-slate-500"></i></div>
+
+                            <div class="bg-slate-700 p-3 rounded-lg border border-slate-600 text-center text-sm">
+                                <div class="mb-2 text-blue-300"><i data-lucide="filter" class="mx-auto"></i></div>
+                                ท่อหน่วยไต/ท่อรวม <span class="text-blue-400 font-bold">ดูดน้ำกลับ มากขึ้น</span>
+                            </div>
+
+                            <div class="flex justify-center"><i data-lucide="arrow-down" class="text-slate-500"></i></div>
+
+                            <div class="bg-slate-700 p-3 rounded-lg border border-slate-600 text-center text-sm border-b-4 border-b-red-400">
+                                ปัสสาวะ <span class="text-yellow-400 font-bold">น้อย/เข้มข้น</span><br>
+                                น้ำในเลือด <span class="text-green-400 font-bold">ปกติ</span>
+                            </div>
+                        </div>
+
+                        <!-- Case 2: High Water -->
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-2 justify-center mb-2">
+                                <span class="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-xs font-bold border border-blue-500/30">กรณีน้ำมาก / เข้มข้นต่ำ</span>
+                            </div>
+
+                            <div class="bg-slate-700 p-3 rounded-lg border border-slate-600 text-center text-sm">
+                                <div class="mb-2 text-blue-300"><i data-lucide="waves" class="mx-auto"></i></div>
+                                ปริมาณน้ำในเลือด <span class="text-blue-400 font-bold">สูง</span>
+                            </div>
+
+                            <div class="flex justify-center"><i data-lucide="arrow-down" class="text-slate-500"></i></div>
+
+                            <div class="bg-slate-700 p-3 rounded-lg border border-slate-600 text-center text-sm">
+                                <div class="mb-2 text-purple-300"><i data-lucide="brain" class="mx-auto"></i></div>
+                                สมองไฮโพทาลามัส <span class="text-red-400 font-bold">ยับยั้ง</span>
+                            </div>
+
+                            <div class="flex justify-center"><i data-lucide="arrow-down" class="text-slate-500"></i></div>
+
+                            <div class="bg-slate-700 p-3 rounded-lg border border-slate-600 text-center text-sm">
+                                <div class="mb-2 text-yellow-300"><i data-lucide="syringe" class="mx-auto"></i></div>
+                                ต่อมใต้สมองส่วนหลัง <span class="text-red-400 font-bold">ลดการหลั่ง ADH</span>
+                            </div>
+
+                            <div class="flex justify-center"><i data-lucide="arrow-down" class="text-slate-500"></i></div>
+
+                            <div class="bg-slate-700 p-3 rounded-lg border border-slate-600 text-center text-sm">
+                                <div class="mb-2 text-blue-300"><i data-lucide="filter" class="mx-auto"></i></div>
+                                ท่อหน่วยไต/ท่อรวม <span class="text-red-400 font-bold">ดูดน้ำกลับ น้อยลง</span>
+                            </div>
+
+                            <div class="flex justify-center"><i data-lucide="arrow-down" class="text-slate-500"></i></div>
+
+                            <div class="bg-slate-700 p-3 rounded-lg border border-slate-600 text-center text-sm border-b-4 border-b-blue-400">
+                                ปัสสาวะ <span class="text-blue-400 font-bold">มาก/เจือจาง</span><br>
+                                น้ำในเลือด <span class="text-green-400 font-bold">ปกติ</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 3: Kidney -->
+        <section id="kidney">
+            <div class="flex items-start gap-4 mb-6 border-b border-slate-200 pb-4">
+                <div class="p-3 bg-blue-50 rounded-lg text-blue-600">
+                    <i data-lucide="filter" width="32" height="32"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">โครงสร้างและการทำงานของไต</h2>
+                    <p class="text-slate-500 mt-1">อวัยวะหลักในการกำจัดของเสียที่มีไนโตรเจนเป็นองค์ประกอบ</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-slate-100 mb-6">
+                <h3 class="font-bold text-lg mb-4 text-slate-700">อวัยวะในระบบขับถ่าย (Excretory System Organs)</h3>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-center">
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 hover:bg-white hover:shadow-md transition-all group">
+                        <div class="font-bold text-blue-600 mb-1 group-hover:scale-105 transition-transform">Kidney</div>
+                        <div class="text-slate-600 text-sm">ไต</div>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 hover:bg-white hover:shadow-md transition-all group">
+                        <div class="font-bold text-blue-600 mb-1 group-hover:scale-105 transition-transform">Ureter</div>
+                        <div class="text-slate-600 text-sm">ท่อไต</div>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 hover:bg-white hover:shadow-md transition-all group">
+                        <div class="font-bold text-blue-600 mb-1 group-hover:scale-105 transition-transform">Urinary Bladder</div>
+                        <div class="text-slate-600 text-sm">กระเพาะปัสสาวะ</div>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 hover:bg-white hover:shadow-md transition-all group">
+                        <div class="font-bold text-blue-600 mb-1 group-hover:scale-105 transition-transform">Urethra</div>
+                        <div class="text-slate-600 text-sm">ท่อปัสสาวะ</div>
+                    </div>
+                    <!-- Organs -->
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 hover:bg-white hover:shadow-md transition-all group">
+                        <div class="font-bold text-rose-500 mb-1 group-hover:scale-105 transition-transform">Renal Artery</div>
+                        <div class="text-slate-600 text-sm">หลอดเลือดรีนัลอาร์เทอรี</div>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 hover:bg-white hover:shadow-md transition-all group">
+                        <div class="font-bold text-blue-500 mb-1 group-hover:scale-105 transition-transform">Renal Vein</div>
+                        <div class="text-slate-600 text-sm">หลอดเลือดรีนัลเวน</div>
+                    </div>
+                </div>
+                <div class="mt-4 flex items-center gap-2 text-sm text-slate-500 bg-slate-50 p-3 rounded-lg">
+                    <i data-lucide="info" width="16"></i>
+                    นอกจากไตแล้ว ผิวหนัง ปอด ตับ ก็เป็นอวัยวะในระบบขับถ่ายเช่นกัน
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-slate-100 mb-6">
+                <h3 class="font-bold text-lg mb-4 text-slate-700 flex items-center gap-2">
+                    <i data-lucide="microscope" width="20" class="text-slate-400"></i>
+                    หน่วยไต (Nephron) - 1 ล้านหน่วยต่อข้าง
+                </h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-3">
+                        <div class="p-4 bg-indigo-50 rounded-xl border border-indigo-100 flex gap-3">
+                            <span class="bg-indigo-200 text-indigo-700 font-bold w-6 h-6 rounded-full flex items-center justify-center text-xs flex-shrink-0">1</span>
+                            <div>
+                                <strong class="text-indigo-900 block">โกลเมอรูลัส (Glomerulus)</strong>
+                                <span class="text-sm text-indigo-700">กลุ่มหลอดเลือดฝอยที่ล้อมรอบด้วยโบว์แมนส์แคปซูล</span>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-indigo-50 rounded-xl border border-indigo-100 flex gap-3">
+                            <span class="bg-indigo-200 text-indigo-700 font-bold w-6 h-6 rounded-full flex items-center justify-center text-xs flex-shrink-0">2</span>
+                            <div>
+                                <strong class="text-indigo-900 block">โบว์แมนส์แคปซูล (Bowman's Capsule)</strong>
+                                <span class="text-sm text-indigo-700">ลักษณะคล้ายถ้วย</span>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-indigo-50 rounded-xl border border-indigo-100 flex gap-3">
+                            <span class="bg-indigo-200 text-indigo-700 font-bold w-6 h-6 rounded-full flex items-center justify-center text-xs flex-shrink-0">3</span>
+                            <div>
+                                <strong class="text-indigo-900 block">ท่อหน่วยไต (Renal Tubule)</strong>
+                                <span class="text-sm text-indigo-700">ท่อยาวขดไปมา ปลายสุดเปิดออกที่ท่อรวม (Collecting duct) ซึ่งเปิดสู่กรวยไต (Pelvis)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-6 text-sm text-slate-600 flex flex-col justify-center border border-slate-200">
+                        <h4 class="font-bold text-slate-800 mb-3 flex items-center gap-2">
+                            <i data-lucide="activity" width="16"></i> เส้นทางการไหลของเลือด
+                        </h4>
+                        <div class="flex flex-col gap-2">
+                            <div class="bg-white p-2 rounded border border-slate-200">หลอดเลือดรีนัลอาร์เทอรี (Renal artery)</div>
+                            <div class="flex justify-center"><i data-lucide="arrow-down" width="16" class="text-slate-400"></i></div>
+                            <div class="bg-white p-2 rounded border border-slate-200">ไต</div>
+                            <div class="flex justify-center"><i data-lucide="arrow-down" width="16" class="text-slate-400"></i></div>
+                            <div class="bg-white p-2 rounded border border-slate-200">หลอดเลือดเข้าสู่โกลเมอรูลัส</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-slate-100">
+                <h3 class="font-bold text-lg mb-6 text-center text-slate-700">3 ขั้นตอนการกำจัดของเสียโดยไต</h3>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <!-- Step 1 -->
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden group hover:border-blue-300 transition-colors">
+                        <div class="absolute top-0 right-0 w-16 h-16 bg-blue-50 rounded-bl-full -mr-8 -mt-8"></div>
+                        <div class="relative z-10">
+                            <div class="bg-blue-600 text-white w-8 h-8 rounded-lg flex items-center justify-center font-bold mb-3 shadow-md shadow-blue-200">1</div>
+                            <h4 class="font-bold text-blue-800 mb-1">การกรอง</h4>
+                            <p class="text-xs text-blue-600 font-medium mb-3">(Filtration)</p>
+                            <p class="text-xs text-slate-400 mb-3 flex items-center gap-1"><i data-lucide="map-pin" width="10"></i> โกลเมอรูลัส & โบว์แมนส์แคปซูล</p>
+                            <div class="text-sm space-y-2">
+                                <div class="bg-green-50 p-2 rounded text-green-800 text-xs">
+                                    <span class="font-bold block mb-1">✓ ผ่านได้ (ขนาดเล็ก)</span>
+                                    น้ำ ยูเรีย กลูโคส กรดแอมิโน แร่ธาตุ
+                                </div>
+                                <div class="bg-red-50 p-2 rounded text-red-800 text-xs">
+                                    <span class="font-bold block mb-1">✗ ผ่านไม่ได้ (ขนาดใหญ่)</span>
+                                    เซลล์เม็ดเลือด เกล็ดเลือด โปรตีน
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden group hover:border-purple-300 transition-colors">
+                        <div class="absolute top-0 right-0 w-16 h-16 bg-purple-50 rounded-bl-full -mr-8 -mt-8"></div>
+                        <div class="relative z-10">
+                            <div class="bg-purple-600 text-white w-8 h-8 rounded-lg flex items-center justify-center font-bold mb-3 shadow-md shadow-purple-200">2</div>
+                            <h4 class="font-bold text-purple-800 mb-1">การดูดกลับ</h4>
+                            <p class="text-xs text-purple-600 font-medium mb-3">(Reabsorption)</p>
+                            <p class="text-xs text-slate-400 mb-3 flex items-center gap-1"><i data-lucide="map-pin" width="10"></i> ท่อหน่วยไต & ท่อรวม</p>
+                            <div class="text-sm text-slate-600 space-y-2">
+                                <div>
+                                    <strong class="text-purple-700 text-xs block">ดูดกลับหมด (มีประโยชน์)</strong>
+                                    กลูโคส กรดแอมิโน
+                                </div>
+                                <div>
+                                    <strong class="text-purple-700 text-xs block">ดูดกลับบางส่วน</strong>
+                                    น้ำ ไอออนต่างๆ (Na+ K+ HCO3-) ยูเรียบางส่วน
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden group hover:border-orange-300 transition-colors">
+                        <div class="absolute top-0 right-0 w-16 h-16 bg-orange-50 rounded-bl-full -mr-8 -mt-8"></div>
+                        <div class="relative z-10">
+                            <div class="bg-orange-500 text-white w-8 h-8 rounded-lg flex items-center justify-center font-bold mb-3 shadow-md shadow-orange-200">3</div>
+                            <h4 class="font-bold text-orange-800 mb-1">การหลั่ง</h4>
+                            <p class="text-xs text-orange-600 font-medium mb-3">(Secretion)</p>
+                            <p class="text-xs text-slate-400 mb-3 flex items-center gap-1"><i data-lucide="map-pin" width="10"></i> ท่อหน่วยไต</p>
+                            <div class="text-sm text-slate-600">
+                                <p class="text-xs font-bold text-orange-700 mb-1">หลั่งออกจากเลือดเข้าสู่ท่อไต</p>
+                                <ul class="list-disc list-inside text-xs space-y-1">
+                                    <li>ไฮโดรเจนไอออน</li>
+                                    <li>แอมโมเนียมไอออน</li>
+                                    <li>สารพิษ</li>
+                                    <li>ยาบางชนิด</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 p-4 bg-slate-50 rounded-lg text-sm text-slate-500 border border-slate-100 flex gap-2">
+                    <i data-lucide="alert-circle" width="16" class="flex-shrink-0 mt-0.5"></i>
+                    <div>
+                        <strong>ข้อควรระวัง</strong> การทำงานของไตทั้ง 3 ขั้นตอนเกิดขึ้นต่อเนื่องตลอดเวลา (กรองเลือดวันละ ~180 ลิตร) หากไตบกพร่อง ของเสียจะสะสมจนเสียชีวิตได้
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Diseases -->
+        <section id="disease">
+            <div class="flex items-start gap-4 mb-6 border-b border-slate-200 pb-4">
+                <div class="p-3 bg-blue-50 rounded-lg text-blue-600">
+                    <i data-lucide="stethoscope" width="32" height="32"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">โรคและอาการผิดปกติ</h2>
+                    <p class="text-slate-500 mt-1">เมื่อสมดุลร่างกายเปลี่ยนไป</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Heat Stroke -->
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-slate-100 border-l-4 border-l-red-500 hover:shadow-md transition-shadow">
+                    <h3 class="font-bold text-lg text-slate-700 flex items-center gap-2 mb-3">
+                        <div class="p-1.5 bg-red-100 rounded text-red-500"><i data-lucide="thermometer-sun" width="18"></i></div>
+                        โรคลมแดด (Heat Stroke)
+                    </h3>
+                    <p class="text-sm text-slate-600 mb-3">
+                        มักเกิดในฤดูร้อน กับผู้สูงวัย เด็ก หรือผู้ที่ทำกิจกรรมกลางแจ้ง อุณหภูมิร่างกายสูงกว่า 40°C
+                    </p>
+                    <div class="bg-red-50 p-3 rounded mb-3 text-sm">
+                        <strong class="text-red-800 block mb-1">อาการ</strong>
+                        <span class="text-red-700">ไม่มีเหงื่อ ปวดศีรษะ ทรงตัวไม่ดี หายใจเร็ว หัวใจเต้นเร็ว อาจช็อก/หมดสติ</span>
+                    </div>
+                    <div class="bg-emerald-50 p-3 rounded text-sm">
+                        <strong class="text-emerald-800 block mb-1">การป้องกัน</strong>
+                        <span class="text-emerald-700">ดื่มน้ำบ่อยๆ เลี่ยงแดดจัด ใส่เสื้อผ้าสบายๆ อยู่ในที่เย็นๆ</span>
+                    </div>
+                </div>
+
+                <!-- Drug Screening -->
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-slate-100 border-l-4 border-l-slate-500 hover:shadow-md transition-shadow">
+                    <h3 class="font-bold text-lg text-slate-700 flex items-center gap-2 mb-3">
+                        <div class="p-1.5 bg-slate-100 rounded text-slate-600"><i data-lucide="flask-conical" width="18"></i></div>
+                        การตรวจสารเสพติดในปัสสาวะ
+                    </h3>
+                    <p class="text-sm text-slate-600 mb-3 leading-relaxed">
+                        สารเสพติด (ยาบ้า กัญชา ยาอี มอร์ฟิน เฮโรอีน) เมื่อผ่านไตและ <strong>ไม่ถูกดูดกลับ</strong> จะมีความเข้มข้นสูงในปัสสาวะ
+                    </p>
+                    <p class="text-sm text-slate-500 bg-slate-50 p-3 rounded">
+                        สามารถใช้ชุดตรวจสำเร็จรูป (Screening test) คัดกรองเบื้องต้นได้ รวมถึงการตรวจ HCG (การตั้งครรภ์) และกลูโคส
+                    </p>
+                </div>
+
+                <!-- Water Intoxication -->
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-slate-100 border-l-4 border-l-blue-500 hover:shadow-md transition-shadow">
+                    <h3 class="font-bold text-lg text-slate-700 flex items-center gap-2 mb-3">
+                        <div class="p-1.5 bg-blue-100 rounded text-blue-600"><i data-lucide="droplets" width="18"></i></div>
+                        ภาวะน้ำเป็นพิษ (Water Intoxication)
+                    </h3>
+                    <p class="text-sm text-slate-600 mb-2">
+                        เกิดจากดื่มน้ำมากเกินไป (> 6-7 ลิตร/วัน)
+                    </p>
+                    <ul class="text-sm space-y-1 text-slate-600 ml-1">
+                        <li class="flex gap-2"><i data-lucide="arrow-right" width="14" class="text-blue-400 mt-1"></i> เกิดภาวะโซเดียมในเลือดต่ำ (Hyponatremia)</li>
+                        <li class="flex gap-2"><i data-lucide="arrow-right" width="14" class="text-blue-400 mt-1"></i> น้ำแพร่เข้าเซลล์ ทำให้ <strong>เซลล์บวมน้ำ</strong></li>
+                        <li class="flex gap-2"><i data-lucide="arrow-right" width="14" class="text-blue-400 mt-1"></i> <strong>อาการ</strong> ปวดศีรษะ คลื่นไส้ อาเจียน ชัก (สมองบวม) ปอดบวม เสียชีวิต</li>
+                    </ul>
+                </div>
+
+                <!-- Diabetes Insipidus -->
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-slate-100 border-l-4 border-l-amber-400 hover:shadow-md transition-shadow">
+                    <h3 class="font-bold text-lg text-slate-700 flex items-center gap-2 mb-3">
+                        <div class="p-1.5 bg-amber-100 rounded text-amber-500"><i data-lucide="alert-triangle" width="18"></i></div>
+                        โรคเบาจืด (Diabetes Insipidus)
+                    </h3>
+                    <p class="text-sm text-slate-600 mb-2">
+                        <strong>อาการ</strong> ปัสสาวะบ่อยและมาก กระหายน้ำตลอดเวลา (เสี่ยงภาวะขาดน้ำ/ช็อก)
+                    </p>
+                    <div class="bg-amber-50 p-3 rounded text-sm border border-amber-100">
+                        <strong class="block mb-1 text-amber-800">สาเหตุ ร่างกายขาดฮอร์โมน ADH</strong>
+                        <ul class="list-disc list-inside text-amber-700">
+                            <li>ความผิดปกติของต่อมใต้สมองส่วนหลัง (เช่น เนื้องอก) ทำให้ไม่หลั่ง ADH</li>
+                            <li>ไตผิดปกติ ไม่ตอบสนองต่อ ADH (เป็นแต่กำเนิด หรือเกิดจากยา)</li>
+                        </ul>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-2 flex items-center gap-1">
+                        <i data-lucide="info" width="12"></i> ADH ปกติจะกระตุ้นให้ท่อขดส่วนท้ายและท่อรวมดูดน้ำกลับ
+                    </p>
+                </div>
+            </div>
+            
+            <div class="mt-6 bg-rose-50 p-4 rounded-xl border border-rose-100 flex gap-3 items-start">
+                <i data-lucide="heart-pulse" class="text-rose-500 mt-1"></i>
+                <div>
+                    <h4 class="font-bold text-rose-700 mb-1">ผลกระทบเมื่อน้ำไม่สมดุล</h4>
+                    <p class="text-rose-800/80 text-sm">
+                        หากร่างกายได้รับน้ำมากหรือน้อยเกินไป จะทำให้ความเข้มข้นเลือดเปลี่ยน ปฏิกิริยาเคมีไม่เกิด อันตรายต่อเซลล์ ระบบหมุนเวียนเลือดและระบบประสาท จนอาจเสียชีวิตได้
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Minerals -->
+        <section id="minerals" class="pb-10">
+            <div class="flex items-start gap-4 mb-6 border-b border-slate-200 pb-4">
+                <div class="p-3 bg-blue-50 rounded-lg text-blue-600">
+                    <i data-lucide="scale" width="32" height="32"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">ดุลยภาพของแร่ธาตุ (โซเดียม)</h2>
+                    <p class="text-slate-500 mt-1">แร่ธาตุสำคัญต่อระบบประสาทและกล้ามเนื้อ</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm p-8 border border-slate-100 mb-8">
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="flex-1 space-y-4">
+                        <div>
+                            <h4 class="font-bold text-lg text-indigo-600 mb-2 flex items-center gap-2">
+                                <i data-lucide="dna" width="20"></i> ฮอร์โมนแอลโดสเทอโรน (Aldosterone)
+                            </h4>
+                            <div class="text-slate-600 text-sm space-y-1 bg-slate-50 p-4 rounded-lg">
+                                <p><strong>แหล่งสร้าง</strong> ต่อมหมวกไตส่วนนอก (Adrenal cortex)</p>
+                                <p><strong>กลุ่ม</strong> มิเนราโลคอร์ติคอยด์</p>
+                                <p><strong>หน้าที่</strong> ควบคุมปริมาณโซเดียม กระตุ้นให้ไตดูดกลับโซเดียมและน้ำเข้าหลอดเลือด</p>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <div class="bg-red-50 p-3 rounded-lg text-sm border border-red-100">
+                                <strong class="text-red-700">ถ้าขาดแอลโดสเทอโรน</strong><br>
+                                <span class="text-red-600">สูญเสียโซเดียมและน้ำไปกับปัสสาวะ &rarr; ปริมาตรเลือดลด &rarr; ความดันต่ำ &rarr; เสียชีวิต</span>
+                            </div>
+                            <div class="bg-orange-50 p-3 rounded-lg text-sm border border-orange-100">
+                                <strong class="text-orange-700">ภาวะเครียด (Long-term stress)</strong><br>
+                                <span class="text-orange-600">หลั่งมาก &rarr; ปริมาตรและความดันเลือดสูง</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 border-t md:border-t-0 md:border-l border-slate-100 pt-6 md:pt-0 md:pl-8">
+                        <h4 class="font-bold text-lg text-emerald-600 mb-3 flex items-center gap-2">
+                            <i data-lucide="utensils-crossed" width="20"></i> โซเดียมกับการบริโภค
+                        </h4>
+                        <div class="space-y-4 text-sm text-slate-600">
+                            <div>
+                                <p class="mb-1"><strong>หน้าที่</strong> คุมสมดุลน้ำ รักษากรด-ด่าง</p>
+                                <p class="mb-1"><strong>ปริมาณแนะนำ</strong> ไม่เกิน 2,000 มก./วัน (เกลือ 1 ช้อนชา)</p>
+                                <span class="text-slate-400 text-xs">(หากออกกำลังกายเสียเหงื่อมาก ต้องการมากขึ้น)</span>
+                            </div>
+                            
+                            <div class="bg-amber-50 p-4 rounded-lg border border-amber-100 text-amber-800">
+                                <strong class="flex items-center gap-1 mb-2 text-amber-700"><i data-lucide="alert-octagon" width="16"></i> คำเตือน</strong>
+                                คนไทยได้รับโซเดียมเกิน 2 เท่า ! (จากเครื่องปรุง) เสี่ยงโรคความดันโลหิตสูง ส่งผลให้ไตทำงานผิดปกติ (พบโปรตีนในปัสสาวะ) เกิดอาการบวม แน่นหน้าอก
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FIGURE 3 (ADDED & CENTERED) -->
+            <div class="mt-8 p-6 bg-slate-800 rounded-xl border border-slate-700 text-slate-200">
+                <h4 class="text-center font-bold text-white mb-8 bg-slate-700 w-fit mx-auto block px-6 py-2 rounded-full shadow-sm border border-slate-600">
+                    แผนผังการควบคุมสมดุลโซเดียมและน้ำ (แอลโดสเทอโรน)
+                </h4>
+                
+                <div class="max-w-3xl mx-auto space-y-4">
+                    <!-- Step 1: Stimulus -->
+                    <div class="grid md:grid-cols-2 gap-4">
+                         <div class="bg-slate-700 p-3 rounded-lg border border-slate-600 text-center text-sm flex flex-col justify-center items-center">
+                            <div class="mb-2 text-rose-300"><i data-lucide="arrow-down-circle"></i></div>
+                            <div>ปริมาณโซเดียมในเลือด <span class="text-rose-400 font-bold">ต่ำ</span></div>
+                         </div>
+                         <div class="bg-slate-700 p-3 rounded-lg border border-slate-600 text-center text-sm flex flex-col justify-center items-center">
+                            <div class="mb-2 text-orange-300"><i data-lucide="zap"></i></div>
+                            <div>ภาวะเครียด <span class="text-orange-400 font-bold">(Stress)</span></div>
+                         </div>
+                    </div>
+
+                    <div class="flex justify-center"><i data-lucide="arrow-down" class="text-slate-500"></i></div>
+
+                    <!-- Step 2: Gland -->
+                    <div class="bg-slate-700 p-3 rounded-lg border border-slate-600 text-center text-sm max-w-md mx-auto">
+                        <div class="mb-2 text-purple-300"><i data-lucide="activity" class="mx-auto"></i></div>
+                        ต่อมหมวกไตส่วนนอก <span class="text-green-400 font-bold">หลั่งแอลโดสเทอโรน</span>
+                    </div>
+
+                    <div class="flex justify-center"><i data-lucide="arrow-down" class="text-slate-500"></i></div>
+
+                    <!-- Step 3: Organ -->
+                    <div class="bg-slate-700 p-3 rounded-lg border border-slate-600 text-center text-sm max-w-md mx-auto">
+                        <div class="mb-2 text-blue-300"><i data-lucide="filter" class="mx-auto"></i></div>
+                        ท่อหน่วยไต <span class="text-blue-400 font-bold">ดูดกลับโซเดียม และ น้ำ</span>
+                    </div>
+
+                    <div class="flex justify-center"><i data-lucide="arrow-down" class="text-slate-500"></i></div>
+
+                    <!-- Step 4: Result -->
+                    <div class="bg-slate-700 p-3 rounded-lg border border-slate-600 text-center text-sm max-w-md mx-auto border-b-4 border-b-emerald-400">
+                        <div class="mb-2 text-emerald-300"><i data-lucide="check-circle" class="mx-auto"></i></div>
+                        ปริมาณโซเดียมในเลือด <span class="text-emerald-400 font-bold">เพิ่มขึ้น / ปกติ</span><br>
+                        ความดันเลือด <span class="text-emerald-400 font-bold">สูงขึ้น</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center text-sm mt-12">
+        <div class="max-w-4xl mx-auto px-4 flex flex-col justify-center items-center gap-2">
+           <i data-lucide="book-open" width="20"></i>
+           <span class="text-base font-semibold">2.1 การรักษาดุลยภาพของน้ำและสารในร่างกาย</span>
+           <span class="text-xs opacity-70">By-20nxskypqz</span>
+        </div>
+    </footer>
+
+    <!-- Script to render Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
