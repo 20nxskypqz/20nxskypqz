@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5.1 การศึกษาพันธุกรรมของเมนเดล</title>
+    <!-- Google Fonts: Niramit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Niramit', sans-serif;
+            background-color: #fdfbf7; /* Creamy white background */
+            color: #333;
+        }
+        /* Override default mono font for code/pre tags if any, ensuring Niramit everywhere */
+        code, kbd, samp, pre {
+            font-family: 'Niramit', sans-serif !important;
+        }
+        .gradient-header {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        }
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-emerald-200 selection:text-emerald-900">
+
+    <!-- Header Section -->
+    <header class="gradient-header text-white py-12 px-4 shadow-lg mb-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-block bg-white/20 backdrop-blur-sm px-4 py-1 rounded-full text-sm font-medium mb-4">
+                <i class="fas fa-dna mr-2"></i>ชีววิทยา
+            </div>
+            <h1 class="text-3xl md:text-5xl font-bold mb-4 leading-tight">
+                บทที่ 5 : การถ่ายทอดลักษณะทางพันธุกรรม
+            </h1>
+            <h2 class="text-xl md:text-2xl font-light opacity-90">
+                5.1 การศึกษาพันธุกรรมของเมนเดล
+            </h2>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 pb-16 space-y-12">
+
+        <!-- 1. บทนำ -->
+        <section class="bg-white rounded-2xl p-6 md:p-8 card-shadow border-l-8 border-emerald-500">
+            <h3 class="text-2xl font-bold text-emerald-800 mb-4 flex items-center">
+                <i class="fas fa-book-open mr-3"></i>บทนำ : ความหลากหลายและการถ่ายทอด
+            </h3>
+            <p class="text-gray-700 leading-relaxed text-lg mb-4">
+                เคยสงสัยหรือไม่ว่า ทำไมสิ่งมีชีวิตชนิดเดียวกันจึงมีลักษณะที่คล้ายคลึงกัน , แต่กลับแตกต่างจากสิ่งมีชีวิตชนิดอื่น ? และอะไรคือตัวกำหนดให้เป็นเช่นนั้น ?
+            </p>
+            <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-100">
+                <p class="font-semibold text-emerald-700 mb-2"><i class="fas fa-question-circle mr-2"></i>คำถามชวนคิด</p>
+                <p class="text-gray-600">
+                    ยีน (Gene) และลักษณะทางพันธุกรรมต่างๆ ถูกถ่ายทอดจากบรรพบุรุษไปสู่ลูกหลานได้อย่างไร ?
+                </p>
+                <ul class="list-disc list-inside mt-2 space-y-1 text-gray-600 ml-4">
+                    <li><span class="font-bold text-gray-800">ลักษณะที่สังเกตเห็นได้จากภายนอก</span> : เช่น สีตา , สีผิว , และความสูง</li>
+                    <li><span class="font-bold text-gray-800">ลักษณะที่ไม่สามารถสังเกตเห็นได้จากภายนอก</span> (แต่ตรวจสอบได้) : เช่น หมู่เลือดระบบ ABO , หรือโรคทางพันธุกรรมอย่างโรคโลหิตจางชนิดซิกเคิลเซลล์</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 2. เกรกอร์ เมนเดล -->
+        <section class="grid md:grid-cols-3 gap-6">
+            <div class="md:col-span-1 bg-gradient-to-br from-emerald-600 to-teal-700 rounded-2xl p-6 text-white text-center flex flex-col justify-center items-center card-shadow">
+                <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mb-4 text-4xl">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h3 class="text-xl font-bold">Gregor Mendel</h3>
+                <p class="text-sm opacity-80 mt-1">บิดาแห่งพันธุศาสตร์</p>
+                <p class="text-xs opacity-70 mt-4">ตีพิมพ์ผลงานปี ค.ศ. 1866</p>
+            </div>
+            <div class="md:col-span-2 bg-white rounded-2xl p-6 md:p-8 card-shadow">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">การค้นพบครั้งสำคัญ</h3>
+                <p class="text-gray-700 mb-4">
+                    เมนเดลศึกษาการถ่ายทอดลักษณะของ <span class="text-emerald-600 font-bold">ต้นถั่วลันเตา</span> และสรุปเป็นหลักการสำคัญ คือ "กฎการแยก" และ "กฎการรวมกลุ่มอย่างอิสระ"
+                </p>
+                <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                    <h4 class="font-bold text-gray-700 mb-3 border-b pb-2">ผลการทดลอง (Experiments in Plant Hybridization) :</h4>
+                    <ul class="space-y-3 text-sm md:text-base">
+                        <li class="flex justify-between items-center">
+                            <span><i class="fas fa-leaf text-green-500 mr-2"></i>สีฝัก</span>
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded">2.82 : 1</span>
+                        </li>
+                        <li class="flex justify-between items-center">
+                            <span><i class="fas fa-location-arrow text-purple-500 mr-2"></i>ตำแหน่งดอก</span>
+                            <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded">3.14 : 1</span>
+                        </li>
+                        <li class="flex justify-between items-center">
+                            <span><i class="fas fa-ruler-vertical text-blue-500 mr-2"></i>ความสูง</span>
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">2.84 : 1</span>
+                        </li>
+                    </ul>
+                    <div class="mt-4 pt-3 border-t text-center">
+                        <span class="text-gray-500 text-sm">อัตราส่วนเฉลี่ย เด่น : ด้อย</span>
+                        <div class="text-2xl font-bold text-emerald-600">3 : 1</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. ทำไมต้องถั่วลันเตา -->
+        <section>
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 border-l-4 border-emerald-500 pl-4">
+                พืชที่ใช้ศึกษา : ถั่วลันเตา (Pisum sativum)
+            </h3>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
+                <div class="bg-white p-4 rounded-xl card-shadow hover:bg-emerald-50 transition">
+                    <i class="fas fa-history text-3xl text-emerald-500 mb-2"></i>
+                    <p class="font-medium text-sm">วัฏจักรชีวิตสั้น</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl card-shadow hover:bg-emerald-50 transition">
+                    <i class="fas fa-seedling text-3xl text-emerald-500 mb-2"></i>
+                    <p class="font-medium text-sm">ปลูกง่าย</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl card-shadow hover:bg-emerald-50 transition">
+                    <i class="fas fa-coins text-3xl text-emerald-500 mb-2"></i>
+                    <p class="font-medium text-sm">ให้ลูกจำนวนมาก</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl card-shadow hover:bg-emerald-50 transition">
+                    <i class="fas fa-shapes text-3xl text-emerald-500 mb-2"></i>
+                    <p class="font-medium text-sm">ลักษณะหลากหลาย</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl card-shadow hover:bg-emerald-50 transition">
+                    <i class="fas fa-tools text-3xl text-emerald-500 mb-2"></i>
+                    <p class="font-medium text-sm">ควบคุมการผสมได้</p>
+                </div>
+            </div>
+            
+            <div class="mt-6 bg-white p-6 rounded-2xl card-shadow">
+                <h4 class="font-bold text-lg mb-2"><i class="fas fa-venus-mars mr-2 text-pink-500"></i>การผสมพันธุ์</h4>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="border border-gray-200 rounded-lg p-3">
+                        <strong class="text-emerald-700">Self-fertilization :</strong> เกิดขึ้นในดอกเดียวกันตามธรรมชาติ (ดอกสมบูรณ์เพศ)
+                    </div>
+                    <div class="border border-gray-200 rounded-lg p-3">
+                        <strong class="text-emerald-700">Cross-fertilization :</strong> ตัดเกสรตัวผู้ออก , แล้วนำเรณูจากดอกพ่อมาป้ายที่ยอดเกสรตัวเมีย
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. ลักษณะทั้ง 7 -->
+        <section class="bg-emerald-900 text-emerald-50 rounded-3xl p-8 relative overflow-hidden">
+            <div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-emerald-800 rounded-full opacity-50"></div>
+            <h3 class="text-2xl font-bold mb-6 relative z-10">7 ลักษณะที่เมนเดลศึกษา</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 relative z-10 text-emerald-900">
+                <!-- Card Item -->
+                <div class="bg-white p-3 rounded-lg shadow-sm">
+                    <span class="block text-xs text-gray-500 uppercase">สีกลีบดอก</span>
+                    <span class="font-bold text-purple-600">ม่วง</span> / <span class="text-gray-400 font-bold">ขาว</span>
+                </div>
+                <div class="bg-white p-3 rounded-lg shadow-sm">
+                    <span class="block text-xs text-gray-500 uppercase">ความสูง</span>
+                    <span class="font-bold">สูง</span> / <span class="font-bold text-sm text-gray-500">เตี้ย</span>
+                </div>
+                <div class="bg-white p-3 rounded-lg shadow-sm">
+                    <span class="block text-xs text-gray-500 uppercase">ตำแหน่งดอก</span>
+                    <span class="font-bold">ตามซอก</span> / <span class="font-bold text-sm text-gray-500">ตามยอด</span>
+                </div>
+                <div class="bg-white p-3 rounded-lg shadow-sm">
+                    <span class="block text-xs text-gray-500 uppercase">รูปร่างฝัก</span>
+                    <span class="font-bold">อวบ</span> / <span class="font-bold text-sm text-gray-500">แฟบ</span>
+                </div>
+                <div class="bg-white p-3 rounded-lg shadow-sm">
+                    <span class="block text-xs text-gray-500 uppercase">รูปร่างเมล็ด</span>
+                    <span class="font-bold">กลม</span> / <span class="font-bold text-sm text-gray-500">ขรุขระ</span>
+                </div>
+                <div class="bg-white p-3 rounded-lg shadow-sm">
+                    <span class="block text-xs text-gray-500 uppercase">สีเมล็ด</span>
+                    <span class="font-bold text-yellow-500">เหลือง</span> / <span class="font-bold text-green-600">เขียว</span>
+                </div>
+                <div class="bg-white p-3 rounded-lg shadow-sm">
+                    <span class="block text-xs text-gray-500 uppercase">สีฝัก</span>
+                    <span class="font-bold text-green-600">เขียว</span> / <span class="font-bold text-yellow-500">เหลือง</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. การทดลอง Monohybrid Cross -->
+        <section class="bg-white rounded-2xl p-6 md:p-8 card-shadow">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <i class="fas fa-flask mr-3 text-purple-600"></i>การผสมพิจารณาลักษณะเดียว (Monohybrid Cross)
+            </h3>
+            
+            <!-- Visualization of the Cross -->
+            <div class="flex flex-col items-center space-y-6 max-w-2xl mx-auto">
+                
+                <!-- P Generation -->
+                <div class="w-full bg-gray-50 p-4 rounded-xl border border-gray-200 text-center">
+                    <span class="inline-block bg-gray-800 text-white text-xs px-2 py-1 rounded mb-2">P Generation (รุ่นพ่อแม่พันธุ์แท้)</span>
+                    <div class="flex justify-center items-center text-3xl md:text-5xl gap-8 mt-2">
+                        <div class="flex flex-col items-center">
+                            <i class="fas fa-seedling text-purple-600"></i>
+                            <span class="text-sm text-gray-600 mt-2 font-bold">ม่วง</span>
+                        </div>
+                        <span class="text-gray-400">X</span>
+                        <div class="flex flex-col items-center">
+                            <i class="fas fa-seedling text-gray-300"></i> <!-- White flower represented as gray -->
+                            <span class="text-sm text-gray-600 mt-2 font-bold">ขาว</span>
+                        </div>
+                    </div>
+                </div>
+
+                <i class="fas fa-arrow-down text-gray-300 text-2xl"></i>
+
+                <!-- F1 Generation -->
+                <div class="w-full bg-purple-50 p-4 rounded-xl border border-purple-200 text-center">
+                    <span class="inline-block bg-purple-700 text-white text-xs px-2 py-1 rounded mb-2">F1 Generation (ลูกรุ่นที่ 1)</span>
+                    <p class="text-purple-900 font-bold mb-2">ดอกสีม่วงทั้งหมด</p>
+                    <div class="flex justify-center gap-2 text-2xl">
+                        <i class="fas fa-seedling text-purple-600"></i>
+                        <i class="fas fa-seedling text-purple-600"></i>
+                        <i class="fas fa-seedling text-purple-600"></i>
+                        <i class="fas fa-seedling text-purple-600"></i>
+                    </div>
+                </div>
+
+                <i class="fas fa-arrow-down text-gray-300 text-2xl"></i>
+
+                <!-- F2 Generation -->
+                <div class="w-full bg-emerald-50 p-4 rounded-xl border border-emerald-200 text-center">
+                    <span class="inline-block bg-emerald-700 text-white text-xs px-2 py-1 rounded mb-2">F2 Generation (Self-fertilization F1 x F1)</span>
+                    <div class="flex justify-center items-center gap-6 mt-2 mb-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-purple-700">705 ต้น</div>
+                            <div class="text-sm">ดอกสีม่วง</div>
+                        </div>
+                        <div class="text-xl font-bold text-gray-400">vs</div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-gray-600">224 ต้น</div>
+                            <div class="text-sm">ดอกสีขาว</div>
+                        </div>
+                    </div>
+                    <!-- Ratio Visual -->
+                    <div class="w-full bg-gray-300 rounded-full h-6 flex overflow-hidden">
+                        <div class="bg-purple-600 h-6 flex items-center justify-center text-white text-xs font-bold" style="width: 75%">3</div>
+                        <div class="bg-gray-100 h-6 flex items-center justify-center text-gray-600 text-xs font-bold" style="width: 25%">1</div>
+                    </div>
+                    <p class="mt-2 text-sm text-gray-600 font-bold">อัตราส่วนประมาณ 3 : 1</p>
+                </div>
+            </div>
+
+            <div class="mt-6 p-4 bg-blue-50 border-l-4 border-blue-500 text-sm text-blue-900">
+                <strong>การผสมสลับ (Reciprocal Cross) :</strong> แม้จะสลับพ่อแม่ (แม่ขาว X พ่อม่วง) , ผลลัพธ์ใน F1 และ F2 ก็ยังคงเดิม แสดงว่าเพศไม่มีผลต่อลักษณะเหล่านี้ในถั่วลันเตา
+            </div>
+        </section>
+
+        <!-- 6. ไทม์ไลน์ & คำศัพท์ -->
+        <section class="grid md:grid-cols-2 gap-8">
+            <!-- Timeline -->
+            <div>
+                <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">ไทม์ไลน์พันธุศาสตร์</h3>
+                <ol class="relative border-l border-gray-200 ml-3">                  
+                    <li class="mb-6 ml-6">
+                        <span class="absolute flex items-center justify-center w-6 h-6 bg-emerald-100 rounded-full -left-3 ring-8 ring-white">
+                            <i class="fas fa-calendar-check text-emerald-600 text-xs"></i>
+                        </span>
+                        <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900">1866 : Mendel</h3>
+                        <p class="text-base font-normal text-gray-500">เสนอกฎพันธุกรรม</p>
+                    </li>
+                    <li class="mb-6 ml-6">
+                        <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-white">
+                            <i class="fas fa-search text-blue-600 text-xs"></i>
+                        </span>
+                        <h3 class="mb-1 text-lg font-semibold text-gray-900">1900 : Rediscovery</h3>
+                        <p class="text-base font-normal text-gray-500">ค้นพบผลงานเมนเดลอีกครั้ง</p>
+                    </li>
+                    <li class="mb-6 ml-6">
+                        <span class="absolute flex items-center justify-center w-6 h-6 bg-purple-100 rounded-full -left-3 ring-8 ring-white">
+                            <i class="fas fa-tag text-purple-600 text-xs"></i>
+                        </span>
+                        <h3 class="mb-1 text-lg font-semibold text-gray-900">1909 : Gene</h3>
+                        <p class="text-base font-normal text-gray-500">Johannsen บัญญัติคำว่า "ยีน"</p>
+                    </li>
+                    <li class="ml-6">
+                        <span class="absolute flex items-center justify-center w-6 h-6 bg-pink-100 rounded-full -left-3 ring-8 ring-white">
+                            <i class="fas fa-dna text-pink-600 text-xs"></i>
+                        </span>
+                        <h3 class="mb-1 text-lg font-semibold text-gray-900">1953 : Watson & Crick</h3>
+                        <p class="text-base font-normal text-gray-500">โครงสร้างเกลียวคู่ DNA</p>
+                    </li>
+                </ol>
+            </div>
+
+            <!-- Vocabulary Cards -->
+            <div class="space-y-4">
+                <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">ศัพท์บัญญัติสำคัญ</h3>
+                
+                <div class="bg-white p-4 rounded-lg card-shadow border-l-4 border-yellow-400">
+                    <strong class="text-gray-900 block">แฟกเตอร์ (Factor) / ยีน (Gene)</strong>
+                    <span class="text-sm text-gray-600">หน่วยควบคุมลักษณะที่ถ่ายทอดได้</span>
+                </div>
+
+                <div class="bg-white p-4 rounded-lg card-shadow border-l-4 border-red-400">
+                    <strong class="text-gray-900 block">แอลลีล (Allele)</strong>
+                    <span class="text-sm text-gray-600">รูปแบบของยีนที่อยู่บนโลคัสเดียวกันบนฮอมอโลกัสโครโมโซม (เช่น T กับ t)</span>
+                </div>
+
+                <div class="bg-white p-4 rounded-lg card-shadow border-l-4 border-blue-400">
+                    <strong class="text-gray-900 block">โลคัส (Locus)</strong>
+                    <span class="text-sm text-gray-600">ตำแหน่งที่อยู่ของยีนบนโครโมโซม</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Genotype & Phenotype -->
+        <section class="bg-gray-800 text-white rounded-2xl p-6 md:p-8 overflow-hidden">
+            <h3 class="text-2xl font-bold mb-6 text-emerald-400"><i class="fas fa-microscope mr-2"></i>จีโนไทป์ & ฟีโนไทป์</h3>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Definition -->
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="font-bold text-lg text-yellow-300">ฟีโนไทป์ (Phenotype)</h4>
+                        <p class="opacity-80">ลักษณะที่ปรากฏให้เห็น (เช่น สีม่วง , สูง)</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-lg text-blue-300">จีโนไทป์ (Genotype)</h4>
+                        <p class="opacity-80">คู่ของแอลลีล หรือองค์ประกอบทางพันธุกรรม (เช่น PP , Pp)</p>
+                    </div>
+                </div>
+
+                <!-- Types -->
+                <div class="bg-gray-700 p-4 rounded-xl">
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <span class="bg-emerald-500 text-xs px-2 py-1 rounded mr-2 mt-1">Homozygous</span>
+                            <div>
+                                <strong>พันธุ์แท้ (แอลลีลเหมือนกัน)</strong>
+                                <div class="text-sm opacity-70">
+                                    • Dominant (เด่นแท้) : <span class="text-emerald-300">PP</span><br>
+                                    • Recessive (ด้อยแท้) : <span class="text-emerald-300">pp</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="flex items-start border-t border-gray-600 pt-3">
+                            <span class="bg-purple-500 text-xs px-2 py-1 rounded mr-2 mt-1">Heterozygous</span>
+                            <div>
+                                <strong>พันธุ์ทาง (แอลลีลต่างกัน)</strong>
+                                <div class="text-sm opacity-70">
+                                    • <span class="text-purple-300">Pp</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. แบบฝึกหัด (Full Content) -->
+        <section>
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <i class="fas fa-pencil-alt mr-3 text-emerald-600"></i>แบบฝึกหัดทดสอบความเข้าใจ
+            </h3>
+            <div class="grid md:grid-cols-1 gap-6">
+                
+                <!-- Question 1 -->
+                <div class="bg-white p-6 rounded-xl card-shadow border-l-8 border-green-500">
+                    <h4 class="text-xl font-bold text-gray-900 mb-2">1. เรื่องสีฝักถั่วลันเตา</h4>
+                    <p class="text-gray-600 mb-4 bg-green-50 p-3 rounded-lg border border-green-100">
+                        <i class="fas fa-info-circle mr-2 text-green-500"></i>กำหนดให้สีเขียวเป็นลักษณะเด่น (G) และสีเหลืองเป็นลักษณะด้อย (g)
+                    </p>
+                    <div class="space-y-3">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between bg-gray-50 p-3 rounded">
+                            <span class="font-medium text-gray-800">จีโนไทป์ Gg จะมีฟีโนไทป์อย่างไร ?</span>
+                            <span class="mt-2 md:mt-0 font-bold text-green-600"><i class="fas fa-arrow-right mr-2 text-gray-400"></i>สีเขียว</span>
+                        </div>
+                        <div class="flex flex-col md:flex-row md:items-center justify-between bg-gray-50 p-3 rounded">
+                            <span class="font-medium text-gray-800">จีโนไทป์ gg จะมีฟีโนไทป์อย่างไร ?</span>
+                            <span class="mt-2 md:mt-0 font-bold text-yellow-600"><i class="fas fa-arrow-right mr-2 text-gray-400"></i>สีเหลือง</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="bg-white p-6 rounded-xl card-shadow border-l-8 border-gray-400">
+                    <h4 class="text-xl font-bold text-gray-900 mb-2">2. เรื่องลักษณะเผือก</h4>
+                    <p class="text-gray-600 mb-4 bg-gray-50 p-3 rounded-lg border border-gray-200">
+                        <i class="fas fa-info-circle mr-2 text-gray-500"></i>กำหนดให้ลักษณะเผือกควบคุมด้วยแอลลีลด้อย (a)
+                    </p>
+                    <div class="space-y-3">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between bg-gray-50 p-3 rounded">
+                            <span class="font-medium text-gray-800">คนที่มีจีโนไทป์ AA หรือ Aa</span>
+                            <span class="mt-2 md:mt-0 text-gray-700 font-bold"><i class="fas fa-arrow-right mr-2 text-gray-400"></i>มีลักษณะปกติ (ไม่เผือก)</span>
+                        </div>
+                        <div class="flex flex-col md:flex-row md:items-center justify-between bg-gray-50 p-3 rounded">
+                            <span class="font-medium text-gray-800">คนที่มีจีโนไทป์ aa</span>
+                            <span class="mt-2 md:mt-0 text-gray-500 font-bold"><i class="fas fa-arrow-right mr-2 text-gray-400"></i>มีลักษณะเผือก</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="bg-white p-6 rounded-xl card-shadow border-l-8 border-red-500">
+                    <h4 class="text-xl font-bold text-gray-900 mb-2">3. เรื่องโรคทาลัสซีเมีย</h4>
+                    <p class="text-gray-600 mb-4 bg-red-50 p-3 rounded-lg border border-red-100">
+                        <i class="fas fa-info-circle mr-2 text-red-500"></i>ถ้าควบคุมด้วยแอลลีลด้อย (t) และผู้ชายคนหนึ่งเป็นเฮเทอโรไซกัส (Heterozygous)
+                    </p>
+                    <div class="space-y-3">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between bg-gray-50 p-3 rounded">
+                            <span class="font-medium text-gray-800">เขียนจีโนไทป์ได้เป็น :</span>
+                            <span class="mt-2 md:mt-0 font-bold text-red-600 text-lg"><i class="fas fa-arrow-right mr-2 text-gray-400"></i>Tt</span>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded">
+                            <div class="font-medium text-gray-800 mb-2">สร้างเซลล์สืบพันธุ์ได้แบบใดบ้าง :</div>
+                            <div class="flex items-center text-gray-700">
+                                <i class="fas fa-arrow-right mr-2 text-gray-400"></i>
+                                <span>ได้เซลล์สืบพันธุ์ 2 แบบ คือ <span class="bg-white px-2 py-1 rounded border font-bold">T</span> และ <span class="bg-white px-2 py-1 rounded border font-bold">t</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+</body>
+</html>
