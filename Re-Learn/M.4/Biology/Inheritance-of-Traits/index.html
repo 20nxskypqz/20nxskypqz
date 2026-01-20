@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บทที่ 5 : การถ่ายทอดลักษณะทางพันธุกรรม</title>
+    
+    <!-- React & ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    
+    <!-- Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Niramit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Niramit', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+        .gradient-text {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, #2563eb, #7c3aed);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Components
+        const SectionHeader = ({ number, title, subtitle, color }) => (
+            <div className={`mb-8 border-l-4 ${color} pl-4`}>
+                <h2 className="text-3xl font-bold text-slate-800 flex items-center gap-2">
+                    <span className={`text-xl px-2 py-1 rounded text-white ${color.replace('border-', 'bg-')}`}>{number}</span>
+                    {title}
+                </h2>
+                <p className="text-slate-500 mt-1 text-lg">{subtitle}</p>
+            </div>
+        );
+
+        const ContentCard = ({ title, children, icon: Icon }) => (
+            <div className="bg-white rounded-xl shadow-md p-6 mb-6 border border-slate-100 transition hover:shadow-lg">
+                <div className="flex items-center gap-3 mb-4 pb-3 border-b border-slate-100">
+                    {Icon && <Icon className="w-6 h-6 text-indigo-600" />}
+                    <h3 className="text-xl font-semibold text-slate-800">{title}</h3>
+                </div>
+                <div className="text-slate-600 leading-relaxed space-y-4">
+                    {children}
+                </div>
+            </div>
+        );
+
+        const KeyTerm = ({ term, desc }) => (
+            <div className="bg-slate-50 p-3 rounded-lg border-l-4 border-indigo-400">
+                <span className="font-bold text-indigo-900">{term} :</span> <span className="text-slate-700">{desc}</span>
+            </div>
+        );
+
+        const QuoteBox = ({ text }) => (
+            <div className="bg-amber-50 p-4 rounded-lg border border-amber-200 text-amber-900 italic flex gap-3">
+                <i data-lucide="quote" className="w-5 h-5 flex-shrink-0 mt-1"></i>
+                <p>{text}</p>
+            </div>
+        );
+
+        const RatioBox = ({ title, ratio, details }) => (
+            <div className="bg-indigo-50 p-4 rounded-lg text-center">
+                <div className="text-sm text-indigo-600 font-medium mb-1">{title}</div>
+                <div className="text-3xl font-bold text-indigo-800 mb-2">{ratio}</div>
+                <div className="text-xs text-indigo-500">{details}</div>
+            </div>
+        );
+
+        const App = () => {
+            useEffect(() => {
+                lucide.createIcons();
+            }, []);
+
+            const scrollTo = (id) => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+
+            return (
+                <div className="min-h-screen pb-20">
+                    {/* Navigation */}
+                    <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+                        <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+                            <div className="font-bold text-xl text-indigo-700 flex items-center gap-2">
+                                <i data-lucide="dna" className="w-6 h-6"></i>
+                                Genetics
+                            </div>
+                            <div className="hidden md:flex space-x-6 text-sm font-medium">
+                                {['5.1 เมนเดล', '5.2 ส่วนขยาย', '5.3 Linkage'].map((item, index) => {
+                                    const id = `section-${['5.1', '5.2', '5.3'][index]}`;
+                                    return (
+                                        <button 
+                                            key={id}
+                                            onClick={() => scrollTo(id)}
+                                            className="hover:text-indigo-600 transition text-slate-600"
+                                        >
+                                            {item}
+                                        </button>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    </nav>
+
+                    {/* Hero */}
+                    <header className="bg-gradient-to-br from-indigo-900 via-indigo-800 to-purple-900 text-white py-20 px-4 text-center relative overflow-hidden">
+                        <div className="absolute top-0 left-0 w-full h-full opacity-10">
+                            <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                <path d="M0 100 C 20 0 50 0 100 100 Z" fill="white" />
+                            </svg>
+                        </div>
+                        <h1 className="text-4xl md:text-6xl font-bold mb-4 relative z-10">บทที่ 5 : การถ่ายทอดลักษณะทางพันธุกรรม</h1>
+                    </header>
+
+                    {/* Main Content */}
+                    <main className="max-w-4xl mx-auto px-4 py-12 space-y-16">
+
+                        {/* SECTION 5.1 */}
+                        <div id="section-5.1">
+                            <SectionHeader 
+                                number="5.1" 
+                                title="การศึกษาพันธุกรรมของเมนเดล" 
+                                subtitle="รากฐานแห่งพันธุศาสตร์และการค้นพบของเกรเกอร์ เมนเดล"
+                                color="border-blue-500"
+                            />
+                            
+                            <ContentCard title="ปูพื้นฐาน : การทดลองของเมนเดล" icon={() => <i data-lucide="microscope" className="text-blue-500 w-6 h-6"/>}>
+                                <p className="mb-4">
+                                    <strong>คำถามชวนคิด :</strong> ทำไมสิ่งมีชีวิตชนิดเดียวกันจึงมีลักษณะคล้ายกัน และแตกต่างจากสิ่งมีชีวิตอื่น? สิ่งใดเป็นตัวกำหนด?
+                                </p>
+                                <div className="grid md:grid-cols-2 gap-4 mb-4">
+                                    <div className="bg-blue-50 p-4 rounded-lg">
+                                        <h4 className="font-bold text-blue-700 mb-2">ทำไมการทดลองของเมนเดลจึงสำเร็จ?</h4>
+                                        <ul className="list-disc pl-5 space-y-1 text-sm text-slate-700">
+                                            <li><strong>วัสดุทดลอง :</strong> เลือกใช้ "ถั่วลันเตา" (ปลูกง่าย , อายุสั้น , ลักษณะต่างกันชัดเจน)</li>
+                                            <li><strong>การควบคุม :</strong> ควบคุมการผสมพันธุ์ได้ทั้ง "ผสมตัวเอง" และ "ผสมข้าม" (ตัดเกสรตัวผู้ทิ้ง)</li>
+                                            <li><strong>พันธุ์แท้ :</strong> คัดเลือกสายพันธุ์จนมั่นใจว่าเป็น Pure line ก่อนทดลอง</li>
+                                            <li><strong>วิทยาศาสตร์ :</strong> เก็บข้อมูลละเอียด ทดลองซ้ำ และใช้สถิติวิเคราะห์</li>
+                                        </ul>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <h4 className="font-bold text-slate-700">คำศัพท์ต้องรู้</h4>
+                                        <KeyTerm term="ยีน (Gene)" desc="หน่วยควบคุมลักษณะทางพันธุกรรม" />
+                                        <KeyTerm term="แอลลีล (Allele)" desc="รูปแบบของยีนบนตำแหน่งเดียวกัน (Locus)" />
+                                        <KeyTerm term="จีโนไทป์" desc="รูปแบบคู่แอลลีล (TT , Tt , tt)" />
+                                        <KeyTerm term="ฟีโนไทป์" desc="ลักษณะที่ปรากฏ (เช่น ต้นสูง)" />
+                                    </div>
+                                </div>
+                            </ContentCard>
+
+                            <ContentCard title="5.1.1 กฎการแยก (Law of Segregation)" icon={() => <i data-lucide="scissors" className="text-blue-500 w-6 h-6"/>}>
+                                <QuoteBox text="แอลลีลที่อยู่เป็นคู่จะแยกออกจากกันในระหว่างการสร้างเซลล์สืบพันธุ์ โดยเซลล์สืบพันธุ์แต่ละเซลล์จะมีเพียงแอลลีลใดแอลลีลหนึ่ง" />
+                                
+                                <div className="mt-6 space-y-4">
+                                    <h4 className="font-bold text-lg text-slate-800">การผสมพิจารณาลักษณะเดียว (Monohybrid Cross)</h4>
+                                    <div className="flex flex-col md:flex-row gap-6 items-center bg-slate-50 p-4 rounded-xl">
+                                        <div className="flex-1 space-y-2">
+                                            <p><strong>โจทย์ :</strong> ดอกสีม่วงพันธุ์แท้ (PP) x ดอกสีขาวพันธุ์แท้ (pp)</p>
+                                            <ul className="list-none space-y-1 text-sm">
+                                                <li>➔ <strong>F1 :</strong> ม่วงทั้งหมด (Pp) <span className="text-gray-400 text-xs">(สีขาวถูกข่ม)</span></li>
+                                                <li>➔ <strong>F2 (F1xF1) :</strong> เกิดการแยกตัวของลักษณะ</li>
+                                            </ul>
+                                        </div>
+                                        <div className="flex gap-4">
+                                            <RatioBox title="ฟีโนไทป์ F2" ratio="3 : 1" details="ม่วง : ขาว" />
+                                            <RatioBox title="จีโนไทป์ F2" ratio="1 : 2 : 1" details="PP : Pp : pp" />
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-4 p-4 border border-blue-100 rounded-lg bg-blue-50/50">
+                                        <h4 className="font-bold text-blue-800 mb-2">🧬 การตรวจสอบจีโนไทป์ (Test Cross)</h4>
+                                        <p className="text-sm mb-2">หากมีต้นลักษณะเด่น (T_) อยากรู้ว่าเป็น TT หรือ Tt? ให้ผสมกับ <strong>ลักษณะด้อย (tt)</strong></p>
+                                        <ul className="list-disc pl-5 text-sm space-y-1">
+                                            <li>ลูกออกมาสูงหมด ➔ พ่อแม่เป็น <strong>TT</strong></li>
+                                            <li>ลูกออกมา สูง 1 : เตี้ย 1 ➔ พ่อแม่เป็น <strong>Tt</strong></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </ContentCard>
+
+                            <ContentCard title="5.1.2 กฎการรวมกลุ่มอย่างอิสระ" icon={() => <i data-lucide="shuffle" className="text-blue-500 w-6 h-6"/>}>
+                                <QuoteBox text="ในระหว่างการสร้างเซลล์สืบพันธุ์ การรวมกลุ่มของแอลลีลของยีนหนึ่ง เป็นอิสระจากการรวมกลุ่มของแอลลีลของยีนอื่น" />
+                                
+                                <div className="mt-6">
+                                    <h4 className="font-bold text-lg text-slate-800 mb-2">การผสมพิจารณาสองลักษณะ (Dihybrid Cross)</h4>
+                                    <p className="mb-4 text-sm">ตัวอย่าง : เมล็ดกลม-สีเหลือง (RRYY) x เมล็ดขรุขระ-สีเขียว (rryy)</p>
+                                    
+                                    <div className="grid md:grid-cols-2 gap-6">
+                                        <div className="bg-slate-50 p-4 rounded-lg">
+                                            <h5 className="font-semibold mb-2">ผลลัพธ์รุ่น F2</h5>
+                                            <ul className="space-y-2 text-sm">
+                                                <li className="flex justify-between items-center"><span className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-yellow-400"></span> กลม-เหลือง</span> <span className="font-bold">9 ส่วน</span></li>
+                                                <li className="flex justify-between items-center"><span className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-green-500"></span> กลม-เขียว</span> <span className="font-bold">3 ส่วน</span></li>
+                                                <li className="flex justify-between items-center"><span className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-yellow-600 border border-dotted"></span> ขรุขระ-เหลือง</span> <span className="font-bold">3 ส่วน</span></li>
+                                                <li className="flex justify-between items-center"><span className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-green-700 border border-dotted"></span> ขรุขระ-เขียว</span> <span className="font-bold">1 ส่วน</span></li>
+                                            </ul>
+                                        </div>
+                                        <div className="flex flex-col justify-center bg-indigo-50 p-4 rounded-lg">
+                                            <h5 className="font-semibold text-center mb-2 text-indigo-800">เทคนิคการคำนวณ</h5>
+                                            <p className="text-sm text-center mb-2">"แยกคิดทีละลักษณะ แล้วนำมาคูณกัน"</p>
+                                            <div className="text-xs text-slate-600 bg-white p-2 rounded border border-indigo-100">
+                                                <strong>ตัวอย่าง :</strong> RrTT x rrTt<br/>
+                                                1. สี (Rr x rr) ➔ แดง 1 : 2 , เหลือง 1 : 2<br/>
+                                                2. สูง (TT x Tt) ➔ สูงทั้งหมด (1)<br/>
+                                                3. รวม : แดง-สูง (1/2 x 1) = <strong>1/2</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ContentCard>
+
+                            <ContentCard title="5.1.3 การถ่ายทอดยีนบนโครโมโซม" icon={() => <i data-lucide="git-branch" className="text-blue-500 w-6 h-6"/>}>
+                                <ul className="list-disc pl-5 space-y-2 mb-4">
+                                    <li><strong>ทฤษฎีโครโมโซม :</strong> ยีนมีตำแหน่งที่แน่นอน (Locus) บนโครโมโซม</li>
+                                    <li>พฤติกรรมของโครโมโซมตอนแบ่งเซลล์ (Meiosis) สอดคล้องกับกฎของเมนเดล (การแยกคู่ Homologous = กฎการแยก)</li>
+                                </ul>
+                                
+                                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                                    <h4 className="font-bold text-green-800 mb-2 flex items-center gap-2">
+                                        <i data-lucide="sprout" className="w-4 h-4"></i>
+                                        การประยุกต์ใช้ : การผสมกลับ (Backcross)
+                                    </h4>
+                                    <p className="text-sm text-green-900 mb-3">เป้าหมาย : สร้างข้าวขาวดอกมะลิให้ "ทนเค็ม"</p>
+                                    <div className="flex flex-col md:flex-row gap-2 text-xs text-center">
+                                        <div className="bg-white p-2 rounded shadow-sm flex-1">
+                                            1. ข้าวขาวดอกมะลิ x พันธุ์ทนเค็ม
+                                        </div>
+                                        <div className="hidden md:flex items-center justify-center text-green-400">➜</div>
+                                        <div className="bg-white p-2 rounded shadow-sm flex-1">
+                                            2. คัดลูกผสมทนเค็ม x <strong>กลับไปผสมกับข้าวขาวดอกมะลิ (พ่อแม่)</strong>
+                                        </div>
+                                        <div className="hidden md:flex items-center justify-center text-green-400">➜</div>
+                                        <div className="bg-white p-2 rounded shadow-sm flex-1">
+                                            3. ทำซ้ำหลายรุ่น จนได้พันธุกรรมเดิมคืนมา + ยีนทนเค็ม
+                                        </div>
+                                    </div>
+                                </div>
+                            </ContentCard>
+                        </div>
+
+                        {/* SECTION 5.2 */}
+                        <div id="section-5.2">
+                            <SectionHeader 
+                                number="5.2" 
+                                title="ส่วนขยายของพันธุศาสตร์เมนเดล" 
+                                subtitle="Extensions of Mendelian Genetics : เมื่อธรรมชาติซับซ้อนกว่ากฎข้อที่ 1 และ 2"
+                                color="border-purple-500"
+                            />
+
+                            <div className="grid md:grid-cols-2 gap-6">
+                                <ContentCard title="5.2.1 ความเด่นไม่สมบูรณ์" icon={() => <span className="text-2xl">🌸</span>}>
+                                    <div className="mb-2 text-purple-700 font-semibold">Incomplete Dominance</div>
+                                    <p className="text-sm mb-3">Heterozygous แสดงลักษณะ <strong>"กึ่งกลาง"</strong> (ผสมกัน)</p>
+                                    <div className="bg-slate-50 p-3 rounded text-sm space-y-2">
+                                        <div className="flex justify-between"><span>แดง (RR) x ขาว (WW)</span> <span>➜</span> <span><strong>ชมพู (RW)</strong></span></div>
+                                        <div className="border-t pt-2 mt-2">
+                                            <strong>อัตราส่วน F2 :</strong><br/>
+                                            แดง 1 : ชมพู 2 : ขาว 1
+                                        </div>
+                                    </div>
+                                </ContentCard>
+
+                                <ContentCard title="5.2.2 ความเด่นร่วม" icon={() => <span className="text-2xl">🩸</span>}>
+                                    <div className="mb-2 text-purple-700 font-semibold">Co-dominance</div>
+                                    <p className="text-sm mb-3">แสดงลักษณะเด่นของ <strong>"ทั้งสองแอลลีลร่วมกัน"</strong></p>
+                                    <div className="bg-slate-50 p-3 rounded text-sm space-y-2">
+                                        <div>
+                                            <strong>ตัวอย่าง : หมู่เลือด AB</strong><br/>
+                                            จีโนไทป์ I<sup>A</sup>I<sup>B</sup> ➜ เม็ดเลือดมีทั้ง A และ B
+                                        </div>
+                                        <div className="border-t pt-2 mt-2">
+                                            <strong>ตัวอย่าง :</strong> วัวลายกระ (แดงและขาวขึ้นพร้อมกันเป็นหย่อมๆ)
+                                        </div>
+                                    </div>
+                                </ContentCard>
+                            </div>
+
+                            <ContentCard title="5.2.3 มัลติเพิลแอลลีล (Multiple Alleles)" icon={() => <i data-lucide="layers" className="text-purple-500 w-6 h-6"/>}>
+                                <p className="mb-4">ยีน 1 ตำแหน่ง มีรูปแบบแอลลีล <strong>มากกว่า 2 แบบ</strong></p>
+                                
+                                <div className="space-y-4">
+                                    <div className="bg-red-50 border-l-4 border-red-400 p-4">
+                                        <h5 className="font-bold text-red-800">หมู่เลือด ABO (3 แอลลีล : I<sup>A</sup> , I<sup>B</sup> , i)</h5>
+                                        <ul className="mt-2 space-y-1 text-sm text-red-900">
+                                            <li>• <strong>I<sup>A</sup> , I<sup>B</sup></strong> เป็น Co-dominance (เด่นร่วม)</li>
+                                            <li>• <strong>I<sup>A</sup> , I<sup>B</sup></strong> ข่ม <strong>i</strong> สมบูรณ์</li>
+                                            <li>• จีโนไทป์ : AA/Ai (หมู่ A) , BB/Bi (หมู่ B) , AB (หมู่ AB) , ii (หมู่ O)</li>
+                                        </ul>
+                                    </div>
+                                    <div className="bg-slate-100 p-3 rounded">
+                                        <h5 className="font-bold text-slate-700 text-sm">สีขนกระต่าย (4 แอลลีล)</h5>
+                                        <p className="text-xs text-slate-600 mt-1">C (ดำ) > c<sup>ch</sup> (ชินชิลลา) > c<sup>h</sup> (หิมาลายัน) > c (เผือก)</p>
+                                    </div>
+                                </div>
+                            </ContentCard>
+
+                            <ContentCard title="5.2.4 ลักษณะควบคุมด้วยยีนหลายคู่" icon={() => <i data-lucide="bar-chart-2" className="text-purple-500 w-6 h-6"/>}>
+                                <div className="flex items-start gap-4">
+                                    <div className="flex-1">
+                                        <h4 className="text-lg font-bold text-purple-700 mb-1">Polygenic Traits</h4>
+                                        <p className="text-sm text-slate-600 mb-3">ควบคุมด้วยยีนหลายคู่ สิ่งแวดล้อมมีผลมาก</p>
+                                        <ul className="list-disc pl-5 text-sm space-y-1">
+                                            <li><strong>แปรผันต่อเนื่อง (Continuous) :</strong> สูง , สีผิว , สติปัญญา</li>
+                                            <li>กราฟเป็นรูประฆังคว่ำ (Normal Distribution)</li>
+                                        </ul>
+                                    </div>
+                                    <div className="bg-slate-50 p-3 rounded border text-xs w-1/3 hidden md:block">
+                                        <strong>เปรียบเทียบ</strong>
+                                        <ul className="mt-2 space-y-2">
+                                            <li><span className="text-red-500">ยีนเดี่ยว :</span> มีติ่งหู/ไม่มี (แยกชัดเจน)</li>
+                                            <li><span className="text-green-500">ยีนหลายคู่ :</span> ความสูง 160 , 161 , 162... (แยกยาก)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </ContentCard>
+
+                            <ContentCard title="5.2.5 ยีนบนโครโมโซมเพศ (Sex-linked)" icon={() => <i data-lucide="users" className="text-purple-500 w-6 h-6"/>}>
+                                <div className="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <p className="mb-2"><strong>เพศหญิง (XX) vs เพศชาย (XY)</strong></p>
+                                        <div className="space-y-3">
+                                            <div className="bg-pink-50 p-3 rounded border border-pink-100">
+                                                <strong className="text-pink-700">X-linked Gene (เช่น ตาบอดสี , ฮีโมฟีเลีย)</strong>
+                                                <ul className="text-sm mt-1 list-disc pl-4">
+                                                    <li>ชาย (XY) เป็นโรคง่ายกว่า (มี X เดียว รับยีนด้อยก็เป็นเลย)</li>
+                                                    <li>หญิง (XX) ต้องรับยีนด้อย 2 ตัวถึงเป็นโรค (ถ้ามี 1 ตัว = พาหะ)</li>
+                                                </ul>
+                                            </div>
+                                            <div className="bg-blue-50 p-3 rounded border border-blue-100">
+                                                <strong className="text-blue-700">Y-linked Gene</strong>
+                                                <p className="text-sm mt-1">ถ่ายทอดจากพ่อสู่ลูกชายเท่านั้น (พบน้อย เช่น ขนที่ใบหู)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="bg-slate-50 p-4 rounded-xl flex flex-col justify-center items-center text-center">
+                                        <h5 className="font-bold mb-2">ตัวอย่าง : พ่อตาปกติ (X<sup>C</sup>Y) x แม่พาหะ (X<sup>C</sup>X<sup>c</sup>)</h5>
+                                        <div className="text-sm space-y-1">
+                                            <p>👦 ลูกชาย : ตาบอดสี 50%</p>
+                                            <p>👧 ลูกสาว : ตาปกติทุกคน (แต่เป็นพาหะได้)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ContentCard>
+                        </div>
+
+                        {/* SECTION 5.3 */}
+                        <div id="section-5.3">
+                            <SectionHeader 
+                                number="5.3" 
+                                title="ยีนบนโครโมโซมเดียวกัน" 
+                                subtitle="Linkage & Crossing Over : ข้อยกเว้นของกฎการรวมกลุ่มอิสระ"
+                                color="border-orange-500"
+                            />
+                            
+                            <ContentCard title="Linkage และ Crossing Over" icon={() => <i data-lucide="link" className="text-orange-500 w-6 h-6"/>}>
+                                <p className="mb-4"><strong>ปัญหา :</strong> ทำไมบางลักษณะถึงถ่ายทอดไปด้วยกันเสมอ? ไม่กระจายตัวตามกฎเมนเดล?</p>
+                                
+                                <div className="space-y-4">
+                                    <div className="flex items-start gap-3">
+                                        <div className="bg-orange-100 p-2 rounded text-orange-600 font-bold">1</div>
+                                        <div>
+                                            <h5 className="font-bold">Linked Gene</h5>
+                                            <p className="text-sm text-slate-600">ยีนอยู่บนโครโมโซมแท่งเดียวกัน และอยู่ใกล้กัน จึงไปด้วยกันเสมอ (Linkage)</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-start gap-3">
+                                        <div className="bg-orange-100 p-2 rounded text-orange-600 font-bold">2</div>
+                                        <div>
+                                            <h5 className="font-bold">Crossing Over (การไขว้เปลี่ยน)</h5>
+                                            <p className="text-sm text-slate-600">
+                                                เกิดระยะ Prophase I ของ Meiosis โครโมโซมคู่เหมือนแลกชิ้นส่วนกัน ทำให้ยีนที่เคย Link กันหลุดออกจากกันเกิดเป็น <strong>Recombinant gene</strong> (ความหลากหลายทางพันธุกรรม)
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="mt-6 bg-slate-800 text-slate-200 p-4 rounded-lg">
+                                    <h5 className="text-orange-300 font-bold mb-2">ตัวอย่างแมลงหวี่ (Drosophila)</h5>
+                                    <p className="text-sm mb-2">สีเทา-ปีกปกติ (B V) x สีดำ-ปีกกุด (b v)</p>
+                                    <ul className="text-sm space-y-1 pl-4 list-disc">
+                                        <li>ถ้าตามกฎเมนเดล ต้องได้ลูก 4 แบบเท่ากัน (1 : 1 : 1 : 1)</li>
+                                        <li><strong>ผลจริง :</strong> ได้ตัวเหมือนพ่อแม่เยอะมาก (Parental) และตัวแบบผสมใหม่น้อย (Recombinant)</li>
+                                        <li><strong>สรุป :</strong> ยีนสีตัวและปีกอยู่บนโครโมโซมเดียวกัน แต่เกิด Crossing over บ้าง</li>
+                                    </ul>
+                                </div>
+                            </ContentCard>
+                        </div>
+
+                        {/* Footer Summary */}
+                        <div className="mt-12 bg-white rounded-xl shadow-lg p-8 text-center border-t-4 border-indigo-500">
+                            <h2 className="text-2xl font-bold text-indigo-900 mb-4">สรุปภาพรวมบทที่ 5</h2>
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr className="bg-indigo-50 text-indigo-900">
+                                            <th className="p-3 rounded-tl-lg">หัวข้อ</th>
+                                            <th className="p-3">คีย์เวิร์ด</th>
+                                            <th className="p-3 rounded-tr-lg">อัตราส่วน F2 (Typical)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="text-sm text-slate-700 divide-y divide-indigo-50">
+                                        <tr><td className="p-3 font-semibold">Monohybrid</td><td className="p-3">กฎการแยก</td><td className="p-3">3 : 1</td></tr>
+                                        <tr><td className="p-3 font-semibold">Dihybrid</td><td className="p-3">กฎการรวมกลุ่มอิสระ</td><td className="p-3">9 : 3 : 3 : 1</td></tr>
+                                        <tr><td className="p-3 font-semibold">Incomplete Dom.</td><td className="p-3">เด่นไม่สมบูรณ์ (สีผสม)</td><td className="p-3">1 : 2 : 1</td></tr>
+                                        <tr><td className="p-3 font-semibold">Polygenic</td><td className="p-3">กราฟระฆังคว่ำ , ต่อเนื่อง</td><td className="p-3">แปรผันต่อเนื่อง</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p className="text-slate-400 text-xs mt-6">รวบรวมและเรียบเรียงจากสื่อการสอน สสวท. บทที่ 5 ชีววิทยา เล่ม 2</p>
+                        </div>
+
+                    </main>
+
+                    {/* Back to Top Button */}
+                    <button 
+                        onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
+                        className="fixed bottom-6 right-6 bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-full shadow-lg transition transform hover:-translate-y-1 z-50"
+                        title="Back to Top"
+                    >
+                        <i data-lucide="arrow-up" className="w-6 h-6"></i>
+                    </button>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
