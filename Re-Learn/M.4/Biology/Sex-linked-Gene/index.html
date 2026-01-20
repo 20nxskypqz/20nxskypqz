@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5.2.5 การถ่ายทอดยีนบนโครโมโซมเพศ</title>
+    <!-- Google Fonts: Niramit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Niramit', sans-serif;
+            background-color: #f0f9ff; /* Sky-50 background */
+            color: #0c4a6e; /* Sky-900 text */
+        }
+        /* Force Niramit on all elements */
+        code, kbd, samp, pre, blockquote, span, div, h1, h2, h3, h4, h5, h6, p, strong, i, svg, sup, sub {
+            font-family: 'Niramit', sans-serif !important;
+        }
+        .gradient-header {
+            background: linear-gradient(135deg, #0284c7 0%, #4338ca 100%); /* Sky to Indigo */
+        }
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        /* Chromosome Shapes */
+        .chromosome-x {
+            color: #ec4899; /* Pink */
+        }
+        .chromosome-y {
+            color: #3b82f6; /* Blue */
+        }
+        /* SVG Icon Classes */
+        .icon-sm { width: 1.25rem; height: 1.25rem; flex-shrink: 0; }
+        .icon-md { width: 1.5rem; height: 1.5rem; flex-shrink: 0; }
+        .icon-lg { width: 2rem; height: 2rem; flex-shrink: 0; }
+        .icon-xl { width: 3rem; height: 3rem; flex-shrink: 0; }
+    </style>
+</head>
+<body class="antialiased selection:bg-sky-200 selection:text-sky-900">
+
+    <!-- Header Section -->
+    <header class="gradient-header text-white py-12 px-4 shadow-lg mb-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-flex items-center bg-white/20 backdrop-blur-sm px-4 py-1 rounded-full text-sm font-medium mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon-sm mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                </svg>
+                ชีววิทยา
+            </div>
+            <h1 class="text-3xl md:text-5xl font-bold mb-4 leading-tight break-words">
+                บทที่ 5 : การถ่ายทอดลักษณะทางพันธุกรรม
+            </h1>
+            <h2 class="text-xl md:text-3xl font-semibold mb-2 break-words">
+                5.2.5 การถ่ายทอดยีนบนโครโมโซมเพศ
+            </h2>
+            <h3 class="text-lg md:text-xl font-light opacity-90 break-words">
+                (Sex-linked Gene)
+            </h3>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 pb-16 space-y-12">
+
+        <!-- 1. บทนำ & สถิติ -->
+        <section class="bg-white rounded-2xl p-6 md:p-8 card-shadow border-t-8 border-sky-500">
+            <h3 class="text-2xl font-bold text-sky-800 mb-6 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon-md mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                ข้อสังเกต : ความแตกต่างระหว่างเพศ
+            </h3>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- ABO Blood Group (Autosome) -->
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                    <h4 class="font-bold text-gray-700 mb-2 border-b pb-1">1. หมู่เลือด ABO (ออโตโซม)</h4>
+                    <p class="text-sm text-gray-600 mb-3">พบในเพศชายและหญิง <strong>ใกล้เคียงกัน</strong></p>
+                    <div class="space-y-2">
+                        <div class="flex items-center">
+                            <span class="w-12 text-xs font-bold">ชาย</span>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 ml-2">
+                                <div class="bg-blue-500 h-2.5 rounded-full" style="width: 40%"></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-12 text-xs font-bold">หญิง</span>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 ml-2">
+                                <div class="bg-pink-500 h-2.5 rounded-full" style="width: 39%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Color Blindness (Sex-linked) -->
+                <div class="bg-red-50 p-4 rounded-xl border border-red-100">
+                    <h4 class="font-bold text-red-700 mb-2 border-b border-red-200 pb-1">2. ตาบอดสี (โครโมโซมเพศ)</h4>
+                    <p class="text-sm text-red-600 mb-3">พบในเพศชาย <strong>มากกว่า</strong> เพศหญิงมาก</p>
+                    <div class="space-y-2">
+                        <div class="flex items-center">
+                            <span class="w-12 text-xs font-bold text-gray-700">ชาย</span>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 ml-2 relative">
+                                <div class="bg-blue-600 h-2.5 rounded-full" style="width: 75%"></div>
+                                <span class="absolute right-0 -top-4 text-xs font-bold text-blue-700">7.52%</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-12 text-xs font-bold text-gray-700">หญิง</span>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 ml-2 relative">
+                                <div class="bg-pink-500 h-2.5 rounded-full" style="width: 8%"></div>
+                                <span class="absolute left-10 -top-4 text-xs font-bold text-pink-700">0.83%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-6 text-center text-sky-800 font-medium bg-sky-100 p-3 rounded-lg">
+                <i class="fas fa-search mr-2"></i>
+                สมมติฐาน : ยีนที่ควบคุมลักษณะตาบอดสี น่าจะเกี่ยวข้องกับ <strong>เพศ (Sex)</strong>
+            </div>
+        </section>
+
+        <!-- 2. พื้นฐานโครโมโซม -->
+        <section class="bg-white rounded-2xl p-6 md:p-8 card-shadow">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon-md mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                </svg>
+                โครโมโซมในมนุษย์ (23 คู่)
+            </h3>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Autosome -->
+                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200">
+                    <div class="flex items-center mb-2">
+                        <span class="bg-gray-600 text-white px-2 py-1 rounded text-xs mr-2">คู่ที่ 1-22</span>
+                        <h4 class="font-bold text-gray-800">ออโตโซม (Autosome)</h4>
+                    </div>
+                    <p class="text-sm text-gray-600">
+                        เหมือนกันทั้งชายและหญิง ควบคุมลักษณะทั่วไป (เช่น ผิว , ผม , หมู่เลือด)
+                    </p>
+                </div>
+
+                <!-- Sex Chromosome -->
+                <div class="bg-indigo-50 p-5 rounded-xl border border-indigo-200">
+                    <div class="flex items-center mb-2">
+                        <span class="bg-indigo-600 text-white px-2 py-1 rounded text-xs mr-2">คู่ที่ 23</span>
+                        <h4 class="font-bold text-indigo-900">โครโมโซมเพศ (Sex Chromosome)</h4>
+                    </div>
+                    <div class="flex justify-around mt-4">
+                        <div class="text-center">
+                            <!-- XX Icon -->
+                            <div class="flex justify-center gap-1 text-pink-500 font-bold text-2xl">
+                                <span>X</span><span>X</span>
+                            </div>
+                            <span class="text-sm text-gray-600">เพศหญิง</span>
+                        </div>
+                        <div class="text-center">
+                            <!-- XY Icon -->
+                            <div class="flex justify-center gap-1 font-bold text-2xl">
+                                <span class="text-pink-500">X</span><span class="text-blue-600">Y</span>
+                            </div>
+                            <span class="text-sm text-gray-600">เพศชาย</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. การทดลองของ Thomas H. Morgan -->
+        <section class="bg-slate-800 text-white rounded-3xl p-8 shadow-xl relative overflow-hidden">
+            <h3 class="text-2xl font-bold mb-6 flex items-center relative z-10 text-yellow-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon-md mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+                การค้นพบของ Thomas H. Morgan (แมลงหวี่)
+            </h3>
+
+            <div class="bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20 relative z-10 mb-6">
+                <h4 class="font-bold mb-4 border-b border-white/30 pb-2">การทดลองผสมพันธุ์ (Eye Color)</h4>
+                
+                <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+                    <!-- Female -->
+                    <div class="text-center">
+                        <div class="w-10 h-10 bg-red-600 rounded-full mx-auto mb-2 border-2 border-white shadow-lg"></div>
+                        <span class="block text-sm font-bold">ตัวเมีย (ตาสีแดง)</span>
+                        <span class="text-xs text-gray-300">X<sup>w+</sup>X<sup>w+</sup></span>
+                    </div>
+                    
+                    <span class="text-2xl font-bold text-gray-400">X</span>
+                    
+                    <!-- Male -->
+                    <div class="text-center">
+                        <div class="w-10 h-10 bg-white rounded-full mx-auto mb-2 border-2 border-white shadow-lg"></div>
+                        <span class="block text-sm font-bold">ตัวผู้ (ตาสีขาว)</span>
+                        <span class="text-xs text-gray-300">X<sup>w</sup>Y</span>
+                    </div>
+                </div>
+
+                <div class="mt-6 p-3 bg-black/30 rounded-lg text-center">
+                    <p class="font-bold text-yellow-300 mb-1">ผลรุ่น F2 :</p>
+                    <p class="text-sm">ตัวเมียทุกตัว <strong>ตาสีแดง</strong></p>
+                    <p class="text-sm">แต่ตัวผู้มีทั้ง <strong>ตาสีแดง</strong> และ <strong>ตาสีขาว</strong> (50 : 50)</p>
+                </div>
+            </div>
+
+            <div class="text-sm bg-blue-900/50 p-4 rounded-lg border-l-4 border-blue-400 relative z-10">
+                <strong>ข้อสรุป :</strong> ยีนควบคุมสีตาอยู่บน <strong>โครโมโซม X</strong> (ตัวผู้มี X ตัวเดียว จึงแสดงลักษณะด้อยได้ทันที เรียกว่า Hemizygous)
+            </div>
+        </section>
+
+        <!-- 4. ตาบอดสีในมนุษย์ -->
+        <section class="bg-white rounded-2xl p-6 md:p-8 card-shadow border-t-8 border-green-500">
+            <h3 class="text-2xl font-bold text-green-800 mb-6 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon-md mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+                กรณีศึกษา : ตาบอดสีเขียว-แดง (Color Blindness)
+            </h3>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Concept -->
+                <div>
+                    <ul class="space-y-3 text-sm text-gray-700">
+                        <li class="flex items-start">
+                            <span class="bg-green-100 text-green-800 px-2 py-0.5 rounded mr-2 font-bold whitespace-nowrap">X<sup>C</sup></span>
+                            <span>ตาปกติ (ลักษณะเด่น)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-red-100 text-red-800 px-2 py-0.5 rounded mr-2 font-bold whitespace-nowrap">X<sup>c</sup></span>
+                            <span>ตาบอดสี (ลักษณะด้อย)</span>
+                        </li>
+                    </ul>
+
+                    <div class="mt-4 bg-gray-50 p-4 rounded-xl border border-gray-200">
+                        <h4 class="font-bold text-gray-800 mb-2 text-sm">ทำไมผู้ชายถึงเป็นง่ายกว่า ?</h4>
+                        <div class="flex flex-col gap-2 text-sm">
+                            <div class="flex justify-between items-center bg-white p-2 rounded shadow-sm">
+                                <span><i class="fas fa-mars text-blue-500 mr-2"></i>ชาย (XY)</span>
+                                <span class="text-red-600 font-bold">X<sup>c</sup>Y <span class="text-xs font-normal text-gray-500">(เป็นโรคเลย)</span></span>
+                            </div>
+                            <div class="flex justify-between items-center bg-white p-2 rounded shadow-sm">
+                                <span><i class="fas fa-venus text-pink-500 mr-2"></i>หญิง (XX)</span>
+                                <span class="text-yellow-600 font-bold">X<sup>C</sup>X<sup>c</sup> <span class="text-xs font-normal text-gray-500">(แค่พาหะ ไม่เป็นโรค)</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem Scenario -->
+                <div class="bg-green-50 p-5 rounded-xl border border-green-200">
+                    <h4 class="font-bold text-green-900 mb-3 border-b border-green-300 pb-2">โจทย์ชวนคิด</h4>
+                    <p class="text-sm text-gray-800 mb-4">
+                        ถ้า <strong>แม่เป็นตาบอดสี</strong> (X<sup>c</sup>X<sup>c</sup>) แต่งงานกับ <strong>พ่อตาปกติ</strong> (X<sup>C</sup>Y) ลูกจะเป็นอย่างไร ?
+                    </p>
+                    <div class="bg-white p-3 rounded-lg shadow-sm">
+                        <ul class="space-y-2 text-sm">
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                                <span><strong>ลูกชายทุกคน :</strong> ตาบอดสี (รับ X<sup>c</sup> จากแม่)</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-pink-500 rounded-full mr-2"></span>
+                                <span><strong>ลูกสาวทุกคน :</strong> ตาปกติแต่เป็นพาหะ (รับ X<sup>C</sup> จากพ่อ)</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. โรคอื่นๆ & ยีนบน Y -->
+        <section class="grid md:grid-cols-2 gap-6">
+            <!-- Hemophilia -->
+            <div class="bg-red-50 p-6 rounded-2xl border-l-4 border-red-500 card-shadow">
+                <h3 class="font-bold text-red-800 text-lg mb-2">โรคฮีโมฟิเลีย (Hemophilia)</h3>
+                <p class="text-sm text-gray-700 mb-2">เลือดแข็งตัวช้า / ไหลไม่หยุด</p>
+                <div class="text-xs bg-white px-2 py-1 rounded inline-block text-red-600 font-bold border border-red-200">
+                    ควบคุมโดยยีนด้อยบนโครโมโซม X (เหมือนตาบอดสี)
+                </div>
+            </div>
+
+            <!-- Y-linked -->
+            <div class="bg-slate-50 p-6 rounded-2xl border-l-4 border-slate-500 card-shadow">
+                <h3 class="font-bold text-slate-800 text-lg mb-2">ยีนบนโครโมโซม Y</h3>
+                <p class="text-sm text-gray-700 mb-2">เช่น ยีนควบคุมความเป็นชาย , ขนที่ใบหู</p>
+                <div class="text-xs bg-white px-2 py-1 rounded inline-block text-slate-600 font-bold border border-slate-200">
+                    ถ่ายทอดจาก พ่อ <i class="fas fa-arrow-right mx-1 text-xs"></i> ลูกชาย เท่านั้น
+                </div>
+            </div>
+        </section>
+
+    </main>
+</body>
+</html>
