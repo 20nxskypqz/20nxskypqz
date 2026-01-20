@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5.1.1 กฎการแยก (Law of Segregation)</title>
+    <!-- Google Fonts: Niramit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Niramit', sans-serif;
+            background-color: #f8fafc; /* Slate-50 background */
+            color: #334155; /* Slate-700 text */
+        }
+        /* Force Niramit on all elements */
+        code, kbd, samp, pre, blockquote, span, div, h1, h2, h3, h4, h5, h6, p {
+            font-family: 'Niramit', sans-serif !important;
+        }
+        .gradient-header {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); /* Blue gradient for separation concept */
+        }
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-blue-200 selection:text-blue-900">
+
+    <!-- Header Section -->
+    <header class="gradient-header text-white py-12 px-4 shadow-lg mb-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-block bg-white/20 backdrop-blur-sm px-4 py-1 rounded-full text-sm font-medium mb-4">
+                <i class="fas fa-dna mr-2"></i>ชีววิทยา
+            </div>
+            <h1 class="text-3xl md:text-5xl font-bold mb-4 leading-tight">
+                บทที่ 5 : การถ่ายทอดลักษณะทางพันธุกรรม
+            </h1>
+            <h2 class="text-xl md:text-3xl font-semibold mb-2">
+                5.1.1 กฎการแยก
+            </h2>
+            <h3 class="text-lg md:text-xl font-light opacity-90">
+                (Law of Segregation)
+            </h3>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 pb-16 space-y-12">
+
+        <!-- 1. ความเชื่อมโยง -->
+        <section class="bg-white rounded-2xl p-6 md:p-8 card-shadow border-l-8 border-blue-500">
+            <h3 class="text-2xl font-bold text-blue-800 mb-4 flex items-center">
+                <i class="fas fa-link mr-3"></i>ความเชื่อมโยงจากเมนเดล
+            </h3>
+            <p class="text-gray-700 leading-relaxed text-lg mb-4">
+                จากบทเรียนก่อนหน้า เมนเดลพบว่าลักษณะทางพันธุกรรมควบคุมโดย "ยีน" (Gene) ซึ่งอยู่เป็นคู่ๆ (เรียกว่า แอลลีล) ในสิ่งมีชีวิตปกติ แต่สิ่งที่น่าสงสัยคือ...
+            </p>
+            <div class="bg-blue-50 p-4 rounded-lg border border-blue-100 text-center">
+                <p class="font-bold text-blue-700 text-lg">
+                    "ทำไมในรุ่นลูก ลักษณะด้อยที่หายไปในรุ่น F1 ถึงกลับมาปรากฏได้อีกในรุ่น F2 ?"
+                </p>
+            </div>
+            <p class="mt-4 text-gray-600">
+                คำตอบอยู่ที่กระบวนการสร้างเซลล์สืบพันธุ์ ซึ่งเมนเดลสรุปเป็นกฎข้อที่ 1 คือ <strong>"กฎการแยก"</strong>
+            </p>
+        </section>
+
+        <!-- 2. ใจความสำคัญ -->
+        <section class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-3xl p-8 relative overflow-hidden shadow-xl">
+            <div class="absolute top-0 right-0 opacity-10 text-9xl -mr-10 -mt-10">
+                <i class="fas fa-quote-right"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-6 relative z-10 border-b border-blue-400 pb-2 inline-block">
+                ใจความสำคัญของ "กฎการแยก"
+            </h3>
+            <blockquote class="text-xl md:text-2xl font-light italic leading-relaxed relative z-10">
+                "ยีนที่อยู่เป็นคู่กันบนโครโมโซมคู่เหมือน (Homologous Chromosome) จะแยกออกจากกันในระหว่างการสร้างเซลล์สืบพันธุ์ ส่งผลให้เซลล์สืบพันธุ์แต่ละเซลล์ได้รับยีนเพียง 1 แอลลีลจากแต่ละคู่เท่านั้น"
+            </blockquote>
+            <div class="mt-6 bg-white/10 p-4 rounded-lg backdrop-blur-sm relative z-10">
+                <i class="fas fa-info-circle mr-2 text-yellow-300"></i>
+                <span>เมื่อเกิดการปฏิสนธิ (Fertilization) เซลล์สืบพันธุ์จากพ่อและแม่จะมารวมกัน ทำให้ยีนกลับมาอยู่เป็นคู่กันอีกครั้งในรุ่นลูก</span>
+            </div>
+        </section>
+
+        <!-- 3. กลไกการแยกตัว (Meiosis) -->
+        <section class="bg-white rounded-2xl p-6 md:p-8 card-shadow">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <i class="fas fa-project-diagram mr-3 text-indigo-600"></i>กลไกการแยกตัวในระดับเซลล์ (Meiosis)
+            </h3>
+            <div class="space-y-4">
+                <div class="flex flex-col md:flex-row gap-4 items-start">
+                    <div class="bg-gray-100 p-3 rounded-full h-12 w-12 flex items-center justify-center shrink-0 font-bold text-gray-600">1</div>
+                    <div>
+                        <h4 class="font-bold text-lg text-indigo-700">ระยะอินเตอร์เฟส (Interphase)</h4>
+                        <p class="text-gray-600">โครโมโซมจำลองตัวเองขึ้นมา</p>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col md:flex-row gap-4 items-start">
+                    <div class="bg-gray-100 p-3 rounded-full h-12 w-12 flex items-center justify-center shrink-0 font-bold text-gray-600">2</div>
+                    <div>
+                        <h4 class="font-bold text-lg text-indigo-700">ระยะเมทาเฟส I (Metaphase I)</h4>
+                        <p class="text-gray-600">โครโมโซมคู่เหมือน (Homologous Chromosome) ที่มียีนควบคุมลักษณะเดียวกัน (เช่น T และ t) จะมาเข้าคู่กันและเรียงตัวกลางเซลล์</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-4 items-start bg-indigo-50 p-4 rounded-xl border border-indigo-100">
+                    <div class="bg-indigo-600 text-white p-3 rounded-full h-12 w-12 flex items-center justify-center shrink-0 font-bold shadow-lg">3</div>
+                    <div>
+                        <h4 class="font-bold text-lg text-indigo-700 flex items-center">
+                            ระยะแอนาเฟส I (Anaphase I) <span class="ml-2 text-xs bg-red-500 text-white px-2 py-1 rounded">สำคัญที่สุด</span>
+                        </h4>
+                        <p class="text-gray-800">
+                            โครโมโซมคู่เหมือนจะแยกออกจากกัน เคลื่อนที่ไปคนละขั้วของเซลล์ ทำให้แอลลีลที่อยู่บนโครโมโซมคู่นั้น <strong>แยกออกจากกันด้วย</strong> (เช่น T แยกจาก t)
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-4 items-start">
+                    <div class="bg-gray-100 p-3 rounded-full h-12 w-12 flex items-center justify-center shrink-0 font-bold text-gray-600">4</div>
+                    <div>
+                        <h4 class="font-bold text-lg text-indigo-700">สิ้นสุดการแบ่งเซลล์</h4>
+                        <p class="text-gray-600">ได้เซลล์สืบพันธุ์ที่มีจำนวนโครโมโซมลดลงครึ่งหนึ่ง (Haploid , n) และมียีนเพียงแอลลีลเดียว</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. ความน่าจะเป็น -->
+        <section class="grid md:grid-cols-2 gap-6">
+            <div class="bg-white rounded-2xl p-6 card-shadow border-t-4 border-orange-400">
+                <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-times text-orange-500 mr-2"></i>กฎการคูณ (Multiplication Rule)
+                </h3>
+                <p class="text-sm text-gray-600 mb-3">ใช้หาโอกาสของเหตุการณ์ที่ <strong>เกิดขึ้นพร้อมกัน</strong> หรือต่อเนื่องกัน และเป็นอิสระต่อกัน</p>
+                <div class="bg-orange-50 p-3 rounded-lg text-center font-mono text-orange-800 mb-3">
+                    P(A และ B) = P(A) x P(B)
+                </div>
+                <div class="text-sm">
+                    <strong>ตัวอย่าง :</strong> โยน 2 เหรียญออกหัวคู่<br>
+                    (1/2) x (1/2) = <span class="font-bold">1/4</span>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 card-shadow border-t-4 border-green-400">
+                <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-plus text-green-500 mr-2"></i>กฎการบวก (Addition Rule)
+                </h3>
+                <p class="text-sm text-gray-600 mb-3">ใช้หาโอกาสของเหตุการณ์ที่ <strong>ไม่สามารถเกิดขึ้นพร้อมกันได้</strong> (เกิดแบบใดแบบหนึ่ง)</p>
+                <div class="bg-green-50 p-3 rounded-lg text-center font-mono text-green-800 mb-3">
+                    P(A หรือ B) = P(A) + P(B)
+                </div>
+                <div class="text-sm">
+                    <strong>ตัวอย่าง :</strong> ลูกเต๋าออก 1 หรือ 6<br>
+                    (1/6) + (1/6) = <span class="font-bold">2/6 (1/3)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. การทำนายผล Monohybrid Cross -->
+        <section class="bg-white rounded-2xl p-6 md:p-8 card-shadow">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6">
+                <i class="fas fa-calculator mr-2 text-blue-500"></i>การทำนายผลการผสมพันธุ์ (Monohybrid Cross)
+            </h3>
+            
+            <div class="mb-6 p-4 bg-gray-50 rounded-xl border border-gray-200">
+                <h4 class="font-bold text-gray-700 mb-2">โจทย์ตัวอย่าง :</h4>
+                <p class="text-gray-600">ผสมถั่วลันเตารุ่น F1 ที่เป็นเฮเทอโรไซกัส <span class="bg-white px-2 py-0.5 rounded border font-mono font-bold text-blue-600">Tt</span> เข้าด้วยกันเอง</p>
+                <p class="text-xs text-gray-500 mt-1">(กำหนดให้ : T = สูง , t = เตี้ย)</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Calculation View -->
+                <div>
+                    <h4 class="font-bold text-blue-800 mb-3">การคำนวณโอกาสจีโนไทป์รุ่นลูก (F2)</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-center justify-between p-2 rounded hover:bg-gray-50">
+                            <span><span class="font-bold font-mono">TT</span> (สูง) : สเปิร์ม T x ไข่ T</span>
+                            <span class="font-mono text-gray-500">1/2 x 1/2 = <strong class="text-black">1/4</strong></span>
+                        </li>
+                        <li class="flex items-center justify-between p-2 rounded hover:bg-gray-50">
+                            <span><span class="font-bold font-mono">tt</span> (เตี้ย) : สเปิร์ม t x ไข่ t</span>
+                            <span class="font-mono text-gray-500">1/2 x 1/2 = <strong class="text-black">1/4</strong></span>
+                        </li>
+                        <li class="p-2 bg-blue-50 rounded border border-blue-100">
+                            <span class="block mb-1"><span class="font-bold font-mono">Tt</span> (สูง) : เกิดได้ 2 กรณี (ใช้กฎการบวก)</span>
+                            <div class="pl-4 text-xs text-blue-800">
+                                1. สเปิร์ม T x ไข่ t = 1/4<br>
+                                2. สเปิร์ม t x ไข่ T = 1/4<br>
+                                <span class="font-bold mt-1 block">รวม = 1/4 + 1/4 = 2/4 (1/2)</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Summary Stats -->
+                <div class="flex flex-col justify-center items-center bg-gray-50 rounded-xl p-6">
+                    <h4 class="font-bold text-gray-700 mb-4 border-b pb-2 w-full text-center">สรุปอัตราส่วนรุ่น F2</h4>
+                    
+                    <div class="w-full mb-4">
+                        <p class="text-xs text-gray-500 mb-1">Genotype Ratio</p>
+                        <div class="flex w-full h-8 rounded-full overflow-hidden text-xs text-white font-bold text-center leading-8">
+                            <div class="bg-blue-600 w-1/4">1 TT</div>
+                            <div class="bg-blue-400 w-2/4">2 Tt</div>
+                            <div class="bg-gray-400 w-1/4">1 tt</div>
+                        </div>
+                    </div>
+
+                    <div class="w-full">
+                        <p class="text-xs text-gray-500 mb-1">Phenotype Ratio</p>
+                        <div class="flex w-full h-8 rounded-full overflow-hidden text-xs text-white font-bold text-center leading-8">
+                            <div class="bg-green-500 w-3/4">3 สูง</div>
+                            <div class="bg-yellow-500 w-1/4">1 เตี้ย</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Punnett Square Note -->
+            <div class="mt-6 border-t pt-4">
+                <h4 class="font-bold text-gray-800 flex items-center mb-2">
+                    <i class="fas fa-th mr-2 text-purple-500"></i>ตารางพันเนตต์ (Punnett Square)
+                </h4>
+                <p class="text-gray-600 text-sm">
+                    เครื่องมือช่วยคำนวณโดยไม่ต้องใช้สูตรคูณ คิดค้นโดย Reginald Punnett : เขียนแอลลีลของพ่อไว้ด้านบน และของแม่ไว้ด้านข้าง แล้วจับคู่ลงตาราง
+                </p>
+            </div>
+        </section>
+
+        <!-- 6. กรณีศึกษา Thalassemia -->
+        <section class="bg-red-50 rounded-2xl p-6 md:p-8 border border-red-100">
+            <h3 class="text-2xl font-bold text-red-800 mb-6 flex items-center">
+                <i class="fas fa-user-md mr-3"></i>การประยุกต์ใช้ : โรคทาลัสซีเมีย
+            </h3>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Case Info -->
+                <div class="md:col-span-1 bg-white p-4 rounded-xl shadow-sm">
+                    <h4 class="font-bold text-gray-800 mb-2">สถานการณ์ :</h4>
+                    <p class="text-sm text-gray-600 mb-3">สามีภรรยาลักษณะปกติ (ไม่ป่วย) แต่เป็น <strong>พาหะ</strong> ทั้งคู่</p>
+                    <div class="text-sm font-mono bg-gray-100 p-2 rounded">
+                        พ่อ : Tt<br>
+                        แม่ : Tt
+                    </div>
+                    <p class="text-xs text-gray-400 mt-2">* T = ปกติ , t = โรค</p>
+                </div>
+
+                <!-- Result -->
+                <div class="md:col-span-2">
+                    <h4 class="font-bold text-gray-800 mb-3">โอกาสความเสี่ยงในรุ่นลูก :</h4>
+                    <div class="grid grid-cols-3 gap-2 text-center text-white">
+                        <div class="bg-green-500 rounded-lg p-3">
+                            <div class="text-2xl font-bold">25%</div>
+                            <div class="text-xs">ปกติ (TT)</div>
+                        </div>
+                        <div class="bg-yellow-500 rounded-lg p-3">
+                            <div class="text-2xl font-bold">50%</div>
+                            <div class="text-xs">พาหะ (Tt)</div>
+                        </div>
+                        <div class="bg-red-500 rounded-lg p-3">
+                            <div class="text-2xl font-bold">25%</div>
+                            <div class="text-xs">เป็นโรค (tt)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 bg-white p-4 rounded-lg border-l-4 border-red-400">
+                        <p class="font-bold text-red-800 text-sm mb-1"><i class="fas fa-question-circle mr-1"></i>คำถามชวนคิด</p>
+                        <p class="text-gray-700 text-sm italic">
+                            "ถ้าลูกคนแรกเป็นโรค... ลูกคนถัดไปจะไม่มีโอกาสเป็นโรคแล้ว ใช่หรือไม่ ?"
+                        </p>
+                        <p class="text-red-600 font-bold mt-2 text-sm">
+                            <i class="fas fa-times-circle mr-1"></i>ไม่จริง
+                        </p>
+                        <p class="text-gray-600 text-sm mt-1">
+                            เพราะการมีลูกแต่ละคนเป็นเหตุการณ์อิสระ (Independent event) ท้องใหม่ก็เริ่มนับโอกาสใหม่ ความเสี่ยงยังคงเป็น 25% เท่าเดิมเสมอ
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</body>
+</html>
