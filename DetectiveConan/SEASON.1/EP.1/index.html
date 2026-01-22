@@ -15,13 +15,21 @@
             font-family: 'Niramit', sans-serif !important;
         }
 
+        /* Flex Column Layout for Sticky Footer */
         body {
             background-color: #f0f4f8;
             background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
             background-size: 24px 24px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex-grow: 1;
         }
         
-        /* Custom Colors - Added !important to force override */
+        /* Custom Colors */
         .conan-blue { color: #002D72 !important; }
         .bg-conan-blue { background-color: #002D72 !important; }
         .border-conan-blue { border-color: #002D72 !important; }
@@ -107,16 +115,19 @@
             border-radius: 2px;
         }
 
-        .pill-badge {
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255,255,255,0.5);
+        .subsection-header {
+            font-weight: bold;
+            color: #002D72;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 0.25rem;
         }
     </style>
 </head>
 <body class="text-gray-800 antialiased selection:bg-red-200 selection:text-red-900">
 
     <!-- Header -->
-    <header class="bg-conan-blue text-white shadow-xl sticky top-0 z-50 border-b-4 border-conan-red">
+    <header class="bg-conan-blue text-white shadow-xl sticky top-0 z-50 border-b-4 border-conan-red w-full">
         <div class="max-w-6xl mx-auto px-4 py-2 flex items-center justify-between">
             <div class="flex items-center space-x-4">
                 <div class="bg-white p-1.5 rounded-full shadow-inner">
@@ -133,9 +144,8 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="brick-pattern text-white py-16 md:py-24 relative overflow-hidden flex items-center justify-center">
-        <!-- Target Scope Decoration -->
+    <!-- Hero Section (Information) -->
+    <section class="brick-pattern text-white py-16 md:py-24 relative overflow-hidden flex items-center justify-center w-full">
         <div class="target-scope"></div>
         
         <div class="max-w-4xl mx-auto px-4 relative z-10 text-center w-full">
@@ -145,11 +155,13 @@
                 <span class="text-sm font-bold uppercase tracking-widest">Episode 1 <span class="mx-2 opacity-50">|</span> TH. Episode 1</span>
             </div>
             
-            <!-- Titles -->
+            <!-- Titles (No ENG/JP/TH prefixes) -->
             <div class="space-y-4 mb-10">
-                <h1 class="text-4xl md:text-6xl font-bold drop-shadow-xl leading-tight">
-                    Roller Coaster<br/>Murder Case
-                </h1>
+                <div class="space-y-2">
+                    <h1 class="text-3xl md:text-5xl font-bold drop-shadow-xl leading-tight">
+                        Roller Coaster Murder Case
+                    </h1>
+                </div>
                 
                 <div class="relative inline-block py-2 px-8">
                     <!-- Decorative lines -->
@@ -165,26 +177,35 @@
                     (Jetto Kōsutā Satsujin Jiken)
                 </p>
                 
-                <h3 class="text-2xl md:text-3xl font-bold text-yellow-400 mt-4 drop-shadow-md bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-500 bg-clip-text text-transparent">
-                    คดีฆาตกรรมบนรถไฟเหาะ
-                </h3>
+                <div class="mt-4">
+                    <h3 class="text-2xl md:text-3xl font-bold text-yellow-400 drop-shadow-md bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-500 bg-clip-text text-transparent">
+                        คดีฆาตกรรมบนรถไฟเหาะ
+                    </h3>
+                </div>
             </div>
             
-            <!-- Info Grid -->
+            <!-- Information Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/10 shadow-2xl text-left text-sm md:text-base">
                 <div class="flex flex-col space-y-3 border-r-0 md:border-r border-white/10 pr-0 md:pr-4">
-                    <div class="flex justify-between items-center border-b border-white/10 pb-2">
-                        <span class="font-bold text-blue-200">มังงะคดีที่</span>
-                        <span class="font-mono bg-black/20 px-2 py-0.5 rounded">#1</span>
+                    <div class="flex justify-between items-start border-b border-white/10 pb-2">
+                        <span class="font-bold text-blue-200 whitespace-nowrap">วันออกอากาศ :</span>
+                        <div class="text-right">
+                            <span class="block">January 8 1996</span>
+                            <span class="block text-xs opacity-75">April 4 2009 (Remastered version)</span>
+                        </div>
                     </div>
                     <div class="flex justify-between items-center border-b border-white/10 pb-2">
-                        <span class="font-bold text-blue-200">ซีซั่น</span>
-                        <span>1 (1996)</span>
+                        <span class="font-bold text-blue-200">มังงะคดีที่ :</span>
+                        <span class="font-mono bg-black/20 px-2 py-0.5 rounded">#1</span>
                     </div>
                 </div>
                 <div class="flex flex-col space-y-3 pl-0 md:pl-4">
                     <div class="flex justify-between items-center border-b border-white/10 pb-2">
-                        <span class="font-bold text-blue-200">ที่มามังงะ</span>
+                        <span class="font-bold text-blue-200">ซีซั่น :</span>
+                        <span>1 (1996)</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/10 pb-2">
+                        <span class="font-bold text-blue-200">แหล่งที่มาของมังงะ :</span>
                         <span>Volume 1 : File 1 (001)</span>
                     </div>
                 </div>
@@ -193,303 +214,345 @@
     </section>
 
     <!-- Main Content -->
-    <main class="max-w-6xl mx-auto px-4 py-12 space-y-16">
+    <main class="max-w-6xl mx-auto px-4 py-12 space-y-16 w-full">
 
-        <!-- Cast Section -->
+        <!-- Characters Section -->
         <section>
             <h2 class="section-title text-2xl font-bold text-gray-800 mb-8">ตัวละคร (Cast)</h2>
+            <h3 class="text-xl font-semibold text-gray-600 mb-4">แนะนำตัวละคร (Introduced)</h3>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                <!-- Shinichi -->
+                <!-- Shinichi (Blue) -->
                 <div class="glass-card rounded-xl p-5 border-l-8 border-conan-blue relative overflow-hidden group">
-                    <div class="absolute right-0 top-0 w-24 h-24 bg-blue-50 rounded-bl-full -mr-4 -mt-4 opacity-50 group-hover:scale-110 transition-transform"></div>
-                    <h3 class="font-bold text-xl text-conan-blue relative z-10">ชินอิจิ คุโดะ</h3>
+                    <h3 class="font-bold text-xl text-conan-blue relative z-10">ชินอิจิ คุโด (Shinichi Kudo)</h3>
                     <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
                         <p class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-300 rounded-full mr-2"></span>อายุ 16–17 ปี</p>
                         <p class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-300 rounded-full mr-2"></span>นักเรียนมัธยมปลาย</p>
-                        <p class="flex items-center font-semibold text-blue-700"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2"></span>นักสืบ</p>
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-300 rounded-full mr-2"></span>นักสืบ</p>
                     </div>
                 </div>
-                
-                <!-- Ran -->
+
+                <!-- Ran (Pink) -->
                 <div class="glass-card rounded-xl p-5 border-l-8 border-pink-500 relative overflow-hidden group">
-                    <div class="absolute right-0 top-0 w-24 h-24 bg-pink-50 rounded-bl-full -mr-4 -mt-4 opacity-50 group-hover:scale-110 transition-transform"></div>
-                    <h3 class="font-bold text-xl text-pink-600 relative z-10">รัน โมริ</h3>
+                    <h3 class="font-bold text-xl text-pink-600 relative z-10">รัน โมริ (Ran Mouri)</h3>
                     <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
                         <p class="flex items-center"><span class="w-1.5 h-1.5 bg-pink-300 rounded-full mr-2"></span>อายุ 16 ปี</p>
                         <p class="flex items-center"><span class="w-1.5 h-1.5 bg-pink-300 rounded-full mr-2"></span>นักเรียนมัธยมปลาย</p>
-                        <p class="flex items-center font-semibold text-pink-700"><span class="w-1.5 h-1.5 bg-pink-500 rounded-full mr-2"></span>แชมป์คาราเต้</p>
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-pink-300 rounded-full mr-2"></span>แชมป์คาราเต้</p>
                     </div>
                 </div>
-                
-                <!-- Kogoro -->
+
+                <!-- Kogoro (Gray) -->
                 <div class="glass-card rounded-xl p-5 border-l-8 border-gray-500 relative overflow-hidden group">
-                     <div class="absolute right-0 top-0 w-24 h-24 bg-gray-100 rounded-bl-full -mr-4 -mt-4 opacity-50 group-hover:scale-110 transition-transform"></div>
-                    <h3 class="font-bold text-xl text-gray-700 relative z-10">โคโกโร่ โมริ</h3>
+                    <h3 class="font-bold text-xl text-gray-700 relative z-10">โคโกโร่ โมริ (Kogoro Mouri)</h3>
                     <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
-                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-2"></span>อายุ 38 ปี</p>
-                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-gray-300 rounded-full mr-2"></span>พ่อของรัน</p>
-                        <p class="flex items-center font-semibold text-gray-800"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full mr-2"></span>นักสืบ</p>
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-gray-400 rounded-full mr-2"></span>อายุ 38 ปี</p>
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-gray-400 rounded-full mr-2"></span>พ่อของรัน</p>
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-gray-400 rounded-full mr-2"></span>นักสืบ</p>
                     </div>
                 </div>
-                
-                <!-- Megure -->
+
+                <!-- Megure (Orange) -->
                 <div class="glass-card rounded-xl p-5 border-l-8 border-orange-600 relative overflow-hidden group">
-                    <div class="absolute right-0 top-0 w-24 h-24 bg-orange-50 rounded-bl-full -mr-4 -mt-4 opacity-50 group-hover:scale-110 transition-transform"></div>
-                    <h3 class="font-bold text-xl text-orange-800 relative z-10">จูโซ เมงุเระ</h3>
+                    <h3 class="font-bold text-xl text-orange-800 relative z-10">จูโซ เมกุเระ (Juzo Megure)</h3>
                     <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
-                         <p class="flex items-start"><span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-2 mt-1.5 flex-shrink-0"></span>สารวัตรจากกองบัญชาการ<br>ตำรวจนครบาลโตเกียว</p>
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-2"></span>สารวัตรจากกรมตำรวจนครบาลโตเกียว</p>
                     </div>
                 </div>
-                
-                <!-- Black Org -->
+
+                <!-- Gin (Black) -->
                 <div class="rounded-xl p-5 border-l-8 border-black bg-gradient-to-br from-gray-900 to-black text-white shadow-lg relative overflow-hidden group">
-                    <div class="absolute right-0 top-0 w-24 h-24 bg-gray-800 rounded-bl-full -mr-4 -mt-4 opacity-30 group-hover:scale-110 transition-transform"></div>
-                    <h3 class="font-bold text-xl relative z-10">จิน & วอดก้า</h3>
+                    <h3 class="font-bold text-xl relative z-10">จิน (Gin)</h3>
                     <div class="mt-2 text-sm text-gray-400 relative z-10 space-y-1">
                         <p class="flex items-center"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full mr-2"></span>สมาชิกองค์กรชุดดำ</p>
-                   </div>
-                </div>
-                
-                <!-- Detective Boys -->
-                <div class="glass-card rounded-xl p-5 border-l-8 border-green-500 relative overflow-hidden group">
-                    <div class="absolute right-0 top-0 w-24 h-24 bg-green-50 rounded-bl-full -mr-4 -mt-4 opacity-50 group-hover:scale-110 transition-transform"></div>
-                    <h3 class="font-bold text-xl text-green-700 relative z-10">แก๊งนักสืบเยาวชน</h3>
-                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
-                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-2"></span>อายูมิ</p>
-                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-2"></span>มิตสึฮิโกะ</p>
-                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-2"></span>เก็นตะ</p>
                     </div>
                 </div>
-                
-                <!-- Agasa -->
+
+                <!-- Vodka (Black) -->
+                <div class="rounded-xl p-5 border-l-8 border-black bg-gradient-to-br from-gray-900 to-black text-white shadow-lg relative overflow-hidden group">
+                    <h3 class="font-bold text-xl relative z-10">วอดก้า (Vodka)</h3>
+                    <div class="mt-2 text-sm text-gray-400 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full mr-2"></span>สมาชิกองค์กรชุดดำ</p>
+                    </div>
+                </div>
+
+                <!-- Ayumi (Green) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-green-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-green-700 relative z-10">อายูมิ โยชิดะ (Ayumi Yoshida)</h3>
+                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-2"></span>อายุ 7 ปี</p>
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-2"></span>เพื่อนร่วมชั้นของมิตสึฮิโกะและเก็นตะ</p>
+                    </div>
+                </div>
+
+                <!-- Mitsuhiko (Green) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-green-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-green-700 relative z-10">มิตสึฮิโกะ สึบุรายะ (Mitsuhiko Tsuburaya)</h3>
+                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-2"></span>อายุ 7 ปี</p>
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-2"></span>เพื่อนร่วมชั้นของอายูมิและเก็นตะ</p>
+                    </div>
+                </div>
+
+                <!-- Genta (Green) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-green-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-green-700 relative z-10">เก็นตะ โคจิมะ (Genta Kojima)</h3>
+                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-2"></span>อายุ 7 ปี</p>
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-2"></span>เพื่อนร่วมชั้นของอายูมิและมิตสึฮิโกะ</p>
+                    </div>
+                </div>
+
+                <!-- Agasa (Yellow) -->
                 <div class="glass-card rounded-xl p-5 border-l-8 border-yellow-400 relative overflow-hidden group">
-                    <div class="absolute right-0 top-0 w-24 h-24 bg-yellow-50 rounded-bl-full -mr-4 -mt-4 opacity-50 group-hover:scale-110 transition-transform"></div>
-                    <h3 class="font-bold text-xl text-yellow-700 relative z-10">ฮิโรชิ อากาสะ</h3>
+                    <h3 class="font-bold text-xl text-yellow-700 relative z-10">ฮิโรชิ อากาสะ (Hiroshi Agasa)</h3>
                     <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
                         <p class="flex items-center"><span class="w-1.5 h-1.5 bg-yellow-300 rounded-full mr-2"></span>อายุ 52 ปี</p>
                         <p class="flex items-center"><span class="w-1.5 h-1.5 bg-yellow-300 rounded-full mr-2"></span>วิศวกร / นักประดิษฐ์</p>
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-yellow-300 rounded-full mr-2"></span>เพื่อนสนิทเก่าแก่ของครอบครัวชินอิจิ</p>
                     </div>
                 </div>
 
-                <!-- Conan -->
-                <div class="glass-card rounded-xl p-5 border-l-8 border-conan-blue bg-blue-50/50 relative overflow-hidden group col-span-1 md:col-span-2">
-                    <div class="absolute right-0 top-0 w-32 h-32 bg-blue-100 rounded-bl-full -mr-4 -mt-4 opacity-50 group-hover:scale-110 transition-transform"></div>
-                    <h3 class="font-bold text-xl text-conan-blue relative z-10">เด็กไม่ทราบชื่อ (ปัจจุบัน)</h3>
-                    <div class="mt-2 text-sm text-gray-700 relative z-10 space-y-1">
-                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2"></span>อายุประมาณ 6–7 ปี</p>
-                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2"></span>นักสืบ</p>
-                        <p class="flex items-center font-bold text-conan-blue"><span class="w-1.5 h-1.5 bg-blue-600 rounded-full mr-2"></span>ชินอิจิ คุโดะที่ร่างหดเล็กลง</p>
+                <!-- Unnamed Child (Blue) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-blue-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-blue-700 relative z-10">เด็กที่ยังไม่มีการตั้งชื่อ (Currently Unnamed Child)</h3>
+                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-300 rounded-full mr-2"></span>อายุ 6–7 ปี</p>
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-300 rounded-full mr-2"></span>ชินอิจิ คุโดที่ร่างหดเล็ก</p>
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-300 rounded-full mr-2"></span>นักสืบ</p>
                     </div>
                 </div>
 
-                <!-- Victim -->
-                <div class="glass-card rounded-xl p-5 border-l-8 border-purple-600 relative overflow-hidden group">
-                    <h3 class="font-bold text-xl text-purple-800">ยามาซากิ / คิชิดะ</h3>
-                    <div class="mt-2">
-                        <span class="inline-block bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded font-bold">ผู้เสียชีวิต</span>
-                    </div>
-                </div>
-
-                <!-- Culprit -->
-                <div class="glass-card rounded-xl p-5 border-l-8 border-red-800 relative overflow-hidden group">
-                    <h3 class="font-bold text-xl text-red-900">เจ้าของบ้าน / ฮิโตมิ</h3>
-                    <div class="mt-2">
-                        <span class="inline-block bg-red-100 text-red-900 text-xs px-2 py-1 rounded font-bold">คนร้าย</span>
+                <!-- The Criminal (Black - Shadow) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-black bg-gray-100 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-black relative z-10">“คนร้าย” (The Criminal)</h3>
+                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full mr-2"></span>ผู้ต้องสงสัย / ผู้กระทำผิดที่ไม่ปรากฏตัวให้เห็น</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Case 1: Mansion -->
-        <section class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-            <!-- Header -->
-            <div class="bg-gray-100 px-8 py-5 border-b border-gray-200 flex justify-between items-center relative overflow-hidden">
-                <div class="absolute left-0 top-0 bottom-0 w-2 bg-gray-800"></div>
-                <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-3 relative z-10">
-                    <span class="bg-gray-800 text-white w-8 h-8 rounded-lg flex items-center justify-center text-base shadow-md">1</span>
-                    คดีฆาตกรรมในคฤหาสน์ส่วนตัว
-                </h2>
-                <div class="text-right">
-                    <span class="block text-xs font-bold text-gray-400 uppercase tracking-widest">Case File</span>
-                    <span class="block text-xl font-black text-gray-300 leading-none">001</span>
+        <!-- Plot Section -->
+        <section>
+            <h2 class="section-title text-2xl font-bold text-gray-800 mb-8">เนื้อเรื่อง (Plot)</h2>
+
+            <!-- Case 1 -->
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 mb-10">
+                <div class="bg-gray-100 px-8 py-5 border-b border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-800">คดีที่ 1 : อาชญากรรมในคฤหาสน์ส่วนตัว</h3>
                 </div>
-            </div>
-            
-            <div class="p-8 grid grid-cols-1 lg:grid-cols-3 gap-10">
-                <!-- Situation -->
-                <div class="lg:col-span-2 space-y-6">
+                <div class="p-8 space-y-6">
                     <div>
-                        <h3 class="font-bold text-conan-blue text-lg mb-3 flex items-center">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
-                            สถานการณ์
-                        </h3>
-                        <p class="text-gray-700 leading-relaxed text-justify">
-                            ตอนเริ่มเรื่องเกิดขึ้นในคฤหาสน์แห่งหนึ่ง ที่งานเลี้ยงต้องหยุดชะงักเพราะเกิดคดีฆาตกรรม แขกคนหนึ่งคือ <span class="font-bold text-purple-700 bg-purple-50 px-1 rounded">ยามาซากิ เท็ตสึ</span> ประธานธนาคารยัตสึบิชิ ถูกพบเป็นศพโดยมีกระสุนยิงเข้าที่หัวใจ ตำรวจนำโดยสารวัตรเมงุเระเข้าตรวจสอบแต่ยังมืดแปดด้าน จนกระทั่งชินอิจิปรากฏตัวและประกาศว่าเขาไขคดีได้แล้ว
+                        <h4 class="subsection-header">สถานการณ์ (Situation)</h4>
+                        <p class="text-gray-700 leading-relaxed">
+                            ตอนเริ่มต้นเกิดขึ้นในคฤหาสน์แห่งหนึ่ง ซึ่งงานเลี้ยงต้องหยุดชะงักลงเพราะเกิดเหตุฆาตกรรม แขกคนหนึ่งคือ เท็ตสึ ยามาซากิ ประธานธนาคารยัตสึบิชิ ถูกพบว่าเสียชีวิตด้วยกระสุนปืนที่หัวใจ ตำรวจซึ่งนำโดยสารวัตรเมกุเระได้ทำการสืบสวนที่เกิดเหตุแล้ว แต่ยังไม่พบหลักฐานชี้ชัดว่าใครคือฆาตกร อย่างไรก็ตาม ชินอิจิได้ปรากฏตัวอย่างยิ่งใหญ่และประกาศว่าเขาได้ไขคดีนี้เรียบร้อยแล้ว
                         </p>
                     </div>
 
-                    <div class="bg-blue-50/80 p-5 rounded-xl border border-blue-100 shadow-sm">
-                        <h4 class="font-bold text-conan-blue mb-3 text-sm uppercase tracking-wide">Key Information</h4>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-700">
-                            <div class="flex items-start"><span class="text-blue-400 mr-2">▪</span><span class="font-semibold w-24">สถานที่ :</span> คฤหาสน์ส่วนตัว</div>
-                            <div class="flex items-start"><span class="text-blue-400 mr-2">▪</span><span class="font-semibold w-24">ผู้ตาย :</span> ยามาซากิ เท็ตสึ (38 ปี)</div>
-                            <div class="flex items-start"><span class="text-blue-400 mr-2">▪</span><span class="font-semibold w-24">สาเหตุ :</span> ถูกยิงด้วยปืน</div>
-                            <div class="flex items-start"><span class="text-blue-400 mr-2">▪</span><span class="font-semibold w-24">ลักษณะ :</span> ห้องปิดตาย</div>
+                    <div>
+                        <h4 class="subsection-header">การฆาตกรรม (Murder)</h4>
+                        <div class="space-y-1 text-sm text-gray-700">
+                            <p><span class="font-bold">สถานที่ :</span> คฤหาสน์ส่วนตัว</p>
+                            <p><span class="font-bold">ผู้เสียชีวิต :</span> เท็ตสึ ยามาซากิ</p>
+                            <p><span class="font-bold">สาเหตุการตาย :</span> ถูกยิงด้วยปืน</p>
+                            <p><span class="font-bold">ผู้ต้องสงสัย :</span> เจ้าของ / เจ้าภาพ และแขกในงาน</p>
+                            <p class="mt-2 text-gray-600 italic">ประธานยามาซากิแห่งธนาคารยัตสึบิชิถูกพบเสียชีวิตในห้องที่ถูกล็อกจากด้านใน โดยมีกระสุนทะลุหน้าอก</p>
                         </div>
                     </div>
 
                     <div>
-                        <h3 class="font-bold text-conan-blue text-lg mb-3 flex items-center">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
-                            การคลี่คลายคดี (Resolution)
-                        </h3>
-                        <div class="space-y-3">
-                            <div class="bg-white border-l-4 border-conan-red p-4 shadow-sm rounded-r-lg">
-                                <span class="font-bold text-conan-red block mb-1">หลักฐาน 1</span>
-                                <p class="text-sm text-gray-600">ระยะห่างระหว่างหน้าต่าง 10 เมตร เป็นเรื่องหลอกตา หากใช้หลังคาอีกฝั่ง ระยะจะเหลือเพียง 2 เมตร</p>
+                        <h4 class="subsection-header">บุคคล (People)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Culprit: Landlord (Red-Orange) -->
+                            <div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-600">
+                                <p class="font-bold text-red-700">เจ้าของที่ดิน (Landlord)</p>
+                                <ul class="list-disc list-inside text-sm text-red-800 mt-1">
+                                    <li>เจ้าของคฤหาสน์</li>
+                                    <li>นั่งรถเข็นเนื่องจากขาบาดเจ็บ</li>
+                                </ul>
                             </div>
-                            <div class="bg-white border-l-4 border-conan-red p-4 shadow-sm rounded-r-lg">
-                                <span class="font-bold text-conan-red block mb-1">หลักฐาน 2</span>
-                                <p class="text-sm text-gray-600">รอยบุ๋มตรงระเบียง เกิดจากไม้ที่ผูกปลายเชือก เพื่อใช้เหวี่ยงกลับมายังหน้าต่างชั้น 3</p>
-                            </div>
-                            <div class="bg-white border-l-4 border-conan-red p-4 shadow-sm rounded-r-lg">
-                                <span class="font-bold text-conan-red block mb-1">หลักฐาน 3</span>
-                                <p class="text-sm text-gray-600">ไม่มีรอยเท้าใต้หน้าต่าง แสดงว่าเป็นคนใน</p>
+                            <!-- Victim: Yamazaki (Purple) -->
+                            <div class="bg-purple-50 p-4 rounded-lg border-l-4 border-purple-600">
+                                <p class="font-bold text-purple-800">เท็ตสึ ยามาซากิ (Tetsu Yamazaki)</p>
+                                <ul class="list-disc list-inside text-sm text-purple-700 mt-1">
+                                    <li>ผู้เสียชีวิต (ถูกยิง)</li>
+                                    <li>อายุ 38 ปี</li>
+                                    <li>เพื่อนสนิทที่สุดของเจ้าของคฤหาสน์</li>
+                                    <li>ประธานธนาคารยัตสึบิชิ</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Culprit Card -->
-                <div class="bg-gray-900 text-white rounded-xl p-1 shadow-inner relative overflow-hidden group h-full">
-                    <div class="absolute inset-0 bg-gradient-to-b from-gray-800 to-black opacity-90"></div>
-                    <div class="relative h-full border border-gray-700 rounded-lg p-6 flex flex-col items-center text-center">
-                        <div class="w-full border-b border-red-900/50 pb-4 mb-4">
-                            <h3 class="text-red-500 font-bold text-xl tracking-[0.2em] uppercase">The Culprit</h3>
-                        </div>
-                        
-                        <div class="flex-grow flex flex-col items-center justify-center mb-6">
-                             <div class="w-28 h-28 bg-gray-800 rounded-full flex items-center justify-center mb-4 border-2 border-red-900 shadow-[0_0_15px_rgba(220,38,38,0.3)]">
-                                <span class="text-5xl font-bold text-red-600">?</span>
-                            </div>
-                            <p class="font-bold text-xl text-white">เจ้าของคฤหาสน์</p>
-                            <p class="text-sm text-gray-400 mt-1">เพื่อนสนิทของผู้ตาย</p>
-                        </div>
-                        
-                        <div class="w-full text-left bg-gray-800/50 p-4 rounded-lg text-sm space-y-3 backdrop-blur-sm border border-gray-700">
+                    <div>
+                        <h4 class="subsection-header">การคลี่คลายคดี (Resolution)</h4>
+                        <div class="space-y-4">
                             <div>
-                                <span class="text-red-400 font-bold text-xs uppercase block mb-1">Trick :</span>
-                                <p class="text-gray-300">แกล้งทำเป็นขาพิการต้องนั่งรถเข็น แต่ความจริงหายดีแล้ว</p>
+                                <strong class="text-conan-blue block mb-1">หลักฐาน (Evidence)</strong>
+                                <ul class="list-disc list-inside text-sm text-gray-700 space-y-1 pl-4">
+                                    <li>ชินอิจิระบุว่าห้องที่ยามาซากิถูกฆ่านั้นถูกล็อกจากด้านใน ทางเข้าเดียวที่เป็นไปได้คือหน้าต่าง</li>
+                                    <li>เจ้าของคฤหาสน์อ้างว่ามีระยะห่างอย่างน้อย 10 เมตรระหว่างหน้าต่างสองบานที่ชินอิจิกล่าวว่าฆาตกรใช้ แต่ชินอิจิชี้ให้เห็นว่าหากฆาตกรใช้หลังคาเป็นทางเข้ามาใกล้หน้าต่างอีกฝั่ง ระยะนี้จะเหลือเพียง 2 เมตร ซึ่งสามารถกระโดดข้ามได้ง่าย</li>
+                                    <li>ชินอิจิสังเกตเห็นรอยบุ๋มบนระเบียงซึ่งเป็นจุดที่ฆาตกรผูกเชือกที่ปลายมีไม้ติดอยู่ ทำให้ฆาตกรสามารถกลับไปยังหน้าต่างชั้น 3 ได้ เนื่องจากเป็นไปไม่ได้ที่ฆาตกรจะสามารถกระโดดกลับไปลงบนขอบหลังคาที่กว้างเพียง 10 เซนติเมตรได้อย่างปลอดภัย การใช้ไม้แทนการผูกเชือกตรงกับระเบียงทำให้ฆาตกรสามารถทำลายหลักฐานวิธีการหลบหนีได้เมื่อกลับไปอีกฝั่งของอาคาร</li>
+                                    <li>การที่ไม่มีรอยเท้าอยู่ด้านล่างหน้าต่างบ่งชี้ว่าคดีนี้เป็นการลงมือจากคนภายใน</li>
+                                    <li>ชินอิจิอ้างว่าเขาได้พูดคุยกับแพทย์ของฆาตกรแล้ว</li>
+                                </ul>
                             </div>
                             <div>
-                                <span class="text-red-400 font-bold text-xs uppercase block mb-1">Motive :</span>
-                                <p class="text-gray-300">ดีลทางการเงินลับ ๆ ใต้โต๊ะ</p>
+                                <strong class="text-conan-blue block mb-1">บทสรุป (Conclusion)</strong>
+                                <p class="text-sm text-gray-700 leading-relaxed">
+                                    ชินอิจิสรุปว่าฆาตกรต้องเป็นคนที่รู้จักคฤหาสน์เป็นอย่างดี และในที่สุดก็ชี้ตัวไปที่เจ้าของคฤหาสน์ ซึ่งในขณะนั้นนั่งอยู่บนรถเข็น เจ้าของคฤหาสน์หัวเราะออกมาและอ้างว่าเขาอยู่ในสภาพที่ไม่สามารถก่ออาชญากรรมเช่นนี้ได้ ชินอิจิจึงหยิบลูกโลกขึ้นมาและขว้างไปที่เจ้าของคฤหาสน์ ซึ่งรีบกระโดดลุกจากรถเข็นเพื่อหลบ ทำให้แม่บ้านและแขกทุกคนตกตะลึง จากนั้นชินอิจิกล่าวว่าเขาหายดีมาระยะหนึ่งแล้วตามรายงานของแพทย์ ซึ่งเมกุเระก็ยืนยันเรื่องนี้ เมื่อรู้ว่าความจริงถูกเปิดโปง เจ้าของคฤหาสน์พยายามหลบหนี แต่ชินอิจิก็เตะลูกโลกเหมือนลูกฟุตบอลเพื่อใช้เป็นอาวุธ ทำให้เขาหมดสติ
+                                </p>
+                            </div>
+                            <div>
+                                <strong class="text-conan-blue block mb-1">แรงจูงใจ (Motive)</strong>
+                                <p class="text-sm text-gray-700 leading-relaxed">
+                                    แม้ตอนนี้จะไม่ได้ระบุแรงจูงใจของเจ้าของคฤหาสน์อย่างชัดเจน แต่มีแนวโน้มว่าสาเหตุเกี่ยวข้องกับการทำธุรกรรมทางการเงินลับ ๆ ใต้โต๊ะระหว่างเขากับยามาซากิ
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <!-- Case 2: Roller Coaster (Main Event) -->
-        <section class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 relative group">
-            <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-conan-blue via-conan-red to-conan-blue"></div>
-            
-            <!-- Header -->
-            <div class="bg-blue-50/50 px-8 py-5 border-b border-blue-100 flex justify-between items-center">
-                <h2 class="text-2xl font-bold text-conan-blue flex items-center gap-3">
-                    <span class="bg-conan-blue text-white w-8 h-8 rounded-lg flex items-center justify-center text-base shadow-md">2</span>
-                    คดีฆาตกรรมรถไฟเหาะ
-                </h2>
-                <div class="pill-badge bg-white text-conan-blue text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-blue-200">
-                    Main Case
+            <!-- Case 2 -->
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 relative">
+                <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-conan-blue via-conan-red to-conan-blue"></div>
+                <div class="bg-blue-50 px-8 py-5 border-b border-blue-100">
+                    <h3 class="text-xl font-bold text-conan-blue">คดีที่ 2 : คดีฆาตกรรมรถไฟเหาะ</h3>
                 </div>
-            </div>
-
-            <div class="p-8">
-                <!-- Story Grid -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+                <div class="p-8 space-y-6">
                     <div>
-                        <h3 class="font-bold text-xl text-gray-800 mb-4 pb-2 border-b border-gray-100">เรื่องราวเริ่มต้น</h3>
-                        <p class="text-gray-700 leading-relaxed text-justify">
-                            ชินอิจิพารันไปเที่ยวสวนสนุก <span class="font-semibold text-blue-600 bg-blue-50 px-1 rounded">"ทรอปิคอลแลนด์"</span> ตามสัญญาที่ให้ไว้หากรันชนะการแข่งคาราเต้ ระหว่างเดต ทั้งคู่ขึ้นเครื่องเล่น <strong>Mystery Coaster</strong> แต่เหตุการณ์สยองขวัญก็เกิดขึ้นเมื่อผู้โดยสารคนหนึ่งถูกตัดศีรษะกลางอากาศ!
+                        <h4 class="subsection-header">สถานการณ์ (Situation)</h4>
+                        <p class="text-gray-700 leading-relaxed">
+                            รัน โมริ พบกับเพื่อนของเธอ ชินอิจิ คุโด ระหว่างเดินทางไปโรงเรียนมัธยมเทตัน หลังจากชินอิจิอธิบายให้รันฟังว่าทำไมเขาถึงลาออกจากทีมฟุตบอล และบอกว่าเขาอยากเป็นนักสืบเหมือนเชอร์ล็อก โฮล์มส์ ตัวละครในนิยาย รันจึงเตือนชินอิจิถึงสัญญาที่เขาให้ไว้ว่า หากรันชนะการแข่งขันคาราเต้ระดับภูมิภาค ชินอิจิจะพาเธอไปสวนสนุก “ทรอปิคอลแลนด์” อย่างไรก็ตาม ชินอิจิดันลืมสัญญานั้นไป ทำให้รันพยายามเตะเขาเป็นการลงโทษ
                         </p>
-                        
-                        <div class="mt-6 p-4 bg-purple-50 rounded-xl border border-purple-100 flex items-center gap-4">
-                             <div class="w-12 h-12 bg-purple-200 rounded-full flex items-center justify-center text-purple-700 font-bold text-lg">✝</div>
-                             <div>
-                                <h4 class="font-bold text-purple-900">เหยื่อ (Victim) : คิชิดะ</h4>
-                                <p class="text-sm text-purple-800/80">ถูกตัดศีรษะบนรถไฟเหาะ (รถคันที่ 3 ที่นั่งขวา)</p>
-                             </div>
+                        <p class="text-gray-700 leading-relaxed mt-2">
+                            หลังเลิกเรียน ชินอิจิทำตามสัญญาด้วยการไปทรอปิคอลแลนด์กับรัน ขณะต่อแถวเล่นมิสเทอรีโคสเตอร์ ชินอิจิแสดงความสามารถในการใช้เหตุผลเชิงสืบสวนให้รันเห็น โดยสามารถอนุมานได้อย่างถูกต้องว่าผู้หญิงที่ยืนอยู่ข้างหน้าพวกเขาเป็นนักยิมนาสติก เนื่องจากลมพัดกระโปรงของเธอขึ้นโดยบังเอิญ ทำให้เขาเห็นทั้งกางเกงชั้นในที่มีลูกไม้ และรอยบนต้นขาส่วนบนซึ่งเป็นลักษณะเฉพาะของนักยิมนาสติก อย่างไรก็ตาม การออกเดตของทั้งสองต้องจบลงอย่างกะทันหันเมื่อเกิดเหตุฆาตกรรมระหว่างที่พวกเขากำลังนั่งรถไฟเหาะ ใครคือผู้ที่ฆ่าคิชิดะ และเขาทำได้อย่างไร?
+                        </p>
+                    </div>
+
+                    <div>
+                        <h4 class="subsection-header">การฆาตกรรม (Murder)</h4>
+                        <div class="space-y-1 text-sm text-gray-700">
+                            <p><span class="font-bold">สถานที่ :</span> ทรอปิคอลแลนด์</p>
+                            <p><span class="font-bold">ผู้เสียชีวิต :</span> คิชิดะ</p>
+                            <p><span class="font-bold">สาเหตุการตาย :</span> ถูกตัดศีรษะ</p>
+                            <p><span class="font-bold">ผู้ต้องสงสัย :</span> ไอโกะ , ฮิโตมิ , เรโกะ และชายชุดดำ</p>
+                            <p class="mt-2 text-gray-600 italic">คิชิดะถูกตัดศีรษะระหว่างนั่งมิสเทอรีโคสเตอร์ ขณะที่รถไฟเหาะออกมาจากอุโมงค์มืด</p>
                         </div>
                     </div>
-                    
-                    <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
-                        <h4 class="font-bold text-sm text-gray-500 uppercase mb-4 tracking-wider flex items-center">
-                            <span class="w-2 h-2 bg-gray-400 rounded-full mr-2"></span>ผู้ต้องสงสัย (Suspects)
-                        </h4>
-                        <ul class="space-y-3">
-                            <li class="flex items-center justify-between p-2 bg-white rounded border border-gray-100 shadow-sm">
-                                <span class="font-semibold text-gray-700">ไอโกะ</span>
-                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">แฟนเหยื่อ (นั่งข้างๆ)</span>
-                            </li>
-                            <li class="flex items-center justify-between p-2 bg-white rounded border-l-4 border-red-500 shadow-sm">
-                                <span class="font-semibold text-red-800">ฮิโตมิ</span>
-                                <span class="text-xs text-red-100 bg-red-600 px-2 py-1 rounded">นักยิมนาสติก (คันที่ 1 ขวา)</span>
-                            </li>
-                            <li class="flex items-center justify-between p-2 bg-white rounded border border-gray-100 shadow-sm">
-                                <span class="font-semibold text-gray-700">เรโกะ</span>
-                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">เพื่อนฮิโตมิ (คันที่ 1 ซ้าย)</span>
-                            </li>
-                            <li class="flex items-center justify-between p-2 bg-black text-white rounded shadow-sm">
-                                <span class="font-semibold">ชายชุดดำ</span>
-                                <span class="text-xs text-gray-400 bg-gray-800 px-2 py-1 rounded">คันหลังสุด</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
 
-                <!-- Deduction Box -->
-                <div class="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 md:p-8 border border-blue-200 shadow-inner relative overflow-hidden">
-                    <div class="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 bg-blue-100 rounded-full opacity-50 blur-2xl"></div>
-                    
-                    <div class="relative z-10">
-                        <h3 class="text-2xl font-bold text-conan-blue mb-6 flex items-center">
-                            <span class="bg-conan-blue text-white p-1.5 rounded-full mr-3">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
-                            </span>
-                            การอนุมานของคุโดะ ชินอิจิ
-                        </h3>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            <div class="md:col-span-2 space-y-6">
-                                <div>
-                                    <h4 class="font-bold text-gray-800 text-lg mb-2">ทริคฆาตกรรม (The Trick)</h4>
-                                    <p class="text-gray-700 leading-relaxed text-sm md:text-base">
-                                        คนร้ายใช้อุปกรณ์อย่างกระเป๋าเพื่อสร้างช่องว่างให้หลุดจากที่ล็อกที่นั่ง จากนั้นใช้ <strong>"ลวดเปียโนที่มีตะขอ"</strong> คล้องคอเหยื่อจากด้านหลัง อาศัยความมืดในอุโมงค์ และแรงเหวี่ยงของรถไฟเหาะ โดยขว้างตะขอไปเกี่ยวกับราง ทำให้ศีรษะเหยื่อถูกตัดขาดทันที
-                                    </p>
-                                </div>
-                                
-                                <div>
-                                    <h4 class="font-bold text-gray-800 text-lg mb-2">หลักฐานมัดตัว (Evidence)</h4>
-                                    <div class="flex flex-wrap gap-2">
-                                        <span class="evidence-tag rounded shadow-sm text-sm">ลวดเปียโนเปื้อนเลือด</span>
-                                        <span class="evidence-tag rounded shadow-sm text-sm">สร้อยคอที่หายไป</span>
-                                        <span class="evidence-tag rounded shadow-sm text-sm">คราบน้ำตาแนวนอน</span>
-                                    </div>
-                                </div>
+                    <div>
+                        <h4 class="subsection-header">บุคคล (People)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <!-- Victim: Kishida (Purple) -->
+                            <div class="bg-purple-50 p-3 rounded border-l-4 border-purple-500">
+                                <strong class="text-purple-900">คิชิดะ (Kishida)</strong>
+                                <ul class="list-disc list-inside text-purple-800">
+                                    <li>ผู้เสียชีวิต (ถูกตัดศีรษะ)</li>
+                                    <li>แฟนของไอโกะ</li>
+                                    <li>รถคันที่สาม ที่นั่งขวา</li>
+                                </ul>
                             </div>
-                            
-                            <!-- Culprit Reveal -->
-                            <div class="bg-red-900 text-white rounded-xl p-6 flex flex-col justify-center items-center text-center shadow-lg transform rotate-1 border-2 border-red-800">
-                                <span class="uppercase text-xs font-bold text-red-300 tracking-[0.2em] mb-2">Criminal Identified</span>
-                                <h3 class="text-3xl font-black mb-4">ฮิโตมิ</h3>
-                                <div class="w-full h-px bg-red-700 mb-4"></div>
-                                <div class="text-sm text-red-100 space-y-2">
-                                    <p><span class="font-bold text-white">Motive :</span> ถูกคิชิดะทิ้ง</p>
-                                    <p><span class="font-bold text-white">Weapon :</span> สร้อยคอที่เหยื่อให้</p>
-                                </div>
+                            <div class="bg-gray-50 p-3 rounded">
+                                <strong class="text-gray-800">ไอโกะ (Aiko)</strong>
+                                <ul class="list-disc list-inside text-gray-600">
+                                    <li>แฟนสาวของคิชิดะ</li>
+                                    <li>รถคันที่สาม ที่นั่งซ้าย</li>
+                                </ul>
+                            </div>
+                            <!-- Culprit: Hitomi (Red-Orange) -->
+                            <div class="bg-red-50 p-3 rounded border-l-4 border-red-600">
+                                <strong class="text-red-700">ฮิโตมิ (Hitomi)</strong>
+                                <ul class="list-disc list-inside text-red-800">
+                                    <li>นักยิมนาสติก</li>
+                                    <li>เพื่อนของเรโกะ</li>
+                                    <li>รถคันแรก ที่นั่งขวา</li>
+                                </ul>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded">
+                                <strong class="text-gray-800">เรโกะ (Reiko)</strong>
+                                <ul class="list-disc list-inside text-gray-600">
+                                    <li>เพื่อนของฮิโตมิ</li>
+                                    <li>รถคันแรก ที่นั่งซ้าย</li>
+                                </ul>
+                            </div>
+                            <div class="bg-black text-white p-3 rounded">
+                                <strong>ชายชุดดำ (Man in black)</strong>
+                                <ul class="list-disc list-inside text-gray-300">
+                                    <li>ชายลึกลับ</li>
+                                    <li>รถคันที่สี่ ที่นั่งซ้าย</li>
+                                </ul>
+                            </div>
+                            <div class="bg-black text-white p-3 rounded">
+                                <strong>ชายชุดดำ (Man in black)</strong>
+                                <ul class="list-disc list-inside text-gray-300">
+                                    <li>ชายลึกลับ</li>
+                                    <li>รถคันที่สี่ ที่นั่งขวา</li>
+                                </ul>
+                            </div>
+                            <!-- Others -->
+                            <div class="bg-gray-50 p-3 rounded col-span-1 md:col-span-2">
+                                <strong class="text-gray-800">อื่นๆ</strong>
+                                <ul class="list-disc list-inside text-gray-600">
+                                    <li><strong>ตำรวจ (Police officer) :</strong> ตำรวจจากกรมตำรวจนครบาลโตเกียว , ผู้ช่วยของเมกุเระ</li>
+                                    <li><strong>พ่อค้าอาวุธ (Weapon Smuggler) :</strong> ทำธุรกิจกับชายชุดดำ , ประธานบริษัท</li>
+                                    <li><strong>เจ้าหน้าที่รักษาความปลอดภัย A :</strong> รักษาความปลอดภัยทรอปิคอลแลนด์ , พบตัวโคนัน</li>
+                                    <li><strong>เจ้าหน้าที่รักษาความปลอดภัย B :</strong> รักษาความปลอดภัยทรอปิคอลแลนด์ , พบตัวโคนัน</li>
+                                    <li><strong>เด็กที่ยังไม่มีการตั้งชื่อ (Currently unnamed child) :</strong> อายุ 6–7 ปี , ชินอิจิ คุโด , นักสืบ</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="subsection-header">การคลี่คลายคดี (Resolution)</h4>
+                        <div class="space-y-4">
+                            <div>
+                                <strong class="text-conan-blue block mb-1">หลักฐาน (Evidence)</strong>
+                                <ul class="list-disc list-inside text-sm text-gray-700 space-y-1 pl-4">
+                                    <li>ชินอิจิตรวจสอบบริเวณอุโมงค์ของมิสเทอรีโคสเตอร์ และพบลวดเส้นหนึ่งที่ยังมีไข่มุกติดอยู่ รวมถึงตะขอที่ปลายลวด</li>
+                                    <li>ฆาตกรได้สร้างหลักฐานปลอมขึ้น โดยนำมีดที่เปื้อนเลือดใส่ไว้ในกระเป๋าของไอโกะเพื่อใส่ร้ายเธอ ชินอิจิอธิบายว่านี่เป็นหลักฐานปลอม เพราะเป็นไปไม่ได้ที่ผู้หญิงจะมีแรงและแรงยึดเกาะมากพอที่จะตัดศีรษะใครได้ระหว่างนั่งเครื่องเล่น</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong class="text-conan-blue block mb-1">บทสรุป (Conclusion)</strong>
+                                <p class="text-sm text-gray-700 leading-relaxed">
+                                    ชินอิจิกล่าวว่าฆาตกรใช้อุปกรณ์อย่างกระเป๋าถือหรือเป้สะพายหลังเพื่อหลุดจากอุปกรณ์รัดตัวของรถไฟเหาะ แล้วใช้ลวดคล้องรอบศีรษะของเหยื่อในความมืดของอุโมงค์ หลังจากมัดลวดรอบศีรษะแล้ว ฆาตกรก็ขว้างตะขอที่ติดอยู่ปลายอีกด้านไปบนรางรถไฟเหาะ ทำให้แรงและความเร็วของรถไฟเหาะตัดศีรษะของเหยื่อ ชินอิจิสรุปว่าฆาตกรคือฮิโตมิ เนื่องจากทักษะด้านยิมนาสติกของเธอทำให้สามารถกระทำการดังกล่าวได้ เขาพิสูจน์ความผิดของเธอด้วยหลักฐานสำคัญสองประการ ได้แก่
+                                </p>
+                                <ul class="list-disc list-inside text-sm text-gray-700 space-y-1 pl-4 mt-2">
+                                    <li>สร้อยคอของฮิโตมิ (อาวุธสังหาร) หายไปหลังจบการเล่นเครื่องเล่น</li>
+                                    <li>ฮิโตมิมีรอยคราบน้ำตาบนใบหน้าเป็นแนวนอน ซึ่งเป็นไปไม่ได้เลยหากเธอไม่ได้ร้องไห้ระหว่างการนั่งรถไฟเหาะ</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong class="text-conan-blue block mb-1">แรงจูงใจ (Motive)</strong>
+                                <p class="text-sm text-gray-700 leading-relaxed">
+                                    แรงจูงใจของฮิโตมิในการฆ่าคิชิดะ คือเธอเคยคบกับเขามาก่อนนานแล้วก่อนจะพบกับไอโกะและเรโกะในมหาวิทยาลัย จนกระทั่งเขาทิ้งเธอไป ฮิโตมิวางแผนฆ่าคิชิดะในสถานที่ที่ทั้งคู่เคยเดตกันครั้งแรก (ทรอปิคอลแลนด์) โดยใช้สร้อยคอที่คิชิดะเคยซื้อให้เป็นอาวุธ หากชินอิจิไม่เปิดโปงความจริงของคดีนี้ ฮิโตมิตั้งใจจะฆ่าตัวตายด้วยการวางยาพิษตัวเองหลังจากออกจากทรอปิคอลแลนด์
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="subsection-header text-red-600">บทสรุปของตอน : ไล่ล่าชายชุดดำ</h4>
+                        <p class="text-gray-700 leading-relaxed">
+                            ชินอิจิซึ่งสงสัยชายสองคนที่สวมเสื้อผ้าสีดำทั้งตัวและนั่งรถไฟเหาะเดียวกัน ตัดสินใจติดตามพวกเขาไปยังบริเวณรอบนอกของทรอปิคอลแลนด์ เขาบอกให้รันกลับบ้านไปก่อน และเมื่อรันพยายามจะตามไป เชือกรองเท้าของเธอก็ขาด ทำให้เธอทำได้เพียงยืนมองเขาเดินจากไป พร้อมกับความรู้สึกประหลาดว่าเธออาจจะไม่ได้เจอเขาอีกเลย ชินอิจิเผลอมัวแต่ดูหนึ่งในชายชุดดำทำการแบล็กเมลกับผู้บริหารบริษัท และไม่ทันสังเกตอีกคนที่แอบเข้ามาทางด้านหลัง จนกระทั่งเขาถูกฟาดด้วยท่อจนหมดสติ เพื่อหลีกเลี่ยงความสนใจจากตำรวจ พวกเขาให้ยาพิษที่ยังไม่ผ่านการทดสอบกับชินอิจิ โดยตั้งใจจะฆ่าเขาโดยไม่ทิ้งร่องรอย แล้วปล่อยให้เขาตาย อย่างไรก็ตาม แทนที่จะฆ่าเขา ยาพิษกลับทำให้ร่างกายของชินอิจิหดเล็กลงจนมีขนาดเท่าเด็กอายุหกขวบ
+                        </p>
+                    </div>
+
+                    <!-- Attempted Murder -->
+                    <div class="bg-gray-900 text-white rounded-xl p-6 border-l-4 border-red-600 mt-6">
+                        <h4 class="text-lg font-bold text-red-500 mb-2">การพยายามฆ่า (Attempted Murder)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-1 text-sm text-gray-300">
+                                <p><span class="font-bold text-white">สถานที่ :</span> ทรอปิคอลแลนด์</p>
+                                <p><span class="font-bold text-white">เหยื่อ :</span> ชินอิจิ คุโด</p>
+                                <p><span class="font-bold text-white">ผู้กระทำผิด :</span> จิน</p>
+                            </div>
+                            <div class="text-sm text-gray-400">
+                                <p>ชินอิจิถูกดึงความสนใจไปกับการดูชายชุดดำคนหนึ่งทำการแบล็กเมลกับผู้บริหารบริษัท และไม่ทันสังเกตอีกคนที่แอบเข้ามาทางด้านหลัง จนถูกฟาดด้วยท่อจนหมดสติ เพื่อหลีกเลี่ยงความสนใจจากตำรวจ พวกเขาให้ยาพิษที่ยังไม่ผ่านการทดสอบกับชินอิจิเพื่อฆ่าเขาโดยไม่ทิ้งร่องรอย และทิ้งให้เขาตาย</p>
                             </div>
                         </div>
                     </div>
@@ -497,136 +560,59 @@
             </div>
         </section>
 
-        <!-- The Transformation -->
-        <section class="bg-black rounded-2xl shadow-2xl p-8 md:p-12 relative overflow-hidden border-t-4 border-conan-red">
-            <!-- Background effects -->
-            <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
-            <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-red-900/20 to-transparent"></div>
-            
-            <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div>
-                    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-700 drop-shadow-sm">
-                        จุดเปลี่ยนแห่งโชคชะตา
-                    </h2>
-                    <div class="space-y-4 text-gray-300 leading-relaxed text-lg">
-                        <p>
-                            ชินอิจิแยกกับรันเพื่อสะกดรอยตาม "วอดก้า" แต่ด้วยความที่สนใจแต่การถ่ายภาพหลักฐาน ทำให้ไม่ทันระวังตัวจากด้านหลัง
-                        </p>
-                        <p>
-                            <span class="text-red-500 font-bold text-xl">จิน</span> ใช้ท่อเหล็กฟาดชินอิจิจนสลบ และกรอกยาพิษชนิดใหม่ที่องค์กรพัฒนาขึ้น เพื่อหวังฆ่าปิดปากโดยไม่ให้เหลือศพ
-                        </p>
-                    </div>
+        <!-- Differences Section -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+            <h3 class="section-title text-xl font-bold text-conan-blue mb-4">ความแตกต่างระหว่างมังงะกับอนิเมะ (Manga to anime changes)</h3>
+            <ul class="space-y-3 list-disc list-inside text-gray-700 text-sm">
+                <li>ตอนแรกของอนิเมะมีอายูมิ เก็นตะ และมิตสึฮิโกะ (ซึ่งในอนาคตจะเป็นกลุ่มนักสืบเยาวชน) พยายามแอบเข้าเครื่องเล่นในทรอปิคอลแลนด์โดยไม่จ่ายเงิน ซึ่งในมังงะจริง ๆ แล้วพวกเขาจะปรากฏตัวในอีกหลายตอนถัดไป</li>
+                <li>ฮิโรชิ อากาสะ และโคโกโร่ โมริ ปรากฏตัวในตอนนี้ด้วย ในขณะที่ในมังงะ พวกเขาเปิดตัวครั้งแรกในคดีลักพาตัวลูกสาวประธานบริษัท</li>
+                <li>ในมังงะ เจ้าของคฤหาสน์ฆ่าภรรยาของตนเอง แต่ในอนิเมะ เขาฆ่าเพื่อนและหุ้นส่วนทางธุรกิจ คือ ยามาซากิ</li>
+                <li>ในมังงะ ชินอิจิถูกเด็กเล็กกลุ่มหนึ่งขอบอลฟุตบอล ส่วนในอนิเมะ ลูกบอลเป็นของทีมฟุตบอลโรงเรียน และชินอิจิยังยิงประตูได้อีกด้วย แทนที่จะเพียงแค่เตะคืน</li>
+                <li>ในมังงะ ตอนที่รันพยายามเตะชินอิจิ เขากระโดดหลบได้ แต่ในอนิเมะ ใบหน้าของเขาเข้าไปอยู่ใต้กระโปรงของรันก่อนจะโดนเตะ</li>
+                <li>ในมังงะ เรโกะชี้ว่าจินและวอดก้าอาจเป็นผู้ก่อเหตุ เนื่องจากพวกเขาอยู่ด้านหลังเหยื่อ ชินอิจิยอมรับว่าพวกเขาดูน่าสงสัย แต่หากพวกเขาเป็นคนลงมือจริง ก็ควรจะคาดการณ์ได้ว่าตำรวจจะมา ซึ่งในความเป็นจริงพวกเขารีบไปทำธุรกรรมของตน</li>
+                <li>ในมังงะ ชินอิจิใช้กล้องถ่ายรูปขณะสอดแนมวอดก้า แต่ในอนิเมะ เขาเพียงแค่แอบฟังการเจรจา</li>
+                <li>เมื่อชินอิจิถูกเจ้าหน้าที่รักษาความปลอดภัยพบตัว ในมังงะมีเจ้าหน้าที่จำนวนมากมาพบเขา แต่ในอนิเมะมีเพียงสองคนเท่านั้น</li>
+            </ul>
+        </section>
+
+        <!-- Trivia Section -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+            <h3 class="section-title text-xl font-bold text-conan-blue mb-4">เรื่องน่ารู้ (Trivia)</h3>
+            <ul class="space-y-3 list-disc list-inside text-gray-700 text-sm">
+                <li>ในการอธิบายคดีรถไฟเหาะ ชินอิจิกล่าวว่าเขารู้สึกเหมือนมีหยดของเหลว ซึ่งคือน้ำตาของคนร้าย หยดลงบนหน้าผากของเขา ขณะที่เธอโน้มตัวลงมาเพื่อคล้องลวดรอบคอของเหยื่อ อย่างไรก็ตาม ชินอิจิไม่ได้กล่าวถึงความเปลี่ยนแปลงใด ๆ ในความรู้สึกหรือเสียงลมที่พัดผ่านใบหน้าของเขาขณะที่คนร้ายโน้มตัวเข้ามา</li>
+                <li>คดีนี้มีการนำมาออกอากาศใหม่ในฉบับรีมาสเตอร์เมื่อวันที่ 4 เมษายน ค.ศ. 2009 โดยมีการแก้ไขเล็กน้อยหลายจุด ได้แก่ ศีรษะของเหยื่อไม่ตกลงมาใกล้กลุ่มนักสืบเยาวชน และฉากที่ผู้ชมสามารถเห็นเลือดบนรถไฟเหาะถูกตัดออก</li>
+            </ul>
+        </section>
+
+        <!-- Footer -->
+        <footer class="brick-pattern text-white py-16 mt-20 border-t-8 border-white shadow-2xl relative w-full">
+            <div class="absolute inset-0 bg-black/40"></div>
+            <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+                <div class="bg-white p-2 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-8 shadow-lg transform hover:scale-110 transition-transform cursor-pointer">
+                    <div class="bowtie-icon"></div>
                 </div>
                 
-                <div class="flex flex-col items-center">
-                    <div class="w-full max-w-sm bg-gray-900/80 backdrop-blur-sm border border-gray-700 rounded-2xl p-8 text-center shadow-[0_0_30px_rgba(220,38,38,0.2)]">
-                        <div class="w-20 h-20 mx-auto bg-gradient-to-tr from-red-600 to-pink-600 rounded-full flex items-center justify-center text-4xl shadow-lg mb-6 animate-pulse">
-                            💊
-                        </div>
-                        <h4 class="text-3xl font-bold text-white mb-2 tracking-wider">APTX 4869</h4>
-                        <p class="text-sm text-gray-500 uppercase tracking-widest mb-6">Experimental Poison</p>
-                        
-                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
-                            <p class="text-yellow-400 font-semibold mb-1">ผลลัพธ์ที่ไม่คาดคิด</p>
-                            <p class="text-gray-400 text-sm">ร่างกายไม่ตาย แต่เซลล์หดตัวลงจนกลับกลายเป็นเด็กอายุ 6-7 ขวบ!</p>
-                        </div>
-                    </div>
+                <div class="space-y-6 mb-10">
+                    <p class="text-lg md:text-xl font-medium leading-relaxed tracking-wide text-gray-100">
+                        "ผมชื่อเอโดงาวะ โคนัน ตัวจริงก็คือคุโด้ ชินอิจิ ที่โดนยาพิษจนกลายเป็นเด็ก<br class="hidden md:block"/> 
+                        ถึงจะตัวเล็กแต่สมองยังคงเป็นของยอดนักสืบคนเดิม"
+                    </p>
+                    <p class="text-lg md:text-xl font-medium leading-relaxed tracking-wide text-gray-100 mt-4">
+                        "กาลเวลายิ่งผ่านไป คดีปริศนาที่ท้าทายก็ยิ่งเพิ่มขึ้นทุกที"
+                    </p>
                 </div>
+                
+                <div class="w-24 h-1 bg-conan-red mx-auto mb-8 rounded-full"></div>
+                
+                <p class="text-gray-400 text-sm font-bold tracking-widest uppercase mb-4">
+                    BY : 20nxskypqz
+                </p>
+                <p class="text-gray-500 text-xs opacity-70">
+                    © Gosho Aoyama / Shogakukan / YTV / TMS Entertainment
+                </p>
             </div>
-        </section>
-
-        <!-- Manga vs Anime & Trivia -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Differences -->
-            <section class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
-                <h3 class="section-title text-xl font-bold text-conan-blue mb-6">ความแตกต่าง : มังงะ vs อนิเมะ</h3>
-                <ul class="space-y-4">
-                    <li class="flex items-start group">
-                        <span class="flex-shrink-0 w-6 h-6 rounded-full bg-blue-100 text-conan-blue flex items-center justify-center text-xs font-bold mr-3 mt-0.5 group-hover:bg-conan-blue group-hover:text-white transition-colors">1</span>
-                        <span class="text-gray-700 text-sm"><strong>แก๊งนักสืบเยาวชน :</strong> ในอนิเมะแอบเข้าสวนสนุกฟรี แต่ในมังงะยังไม่ปรากฏตัว</span>
-                    </li>
-                    <li class="flex items-start group">
-                        <span class="flex-shrink-0 w-6 h-6 rounded-full bg-blue-100 text-conan-blue flex items-center justify-center text-xs font-bold mr-3 mt-0.5 group-hover:bg-conan-blue group-hover:text-white transition-colors">2</span>
-                        <span class="text-gray-700 text-sm"><strong>ดร.อากาสะ & โคโกโร่ :</strong> ปรากฏตัวในอนิเมะตอนนี้เลย แต่ในมังงะมาทีหลัง</span>
-                    </li>
-                    <li class="flex items-start group">
-                        <span class="flex-shrink-0 w-6 h-6 rounded-full bg-blue-100 text-conan-blue flex items-center justify-center text-xs font-bold mr-3 mt-0.5 group-hover:bg-conan-blue group-hover:text-white transition-colors">3</span>
-                        <span class="text-gray-700 text-sm"><strong>คดีคฤหาสน์ :</strong> มังงะเจ้าของบ้านฆ่าภรรยา / อนิเมะฆ่าเพื่อน (ยามาซากิ)</span>
-                    </li>
-                    <li class="flex items-start group">
-                        <span class="flex-shrink-0 w-6 h-6 rounded-full bg-blue-100 text-conan-blue flex items-center justify-center text-xs font-bold mr-3 mt-0.5 group-hover:bg-conan-blue group-hover:text-white transition-colors">4</span>
-                        <span class="text-gray-700 text-sm"><strong>ฉากโดนเตะ :</strong> อนิเมะชินอิจิเห็น กกน. รันก่อนโดนเตะ แต่มังงะหลบทัน</span>
-                    </li>
-                    <li class="flex items-start group">
-                        <span class="flex-shrink-0 w-6 h-6 rounded-full bg-blue-100 text-conan-blue flex items-center justify-center text-xs font-bold mr-3 mt-0.5 group-hover:bg-conan-blue group-hover:text-white transition-colors">5</span>
-                        <span class="text-gray-700 text-sm"><strong>อาการบาดเจ็บ :</strong> อนิเมะชินอิจิโดนตีด้วยท่อเหล็ก แต่มังงะโดนไม้เบสบอล</span>
-                    </li>
-                </ul>
-            </section>
-
-            <!-- Trivia -->
-            <section class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
-                <h3 class="section-title text-xl font-bold text-conan-blue mb-6">เกร็ดน่ารู้ (Trivia)</h3>
-                <div class="space-y-4">
-                    <div class="bg-yellow-50 rounded-xl p-4 border border-yellow-100">
-                        <div class="flex items-center mb-2">
-                            <!-- แก้ไข: ใช้ SVG Icon แทน Emoji -->
-                            <svg class="w-6 h-6 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 2c-1.716 5.5-5.5 8.5-5.5 11.5 0 2.975 2.523 5.5 5.5 5.5s5.5-2.525 5.5-5.5c0-3-3.784-6-5.5-11.5z" clip-rule="evenodd" />
-                            </svg>
-                            <span class="font-bold text-yellow-800">หยดน้ำตาปริศนา</span>
-                        </div>
-                        <p class="text-sm text-yellow-900/80 leading-relaxed">
-                            ชินอิจิบอกว่ารู้สึกถึงน้ำตาคนร้ายตอนพุ่งผ่านหน้า แต่กลับไม่ได้พูดถึงเสียงลมที่เปลี่ยนไปซึ่งน่าจะสังเกตได้ง่ายกว่า
-                        </p>
-                    </div>
-                    
-                    <div class="bg-yellow-50 rounded-xl p-4 border border-yellow-100">
-                        <div class="flex items-center mb-2">
-                             <!-- แก้ไข: ใช้ SVG Icon แทน Emoji -->
-                             <svg class="w-6 h-6 mr-2 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
-                            </svg>
-                            <span class="font-bold text-yellow-800">Remaster</span>
-                        </div>
-                        <p class="text-sm text-yellow-900/80 leading-relaxed">
-                            ตอนนี้ถูกนำมาฉายใหม่ในปี 2009 มีการลดทอนความรุนแรง เช่น ตัดฉากเลือดสาด และปรับตำแหน่งศีรษะที่ขาดไม่ให้ใกล้เด็กๆ
-                        </p>
-                    </div>
-                </div>
-            </section>
-        </div>
+        </footer>
 
     </main>
-
-    <!-- Footer -->
-    <footer class="brick-pattern text-white py-16 mt-20 border-t-8 border-white shadow-2xl relative">
-        <div class="absolute inset-0 bg-black/40"></div>
-        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
-            <div class="bg-white p-2 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-8 shadow-lg transform hover:scale-110 transition-transform cursor-pointer">
-                <div class="bowtie-icon"></div>
-            </div>
-            
-            <div class="space-y-6 mb-10">
-                <p class="text-lg md:text-xl font-medium leading-relaxed tracking-wide text-gray-100">
-                    "ผมชื่อเอโดงาวะ โคนัน ตัวจริงก็คือคุโด้ ชินอิจิ ที่โดนยาพิษจนกลายเป็นเด็ก<br class="hidden md:block"/> 
-                    ถึงจะตัวเล็กแต่สมองยังคงเป็นของยอดนักสืบคนเดิม"
-                </p>
-                <p class="text-lg md:text-xl font-medium leading-relaxed tracking-wide text-gray-100 mt-4">
-                    "กาลเวลายิ่งผ่านไป คดีปริศนาที่ท้าทายก็ยิ่งเพิ่มขึ้นทุกที"
-                </p>
-            </div>
-            
-            <div class="w-24 h-1 bg-conan-red mx-auto mb-8 rounded-full"></div>
-            
-            <p class="text-gray-400 text-sm font-bold tracking-widest uppercase mb-4">
-                BY : 20nxskypqz
-            </p>
-            <p class="text-gray-500 text-xs opacity-70">
-                © Gosho Aoyama / Shogakukan / YTV / TMS Entertainment
-            </p>
-        </div>
-    </footer>
-
 </body>
 </html>
