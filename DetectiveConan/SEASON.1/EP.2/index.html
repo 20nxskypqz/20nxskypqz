@@ -15,13 +15,21 @@
             font-family: 'Niramit', sans-serif !important;
         }
 
+        /* Flex Column Layout for Sticky Footer */
         body {
             background-color: #f0f4f8;
             background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
             background-size: 24px 24px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex-grow: 1;
         }
         
-        /* Custom Colors - Added !important to force override */
+        /* Custom Colors */
         .conan-blue { color: #002D72 !important; }
         .bg-conan-blue { background-color: #002D72 !important; }
         .border-conan-blue { border-color: #002D72 !important; }
@@ -107,26 +115,19 @@
             border-radius: 2px;
         }
 
-        .pill-badge {
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255,255,255,0.5);
-        }
-        
-        .evidence-tag {
-            background: #fff1f2;
-            border-left: 4px solid #dc2626;
-            padding: 0.5rem 1rem;
+        .subsection-header {
+            font-weight: bold;
+            color: #002D72;
             margin-bottom: 0.5rem;
-            font-size: 0.95rem;
-            display: inline-block;
-            margin-right: 0.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 0.25rem;
         }
     </style>
 </head>
 <body class="text-gray-800 antialiased selection:bg-red-200 selection:text-red-900">
 
     <!-- Header -->
-    <header class="bg-conan-blue text-white shadow-xl sticky top-0 z-50 border-b-4 border-conan-red">
+    <header class="bg-conan-blue text-white shadow-xl sticky top-0 z-50 border-b-4 border-conan-red w-full">
         <div class="max-w-6xl mx-auto px-4 py-2 flex items-center justify-between">
             <div class="flex items-center space-x-4">
                 <div class="bg-white p-1.5 rounded-full shadow-inner">
@@ -143,9 +144,8 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="brick-pattern text-white py-16 md:py-24 relative overflow-hidden flex items-center justify-center">
-        <!-- Target Scope Decoration -->
+    <!-- Hero Section (Information) -->
+    <section class="brick-pattern text-white py-16 md:py-24 relative overflow-hidden flex items-center justify-center w-full">
         <div class="target-scope"></div>
         
         <div class="max-w-4xl mx-auto px-4 relative z-10 text-center w-full">
@@ -157,9 +157,11 @@
             
             <!-- Titles -->
             <div class="space-y-4 mb-10">
-                <h1 class="text-3xl md:text-5xl font-bold drop-shadow-xl leading-tight">
-                    The Company President's<br/>Daughter Kidnapping Case
-                </h1>
+                <div class="space-y-2">
+                    <h1 class="text-3xl md:text-5xl font-bold drop-shadow-xl leading-tight">
+                        Company President's Daughter Kidnapping Case
+                    </h1>
+                </div>
                 
                 <div class="relative inline-block py-2 px-8">
                     <!-- Decorative lines -->
@@ -175,27 +177,36 @@
                     (Shachō Reijō Yūkai Jiken)
                 </p>
                 
-                <h3 class="text-2xl md:text-3xl font-bold text-yellow-400 mt-4 drop-shadow-md bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-500 bg-clip-text text-transparent">
-                    ยอดนักสืบย่อส่วน คดีลักพาตัวลูกสาวประธานบริษัท
-                </h3>
+                <div class="mt-4">
+                    <h3 class="text-2xl md:text-3xl font-bold text-yellow-400 drop-shadow-md bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-500 bg-clip-text text-transparent">
+                        ยอดนักสืบย่อส่วน คดีลักพาตัวลูกสาวประธานบริษัท
+                    </h3>
+                </div>
             </div>
             
-            <!-- Info Grid -->
+            <!-- Information Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/10 shadow-2xl text-left text-sm md:text-base">
                 <div class="flex flex-col space-y-3 border-r-0 md:border-r border-white/10 pr-0 md:pr-4">
+                    <div class="flex justify-between items-start border-b border-white/10 pb-2">
+                        <span class="font-bold text-blue-200 whitespace-nowrap">วันออกอากาศ :</span>
+                        <div class="text-right">
+                            <span class="block">January 15 1996</span>
+                            <span class="block text-xs opacity-75">April 11 2009 (Remastered version)</span>
+                        </div>
+                    </div>
                     <div class="flex justify-between items-center border-b border-white/10 pb-2">
                         <span class="font-bold text-blue-200">มังงะคดีที่ :</span>
                         <span class="font-mono bg-black/20 px-2 py-0.5 rounded">#2</span>
                     </div>
+                </div>
+                <div class="flex flex-col space-y-3 pl-0 md:pl-4">
                     <div class="flex justify-between items-center border-b border-white/10 pb-2">
                         <span class="font-bold text-blue-200">ซีซั่น :</span>
                         <span>1 (1996)</span>
                     </div>
-                </div>
-                <div class="flex flex-col space-y-3 pl-0 md:pl-4">
                     <div class="flex justify-between items-center border-b border-white/10 pb-2">
-                        <span class="font-bold text-blue-200">ที่มามังงะ :</span>
-                        <span>Volume 1 : Files 2-5 (002-005)</span>
+                        <span class="font-bold text-blue-200">แหล่งที่มาของมังงะ :</span>
+                        <span>Volume 1: Files 2-5 (002-005)</span>
                     </div>
                 </div>
             </div>
@@ -203,316 +214,267 @@
     </section>
 
     <!-- Main Content -->
-    <main class="max-w-6xl mx-auto px-4 py-12 space-y-16">
+    <main class="max-w-6xl mx-auto px-4 py-12 space-y-16 w-full">
 
-        <!-- Cast Section -->
+        <!-- Characters Section -->
         <section>
             <h2 class="section-title text-2xl font-bold text-gray-800 mb-8">ตัวละคร (Cast)</h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                <!-- Conan -->
+            <h3 class="text-xl font-semibold text-gray-600 mb-4">ตัวละครที่เปิดตัว (Introduced)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+                <!-- Conan (Blue) -->
                 <div class="glass-card rounded-xl p-5 border-l-8 border-conan-blue relative overflow-hidden group">
-                    <div class="absolute right-0 top-0 w-24 h-24 bg-blue-50 rounded-bl-full -mr-4 -mt-4 opacity-50 group-hover:scale-110 transition-transform"></div>
-                    <h3 class="font-bold text-xl text-conan-blue relative z-10">โคนัน เอโดงาวะ</h3>
+                    <h3 class="font-bold text-xl text-conan-blue relative z-10">โคนัน เอโดงาวะ (Conan Edogawa)</h3>
                     <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
                         <p class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-300 rounded-full mr-2"></span>อายุ 6–7 ปี</p>
-                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-300 rounded-full mr-2"></span>ตัวตนใหม่ของชินอิจิ คุโดะ</p>
-                        <p class="flex items-center font-semibold text-blue-700"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2"></span>นักสืบ</p>
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-300 rounded-full mr-2"></span>ชินอิจิ คุโด</p>
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-300 rounded-full mr-2"></span>นักสืบ</p>
                     </div>
                 </div>
+            </div>
 
-                <!-- Shinichi -->
+            <h3 class="text-xl font-semibold text-gray-600 mb-4">ตัวละครที่ปรากฏ (Featured Characters)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <!-- Shinichi (Blue) -->
                 <div class="glass-card rounded-xl p-5 border-l-8 border-conan-blue relative overflow-hidden group">
-                    <div class="absolute right-0 top-0 w-24 h-24 bg-blue-50 rounded-bl-full -mr-4 -mt-4 opacity-50 group-hover:scale-110 transition-transform"></div>
-                    <h3 class="font-bold text-xl text-conan-blue relative z-10">ชินอิจิ คุโดะ</h3>
+                    <h3 class="font-bold text-xl text-conan-blue relative z-10">ชินอิจิ คุโด (Shinichi Kudo)</h3>
                     <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
-                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-300 rounded-full mr-2"></span>ปรากฏในฉากหลัง</p>
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-300 rounded-full mr-2"></span>(ฉากหลัง)</p>
                     </div>
                 </div>
-                
-                <!-- Ran -->
+
+                <!-- Ran (Pink) -->
                 <div class="glass-card rounded-xl p-5 border-l-8 border-pink-500 relative overflow-hidden group">
-                    <div class="absolute right-0 top-0 w-24 h-24 bg-pink-50 rounded-bl-full -mr-4 -mt-4 opacity-50 group-hover:scale-110 transition-transform"></div>
-                    <h3 class="font-bold text-xl text-pink-600 relative z-10">รัน โมริ</h3>
-                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
-                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-pink-300 rounded-full mr-2"></span>นักเรียนมัธยมปลาย</p>
-                    </div>
+                    <h3 class="font-bold text-xl text-pink-600 relative z-10">รัน โมริ (Ran Mouri)</h3>
                 </div>
-                
-                <!-- Kogoro -->
+
+                <!-- Kogoro (Gray) -->
                 <div class="glass-card rounded-xl p-5 border-l-8 border-gray-500 relative overflow-hidden group">
-                     <div class="absolute right-0 top-0 w-24 h-24 bg-gray-100 rounded-bl-full -mr-4 -mt-4 opacity-50 group-hover:scale-110 transition-transform"></div>
-                    <h3 class="font-bold text-xl text-gray-700 relative z-10">โคโกโร่ โมริ</h3>
-                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
-                        <p class="flex items-center font-semibold text-gray-800"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full mr-2"></span>นักสืบ</p>
-                    </div>
+                    <h3 class="font-bold text-xl text-gray-700 relative z-10">โคโกโร่ โมริ (Kogoro Mouri)</h3>
                 </div>
 
-                 <!-- Agasa -->
-                 <div class="glass-card rounded-xl p-5 border-l-8 border-yellow-400 relative overflow-hidden group">
-                    <div class="absolute right-0 top-0 w-24 h-24 bg-yellow-50 rounded-bl-full -mr-4 -mt-4 opacity-50 group-hover:scale-110 transition-transform"></div>
-                    <h3 class="font-bold text-xl text-yellow-700 relative z-10">ฮิโรชิ อากาสะ</h3>
-                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
-                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-yellow-300 rounded-full mr-2"></span>วิศวกร / นักประดิษฐ์</p>
-                    </div>
+                <!-- Agasa (Yellow) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-yellow-400 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-yellow-700 relative z-10">ฮิโรชิ อากาสะ (Hiroshi Agasa)</h3>
                 </div>
-                
-                <!-- Black Org -->
+
+                <!-- Gin (Black) -->
                 <div class="rounded-xl p-5 border-l-8 border-black bg-gradient-to-br from-gray-900 to-black text-white shadow-lg relative overflow-hidden group">
-                    <div class="absolute right-0 top-0 w-24 h-24 bg-gray-800 rounded-bl-full -mr-4 -mt-4 opacity-30 group-hover:scale-110 transition-transform"></div>
-                    <h3 class="font-bold text-xl relative z-10">จิน & วอดก้า</h3>
+                    <h3 class="font-bold text-xl relative z-10">จิน (Gin)</h3>
                     <div class="mt-2 text-sm text-gray-400 relative z-10 space-y-1">
-                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full mr-2"></span>ปรากฏในฉากหลัง</p>
-                   </div>
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full mr-2"></span>(ฉากย้อนอดีต / ฉากหลัง)</p>
+                    </div>
+                </div>
+
+                <!-- Vodka (Black) -->
+                <div class="rounded-xl p-5 border-l-8 border-black bg-gradient-to-br from-gray-900 to-black text-white shadow-lg relative overflow-hidden group">
+                    <h3 class="font-bold text-xl relative z-10">วอดก้า (Vodka)</h3>
+                    <div class="mt-2 text-sm text-gray-400 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full mr-2"></span>(ฉากหลัง)</p>
+                    </div>
+                </div>
+
+                <!-- Ayumi (Green) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-green-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-green-700 relative z-10">อายูมิ โยชิดะ (Ayumi Yoshida)</h3>
+                </div>
+
+                <!-- Mitsuhiko (Green) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-green-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-green-700 relative z-10">มิตสึฮิโกะ สึบุรายะ (Mitsuhiko Tsuburaya)</h3>
+                </div>
+
+                <!-- Genta (Green) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-green-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-green-700 relative z-10">เก็นตะ โคจิมะ (Genta Kojima)</h3>
+                </div>
+
+                <!-- Security A (Gray) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-gray-400 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-gray-700 relative z-10">เจ้าหน้าที่รักษาความปลอดภัย A (Security guard A)</h3>
+                </div>
+
+                <!-- Security B (Gray) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-gray-400 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-gray-700 relative z-10">เจ้าหน้าที่รักษาความปลอดภัย B (Security guard B)</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- Plot Section -->
+        <section>
+            <h2 class="section-title text-2xl font-bold text-gray-800 mb-8">เนื้อเรื่อง (Plot)</h2>
+
+            <!-- Main Case Card -->
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 mb-10 relative">
+                <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-conan-blue via-conan-red to-conan-blue"></div>
+                <div class="bg-blue-50 px-8 py-5 border-b border-blue-100">
+                    <h3 class="text-xl font-bold text-conan-blue">คดีลักพาตัวลูกสาวประธานบริษัท</h3>
                 </div>
                 
-                <!-- Detective Boys -->
-                <div class="glass-card rounded-xl p-5 border-l-8 border-green-500 relative overflow-hidden group">
-                    <div class="absolute right-0 top-0 w-24 h-24 bg-green-50 rounded-bl-full -mr-4 -mt-4 opacity-50 group-hover:scale-110 transition-transform"></div>
-                    <h3 class="font-bold text-xl text-green-700 relative z-10">แก๊งนักสืบเยาวชน</h3>
-                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
-                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-2"></span>อายูมิ โยชิดะ</p>
-                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-2"></span>มิตสึฮิโกะ สึบุรายะ</p>
-                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-2"></span>เก็นตะ โคจิมะ</p>
-                    </div>
-                </div>
-
-                <!-- Guards -->
-                <div class="glass-card rounded-xl p-5 border-l-8 border-gray-400 relative overflow-hidden group">
-                    <h3 class="font-bold text-xl text-gray-700">เจ้าหน้าที่รักษาความปลอดภัย</h3>
-                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
-                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-gray-400 rounded-full mr-2"></span>เจ้าหน้าที่ A</p>
-                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-gray-400 rounded-full mr-2"></span>เจ้าหน้าที่ B</p>
-                    </div>
-                </div>
-
-                <!-- Victim -->
-                <div class="glass-card rounded-xl p-5 border-l-8 border-purple-600 relative overflow-hidden group">
-                    <h3 class="font-bold text-xl text-purple-800">อากิโกะ ทานิ</h3>
-                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
-                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-purple-400 rounded-full mr-2"></span>อายุ 10 ปี</p>
-                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-purple-400 rounded-full mr-2"></span>ลูกสาวประธานบริษัท</p>
-                    </div>
-                </div>
-
-                <!-- Culprit -->
-                <div class="glass-card rounded-xl p-5 border-l-8 border-red-800 relative overflow-hidden group">
-                    <h3 class="font-bold text-xl text-red-900">คนร้ายลักพาตัว</h3>
-                    <div class="mt-2">
-                        <span class="inline-block bg-red-100 text-red-900 text-xs px-2 py-1 rounded font-bold">คนร้าย</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Main Case -->
-        <section class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 relative group">
-            <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-conan-blue via-conan-red to-conan-blue"></div>
-            
-            <!-- Header -->
-            <div class="bg-blue-50/50 px-8 py-5 border-b border-blue-100 flex justify-between items-center">
-                <h2 class="text-2xl font-bold text-conan-blue flex items-center gap-3">
-                    <span class="bg-conan-blue text-white w-8 h-8 rounded-lg flex items-center justify-center text-base shadow-md">1</span>
-                    คดีลักพาตัวลูกสาวประธานบริษัท
-                </h2>
-                <div class="pill-badge bg-white text-conan-blue text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-blue-200">
-                    Main Case
-                </div>
-            </div>
-
-            <div class="p-8">
-                <!-- Story Grid -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+                <div class="p-8 space-y-8">
+                    <!-- Situation -->
                     <div>
-                        <h3 class="font-bold text-xl text-gray-800 mb-4 pb-2 border-b border-gray-100">เรื่องราว</h3>
-                        <p class="text-gray-700 leading-relaxed text-justify">
-                            เกิดเหตุลักพาตัว อากิโกะ ทานิ ลูกสาวของประธานบริษัท โดยคนร้ายเรียกร้องให้ปิดบริษัทชั่วคราวและเงินค่าไถ่ โคนันสังเกตเห็นความผิดปกติหลายอย่างในบ้านของทานิ ซึ่งนำไปสู่ความจริงที่ซับซ้อนกว่าที่คิด
+                        <h4 class="subsection-header">สถานการณ์ (Situation)</h4>
+                        <p class="text-gray-700 leading-relaxed mb-4">
+                            ชินอิจิตระหนักว่ายาพิษทำให้ร่างกายของเขาหดเล็กลง และหลังจากกลับถึงบ้าน เขาขอความช่วยเหลือจากศาสตราจารย์อากาสะ อากาสะเตือนว่าเพื่อความปลอดภัยและเพื่อซ่อนตัวจากชายชุดดำ ชินอิจิจะต้องไม่บอกเรื่องนี้กับใครอีกแม้แต่รัน ซึ่งบังเอิญมาปรากฏตัวเพื่อมาดูอาการของชินอิจิพอดี อากาสะเกลี้ยกล่อมให้รันดูแลชินอิจิ โดยชินอิจิบอกเธอว่าชื่อของเขาคือ “โคนัน เอโดงาวะ”
                         </p>
-                        
-                        <div class="mt-6 p-4 bg-purple-50 rounded-xl border border-purple-100 flex items-center gap-4">
-                             <div class="w-12 h-12 bg-purple-200 rounded-full flex items-center justify-center text-purple-700 font-bold text-lg">✝</div>
-                             <div>
-                                <h4 class="font-bold text-purple-900">เหยื่อ (Target) : อากิโกะ ทานิ</h4>
-                                <p class="text-sm text-purple-800/80">ถูกลักพาตัวเพื่อเรียกค่าไถ่</p>
-                             </div>
-                        </div>
+                        <p class="text-gray-700 leading-relaxed mb-4">
+                            ระหว่างทางไปบ้านของรัน รันสารภาพกับโคนันว่าเธอชอบชินอิจิมากจริง ๆ แต่คำตอบของโคนันถูกขัดจังหวะ เมื่อพ่อของรันรีบวิ่งออกมาด้วยเหตุคดีหนึ่ง เขาอวดว่าตนได้รับการว่าจ้างให้ตามหาลูกสาวของประธานบริษัท ซึ่งถูกลักพาตัวโดย “ชายชุดดำ” โคนันแอบติดตามไปด้วยเผื่อจะเป็นเบาะแส โดยมีรันตามไปอีกคน พร้อมอธิบายสถานการณ์ของโคนันให้โคโกโร่ฟัง โคโกโร่ไม่สามารถไล่ทั้งสองออกจากแท็กซี่ที่กำลังวิ่งอยู่ได้ จึงเพียงสั่งให้พวกเขาอย่าเข้ามาขวางทางทำงาน
+                        </p>
+                        <p class="text-gray-700 leading-relaxed">
+                            ตามคำให้การของพ่อบ้านอาโซ ลูกสาวของประธานบริษัททานิชื่อว่า อากิโกะ ถูกชายชุดดำพาตัวไปจากสวนของบ้าน โดยหลบหนีไปโดยไม่ทำให้สุนัขเฝ้ายามตัวใดในบริเวณนั้นส่งเสียงเตือน คนร้ายเรียกร้องให้ประธานบริษัทปิดกิจการชั่วคราว และส่งเงินค่าไถ่จำนวนมากให้
+                        </p>
                     </div>
-                    
-                    <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
-                        <h4 class="font-bold text-sm text-gray-500 uppercase mb-4 tracking-wider flex items-center">
-                            <span class="w-2 h-2 bg-gray-400 rounded-full mr-2"></span>จุดสังเกต (Clues)
-                        </h4>
-                        <ul class="space-y-3">
-                            <li class="flex items-center justify-between p-2 bg-white rounded border border-gray-100 shadow-sm">
-                                <span class="font-semibold text-gray-700">สุนัขยาม (จัมโบ้)</span>
-                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">ไม่เห่าคนร้ายเลย</span>
-                            </li>
-                            <li class="flex items-center justify-between p-2 bg-white rounded border border-gray-100 shadow-sm">
-                                <span class="font-semibold text-gray-700">ปฏิกิริยาของอาโสะ</span>
-                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">ตกใจเมื่อคนร้ายขอเงิน</span>
-                            </li>
-                            <li class="flex items-center justify-between p-2 bg-white rounded border border-gray-100 shadow-sm">
-                                <span class="font-semibold text-gray-700">คำให้การของอากิโกะ</span>
-                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">เห็นปล่องไฟจากหน้าต่าง</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
 
-                <!-- Deduction Box -->
-                <div class="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 md:p-8 border border-blue-200 shadow-inner relative overflow-hidden">
-                    <div class="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 bg-blue-100 rounded-full opacity-50 blur-2xl"></div>
-                    
-                    <div class="relative z-10">
-                        <h3 class="text-2xl font-bold text-conan-blue mb-6 flex items-center">
-                            <span class="bg-conan-blue text-white p-1.5 rounded-full mr-3">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
-                            </span>
-                            การคลี่คลายคดี
-                        </h3>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            <div class="md:col-span-2 space-y-6">
-                                <div>
-                                    <h4 class="font-bold text-gray-800 text-lg mb-2">ข้อสรุป (Conclusion)</h4>
-                                    <p class="text-gray-700 leading-relaxed text-sm md:text-base">
-                                        การลักพาตัวครั้งแรกเป็น <strong>"การจัดฉาก"</strong> โดยอากิโกะและพ่อบ้านอาโสะ แต่เรื่องกลับตาลปัตรเมื่ออากิโกะถูกลักพาตัวจริงๆ อีกครั้ง สิ่งที่อากิโกะเห็นจากหน้าต่างไม่ใช่ปล่องไฟ แต่เป็น <strong>"ด้านข้างของตึกระฟ้า"</strong> โคนันใช้สุนัขจัมโบ้ตามกลิ่นจนเจอที่ซ่อน
-                                    </p>
-                                </div>
-                                
-                                <div>
-                                    <h4 class="font-bold text-gray-800 text-lg mb-2">การช่วยเหลือ (Rescue)</h4>
-                                    <p class="text-gray-700 text-sm md:text-base">
-                                        โคนันในร่างเด็กไม่สามารถจัดการคนร้ายได้ แต่โชคดีที่จัมโบ้ไปตามคนมาช่วย และ <strong>รัน</strong> ก็เข้ามาใช้วิชาคาราเต้จัดการคนร้ายได้ทันเวลา
-                                    </p>
-                                </div>
+                    <!-- Kidnapping -->
+                    <div>
+                        <h4 class="subsection-header">การลักพาตัว (Kidnapping)</h4>
+                        <div class="space-y-1 text-sm text-gray-700 mb-6">
+                            <p><span class="font-bold">สถานที่ :</span> บ้านตระกูลทานิ</p>
+                            <p><span class="font-bold">เหยื่อ :</span> อากิโกะ ทานิ</p>
+                            <p><span class="font-bold">อายุ :</span> 10 ปี</p>
+                            <p><span class="font-bold">ผู้ต้องสงสัย :</span> “ชายชุดดำ”</p>
+                            <p class="mt-2 text-gray-600 italic">อากิโกะถูกลักพาตัวไปจากบ้าน และข้อเรียกร้องค่าไถ่คือให้ปิดบริษัทและจ่ายเงินจำนวน 300 ล้านเยน</p>
+                        </div>
+                    </div>
+
+                    <!-- People -->
+                    <div>
+                        <h4 class="subsection-header">บุคคล (People)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div class="bg-gray-50 p-3 rounded">
+                                <strong class="text-gray-800">ทานิ (Tani)</strong>
+                                <ul class="list-disc list-inside text-gray-600">
+                                    <li>ประธานบริษัท</li>
+                                </ul>
                             </div>
-                            
-                            <!-- Culprit Reveal -->
-                            <div class="bg-red-900 text-white rounded-xl p-6 flex flex-col justify-center items-center text-center shadow-lg transform rotate-1 border-2 border-red-800">
-                                <span class="uppercase text-xs font-bold text-red-300 tracking-[0.2em] mb-2">Criminal Identified</span>
-                                <h3 class="text-2xl font-black mb-4">คนลักพาตัว</h3>
-                                <div class="w-full h-px bg-red-700 mb-4"></div>
-                                <div class="text-sm text-red-100 space-y-2">
-                                    <p><span class="font-bold text-white">Motive :</span> เงินค่าไถ่</p>
-                                    <p><span class="font-bold text-white">Fake Motive :</span> (ของอากิโกะ) อยากให้พ่อมีเวลาให้</p>
-                                </div>
+                            <div class="bg-purple-50 p-3 rounded border-l-4 border-purple-500">
+                                <strong class="text-purple-900">อากิโกะ ทานิ (Akiko Tani)</strong>
+                                <ul class="list-disc list-inside text-purple-800">
+                                    <li>เหยื่อ (ถูกลักพาตัว)</li>
+                                    <li>อายุ 10 ปี</li>
+                                    <li>ลูกสาวเพียงคนเดียวของทานิ</li>
+                                </ul>
+                            </div>
+                            <div class="bg-red-50 p-3 rounded border-l-4 border-red-600">
+                                <strong class="text-red-700">อาโซ (Aso)</strong>
+                                <ul class="list-disc list-inside text-red-800">
+                                    <li>พ่อบ้านของครอบครัวทานิ</li>
+                                </ul>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded">
+                                <strong class="text-gray-800">จัมโบ้ (Jumbo)</strong>
+                                <ul class="list-disc list-inside text-gray-600">
+                                    <li>สุนัขเฝ้ายามของครอบครัวทานิ</li>
+                                </ul>
+                            </div>
+                            <div class="bg-red-50 p-3 rounded border-l-4 border-red-600">
+                                <strong class="text-red-700">คนลักพาตัว (Kidnapper)</strong>
+                                <ul class="list-disc list-inside text-red-800">
+                                    <li>คนที่ลักพาตัวอากิโกะ</li>
+                                </ul>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded">
+                                <strong class="text-gray-800">เจ้าของที่ดิน (Landlady)</strong>
+                                <ul class="list-disc list-inside text-gray-600">
+                                    <li>เจ้าของที่ดินของครอบครัวทานิ</li>
+                                </ul>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded">
+                                <strong class="text-gray-800">แม่บ้าน (Maid)</strong>
+                                <ul class="list-disc list-inside text-gray-600">
+                                    <li>แม่บ้านของครอบครัวทานิ</li>
+                                </ul>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded">
+                                <strong class="text-gray-800">โทยะ (Toya)</strong>
+                                <ul class="list-disc list-inside text-gray-600">
+                                    <li>ครูโรงเรียนประถมเทตัน</li>
+                                </ul>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Resolution -->
+                    <div>
+                        <h4 class="subsection-header">การคลี่คลายคดี (Case Resolution)</h4>
+                        <div class="space-y-4">
+                            <div>
+                                <strong class="text-conan-blue block mb-1">หลักฐาน (Evidence)</strong>
+                                <p class="text-sm text-gray-700 leading-relaxed">
+                                    โคนันบอกใบ้ให้โคโกโร่เห็นว่าเป็นเรื่องแปลกที่จัมโบ้ สุนัขเฝ้ายาม ไม่เห่าใส่ชายชุดดำที่อ้างว่าลักพาตัวอากิโกะ เนื่องจากคนร้าย supposedly ใช้ต้นสนที่จัมโบ้อยู่ใกล้ ๆ ในการหลบหนีออกจากบ้าน อาโซแสดงอาการตกใจเมื่อทานิกล่าวว่าคนร้ายเรียกร้องเงินค่าไถ่นอกเหนือจากการให้ปิดบริษัทชั่วคราว
+                                </p>
+                                <p class="text-sm text-gray-700 leading-relaxed mt-2">
+                                    ระหว่างการโทรศัพท์กับคนร้าย อากิโกะสามารถบอกได้ว่าเธอคิดว่าตัวเองอยู่ในห้องเก็บของของโรงเรียน และมองเห็นปล่องไฟอยู่นอกหน้าต่าง
+                                </p>
+                            </div>
+                            <div>
+                                <strong class="text-conan-blue block mb-1">บทสรุป (Conclusion)</strong>
+                                <p class="text-sm text-gray-700 leading-relaxed">
+                                    โคโกโร่ได้รับคำใบ้จากโคนัน และสามารถสรุปได้ว่าการลักพาตัวอากิโกะในตอนแรกเป็นเรื่องจัดฉาก และเธอน่าจะอยู่ในโรงแรมใกล้ ๆ อย่างไรก็ตาม อากิโกะกลับถูกลักพาตัวจริง ๆ หลังจากการลักพาตัวปลอม โดยชายที่เรียกร้องเงินค่าไถ่เพื่อแลกกับความปลอดภัยของอากิโกะ
+                                </p>
+                                <p class="text-sm text-gray-700 leading-relaxed mt-2">
+                                    หลังจากค้นหาโรงเรียนใกล้เคียงโดยใช้จัมโบ้เป็นทั้งพาหนะและตัวนำทาง โคนันจึงสรุปว่าสิ่งที่อากิโกะเห็นนอกหน้าต่างโรงเรียนนั้นไม่ใช่ปล่องไฟ แต่เป็นด้านข้างของตึกระฟ้าขนาดใหญ่ โคนันพบตัวอากิโกะในที่สุด แต่ไม่สามารถจัดการกับคนร้ายได้เนื่องจากร่างกายของเขาหดเล็กลง โชคดีที่จัมโบ้ไปเรียกคนอื่นมา และรันใช้คาราเต้จัดการกับคนร้ายได้ทันเวลา
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Attempted Murder (Inside the flow) -->
+                    <div class="bg-gray-900 text-white rounded-xl p-6 border-l-4 border-red-600 mt-6 mb-6">
+                        <h4 class="text-lg font-bold text-red-500 mb-2">การพยายามฆ่า (Attempted Murder)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-1 text-sm text-gray-300">
+                                <p><span class="font-bold text-white">สถานที่ :</span> ห้องเก็บของของโรงเรียน</p>
+                                <p><span class="font-bold text-white">เหยื่อ :</span> อากิโกะ ทานิ และ โคนัน เอโดงาวะ</p>
+                                <p><span class="font-bold text-white">อายุ :</span> 10 ปี , 7 ปี</p>
+                                <p><span class="font-bold text-white">ผู้กระทำผิด :</span> “คนลักพาตัว”</p>
+                            </div>
+                            <div class="text-sm text-gray-400">
+                                <p>หลังจากคนลักพาตัววางสายกับพ่อของอากิโกะซึ่งกำลังจะนำเงินมาแลก เขาบอกอากิโกะว่าเขาไม่ต้องการเธออีกแล้ว และกำลังจะฆ่าเธอด้วยมีด ในขณะนั้นโคนันและจัมโบ้ก็ปรากฏตัว อย่างไรก็ตาม โคนันอ่อนแอลงมากในร่างของเด็กอายุ 7 ปี และไม่สามารถเตะลูกบอลได้แรงพอที่จะช่วยทุกคนได้ คนลักพาตัวได้ข่มขู่จัมโบ้จนหนีไปแล้ว น่าจะหลังจากทำร้ายมัน และกำลังจะฆ่าเด็กทั้งสอง เมื่อรันปรากฏตัวและช่วยพวกเขาไว้ด้วยคาราเต้ของเธอ ขณะที่โคนันต้องเริ่มยอมรับความจริงว่า เขาไม่สามารถต่อสู้กับคนร้ายได้อีกต่อไปในสภาพร่างกายที่อ่อนแอลงนี้</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Motive -->
+                    <div>
+                        <h4 class="subsection-header">แรงจูงใจ (Motive)</h4>
+                        <p class="text-gray-700 leading-relaxed">
+                            แรงจูงใจของอากิโกะในการให้ อาโซ ร่วมมือกับการ “ลักพาตัว” ของเธอ คือเธออยากใช้เวลาอยู่กับพ่อให้มากขึ้น เนื่องจากพ่อของเธอมักทำงานตลอดเวลาและแทบไม่ค่อยเล่นกับเธอเหมือนเมื่อก่อน
+                        </p>
+                    </div>
+
+                    <!-- Conclusion of Episode -->
+                    <div>
+                        <h4 class="subsection-header text-red-600" style="border-bottom-color: #E60012;">บทสรุปของตอน : สถานะใหม่ที่เปลี่ยนไป</h4>
+                        <p class="text-gray-700 leading-relaxed">
+                            ระหว่างทางกลับบ้าน รันเตือนโคโกโร่เกี่ยวกับสถานการณ์ของโคนัน และถามว่าโคนันสามารถอยู่ต่อได้หรือไม่ โคโกโร่คิดว่าโคนันเหมือนเครื่องรางนำโชค เพราะคดีออกมาดีอย่างไม่น่าเชื่อ และก็ตอบตกลงอย่างกระตือรือร้น ฉากถัดไปแสดงให้เห็นโคนันในห้องเรียนประถมแห่งใหม่ แนะนำตัวเองต่อหน้าชั้นเรียน แม้ว่าในใจลึก ๆ เขาจะหวังว่าการต้องกลับมาติดอยู่ในชั้นประถมปีที่หนึ่งอีกครั้ง เป็นเพียงฝันร้ายเท่านั้น
+                        </p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Attempted Murder (The Crisis) -->
-        <section class="bg-black rounded-2xl shadow-2xl p-8 md:p-12 relative overflow-hidden border-t-4 border-conan-red">
-            <!-- Background effects -->
-            <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
-            <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-red-900/20 to-transparent"></div>
-            
-            <div class="relative z-10 grid grid-cols-1 gap-8 items-center text-center md:text-left">
-                <div>
-                    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-700 drop-shadow-sm flex items-center justify-center md:justify-start">
-                        <svg class="w-8 h-8 mr-3 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                        การพยายามฆ่า
-                    </h2>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-                        <div class="space-y-4 text-gray-300 leading-relaxed text-lg">
-                            <p>
-                                <span class="font-bold text-red-500">สถานที่ :</span> ห้องเก็บของของโรงเรียน
-                            </p>
-                            <p>
-                                หลังจากวางสาย คนร้ายตัดสินใจฆ่าปิดปากอากิโกะ โคนันพยายามเข้าช่วยแต่ด้วยร่างกายที่เป็นเด็ก 7 ขวบ ทำให้เขาเตะลูกบอลได้ไม่แรงพอและหมดทางสู้ โคนันเริ่มตระหนักถึงความจริงอันโหดร้ายว่า...
-                            </p>
-                            <p class="italic text-gray-400 border-l-4 border-gray-600 pl-4">
-                                "ตอนนี้เขาไม่สามารถต่อสู้กับคนร้ายได้เหมือนเมื่อก่อน เพราะร่างกายที่อ่อนแอลงมาก"
-                            </p>
-                        </div>
-                        
-                        <div class="bg-gray-900/50 p-6 rounded-xl border border-gray-800">
-                            <h4 class="text-xl font-bold text-white mb-4">เหยื่อ (Victims)</h4>
-                            <ul class="space-y-3">
-                                <li class="flex items-center text-gray-300">
-                                    <span class="w-2 h-2 bg-purple-500 rounded-full mr-3"></span>
-                                    อากิโกะ ทานิ (10 ปี)
-                                </li>
-                                <li class="flex items-center text-gray-300">
-                                    <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                                    โคนัน เอโดงาวะ (7 ปี)
-                                </li>
-                            </ul>
-                            <div class="mt-6 pt-4 border-t border-gray-800">
-                                <p class="text-sm text-gray-500">คนร้ายกำลังจะลงมือฆ่าทั้งสองคน แต่รันเข้ามาช่วยไว้ได้ทัน</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- Differences Section -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 mb-10">
+            <h3 class="section-title text-xl font-bold text-conan-blue mb-4">ความแตกต่างระหว่างมังงะกับอนิเมะ (Manga to anime changes)</h3>
+            <ul class="space-y-3 list-disc list-inside text-gray-700 text-sm">
+                <li>ในมังงะ ชินอิจิในร่างเด็กอยู่ในศูนย์การแพทย์ที่ทรอปิคอลแลนด์ ขณะที่ในอนิเมะ เขาวิ่งหนีออกไปหลังจากถูกตำรวจปลุก</li>
+                <li>ในมังงะ หลังจากพบตัวคนร้าย โคนันถูกทำร้ายซ้ำหลายครั้งจนศีรษะมีเลือดไหล</li>
+                <li>ในมังงะ ทานิยกเลิกแผนพักผ่อนกับอากิโกะทันที ทำให้อากิโกะผิดหวัง ก่อนที่เขาจะเปลี่ยนใจในภายหลัง อนิเมะตัดฉากนี้ออก</li>
+                <li>แทนที่จะจบด้วยฉากโคนันแนะนำตัวในห้องเรียนใหม่ (ซึ่งมีอายูมิ มิตสึฮิโกะ และเก็นตะเป็นนักเรียน) เวอร์ชันมังงะจบลงด้วยการที่โคนันครุ่นคิดว่าเขาไม่สามารถต่อสู้กับเหล่าร้ายได้ในร่างเด็ก</li>
+            </ul>
         </section>
 
-        <!-- Conclusion -->
+        <!-- Trivia Section -->
         <section class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
-            <h3 class="section-title text-xl font-bold text-conan-blue mb-6">บทสรุปของตอน : สถานะใหม่ของชีวิต</h3>
-            <p class="text-gray-700 leading-relaxed mb-4">
-                รันขอให้โคโกโร่รับโคนันมาเลี้ยง โดยโคโกโร่ยอมตกลงเพราะคิดว่าโคนันเป็น <strong>"เครื่องรางนำโชค"</strong> ที่ทำให้เขาไขคดีได้ (โดยไม่รู้ตัว)
-            </p>
-            <p class="text-gray-700 leading-relaxed">
-                ฉากสุดท้ายแสดงให้เห็นโคนันในห้องเรียนประถมแห่งใหม่ แนะนำตัวกับเพื่อนร่วมชั้น แต่ในใจลึกๆ เขาได้แต่หวังว่าการที่ต้องกลับมาเริ่มต้นใหม่ตั้งแต่ ป.1 จะเป็นเพียงแค่ฝันร้ายเท่านั้น
-            </p>
+            <h3 class="section-title text-xl font-bold text-conan-blue mb-4">เรื่องน่ารู้ (Trivia)</h3>
+            <ul class="space-y-3 list-disc list-inside text-gray-700 text-sm">
+                <li>โคนัน / ชินอิจิ อ้างคำพูดของเชอร์ล็อก โฮล์มส์ผิด โดยดัดแปลงประโยคว่า “Elementary, my dear Agasa” ทั้งที่เชอร์ล็อก โฮล์มส์ไม่เคยพูดประโยค “Elementary, my dear Watson” ในงานเขียนใด ๆ ของเซอร์อาร์เธอร์ โคนัน ดอยล์เลย ประโยคดังกล่าวมาจากภาพยนตร์ดัดแปลงจากนิยายโฮล์มส์</li>
+                <li>คดีนี้มีการนำมาออกอากาศใหม่ในฉบับรีมาสเตอร์เมื่อวันที่ 11 เมษายน ค.ศ. 2009</li>
+            </ul>
         </section>
-
-        <!-- Manga vs Anime & Trivia -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Differences -->
-            <section class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
-                <h3 class="section-title text-xl font-bold text-conan-blue mb-6">ความแตกต่าง : มังงะ vs อนิเมะ</h3>
-                <ul class="space-y-4">
-                    <li class="flex items-start group">
-                        <span class="flex-shrink-0 w-6 h-6 rounded-full bg-blue-100 text-conan-blue flex items-center justify-center text-xs font-bold mr-3 mt-0.5 group-hover:bg-conan-blue group-hover:text-white transition-colors">1</span>
-                        <span class="text-gray-700 text-sm"><strong>การหนีจากตำรวจ :</strong> มังงะชินอิจิร่างเด็กถูกพาไปศูนย์การแพทย์ แต่ในอนิเมะฟื้นแล้ววิ่งหนีเอง</span>
-                    </li>
-                    <li class="flex items-start group">
-                        <span class="flex-shrink-0 w-6 h-6 rounded-full bg-blue-100 text-conan-blue flex items-center justify-center text-xs font-bold mr-3 mt-0.5 group-hover:bg-conan-blue group-hover:text-white transition-colors">2</span>
-                        <span class="text-gray-700 text-sm"><strong>ความรุนแรง :</strong> มังงะโคนันโดนทำร้ายจนหัวแตกเลือดไหล แต่ในอนิเมะลดทอนความรุนแรงลง</span>
-                    </li>
-                    <li class="flex items-start group">
-                        <span class="flex-shrink-0 w-6 h-6 rounded-full bg-blue-100 text-conan-blue flex items-center justify-center text-xs font-bold mr-3 mt-0.5 group-hover:bg-conan-blue group-hover:text-white transition-colors">3</span>
-                        <span class="text-gray-700 text-sm"><strong>ฉากจบ :</strong> มังงะจบที่โคนันครุ่นคิดเรื่องร่างกายที่อ่อนแอ ไม่ได้มีฉากแนะนำตัวในห้องเรียน</span>
-                    </li>
-                </ul>
-            </section>
-
-            <!-- Trivia -->
-            <section class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
-                <h3 class="section-title text-xl font-bold text-conan-blue mb-6">เกร็ดน่ารู้ (Trivia)</h3>
-                <div class="space-y-4">
-                    <div class="bg-yellow-50 rounded-xl p-4 border border-yellow-100">
-                        <div class="flex items-center mb-2">
-                            <svg class="w-6 h-6 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                            </svg>
-                            <span class="font-bold text-yellow-800">Sherlock Quote</span>
-                        </div>
-                        <p class="text-sm text-yellow-900/80 leading-relaxed">
-                            โคนันพูดว่า "Elementary, my dear Agasa" ซึ่งล้อมาจากวลีดัง "Elementary, my dear Watson" แต่ความจริงเชอร์ล็อก โฮล์มส์ ไม่เคยพูดประโยคนี้ในนิยายต้นฉบับเลย (มาจากหนัง)
-                        </p>
-                    </div>
-                    
-                    <div class="bg-yellow-50 rounded-xl p-4 border border-yellow-100">
-                        <div class="flex items-center mb-2">
-                             <svg class="w-6 h-6 mr-2 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
-                            </svg>
-                            <span class="font-bold text-yellow-800">Remaster</span>
-                        </div>
-                        <p class="text-sm text-yellow-900/80 leading-relaxed">
-                            คดีนี้ถูกนำมาออกอากาศใหม่แบบรีมาสเตอร์เมื่อวันที่ 11 เมษายน 2009
-                        </p>
-                    </div>
-                </div>
-            </section>
-        </div>
 
     </main>
 
