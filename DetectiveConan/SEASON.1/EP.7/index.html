@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detective Conan : Episode 7</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Force Niramit Font Everywhere */
+        body, h1, h2, h3, h4, h5, h6, p, span, div, a, li, ul {
+            font-family: 'Niramit', sans-serif !important;
+        }
+
+        /* Flex Column Layout for Sticky Footer */
+        body {
+            background-color: #f0f4f8;
+            background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex-grow: 1;
+        }
+        
+        /* Custom Colors */
+        .conan-blue { color: #002D72 !important; }
+        .bg-conan-blue { background-color: #002D72 !important; }
+        .border-conan-blue { border-color: #002D72 !important; }
+        
+        .conan-red { color: #E60012 !important; }
+        .bg-conan-red { background-color: #E60012 !important; }
+        .border-conan-red { border-color: #E60012 !important; }
+        
+        /* Brick Pattern */
+        .brick-pattern {
+            background-color: #8B0000;
+            background-image: 
+                linear-gradient(335deg, rgba(255,255,255,0.05) 23px, transparent 23px),
+                linear-gradient(155deg, rgba(255,255,255,0.05) 23px, transparent 23px),
+                linear-gradient(335deg, rgba(255,255,255,0.05) 23px, transparent 23px),
+                linear-gradient(155deg, rgba(255,255,255,0.05) 23px, transparent 23px);
+            background-size: 58px 58px;
+            background-position: 0px 2px, 4px 35px, 29px 31px, 34px 6px;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        /* Target Scope Background Effect */
+        .target-scope {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            pointer-events: none;
+            background: 
+                radial-gradient(circle, transparent 40%, rgba(255,255,255,0.05) 40%, rgba(255,255,255,0.05) 41%, transparent 41%),
+                linear-gradient(to right, transparent 49.8%, rgba(255,255,255,0.1) 49.8%, rgba(255,255,255,0.1) 50.2%, transparent 50.2%),
+                linear-gradient(to bottom, transparent 49.8%, rgba(255,255,255,0.1) 49.8%, rgba(255,255,255,0.1) 50.2%, transparent 50.2%);
+        }
+
+        /* Bow Tie Icon */
+        .bowtie-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #ff4d4d, #b91c1c);
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Cpath d='M50 30 L 10 5 L 10 55 L 50 30 L 90 55 L 90 5 Z' fill='black'/%3E%3Ccircle cx='50' cy='30' r='8' fill='black'/%3E%3C/svg%3E");
+            mask-size: contain;
+            mask-repeat: no-repeat;
+            mask-position: center;
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Cpath d='M50 30 L 10 5 L 10 55 L 50 30 L 90 55 L 90 5 Z' fill='black'/%3E%3Ccircle cx='50' cy='30' r='8' fill='black'/%3E%3C/svg%3E");
+            -webkit-mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        /* Shoes Icon (CSS) */
+        .shoes-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M19.1 11.5C19.1 11.5 19.2 11.4 19.2 11.4C19.3 11.1 19.4 10.8 19.5 10.5C20 8.7 18.9 6.8 17.1 6.3L12.5 5.1C11.9 4.9 11.3 4.8 10.7 4.8C7.5 4.8 4.7 6.9 3.8 10L3.2 12.3C2.2 12.8 1.5 13.8 1.5 15C1.5 16.7 2.8 18 4.5 18H20.5C21.3 18 22 17.3 22 16.5V13.5C22 12.6 21.4 11.8 20.6 11.5H19.1ZM5.5 16C4.7 16 4 15.3 4 14.5C4 13.7 4.7 13 5.5 13C6.3 13 7 13.7 7 14.5C7 15.3 6.3 16 5.5 16Z'/%3E%3C/svg%3E");
+            mask-size: contain;
+            mask-repeat: no-repeat;
+            mask-position: center;
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M19.1 11.5C19.1 11.5 19.2 11.4 19.2 11.4C19.3 11.1 19.4 10.8 19.5 10.5C20 8.7 18.9 6.8 17.1 6.3L12.5 5.1C11.9 4.9 11.3 4.8 10.7 4.8C7.5 4.8 4.7 6.9 3.8 10L3.2 12.3C2.2 12.8 1.5 13.8 1.5 15C1.5 16.7 2.8 18 4.5 18H20.5C21.3 18 22 17.3 22 16.5V13.5C22 12.6 21.4 11.8 20.6 11.5H19.1ZM5.5 16C4.7 16 4 15.3 4 14.5C4 13.7 4.7 13 5.5 13C6.3 13 7 13.7 7 14.5C7 15.3 6.3 16 5.5 16Z'/%3E%3C/svg%3E");
+            -webkit-mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        /* Card Styling */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 4px;
+            background-color: #E60012;
+            border-radius: 2px;
+        }
+
+        .subsection-header {
+            font-weight: bold;
+            color: #002D72;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 0.25rem;
+        }
+        
+        .evidence-tag {
+            background: #fff1f2;
+            border-left: 4px solid #dc2626;
+            padding: 0.5rem 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased selection:bg-red-200 selection:text-red-900">
+
+    <!-- Header -->
+    <header class="bg-conan-blue text-white shadow-xl sticky top-0 z-50 border-b-4 border-conan-red w-full">
+        <div class="max-w-6xl mx-auto px-4 py-2 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <div class="bg-white p-1.5 rounded-full shadow-inner">
+                    <div class="bowtie-icon"></div>
+                </div>
+                <div>
+                    <h1 class="text-lg md:text-xl font-bold tracking-wider leading-tight">DETECTIVE CONAN</h1>
+                </div>
+            </div>
+            <div class="hidden md:block text-right">
+                <div class="text-xs font-light text-blue-200 uppercase tracking-widest mb-0.5">Truth is Only One</div>
+                <div class="h-0.5 w-full bg-conan-red opacity-50"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section (Information) -->
+    <section class="brick-pattern text-white py-16 md:py-24 relative overflow-hidden flex items-center justify-center w-full">
+        <div class="target-scope"></div>
+        
+        <div class="max-w-4xl mx-auto px-4 relative z-10 text-center w-full">
+            <!-- Episode Badge -->
+            <div class="inline-flex items-center justify-center space-x-2 bg-black/40 backdrop-blur-sm px-6 py-2 rounded-full border border-white/20 mb-8 shadow-lg">
+                <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                <span class="text-sm font-bold uppercase tracking-widest">Episode 7 <span class="mx-2 opacity-50">|</span> TH. Episode 7</span>
+            </div>
+            
+            <!-- Titles -->
+            <div class="space-y-4 mb-10">
+                <div class="space-y-2">
+                    <h1 class="text-3xl md:text-5xl font-bold drop-shadow-xl leading-tight">
+                        Once-A-Month Present Threat Case
+                    </h1>
+                </div>
+                
+                <div class="relative inline-block py-2 px-8">
+                    <!-- Decorative lines -->
+                    <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-white/50"></div>
+                    <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-white/50"></div>
+                    
+                    <h2 class="text-2xl md:text-3xl font-medium tracking-wide">
+                        月いちプレゼント脅迫事件
+                    </h2>
+                </div>
+                
+                <p class="text-lg text-blue-200 font-light italic tracking-wide">
+                    (Tsukiichi Purezento Kyouhaku Jiken)
+                </p>
+                
+                <div class="mt-4">
+                    <h3 class="text-2xl md:text-3xl font-bold text-yellow-400 drop-shadow-md bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-500 bg-clip-text text-transparent">
+                        คดีของขวัญอันตราย
+                    </h3>
+                </div>
+            </div>
+            
+            <!-- Information Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/10 shadow-2xl text-left text-sm md:text-base">
+                <div class="flex flex-col space-y-3 border-r-0 md:border-r border-white/10 pr-0 md:pr-4">
+                    <div class="flex justify-between items-start border-b border-white/10 pb-2">
+                        <span class="font-bold text-blue-200 whitespace-nowrap">วันออกอากาศ :</span>
+                        <div class="text-right">
+                            <span class="block">February 19 1996</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/10 pb-2">
+                        <span class="font-bold text-blue-200">มังงะคดีที่ :</span>
+                        <span class="font-mono bg-black/20 px-2 py-0.5 rounded">#8</span>
+                    </div>
+                </div>
+                <div class="flex flex-col space-y-3 pl-0 md:pl-4">
+                    <div class="flex justify-between items-center border-b border-white/10 pb-2">
+                        <span class="font-bold text-blue-200">ซีซั่น :</span>
+                        <span>1 (1996)</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/10 pb-2">
+                        <span class="font-bold text-blue-200">แหล่งที่มาของมังงะ :</span>
+                        <span>Volume 3 : Files 7-10 (026-029)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-12 space-y-16 w-full">
+
+        <!-- Characters Section -->
+        <section>
+            <h2 class="section-title text-2xl font-bold text-gray-800 mb-8">ตัวละคร (Cast)</h2>
+            <h3 class="text-xl font-semibold text-gray-600 mb-4">ตัวละครที่ปรากฏ (Featured Characters)</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+                <!-- Conan (Blue) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-conan-blue relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-conan-blue relative z-10">โคนัน เอโดงาวะ (Conan Edogawa)</h3>
+                </div>
+
+                <!-- Kogoro (Gray) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-gray-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-gray-700 relative z-10">โคโกโร่ โมริ (Kogoro Mouri)</h3>
+                </div>
+
+                <!-- Ran (Pink) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-pink-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-pink-600 relative z-10">รัน โมริ (Ran Mouri)</h3>
+                </div>
+
+                <!-- Agasa (Yellow) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-yellow-400 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-yellow-700 relative z-10">ศาสตราจารย์ฮิโรชิ อากาสะ (Hiroshi Agasa)</h3>
+                </div>
+
+                <!-- Ayumi (Green) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-green-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-green-700 relative z-10">อายูมิ โยชิดะ (Ayumi Yoshida)</h3>
+                </div>
+
+                <!-- Mitsuhiko (Green) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-green-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-green-700 relative z-10">มิสึฮิโกะ สึบุรายะ (Mitsuhiko Tsuburaya)</h3>
+                </div>
+
+                <!-- Genta (Green) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-green-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-green-700 relative z-10">เก็นตะ โคจิมะ (Genta Kojima)</h3>
+                </div>
+
+                <!-- Shinichi (Blue) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-conan-blue relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-conan-blue relative z-10">ชินอิจิ คุโด้ (Shinichi Kudo)</h3>
+                </div>
+
+                <!-- Gin (Black) -->
+                <div class="rounded-xl p-5 border-l-8 border-black bg-gradient-to-br from-gray-900 to-black text-white shadow-lg relative overflow-hidden group">
+                    <h3 class="font-bold text-xl relative z-10">จิน (Gin)</h3>
+                    <div class="mt-2 text-sm text-gray-400 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full mr-2"></span>ปรากฏในฉากหลัง</p>
+                    </div>
+                </div>
+
+                <!-- Vodka (Black) -->
+                <div class="rounded-xl p-5 border-l-8 border-black bg-gradient-to-br from-gray-900 to-black text-white shadow-lg relative overflow-hidden group">
+                    <h3 class="font-bold text-xl relative z-10">วอดก้า (Vodka)</h3>
+                    <div class="mt-2 text-sm text-gray-400 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full mr-2"></span>ปรากฏในฉากหลัง</p>
+                    </div>
+                </div>
+
+                <!-- Hitomi (Flashback) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-gray-400 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-gray-700 relative z-10">ฮิโตมิ (Hitomi)</h3>
+                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-gray-400 rounded-full mr-2"></span>ฉากย้อนความหลัง</p>
+                    </div>
+                </div>
+
+                <!-- Reiko (Flashback) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-gray-400 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-gray-700 relative z-10">เรโกะ (Reiko)</h3>
+                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-gray-400 rounded-full mr-2"></span>ฉากย้อนความหลัง</p>
+                    </div>
+                </div>
+
+                <!-- Yuko (Flashback) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-gray-400 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-gray-700 relative z-10">ยูโกะ อิเคซาวะ (Yuko Ikezawa)</h3>
+                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-gray-400 rounded-full mr-2"></span>ฉากย้อนความหลัง</p>
+                    </div>
+                </div>
+
+                <!-- Jumbo (Flashback) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-gray-400 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-gray-700 relative z-10">จัมโบ้ (Jumbo)</h3>
+                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-gray-400 rounded-full mr-2"></span>ฉากย้อนความหลัง</p>
+                    </div>
+                </div>
+
+                <!-- Yaiba (Game) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-yellow-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-yellow-600 relative z-10">ไยบะ คุโรกาเนะ (Yaiba Kurogane)</h3>
+                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-yellow-400 rounded-full mr-2"></span>ตัวละครในเครื่องเล่นเกม</p>
+                    </div>
+                </div>
+
+                <!-- Onimaru (Game) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-purple-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-purple-600 relative z-10">ทาเคชิ โอนิมารุ (Takeshi Onimaru)</h3>
+                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-purple-400 rounded-full mr-2"></span>ตัวละครในเครื่องเล่นเกม</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gadgets Section -->
+        <section>
+            <h2 class="section-title text-2xl font-bold text-gray-800 mb-8">อุปกรณ์ (Gadgets)</h2>
+            <h3 class="text-xl font-semibold text-gray-600 mb-4">อุปกรณ์ที่ปรากฏ (Featured Gadgets)</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div class="bg-gray-900 text-white rounded-2xl shadow-xl p-8 border-t-4 border-blue-500 flex items-center gap-4">
+                    <div class="bowtie-icon w-12 h-12"></div>
+                    <h3 class="text-xl font-bold text-blue-400">โบว์เปลี่ยนเสียง (Voice-Changing Bowtie)</h3>
+                </div>
+                
+                <div class="bg-gray-900 text-white rounded-2xl shadow-xl p-8 border-t-4 border-red-500 flex items-center gap-4">
+                    <div class="shoes-icon w-12 h-12"></div>
+                    <h3 class="text-xl font-bold text-red-400">รองเท้าเตะพลังเสริม (Power-Enhancing Kick Shoes)</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- Plot Section -->
+        <section>
+            <h2 class="section-title text-2xl font-bold text-gray-800 mb-8">เนื้อเรื่อง (Plot)</h2>
+
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 mb-10 relative">
+                <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-conan-blue via-conan-red to-conan-blue"></div>
+                <div class="bg-blue-50 px-8 py-5 border-b border-blue-100">
+                    <h3 class="text-xl font-bold text-conan-blue">คดีของขวัญอันตราย</h3>
+                </div>
+                
+                <div class="p-8 space-y-8">
+                    <!-- Situation -->
+                    <div>
+                        <h4 class="subsection-header">สถานการณ์ (Situation)</h4>
+                        <p class="text-gray-700 leading-relaxed mb-4">
+                            ตลอดระยะเวลา 2 ปีที่ผ่านมา ศัลยแพทย์ชื่อ มาซายูกิ โอกาวะ ได้รับของเล่นและเงินสดแบบไม่ระบุตัวผู้ส่ง เดือนละครั้งอย่างต่อเนื่อง เขาจึงว่าจ้างโคโกโร่ให้ช่วยสืบหาว่าใครเป็นผู้ส่งของเหล่านี้มาให้
+                        </p>
+                        <p class="text-gray-700 leading-relaxed">
+                            ระหว่างการสืบสวน รันเริ่มสงสัยว่าแท้จริงแล้วโคนันอาจเป็นชินอิจิ
+                        </p>
+                    </div>
+
+                    <!-- Sending Presents -->
+                    <div>
+                        <h4 class="subsection-header">การส่งของขวัญ (Sending Presents)</h4>
+                        <div class="space-y-1 text-sm text-gray-700 mb-6">
+                            <p><span class="font-bold">สถานที่ :</span> เมืองเบกะ</p>
+                            <p><span class="font-bold">บุคคล :</span> มาซายูกิ โอกาวะ</p>
+                            <p><span class="font-bold">ผู้ต้องสงสัย :</span> ทาโร่ ทานากะ</p>
+                            <p class="mt-2 text-gray-600 italic">ตลอดระยะเวลา 2 ปี โอกาวะได้รับของเล่นและเงินสดจำนวน 1 ล้านเยนทุกเดือนจากผู้ส่งที่ไม่ทราบตัวตน รวมเป็นเงินทั้งสิ้น 25 ล้านเยน</p>
+                        </div>
+                    </div>
+
+                    <!-- People -->
+                    <div>
+                        <h4 class="subsection-header">บุคคล (People)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <!-- Masayuki Ogawa (Teal) -->
+                            <div class="bg-teal-50 p-3 rounded border-l-4 border-teal-500">
+                                <strong class="text-teal-700">มาซายูกิ โอกาวะ (Masayuki Ogawa)</strong>
+                                <ul class="list-disc list-inside text-teal-800">
+                                    <li>ศัลยแพทย์ โรงพยาบาลเบกะเจเนอรัล</li>
+                                </ul>
+                            </div>
+                            <!-- Yuta Ogawa (Sky Blue) -->
+                            <div class="bg-sky-50 p-3 rounded border-l-4 border-sky-500">
+                                <strong class="text-sky-700">ยูตะ โอกาวะ (Yuta Ogawa)</strong>
+                                <ul class="list-disc list-inside text-sky-800">
+                                    <li>อายุ 5 ปี</li>
+                                    <li>วันเกิด : เดือนธันวาคม</li>
+                                    <li>ลูกชายของมาซายูกิ</li>
+                                </ul>
+                            </div>
+                            <!-- Mrs. Ogawa (Gray) -->
+                            <div class="bg-gray-50 p-3 rounded">
+                                <strong class="text-gray-800">นางโอกาวะ (Mrs. Ogawa)</strong>
+                                <ul class="list-disc list-inside text-gray-600">
+                                    <li>ภรรยาของมาซายูกิ</li>
+                                    <li>แม่ของยูตะ</li>
+                                    <li>แม่บ้าน</li>
+                                </ul>
+                            </div>
+                            <!-- Kishida (Gray) -->
+                            <div class="bg-gray-50 p-3 rounded">
+                                <strong class="text-gray-800">คิชิดะ (Kishida)</strong>
+                                <ul class="list-disc list-inside text-gray-600">
+                                    <li>ครูโรงเรียนมัธยมปลายเทตัน</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Resolution -->
+                    <div>
+                        <h4 class="subsection-header">การคลี่คลายคดี (Resolution)</h4>
+                        <div class="space-y-4">
+                            <div>
+                                <strong class="text-conan-blue block mb-1">หลักฐาน (Evidence)</strong>
+                                <ul class="space-y-2 text-sm text-gray-700 leading-relaxed">
+                                    <li class="flex items-start"><span class="text-conan-blue mr-2">•</span>เมื่อสองปีก่อน บุคคลปริศนาเริ่มส่งกล่องของเล่นพร้อมเงินสด 1 ล้านเยนให้โอกาวะในวันแรกของทุกเดือน และในวันที่ 19 กุมภาพันธ์ ยังมีการส่งดอกผักบุ้งไปยังโรงพยาบาลที่เขาทำงานอยู่</li>
+                                    <li class="flex items-start"><span class="text-conan-blue mr-2">•</span>โดยปกติเงินจะถูกใส่มาพร้อมกับของเล่น แต่ในครั้งที่ 25 เงินถูกแยกใส่ซองจดหมาย พร้อมจดหมายที่ระบุว่าได้ชำระเงินครบ 25 ล้านเยนแล้ว และกำลังจะทำตามข้อตกลงในส่วนของตนให้เสร็จสิ้น</li>
+                                    <li class="flex items-start"><span class="text-conan-blue mr-2">•</span>ของเล่นทั้งหมดไม่มีบาร์โค้ด และหลายชิ้นมีสภาพชำรุด แตกหัก แสดงให้เห็นว่าของเล่นเหล่านี้มีอายุมาหลายปีแล้ว</li>
+                                    <li class="flex items-start"><span class="text-conan-blue mr-2">•</span>ขณะที่โคนันเล่นของเล่นชิ้นหนึ่งซึ่งเป็นเครื่องเล่นเกมพกพา เขาพบว่าในเกมโอนิมารุมีไฟล์บันทึกชื่อ โทโมยะ โอกิโนะ อยู่</li>
+                                    <li class="flex items-start"><span class="text-conan-blue mr-2">•</span>โคนันจึงสรุปได้ว่าของขวัญเหล่านี้ไม่ได้ถูกส่งมาเพื่อแสดงความขอบคุณ แต่เต็มไปด้วยความแค้น ของเล่นเหล่านี้เคยเป็นของโทโมยะ และดอกไม้ถูกส่งมาเพื่อเป็นที่ระลึกถึงเด็กชายคนนี้ ส่วนความหมายที่แท้จริงของจดหมาย คือการข่มขู่ว่าจะเอาชีวิตของยูตะ ลูกชายของโอกาวะ</li>
+                                    <li class="flex items-start"><span class="text-conan-blue mr-2">•</span>หลังจากติดต่อภรรยาของโอกาวะ พวกเขาพบว่ายูตะถูกคนอื่นมารับตัวไปแทน ทุกคนจึงรีบออกตามหา และพบเขาอยู่ที่สวนสาธารณะใกล้โรงเรียนอนุบาลกับชายไม่ทราบชื่อ</li>
+                                    <li class="flex items-start"><span class="text-conan-blue mr-2">•</span>ชายผู้นั้นคือ โอกิโนะ พ่อของโทโมยะ ซึ่งวางแผนจะปลิดชีวิตยูตะในวันเดียวกัน อายุเดียวกันกับวันที่ลูกชายของเขาเสียชีวิต และตั้งใจจะใช้เงินประกันชีวิตของยูตะเป็นค่าตอบแทนที่จ่ายให้โอกาวะ</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Attempted Murder -->
+                    <div class="bg-gray-900 text-white rounded-xl p-6 border-l-4 border-red-600 mt-6 mb-6">
+                        <h4 class="text-lg font-bold text-red-500 mb-2">การพยายามฆ่า (Attempted Murder)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-1 text-sm text-gray-300">
+                                <p><span class="font-bold text-white">สถานที่ :</span> เมืองเบกะ</p>
+                                <p><span class="font-bold text-white">เหยื่อ :</span> ยูตะ โอกาวะ</p>
+                                <p><span class="font-bold text-white">คนร้าย :</span> คุณโอกิโนะ</p>
+                            </div>
+                            <div class="text-sm text-gray-400">
+                                <p>โอกิโนะพยายามฆ่ายูตะเพื่อให้เด็กอยู่กับลูกชายของตน แต่ถูกโคนันขัดขวางไว้ได้ทันเวลา</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Conclusion -->
+                    <div>
+                        <h4 class="subsection-header">บทสรุป (Conclusion)</h4>
+                        <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                            โคนันสามารถหยุดเหตุการณ์ไว้ได้ด้วยการใช้รองเท้าเตะพลังเสริม เตะลูกฟุตบอลใกล้ตัวเข้าใส่โอกิโนะ
+                        </p>
+                        <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                            เมื่อโอกิโนะเห็นว่ายูตะแสดงความดีใจและซาบซึ้งกับของเล่น เขาก็นึกถึงลูกชายของตนจนทรุดตัวลงและยอมรับว่าแท้จริงแล้วการตายของโทโมยะไม่ใช่ความผิดของหมออย่างแท้จริง
+                        </p>
+                        <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                            โอกาวะเลือกให้อภัยโอกิโนะ และตัดสินใจไม่แจ้งตำรวจ โดยกล่าวว่าในฐานะพ่อ เขาเข้าใจดีว่าการสูญเสียลูกนั้นเจ็บปวดเพียงใด
+                        </p>
+                        <p class="text-sm text-gray-700 leading-relaxed">
+                            หลังจบเนื้อเรื่อง โคนันขอให้ศาสตราจารย์อากาสะโทรหารันโดยปลอมเสียงเป็นชินอิจิด้วยโบว์เปลี่ยนเสียง เพื่อหลอกให้เธอเชื่อว่าโคนันกับชินอิจิไม่ใช่คนเดียวกัน แผนการนี้ได้ผล แต่รันก็สังเกตว่าชินอิจิพูดเหมือนคนแก่
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Differences Section -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 mb-10">
+            <h3 class="section-title text-xl font-bold text-conan-blue mb-4">ความแตกต่างระหว่างมังงะและอนิเมะ (Manga to Anime Changes)</h3>
+            <ul class="space-y-3 list-disc list-inside text-gray-700 text-sm">
+                <li>ในเวอร์ชันมังงะ เรื่องราวนี้เกิดขึ้นหลังจาก คดีฆาตกรรมต่อเนื่องบนเรือสำราญสุดหรู โดยรันได้รับจดหมายจากนัตสึเอะ ซึ่งกล่าวถึงชีวิตอันสงบสุขของเธอกับทาเคชิที่ฟาร์ม และฝากให้รันทักทาย “แฟนนักสืบ” ของเธอ ซึ่งเป็นจุดเริ่มต้นของเนื้อเรื่อง</li>
+                <li>แต่ในเวอร์ชันอนิเมะ จะเริ่มต้นด้วยอายูมิ มิซึฮิโกะ และเก็นตะ ถามรันเกี่ยวกับชินอิจิ และความสัมพันธ์ของทั้งสอง</li>
+                <li>นอกจากนี้ ฉากรำลึกถึงคดีเก่า ๆ ของรัน จะมีฉากย้อนความหลังของคดีเรือสำราญเฉพาะในมังงะเท่านั้น</li>
+            </ul>
+        </section>
+
+        <!-- Trivia Section -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+            <h3 class="section-title text-xl font-bold text-conan-blue mb-4">เรื่องน่ารู้ (Trivia)</h3>
+            <ul class="space-y-3 list-disc list-inside text-gray-700 text-sm">
+                <li>ตอนนี้เป็นวันที่ 10 ตามลำดับเวลาในชีวิตของชินอิจิหลังกลายเป็นโคนัน</li>
+                <li>เครื่องเล่นเกม Game Man เป็นการล้อเลียนเครื่อง Game Boy ของ Nintendo</li>
+                <li>เกมที่โคนันเล่นมีพื้นฐานมาจากเรื่อง YAIBA ซึ่งเป็นผลงานมังงะของอาโอยามะ โกโช โดยมีตัวละคร ไยบะ คุโรกาเนะ และ ทาเคชิ โอนิมารุ ปรากฏอยู่ภายในเกม</li>
+                <li>นี่เป็นครั้งแรกที่เรื่อง YAIBA ถูกอ้างอิงในอนิเมะยอดนักสืบจิ๋วโคนัน</li>
+                <li>นี่เป็นคดีแรกที่รันเริ่มสงสัยในตัวโคนัน และครั้งถัดไปคือในตอน The Cornered Famous Detective! Two Big Murder Cases</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="brick-pattern text-white py-16 mt-20 border-t-8 border-white shadow-2xl relative">
+        <div class="absolute inset-0 bg-black/40"></div>
+        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+            <div class="bg-white p-2 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-8 shadow-lg transform hover:scale-110 transition-transform cursor-pointer">
+                <div class="bowtie-icon"></div>
+            </div>
+            
+            <div class="space-y-6 mb-10">
+                <p class="text-lg md:text-xl font-medium leading-relaxed tracking-wide text-gray-100">
+                    "ผมชื่อเอโดงาวะ โคนัน ตัวจริงก็คือคุโด้ ชินอิจิ ที่โดนยาพิษจนกลายเป็นเด็ก<br class="hidden md:block"/> 
+                    ถึงจะตัวเล็กแต่สมองยังคงเป็นของยอดนักสืบคนเดิม"
+                </p>
+                <p class="text-lg md:text-xl font-medium leading-relaxed tracking-wide text-gray-100 mt-4">
+                    "กาลเวลายิ่งผ่านไป คดีปริศนาที่ท้าทายก็ยิ่งเพิ่มขึ้นทุกที"
+                </p>
+            </div>
+            
+            <div class="w-24 h-1 bg-conan-red mx-auto mb-8 rounded-full"></div>
+            
+            <p class="text-gray-400 text-sm font-bold tracking-widest uppercase mb-4">
+                BY : 20nxskypqz
+            </p>
+            <p class="text-gray-500 text-xs opacity-70">
+                © Gosho Aoyama / Shogakukan / YTV / TMS Entertainment
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
