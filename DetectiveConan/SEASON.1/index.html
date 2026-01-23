@@ -36,6 +36,8 @@
         .bg-conan-blue { background-color: #002D72 !important; }
         .conan-red { color: #E60012 !important; }
         .bg-conan-red { background-color: #E60012 !important; }
+        .text-conan-red { color: #E60012 !important; }
+        .border-conan-red { border-color: #E60012 !important; }
         
         /* Brick Pattern */
         .brick-pattern {
@@ -47,13 +49,24 @@
                 linear-gradient(155deg, rgba(255,255,255,0.05) 23px, transparent 23px);
             background-size: 58px 58px;
             background-position: 0px 2px, 4px 35px, 29px 31px, 34px 6px;
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+            box-shadow: inset 0 0 80px rgba(0,0,0,0.6);
+            position: relative;
+        }
+        
+        .brick-pattern::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(to top, rgba(0,0,0,0.2), transparent);
         }
 
-        /* Bow Tie Icon (CSS) */
+        /* Icons */
         .bowtie-icon {
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             background: linear-gradient(135deg, #ff4d4d, #b91c1c);
             mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Cpath d='M50 30 L 10 5 L 10 55 L 50 30 L 90 55 L 90 5 Z' fill='black'/%3E%3Ccircle cx='50' cy='30' r='8' fill='black'/%3E%3C/svg%3E");
             mask-size: contain;
@@ -65,23 +78,92 @@
             -webkit-mask-position: center;
         }
 
-        /* Art Gradients for Card Headers */
-        .art-ep1 { background: linear-gradient(135deg, #0047AB, #000044); position: relative; overflow: hidden; }
-        .art-ep2 { background: linear-gradient(135deg, #E60012, #8B0000); position: relative; overflow: hidden; }
-        .art-ep3 { background: linear-gradient(135deg, #F59E0B, #DB2777); position: relative; overflow: hidden; }
-        .art-ep4 { background: linear-gradient(135deg, #1e3a8a, #7c3aed); position: relative; overflow: hidden; }
-        .art-ep5 { background: linear-gradient(135deg, #ef4444, #f97316); position: relative; overflow: hidden; }
-        .art-ep6 { background: linear-gradient(135deg, #ec4899, #be123c); position: relative; overflow: hidden; }
-        .art-ep7 { background: linear-gradient(135deg, #10b981, #047857); position: relative; overflow: hidden; }
+        /* Card Animations & Styling */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        /* Card Hover Effects */
         .episode-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(229, 231, 235, 0.5);
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+            position: relative;
+        }
+        
+        /* Staggered animation delays */
+        .episode-card:nth-child(1) { animation-delay: 0.1s; }
+        .episode-card:nth-child(2) { animation-delay: 0.2s; }
+        .episode-card:nth-child(3) { animation-delay: 0.3s; }
+        .episode-card:nth-child(4) { animation-delay: 0.4s; }
+        .episode-card:nth-child(5) { animation-delay: 0.5s; }
+        .episode-card:nth-child(6) { animation-delay: 0.6s; }
+        .episode-card:nth-child(7) { animation-delay: 0.7s; }
+        .episode-card:nth-child(8) { animation-delay: 0.8s; }
+        .episode-card:nth-child(9) { animation-delay: 0.9s; }
+        .episode-card:nth-child(10) { animation-delay: 1.0s; }
+
+        .episode-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-color: rgba(0, 45, 114, 0.2);
+        }
+
+        /* Art Gradients */
+        .art-ep1 { background: linear-gradient(135deg, #0047AB, #000044); }
+        .art-ep2 { background: linear-gradient(135deg, #E60012, #8B0000); }
+        .art-ep3 { background: linear-gradient(135deg, #F59E0B, #DB2777); }
+        .art-ep4 { background: linear-gradient(135deg, #1e3a8a, #7c3aed); }
+        .art-ep5 { background: linear-gradient(135deg, #ef4444, #f97316); }
+        .art-ep6 { background: linear-gradient(135deg, #ec4899, #be123c); }
+        .art-ep7 { background: linear-gradient(135deg, #10b981, #047857); }
+        .art-ep8 { background: linear-gradient(135deg, #6366f1, #4338ca); }
+        .art-ep9 { background: linear-gradient(135deg, #1e293b, #0f172a); }
+        .art-ep10 { background: linear-gradient(135deg, #84cc16, #166534); }
+
+        .card-top-bar {
+            height: 4px;
+            background: linear-gradient(90deg, #002D72, #0046b3);
+            transition: height 0.3s ease;
+        }
+
+        .episode-card:hover .card-top-bar {
+            height: 6px;
+            background: linear-gradient(90deg, #E60012, #ff4d4d);
+        }
+
+        .ep-number {
+            font-variant-numeric: tabular-nums;
+            background-color: #f1f5f9;
+            color: #002D72;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+        }
+        
+        .episode-card:hover .ep-number {
+            background-color: #002D72;
+            color: white;
             transition: all 0.3s ease;
         }
-        .episode-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+        .btn-view {
+            transition: all 0.2s;
         }
+        
+        .episode-card:hover .btn-view {
+            transform: translateX(4px);
+            color: #E60012;
+        }
+        
         .episode-card:hover .art-icon {
             transform: scale(1.1) rotate(-5deg);
             opacity: 0.4;
@@ -89,42 +171,61 @@
         .art-icon {
             transition: all 0.5s ease;
         }
+
+        /* Special Badge for TV Original */
+        .badge-original {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            color: #92400e;
+            border: 1px solid #fcd34d;
+        }
     </style>
 </head>
 <body class="text-gray-800 antialiased">
 
     <!-- Header -->
-    <header class="bg-conan-blue text-white shadow-xl sticky top-0 z-50 border-b-4 border-conan-red">
+    <header class="bg-conan-blue text-white shadow-xl sticky top-0 z-50 border-b-4 border-conan-red bg-opacity-95 backdrop-blur-sm">
         <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="bg-white p-1 rounded-full shadow-inner">
+                <div class="bg-white p-1 rounded-full shadow-lg border-2 border-blue-200">
                     <div class="bowtie-icon w-8 h-8"></div>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold tracking-wider leading-none">DETECTIVE CONAN</h1>
-                    <span class="text-xs text-blue-300 tracking-widest">SEASON 1</span>
+                    <h1 class="text-xl font-extrabold tracking-wider leading-none">DETECTIVE CONAN</h1>
+                    <span class="text-[10px] text-blue-200 tracking-[0.2em] font-light">SEASON 1</span>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Hero Banner (Original Style) -->
-    <section class="brick-pattern text-white py-16 md:py-24 relative overflow-hidden flex items-center justify-center w-full shadow-lg">
+    <!-- Hero Banner -->
+    <section class="brick-pattern text-white py-16 md:py-20 shadow-2xl relative overflow-hidden flex flex-col items-center justify-center">
+        <div class="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60"></div>
         <div class="max-w-4xl mx-auto px-4 relative z-10 text-center w-full">
-            <span class="inline-block px-3 py-1 bg-conan-red text-white text-xs font-bold rounded-full mb-3 shadow-md tracking-wider">UNOFFICIAL ARCHIVE</span>
-            <h1 class="text-4xl md:text-5xl font-bold mb-2 drop-shadow-lg">Season 1 (1996)</h1>
-            <p class="text-blue-100 text-lg">จุดเริ่มต้นของยอดนักสืบจิ๋วโคนัน</p>
+            <span class="inline-block px-4 py-1.5 bg-conan-red text-white text-[10px] font-black rounded-full mb-6 shadow-xl tracking-widest border border-red-400 transform hover:scale-105 transition-transform cursor-default">
+                UNOFFICIAL ARCHIVE
+            </span>
+            <h1 class="text-5xl md:text-7xl font-bold mb-4 drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)] tracking-tight">
+                Season 1
+            </h1>
+            <div class="flex items-center justify-center space-x-2 text-blue-100 text-lg md:text-xl font-light tracking-wide mb-2">
+                <span class="w-8 h-[1px] bg-blue-300 opacity-50"></span>
+                <span>1996</span>
+                <span class="w-8 h-[1px] bg-blue-300 opacity-50"></span>
+            </div>
+            <p class="text-gray-300 text-sm max-w-lg mx-auto mt-4 leading-relaxed opacity-90">
+                เรื่องราวการเริ่มต้นของนักสืบอัจฉริยะที่ต้องซ่อนตัวในร่างเด็ก และไขคดีเพื่อค้นหาความจริงเบื้องหลังองค์กรลึกลับ
+            </p>
         </div>
     </section>
 
     <!-- Episode List -->
-    <main class="max-w-6xl mx-auto px-4 py-12">
+    <main class="max-w-6xl mx-auto px-4 py-16">
         <h2 class="text-2xl font-bold text-gray-800 mb-8 border-l-4 border-conan-blue pl-4">Episodes List</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
             <!-- EP.1 -->
-            <a href="https://20nxskypqz.github.io/20nxskypqz/DetectiveConan/SEASON.1/EP.1/" class="episode-card block bg-white rounded-xl overflow-hidden shadow-md border border-gray-200 group">
+            <a href="https://20nxskypqz.github.io/20nxskypqz/DetectiveConan/SEASON.1/EP.1/" class="episode-card block group">
                 <div class="h-40 art-ep1 flex items-center justify-center text-white relative">
                     <i class="fa-solid fa-train-subway text-7xl opacity-20 absolute right-2 bottom-[-10px] art-icon"></i>
                     <div class="z-10 text-center px-4">
@@ -144,12 +245,12 @@
             </a>
 
             <!-- EP.2 -->
-            <a href="https://20nxskypqz.github.io/20nxskypqz/DetectiveConan/SEASON.1/EP.2/" class="episode-card block bg-white rounded-xl overflow-hidden shadow-md border border-gray-200 group">
+            <a href="https://20nxskypqz.github.io/20nxskypqz/DetectiveConan/SEASON.1/EP.2/" class="episode-card block group">
                 <div class="h-40 art-ep2 flex items-center justify-center text-white relative">
                     <i class="fa-solid fa-child-reaching text-7xl opacity-20 absolute right-2 bottom-[-10px] art-icon"></i>
                     <div class="z-10 text-center px-4">
                         <span class="bg-conan-blue px-2 py-1 rounded text-xs font-bold mb-2 inline-block shadow-sm">EP.2</span>
-                        <h2 class="text-xl font-bold drop-shadow-md">คดีลักพาตัวลูกสาวประธาน</h2>
+                        <h2 class="text-xl font-bold drop-shadow-md">คดีลักพาตัวลูกสาวประธานบริษัท</h2>
                     </div>
                 </div>
                 <div class="p-5">
@@ -164,12 +265,12 @@
             </a>
 
             <!-- EP.3 -->
-            <a href="https://20nxskypqz.github.io/20nxskypqz/DetectiveConan/SEASON.1/EP.3/" class="episode-card block bg-white rounded-xl overflow-hidden shadow-md border border-gray-200 group">
+            <a href="https://20nxskypqz.github.io/20nxskypqz/DetectiveConan/SEASON.1/EP.3/" class="episode-card block group">
                 <div class="h-40 art-ep3 flex items-center justify-center text-white relative">
                     <i class="fa-solid fa-microphone-lines text-7xl opacity-20 absolute right-2 bottom-[-10px] art-icon"></i>
                     <div class="z-10 text-center px-4">
                         <span class="bg-black/20 px-2 py-1 rounded text-xs font-bold mb-2 inline-block backdrop-blur-sm shadow-sm">EP.3</span>
-                        <h2 class="text-xl font-bold drop-shadow-md">คดีฆาตกรรมในห้องปิดตาย</h2>
+                        <h2 class="text-xl font-bold drop-shadow-md">คดีฆาตกรรมในห้องปิดตายของยอดดารา</h2>
                     </div>
                 </div>
                 <div class="p-5">
@@ -184,7 +285,7 @@
             </a>
 
             <!-- EP.4 -->
-            <a href="https://20nxskypqz.github.io/20nxskypqz/DetectiveConan/SEASON.1/EP.4/" class="episode-card block bg-white rounded-xl overflow-hidden shadow-md border border-gray-200 group">
+            <a href="https://20nxskypqz.github.io/20nxskypqz/DetectiveConan/SEASON.1/EP.4/" class="episode-card block group">
                 <div class="h-40 art-ep4 flex items-center justify-center text-white relative">
                     <i class="fa-solid fa-map-location-dot text-7xl opacity-20 absolute right-2 bottom-[-10px] art-icon"></i>
                     <div class="z-10 text-center px-4">
@@ -204,7 +305,7 @@
             </a>
 
             <!-- EP.5 -->
-            <a href="https://20nxskypqz.github.io/20nxskypqz/DetectiveConan/SEASON.1/EP.5/" class="episode-card block bg-white rounded-xl overflow-hidden shadow-md border border-gray-200 group">
+            <a href="https://20nxskypqz.github.io/20nxskypqz/DetectiveConan/SEASON.1/EP.5/" class="episode-card block group">
                 <div class="h-40 art-ep5 flex items-center justify-center text-white relative">
                     <i class="fa-solid fa-bomb text-7xl opacity-20 absolute right-2 bottom-[-10px] art-icon"></i>
                     <div class="z-10 text-center px-4">
@@ -224,7 +325,7 @@
             </a>
 
             <!-- EP.6 -->
-            <a href="https://20nxskypqz.github.io/20nxskypqz/DetectiveConan/SEASON.1/EP.6/" class="episode-card block bg-white rounded-xl overflow-hidden shadow-md border border-gray-200 group">
+            <a href="https://20nxskypqz.github.io/20nxskypqz/DetectiveConan/SEASON.1/EP.6/" class="episode-card block group">
                 <div class="h-40 art-ep6 flex items-center justify-center text-white relative">
                     <i class="fa-solid fa-heart text-7xl opacity-20 absolute right-2 bottom-[-10px] art-icon"></i>
                     <div class="z-10 text-center px-4">
@@ -244,7 +345,7 @@
             </a>
 
             <!-- EP.7 -->
-            <a href="https://20nxskypqz.github.io/20nxskypqz/DetectiveConan/SEASON.1/EP.7/" class="episode-card block bg-white rounded-xl overflow-hidden shadow-md border border-gray-200 group">
+            <a href="https://20nxskypqz.github.io/20nxskypqz/DetectiveConan/SEASON.1/EP.7/" class="episode-card block group">
                 <div class="h-40 art-ep7 flex items-center justify-center text-white relative">
                     <i class="fa-solid fa-gifts text-7xl opacity-20 absolute right-2 bottom-[-10px] art-icon"></i>
                     <div class="z-10 text-center px-4">
@@ -256,6 +357,66 @@
                     <p class="text-sm text-gray-500 mb-3 font-medium truncate">Once-A-Month Present Threat Case</p>
                     <div class="flex items-center justify-between">
                         <span class="text-xs text-gray-400">February 19 1996</span>
+                        <div class="flex flex-wrap gap-2 text-[10px]">
+                            <span class="bg-blue-50 text-blue-800 px-2 py-1 rounded border border-blue-100">Manga-Adapted</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- EP.8 -->
+            <a href="https://20nxskypqz.github.io/20nxskypqz/DetectiveConan/SEASON.1/EP.8/" class="episode-card block group">
+                <div class="h-40 art-ep8 flex items-center justify-center text-white relative">
+                    <i class="fa-solid fa-palette text-7xl opacity-20 absolute right-2 bottom-[-10px] art-icon"></i>
+                    <div class="z-10 text-center px-4">
+                        <span class="bg-black/20 px-2 py-1 rounded text-xs font-bold mb-2 inline-block backdrop-blur-sm shadow-sm">EP.8</span>
+                        <h2 class="text-xl font-bold drop-shadow-md">คดีฆาตกรรมเจ้าของหอศิลป์</h2>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <p class="text-sm text-gray-500 mb-3 font-medium truncate">Art Museum Owner Murder Case</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-400">February 26 1996</span>
+                        <div class="flex flex-wrap gap-2 text-[10px]">
+                            <span class="bg-blue-50 text-blue-800 px-2 py-1 rounded border border-blue-100">Manga-Adapted</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- EP.9 -->
+            <a href="https://20nxskypqz.github.io/20nxskypqz/DetectiveConan/SEASON.1/EP.9/" class="episode-card block group">
+                <div class="h-40 art-ep9 flex items-center justify-center text-white relative">
+                    <i class="fa-solid fa-camera-retro text-7xl opacity-20 absolute right-2 bottom-[-10px] art-icon"></i>
+                    <div class="z-10 text-center px-4">
+                        <span class="bg-black/20 px-2 py-1 rounded text-xs font-bold mb-2 inline-block backdrop-blur-sm shadow-sm">EP.9</span>
+                        <h2 class="text-xl font-bold drop-shadow-md">คดีฆาตกรรมอำพราง</h2>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <p class="text-sm text-gray-500 mb-3 font-medium truncate">Tenkaichi Night Festival Murder Case</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-400">March 4 1996</span>
+                        <div class="flex flex-wrap gap-2 text-[10px]">
+                            <span class="bg-blue-50 text-blue-800 px-2 py-1 rounded border border-blue-100">Manga-Adapted</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- EP.10 -->
+            <a href="https://20nxskypqz.github.io/20nxskypqz/DetectiveConan/SEASON.1/EP.10/" class="episode-card block group">
+                <div class="h-40 art-ep10 flex items-center justify-center text-white relative">
+                    <i class="fa-regular fa-futbol text-7xl opacity-20 absolute right-2 bottom-[-10px] art-icon"></i>
+                    <div class="z-10 text-center px-4">
+                        <span class="bg-black/20 px-2 py-1 rounded text-xs font-bold mb-2 inline-block backdrop-blur-sm shadow-sm">EP.10</span>
+                        <h2 class="text-xl font-bold drop-shadow-md">คดีข่มขู่นักฟุตบอลอาชีพ</h2>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <p class="text-sm text-gray-500 mb-3 font-medium truncate">Pro Soccer Player Blackmail Case</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-400">March 11 1996</span>
                         <div class="flex flex-wrap gap-2 text-[10px]">
                             <span class="bg-blue-50 text-blue-800 px-2 py-1 rounded border border-blue-100">Manga-Adapted</span>
                         </div>
@@ -286,7 +447,7 @@
             
             <div class="w-24 h-1 bg-conan-red mx-auto mb-8 rounded-full shadow-md"></div>
             
-            <p class="text-gray-300 text-sm font-bold tracking-widest uppercase mb-4">
+            <p class="text-yellow-400 text-sm font-bold tracking-widest uppercase mb-4 drop-shadow-md">
                 BY : 20nxskypqz
             </p>
             <p class="text-gray-400 text-xs opacity-70">
