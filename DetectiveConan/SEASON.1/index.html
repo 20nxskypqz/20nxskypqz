@@ -3,197 +3,315 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conan Database : Season 1</title>
-    <!-- Tailwind CSS -->
+    <title>Detective Conan : Season 1</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Niramit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Niramit', 'sans-serif'],
-                    },
-                    colors: {
-                        conanBlue: '#0047AB',
-                        conanRed: '#E60012',
-                        conanBrick: '#B22222',
-                    },
-                    backgroundImage: {
-                        'brick-pattern': "url('https://www.transparenttextures.com/patterns/brick-wall.png')",
-                    }
-                }
-            }
-        }
-    </script>
-
     <style>
-        body { background-color: #f0f0f0; }
-        .brick-bg {
+        /* Base Font */
+        body, h1, h2, h3, h4, h5, h6, p, span, div, a, li, ul {
+            font-family: 'Niramit', sans-serif !important;
+        }
+
+        /* Layout */
+        body {
+            background-color: #f0f4f8;
+            background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex-grow: 1;
+        }
+        
+        /* Custom Colors */
+        .conan-blue { color: #002D72 !important; }
+        .bg-conan-blue { background-color: #002D72 !important; }
+        .conan-red { color: #E60012 !important; }
+        .bg-conan-red { background-color: #E60012 !important; }
+        
+        /* Brick Pattern */
+        .brick-pattern {
             background-color: #8B0000;
-            background-image: linear-gradient(335deg, rgba(0,0,0,0.3) 23px, transparent 23px),
-            linear-gradient(155deg, rgba(0,0,0,0.3) 23px, transparent 23px),
-            linear-gradient(335deg, rgba(0,0,0,0.3) 23px, transparent 23px),
-            linear-gradient(155deg, rgba(0,0,0,0.3) 23px, transparent 23px);
+            background-image: 
+                linear-gradient(335deg, rgba(255,255,255,0.05) 23px, transparent 23px),
+                linear-gradient(155deg, rgba(255,255,255,0.05) 23px, transparent 23px),
+                linear-gradient(335deg, rgba(255,255,255,0.05) 23px, transparent 23px),
+                linear-gradient(155deg, rgba(255,255,255,0.05) 23px, transparent 23px);
             background-size: 58px 58px;
             background-position: 0px 2px, 4px 35px, 29px 31px, 34px 6px;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
         }
-        .card-hover { transition: all 0.3s ease; }
-        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        
-        /* Art Gradients */
-        .art-ep1 { background: linear-gradient(45deg, #0047AB, #000044); position: relative; overflow: hidden; }
-        .art-ep2 { background: linear-gradient(45deg, #E60012, #8B0000); position: relative; overflow: hidden; }
-        .art-ep3 { background: linear-gradient(45deg, #FFD700, #FF69B4); position: relative; overflow: hidden; }
-        .art-ep4 { background: linear-gradient(45deg, #1e3a8a, #7c3aed); position: relative; overflow: hidden; }
-        .art-ep5 { background: linear-gradient(45deg, #ef4444, #f97316); position: relative; overflow: hidden; }
+
+        /* Target Scope Background Effect */
+        .target-scope {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            pointer-events: none;
+            background: 
+                radial-gradient(circle, transparent 40%, rgba(255,255,255,0.05) 40%, rgba(255,255,255,0.05) 41%, transparent 41%),
+                linear-gradient(to right, transparent 49.8%, rgba(255,255,255,0.1) 49.8%, rgba(255,255,255,0.1) 50.2%, transparent 50.2%),
+                linear-gradient(to bottom, transparent 49.8%, rgba(255,255,255,0.1) 49.8%, rgba(255,255,255,0.1) 50.2%, transparent 50.2%);
+        }
+
+        /* Bow Tie Icon (CSS) */
+        .bowtie-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #ff4d4d, #b91c1c);
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Cpath d='M50 30 L 10 5 L 10 55 L 50 30 L 90 55 L 90 5 Z' fill='black'/%3E%3Ccircle cx='50' cy='30' r='8' fill='black'/%3E%3C/svg%3E");
+            mask-size: contain;
+            mask-repeat: no-repeat;
+            mask-position: center;
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Cpath d='M50 30 L 10 5 L 10 55 L 50 30 L 90 55 L 90 5 Z' fill='black'/%3E%3Ccircle cx='50' cy='30' r='8' fill='black'/%3E%3C/svg%3E");
+            -webkit-mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+        }
+
+        /* Art Gradients for Card Headers */
+        .art-ep1 { background: linear-gradient(135deg, #0047AB, #000044); position: relative; overflow: hidden; }
+        .art-ep2 { background: linear-gradient(135deg, #E60012, #8B0000); position: relative; overflow: hidden; }
+        .art-ep3 { background: linear-gradient(135deg, #F59E0B, #DB2777); position: relative; overflow: hidden; }
+        .art-ep4 { background: linear-gradient(135deg, #1e3a8a, #7c3aed); position: relative; overflow: hidden; }
+        .art-ep5 { background: linear-gradient(135deg, #ef4444, #f97316); position: relative; overflow: hidden; }
+        .art-ep6 { background: linear-gradient(135deg, #ec4899, #be123c); position: relative; overflow: hidden; }
+        .art-ep7 { background: linear-gradient(135deg, #10b981, #047857); position: relative; overflow: hidden; }
+
+        /* Card Hover Effects */
+        .episode-card {
+            transition: all 0.3s ease;
+        }
+        .episode-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .episode-card:hover .art-icon {
+            transform: scale(1.1) rotate(-5deg);
+            opacity: 0.4;
+        }
+        .art-icon {
+            transition: all 0.5s ease;
+        }
     </style>
 </head>
-<body class="text-gray-800 bg-gray-100 font-sans min-h-screen flex flex-col">
+<body class="text-gray-800 antialiased">
 
-    <!-- Navigation -->
-    <nav class="bg-conanBlue text-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+    <!-- Header -->
+    <header class="bg-conan-blue text-white shadow-xl sticky top-0 z-50 border-b-4 border-conan-red">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-conanRed rounded-full flex items-center justify-center border-2 border-white shadow-md">
-                    <i class="fa-solid fa-glasses text-white text-lg"></i>
+                <div class="bg-white p-1 rounded-full shadow-inner">
+                    <div class="bowtie-icon w-8 h-8"></div>
                 </div>
-                <div class="leading-tight">
-                    <span class="block text-lg font-bold tracking-wider">DETECTIVE CONAN</span>
-                    <span class="block text-xs font-light opacity-80">DATABASE : SEASON 1</span>
+                <div>
+                    <h1 class="text-xl font-bold tracking-wider leading-none">DETECTIVE CONAN</h1>
+                    <span class="text-xs text-blue-300 tracking-widest">SEASON 1</span>
                 </div>
             </div>
         </div>
-    </nav>
+    </header>
 
-    <!-- Main Content -->
-    <div class="flex-grow">
-        <header class="brick-bg text-white py-16 px-4 shadow-inner text-center">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">SEASON 1 <span class="text-2xl font-light opacity-80">(1996)</span></h1>
-            <p class="text-lg opacity-90">จุดเริ่มต้นแห่งตำนานยอดนักสืบ</p>
-        </header>
+    <!-- Hero Banner (Original Style) -->
+    <section class="brick-pattern text-white py-16 md:py-24 relative overflow-hidden flex items-center justify-center w-full shadow-lg">
+        <div class="target-scope"></div>
+        <div class="max-w-4xl mx-auto px-4 relative z-10 text-center w-full">
+            <span class="inline-block px-3 py-1 bg-conan-red text-white text-xs font-bold rounded-full mb-3 shadow-md tracking-wider">UNOFFICIAL ARCHIVE</span>
+            <h1 class="text-4xl md:text-5xl font-bold mb-2 drop-shadow-lg">Season 1 (1996)</h1>
+            <p class="text-blue-100 text-lg">จุดเริ่มต้นของยอดนักสืบจิ๋วโคนัน</p>
+        </div>
+    </section>
 
-        <main class="max-w-6xl mx-auto px-4 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                
-                <!-- EP.1 Link -->
-                <a href="EP.1/" class="bg-white rounded-xl overflow-hidden shadow-lg card-hover group border border-gray-200 block">
-                    <div class="h-40 art-ep1 flex items-center justify-center text-white relative">
-                        <i class="fa-solid fa-train-subway text-6xl opacity-30 absolute right-4 bottom-4"></i>
-                        <div class="z-10 text-center">
-                            <span class="bg-conanRed px-2 py-1 rounded text-xs font-bold mb-2 inline-block">EP.1</span>
-                            <h2 class="text-2xl font-bold drop-shadow">คดีฆาตกรรมบนรถไฟเหาะ</h2>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <p class="text-xs text-gray-500 mb-2 truncate">ジェットコースター殺人事件</p>
-                        <div class="flex gap-2 text-xs">
-                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Manga-adapted</span>
-                            <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded"><i class="fa-solid fa-skull mr-1"></i> ฆาตกรรม</span>
-                        </div>
-                    </div>
-                </a>
+    <!-- Episode List -->
+    <main class="max-w-6xl mx-auto px-4 py-12">
+        <h2 class="text-2xl font-bold text-gray-800 mb-8 border-l-4 border-conan-blue pl-4">Episodes List</h2>
 
-                <!-- EP.2 Link -->
-                <a href="EP.2/" class="bg-white rounded-xl overflow-hidden shadow-lg card-hover group border border-gray-200 block">
-                    <div class="h-40 art-ep2 flex items-center justify-center text-white relative">
-                        <i class="fa-solid fa-child-reaching text-6xl opacity-30 absolute right-4 bottom-4"></i>
-                        <div class="z-10 text-center">
-                            <span class="bg-conanBlue px-2 py-1 rounded text-xs font-bold mb-2 inline-block">EP.2</span>
-                            <h2 class="text-2xl font-bold drop-shadow">คดีลักพาตัวลูกสาวประธาน</h2>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <p class="text-xs text-gray-500 mb-2 truncate">社長令嬢誘拐事件</p>
-                        <div class="flex gap-2 text-xs">
-                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Manga-adapted</span>
-                            <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded"><i class="fa-solid fa-user-secret mr-1"></i> ลักพาตัว</span>
-                        </div>
-                    </div>
-                </a>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-                <!-- EP.3 Link -->
-                <a href="EP.3/" class="bg-white rounded-xl overflow-hidden shadow-lg card-hover group border border-gray-200 block">
-                    <div class="h-40 art-ep3 flex items-center justify-center text-white relative">
-                        <i class="fa-solid fa-microphone-lines text-6xl opacity-30 absolute right-4 bottom-4"></i>
-                        <div class="z-10 text-center">
-                            <span class="bg-black/20 px-2 py-1 rounded text-xs font-bold mb-2 inline-block backdrop-blur-sm">EP.3</span>
-                            <h2 class="text-2xl font-bold drop-shadow">คดีฆาตกรรมในห้องปิดตาย</h2>
-                        </div>
+            <!-- EP.1 -->
+            <a href="https://20nxskypqz.github.io/20nxskypqz/DetectiveConan/SEASON.1/EP.1/index.html" class="episode-card block bg-white rounded-xl overflow-hidden shadow-md border border-gray-200 group">
+                <div class="h-40 art-ep1 flex items-center justify-center text-white relative">
+                    <i class="fa-solid fa-train-subway text-7xl opacity-20 absolute right-2 bottom-[-10px] art-icon"></i>
+                    <div class="z-10 text-center px-4">
+                        <span class="bg-conan-red px-2 py-1 rounded text-xs font-bold mb-2 inline-block shadow-sm">EP.1</span>
+                        <h2 class="text-xl font-bold drop-shadow-md">คดีฆาตกรรมบนรถไฟเหาะ</h2>
                     </div>
-                    <div class="p-4">
-                        <p class="text-xs text-gray-500 mb-2 truncate">アイドル密室殺人事件</p>
-                        <div class="flex gap-2 text-xs">
-                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Manga-adapted</span>
-                            <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded"><i class="fa-solid fa-door-closed mr-1"></i> ห้องปิดตาย</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- EP.4 Link -->
-                <a href="EP.4/" class="bg-white rounded-xl overflow-hidden shadow-lg card-hover group border border-gray-200 block">
-                    <div class="h-40 art-ep4 flex items-center justify-center text-white relative">
-                        <i class="fa-solid fa-map-location-dot text-6xl opacity-30 absolute right-4 bottom-4"></i>
-                        <div class="z-10 text-center">
-                            <span class="bg-black/20 px-2 py-1 rounded text-xs font-bold mb-2 inline-block backdrop-blur-sm">EP.4</span>
-                            <h2 class="text-2xl font-bold drop-shadow">คดีลายแทงรหัสลับ</h2>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <p class="text-xs text-gray-500 mb-2 truncate">大都会暗号マップ事件</p>
-                        <div class="flex gap-2 text-xs">
-                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Manga-adapted</span>
-                            <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded"><i class="fa-solid fa-magnifying-glass-location mr-1"></i> ไขรหัส</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- EP.5 Link (Updated) -->
-                <a href="EP.5/" class="bg-white rounded-xl overflow-hidden shadow-lg card-hover group border border-gray-200 block">
-                    <div class="h-40 art-ep5 flex items-center justify-center text-white relative">
-                        <i class="fa-solid fa-train text-6xl opacity-30 absolute right-4 bottom-4"></i>
-                        <div class="z-10 text-center">
-                            <span class="bg-black/20 px-2 py-1 rounded text-xs font-bold mb-2 inline-block backdrop-blur-sm">EP.5</span>
-                            <h2 class="text-2xl font-bold drop-shadow">คดีรถไฟชินคันเซ็นมรณะ</h2>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <p class="text-xs text-gray-500 mb-2 truncate">新幹線大爆破事件</p>
-                        <div class="flex gap-2 text-xs">
-                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Manga-adapted</span>
-                            <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded"><i class="fa-solid fa-bomb mr-1"></i> กู้ระเบิด</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Placeholder for EP.6 -->
-                <div class="bg-gray-100 rounded-xl overflow-hidden shadow-inner border-2 border-dashed border-gray-300 flex flex-col items-center justify-center h-full min-h-[200px] text-gray-400">
-                     <i class="fa-solid fa-lock text-3xl mb-2"></i>
-                     <span>EP.6 COMING SOON</span>
                 </div>
+                <div class="p-5">
+                    <p class="text-sm text-gray-500 mb-3 font-medium">Roller Coaster Murder Case</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-400">January 8 1996</span>
+                        <div class="flex flex-wrap gap-2 text-[10px]">
+                            <span class="bg-blue-50 text-blue-800 px-2 py-1 rounded border border-blue-100">Manga-Adapted</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
 
-            </div>
-        </main>
-    </div>
+            <!-- EP.2 -->
+            <a href="https://20nxskypqz.github.io/20nxskypqz/DetectiveConan/SEASON.1/EP.2/index.html" class="episode-card block bg-white rounded-xl overflow-hidden shadow-md border border-gray-200 group">
+                <div class="h-40 art-ep2 flex items-center justify-center text-white relative">
+                    <i class="fa-solid fa-child-reaching text-7xl opacity-20 absolute right-2 bottom-[-10px] art-icon"></i>
+                    <div class="z-10 text-center px-4">
+                        <span class="bg-conan-blue px-2 py-1 rounded text-xs font-bold mb-2 inline-block shadow-sm">EP.2</span>
+                        <h2 class="text-xl font-bold drop-shadow-md">คดีลักพาตัวลูกสาวประธาน</h2>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <p class="text-sm text-gray-500 mb-3 font-medium truncate">Company President's Daughter Kidnapping Case</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-400">January 15 1996</span>
+                        <div class="flex flex-wrap gap-2 text-[10px]">
+                            <span class="bg-blue-50 text-blue-800 px-2 py-1 rounded border border-blue-100">Manga-Adapted</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
 
-    <!-- Footer -->
-    <footer class="bg-conanBlue text-white py-10 mt-auto border-t-4 border-conanRed">
-        <div class="max-w-4xl mx-auto px-4 text-center space-y-6">
-            <!-- Conan Intro Quote -->
-            <div class="text-sm md:text-base font-light italic opacity-90 space-y-2 leading-relaxed">
-                <p><i class="fa-solid fa-quote-left text-conanRed mr-2"></i>ผมชื่อเอโดงาวะ โคนัน ตัวจริงก็คือคุโด้ ชินอิจิ ที่โดนยาพิษจนกลายเป็นเด็ก ถึงจะตัวเล็กแต่สมองยังคงเป็นของยอดนักสืบคนเดิม</p>
-                <p>กาลเวลายิ่งผ่านไป คดีปริศนาที่ท้าทายก็ยิ่งเพิ่มขึ้นทุกที<i class="fa-solid fa-quote-right text-conanRed ml-2"></i></p>
+            <!-- EP.3 -->
+            <a href="https://20nxskypqz.github.io/20nxskypqz/DetectiveConan/SEASON.1/EP.3/index.html" class="episode-card block bg-white rounded-xl overflow-hidden shadow-md border border-gray-200 group">
+                <div class="h-40 art-ep3 flex items-center justify-center text-white relative">
+                    <i class="fa-solid fa-microphone-lines text-7xl opacity-20 absolute right-2 bottom-[-10px] art-icon"></i>
+                    <div class="z-10 text-center px-4">
+                        <span class="bg-black/20 px-2 py-1 rounded text-xs font-bold mb-2 inline-block backdrop-blur-sm shadow-sm">EP.3</span>
+                        <h2 class="text-xl font-bold drop-shadow-md">คดีฆาตกรรมในห้องปิดตาย</h2>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <p class="text-sm text-gray-500 mb-3 font-medium truncate">Idol's Locked Room Murder Case</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-400">January 22 1996</span>
+                        <div class="flex flex-wrap gap-2 text-[10px]">
+                            <span class="bg-blue-50 text-blue-800 px-2 py-1 rounded border border-blue-100">Manga-Adapted</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- EP.4 -->
+            <a href="https://20nxskypqz.github.io/20nxskypqz/DetectiveConan/SEASON.1/EP.4/index.html" class="episode-card block bg-white rounded-xl overflow-hidden shadow-md border border-gray-200 group">
+                <div class="h-40 art-ep4 flex items-center justify-center text-white relative">
+                    <i class="fa-solid fa-map-location-dot text-7xl opacity-20 absolute right-2 bottom-[-10px] art-icon"></i>
+                    <div class="z-10 text-center px-4">
+                        <span class="bg-black/20 px-2 py-1 rounded text-xs font-bold mb-2 inline-block backdrop-blur-sm shadow-sm">EP.4</span>
+                        <h2 class="text-xl font-bold drop-shadow-md">คดีลายแทงรหัสลับ</h2>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <p class="text-sm text-gray-500 mb-3 font-medium truncate">Coded Map of the City Case</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-400">January 29 1996</span>
+                        <div class="flex flex-wrap gap-2 text-[10px]">
+                            <span class="bg-blue-50 text-blue-800 px-2 py-1 rounded border border-blue-100">Manga-Adapted</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- EP.5 -->
+            <a href="https://20nxskypqz.github.io/20nxskypqz/DetectiveConan/SEASON.1/EP.5/index.html" class="episode-card block bg-white rounded-xl overflow-hidden shadow-md border border-gray-200 group">
+                <div class="h-40 art-ep5 flex items-center justify-center text-white relative">
+                    <i class="fa-solid fa-bomb text-7xl opacity-20 absolute right-2 bottom-[-10px] art-icon"></i>
+                    <div class="z-10 text-center px-4">
+                        <span class="bg-black/20 px-2 py-1 rounded text-xs font-bold mb-2 inline-block backdrop-blur-sm shadow-sm">EP.5</span>
+                        <h2 class="text-xl font-bold drop-shadow-md">คดีระเบิดชินคันเซ็น</h2>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <p class="text-sm text-gray-500 mb-3 font-medium truncate">Shinkansen's Bomb Case</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-400">February 5 1996</span>
+                        <div class="flex flex-wrap gap-2 text-[10px]">
+                            <span class="bg-blue-50 text-blue-800 px-2 py-1 rounded border border-blue-100">Manga-Adapted</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- EP.6 -->
+            <a href="https://20nxskypqz.github.io/20nxskypqz/DetectiveConan/SEASON.1/EP.6/index.html" class="episode-card block bg-white rounded-xl overflow-hidden shadow-md border border-gray-200 group">
+                <div class="h-40 art-ep6 flex items-center justify-center text-white relative">
+                    <i class="fa-solid fa-heart text-7xl opacity-20 absolute right-2 bottom-[-10px] art-icon"></i>
+                    <div class="z-10 text-center px-4">
+                        <span class="bg-black/20 px-2 py-1 rounded text-xs font-bold mb-2 inline-block backdrop-blur-sm shadow-sm">EP.6</span>
+                        <h2 class="text-xl font-bold drop-shadow-md">คดีฆาตกรรมวันวาเลนไทน์</h2>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <p class="text-sm text-gray-500 mb-3 font-medium truncate">Valentine Murder Case</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-400">February 12 1996</span>
+                        <div class="flex flex-wrap gap-2 text-[10px]">
+                            <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded border border-yellow-200">TV Original</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- EP.7 -->
+            <a href="https://20nxskypqz.github.io/20nxskypqz/DetectiveConan/SEASON.1/EP.7/index.html" class="episode-card block bg-white rounded-xl overflow-hidden shadow-md border border-gray-200 group">
+                <div class="h-40 art-ep7 flex items-center justify-center text-white relative">
+                    <i class="fa-solid fa-gifts text-7xl opacity-20 absolute right-2 bottom-[-10px] art-icon"></i>
+                    <div class="z-10 text-center px-4">
+                        <span class="bg-black/20 px-2 py-1 rounded text-xs font-bold mb-2 inline-block backdrop-blur-sm shadow-sm">EP.7</span>
+                        <h2 class="text-xl font-bold drop-shadow-md">คดีของขวัญอันตราย</h2>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <p class="text-sm text-gray-500 mb-3 font-medium truncate">Once-A-Month Present Threat Case</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-400">February 19 1996</span>
+                        <div class="flex flex-wrap gap-2 text-[10px]">
+                            <span class="bg-blue-50 text-blue-800 px-2 py-1 rounded border border-blue-100">Manga-Adapted</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+    </main>
+
+    <!-- Footer (Restored Original Style) -->
+    <footer class="brick-pattern text-white py-16 mt-20 border-t-8 border-white shadow-2xl relative">
+        <div class="absolute inset-0 bg-black/40"></div>
+        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+            <div class="bg-white p-2 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-8 shadow-lg transform hover:scale-110 transition-transform cursor-pointer">
+                <div class="bowtie-icon"></div>
             </div>
             
-            <div class="w-16 h-1 bg-white/20 mx-auto rounded"></div>
-
-            <!-- Credits -->
-            <p class="text-xs font-bold text-yellow-300 tracking-widest">BY : 20nxskypqz</p>
+            <div class="space-y-6 mb-10">
+                <p class="text-lg md:text-xl font-medium leading-relaxed tracking-wide text-gray-100">
+                    "ผมชื่อเอโดงาวะ โคนัน ตัวจริงก็คือคุโด้ ชินอิจิ ที่โดนยาพิษจนกลายเป็นเด็ก<br class="hidden md:block"/> 
+                    ถึงจะตัวเล็กแต่สมองยังคงเป็นของยอดนักสืบคนเดิม"
+                </p>
+                <p class="text-lg md:text-xl font-medium leading-relaxed tracking-wide text-gray-100 mt-4">
+                    "กาลเวลายิ่งผ่านไป คดีปริศนาที่ท้าทายก็ยิ่งเพิ่มขึ้นทุกที"
+                </p>
+            </div>
+            
+            <div class="w-24 h-1 bg-conan-red mx-auto mb-8 rounded-full"></div>
+            
+            <p class="text-gray-400 text-sm font-bold tracking-widest uppercase mb-4">
+                BY : 20nxskypqz
+            </p>
+            <p class="text-gray-500 text-xs opacity-70">
+                © Gosho Aoyama / Shogakukan / YTV / TMS Entertainment
+            </p>
         </div>
     </footer>
+
 </body>
 </html>
