@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detective Conan : Episode 3</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Force Niramit Font Everywhere */
+        body, h1, h2, h3, h4, h5, h6, p, span, div, a, li, ul {
+            font-family: 'Niramit', sans-serif !important;
+        }
+
+        /* Layout */
+        body {
+            background-color: #f0f4f8;
+            background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex-grow: 1;
+        }
+        
+        /* Custom Colors */
+        .conan-blue { color: #002D72 !important; }
+        .bg-conan-blue { background-color: #002D72 !important; }
+        .border-conan-blue { border-color: #002D72 !important; }
+        
+        .conan-red { color: #E60012 !important; }
+        .bg-conan-red { background-color: #E60012 !important; }
+        .border-conan-red { border-color: #E60012 !important; }
+        
+        /* Brick Pattern */
+        .brick-pattern {
+            background-color: #8B0000;
+            background-image: 
+                linear-gradient(335deg, rgba(255,255,255,0.05) 23px, transparent 23px),
+                linear-gradient(155deg, rgba(255,255,255,0.05) 23px, transparent 23px),
+                linear-gradient(335deg, rgba(255,255,255,0.05) 23px, transparent 23px),
+                linear-gradient(155deg, rgba(255,255,255,0.05) 23px, transparent 23px);
+            background-size: 58px 58px;
+            background-position: 0px 2px, 4px 35px, 29px 31px, 34px 6px;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        /* Target Scope Background Effect */
+        .target-scope {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            pointer-events: none;
+            background: 
+                radial-gradient(circle, transparent 40%, rgba(255,255,255,0.05) 40%, rgba(255,255,255,0.05) 41%, transparent 41%),
+                linear-gradient(to right, transparent 49.8%, rgba(255,255,255,0.1) 49.8%, rgba(255,255,255,0.1) 50.2%, transparent 50.2%),
+                linear-gradient(to bottom, transparent 49.8%, rgba(255,255,255,0.1) 49.8%, rgba(255,255,255,0.1) 50.2%, transparent 50.2%);
+        }
+
+        /* Bow Tie Icon (CSS) */
+        .bowtie-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #ff4d4d, #b91c1c);
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Cpath d='M50 30 L 10 5 L 10 55 L 50 30 L 90 55 L 90 5 Z' fill='black'/%3E%3Ccircle cx='50' cy='30' r='8' fill='black'/%3E%3C/svg%3E");
+            mask-size: contain;
+            mask-repeat: no-repeat;
+            mask-position: center;
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Cpath d='M50 30 L 10 5 L 10 55 L 50 30 L 90 55 L 90 5 Z' fill='black'/%3E%3Ccircle cx='50' cy='30' r='8' fill='black'/%3E%3C/svg%3E");
+            -webkit-mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        /* Card Styling */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 4px;
+            background-color: #E60012;
+            border-radius: 2px;
+        }
+
+        .subsection-header {
+            font-weight: bold;
+            color: #002D72;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 0.25rem;
+        }
+        
+        .evidence-tag {
+            background: #fff1f2;
+            border-left: 4px solid #dc2626;
+            padding: 0.5rem 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased selection:bg-red-200 selection:text-red-900">
+
+    <!-- Header -->
+    <header class="bg-conan-blue text-white shadow-xl sticky top-0 z-50 border-b-4 border-conan-red w-full">
+        <div class="max-w-6xl mx-auto px-4 py-2 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <div class="bg-white p-1.5 rounded-full shadow-inner">
+                    <div class="bowtie-icon"></div>
+                </div>
+                <div>
+                    <h1 class="text-lg md:text-xl font-bold tracking-wider leading-tight">DETECTIVE CONAN</h1>
+                </div>
+            </div>
+            <div class="hidden md:block text-right">
+                <div class="text-xs font-light text-blue-200 uppercase tracking-widest mb-0.5">Truth is Only One</div>
+                <div class="h-0.5 w-full bg-conan-red opacity-50"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section (Information) -->
+    <section class="brick-pattern text-white py-16 md:py-24 relative overflow-hidden flex items-center justify-center w-full">
+        <div class="target-scope"></div>
+        
+        <div class="max-w-4xl mx-auto px-4 relative z-10 text-center w-full">
+            <!-- Episode Badge -->
+            <div class="inline-flex items-center justify-center space-x-2 bg-black/40 backdrop-blur-sm px-6 py-2 rounded-full border border-white/20 mb-8 shadow-lg">
+                <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                <span class="text-sm font-bold uppercase tracking-widest">Episode 3 <span class="mx-2 opacity-50">|</span> TH. Episode 3</span>
+            </div>
+            
+            <!-- Titles -->
+            <div class="space-y-4 mb-10">
+                <div class="space-y-2">
+                    <h1 class="text-3xl md:text-5xl font-bold drop-shadow-xl leading-tight">
+                        Idol's Locked Room Murder Case
+                    </h1>
+                </div>
+                
+                <div class="relative inline-block py-2 px-8">
+                    <!-- Decorative lines -->
+                    <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-white/50"></div>
+                    <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-white/50"></div>
+                    
+                    <h2 class="text-2xl md:text-3xl font-medium tracking-wide">
+                        アイドル密室殺人事件
+                    </h2>
+                </div>
+                
+                <p class="text-lg text-blue-200 font-light italic tracking-wide">
+                    (Aidoru Misshitsu Satsujin Jiken)
+                </p>
+                
+                <div class="mt-4">
+                    <h3 class="text-2xl md:text-3xl font-bold text-yellow-400 drop-shadow-md bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-500 bg-clip-text text-transparent">
+                        คดีฆาตกรรมในห้องปิดตายของยอดดารา
+                    </h3>
+                </div>
+            </div>
+            
+            <!-- Information Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/10 shadow-2xl text-left text-sm md:text-base">
+                <div class="flex flex-col space-y-3 border-r-0 md:border-r border-white/10 pr-0 md:pr-4">
+                    <div class="flex justify-between items-start border-b border-white/10 pb-2">
+                        <span class="font-bold text-blue-200 whitespace-nowrap">วันออกอากาศ :</span>
+                        <div class="text-right">
+                            <span class="block">January 22 1996</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/10 pb-2">
+                        <span class="font-bold text-blue-200">มังงะคดีที่ :</span>
+                        <span class="font-mono bg-black/20 px-2 py-0.5 rounded">#3</span>
+                    </div>
+                </div>
+                <div class="flex flex-col space-y-3 pl-0 md:pl-4">
+                    <div class="flex justify-between items-center border-b border-white/10 pb-2">
+                        <span class="font-bold text-blue-200">ซีซั่น :</span>
+                        <span>1 (1996)</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/10 pb-2">
+                        <span class="font-bold text-blue-200">แหล่งที่มาของมังงะ :</span>
+                        <span>Volume 1: Files 6-9 (006-009)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-12 space-y-16 w-full">
+
+        <!-- Characters Section -->
+        <section>
+            <h2 class="section-title text-2xl font-bold text-gray-800 mb-8">ตัวละคร (Cast)</h2>
+            
+            <h3 class="text-xl font-semibold text-gray-600 mb-4">ตัวละครที่เปิดตัว (Introduced)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+                <!-- Yoko Okino (Fuchsia) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-fuchsia-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-fuchsia-600 relative z-10">โยโกะ โอกิโนะ (Yoko Okino)</h3>
+                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-fuchsia-400 rounded-full mr-2"></span>อายุ 22 ปี</p>
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-fuchsia-400 rounded-full mr-2"></span>ไอดอล / นักร้องป๊อป</p>
+                    </div>
+                </div>
+
+                <!-- Eiichi Yamagishi (Teal) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-teal-600 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-teal-700 relative z-10">เออิจิ ยามากิชิ (Eiichi Yamagishi)</h3>
+                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-teal-400 rounded-full mr-2"></span>ผู้จัดการของโยโกะ</p>
+                    </div>
+                </div>
+
+                <!-- Officer Tome (Sky Blue) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-sky-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-sky-600 relative z-10">เจ้าหน้าที่โทเมะ (Officer Tome)</h3>
+                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-sky-300 rounded-full mr-2"></span>สมาชิกหน่วยพิสูจน์หลักฐาน จากกรมตำรวจนครบาลโตเกียว</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-600 mb-4">ตัวละครที่ปรากฏ (Featured Characters)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <!-- Conan (Blue) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-conan-blue relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-conan-blue relative z-10">โคนัน เอโดงาวะ (Conan Edogawa)</h3>
+                </div>
+
+                <!-- Kogoro (Gray) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-gray-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-gray-700 relative z-10">โคโกโร่ โมริ (Kogoro Mouri)</h3>
+                </div>
+
+                <!-- Ran (Pink) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-pink-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-pink-600 relative z-10">รัน โมริ (Ran Mouri)</h3>
+                </div>
+
+                <!-- Agasa (Yellow) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-yellow-400 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-yellow-700 relative z-10">ฮิโรชิ อากาสะ (Hiroshi Agasa)</h3>
+                </div>
+
+                <!-- Gin (Black) -->
+                <div class="rounded-xl p-5 border-l-8 border-black bg-gradient-to-br from-gray-900 to-black text-white shadow-lg relative overflow-hidden group">
+                    <h3 class="font-bold text-xl relative z-10">จิน (Gin)</h3>
+                    <div class="mt-2 text-sm text-gray-400 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full mr-2"></span>(ฉากหลัง)</p>
+                    </div>
+                </div>
+
+                <!-- Vodka (Black) -->
+                <div class="rounded-xl p-5 border-l-8 border-black bg-gradient-to-br from-gray-900 to-black text-white shadow-lg relative overflow-hidden group">
+                    <h3 class="font-bold text-xl relative z-10">วอดก้า (Vodka)</h3>
+                    <div class="mt-2 text-sm text-gray-400 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full mr-2"></span>(ฉากหลัง)</p>
+                    </div>
+                </div>
+
+                <!-- Ayumi (Green) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-green-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-green-700 relative z-10">อายูมิ โยชิดะ (Ayumi Yoshida)</h3>
+                </div>
+
+                <!-- Mitsuhiko (Green) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-green-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-green-700 relative z-10">มิตสึฮิโกะ สึบุรายะ (Mitsuhiko Tsuburaya)</h3>
+                </div>
+
+                <!-- Genta (Green) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-green-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-green-700 relative z-10">เก็นตะ โคจิมะ (Genta Kojima)</h3>
+                </div>
+
+                <!-- Megure (Orange) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-orange-600 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-orange-800 relative z-10">จูโซ เมกุเระ (Juzo Megure)</h3>
+                </div>
+
+                <!-- Shinichi (Blue) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-conan-blue relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-conan-blue relative z-10">ชินอิจิ คุโด (Shinichi Kudo)</h3>
+                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-300 rounded-full mr-2"></span>(เสียงพากย์)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gadgets Section -->
+        <section>
+            <h2 class="section-title text-2xl font-bold text-gray-800 mb-8">อุปกรณ์ (Gadgets)</h2>
+            <h3 class="text-xl font-semibold text-gray-600 mb-4">อุปกรณ์ที่เปิดตัว (Gadgets introduced)</h3>
+            
+            <div class="bg-gray-900 text-white rounded-2xl shadow-xl p-8 border-t-4 border-conan-red flex flex-col md:flex-row gap-8 items-center">
+                <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20 flex flex-col items-center text-center w-full md:w-1/3">
+                    <div class="bowtie-icon w-24 h-24 mb-4 transform scale-150"></div>
+                    <h3 class="text-2xl font-bold text-red-500 mb-2">หูกระต่ายเปลี่ยนเสียง</h3>
+                    <p class="text-sm text-gray-400 uppercase tracking-widest">Voice-Changing Bowtie</p>
+                </div>
+                <div class="w-full md:w-2/3">
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="w-2 h-2 rounded-full bg-red-600 mt-2 mr-3 flex-shrink-0"></span>
+                            <p class="text-gray-300 text-lg">มอบความสามารถในการเลียนแบบเสียงของผู้อื่น</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Plot Section -->
+        <section>
+            <h2 class="section-title text-2xl font-bold text-gray-800 mb-8">เนื้อเรื่อง (Plot)</h2>
+
+            <!-- Main Case Card -->
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 mb-10 relative">
+                <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-conan-blue via-conan-red to-conan-blue"></div>
+                <div class="bg-blue-50 px-8 py-5 border-b border-blue-100">
+                    <h3 class="text-xl font-bold text-conan-blue">คดีฆาตกรรมในห้องปิดตายของยอดดารา</h3>
+                </div>
+                
+                <div class="p-8 space-y-8">
+                    <!-- Situation -->
+                    <div>
+                        <h4 class="subsection-header">สถานการณ์ (Situation)</h4>
+                        <p class="text-gray-700 leading-relaxed mb-4">
+                            โคนันปฏิเสธที่จะเดินกลับบ้านจากโรงเรียนพร้อมกับเพื่อนร่วมชั้นอย่างอายูมิ เก็นตะ และมิตสึฮิโกะ เขามาถึงสำนักงานนักสืบโมริ และพบว่าโคโกโร่ซึ่งไม่มีงานทำ ใช้เวลาทั้งวันไปกับการดื่มเบียร์และดูไอดอลคนโปรดของเขา โยโกะ โอกิโนะ ทางโทรทัศน์
+                        </p>
+                        <p class="text-gray-700 leading-relaxed mb-4">
+                            เมื่อมีลูกค้ามาที่สำนักงานระหว่างที่รายการของโยโกะกำลังออกอากาศอยู่ โคโกโร่ถึงกับพยายามขอให้ลูกค้ากลับมาใหม่ภายหลัง จนกระทั่งเขารู้ตัวว่าลูกค้าคนนั้นคือ โยโกะ โอกิโนะ เอง พร้อมกับผู้จัดการของเธอ โคโกโร่รีบจัดแจงตัวเองให้ดูเรียบร้อย และรับฟังความกังวลของโยโกะเกี่ยวกับสตอล์กเกอร์ที่คอยรบกวนเธออยู่ช่วงหลัง เขาตกลงรับสืบคดีที่อพาร์ตเมนต์ของโยโกะ โดยรันและโคนันก็ตามไปด้วย
+                        </p>
+                        <p class="text-gray-700 leading-relaxed">
+                            อายูมิ เก็นตะ และมิตสึฮิโกะเฝ้าดูอยู่ที่สำนักงาน และแอบตามไปเช่นกัน เมื่อประตูหน้าของอพาร์ตเมนต์ถูกเปิดออก ทุกคนก็เห็นศพนอนอยู่บนพื้นด้านใน
+                        </p>
+                    </div>
+
+                    <!-- Murder -->
+                    <div>
+                        <h4 class="subsection-header">การฆาตกรรม (Murder)</h4>
+                        <div class="space-y-1 text-sm text-gray-700 mb-6">
+                            <p><span class="font-bold">สถานที่ :</span> อพาร์ตเมนต์ของโยโกะ โอกิโนะ</p>
+                            <p><span class="font-bold">เหยื่อ :</span> อากิโยชิ ฟุจิเอะ</p>
+                            <p><span class="font-bold">อายุ :</span> 22 ปี</p>
+                            <p><span class="font-bold">สาเหตุการตาย :</span> ถูกแทง</p>
+                            <p><span class="font-bold">ผู้ต้องสงสัย :</span> โยโกะ โอกิโนะ , ยูโกะ อิเคซาวะ และ เออิจิ ยามากิชิ</p>
+                            <p class="mt-2 text-gray-600 italic">เมื่อเปิดประตูเข้าไปในอพาร์ตเมนต์ของโยโกะ โอกิโนะ เพื่อตรวจสอบเรื่องการแกล้งและความเป็นไปได้ของสตอล์กเกอร์ โคนันและคนอื่น ๆ พบว่าฟุจิเอะนอนเสียชีวิตอยู่บนพื้น โดยมีมีดปักอยู่ที่หลังของเขา</p>
+                        </div>
+                    </div>
+
+                    <!-- People -->
+                    <div>
+                        <h4 class="subsection-header">บุคคล (People)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <!-- Yoko (Fuchsia) -->
+                            <div class="bg-fuchsia-50 p-3 rounded border-l-4 border-fuchsia-500">
+                                <strong class="text-fuchsia-700">โยโกะ โอกิโนะ (Yoko Okino)</strong>
+                                <ul class="list-disc list-inside text-fuchsia-800">
+                                    <li>อายุ 22 ปี</li>
+                                    <li>ไอดอล / นักร้องป๊อป</li>
+                                </ul>
+                            </div>
+                            <!-- Yuko (Violet) -->
+                            <div class="bg-violet-50 p-3 rounded border-l-4 border-violet-500">
+                                <strong class="text-violet-700">ยูโกะ อิเคซาวะ (Yuko Ikezawa)</strong>
+                                <ul class="list-disc list-inside text-violet-800">
+                                    <li>ไอดอล / นักร้องป๊อป</li>
+                                    <li>คู่แข่งของโยโกะ</li>
+                                </ul>
+                            </div>
+                            <!-- Yamagishi (Teal) -->
+                            <div class="bg-teal-50 p-3 rounded border-l-4 border-teal-500">
+                                <strong class="text-teal-700">เออิจิ ยามากิชิ (Eiichi Yamagishi)</strong>
+                                <ul class="list-disc list-inside text-teal-800">
+                                    <li>ผู้จัดการของโยโกะ</li>
+                                </ul>
+                            </div>
+                            <!-- Victim: Fujie (Purple) -->
+                            <div class="bg-purple-100 p-3 rounded border-l-4 border-purple-800">
+                                <strong class="text-purple-900">อากิโยชิ ฟุจิเอะ (Akiyoshi Fujie)</strong>
+                                <ul class="list-disc list-inside text-purple-900">
+                                    <li>เหยื่อ (ถูกแทง)</li>
+                                    <li>อายุ 22 ปี</li>
+                                    <li>พนักงานบริษัทคาคุเบนิ อินดัสทรี</li>
+                                    <li>อดีตแฟนของโยโกะ</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Resolution -->
+                    <div>
+                        <h4 class="subsection-header">การคลี่คลายคดี (Resolution)</h4>
+                        <div class="space-y-4">
+                            <div>
+                                <strong class="text-conan-blue block mb-1">หลักฐาน (Evidence)</strong>
+                                <ul class="list-disc list-inside text-sm text-gray-700 space-y-1 pl-4">
+                                    <li>โคนันพบต่างหูแบบห่วงอยู่ใต้โซฟาในอพาร์ตเมนต์ของโยโกะ โยโกะเปิดเผยว่าต่างหูคู่นี้เป็นของยูโกะ อิเคซาวะ คู่แข่งของเธอ</li>
+                                    <li>ยูโกะอ้างว่าไม่เคยมาอพาร์ตเมนต์ของโยโกะมาก่อน แต่กลับรู้ตำแหน่งห้องน้ำ และรู้ว่ารูปปั้นเทพีเสรีภาพในห้องนั้น แท้จริงแล้วเป็นไฟแช็ก</li>
+                                    <li>ยามากิชิอธิบายว่ากุญแจสำรองของอพาร์ตเมนต์โยโกะหายไปได้ระยะหนึ่งแล้ว</li>
+                                    <li>ยามากิชิดึงเส้นผมออกจากมือของฟุจิเอะ ขณะทำทีเหมือนลื่นล้มลงบนพื้น เมื่อโคนันเก็บเส้นผมนั้นขึ้นมา เขาก็ตระหนักได้ว่ายามากิชิน่าจะคิดว่าเส้นผมนั้นเป็นของโยโกะ</li>
+                                    <li>โคนันพบรอยบุ๋มประหลาดบนพื้น รวมถึงร่องรอยของน้ำ และยังสังเกตว่าเป็นเรื่องแปลกที่มีเพียงเก้าอี้ตัวเดียวตั้งตรงอยู่ใกล้ศพ ในขณะที่ทั้งห้องอยู่ในสภาพรกรุงรัง</li>
+                                    <li>เมกุเระ เมื่อเข้ามาในอพาร์ตเมนต์ของโยโกะ สังเกตได้ว่าอุณหภูมิภายในห้องนั้นร้อนผิดปกติ</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong class="text-conan-blue block mb-1">บทสรุป (Conclusion)</strong>
+                                <p class="text-sm text-gray-700 leading-relaxed">
+                                    โคนันทำให้โคโกโร่หมดสติโดยการเตะหัวเขาด้วยที่เขี่ยบุหรี่ จากนั้นโคนันใช้หูกระต่ายเปลี่ยนเสียง แอบอ้างเป็นโคโกโร่ และเปิดเผยความจริงเบื้องหลังเหตุการณ์ประหลาดที่เกิดขึ้นกับโยโกะ รวมถึงคดีการเสียชีวิตครั้งนี้
+                                </p>
+                                <p class="text-sm text-gray-700 leading-relaxed mt-2">
+                                    ยูโกะเป็นผู้รับผิดชอบต่อการหายไปของกุญแจอพาร์ตเมนต์ รวมถึงสายโทรศัพท์ข่มขู่ต่าง ๆ นี่คือเหตุผลที่ยูโกรู้ตำแหน่งห้องน้ำ และรู้ว่ารูปปั้นเทพีเสรีภาพเป็นไฟแช็ก
+                                </p>
+                                <p class="text-sm text-gray-700 leading-relaxed mt-2">
+                                    โคนันในร่างของโคโกโร่เปิดเผยว่า การเสียชีวิตของฟุจิเอะไม่ใช่การฆาตกรรม แต่เป็นการฆ่าตัวตาย ฟุจิเอะแช่มีดไว้ในก้อนน้ำแข็ง หลังจากหยิบเส้นผมจากแปรงผมของโยโกะ แล้วตกจากเก้าอี้ล้มไปด้านหลังทับมีดนั้น รอยบุ๋มบนพื้นเกิดจากมีดในขณะฟุจิเอะล้มลง และคราบน้ำบนพื้นเกิดจากน้ำแข็งที่ละลาย ก่อนจะปลิดชีพตัวเอง ฟุจิเอะเร่งอุณหภูมิในอพาร์ตเมนต์ของโยโกะ เพื่อให้น้ำแข็งละลายและทำลายหลักฐาน
+                                </p>
+                            </div>
+                            <div>
+                                <strong class="text-conan-blue block mb-1">แรงจูงใจ (Motive)</strong>
+                                <p class="text-sm text-gray-700 leading-relaxed">
+                                    แรงจูงใจของยูโกะในการเล่นตลกและกลั่นแกล้งโยโกะ คือเพื่อทำให้เธอกลัว และค้นหาวัสดุที่อาจกลายเป็นข่าวฉาว
+                                </p>
+                                <p class="text-sm text-gray-700 leading-relaxed mt-2">
+                                    แรงจูงใจของฟุจิเอะในการฆ่าตัวตาย เกิดจากปฏิกิริยาตกใจของยูโกะ เมื่อฟุจิเอะจับไหล่ของเธอ ฟุจิเอะเคยเป็นแฟนของโยโกะ จนกระทั่งยามากิชิขอให้เขาเลิกรากับเธอเพื่ออนาคตในวงการของโยโกะ ฟุจิเอะเข้าใจผิดว่ายูโกะคือโยโกะ ผู้หญิงที่เขายังรักอยู่ และตีความปฏิกิริยานั้นว่าโยโกะไม่ต้องการพบเขาอีกต่อไป ไม่อาจทนต่อความคิดนั้นได้ ฟุจิเอะจึงฆ่าตัวตาย พร้อมทั้งใส่ร้ายโยโกะว่าเป็นฆาตกรเพื่อแก้แค้น
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Differences Section -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 mb-10">
+            <h3 class="section-title text-xl font-bold text-conan-blue mb-4">ความแตกต่างระหว่างมังงะกับอนิเมะ (Manga to anime changes)</h3>
+            <ul class="space-y-3 list-disc list-inside text-gray-700 text-sm">
+                <li>ในอนิเมะ อายูมิ มิสึฮิโกะ และเก็นตะ แนะนำตัวกับโคนัน และติดตามเขาไปเกี่ยวข้องกับคดีด้วย ขณะที่ในมังงะ กลุ่มนักสืบเยาวชน (Detective Boys) จะยังไม่ปรากฏตัวจนกว่าจะถึงคดีบ้านผีสิงในเล่มถัดไป</li>
+                <li>ในมังงะ รันสงสัยว่าการหายตัวไปของชินอิจิอาจเกี่ยวข้องกับชายชุดดำสองคนที่เขาไล่ตามไป และเธอวางแผนจะโทรแจ้งตำรวจ ส่วนในอนิเมะ เธอเพียงแค่คิดจะรายงานการหายตัวไปของเขากับตำรวจเท่านั้น โดยไม่มีการกล่าวถึงชายชุดดำเลย</li>
+            </ul>
+        </section>
+
+        <!-- Trivia Section -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+            <h3 class="section-title text-xl font-bold text-conan-blue mb-4">เรื่องน่ารู้ (Trivia)</h3>
+            <ul class="space-y-3 list-disc list-inside text-gray-700 text-sm">
+                <li>
+                    เพลงแทรก : Utakata no Yume โดย โทโมโกะ ชิโนฮาระ
+                    <div class="pl-6 mt-1 text-gray-600">เพลงนี้ถูกใช้เป็นเพลงที่โยโกะ โอกิโนะ ร้องในตอนนี้</div>
+                </li>
+                <li>ตามฉากหลังเครดิต ตอนนี้เกิดขึ้นหนึ่งสัปดาห์ตามเส้นเรื่องหลัก หลังจากที่ชินอิจิหดตัวลงเป็นโคนัน</li>
+                <li>ภาพวาดในอพาร์ตเมนต์ของโยโกะเป็นภาพลอนดอน โดยมีบิ๊กเบนมองเห็นจากสะพาน และยังปรากฏในฉากจบของตอนด้วย</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="brick-pattern text-white py-16 mt-20 border-t-8 border-white shadow-2xl relative">
+        <div class="absolute inset-0 bg-black/40"></div>
+        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+            <div class="bg-white p-3 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-8 shadow-xl transform hover:scale-110 transition-transform cursor-pointer border-2 border-gray-100">
+                <div class="bowtie-icon"></div>
+            </div>
+            
+            <div class="space-y-6 mb-10 max-w-2xl mx-auto">
+                <p class="text-lg md:text-xl font-medium leading-relaxed tracking-wide text-gray-100 drop-shadow-md">
+                    "ผมชื่อเอโดงาวะ โคนัน ตัวจริงก็คือคุโด้ ชินอิจิ ที่โดนยาพิษจนกลายเป็นเด็ก<br class="hidden md:block"/> 
+                    ถึงจะตัวเล็กแต่สมองยังคงเป็นของยอดนักสืบคนเดิม"
+                </p>
+                <p class="text-lg md:text-xl font-medium leading-relaxed tracking-wide text-gray-100 mt-4 drop-shadow-md">
+                    "กาลเวลายิ่งผ่านไป คดีปริศนาที่ท้าทายก็ยิ่งเพิ่มขึ้นทุกที"
+                </p>
+            </div>
+            
+            <div class="w-24 h-1 bg-conan-red mx-auto mb-8 rounded-full shadow-md"></div>
+            
+            <p class="text-yellow-400 text-sm font-bold tracking-widest uppercase mb-4 drop-shadow-md">
+                BY : 20nxskypqz
+            </p>
+            <p class="text-gray-400 text-xs opacity-70">
+                © Gosho Aoyama / Shogakukan / YTV / TMS Entertainment
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
