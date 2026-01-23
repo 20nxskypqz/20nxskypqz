@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detective Conan : Episode 5</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Force Niramit Font Everywhere */
+        body, h1, h2, h3, h4, h5, h6, p, span, div, a, li, ul {
+            font-family: 'Niramit', sans-serif !important;
+        }
+
+        /* Layout */
+        body {
+            background-color: #f0f4f8;
+            background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex-grow: 1;
+        }
+        
+        /* Custom Colors */
+        .conan-blue { color: #002D72 !important; }
+        .bg-conan-blue { background-color: #002D72 !important; }
+        .border-conan-blue { border-color: #002D72 !important; }
+        
+        .conan-red { color: #E60012 !important; }
+        .bg-conan-red { background-color: #E60012 !important; }
+        .border-conan-red { border-color: #E60012 !important; }
+        
+        /* Brick Pattern */
+        .brick-pattern {
+            background-color: #8B0000;
+            background-image: 
+                linear-gradient(335deg, rgba(255,255,255,0.05) 23px, transparent 23px),
+                linear-gradient(155deg, rgba(255,255,255,0.05) 23px, transparent 23px),
+                linear-gradient(335deg, rgba(255,255,255,0.05) 23px, transparent 23px),
+                linear-gradient(155deg, rgba(255,255,255,0.05) 23px, transparent 23px);
+            background-size: 58px 58px;
+            background-position: 0px 2px, 4px 35px, 29px 31px, 34px 6px;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        /* Target Scope Background Effect */
+        .target-scope {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            pointer-events: none;
+            background: 
+                radial-gradient(circle, transparent 40%, rgba(255,255,255,0.05) 40%, rgba(255,255,255,0.05) 41%, transparent 41%),
+                linear-gradient(to right, transparent 49.8%, rgba(255,255,255,0.1) 49.8%, rgba(255,255,255,0.1) 50.2%, transparent 50.2%),
+                linear-gradient(to bottom, transparent 49.8%, rgba(255,255,255,0.1) 49.8%, rgba(255,255,255,0.1) 50.2%, transparent 50.2%);
+        }
+
+        /* Bow Tie Icon (CSS) */
+        .bowtie-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #ff4d4d, #b91c1c);
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Cpath d='M50 30 L 10 5 L 10 55 L 50 30 L 90 55 L 90 5 Z' fill='black'/%3E%3Ccircle cx='50' cy='30' r='8' fill='black'/%3E%3C/svg%3E");
+            mask-size: contain;
+            mask-repeat: no-repeat;
+            mask-position: center;
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Cpath d='M50 30 L 10 5 L 10 55 L 50 30 L 90 55 L 90 5 Z' fill='black'/%3E%3Ccircle cx='50' cy='30' r='8' fill='black'/%3E%3C/svg%3E");
+            -webkit-mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+        
+        /* Shoes Icon (CSS) */
+        .shoes-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M19.1 11.5C19.1 11.5 19.2 11.4 19.2 11.4C19.3 11.1 19.4 10.8 19.5 10.5C20 8.7 18.9 6.8 17.1 6.3L12.5 5.1C11.9 4.9 11.3 4.8 10.7 4.8C7.5 4.8 4.7 6.9 3.8 10L3.2 12.3C2.2 12.8 1.5 13.8 1.5 15C1.5 16.7 2.8 18 4.5 18H20.5C21.3 18 22 17.3 22 16.5V13.5C22 12.6 21.4 11.8 20.6 11.5H19.1ZM5.5 16C4.7 16 4 15.3 4 14.5C4 13.7 4.7 13 5.5 13C6.3 13 7 13.7 7 14.5C7 15.3 6.3 16 5.5 16Z'/%3E%3C/svg%3E");
+            mask-size: contain;
+            mask-repeat: no-repeat;
+            mask-position: center;
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M19.1 11.5C19.1 11.5 19.2 11.4 19.2 11.4C19.3 11.1 19.4 10.8 19.5 10.5C20 8.7 18.9 6.8 17.1 6.3L12.5 5.1C11.9 4.9 11.3 4.8 10.7 4.8C7.5 4.8 4.7 6.9 3.8 10L3.2 12.3C2.2 12.8 1.5 13.8 1.5 15C1.5 16.7 2.8 18 4.5 18H20.5C21.3 18 22 17.3 22 16.5V13.5C22 12.6 21.4 11.8 20.6 11.5H19.1ZM5.5 16C4.7 16 4 15.3 4 14.5C4 13.7 4.7 13 5.5 13C6.3 13 7 13.7 7 14.5C7 15.3 6.3 16 5.5 16Z'/%3E%3C/svg%3E");
+            -webkit-mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        /* Microphone Icon (CSS) */
+        .mic-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #60a5fa, #2563eb);
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 2.34 9 5v6c0 1.66 1.34 3 3 3z'/%3E%3Cpath d='M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z'/%3E%3C/svg%3E");
+            mask-size: contain;
+            mask-repeat: no-repeat;
+            mask-position: center;
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 2.34 9 5v6c0 1.66 1.34 3 3 3z'/%3E%3Cpath d='M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z'/%3E%3C/svg%3E");
+            -webkit-mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        /* Card Styling */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 4px;
+            background-color: #E60012;
+            border-radius: 2px;
+        }
+
+        .subsection-header {
+            font-weight: bold;
+            color: #002D72;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 0.25rem;
+        }
+        
+        .evidence-tag {
+            background: #fff1f2;
+            border-left: 4px solid #dc2626;
+            padding: 0.5rem 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased selection:bg-red-200 selection:text-red-900">
+
+    <!-- Header -->
+    <header class="bg-conan-blue text-white shadow-xl sticky top-0 z-50 border-b-4 border-conan-red w-full">
+        <div class="max-w-6xl mx-auto px-4 py-2 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <div class="bg-white p-1.5 rounded-full shadow-inner">
+                    <div class="bowtie-icon"></div>
+                </div>
+                <div>
+                    <h1 class="text-lg md:text-xl font-bold tracking-wider leading-tight">DETECTIVE CONAN</h1>
+                </div>
+            </div>
+            <div class="hidden md:block text-right">
+                <div class="text-xs font-light text-blue-200 uppercase tracking-widest mb-0.5">Truth is Only One</div>
+                <div class="h-0.5 w-full bg-conan-red opacity-50"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section (Information) -->
+    <section class="brick-pattern text-white py-16 md:py-24 relative overflow-hidden flex items-center justify-center w-full">
+        <div class="target-scope"></div>
+        
+        <div class="max-w-4xl mx-auto px-4 relative z-10 text-center w-full">
+            <!-- Episode Badge -->
+            <div class="inline-flex items-center justify-center space-x-2 bg-black/40 backdrop-blur-sm px-6 py-2 rounded-full border border-white/20 mb-8 shadow-lg">
+                <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                <span class="text-sm font-bold uppercase tracking-widest">Episode 5 <span class="mx-2 opacity-50">|</span> TH. Episode 5</span>
+            </div>
+            
+            <!-- Titles -->
+            <div class="space-y-4 mb-10">
+                <div class="space-y-2">
+                    <!-- Removed "The" -->
+                    <h1 class="text-3xl md:text-5xl font-bold drop-shadow-xl leading-tight">
+                        Shinkansen's Bomb Case
+                    </h1>
+                </div>
+                
+                <div class="relative inline-block py-2 px-8">
+                    <!-- Decorative lines -->
+                    <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-white/50"></div>
+                    <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-white/50"></div>
+                    
+                    <h2 class="text-2xl md:text-3xl font-medium tracking-wide">
+                        新幹線大爆破事件
+                    </h2>
+                </div>
+                
+                <p class="text-lg text-blue-200 font-light italic tracking-wide">
+                    (Shinkansen Dai Bakuha Jiken)
+                </p>
+                
+                <div class="mt-4">
+                    <h3 class="text-2xl md:text-3xl font-bold text-yellow-400 drop-shadow-md bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-500 bg-clip-text text-transparent">
+                        คดีระเบิดชินคันเซ็น
+                    </h3>
+                </div>
+            </div>
+            
+            <!-- Information Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/10 shadow-2xl text-left text-sm md:text-base">
+                <div class="flex flex-col space-y-3 border-r-0 md:border-r border-white/10 pr-0 md:pr-4">
+                    <div class="flex justify-between items-start border-b border-white/10 pb-2">
+                        <span class="font-bold text-blue-200 whitespace-nowrap">วันออกอากาศ :</span>
+                        <div class="text-right">
+                            <span class="block">February 5 1996</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/10 pb-2">
+                        <span class="font-bold text-blue-200">มังงะคดีที่ :</span>
+                        <span class="font-mono bg-black/20 px-2 py-0.5 rounded">#10</span>
+                    </div>
+                </div>
+                <div class="flex flex-col space-y-3 pl-0 md:pl-4">
+                    <div class="flex justify-between items-center border-b border-white/10 pb-2">
+                        <span class="font-bold text-blue-200">ซีซั่น :</span>
+                        <span>1 (1996)</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/10 pb-2">
+                        <span class="font-bold text-blue-200">แหล่งที่มาของมังงะ :</span>
+                        <span>Volume 4 : Files 4-6 (033-035)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-12 space-y-16 w-full">
+
+        <!-- Characters Section -->
+        <section>
+            <h2 class="section-title text-2xl font-bold text-gray-800 mb-8">ตัวละคร (Cast)</h2>
+            
+            <!-- No introduced characters in this episode based on prompt logic -->
+            
+            <h3 class="text-xl font-semibold text-gray-600 mb-4">ตัวละครที่ปรากฏ (Featured Characters)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <!-- Conan (Blue) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-conan-blue relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-conan-blue relative z-10">โคนัน เอโดงาวะ (Conan Edogawa)</h3>
+                </div>
+
+                <!-- Kogoro (Gray) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-gray-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-gray-700 relative z-10">โคโกโร่ โมริ (Kogoro Mouri)</h3>
+                </div>
+
+                <!-- Ran (Pink) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-pink-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-pink-600 relative z-10">รัน โมริ (Ran Mouri)</h3>
+                </div>
+
+                <!-- Ayumi (Green) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-green-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-green-700 relative z-10">อายูมิ โยชิดะ (Ayumi Yoshida)</h3>
+                </div>
+
+                <!-- Mitsuhiko (Green) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-green-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-green-700 relative z-10">มิสึฮิโกะ สึบุรายะ (Mitsuhiko Tsuburaya)</h3>
+                </div>
+
+                <!-- Genta (Green) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-green-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-green-700 relative z-10">เก็นตะ โคจิมะ (Genta Kojima)</h3>
+                </div>
+
+                <!-- Agasa (Yellow) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-yellow-400 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-yellow-700 relative z-10">ฮิโรชิ อากาสะ (Hiroshi Agasa)</h3>
+                </div>
+
+                <!-- Shinichi (Blue) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-conan-blue relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-conan-blue relative z-10">ชินอิจิ คุโดะ (Shinichi Kudo)</h3>
+                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-300 rounded-full mr-2"></span>(ปรากฏเป็นฉากหลัง)</p>
+                    </div>
+                </div>
+
+                <!-- Gin (Black) -->
+                <div class="rounded-xl p-5 border-l-8 border-black bg-gradient-to-br from-gray-900 to-black text-white shadow-lg relative overflow-hidden group">
+                    <h3 class="font-bold text-xl relative z-10">จิน (Gin)</h3>
+                    <div class="mt-2 text-sm text-gray-400 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full mr-2"></span>(ปรากฏเป็นฉากหลัง)</p>
+                    </div>
+                </div>
+
+                <!-- Vodka (Black) -->
+                <div class="rounded-xl p-5 border-l-8 border-black bg-gradient-to-br from-gray-900 to-black text-white shadow-lg relative overflow-hidden group">
+                    <h3 class="font-bold text-xl relative z-10">วอดก้า (Vodka)</h3>
+                    <div class="mt-2 text-sm text-gray-400 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full mr-2"></span>(ปรากฏเป็นฉากหลัง)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gadgets Section -->
+        <section>
+            <h2 class="section-title text-2xl font-bold text-gray-800 mb-8">อุปกรณ์ (Gadgets)</h2>
+            <h3 class="text-xl font-semibold text-gray-600 mb-4">อุปกรณ์ที่เปิดตัว (Introduced)</h3>
+            
+            <div class="bg-gray-900 text-white rounded-2xl shadow-xl p-8 border-t-4 border-conan-red grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Power-Enhancing Kick Shoes -->
+                <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20 flex flex-col items-center text-center">
+                     <!-- Shoes Icon -->
+                     <div class="shoes-icon mb-4 transform scale-150"></div>
+                    <h3 class="text-2xl font-bold text-red-500 mb-2">รองเท้าเตะพลังเสริม</h3>
+                    <p class="text-sm text-gray-400 uppercase tracking-widest mb-4">Power-Enhancing Kick Shoes</p>
+                    <ul class="space-y-2 text-gray-300 text-left w-full">
+                        <li class="flex items-start"><span class="w-2 h-2 rounded-full bg-red-600 mt-2 mr-3 flex-shrink-0"></span>กระตุ้นกล้ามเนื้อเท้าเพื่อเพิ่มพลังการเตะ</li>
+                    </ul>
+                </div>
+
+                <!-- Microphone & Bug -->
+                <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20 flex flex-col items-center text-center">
+                    <!-- Mic Icon -->
+                    <div class="mic-icon mb-4 transform scale-150"></div>
+                    <h3 class="text-xl font-bold text-blue-400 mb-4">ไมโครโฟน (Microphone)</h3>
+                    <ul class="space-y-3 text-gray-300 text-left w-full">
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-blue-500 mr-2"></span>อุปกรณ์ขนาดเล็ก</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-blue-500 mr-2"></span>เชื่อมต่อกับแว่นตาของโคนัน</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-blue-500 mr-2"></span>เครื่องดักฟัง (Bug)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Plot Section -->
+        <section>
+            <h2 class="section-title text-2xl font-bold text-gray-800 mb-8">เนื้อเรื่อง (Plot)</h2>
+
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 mb-10 relative">
+                <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-conan-blue via-conan-red to-conan-blue"></div>
+                <div class="bg-blue-50 px-8 py-5 border-b border-blue-100">
+                    <h3 class="text-xl font-bold text-conan-blue">คดีระเบิดชินคันเซ็น</h3>
+                </div>
+                
+                <div class="p-8 space-y-8">
+                    <!-- Situation -->
+                    <div>
+                        <h4 class="subsection-header">สถานการณ์ (Situation)</h4>
+                        <p class="text-gray-700 leading-relaxed mb-4">
+                            โคนันและรันเดินทางไปพร้อมกับโคโกโร่บนรถไฟชินคันเซ็นเพื่อไปงานแต่งงานของเพื่อนสนิทโคโกโร่ ระหว่างทาง โคนันบังเอิญได้ยินชายชุดดำสองคนพูดถึงระเบิดที่ถูกตั้งไว้บนรถไฟ หากโคนันไม่สามารถหากระเป๋าที่บรรจุระเบิดได้ทัน ชีวิตของทุกคนบนรถไฟชินคันเซ็นจะตกอยู่ในอันตราย
+                        </p>
+                    </div>
+
+                    <!-- Bombing (Formatted like Murder) -->
+                    <div>
+                        <h4 class="subsection-header">การวางระเบิด (Bombing Threat)</h4>
+                        <div class="space-y-1 text-sm text-gray-700 mb-6">
+                            <p><span class="font-bold">สถานที่ :</span> รถไฟชินคันเซ็นซีรีส์ 100</p>
+                            <p><span class="font-bold">เหยื่อ :</span> ทุกคนที่อยู่บนรถไฟชินคันเซ็น</p>
+                            <p><span class="font-bold">คนร้าย :</span> อุเอดะ และ ชิโมดะ</p>
+                        </div>
+                    </div>
+
+                    <!-- People -->
+                    <div>
+                        <h4 class="subsection-header">บุคคล (People)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <!-- Ueda (Red) -->
+                            <div class="bg-red-50 p-3 rounded border-l-4 border-red-700">
+                                <strong class="text-red-800">อุเอดะ (Ueda)</strong>
+                                <ul class="list-disc list-inside text-red-700">
+                                    <li>มือวางระเบิด</li>
+                                    <li>หน้าตาคล้ายจิน</li>
+                                </ul>
+                            </div>
+                            <!-- Shimoda (Red) -->
+                            <div class="bg-red-50 p-3 rounded border-l-4 border-red-700">
+                                <strong class="text-red-800">ชิโมดะ (Shimoda)</strong>
+                                <ul class="list-disc list-inside text-red-700">
+                                    <li>มือวางระเบิด</li>
+                                    <li>หน้าตาคล้ายวอดก้า</li>
+                                </ul>
+                            </div>
+                            <!-- Man A (Neutral) -->
+                            <div class="bg-white p-3 rounded border border-gray-200">
+                                <strong class="text-gray-800">ชาย A (Man A)</strong>
+                                <ul class="list-disc list-inside text-gray-600">
+                                    <li>ผู้โดยสาร</li>
+                                </ul>
+                            </div>
+                            <!-- Woman (Indigo/Purple for victim role) -->
+                            <div class="bg-indigo-50 p-3 rounded border-l-4 border-indigo-600">
+                                <strong class="text-indigo-800">หญิง (Woman)</strong>
+                                <ul class="list-disc list-inside text-indigo-700">
+                                    <li>ผู้โดยสาร</li>
+                                </ul>
+                            </div>
+                            <!-- Old Man (Neutral) -->
+                            <div class="bg-white p-3 rounded border border-gray-200">
+                                <strong class="text-gray-800">ชายชรา (Old man)</strong>
+                                <ul class="list-disc list-inside text-gray-600">
+                                    <li>ผู้โดยสาร</li>
+                                </ul>
+                            </div>
+                            <!-- Man B (Neutral) -->
+                            <div class="bg-white p-3 rounded border border-gray-200">
+                                <strong class="text-gray-800">ชาย B (Man B)</strong>
+                                <ul class="list-disc list-inside text-gray-600">
+                                    <li>ผู้โดยสาร</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Resolution -->
+                    <div>
+                        <h4 class="subsection-header">บทสรุปคดี (Resolution)</h4>
+                        <div class="space-y-4">
+                            <div>
+                                <strong class="text-conan-blue block mb-1">หลักฐาน (Evidence)</strong>
+                                <ul class="space-y-2 text-sm text-gray-700 leading-relaxed">
+                                    <li class="flex items-start"><span class="text-conan-blue mr-2">•</span>โคนันนึกถึงคำพูดของชายที่หน้าตาคล้ายวอดก้าที่พูดว่า “ในที่สุดก็ได้สูบแล้ว” ทำให้โคนันเข้าใจว่าการซื้อขายที่ชายชุดดำทำกับใครบางคนในตู้เสบียงนั้น ต้องเป็นคนที่ทนกลิ่นบุหรี่ไม่ได้ ดังนั้น ผู้ที่ถือกระเป๋าระเบิดจึงต้องอยู่ในตู้ปลอดบุหรี่ จากข้อมูลของมิสึฮิโกะ รถไฟขบวนนี้มีตู้ปลอดบุหรี่ทั้งหมดแปดตู้</li>
+                                    <li class="flex items-start"><span class="text-conan-blue mr-2">•</span>ชายที่หน้าตาคล้ายจินยังพูดอีกว่าผู้ที่ถือระเบิดน่าจะกำลัง “มองชมวิวสุดท้ายในชีวิต” โคนันและกลุ่มนักสืบเยาวชนจึงสรุปว่าผู้ถือกระเป๋าจะต้องอยู่ในตู้กรีนคาร์สองชั้น ซึ่งมิสึฮิโกะอธิบายว่า ในบรรดากรีนคาร์ทั้งสามตู้ มีเพียงตู้เดียวเท่านั้นที่เป็นเขตปลอดบุหรี่</li>
+                                    <li class="flex items-start"><span class="text-conan-blue mr-2">•</span>โคนันสังเกตว่าชายสวมแว่นที่ใช้แล็ปท็อปกำลังซื้อขายหุ้น และสวมโรเล็กซ์ทองคำ โคนันจึงพูดว่าชายคนนั้นต้องทำเงินได้มากแน่ ๆ แต่ชายสวมแว่นกลับตะโกนใส่ว่าเขาไม่สามารถลุกไปไหนได้เลยเพราะงานล้นมือ</li>
+                                    <li class="flex items-start"><span class="text-conan-blue mr-2">•</span>ผู้หญิงในกรีนคาร์ถือโทรศัพท์มือถือและบอกโคนันว่า วันนี้ท้องฟ้าโปร่ง “สามารถมองเห็นภูเขาไฟฟูจิได้” จากที่นั่งของเธอ พร้อมยืนยันว่าไม่ได้ไปที่ตู้เสบียงตลอดการเดินทาง</li>
+                                    <li class="flex items-start"><span class="text-conan-blue mr-2">•</span>ชายชราเหมือนไม่ได้ยินคำถามของโคนันอย่างชัดเจน ทำให้โคนันไม่แน่ใจว่าเขาได้ไปตู้เสบียงหรือไม่</li>
+                                    <li class="flex items-start"><span class="text-conan-blue mr-2">•</span>ชายท่าทางหยาบคายที่สวมแว่นกรอบทอง แม้จะไม่ตอบคำถามโคนันตรง ๆ แต่เห็นได้ชัดว่าเขาไปตู้เสบียงมา เพราะเขาใช้ผ้าเช็ดปากของตู้เสบียงเช็ดแว่นตา</li>
+                                    <li class="flex items-start"><span class="text-conan-blue mr-2">•</span>เมื่อชายที่หน้าตาคล้ายวอดก้าถามพรรคพวกเกี่ยวกับตัวตั้งเวลาของระเบิด ชายที่หน้าตาคล้ายจินตอบว่า แม้ระเบิดจะไม่มีตัวจับเวลา แต่จะระเบิดแน่นอนเมื่อผู้ถือกระเป๋าเผลอกดปุ่มจุดชนวนโดยไม่รู้ตัว โคนันจึงตระหนักได้ว่าการระเบิดจะเกิดจาก “ปฏิกิริยาบางอย่างของผู้โดยสาร”</li>
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <strong class="text-conan-blue block mb-1">บทสรุป (Conclusion)</strong>
+                                <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                                    หลังจากตัดชายท่าทางหยาบคายออกไป เพราะโคนันรู้ว่าเขาไปตู้เสบียงและกระเป๋าของเขาเต็มไปด้วยชุดชั้นใน โคนันจึงนึกออกว่าหนึ่งในผู้โดยสารที่เขาคุยด้วยพูดบางอย่างที่ผิดปกติ
+                                </p>
+                                <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                                    ผู้หญิงคนนั้นอ้างว่าเธอเห็นวิวภูเขาไฟฟูจิอย่างชัดเจนในช่วงก่อนหน้า แต่ในความเป็นจริง เป็นไปไม่ได้ที่จะมองเห็นภูเขาไฟฟูจิจากหน้าต่างกรีนคาร์ของเธอ นั่นหมายความว่าเธอต้องอยู่ในตู้เสบียงตอนนั้น และเข้าใจผิดว่าวิวจากตู้เสบียงคือวิวจากที่นั่งของเธอ
+                                </p>
+                                <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                                    ผู้หญิงโกหกว่าไม่ได้ไปตู้เสบียง เพื่อปกปิดการทำธุรกรรมที่เธอทำกับชายชุดดำ
+                                </p>
+                                <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                                    โคนันยังตระหนักได้อีกว่า ปุ่มจุดชนวนที่ชายหน้าตาคล้ายจินกล่าวถึง คือช่วงเวลาที่ผู้หญิงกดโทรออกไปยังหมายเลขโทรศัพท์หนึ่งบนมือถือของเธอ
+                                </p>
+                                <p class="text-sm text-gray-700 leading-relaxed">
+                                    ผู้หญิงพยายามกดโทรศัพท์ตอนเวลา 15 : 10 น. แต่โชคดีที่โคนันใช้รองเท้าเตะพลังเสริม เตะกระเป๋าออกไปนอกรถไฟได้ทันก่อนที่มันจะระเบิด
+                                </p>
+                            </div>
+
+                            <div>
+                                <strong class="text-conan-blue block mb-1">แรงจูงใจ (Motive)</strong>
+                                <p class="text-sm text-gray-700 leading-relaxed">
+                                    แรงจูงใจของผู้หญิงในการทำข้อตกลงกับชายชุดดำ คือการแลกเงิน 100 ล้านเยนกับ “ข้อมูลวงในของตลาดหุ้น”
+                                </p>
+                                <p class="text-sm text-gray-700 leading-relaxed mt-1">
+                                    ส่วนแรงจูงใจของชายชุดดำในการวางระเบิด คือการฆ่าผู้หญิงเพื่อปิดปาก พร้อมหลบหนีไปพร้อมกับเงินจำนวนมหาศาล
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Differences Section -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 mb-10">
+            <h3 class="section-title text-xl font-bold text-conan-blue mb-4">ความแตกต่างระหว่างมังงะกับอนิเมะ (Manga to anime changes)</h3>
+            <ul class="space-y-3 list-disc list-inside text-gray-700 text-sm">
+                <li>ในมังงะ ชายชุดดำทั้งสองคือจินและวอดก้า ซึ่งเป็นจุดที่โคนันได้รู้จักชื่อรหัสของพวกเขาเป็นครั้งแรก ส่วนบทพูดที่กล่าวถึงผู้อยู่เบื้องหลังถูกตัดออกไป</li>
+                <li>เก็นตะ อายูมิ และมิสึฮิโกะ ไม่ปรากฏตัวในฉบับมังงะ ดังนั้นผู้ที่นำหมากฝรั่งไปวางไว้ให้โคนันใช้จึงเป็นรัน</li>
+                <li>ในมังงะ รถไฟชินคันเซ็นถูกหยุดภายใต้เขตอำนาจของตำรวจเกียวโต แต่ในอนิเมะถูกเปลี่ยนเป็นสารวัตรเมงุเระและลูกทีม ซึ่งอยู่ไกลเกินกว่าจะมาถึงได้ทัน</li>
+                <li>ฉบับมังงะจบลงด้วยการที่โคนันครุ่นคิดถึงความรู้ที่เขาได้เกี่ยวกับชายชุดดำ การที่รันตั้งคำถามเกี่ยวกับตัวตนที่แท้จริงของโคนันยังไม่เกิดขึ้นในตอนนี้ แต่ไปเกิดในคดี “แผนที่รหัสแห่งเมือง” ซึ่งปรากฏต่อจากเรื่องนี้ในมังงะ ไม่ใช่ก่อนหน้า</li>
+            </ul>
+        </section>
+
+        <!-- Trivia Section -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+            <h3 class="section-title text-xl font-bold text-conan-blue mb-4">เรื่องน่ารู้ (Trivia)</h3>
+            <ul class="space-y-3 list-disc list-inside text-gray-700 text-sm">
+                <li>รถไฟขบวนนี้คือชินคันเซ็นซีรีส์ 100 (100系 , Hyaku-kei)</li>
+                <li>ตอนนี้นับเป็นวันที่ 9 ตามไทม์ไลน์หลักของชีวิตชินอิจิหลังกลายเป็นโคนัน</li>
+                <li>แม้องค์กรชุดดำจะมีบทบาทในฉบับมังงะ แต่ในฉบับอนิเมะได้เปลี่ยนเป็นอุเอดะและชิโมดะเข้ามารับบทแทนจินและวอดก้า ส่งผลให้เนื้อหาเกี่ยวกับองค์กรชุดดำถูกตัดออกไป</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="brick-pattern text-white py-16 mt-20 border-t-8 border-white shadow-2xl relative">
+        <div class="absolute inset-0 bg-black/40"></div>
+        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+            <div class="bg-white p-2 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-8 shadow-lg transform hover:scale-110 transition-transform cursor-pointer">
+                <div class="bowtie-icon"></div>
+            </div>
+            
+            <div class="space-y-6 mb-10">
+                <p class="text-lg md:text-xl font-medium leading-relaxed tracking-wide text-gray-100">
+                    "ผมชื่อเอโดงาวะ โคนัน ตัวจริงก็คือคุโด้ ชินอิจิ ที่โดนยาพิษจนกลายเป็นเด็ก<br class="hidden md:block"/> 
+                    ถึงจะตัวเล็กแต่สมองยังคงเป็นของยอดนักสืบคนเดิม"
+                </p>
+                <p class="text-lg md:text-xl font-medium leading-relaxed tracking-wide text-gray-100 mt-4">
+                    "กาลเวลายิ่งผ่านไป คดีปริศนาที่ท้าทายก็ยิ่งเพิ่มขึ้นทุกที"
+                </p>
+            </div>
+            
+            <div class="w-24 h-1 bg-conan-red mx-auto mb-8 rounded-full"></div>
+            
+            <p class="text-yellow-400 text-sm font-bold tracking-widest uppercase mb-4">
+                BY : 20nxskypqz
+            </p>
+            <p class="text-gray-500 text-xs opacity-70">
+                © Gosho Aoyama / Shogakukan / YTV / TMS Entertainment
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
