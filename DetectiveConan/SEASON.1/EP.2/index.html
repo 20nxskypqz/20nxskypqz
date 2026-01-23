@@ -74,12 +74,12 @@
             height: 44px;
             background: linear-gradient(135deg, #ff4d4d, #b91c1c);
             mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Cpath d='M50 30 L 10 5 L 10 55 L 50 30 L 90 55 L 90 5 Z' fill='black'/%3E%3Ccircle cx='50' cy='30' r='8' fill='black'/%3E%3C/svg%3E");
-            mask-size: contain;
-            mask-repeat: no-repeat;
-            mask-position: center;
             -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Cpath d='M50 30 L 10 5 L 10 55 L 50 30 L 90 55 L 90 5 Z' fill='black'/%3E%3Ccircle cx='50' cy='30' r='8' fill='black'/%3E%3C/svg%3E");
+            mask-size: contain;
             -webkit-mask-size: contain;
+            mask-repeat: no-repeat;
             -webkit-mask-repeat: no-repeat;
+            mask-position: center;
             -webkit-mask-position: center;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
         }
@@ -154,7 +154,7 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Hero Section (Information) -->
     <section class="brick-pattern text-white py-16 md:py-24 relative overflow-hidden flex items-center justify-center w-full">
         <div class="target-scope"></div>
         
@@ -162,7 +162,7 @@
             <!-- Episode Badge -->
             <div class="inline-flex items-center justify-center space-x-2 bg-black/40 backdrop-blur-sm px-6 py-2 rounded-full border border-white/20 mb-8 shadow-lg">
                 <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                <span class="text-sm font-bold uppercase tracking-widest">Episode 2 <span class="mx-2 opacity-50">|</span> TH. Episode 2</span>
+                <span class="text-sm font-bold uppercase tracking-widest">Episode 2 <span class="mx-2 opacity-50">|</span> TH Episode 2</span>
             </div>
             
             <!-- Titles -->
@@ -300,12 +300,12 @@
                 </div>
 
                 <!-- Security A (No color strip) -->
-                <div class="glass-card rounded-xl p-5 relative overflow-hidden group shadow-sm hover:shadow-md">
+                <div class="glass-card rounded-xl p-5 border border-gray-200 relative overflow-hidden group shadow-sm hover:shadow-md">
                     <h3 class="font-bold text-xl text-gray-700 relative z-10">เจ้าหน้าที่รักษาความปลอดภัย A (Security guard A)</h3>
                 </div>
 
                 <!-- Security B (No color strip) -->
-                <div class="glass-card rounded-xl p-5 relative overflow-hidden group shadow-sm hover:shadow-md">
+                <div class="glass-card rounded-xl p-5 border border-gray-200 relative overflow-hidden group shadow-sm hover:shadow-md">
                     <h3 class="font-bold text-xl text-gray-700 relative z-10">เจ้าหน้าที่รักษาความปลอดภัย B (Security guard B)</h3>
                 </div>
             </div>
@@ -353,51 +353,53 @@
                     <div>
                         <h4 class="subsection-header">บุคคล (People)</h4>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                            <div class="bg-gray-50 p-3 rounded">
+                            <div class="bg-white p-3 rounded border border-gray-200">
                                 <strong class="text-gray-800">ทานิ (Tani)</strong>
                                 <ul class="list-disc list-inside text-gray-600">
                                     <li>ประธานบริษัท</li>
                                 </ul>
                             </div>
-                            <div class="bg-purple-50 p-3 rounded border-l-4 border-purple-500">
-                                <strong class="text-purple-900">อากิโกะ ทานิ (Akiko Tani)</strong>
-                                <ul class="list-disc list-inside text-purple-800">
+                            <!-- Akiko (Purple - Victim) -->
+                            <div class="bg-purple-50 p-3 rounded border-l-4 border-purple-600">
+                                <strong class="text-[#9334E9]">อากิโกะ ทานิ (Akiko Tani)</strong>
+                                <ul class="list-disc list-inside text-purple-700">
                                     <li>เหยื่อ (ถูกลักพาตัว)</li>
                                     <li>อายุ 10 ปี</li>
                                     <li>ลูกสาวเพียงคนเดียวของทานิ</li>
                                 </ul>
                             </div>
-                            <div class="bg-red-50 p-3 rounded border-l-4 border-red-600">
-                                <strong class="text-red-700">อาโซ (Aso)</strong>
-                                <ul class="list-disc list-inside text-red-800">
+                            <div class="bg-white p-3 rounded border border-gray-200">
+                                <strong class="text-gray-800">อาโซ (Aso)</strong>
+                                <ul class="list-disc list-inside text-gray-600">
                                     <li>พ่อบ้านของครอบครัวทานิ</li>
                                 </ul>
                             </div>
-                            <div class="bg-gray-50 p-3 rounded">
+                            <div class="bg-white p-3 rounded border border-gray-200">
                                 <strong class="text-gray-800">จัมโบ้ (Jumbo)</strong>
                                 <ul class="list-disc list-inside text-gray-600">
                                     <li>สุนัขเฝ้ายามของครอบครัวทานิ</li>
                                 </ul>
                             </div>
+                            <!-- Kidnapper (Red - Culprit) -->
                             <div class="bg-red-50 p-3 rounded border-l-4 border-red-600">
-                                <strong class="text-red-700">คนลักพาตัว (Kidnapper)</strong>
-                                <ul class="list-disc list-inside text-red-800">
+                                <strong class="text-[#DC2625]">คนลักพาตัว (Kidnapper)</strong>
+                                <ul class="list-disc list-inside text-red-700">
                                     <li>คนที่ลักพาตัวอากิโกะ</li>
                                 </ul>
                             </div>
-                            <div class="bg-gray-50 p-3 rounded">
+                            <div class="bg-white p-3 rounded border border-gray-200">
                                 <strong class="text-gray-800">เจ้าของที่ดิน (Landlady)</strong>
                                 <ul class="list-disc list-inside text-gray-600">
                                     <li>เจ้าของที่ดินของครอบครัวทานิ</li>
                                 </ul>
                             </div>
-                            <div class="bg-gray-50 p-3 rounded">
+                            <div class="bg-white p-3 rounded border border-gray-200">
                                 <strong class="text-gray-800">แม่บ้าน (Maid)</strong>
                                 <ul class="list-disc list-inside text-gray-600">
                                     <li>แม่บ้านของครอบครัวทานิ</li>
                                 </ul>
                             </div>
-                            <div class="bg-gray-50 p-3 rounded">
+                            <div class="bg-white p-3 rounded border border-gray-200">
                                 <strong class="text-gray-800">โทยะ (Toya)</strong>
                                 <ul class="list-disc list-inside text-gray-600">
                                     <li>ครูโรงเรียนประถมเทตัน</li>
@@ -432,8 +434,9 @@
                     </div>
 
                     <!-- Attempted Murder (Moved from separate block to be inside Plot sequence as requested in EP.1 style) -->
-                    <div>
-                        <div class="bg-gray-900 text-white rounded-xl p-6 border-l-4 border-red-600 mt-6 mb-6">
+                    <!-- Updated style to match EP.1/EP.5 dark box -->
+                    <div class="mt-4 pt-4">
+                         <div class="bg-gray-900 text-white rounded-xl p-6 border-l-4 border-red-600 mt-6 mb-6">
                             <h4 class="text-lg font-bold text-red-500 mb-2">การพยายามฆ่า (Attempted Murder)</h4>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div class="space-y-1 text-sm text-gray-300">
