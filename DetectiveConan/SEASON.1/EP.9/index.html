@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detective Conan : Episode 9</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Force Niramit Font Everywhere */
+        body, h1, h2, h3, h4, h5, h6, p, span, div, a, li, ul {
+            font-family: 'Niramit', sans-serif !important;
+        }
+
+        /* Layout */
+        body {
+            background-color: #f0f4f8;
+            background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex-grow: 1;
+        }
+        
+        /* Custom Colors */
+        .conan-blue { color: #002D72 !important; }
+        .bg-conan-blue { background-color: #002D72 !important; }
+        .border-conan-blue { border-color: #002D72 !important; }
+        
+        .conan-red { color: #E60012 !important; }
+        .bg-conan-red { background-color: #E60012 !important; }
+        .border-conan-red { border-color: #E60012 !important; }
+        
+        /* Brick Pattern */
+        .brick-pattern {
+            background-color: #8B0000;
+            background-image: 
+                linear-gradient(335deg, rgba(255,255,255,0.05) 23px, transparent 23px),
+                linear-gradient(155deg, rgba(255,255,255,0.05) 23px, transparent 23px),
+                linear-gradient(335deg, rgba(255,255,255,0.05) 23px, transparent 23px),
+                linear-gradient(155deg, rgba(255,255,255,0.05) 23px, transparent 23px);
+            background-size: 58px 58px;
+            background-position: 0px 2px, 4px 35px, 29px 31px, 34px 6px;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        /* Target Scope Background Effect */
+        .target-scope {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            pointer-events: none;
+            background: 
+                radial-gradient(circle, transparent 40%, rgba(255,255,255,0.05) 40%, rgba(255,255,255,0.05) 41%, transparent 41%),
+                linear-gradient(to right, transparent 49.8%, rgba(255,255,255,0.1) 49.8%, rgba(255,255,255,0.1) 50.2%, transparent 50.2%),
+                linear-gradient(to bottom, transparent 49.8%, rgba(255,255,255,0.1) 49.8%, rgba(255,255,255,0.1) 50.2%, transparent 50.2%);
+        }
+
+        /* Icons */
+        .icon-base {
+            mask-size: contain;
+            mask-repeat: no-repeat;
+            mask-position: center;
+            -webkit-mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+        }
+
+        /* Bow Tie Icon */
+        .bowtie-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #ff4d4d, #b91c1c);
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Cpath d='M50 30 L 10 5 L 10 55 L 50 30 L 90 55 L 90 5 Z' fill='black'/%3E%3Ccircle cx='50' cy='30' r='8' fill='black'/%3E%3C/svg%3E");
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Cpath d='M50 30 L 10 5 L 10 55 L 50 30 L 90 55 L 90 5 Z' fill='black'/%3E%3Ccircle cx='50' cy='30' r='8' fill='black'/%3E%3C/svg%3E");
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        /* Watch Icon */
+        .watch-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M9 3V5H15V3C15 2.44772 14.5523 2 14 2H10C9.44772 2 9 2.44772 9 3Z'/%3E%3Cpath d='M9 19V21C9 21.5523 9.44772 22 10 22H14C14.5523 22 15 21.5523 15 21V19H9Z'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M12 6C8.68629 6 6 8.68629 6 12C6 15.3137 8.68629 18 12 18C15.3137 18 18 15.3137 18 12C18 8.68629 15.3137 6 12 6ZM12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16Z'/%3E%3Ccircle cx='12' cy='12' r='2'/%3E%3C/svg%3E");
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M9 3V5H15V3C15 2.44772 14.5523 2 14 2H10C9.44772 2 9 2.44772 9 3Z'/%3E%3Cpath d='M9 19V21C9 21.5523 9.44772 22 10 22H14C14.5523 22 15 21.5523 15 21V19H9Z'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M12 6C8.68629 6 6 8.68629 6 12C6 15.3137 8.68629 18 12 18C15.3137 18 18 15.3137 18 12C18 8.68629 15.3137 6 12 6ZM12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16Z'/%3E%3Ccircle cx='12' cy='12' r='2'/%3E%3C/svg%3E");
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        /* Card Styling */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 4px;
+            background-color: #E60012;
+            border-radius: 2px;
+        }
+
+        .subsection-header {
+            font-weight: bold;
+            color: #002D72;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 0.25rem;
+        }
+        
+        .evidence-tag {
+            background: #fff1f2;
+            border-left: 4px solid #dc2626;
+            padding: 0.5rem 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased selection:bg-red-200 selection:text-red-900">
+
+    <!-- Header -->
+    <header class="bg-conan-blue text-white shadow-xl sticky top-0 z-50 border-b-4 border-conan-red w-full">
+        <div class="max-w-6xl mx-auto px-4 py-2 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <div class="bg-white p-1.5 rounded-full shadow-inner">
+                    <div class="bowtie-icon icon-base"></div>
+                </div>
+                <div>
+                    <h1 class="text-lg md:text-xl font-bold tracking-wider leading-tight">DETECTIVE CONAN</h1>
+                </div>
+            </div>
+            <div class="hidden md:block text-right">
+                <div class="text-xs font-light text-blue-200 uppercase tracking-widest mb-0.5">Truth is Only One</div>
+                <div class="h-0.5 w-full bg-conan-red opacity-50"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section (Information) -->
+    <section class="brick-pattern text-white py-16 md:py-24 relative overflow-hidden flex items-center justify-center w-full">
+        <div class="target-scope"></div>
+        
+        <div class="max-w-4xl mx-auto px-4 relative z-10 text-center w-full">
+            <!-- Episode Badge -->
+            <div class="inline-flex items-center justify-center space-x-2 bg-black/40 backdrop-blur-sm px-6 py-2 rounded-full border border-white/20 mb-8 shadow-lg">
+                <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                <span class="text-sm font-bold uppercase tracking-widest">Episode 9 <span class="mx-2 opacity-50">|</span> TH Episode 9</span>
+            </div>
+            
+            <!-- Titles -->
+            <div class="space-y-4 mb-10">
+                <div class="space-y-2">
+                    <h1 class="text-3xl md:text-5xl font-bold drop-shadow-xl leading-tight">
+                        Tenkaichi Night Festival Murder Case
+                    </h1>
+                </div>
+                
+                <div class="relative inline-block py-2 px-8">
+                    <!-- Decorative lines -->
+                    <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-white/50"></div>
+                    <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-white/50"></div>
+                    
+                    <h2 class="text-2xl md:text-3xl font-medium tracking-wide">
+                        天下一夜祭殺人事件
+                    </h2>
+                </div>
+                
+                <p class="text-lg text-blue-200 font-light italic tracking-wide">
+                    (Tenkaichi Yomatsuri Satsujin Jiken)
+                </p>
+                
+                <div class="mt-4">
+                    <h3 class="text-2xl md:text-3xl font-bold text-yellow-400 drop-shadow-md bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-500 bg-clip-text text-transparent">
+                        คดีฆาตกรรมอำพราง
+                    </h3>
+                </div>
+            </div>
+            
+            <!-- Information Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/10 shadow-2xl text-left text-sm md:text-base">
+                <div class="flex flex-col space-y-3 border-r-0 md:border-r border-white/10 pr-0 md:pr-4">
+                    <div class="flex justify-between items-start border-b border-white/10 pb-2">
+                        <span class="font-bold text-blue-200 whitespace-nowrap">วันออกอากาศ :</span>
+                        <div class="text-right">
+                            <span class="block">March 4 1996</span>
+                            <span class="block text-xs opacity-75">February 25 2017 (Remastered version)</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/10 pb-2">
+                        <span class="font-bold text-blue-200">มังงะคดีที่ :</span>
+                        <span class="font-mono bg-black/20 px-2 py-0.5 rounded">#17</span>
+                    </div>
+                </div>
+                <div class="flex flex-col space-y-3 pl-0 md:pl-4">
+                    <div class="flex justify-between items-center border-b border-white/10 pb-2">
+                        <span class="font-bold text-blue-200">ซีซั่น :</span>
+                        <span>1 (1996)</span>
+                    </div>
+                    <div class="flex justify-between items-start border-b border-white/10 pb-2">
+                        <span class="font-bold text-blue-200 whitespace-nowrap">แหล่งที่มาของมังงะ :</span>
+                        <div class="text-right">
+                            <span class="block">Volume 6 : File 9 (059) ~</span>
+                            <span class="block">Volume 7 : File 1 (061)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-12 space-y-16 w-full">
+
+        <!-- Characters Section -->
+        <section>
+            <h2 class="section-title text-2xl font-bold text-gray-800 mb-8">ตัวละคร (Cast)</h2>
+            
+            <h3 class="text-xl font-semibold text-gray-600 mb-4">ตัวละครที่เปิดตัว (Introduced)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+                <!-- Sango Yokomizo (Bronze/Coral) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-amber-700 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-amber-800 relative z-10">ซังโกะ โยโกมิโซะ (Sango Yokomizo)</h3>
+                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
+                        <p class="flex items-center"><span class="w-1.5 h-1.5 bg-amber-600 rounded-full mr-2"></span>ตำรวจจากกองตำรวจจังหวัดไซตามะ</p>
+                    </div>
+                </div>
+
+                <!-- Yamada (Slate) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-slate-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-slate-700 relative z-10">ยามาดะ (Yamada)</h3>
+                    <div class="mt-2 text-sm text-gray-600 relative z-10 space-y-1">
+                        <p class="flex items-start"><span class="w-1.5 h-1.5 bg-slate-400 rounded-full mr-2 mt-1.5 flex-shrink-0"></span>บรรณาธิการนิตยสาร Monthly Bungei Jidai ของสำนักพิมพ์ไดกาคุคัง</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-600 mb-4">ตัวละครที่ปรากฏ (Featured Characters)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <!-- Conan (Blue) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-conan-blue relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-conan-blue relative z-10">เอโดงาวะ โคนัน (Conan Edogawa)</h3>
+                </div>
+
+                <!-- Kogoro (Gray) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-gray-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-gray-700 relative z-10">โมริ โคโกโร่ (Kogoro Mouri)</h3>
+                </div>
+
+                <!-- Ran (Pink) -->
+                <div class="glass-card rounded-xl p-5 border-l-8 border-pink-500 relative overflow-hidden group">
+                    <h3 class="font-bold text-xl text-pink-600 relative z-10">โมริ รัน (Ran Mouri)</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gadgets Section -->
+        <section>
+            <h2 class="section-title text-2xl font-bold text-gray-800 mb-8">อุปกรณ์ (Gadgets)</h2>
+            <h3 class="text-xl font-semibold text-gray-600 mb-4">อุปกรณ์ที่ปรากฏ (Featured Gadgets)</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div class="bg-gray-900 text-white rounded-2xl shadow-xl p-8 border-t-4 border-blue-500 flex items-center gap-4">
+                    <div class="bowtie-icon icon-base w-12 h-12"></div>
+                    <h3 class="text-xl font-bold text-blue-400">โบว์เปลี่ยนเสียง (Voice-Changing Bowtie)</h3>
+                </div>
+                
+                <div class="bg-gray-900 text-white rounded-2xl shadow-xl p-8 border-t-4 border-red-500 flex items-center gap-4">
+                    <div class="watch-icon icon-base w-12 h-12"></div>
+                    <h3 class="text-xl font-bold text-red-400">นาฬิกายิงยาสลบ (Stun-Gun Wristwatch)</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- Plot Section -->
+        <section>
+            <h2 class="section-title text-2xl font-bold text-gray-800 mb-8">เนื้อเรื่อง (Plot)</h2>
+
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 mb-10 relative">
+                <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-conan-blue via-conan-red to-conan-blue"></div>
+                <div class="bg-blue-50 px-8 py-5 border-b border-blue-100">
+                    <h3 class="text-xl font-bold text-conan-blue">คดีฆาตกรรมอำพราง</h3>
+                </div>
+                
+                <div class="p-8 space-y-8">
+                    <!-- Situation -->
+                    <div>
+                        <h4 class="subsection-header">สถานการณ์ (Situation)</h4>
+                        <p class="text-gray-700 leading-relaxed mb-4">
+                            ในคืนงานเทศกาลเทนไคจิที่โรงแรมโอเคยามะ นักเขียนชื่อดัง ซาโตรุ อิมาทาเกะ กำลังแปรงฟันอยู่ในห้องน้ำ ขณะที่เพื่อนของเขา โนริคาซุ ซาไซ กำลังก่อความวุ่นวายอยู่ในห้อง เมื่ออิมาทาเกะออกมาดู ก็พบว่าซาไซแต่งกายผิดปกติและห้องพักถูกรื้อค้นอย่างหนัก
+                        </p>
+                        <p class="text-gray-700 leading-relaxed">
+                            ซาไซชักปืนเล็งไปที่หน้าผากของอิมาทาเกะและยิงใส่ทันที จากนั้นยังหยิบเงินที่เหลือในกระเป๋าสตางค์ไปด้วย
+                        </p>
+                    </div>
+
+                    <!-- Robbery-Murder Info (Formatted like Murder) -->
+                    <div>
+                        <h4 class="subsection-header">ปล้นทรัพย์ – ฆาตกรรม (Robbery – Murder)</h4>
+                        <div class="space-y-1 text-sm text-gray-700 mb-6">
+                            <p><span class="font-bold">สถานที่ :</span> ห้องพักโรงแรมโอเคยามะ</p>
+                            <p><span class="font-bold">เหยื่อ :</span> ซาโตรุ อิมาทาเกะ</p>
+                            <p><span class="font-bold">สาเหตุการเสียชีวิต :</span> ถูกยิงด้วยปืน</p>
+                            <p><span class="font-bold">คนร้าย :</span> โนริคาซุ ซาไซ</p>
+                            <p class="mt-2 text-gray-600 italic">อิมาทาเกะ นักเขียนรางวัลชื่อดัง ถูกสังหารภายในห้องพักโรงแรมในคืนงานเทศกาลเทนไคจิ มีผู้พบเห็นชายคนหนึ่งหลบหนีออกจากที่เกิดเหตุ</p>
+                            <p class="mt-1 text-gray-600 italic">หลังจากหลบหนีออกจากห้อง ซาไซได้ทิ้งปืน เสื้อโค้ต และแว่นตา ก่อนจะหยิบกล้องถ่ายรูปแบบใช้แล้วทิ้งออกมาจากกระเป๋า</p>
+                            <p class="mt-1 text-gray-600 italic">ระหว่างงานเทศกาล โคนัน รัน และโคโกโร่กำลังเดินเที่ยวอย่างสนุกสนาน ขณะนั้นซาไซมาถึงงานด้วยอาการเหงื่อท่วม เขาขอให้รันช่วยถ่ายรูปโดยมีภูเขาที่มีตัวอักษร “อิจิ” เป็นฉากหลัง พร้อมอ้างว่ากำลังรวบรวมภาพในธีม “เทศกาลท้องถิ่น”</p>
+                            <p class="mt-1 text-gray-600 italic">ซาไซบอกว่าตนใช้นามปากกา โทโมคาซุ อิไม ทำให้รันตื่นเต้นเพราะเคยอ่านผลงานมาก่อน แต่โคโกโร่เริ่มสงสัย เนื่องจากชื่อดังกล่าวเคยเป็นชื่อที่อิมาทาเกะใช้ตอนเปิดตัว</p>
+                            <p class="mt-1 text-gray-600 italic">ซาไซยังบอกว่าเขาเป็นเพื่อนสนิทของอิมาทาเกะ และตั้งใจจะดื่มฉลองรางวัลนาโอมโตะของอิมาทาเกะ ระหว่างนั้นรันสังเกตได้ว่าซาไซเหงื่อออกมากผิดปกติ เพราะยังสวมเสื้อแจ็กเก็ตสีขาวอยู่</p>
+                            <p class="mt-1 text-gray-600 italic">หลังจากการพูดคุย ซาไซขอให้รันช่วยถ่ายรูปเขาเพิ่มเติมรอบงานเทศกาล ขณะรันกำลังถ่ายรูป ก็มีชายคนหนึ่งปรากฏตัวขึ้น เขาคือ สารวัตรโยโกมิโซะ ซึ่งต้องการสอบปากคำซาไซ เนื่องจากอิมาทาเกะถูกฆาตกรรมที่โรงแรมซึ่งซาไซเข้าพักอยู่</p>
+                        </div>
+                    </div>
+
+                    <!-- People -->
+                    <div>
+                        <h4 class="subsection-header">บุคคล (People)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <!-- Victim (Purple) -->
+                            <div class="bg-purple-50 p-3 rounded border-l-4 border-purple-600">
+                                <strong class="text-[#9334E9]">ซาโตรุ อิมาทาเกะ (Satoru Imatake)</strong>
+                                <ul class="list-disc list-inside text-purple-700">
+                                    <li>เหยื่อ (ถูกยิง)</li>
+                                    <li>นักเขียน / นักประพันธ์</li>
+                                </ul>
+                            </div>
+                            <!-- Culprit (Red) -->
+                            <div class="bg-red-50 p-3 rounded border-l-4 border-red-600">
+                                <strong class="text-[#DC2625]">โนริคาซุ ซาไซ (Norikazu Sasai)</strong>
+                                <ul class="list-disc list-inside text-red-700">
+                                    <li>นักเขียน</li>
+                                    <li>เพื่อนของอิมาทาเกะ</li>
+                                </ul>
+                            </div>
+                            <!-- Yamada (Neutral) -->
+                            <div class="bg-white p-3 rounded border border-gray-200">
+                                <strong class="text-gray-800">ยามาดะ (Yamada)</strong>
+                                <ul class="list-disc list-inside text-gray-600">
+                                    <li>ตัวแทนจากสำนักพิมพ์ของอิมาทาเกะ</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Resolution -->
+                    <div>
+                        <h4 class="subsection-header">การคลี่คลายคดี (Resolution)</h4>
+                        <div class="space-y-4">
+                            <div>
+                                <strong class="text-conan-blue block mb-1">หลักฐาน (Evidence)</strong>
+                                <ul class="list-disc list-inside text-sm text-gray-700 space-y-1 pl-4">
+                                    <li>คนร้ายของคดีนี้คือ โนริคาซุ ซาไซ เพื่อนและเพื่อนร่วมงานของอิมาทาเกะ เขายิงอิมาทาเกะในระยะประชิดและหลบหนีทันที</li>
+                                    <li>ที่เกิดเหตุพบคราบยาสีฟันที่ปากของอิมาทาเกะ และแปรงสีฟันตกอยู่ใกล้ตัว กระเป๋าสตางค์ถูกล้วงจนหมด และห้องถูกรื้อค้นอย่างหนัก</li>
+                                    <li>แม้ซาไซจะเป็นผู้ต้องสงสัยหลัก แต่เขามีข้ออ้างเวลาเกิดเหตุ โดยอ้างจากภาพถ่ายในกล้องใช้แล้วทิ้งที่แสดงว่าเขาอยู่ในงานเทศกาล</li>
+                                    <li>อย่างไรก็ตาม โคนันสังเกตว่าซาไซสวมเสื้อผ้าหนา ทั้งที่เหงื่อออกมากผิดปกติ</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong class="text-conan-blue block mb-1">บทสรุป (Conclusion)</strong>
+                                <p class="text-sm text-gray-700 leading-relaxed">
+                                    โคนันใช้โคโกโร่เป็นปากเสียงช่วยสารวัตรโยโกมิโซะ และพิสูจน์ได้ว่าคดีนี้ไม่ใช่การปล้นธรรมดา
+                                </p>
+                                <p class="text-sm text-gray-700 leading-relaxed mt-2">
+                                    อิมาทาเกะถูกสังหารขณะแปรงฟัน ซึ่งเป็นพฤติกรรมที่ทำได้เฉพาะต่อหน้าคนสนิท สภาพห้องที่ถูกรื้อค้นเป็นเพียงฉากบังหน้า เพราะคนร้ายหลบหนีทันทีหลังยิง
+                                </p>
+                                <p class="text-sm text-gray-700 leading-relaxed mt-2">
+                                    ภาพถ่ายที่ดูเหมือนจะเป็นหลักฐานยืนยันความบริสุทธิ์ของซาไซ แท้จริงแล้วเป็นภาพจากเทศกาลเทนไคจิในอดีต โดยเห็นได้จากรอยผิวบริเวณข้อมือที่ไม่มีรอยนาฬิกา และเสื้อผ้าที่เขาสวมให้ตรงกับภาพเก่า
+                                </p>
+                            </div>
+                            <div>
+                                <strong class="text-conan-blue block mb-1">แรงจูงใจ (Motive)</strong>
+                                <p class="text-sm text-gray-700 leading-relaxed">
+                                    เมื่อปีก่อน ผลงานของซาไซถูกปัดตกในนาทีสุดท้าย และผลงานของอิมาทาเกะได้รับเลือกตีพิมพ์แทน
+                                </p>
+                                <p class="text-sm text-gray-700 leading-relaxed mt-2">
+                                    อิมาทาเกะโด่งดังจากหนังสือที่ทั้งคู่ร่วมเขียน แต่ซาไซกลับไม่ได้รับเครดิตใด ๆ ทำให้เขาเคียดแค้นและวางแผนฆ่า เพื่อก้าวขึ้นเป็นนักเขียนอันดับหนึ่งแทน
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trivia Section -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+            <h3 class="section-title text-xl font-bold text-conan-blue mb-4">เรื่องน่ารู้ (Trivia)</h3>
+            <ul class="space-y-3 list-disc list-inside text-gray-700 text-sm">
+                <li>คดีนี้เป็นครั้งแรกที่ผู้ชมได้เห็นการกระทำของคนร้ายตั้งแต่ช่วงต้นเรื่อง โดยปริศนาไม่ได้อยู่ที่ว่า “ใครเป็นคนฆ่า” แต่คือ “ซาไซก่อคดีได้อย่างไร”</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="brick-pattern text-white py-16 mt-20 border-t-8 border-white shadow-2xl relative">
+        <div class="absolute inset-0 bg-black/40"></div>
+        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+            <div class="bg-white p-3 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-8 shadow-xl transform hover:scale-110 transition-transform cursor-pointer border-2 border-gray-100">
+                <div class="bowtie-icon icon-base"></div>
+            </div>
+            
+            <div class="space-y-6 mb-10 max-w-2xl mx-auto">
+                <p class="text-lg md:text-xl font-medium leading-relaxed tracking-wide text-gray-100 drop-shadow-md">
+                    "ผมชื่อเอโดงาวะ โคนัน ตัวจริงก็คือคุโด้ ชินอิจิ ที่โดนยาพิษจนกลายเป็นเด็ก<br class="hidden md:block"/> 
+                    ถึงจะตัวเล็กแต่สมองยังคงเป็นของยอดนักสืบคนเดิม"
+                </p>
+                <p class="text-lg md:text-xl font-medium leading-relaxed tracking-wide text-gray-100 mt-4 drop-shadow-md">
+                    "กาลเวลายิ่งผ่านไป คดีปริศนาที่ท้าทายก็ยิ่งเพิ่มขึ้นทุกที"
+                </p>
+            </div>
+            
+            <div class="w-24 h-1 bg-conan-red mx-auto mb-8 rounded-full shadow-md"></div>
+            
+            <p class="text-yellow-400 text-sm font-bold tracking-widest uppercase mb-4 drop-shadow-md">
+                BY : 20nxskypqz
+            </p>
+            <p class="text-gray-400 text-xs opacity-70">
+                © Gosho Aoyama / Shogakukan / YTV / TMS Entertainment
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
