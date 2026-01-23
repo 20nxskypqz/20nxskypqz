@@ -194,7 +194,7 @@
             <!-- Episode Badge -->
             <div class="inline-flex items-center justify-center space-x-2 bg-black/40 backdrop-blur-sm px-6 py-2 rounded-full border border-white/20 mb-8 shadow-lg">
                 <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                <span class="text-sm font-bold uppercase tracking-widest">Episode 5 <span class="mx-2 opacity-50">|</span> TH. Episode 5</span>
+                <span class="text-sm font-bold uppercase tracking-widest">Episode 5 <span class="mx-2 opacity-50">|</span> TH Episode 5</span>
             </div>
             
             <!-- Titles -->
@@ -372,36 +372,37 @@
                     <!-- Situation -->
                     <div>
                         <h4 class="subsection-header">สถานการณ์ (Situation)</h4>
-                        <p class="text-gray-700 leading-relaxed mb-4">
-                            โคนันและรันเดินทางไปพร้อมกับโคโกโร่บนรถไฟชินคันเซ็นเพื่อไปงานแต่งงานของเพื่อนสนิทโคโกโร่ ระหว่างทาง โคนันบังเอิญได้ยินชายชุดดำสองคนพูดถึงระเบิดที่ถูกตั้งไว้บนรถไฟ หากโคนันไม่สามารถหากระเป๋าที่บรรจุระเบิดได้ทัน ชีวิตของทุกคนบนรถไฟชินคันเซ็นจะตกอยู่ในอันตราย
-                        </p>
-                    </div>
-
-                    <!-- Bombing (Formatted like Murder) -->
-                    <div>
-                        <h4 class="subsection-header">การวางระเบิด (Bombing Threat)</h4>
+                        <div class="mb-4">
+                            <strong class="text-gray-800 block mb-1">• การวางระเบิด (ที่อาจเกิดขึ้น)</strong>
+                        </div>
+                        
+                        <!-- Murder Style Layout -->
                         <div class="space-y-1 text-sm text-gray-700 mb-6">
                             <p><span class="font-bold">สถานที่ :</span> รถไฟชินคันเซ็นซีรีส์ 100</p>
                             <p><span class="font-bold">เหยื่อ :</span> ทุกคนที่อยู่บนรถไฟชินคันเซ็น</p>
                             <p><span class="font-bold">คนร้าย :</span> อุเอดะ และ ชิโมดะ</p>
                         </div>
+
+                        <p class="text-gray-700 leading-relaxed">
+                            โคนันและรันเดินทางไปพร้อมกับโคโกโร่บนรถไฟชินคันเซ็นเพื่อไปงานแต่งงานของเพื่อนสนิทโคโกโร่ ระหว่างทาง โคนันบังเอิญได้ยินชายชุดดำสองคนพูดถึงระเบิดที่ถูกตั้งไว้บนรถไฟ หากโคนันไม่สามารถหากระเป๋าที่บรรจุระเบิดได้ทัน ชีวิตของทุกคนบนรถไฟชินคันเซ็นจะตกอยู่ในอันตราย
+                        </p>
                     </div>
 
                     <!-- People -->
                     <div>
                         <h4 class="subsection-header">บุคคล (People)</h4>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                            <!-- Ueda (Red) -->
-                            <div class="bg-red-50 p-3 rounded border-l-4 border-red-700">
-                                <strong class="text-red-800">อุเอดะ (Ueda)</strong>
+                            <!-- Ueda (Red - Culprit) -->
+                            <div class="bg-red-50 p-3 rounded border-l-4 border-red-600">
+                                <strong class="text-[#DC2625]">อุเอดะ (Ueda)</strong>
                                 <ul class="list-disc list-inside text-red-700">
                                     <li>มือวางระเบิด</li>
                                     <li>หน้าตาคล้ายจิน</li>
                                 </ul>
                             </div>
-                            <!-- Shimoda (Red) -->
-                            <div class="bg-red-50 p-3 rounded border-l-4 border-red-700">
-                                <strong class="text-red-800">ชิโมดะ (Shimoda)</strong>
+                            <!-- Shimoda (Red - Culprit) -->
+                            <div class="bg-red-50 p-3 rounded border-l-4 border-red-600">
+                                <strong class="text-[#DC2625]">ชิโมดะ (Shimoda)</strong>
                                 <ul class="list-disc list-inside text-red-700">
                                     <li>มือวางระเบิด</li>
                                     <li>หน้าตาคล้ายวอดก้า</li>
@@ -414,10 +415,10 @@
                                     <li>ผู้โดยสาร</li>
                                 </ul>
                             </div>
-                            <!-- Woman (Indigo/Purple for victim role) -->
-                            <div class="bg-indigo-50 p-3 rounded border-l-4 border-indigo-600">
-                                <strong class="text-indigo-800">หญิง (Woman)</strong>
-                                <ul class="list-disc list-inside text-indigo-700">
+                            <!-- Woman (Purple - Victim/Target) -->
+                            <div class="bg-purple-50 p-3 rounded border-l-4 border-purple-600">
+                                <strong class="text-[#9334E9]">หญิง (Woman)</strong>
+                                <ul class="list-disc list-inside text-purple-700">
                                     <li>ผู้โดยสาร</li>
                                 </ul>
                             </div>
@@ -440,7 +441,7 @@
 
                     <!-- Resolution -->
                     <div>
-                        <h4 class="subsection-header">บทสรุปคดี (Resolution)</h4>
+                        <h4 class="subsection-header">การคลี่คลายคดี (Resolution)</h4>
                         <div class="space-y-4">
                             <div>
                                 <strong class="text-conan-blue block mb-1">หลักฐาน (Evidence)</strong>
@@ -516,26 +517,26 @@
     <footer class="brick-pattern text-white py-16 mt-20 border-t-8 border-white shadow-2xl relative">
         <div class="absolute inset-0 bg-black/40"></div>
         <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
-            <div class="bg-white p-2 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-8 shadow-lg transform hover:scale-110 transition-transform cursor-pointer">
+            <div class="bg-white p-3 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-8 shadow-xl transform hover:scale-110 transition-transform cursor-pointer border-2 border-gray-100">
                 <div class="bowtie-icon"></div>
             </div>
             
-            <div class="space-y-6 mb-10">
-                <p class="text-lg md:text-xl font-medium leading-relaxed tracking-wide text-gray-100">
+            <div class="space-y-6 mb-10 max-w-2xl mx-auto">
+                <p class="text-lg md:text-xl font-medium leading-relaxed tracking-wide text-gray-100 drop-shadow-md">
                     "ผมชื่อเอโดงาวะ โคนัน ตัวจริงก็คือคุโด้ ชินอิจิ ที่โดนยาพิษจนกลายเป็นเด็ก<br class="hidden md:block"/> 
                     ถึงจะตัวเล็กแต่สมองยังคงเป็นของยอดนักสืบคนเดิม"
                 </p>
-                <p class="text-lg md:text-xl font-medium leading-relaxed tracking-wide text-gray-100 mt-4">
+                <p class="text-lg md:text-xl font-medium leading-relaxed tracking-wide text-gray-100 mt-4 drop-shadow-md">
                     "กาลเวลายิ่งผ่านไป คดีปริศนาที่ท้าทายก็ยิ่งเพิ่มขึ้นทุกที"
                 </p>
             </div>
             
-            <div class="w-24 h-1 bg-conan-red mx-auto mb-8 rounded-full"></div>
+            <div class="w-24 h-1 bg-conan-red mx-auto mb-8 rounded-full shadow-md"></div>
             
-            <p class="text-yellow-400 text-sm font-bold tracking-widest uppercase mb-4">
+            <p class="text-yellow-400 text-sm font-bold tracking-widest uppercase mb-4 drop-shadow-md">
                 BY : 20nxskypqz
             </p>
-            <p class="text-gray-500 text-xs opacity-70">
+            <p class="text-gray-400 text-xs opacity-70">
                 © Gosho Aoyama / Shogakukan / YTV / TMS Entertainment
             </p>
         </div>
