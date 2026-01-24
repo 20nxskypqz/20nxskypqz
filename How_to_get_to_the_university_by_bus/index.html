@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เส้นทางเดินรถ TSB</title>
+    
+    <!-- Google Fonts: Niramit -->
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Niramit', sans-serif;
+            background-color: #f3f4f6;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 10px;
+        }
+
+        /* Timeline Styles from First Code */
+        .timeline-line {
+            position: absolute;
+            left: 15px; 
+            top: 24px;
+            bottom: -16px;
+            width: 2px;
+            background-color: #e2e8f0;
+            z-index: 0;
+        }
+        
+        .timeline-item:last-child .timeline-line {
+            display: none;
+        }
+
+        .bus-badge {
+            transition: all 0.2s;
+        }
+        .bus-badge:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen pb-10">
+
+    <!-- Header Section -->
+    <header class="bg-gradient-to-r from-gray-900 to-gray-800 text-white sticky top-0 z-50 shadow-lg">
+        <div class="max-w-3xl mx-auto px-4 py-4">
+            <div class="flex flex-col items-center justify-center text-center">
+                <div class="bg-white/10 p-2 rounded-full mb-2">
+                    <i class="fas fa-bus text-xl"></i>
+                </div>
+                <h1 class="text-2xl font-bold leading-tight tracking-wide mb-2">TSB</h1>
+                <div class="text-sm text-gray-200 opacity-90 font-light flex flex-col gap-1">
+                    <span>มหาวิทยาลัยรามคำแหง</span>
+                    <span>มหาวิทยาลัยรามคำแหง วิทยาเขตบางนา</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-3xl mx-auto px-4 py-4" id="busContainer">
+        <!-- Content will be injected here -->
+    </main>
+
+    <!-- Footer (Empty as requested) -->
+    <footer class="py-4"></footer>
+
+    <!-- Script -->
+    <script>
+        // Data grouped by category
+        const groups = [
+            {
+                title: "มหาวิทยาลัยรามคำแหง",
+                color: "text-red-700",
+                icon: "fa-university",
+                badgeColor: "bg-red-100 text-red-900 border-red-200",
+                lineColor: "border-red-500",
+                buses: [
+                    {
+                        lines: ["1-39 (71)", "1-39X (71X)"],
+                        routes: [
+                            { direction: "ขาไป", stops: ["ตรงข้ามแฟชั่นไอส์แลนด์", "ซอยรามคำแหง 50", "มหาวิทยาลัยรามคำแหง"] },
+                            { direction: "ขากลับ", stops: ["ตรงข้ามมหาวิทยาลัยรามคำแหง", "หลังแยกลำสาลี (ฝั่งถนนศรีนครินทร์) (ขาเข้า)", "สถานีรถไฟฟ้ารามอินทรา กม.9 (ทางออก 2)", "แฟชั่นไอส์แลนด์"] }
+                        ]
+                    },
+                    {
+                        lines: ["1-44 (113)"],
+                        routes: [
+                            { direction: "ขาไป", stops: ["ซอยรามคำแหง 50", "มหาวิทยาลัยรามคำแหง"] },
+                            { direction: "ขากลับ", stops: ["ตรงข้ามมหาวิทยาลัยรามคำแหง", "สถานีรถไฟฟ้าแยกลำสาลี (ทางออก 1) (ฝั่งถนนรามคำแหง)"] }
+                        ]
+                    },
+                    {
+                        lines: ["1-45 (115)"],
+                        routes: [
+                            { direction: "ขาไป", stops: ["ซอยรามคำแหง 50", "มหาวิทยาลัยรามคำแหง"] },
+                            { direction: "ขากลับ", stops: ["ตรงข้ามมหาวิทยาลัยรามคำแหง", "หลังแยกลำสาลี (ฝั่งถนนศรีนครินทร์) (ขาเข้า)"] }
+                        ]
+                    },
+                    {
+                        lines: ["2-13 (69)", "2-18E"],
+                        routes: [
+                            { direction: "ขาไป", stops: ["ซอยรามคำแหง 50", "มหาวิทยาลัยรามคำแหง"] }
+                        ]
+                    },
+                    {
+                        lines: ["2-26 (545)"],
+                        routes: [
+                            { direction: "ขาไป", stops: ["ซอยรามคำแหง 50", "มหาวิทยาลัยรามคำแหง"] },
+                            { direction: "ขากลับ", stops: ["ตรงข้ามมหาวิทยาลัยรามคำแหง", "หลังแยกลำสาลี (ฝั่งถนนศรีนครินทร์) (ขาเข้า)"] }
+                        ]
+                    },
+                    {
+                        lines: ["2-48 (122)"],
+                        routes: [
+                            { direction: "ขาไป", stops: ["ซอยรามคำแหง 50", "มหาวิทยาลัยรามคำแหง", "สถานีขนส่งผู้โดยสารกรุงเทพ"] },
+                            { direction: "ขากลับ", stops: ["สถานีเดินรถโดยสารขนาดเล็ก (จตุจักร)", "ตรงข้ามมหาวิทยาลัยรามคำแหง", "หลังแยกลำสาลี (ฝั่งถนนศรีนครินทร์) (ขาเข้า)"] }
+                        ]
+                    },
+                    {
+                        lines: ["4-27E (173E)"],
+                        routes: [
+                            { direction: "ขาไป", stops: ["ซอยรามคำแหง 50", "มหาวิทยาลัยรามคำแหง"] },
+                            { direction: "ขากลับ", stops: ["ตรงข้ามมหาวิทยาลัยรามคำแหง", "หลังแยกลำสาลี (ฝั่งถนนศรีนครินทร์) (ขาเข้า)"] }
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "มหาวิทยาลัยรามคำแหง วิทยาเขตบางนา",
+                color: "text-blue-700", 
+                icon: "fa-university", // Changed icon to match group 1
+                badgeColor: "bg-blue-100 text-blue-900 border-blue-200",
+                lineColor: "border-blue-500",
+                buses: [
+                    {
+                        lines: ["3-11 (48)", "3-11X (48X)"],
+                        routes: [
+                            { direction: "ขาไป", stops: ["สถานีรถไฟฟ้าอุดมสุข (ทางออก 1)", "ตรงข้ามมหาวิทยาลัยรามคำแหง วิทยาเขตบางนา (ประตู 1)"] },
+                            { direction: "ขากลับ", stops: ["มหาวิทยาลัยรามคำแหง วิทยาเขตบางนา (ประตู 1)", "สถานีรถไฟฟ้าอุดมสุข (ทางออก 4)"] }
+                        ]
+                    },
+                    {
+                        lines: ["3-38 (38)"],
+                        routes: [
+                            { direction: "ขาไป", stops: ["สถานีรถไฟฟ้าอุดมสุข (ทางออก 1)", "ตรงข้ามมหาวิทยาลัยรามคำแหง วิทยาเขตบางนา (ประตู 1)"] },
+                            { direction: "ขากลับ", stops: ["มหาวิทยาลัยรามคำแหง วิทยาเขตบางนา (ประตู 1)", "สถานีรถไฟฟ้าอุดมสุข (ทางออก 4)"] }
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "เส้นทางเชื่อมต่อ",
+                color: "text-green-700",
+                icon: "fa-exchange-alt",
+                badgeColor: "bg-green-100 text-green-900 border-green-200",
+                lineColor: "border-green-500",
+                buses: [
+                    {
+                        lines: ["3-32"],
+                        routes: [
+                            { direction: "ขาไป", stops: ["ซอยรามคำแหง 50", "มหาวิทยาลัยรามคำแหง", "สถานีรถไฟฟ้าอุดมสุข (ทางออก 1)"] },
+                            { direction: "ขากลับ", stops: ["สถานีรถไฟฟ้าอุดมสุข (ทางออก 4)", "ตรงข้ามมหาวิทยาลัยรามคำแหง", "สถานีรถไฟฟ้าแยกลำสาลี (ทางออก 1) (ฝั่งถนนรามคำแหง)"] }
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        const container = document.getElementById('busContainer');
+
+        function renderBusCards() {
+            container.innerHTML = '';
+            
+            groups.forEach(group => {
+                // Render Group Title
+                const groupHeader = document.createElement('div');
+                groupHeader.className = "mt-6 mb-4 flex items-center pb-2 border-b border-gray-300";
+                groupHeader.innerHTML = `
+                    <i class="fas ${group.icon} ${group.color} text-xl mr-3"></i>
+                    <h2 class="text-xl font-bold ${group.color}">${group.title}</h2>
+                `;
+                container.appendChild(groupHeader);
+
+                // Render Buses in Group
+                group.buses.forEach(bus => {
+                    const card = document.createElement('div');
+                    card.className = "bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6 transition-all hover:shadow-md";
+                    
+                    // Bus Lines Badge (Dynamic Color)
+                    let linesHtml = bus.lines.map(line => 
+                        `<span class="inline-block px-3 py-1 rounded-full text-base font-bold mr-2 mb-1 bus-badge border ${group.badgeColor}">${line}</span>`
+                    ).join('');
+
+                    let routesHtml = '';
+                    bus.routes.forEach((route, rIndex) => {
+                        let stopsHtml = route.stops.map((stop, sIndex) => {
+                            return `
+                                <div class="relative pl-8 pb-6 timeline-item">
+                                    <div class="timeline-line"></div>
+                                    <div class="absolute left-2 top-1.5 w-3.5 h-3.5 bg-white border-4 ${group.lineColor} rounded-full z-10 shadow-sm"></div>
+                                    <p class="text-gray-800 text-sm font-medium leading-tight">${stop}</p>
+                                </div>
+                            `;
+                        }).join('');
+
+                        routesHtml += `
+                            <div class="mb-4 last:mb-0">
+                                <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 flex items-center">
+                                    <i class="fas fa-location-arrow mr-1.5 transform ${rIndex === 1 ? 'rotate-180' : ''}"></i> 
+                                    ${route.direction}
+                                </h3>
+                                <div class="border-l-0 border-gray-200">
+                                    ${stopsHtml}
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    card.innerHTML = `
+                        <div class="p-5">
+                            <div class="mb-4 flex flex-wrap items-center">
+                                ${linesHtml}
+                            </div>
+                            <div class="bg-gray-50 rounded-xl p-4">
+                                ${routesHtml}
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            });
+        }
+
+        // Initial Render
+        renderBusCards();
+
+    </script>
+</body>
+</html>
