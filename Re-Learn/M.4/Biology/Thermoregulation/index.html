@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บทที่ 2.3 การรักษาดุลยภาพของอุณหภูมิภายในร่างกาย</title>
+    <meta property="og:title" content="บทที่ 2.3 การรักษาดุลยภาพของอุณหภูมิภายในร่างกาย">
+    
+    <!-- Google Fonts: Niramit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Niramit', sans-serif;
+        }
+        .scroll-smooth {
+            scroll-behavior: smooth;
+        }
+        /* Animation for background elements */
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 selection:bg-orange-200 scroll-smooth font-niramit">
+
+    <!-- Navigation -->
+    <nav class="bg-white sticky top-0 z-50 shadow-sm border-b border-slate-100">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <span class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                    <i data-lucide="thermometer" class="text-orange-600"></i>
+                    Temperature Balance
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-4 py-8 space-y-12">
+
+        <!-- Hero Section -->
+        <section class="text-center py-12 bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl text-white shadow-xl relative overflow-hidden">
+            <!-- Decorative background element -->
+            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-orange-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-64 h-64 bg-yellow-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+
+            <div class="relative z-10">
+                <h1 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">บทที่ 2 การรักษาดุลยภาพของร่างกาย</h1>
+                <h2 class="text-xl md:text-2xl text-orange-200 font-medium mb-6">2.3 การรักษาดุลยภาพของอุณหภูมิภายในร่างกาย</h2>
+                
+                <div class="mt-8 flex justify-center gap-4 flex-wrap text-sm md:text-base">
+                    <div class="bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full flex items-center gap-2 border border-white/20">
+                        <i data-lucide="flame" width="18"></i> ความร้อน
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full flex items-center gap-2 border border-white/20">
+                        <i data-lucide="activity" width="18"></i> เอนไซม์
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full flex items-center gap-2 border border-white/20">
+                        <i data-lucide="user" width="18"></i> ผิวหนัง
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 1: Temperature & Enzymes -->
+        <section>
+            <div class="flex items-start gap-4 mb-6 border-b border-slate-200 pb-4">
+                <div class="p-3 bg-orange-50 rounded-lg text-orange-600">
+                    <i data-lucide="flask-conical" width="32" height="32"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">อุณหภูมิกับการทำงานของเอนไซม์</h2>
+                    <p class="text-slate-500 mt-1">ปัจจัยสำคัญต่อปฏิกิริยาเคมีในร่างกาย</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-slate-100 mb-6">
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="font-bold text-lg mb-4 text-slate-700">ผลของอุณหภูมิต่อเอนไซม์</h3>
+                        <p class="text-slate-600 mb-4">
+                            ปฏิกิริยาเคมีส่วนใหญ่ในร่างกายเกิดจาก <strong>เอนไซม์</strong> ซึ่งนอกจาก pH ที่เหมาะสมแล้ว <strong>อุณหภูมิ</strong> ก็เป็นปัจจัยสำคัญที่ต้องรักษาให้คงที่เสมอ
+                        </p>
+                        <div class="bg-orange-50 p-4 rounded-lg border border-orange-100 text-sm space-y-2">
+                            <p class="font-bold text-orange-800"><i data-lucide="check-circle" class="inline w-4 h-4 mr-1"></i> กรณีศึกษา : เอนไซม์อะไมเลส</p>
+                            <ul class="list-disc list-inside text-orange-900 ml-2">
+                                <li><strong>10°C :</strong> ทำงานไม่ได้</li>
+                                <li><strong>37°C :</strong> ทำงานได้สูงสุด (อุณหภูมิร่างกายมนุษย์)</li>
+                                <li><strong>50°C :</strong> ทำงานลดลงจนหยุดทำงาน</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- FIGURE 1: Temperature Graph Simulation -->
+                    <div class="bg-slate-50 p-6 pt-10 pb-16 rounded-xl border border-slate-200 relative h-auto flex flex-col justify-end">
+                        <div class="absolute top-4 left-0 right-0 text-center font-bold text-slate-500 text-sm">กราฟความสัมพันธ์ อุณหภูมิ vs อัตราการทำงาน</div>
+                        
+                        <!-- Graph Container -->
+                        <div class="relative h-40 w-full border-l-2 border-b-2 border-slate-400 flex items-end mt-4">
+                            <!-- Y-Axis Label -->
+                            <span class="absolute -left-8 top-1/2 -translate-y-1/2 -rotate-90 text-xs text-slate-500">อัตราการทำงาน</span>
+                            
+                            <!-- Graph Curve (CSS Generated) -->
+                            <svg class="absolute bottom-0 left-0 w-full h-full overflow-visible" preserveAspectRatio="none">
+                                <!-- Curve path: Starts low, peaks at ~60% width (37C), drops to 0 at ~80% width (50C) -->
+                                <path d="M 10,150 Q 80,150 150,10 Q 220,150 250,150" fill="none" stroke="#ea580c" stroke-width="3" />
+                                <!-- Peak Point -->
+                                <circle cx="150" cy="10" r="4" fill="#ea580c" />
+                                <text x="135" y="-5" font-size="10" fill="#ea580c" font-weight="bold">37°C (Max)</text>
+                            </svg>
+
+                            <!-- X-Axis Labels -->
+                            <div class="absolute -bottom-6 w-full flex justify-between text-xs text-slate-500">
+                                <span>0°C</span>
+                                <span>20°C</span>
+                                <span>40°C</span>
+                                <span>60°C</span>
+                            </div>
+                            <!-- Adjusted X-Axis Title position to be lower but inside the container padding -->
+                            <span class="absolute -bottom-14 w-full text-center text-xs text-slate-500">อุณหภูมิ (°C)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Homeostasis Mechanisms -->
+        <section>
+            <div class="flex items-start gap-4 mb-6 border-b border-slate-200 pb-4">
+                <div class="p-3 bg-orange-50 rounded-lg text-orange-600">
+                    <i data-lucide="settings" width="32" height="32"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">กลไกการรักษาดุลยภาพ</h2>
+                    <p class="text-slate-500 mt-1">ศูนย์ควบคุมและอวัยวะที่เกี่ยวข้อง</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex flex-col items-center text-center">
+                    <div class="w-14 h-14 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 mb-4">
+                        <i data-lucide="brain" width="32"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-indigo-900 mb-2">ศูนย์ควบคุมกลาง</h3>
+                    <p class="text-slate-600">
+                        <strong>สมองส่วนไฮโพทาลามัส (Hypothalamus)</strong><br>
+                        ทำหน้าที่เป็นเทอร์โมสตัท (Thermostat) ควบคุมอุณหภูมิให้คงที่
+                    </p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex flex-col items-center text-center">
+                    <div class="w-14 h-14 bg-rose-100 rounded-full flex items-center justify-center text-rose-600 mb-4">
+                        <i data-lucide="users" width="32"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-rose-900 mb-2">ระบบที่ทำงานร่วมกัน</h3>
+                    <div class="flex gap-2 flex-wrap justify-center">
+                        <span class="bg-rose-50 text-rose-700 px-3 py-1 rounded-full text-sm">ระบบหมุนเวียนเลือด</span>
+                        <span class="bg-orange-50 text-orange-700 px-3 py-1 rounded-full text-sm">ผิวหนัง</span>
+                        <span class="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-sm">กล้ามเนื้อโครงร่าง</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FIGURE 2: Mechanism Diagram -->
+            <div class="mt-8 p-6 bg-slate-800 rounded-xl border border-slate-700 text-slate-200">
+                <h4 class="text-center font-bold text-white mb-8 bg-slate-700 w-fit mx-auto block px-6 py-2 rounded-full shadow-sm border border-slate-600">
+                    แผนผังการตอบสนองต่ออุณหภูมิ
+                </h4>
+                
+                <div class="grid md:grid-cols-2 gap-8 relative">
+                    <!-- Divider for mobile/desktop -->
+                    <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-slate-600 -ml-px"></div>
+
+                    <!-- Case 1: High Temperature -->
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-2 justify-center mb-2">
+                            <span class="bg-orange-500/20 text-orange-300 px-3 py-1 rounded-full text-xs font-bold border border-orange-500/30">เมื่ออุณหภูมิร่างกายสูง</span>
+                        </div>
+
+                        <div class="bg-slate-700 p-3 rounded-lg border border-slate-600 text-center text-sm">
+                            <div class="mb-2 text-indigo-300"><i data-lucide="brain" class="mx-auto"></i></div>
+                            สมองไฮโพทาลามัส <span class="text-orange-400 font-bold">กระตุ้นการระบายความร้อน</span>
+                        </div>
+
+                        <div class="flex justify-center"><i data-lucide="arrow-down" class="text-slate-500"></i></div>
+
+                        <div class="space-y-2">
+                            <div class="bg-slate-700 p-2 rounded border border-slate-600 text-center text-xs">
+                                <span class="text-orange-300">หลอดเลือดฝอยที่ผิวหนัง :</span> <strong class="text-green-400">ขยายตัว</strong>
+                                <br>(เลือดไหลเวียนดี หน้าแดง)
+                            </div>
+                            <div class="bg-slate-700 p-2 rounded border border-slate-600 text-center text-xs">
+                                <span class="text-orange-300">ต่อมเหงื่อ :</span> <strong class="text-green-400">สร้างเหงื่อเพิ่มขึ้น</strong>
+                                <br>(ระเหยพาความร้อน)
+                            </div>
+                            <div class="bg-slate-700 p-2 rounded border border-slate-600 text-center text-xs">
+                                <span class="text-orange-300">กล้ามเนื้อยืดโคนขน :</span> <strong class="text-green-400">คลายตัว</strong>
+                                <br>(ขนเอนราบ)
+                            </div>
+                        </div>
+
+                        <div class="flex justify-center"><i data-lucide="arrow-down" class="text-slate-500"></i></div>
+
+                        <div class="bg-slate-700 p-3 rounded-lg border border-slate-600 text-center text-sm border-b-4 border-b-orange-400">
+                            อุณหภูมิร่างกาย <span class="text-green-400 font-bold">ลดลงสู่ปกติ</span>
+                        </div>
+                    </div>
+
+                    <!-- Case 2: Low Temperature -->
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-2 justify-center mb-2">
+                            <span class="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-xs font-bold border border-blue-500/30">เมื่ออุณหภูมิร่างกายต่ำ</span>
+                        </div>
+
+                        <div class="bg-slate-700 p-3 rounded-lg border border-slate-600 text-center text-sm">
+                            <div class="mb-2 text-indigo-300"><i data-lucide="brain" class="mx-auto"></i></div>
+                            สมองไฮโพทาลามัส <span class="text-blue-400 font-bold">กระตุ้นการสร้าง/เก็บความร้อน</span>
+                        </div>
+
+                        <div class="flex justify-center"><i data-lucide="arrow-down" class="text-slate-500"></i></div>
+
+                        <div class="space-y-2">
+                            <div class="bg-slate-700 p-2 rounded border border-slate-600 text-center text-xs">
+                                <span class="text-blue-300">หลอดเลือดฝอยที่ผิวหนัง :</span> <strong class="text-rose-400">หดตัว</strong>
+                                <br>(ลดการสูญเสียความร้อน)
+                            </div>
+                            <div class="bg-slate-700 p-2 rounded border border-slate-600 text-center text-xs">
+                                <span class="text-blue-300">ต่อมเหงื่อ :</span> <strong class="text-rose-400">ลดการทำงาน</strong>
+                            </div>
+                            <div class="bg-slate-700 p-2 rounded border border-slate-600 text-center text-xs">
+                                <span class="text-blue-300">กล้ามเนื้อยืดโคนขน :</span> <strong class="text-rose-400">หดตัว</strong>
+                                <br>(ขนลุกตั้งชัน กักอากาศ)
+                            </div>
+                            <div class="bg-slate-700 p-2 rounded border border-slate-600 text-center text-xs border-l-4 border-l-yellow-400">
+                                <span class="text-yellow-300">กล้ามเนื้อโครงร่าง :</span> <strong class="text-rose-400">หดตัว (สั่น)</strong>
+                                <br>(เพิ่มความร้อน)
+                            </div>
+                        </div>
+
+                        <div class="flex justify-center"><i data-lucide="arrow-down" class="text-slate-500"></i></div>
+
+                        <div class="bg-slate-700 p-3 rounded-lg border border-slate-600 text-center text-sm border-b-4 border-b-blue-400">
+                            อุณหภูมิร่างกาย <span class="text-green-400 font-bold">เพิ่มขึ้นสู่ปกติ</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Skin Structure & Behaviors -->
+        <section>
+            <div class="flex items-start gap-4 mb-6 border-b border-slate-200 pb-4">
+                <div class="p-3 bg-orange-50 rounded-lg text-orange-600">
+                    <i data-lucide="user" width="32" height="32"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">ผิวหนังและพฤติกรรม</h2>
+                    <p class="text-slate-500 mt-1">ด่านหน้าในการรักษาอุณหภูมิ</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <!-- Skin Structure -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-lg text-slate-700 mb-4 flex items-center gap-2">
+                        <i data-lucide="layers" class="text-orange-500"></i> โครงสร้างผิวหนังที่สำคัญ
+                    </h3>
+                    <ul class="space-y-3 text-slate-600 text-sm">
+                        <li class="flex gap-2">
+                            <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mt-2"></span>
+                            <span><strong>เส้นขน & กล้ามเนื้อยืดโคนขน (Piloerector muscle) :</strong> ทำให้ขนลุกตั้งชันเพื่อกักอากาศอุ่น</span>
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mt-2"></span>
+                            <span><strong>หลอดเลือด :</strong> หด/ขยายตัว เพื่อปรับการระบายความร้อน</span>
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mt-2"></span>
+                            <span><strong>ต่อมเหงื่อ :</strong> ขับเหงื่อระบายความร้อน</span>
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mt-2"></span>
+                            <span><strong>ชั้นไขมันใต้ผิวหนัง :</strong> เป็นฉนวนป้องกันการสูญเสียความร้อน</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Behavioral Adaptation -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-lg text-slate-700 mb-4 flex items-center gap-2">
+                        <i data-lucide="smile" class="text-green-500"></i> การปรับพฤติกรรม
+                    </h3>
+                    <div class="space-y-4 text-sm">
+                        <div class="bg-orange-50 p-3 rounded-lg border border-orange-100">
+                            <strong class="text-orange-800 block mb-1">เมื่ออากาศร้อน</strong>
+                            <p class="text-orange-700">สวมเสื้อผ้าบาง อาบน้ำบ่อยๆ หลีกเลี่ยงแดด อยู่ในที่ร่ม/มีพัดลม</p>
+                        </div>
+                        <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
+                            <strong class="text-blue-800 block mb-1">เมื่ออากาศเย็น</strong>
+                            <p class="text-blue-700">สวมเสื้อผ้าหนา ก่อกองไฟ/ผิงไฟ ออกกำลังกายเพิ่มความร้อน</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q&A Section -->
+            <div class="space-y-4">
+                <h3 class="font-bold text-lg text-slate-700">คำถามน่ารู้</h3>
+                
+                <div class="border-l-4 border-slate-400 bg-white p-4 rounded-r-xl shadow-sm">
+                    <h4 class="font-bold text-slate-800 mb-2">ทำไมออกกำลังกายหนักแล้วหน้าแดง หายใจแรง?</h4>
+                    <p class="text-sm text-slate-600">
+                        เพราะเมแทบอลิซึมเพิ่มขึ้น &rarr; เกิดความร้อนและ CO₂ <br>
+                        สมองสั่งให้ <strong>หลอดเลือดขยายตัว</strong> (หน้าแดง) เพื่อระบายความร้อน และ <strong>หายใจถี่ขึ้น</strong> เพื่อขับ CO₂
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-slate-400 bg-white p-4 rounded-r-xl shadow-sm">
+                    <h4 class="font-bold text-slate-800 mb-2">ทำไมเวลาเป็นไข้ถึงรู้สึกหนาวสั่น?</h4>
+                    <p class="text-sm text-slate-600">
+                        เพราะเชื้อโรคทำให้ไฮโพทาลามัส <strong>ตั้งค่าอุณหภูมิร่างกายใหม่ให้สูงขึ้น</strong> <br>
+                        อุณหภูมิจริงขณะนั้นจึง "ต่ำกว่า" ค่าที่ตั้งไว้ ร่างกายจึงสั่งให้ <strong>สั่น</strong> เพื่อเพิ่มความร้อน (และอุณหภูมิสูงช่วยยับยั้งเชื้อโรคบางชนิด)
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-slate-400 bg-white p-4 rounded-r-xl shadow-sm">
+                    <h4 class="font-bold text-slate-800 mb-2">อันตรายจากการขับเหงื่อมากเกินไป?</h4>
+                    <p class="text-sm text-slate-600">
+                        สูญเสีย <strong>น้ำและแร่ธาตุ</strong> (โซเดียม โพแทสเซียม) <br>
+                        อาจทำให้เป็นลมหมดสติหรืออันตรายถึงชีวิต จึงควรดื่มน้ำเกลือแร่ชดเชย
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center text-sm mt-12">
+        <div class="max-w-4xl mx-auto px-4 flex flex-col justify-center items-center gap-2">
+           <i data-lucide="book-open" width="20"></i>
+           <span class="text-base font-semibold">2.3 การรักษาดุลยภาพของอุณหภูมิภายในร่างกาย</span>
+           <span class="text-xs opacity-70">By-20nxskypqz</span>
+        </div>
+    </footer>
+
+    <!-- Script to render Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
