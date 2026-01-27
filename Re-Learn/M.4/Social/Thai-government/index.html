@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>การปกครองของไทย - หน่วยที่ 3</title>
+    
+    <!-- Google Fonts: Niramit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        niramit: ['Niramit', 'sans-serif'],
+                    },
+                    colors: {
+                        royal: '#1B2A4A',     // Deep Royal Blue
+                        gold: '#C5A059',      // Thai Gold
+                        cream: '#F9F7F2',     // Cream Paper
+                        sky: '#E0F2FE',       // Soft Sky
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Niramit', sans-serif;
+            background-color: #F9F7F2;
+            color: #1B2A4A;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Hero Background Pattern */
+        .thai-pattern {
+            background-color: #1B2A4A;
+            background-image: radial-gradient(circle at 100% 100%, #2a4069 10%, transparent 11%), 
+                              radial-gradient(circle at 0% 0%, #2a4069 10%, transparent 11%);
+            background-size: 40px 40px;
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(to right, #C5A059, #F3D89D, #C5A059);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-color: #C5A059;
+        }
+
+        /* Section Separator */
+        .wave-divider {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            transform: rotate(180deg);
+        }
+
+        .wave-divider svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 80px;
+        }
+
+        .wave-divider .shape-fill {
+            fill: #F9F7F2;
+        }
+    </style>
+</head>
+<body class="font-niramit leading-relaxed selection:bg-gold selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="bg-white/95 backdrop-blur-md shadow-sm fixed w-full z-50 border-b border-gray-100 transition-all duration-300">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="#" class="text-royal font-bold text-xl flex items-center gap-3">
+                <div class="w-10 h-10 bg-royal text-gold rounded-full flex items-center justify-center text-lg shadow-md">
+                    <i class="fa-solid fa-landmark"></i>
+                </div>
+                <span>การปกครองของไทย</span>
+            </a>
+            <div class="hidden lg:flex space-x-8 text-sm font-medium text-gray-600">
+                <a href="#definitions" class="hover:text-gold transition relative group">
+                    นิยาม
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#components" class="hover:text-gold transition relative group">
+                    องค์ประกอบ
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#forms" class="hover:text-gold transition relative group">
+                    รูปแบบ
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#duties" class="hover:text-gold transition relative group">
+                    หน้าที่
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#democracy" class="hover:text-gold transition relative group">
+                    ประชาธิปไตย
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#monarchy" class="hover:text-gold transition relative group">
+                    สถาบันพระมหากษัตริย์
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold transition-all group-hover:w-full"></span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="thai-pattern text-white pt-40 pb-32 relative overflow-hidden">
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur border border-white/20 rounded-full px-6 py-2 mb-8 text-sm font-light tracking-wider text-gold shadow-lg animate-fade-in-up">
+                <span class="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
+                หน่วยที่ 3
+            </div>
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight tracking-tight drop-shadow-xl">
+                <span class="gold-gradient-text">การปกครองของไทย</span>
+            </h1>
+            <div class="w-24 h-1 bg-gold mx-auto mt-8 rounded-full shadow-[0_0_15px_rgba(197,160,89,0.5)]"></div>
+        </div>
+
+        <!-- Decorative Wave -->
+        <div class="wave-divider">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
+        </div>
+    </header>
+
+    <!-- 1. Definitions Section -->
+    <section id="definitions" class="py-20 container mx-auto px-4">
+        <div class="flex flex-col items-center mb-16">
+            <h2 class="text-3xl font-bold text-royal mb-3 border-l-4 border-gold pl-4">1. ความหมายของรัฐ ชาติ และประเทศ</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Card 1 -->
+            <div class="glass-card p-8 rounded-2xl relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-blue-50 rounded-bl-full -mr-4 -mt-4 transition-all group-hover:bg-blue-100"></div>
+                <div class="relative z-10">
+                    <div class="w-14 h-14 bg-white border border-blue-100 rounded-2xl flex items-center justify-center text-blue-600 mb-6 text-2xl shadow-sm">
+                        <i class="fa-solid fa-building-columns"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-royal">รัฐ (State)</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        หมายถึง : ประเทศที่มีรัฐบาลเป็นผู้ใช้อำนาจอธิปไตยเหนือประชากร ภายใต้ดินแดนของตนอย่างอิสระโดยไม่ขึ้นแก่ใคร
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="glass-card p-8 rounded-2xl relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-red-50 rounded-bl-full -mr-4 -mt-4 transition-all group-hover:bg-red-100"></div>
+                <div class="relative z-10">
+                    <div class="w-14 h-14 bg-white border border-red-100 rounded-2xl flex items-center justify-center text-red-600 mb-6 text-2xl shadow-sm">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-royal">ชาติ (Nation)</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        หมายถึง : ประชาชนที่เป็นพลเมืองของประเทศ หรือกลุ่มชนที่มีความรู้สึกในเรื่องเชื้อชาติ ศาสนา ภาษา ประวัติศาสตร์ และวัฒนธรรมอย่างเดียวกัน หรืออยู่ในการปกครองของรัฐบาลเดียวกัน
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="glass-card p-8 rounded-2xl relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-green-50 rounded-bl-full -mr-4 -mt-4 transition-all group-hover:bg-green-100"></div>
+                <div class="relative z-10">
+                    <div class="w-14 h-14 bg-white border border-green-100 rounded-2xl flex items-center justify-center text-green-600 mb-6 text-2xl shadow-sm">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-royal">ประเทศ (Country)</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        ในทางกฎหมายหมายถึง : ชุมนุมแห่งมนุษย์ซึ่งตั้งมั่นอยู่ในดินแดนอันมีอาณาเขตแน่นอน มีอำนาจอธิปไตยที่จะใช้ได้อย่างอิสระ และมีการปกครองอย่างเป็นระเบียบ
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="glass-card p-8 rounded-2xl relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-purple-50 rounded-bl-full -mr-4 -mt-4 transition-all group-hover:bg-purple-100"></div>
+                <div class="relative z-10">
+                    <div class="w-14 h-14 bg-white border border-purple-100 rounded-2xl flex items-center justify-center text-purple-600 mb-6 text-2xl shadow-sm">
+                        <i class="fa-solid fa-flag"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-royal">รัฐชาติ (Nation-State)</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        หมายถึง : ชุมชนทางการเมืองที่ประชาชนมีความรู้สึกผูกพัน ภาคภูมิใจ และมีความจงรักภักดีต่อประเทศชาติและรัฐบาลของตนเอง มีเอกภาพทางการเมืองและดินแดนที่ชัดเจน
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Components of State -->
+    <section id="components" class="py-20 bg-white relative">
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-5 pointer-events-none">
+            <div class="absolute -top-20 -left-20 w-96 h-96 bg-royal rounded-full blur-3xl"></div>
+            <div class="absolute bottom-20 right-20 w-96 h-96 bg-gold rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-royal mb-2">2. องค์ประกอบของรัฐ</h2>
+                <div class="w-16 h-1 bg-gold mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <!-- Item 1 -->
+                <div class="flex items-center gap-6 p-6 rounded-xl hover:bg-gray-50 transition border border-transparent hover:border-gray-100">
+                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center text-white text-2xl shadow-lg shrink-0">
+                        <i class="fa-solid fa-people-group"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold text-royal">ประชากร</h4>
+                        <p class="text-gray-600 mt-1 text-sm">ประกอบด้วยผู้มีสัญชาติของรัฐนั้น คนต่างด้าว หรือชนกลุ่มน้อย</p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="flex items-center gap-6 p-6 rounded-xl hover:bg-gray-50 transition border border-transparent hover:border-gray-100">
+                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-emerald-500 to-green-600 flex items-center justify-center text-white text-2xl shadow-lg shrink-0">
+                        <i class="fa-solid fa-map"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold text-royal">ดินแดนที่มีอาณาเขตแน่นอน</h4>
+                        <p class="text-gray-600 mt-1 text-sm">ครอบคลุมทั้งพื้นดิน น่านน้ำ (12 ไมล์ทะเล) และน่านฟ้าเหนือดินแดน</p>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="flex items-center gap-6 p-6 rounded-xl hover:bg-gray-50 transition border border-transparent hover:border-gray-100">
+                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white text-2xl shadow-lg shrink-0">
+                        <i class="fa-solid fa-crown"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold text-royal">อำนาจอธิปไตย</h4>
+                        <p class="text-gray-600 mt-1 text-sm">อำนาจสูงสุดในการปกครองตนเอง มีลักษณะเด็ดขาด สมบูรณ์ ถาวร และแบ่งแยกมิได้</p>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="flex items-center gap-6 p-6 rounded-xl hover:bg-gray-50 transition border border-transparent hover:border-gray-100">
+                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-rose-400 to-red-500 flex items-center justify-center text-white text-2xl shadow-lg shrink-0">
+                        <i class="fa-solid fa-gavel"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold text-royal">รัฐบาล</h4>
+                        <p class="text-gray-600 mt-1 text-sm">สถาบันทางการเมืองที่เป็นองค์ประกอบของรัฐ ทำหน้าที่ใช้อำนาจปกครองประเทศอย่างอิสระ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Forms of State -->
+    <section id="forms" class="py-20 container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-royal mb-2">3. รูปแบบของรัฐ</h2>
+        </div>
+
+        <div class="overflow-x-auto rounded-2xl shadow-xl border border-gray-100 bg-white">
+            <table class="w-full min-w-[800px]">
+                <thead>
+                    <tr class="bg-royal text-white text-left">
+                        <th class="py-5 px-8 w-1/4 font-medium">รูปแบบ</th>
+                        <th class="py-5 px-8 w-1/2 font-medium">ลักษณะ</th>
+                        <th class="py-5 px-8 w-1/4 font-medium">ตัวอย่างประเทศ</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    <tr class="group hover:bg-blue-50/50 transition">
+                        <td class="py-6 px-8 align-top font-bold text-royal group-hover:text-blue-700">รัฐเดี่ยว</td>
+                        <td class="py-6 px-8 align-top text-gray-600">มีรัฐบาลกลางเพียงรัฐเดียวใช้อำนาจอธิปไตยปกครองทั้งหมด มีความเป็นเอกภาพสูง</td>
+                        <td class="py-6 px-8 align-top text-gray-600 font-medium">ไทย ญี่ปุ่น สเปน สิงคโปร์</td>
+                    </tr>
+                    <tr class="group hover:bg-blue-50/50 transition">
+                        <td class="py-6 px-8 align-top font-bold text-royal group-hover:text-blue-700">สหพันธรัฐ</td>
+                        <td class="py-6 px-8 align-top text-gray-600">การรวมตัวของรัฐต่างๆ โดยมีรัฐบาล 2 ระดับ คือ : รัฐบาลกลางและรัฐบาลมลรัฐ</td>
+                        <td class="py-6 px-8 align-top text-gray-600 font-medium">สหรัฐอเมริกา</td>
+                    </tr>
+                    <tr class="group hover:bg-blue-50/50 transition">
+                        <td class="py-6 px-8 align-top font-bold text-royal group-hover:text-blue-700">สมาพันธรัฐ</td>
+                        <td class="py-6 px-8 align-top text-gray-600">การร่วมมือของรัฐอิสระตามสนธิสัญญา โดยแต่ละรัฐยังคงมีอิสระในการดำเนินนโยบาย</td>
+                        <td class="py-6 px-8 align-top text-gray-600 font-medium">สหภาพยุโรป (ปัจจุบัน) สหรัฐฯ ในยุคแรก</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- 4. Duties of State -->
+    <section id="duties" class="py-20 bg-royal text-white relative overflow-hidden">
+        <!-- Abstract BG -->
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-white rounded-full mix-blend-overlay blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        </div>
+
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="flex flex-col items-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold">4. หน้าที่ของรัฐ</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Econ -->
+                <div class="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition duration-300">
+                    <div class="text-gold text-3xl mb-4"><i class="fa-solid fa-chart-line"></i></div>
+                    <h4 class="text-xl font-bold mb-3">ด้านเศรษฐกิจ</h4>
+                    <p class="text-gray-300 text-sm font-light leading-relaxed">จัดสรรทรัพยากร รักษาเสถียรภาพ กระจายรายได้ และส่งเสริมการเจริญเติบโตทางเศรษฐกิจ</p>
+                </div>
+                <!-- Social -->
+                <div class="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition duration-300">
+                    <div class="text-pink-300 text-3xl mb-4"><i class="fa-solid fa-hand-holding-heart"></i></div>
+                    <h4 class="text-xl font-bold mb-3">ด้านสังคม</h4>
+                    <p class="text-gray-300 text-sm font-light leading-relaxed">พัฒนาคนให้มีคุณภาพ เสริมสร้างการอยู่ร่วมกัน และพัฒนาภาคราชการให้มีธรรมาภิบาล</p>
+                </div>
+                <!-- Politics -->
+                <div class="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition duration-300">
+                    <div class="text-emerald-300 text-3xl mb-4"><i class="fa-solid fa-check-to-slot"></i></div>
+                    <h4 class="text-xl font-bold mb-3">ด้านการเมืองการปกครอง</h4>
+                    <p class="text-gray-300 text-sm font-light leading-relaxed">สร้างอธิปไตยให้มีความเสมอภาค กระจายอำนาจสู่ท้องถิ่น และให้เสรีภาพในการตัดสินใจ</p>
+                </div>
+                <!-- Security -->
+                <div class="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition duration-300">
+                    <div class="text-orange-300 text-3xl mb-4"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h4 class="text-xl font-bold mb-3">ด้านความมั่นคง</h4>
+                    <p class="text-gray-300 text-sm font-light leading-relaxed">พิทักษ์สถาบันพระมหากษัตริย์ รักษาเอกราช อธิปไตย และความสงบภายในประเทศ</p>
+                </div>
+                <!-- Education -->
+                <div class="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition duration-300 lg:col-span-2">
+                    <div class="text-sky-300 text-3xl mb-4"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <h4 class="text-xl font-bold mb-3">ด้านการศึกษา</h4>
+                    <p class="text-gray-300 text-sm font-light leading-relaxed">พัฒนากำลังคน อบรมแรงงาน กระจายโอกาสสู่ท้องถิ่น และประกันคุณภาพการศึกษา</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Democracy -->
+    <section id="democracy" class="py-24 container mx-auto px-4">
+        <div class="bg-white rounded-[2.5rem] p-10 md:p-16 shadow-2xl border border-gray-100 relative overflow-hidden">
+            <!-- Decoration -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-sky-100 rounded-full mix-blend-multiply blur-3xl opacity-50"></div>
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply blur-3xl opacity-50"></div>
+
+            <div class="md:flex gap-16 relative z-10">
+                <div class="md:w-5/12 mb-10 md:mb-0">
+                    <div class="sticky top-24">
+                        <h2 class="text-4xl font-bold text-royal leading-snug">
+                            5. ระบอบ<br>
+                            <span class="text-sky-600">ประชาธิปไตย</span>
+                        </h2>
+                        <div class="w-12 h-1.5 bg-gold mt-6 rounded-full"></div>
+                    </div>
+                </div>
+
+                <div class="md:w-7/12 space-y-10">
+                    <div class="group">
+                        <h3 class="text-xl font-bold text-royal flex items-center gap-3 mb-3 group-hover:text-sky-600 transition">
+                            <i class="fa-solid fa-circle-question text-sky-400"></i> ประชาธิปไตย คือ
+                        </h3>
+                        <p class="text-gray-600 leading-relaxed border-l-2 border-sky-100 pl-4">
+                            ระบอบที่อำนาจอธิปไตยเป็นของปวงชน ผู้ปกครองต้องได้รับความยินยอมจากประชาชน และเคารพสิทธิเสรีภาพขั้นพื้นฐาน
+                        </p>
+                    </div>
+
+                    <div class="group">
+                        <h3 class="text-xl font-bold text-royal flex items-center gap-3 mb-3 group-hover:text-sky-600 transition">
+                            <i class="fa-solid fa-list-check text-sky-400"></i> หลักการสำคัญ
+                        </h3>
+                        <p class="text-gray-600 leading-relaxed border-l-2 border-sky-100 pl-4">
+                            อำนาจอธิปไตยเป็นของปวงชน การเลือกตั้งตามระยะเวลา การเคารพสิทธิเสรีภาพ และการถือกฎหมายเป็นบรรทัดฐาน
+                        </p>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-sky-50 to-white p-6 rounded-xl border border-sky-100 shadow-sm">
+                        <h3 class="text-lg font-bold text-sky-800 mb-2 flex items-center">
+                            <i class="fa-solid fa-thumbs-up mr-2"></i> ข้อดี
+                        </h3>
+                        <p class="text-sky-900/80 text-sm leading-relaxed">
+                            ทุกคนมีสิทธิเสมอภาคกัน เปิดโอกาสให้เสียงข้างมากดำเนินการโดยเคารพเสียงข้างน้อย และระงับความขัดแย้งด้วยสันติวิธี
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Monarchy -->
+    <section id="monarchy" class="py-24 bg-[#FDFBF7] relative">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-gold/20 text-gold rounded-full mb-6 text-2xl">
+                    <i class="fa-solid fa-chess-king"></i>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-royal">6. ฐานะและพระราชอำนาจของพระมหากษัตริย์</h2>
+                <p class="text-gold mt-3 font-medium tracking-wide">ภายใต้รัฐธรรมนูญแห่งราชอาณาจักรไทย</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-6xl mx-auto">
+                <!-- ฐานะ -->
+                <div class="bg-white p-10 rounded-[2rem] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] border border-gray-100 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-2 h-full bg-gold"></div>
+                    <h3 class="text-2xl font-bold text-royal mb-8 flex items-center">
+                        <span class="w-8 h-8 rounded-lg bg-gold text-white flex items-center justify-center text-sm mr-3">1</span>
+                        ฐานะตามรัฐธรรมนูญ
+                    </h3>
+                    <ul class="space-y-6">
+                        <li class="flex items-start group">
+                            <i class="fa-solid fa-check text-gold mt-1.5 mr-4 group-hover:scale-110 transition"></i>
+                            <span class="text-gray-600 group-hover:text-royal transition">ทรงเป็นประมุขของประเทศ</span>
+                        </li>
+                        <li class="flex items-start group">
+                            <i class="fa-solid fa-check text-gold mt-1.5 mr-4 group-hover:scale-110 transition"></i>
+                            <span class="text-gray-600 group-hover:text-royal transition">ทรงเป็นกลางและอยู่เหนือการเมือง</span>
+                        </li>
+                        <li class="flex items-start group">
+                            <i class="fa-solid fa-check text-gold mt-1.5 mr-4 group-hover:scale-110 transition"></i>
+                            <span class="text-gray-600 group-hover:text-royal transition">ทรงเป็นที่เคารพสักการะ และเป็นศูนย์รวมแห่งความสามัคคี</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- อำนาจ -->
+                <div class="bg-white p-10 rounded-[2rem] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] border border-gray-100 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-2 h-full bg-royal"></div>
+                    <h3 class="text-2xl font-bold text-royal mb-8 flex items-center">
+                        <span class="w-8 h-8 rounded-lg bg-royal text-white flex items-center justify-center text-sm mr-3">2</span>
+                        พระราชอำนาจ
+                    </h3>
+                    <div class="space-y-6">
+                        <div class="bg-gray-50 p-5 rounded-2xl border border-gray-100">
+                            <span class="font-bold text-royal block mb-2 text-sm uppercase tracking-wider">ส่วนพระองค์ :</span>
+                            <span class="text-gray-600 text-sm leading-relaxed">ยับยั้งพระราชบัญญัติ แต่งตั้งผู้สำเร็จราชการแผ่นดิน และแต่งตั้งคณะองคมนตรี</span>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <div class="flex items-center text-gray-700 p-3 hover:bg-gray-50 rounded-xl transition">
+                                <i class="fa-solid fa-scale-balanced w-8 text-center text-gray-400 mr-3"></i>
+                                <span><strong class="text-royal">ทางนิติบัญญัติ :</strong> ทรงใช้ผ่านทางรัฐสภา</span>
+                            </div>
+                            <div class="flex items-center text-gray-700 p-3 hover:bg-gray-50 rounded-xl transition">
+                                <i class="fa-solid fa-briefcase w-8 text-center text-gray-400 mr-3"></i>
+                                <span><strong class="text-royal">ทางบริหาร :</strong> ทรงใช้ผ่านทางคณะรัฐมนตรี</span>
+                            </div>
+                            <div class="flex items-center text-gray-700 p-3 hover:bg-gray-50 rounded-xl transition">
+                                <i class="fa-solid fa-gavel w-8 text-center text-gray-400 mr-3"></i>
+                                <span><strong class="text-royal">ทางตุลาการ :</strong> ทรงใช้ผ่านทางศาล</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-royal text-white/60 py-10 border-t border-white/5 text-center text-sm">
+        <div class="container mx-auto px-4">
+            <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6 text-white">
+                <i class="fa-solid fa-landmark"></i>
+            </div>
+            <p class="text-lg font-medium text-white mb-2">หน่วยที่ 3 การปกครองของไทย</p>
+            <p class="text-gold/80">By-20nxskypqz</p>
+        </div>
+    </footer>
+
+</body>
+</html>
