@@ -3,16 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>6.1 โมเมนตัม</title>
-    <!-- Tailwind CSS -->
+    <title>6.2 แรงและการเปลี่ยนโมเมนตัม</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Niramit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- MathJax for nice formulas -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
@@ -27,9 +23,8 @@
                 },
                 extend: {
                     colors: {
-                        primary: '#4F46E5', // Indigo 600
-                        secondary: '#06B6D4', // Cyan 500
-                        emerald: '#10B981', // Emerald 500
+                        primary: '#F43F5E', // Rose 500
+                        secondary: '#8B5CF6', // Violet 500
                         darkbg: '#0F172A', // Slate 900
                     }
                 }
@@ -40,12 +35,11 @@
         /* Global Font Setting */
         body {
             font-family: 'Niramit', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #312e81 100%);
             color: #ffffff;
             min-height: 100vh;
         }
 
-        /* Enforce Niramit on standard text elements */
         h1, h2, h3, h4, h5, h6, p, div, a, li, button, input {
             font-family: 'Niramit', sans-serif;
         }
@@ -72,7 +66,7 @@
         }
 
         .gradient-text {
-            background: linear-gradient(to right, #818cf8, #22d3ee);
+            background: linear-gradient(to right, #f43f5e, #c084fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             padding: 0.2em 0.1em;
@@ -100,7 +94,7 @@
             height: 4px;
             bottom: -8px;
             left: 0;
-            background: linear-gradient(to right, #4F46E5, #06B6D4);
+            background: linear-gradient(to right, #f43f5e, #8b5cf6);
             border-radius: 2px;
         }
 
@@ -108,7 +102,16 @@
             margin: 0 0.4em;
         }
 
-        /* Restoring Animations */
+        /* Animation for Force Arrow */
+        @keyframes pushRight {
+            0%, 100% { transform: translateX(0); opacity: 0.5; }
+            50% { transform: translateX(10px); opacity: 1; }
+        }
+        .force-anim {
+            animation: pushRight 1.5s ease-in-out infinite;
+        }
+        
+        /* Animation for Moving Ball */
         @keyframes slideRight {
             0% { left: 1rem; }
             50% { left: calc(100% - 4rem); }
@@ -123,13 +126,11 @@
 </head>
 <body class="p-4 md:p-8 overflow-x-hidden">
 
-    <!-- Background Elements -->
-    <div class="fixed top-20 left-10 w-32 h-32 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-    <div class="fixed top-40 right-10 w-32 h-32 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+    <div class="fixed top-20 right-10 w-40 h-40 bg-rose-500 rounded-full mix-blend-multiply filter blur-[60px] opacity-20 animate-blob"></div>
+    <div class="fixed bottom-20 left-10 w-40 h-40 bg-violet-600 rounded-full mix-blend-multiply filter blur-[60px] opacity-20 animate-blob animation-delay-2000"></div>
 
     <main class="max-w-4xl mx-auto relative z-10">
         
-        <!-- Header -->
         <header class="text-center mb-16 mt-10">
             <h1 class="text-5xl md:text-6xl font-bold mb-4 flex flex-col items-center gap-1">
                 <span class="gradient-text pb-2">โมเมนตัม</span>
@@ -137,668 +138,450 @@
             </h1>
         </header>
 
-        <!-- Sub Header -->
         <div class="mb-6 border-b border-gray-700 pb-2">
-            <h2 class="text-3xl font-bold text-white">6.1 โมเมนตัม</h2>
+            <h2 class="text-3xl font-bold text-white">6.2 แรงและการเปลี่ยนโมเมนตัม</h2>
         </div>
 
-        <!-- Definition -->
-        <section class="mb-8">
-            <div class="glass-card p-8 shadow-lg hover:shadow-cyan-500/10 transition-shadow duration-300">
-                <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
-                    <div class="p-4 bg-indigo-500/20 rounded-full text-indigo-300 shrink-0 float-anim">
-                        <i class="fa-solid fa-truck-fast text-4xl"></i>
+        <section class="mb-10">
+            <div class="glass-card p-8 border-l-4 border-rose-500 shadow-lg shadow-rose-900/20">
+                <div class="flex flex-col md:flex-row items-center gap-6">
+                    <div class="p-5 bg-rose-500/10 rounded-full text-rose-400 shrink-0 border border-rose-500/20">
+                        <i class="fa-solid fa-hand-fist text-4xl"></i>
                     </div>
-                    <div>
-                        <h3 class="text-2xl font-bold mb-3 custom-underline">นิยาม</h3>
-                        <p class="text-lg leading-relaxed text-gray-200">
-                            <strong class="text-white">โมเมนตัม</strong> คือปริมาณที่บอกถึง<strong class="text-indigo-200">ความพยายาม</strong>ที่ต้องใช้กระทำต่อวัตถุที่กำลังเคลื่อนที่ให้<strong class="text-indigo-200">หยุดนิ่ง</strong> ซึ่งมีค่าเท่ากับ<strong class="text-white">ผลคูณของมวลกับความเร็ว</strong>ของวัตถุ
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Formula -->
-        <section class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="glass-card p-8 flex flex-col justify-center items-center text-center border-l-4 border-l-cyan-400">
-                <h3 class="text-xl font-bold text-gray-400 mb-6">สูตรโมเมนตัม</h3>
-                <div class="text-5xl md:text-6xl font-bold mb-2 tracking-wider">
-                    <span class="text-yellow-400 math-var">P</span> = <span class="text-cyan-400 math-var">m</span><span class="text-purple-400 math-var">v</span>
-                </div>
-                <div class="text-sm text-gray-400 mt-2">
-                    ( คิดแบบเวกเตอร์ <span class="text-yellow-400">\(\vec{P}\)</span> = <span class="text-cyan-400">\(m\)</span><span class="text-purple-400">\(\vec{v}\)</span> )
-                </div>
-            </div>
-
-            <div class="glass-card p-6 flex flex-col justify-center items-center relative overflow-hidden">
-                <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-transparent"></div>
-                <div class="relative z-10 w-full">
-                    <div class="flex justify-between items-center mb-2 text-sm text-gray-400">
-                        <span>วัตถุหยุดนิ่ง ( <span class="math-var">v</span> = 0 )</span>
-                        <span>วัตถุเคลื่อนที่ ( <span class="math-var">v</span> > 0 )</span>
-                    </div>
-                    <div class="bg-slate-800/50 rounded-xl p-4 h-32 relative flex items-center overflow-hidden border border-slate-700">
-                        <div class="absolute inset-0" style="background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 20px 20px;"></div>
-                        <!-- Moving Ball -->
-                        <div class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full shadow-lg flex items-center justify-center font-bold text-black z-20 animate-[slideRight_3s_ease-in-out_infinite] math-var">m</div>
-                        <!-- Speed lines -->
-                        <div class="absolute left-4 top-1/2 -translate-y-1/2 ml-14 animate-[fadeInOut_3s_ease-in-out_infinite]">
-                            <i class="fa-solid fa-angles-right text-purple-400 text-2xl opacity-80"></i>
+                    <div class="w-full text-center md:text-left">
+                        <h3 class="text-2xl font-bold mb-3 text-white">นิยาม</h3>
+                        <div class="text-lg leading-relaxed text-gray-200 font-light flex flex-col items-center md:items-start gap-1">
+                            <span>แรงลัพธ์ที่กระทำต่อวัตถุ</span>
+                            <span class="font-bold text-rose-400 text-xl my-1">=</span>
+                            <span>อัตราการเปลี่ยนโมเมนตัมของวัตถุนั้น</span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Variables -->
         <section class="mb-12">
-            <h3 class="text-2xl font-bold mb-6 custom-underline">คำอธิบายตัวแปร</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="glass-card p-6 hover:bg-slate-800/50 transition-colors duration-300">
-                    <div class="flex items-center mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-yellow-500/20 flex items-center justify-center text-yellow-400 font-bold text-xl mr-3">\(\vec{p}\)</div>
-                        <h4 class="text-xl font-bold text-yellow-100">โมเมนตัม</h4>
-                    </div>
-                    <div class="space-y-2 text-gray-300">
-                        <p class="flex justify-between border-b border-gray-700 pb-2">
-                            <span>สัญลักษณ์</span> <span class="font-bold text-white">\(\vec{p}\)</span>
-                        </p>
-                        <p class="text-sm text-gray-400 pt-1">หน่วย <span class="colon-space">:</span> <strong class="text-white">kg \(\cdot\) m/s</strong></p>
-                    </div>
+            <h3 class="text-2xl font-bold mb-6 custom-underline text-rose-300">การพิสูจน์สูตร</h3>
+            
+            <div class="glass-card p-6 md:p-8 relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-10">
+                    <i class="fa-solid fa-calculator text-8xl text-white"></i>
                 </div>
 
-                <div class="glass-card p-6 hover:bg-slate-800/50 transition-colors duration-300">
-                    <div class="flex items-center mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-400 font-bold text-xl mr-3">\(\vec{v}\)</div>
-                        <h4 class="text-xl font-bold text-purple-100">ความเร็ว</h4>
+                <div class="space-y-6 relative z-10">
+                    
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-4 border-b border-white/5 pb-4">
+                        <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-rose-400 font-bold border border-slate-600 shrink-0">1</div>
+                        <div class="flex-1">
+                            <p class="text-gray-300 mb-1 text-sm">จากกฎการเคลื่อนที่ข้อที่ 2 ของนิวตัน</p>
+                            <div class="text-2xl font-bold text-white">
+                                <span class="math-var text-rose-400">F</span> = <span class="math-var text-cyan-400">m</span><span class="math-var text-violet-400">a</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="space-y-2 text-gray-300">
-                        <p class="flex justify-between border-b border-gray-700 pb-2">
-                            <span>สัญลักษณ์</span> <span class="font-bold text-white">\(\vec{v}\)</span>
-                        </p>
-                        <p class="text-sm text-gray-400 pt-1">หน่วย <span class="colon-space">:</span> <strong class="text-white">m/s</strong></p>
-                    </div>
-                </div>
 
-                <div class="glass-card p-6 hover:bg-slate-800/50 transition-colors duration-300">
-                    <div class="flex items-center mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-400 font-bold text-xl mr-3 math-var">m</div>
-                        <h4 class="text-xl font-bold text-cyan-100">มวล</h4>
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-4 border-b border-white/5 pb-4">
+                        <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-rose-400 font-bold border border-slate-600 shrink-0">2</div>
+                        <div class="flex-1">
+                            <p class="text-gray-300 mb-1 text-sm">เปลี่ยนความเร่ง (<span class="math-var">a</span>) เป็นความเร็วที่เปลี่ยนไปต่อเวลา</p>
+                            <div class="text-xl text-gray-300 flex items-center flex-wrap">
+                                <span class="mr-3">แต่</span>
+                                <span class="math-var text-violet-400 text-2xl">a</span> 
+                                <span class="mx-2">=</span> 
+                                <div class="inline-block text-center mx-2">
+                                    <div class="border-b border-white/30 pb-1 mb-1"><span class="math-var">v</span> - <span class="math-var">u</span></div>
+                                    <div><span class="math-var text-yellow-400">\(\Delta t\)</span></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="space-y-2 text-gray-300">
-                        <p class="flex justify-between border-b border-gray-700 pb-2">
-                            <span>สัญลักษณ์</span> <span class="font-bold text-white math-var">m</span>
-                        </p>
-                        <p class="text-sm text-gray-400 pt-1">หน่วย <span class="colon-space">:</span> <strong class="text-white">kg</strong></p>
+
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-4 border-b border-white/5 pb-4">
+                        <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-rose-400 font-bold border border-slate-600 shrink-0">3</div>
+                        <div class="flex-1">
+                            <p class="text-gray-300 mb-1 text-sm">แทนค่า <span class="math-var">a</span> ลงในสมการแรก</p>
+                            <div class="text-2xl font-bold text-white flex items-center">
+                                <span class="math-var text-rose-400">F</span> 
+                                <span class="mx-2">=</span> 
+                                <span class="math-var text-cyan-400 mr-2">m</span>
+                                <div class="inline-block text-center mx-1 scale-90 origin-left">
+                                    <div class="border-b border-white/30 pb-1 mb-1">( <span class="math-var">v</span> - <span class="math-var">u</span> )</div>
+                                    <div><span class="math-var text-yellow-400">\(\Delta t\)</span></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-4 border-b border-white/5 pb-4">
+                        <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-rose-400 font-bold border border-slate-600 shrink-0">4</div>
+                        <div class="flex-1">
+                            <p class="text-gray-300 mb-1 text-sm">กระจายมวล (<span class="math-var">m</span>) เข้าไปคูณความเร็ว</p>
+                            <div class="text-2xl font-bold text-white flex items-center">
+                                <span class="math-var text-rose-400">F</span> 
+                                <span class="mx-2">=</span> 
+                                <div class="inline-block text-center mx-2">
+                                    <div class="border-b border-white/30 pb-1 mb-1">
+                                        (<span class="math-var text-cyan-400">m</span><span class="math-var">v</span> - <span class="math-var text-cyan-400">m</span><span class="math-var">u</span>)
+                                    </div>
+                                    <div><span class="math-var text-yellow-400">\(\Delta t\)</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-4 pb-2">
+                        <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-rose-400 font-bold border border-slate-600 shrink-0">5</div>
+                        <div class="flex-1">
+                            <p class="text-gray-300 mb-1 text-sm">เนื่องจาก <span class="math-var">mv</span> คือโมเมนตัม (<span class="math-var">P</span>)</p>
+                            <div class="text-2xl font-bold text-white flex items-center mb-2">
+                                <span class="math-var text-rose-400">F</span> 
+                                <span class="mx-2">=</span> 
+                                <div class="inline-block text-center mx-2">
+                                    <div class="border-b border-white/30 pb-1 mb-1">
+                                        ( <span class="math-var text-emerald-400">P<sub>2</sub></span> - <span class="math-var text-emerald-400">P<sub>1</sub></span> )
+                                    </div>
+                                    <div><span class="math-var text-yellow-400">\(\Delta t\)</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
 
-        <!-- EXAMPLES -->
-        <section class="mb-12">
-            <h3 class="text-2xl font-bold mb-6 custom-underline">ตัวอย่างการคำนวณ</h3>
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
             
-            <!-- EXAMPLE 6.1 -->
-            <div class="glass-card overflow-hidden border-t-4 border-emerald-500 mb-8">
+            <div class="glass-card p-8 flex flex-col justify-center items-center text-center border-2 border-rose-500 bg-rose-900/10">
+                <h3 class="text-xl font-bold text-rose-300 mb-4">จะได้สูตร</h3>
+                <div class="bg-black/30 p-6 rounded-xl border border-rose-500/30 w-full">
+                    <div class="text-5xl md:text-6xl font-bold flex items-center justify-center">
+                        <span class="math-var text-rose-400 mr-3">F</span> 
+                        <span class="text-white mr-3">=</span> 
+                        <div class="inline-block text-center">
+                            <div class="border-b-2 border-white pb-1 mb-1 text-emerald-400">
+                                <span class="math-var">\(\Delta P\)</span>
+                            </div>
+                            <div class="text-yellow-400">
+                                <span class="math-var">\(\Delta t\)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card p-6 flex flex-col justify-center items-center relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-tr from-slate-800 to-transparent"></div>
+                <div class="relative z-10 w-full text-center">
+                    <p class="text-gray-300 mb-6">เมื่อออกแรง <span class="math-var text-rose-400">F</span> กระทำต่อวัตถุ</p>
+                    
+                    <div class="flex items-center justify-center gap-2 md:gap-4">
+                        <div class="flex flex-col items-center opacity-60">
+                            <div class="w-12 h-12 rounded-full bg-cyan-600 flex items-center justify-center text-white font-bold math-var mb-2">m</div>
+                            <span class="text-sm math-var">u</span>
+                        </div>
+
+                        <div class="flex flex-col items-center text-rose-400 force-anim px-2">
+                            <span class="text-sm font-bold mb-1 math-var">F</span>
+                            <i class="fa-solid fa-arrow-right-long text-3xl"></i>
+                            <span class="text-xs mt-1 math-var">\(\Delta t\)</span>
+                        </div>
+
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 rounded-full bg-cyan-500 flex items-center justify-center text-white font-bold math-var mb-2 shadow-[0_0_15px_rgba(6,182,212,0.5)]">m</div>
+                            <span class="text-sm font-bold text-white math-var">v</span>
+                        </div>
+                    </div>
+
+                    <p class="text-emerald-300 mt-6 text-sm">
+                        โมเมนตัมเปลี่ยนจาก <span class="math-var">P<sub>1</sub></span> เป็น <span class="math-var">P<sub>2</sub></span>
+                    </p>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="mb-12">
+            <h3 class="text-2xl font-bold mb-6 custom-underline">คำอธิบายตัวแปร</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                
+                <div class="glass-card p-6 hover:bg-slate-800/50 transition-colors duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-xl font-serif italic mr-3">
+                            F
+                        </div>
+                        <h4 class="text-xl font-bold text-rose-100">แรงสุทธิ</h4>
+                    </div>
+                    <div class="space-y-2 text-gray-300">
+                        <p class="flex justify-between border-b border-gray-700 pb-2">
+                            <span>สัญลักษณ์</span>
+                            <span class="font-bold text-white font-serif italic">F</span>
+                        </p>
+                        <p class="text-sm text-gray-400 pt-1">
+                            หน่วย <span class="colon-space">:</span> นิวตัน
+                            <br>
+                            ( N )
+                        </p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 hover:bg-slate-800/50 transition-colors duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold text-xl font-serif italic mr-3">
+                            \(\Delta P\)
+                        </div>
+                        <h4 class="text-xl font-bold text-emerald-100">การเปลี่ยนแปลงโมเมนตัม</h4>
+                    </div>
+                    <div class="space-y-2 text-gray-300">
+                        <p class="flex justify-between border-b border-gray-700 pb-2">
+                            <span>สัญลักษณ์</span>
+                            <span class="font-bold text-white font-serif italic">\(\Delta P\)</span>
+                        </p>
+                        <p class="text-sm text-gray-400 pt-1">
+                            หน่วย <span class="colon-space">:</span> กิโลกรัม เมตรต่อวินาที
+                            <br>
+                            ( kg \(\cdot\) m/s )
+                        </p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 hover:bg-slate-800/50 transition-colors duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-yellow-500/20 flex items-center justify-center text-yellow-400 font-bold text-xl font-serif italic mr-3">
+                            \(\Delta t\)
+                        </div>
+                        <h4 class="text-xl font-bold text-yellow-100">ช่วงเวลา</h4>
+                    </div>
+                    <div class="space-y-2 text-gray-300">
+                        <p class="flex justify-between border-b border-gray-700 pb-2">
+                            <span>สัญลักษณ์</span>
+                            <span class="font-bold text-white font-serif italic">\(\Delta t\)</span>
+                        </p>
+                        <p class="text-sm text-gray-400 pt-1">
+                            หน่วย <span class="colon-space">:</span> วินาที
+                            <br>
+                            ( s )
+                        </p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 hover:bg-slate-800/50 transition-colors duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-400 font-bold text-xl font-serif italic mr-3">
+                            m
+                        </div>
+                        <h4 class="text-xl font-bold text-cyan-100">มวล</h4>
+                    </div>
+                    <div class="space-y-2 text-gray-300">
+                        <p class="flex justify-between border-b border-gray-700 pb-2">
+                            <span>สัญลักษณ์</span>
+                            <span class="font-bold text-white font-serif italic">m</span>
+                        </p>
+                        <p class="text-sm text-gray-400 pt-1">
+                            หน่วย <span class="colon-space">:</span> กิโลกรัม
+                            <br>
+                            ( kg )
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h3 class="text-2xl font-bold mb-6 custom-underline text-emerald-300">ตัวอย่างการคำนวณ</h3>
+            
+            <div class="glass-card overflow-hidden border-t-4 border-violet-500 mb-8">
                 <div class="p-6 md:p-8 pb-4">
                     <div class="flex items-center gap-3 mb-4">
-                        <span class="bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-md text-sm font-bold border border-emerald-500/30">EX</span>
-                        <h3 class="text-xl font-bold text-emerald-300">ตัวอย่าง 6.1</h3>
+                        <span class="bg-violet-500/20 text-violet-400 px-3 py-1 rounded-md text-sm font-bold border border-violet-500/30">ตัวอย่าง 6.3</span>
                     </div>
+                    
                     <div class="bg-white/5 p-6 rounded-xl border border-white/10 relative">
-                        <p class="text-lg text-gray-100 leading-relaxed font-light">
-                            รถยนต์ที่มีมวล <strong>1200 kg</strong> กำลังเคลื่อนที่ด้วยความเร็ว <strong>72 km/h</strong> ไปทางทิศเหนือ โมเมนตัมของรถยนต์เป็นเท่าใด
-                        </p>
+                        <div class="text-lg text-gray-100 leading-relaxed font-light">
+                            รถยนต์คันหนึ่งมีมวล <strong>1.5 t</strong> เคลื่อนที่จากหยุดนิ่งไปในแนวตรงจนมีความเร็ว <strong>72 km/h</strong> ในเวลา <strong>10 s</strong>
+                            <p class="mt-2 font-bold">จงหา :</p>
+                            <div class="pl-4 mt-1 text-gray-300 space-y-1">
+                                <p>ก. โมเมนตัมของรถยนต์ที่เปลี่ยนไป</p>
+                                <p>ข. แรงลัพธ์ที่กระทำต่อรถยนต์</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="bg-black/20 p-6 md:p-8 pt-2">
                     <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
-                        <i class="fa-solid fa-calculator mr-3 text-emerald-400"></i> วิธีทำ
+                        <i class="fa-solid fa-calculator mr-3 text-violet-400"></i> วิธีทำ
                     </h4>
-                    <div class="space-y-8">
+
+                    <div class="space-y-8 pl-4 ml-2">
+                        
                         <div>
-                            <h5 class="text-emerald-300 font-bold mb-2">กำหนดให้ <span class="colon-space">:</span></h5>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300 bg-emerald-900/10 p-4 rounded-lg border border-emerald-500/10">
-                                <div class="flex items-center">
-                                    <span class="w-8 math-var text-cyan-400 font-bold">m</span> 
-                                    <span class="colon-space">=</span> 
-                                    1200 kg
-                                </div>
-                                <div class="flex flex-col">
-                                    <div class="flex items-center">
-                                        <span class="w-8 math-var text-purple-400 font-bold">v</span> 
-                                        <span class="colon-space">=</span> 
-                                        72 km/h
-                                    </div>
-                                    <span class="text-xs text-yellow-500 mt-1 ml-8">* ต้องเปลี่ยนหน่วยเป็น m/s</span>
-                                </div>
+                            <h5 class="text-violet-300 font-bold mb-2">กำหนดให้ <span class="colon-space">:</span></h5>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300 bg-violet-900/10 p-4 rounded-lg border border-violet-500/10">
+                                <div><span class="math-var text-cyan-400 font-bold">m</span> = 1.5 t = 1,500 kg</div>
+                                <div><span class="math-var text-cyan-400 font-bold">u</span> = 0 m/s (หยุดนิ่ง)</div>
+                                <div><span class="math-var text-purple-400 font-bold">v</span> = 72 km/h</div>
+                                <div><span class="math-var text-yellow-400 font-bold">t</span> = 10 s</div>
                             </div>
                         </div>
 
                         <div>
                             <h5 class="text-indigo-300 font-bold mb-2">ขั้นตอนที่ 1 <span class="colon-space">:</span> เปลี่ยนหน่วยความเร็ว</h5>
                             <div class="text-gray-300 bg-indigo-900/10 p-4 rounded-lg border border-indigo-500/10">
-                                <p class="mb-3 text-sm text-gray-400">เปลี่ยนจาก km/h เป็น m/s โดยการคูณด้วย <strong>\(\frac{5}{18}\)</strong> หรือหารด้วย <strong>3.6</strong></p>
-                                <div class="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-4 text-lg">
-                                    <div class="flex items-center">
-                                        <span class="math-var text-purple-400 mr-2">v</span> = 
-                                        <span class="mx-2">72</span> 
-                                        \(\times\) 
-                                        <span class="mx-2">\(\frac{5}{18}\)</span>
-                                    </div>
-                                    <div class="hidden md:block text-gray-600"><i class="fa-solid fa-arrow-right"></i></div>
-                                    <div class="flex items-center text-indigo-300 font-bold bg-indigo-500/10 px-3 py-1 rounded">
-                                        <span class="math-var mr-2">v</span> = 20 m/s
-                                    </div>
+                                <p class="mb-2">เปลี่ยนจาก km/h เป็น m/s คูณด้วย \(\frac{5}{18}\) หรือหารด้วย 3.6</p>
+                                <p class="text-lg"><span class="math-var">v</span> = 72 \(\times\) \(\frac{5}{18}\) = <span class="font-bold text-white">20 m/s</span></p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h5 class="text-emerald-300 font-bold mb-2">ก. หาการเปลี่ยนโมเมนตัม (\(\Delta P\))</h5>
+                            <div class="text-gray-300 bg-emerald-900/10 p-4 rounded-lg border border-emerald-500/10">
+                                <p class="mb-2">จากสูตร <span class="colon-space">:</span> \(\Delta P = mv - mu\)</p>
+                                <div class="text-lg">
+                                    <p>\(\Delta P = (1500)(20) - (1500)(0)\)</p>
+                                    <p>\(\Delta P = 30,000 - 0\)</p>
+                                    <p class="font-bold text-white mt-1">\(\Delta P = 30,000 \text{ kg} \cdot \text{m/s}\)</p>
                                 </div>
                             </div>
                         </div>
 
                         <div>
-                            <h5 class="text-cyan-300 font-bold mb-2">ขั้นตอนที่ 2 <span class="colon-space">:</span> แทนค่าในสูตร</h5>
-                            <div class="text-gray-300 bg-cyan-900/10 p-4 rounded-lg border border-cyan-500/10">
-                                <p class="mb-3">จากสูตร <span class="colon-space">:</span> <strong class="text-xl text-yellow-200">\(\vec{p} = m\vec{v}\)</strong></p>
-                                <div class="text-lg space-y-2">
-                                    <p>
-                                        <span class="math-var text-yellow-400">p</span> = 
-                                        <span class="text-cyan-400">1200</span> \(\times\) <span class="text-purple-400">20</span>
-                                    </p>
-                                    <p class="text-2xl font-bold pt-2 border-t border-gray-700/50 inline-block pr-12">
-                                        <span class="math-var text-yellow-400">p</span> = <span class="text-white">24,000</span> <span class="text-sm text-gray-400 ml-2">kg \(\cdot\) m/s</span>
-                                    </p>
+                            <h5 class="text-rose-300 font-bold mb-2">ข. หาแรงลัพธ์ (\(F\))</h5>
+                            <div class="text-gray-300 bg-rose-900/10 p-4 rounded-lg border border-rose-500/10">
+                                <p class="mb-2">จากสูตร <span class="colon-space">:</span> \(F = \frac{\Delta P}{\Delta t}\)</p>
+                                <div class="text-lg">
+                                    <p>\(F = \frac{30,000}{10}\)</p>
+                                    <p class="font-bold text-white mt-1">\(F = 3,000 \text{ N}\)</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="mt-8">
-                            <div class="bg-gradient-to-r from-emerald-900/60 to-teal-900/60 p-6 rounded-xl border border-emerald-500/50 text-center shadow-lg shadow-emerald-900/20 transform hover:scale-[1.01] transition-transform">
-                                <h4 class="text-emerald-400 text-sm uppercase tracking-widest mb-2 font-bold">คำตอบ</h4>
-                                <p class="text-2xl md:text-3xl font-bold text-white mb-2">
-                                    โมเมนตัมของรถยนต์เท่ากับ <span class="text-emerald-400">24,000</span> kg \(\cdot\) m/s
-                                </p>
-                                <div class="inline-flex items-center text-emerald-200 bg-emerald-500/10 px-4 py-1 rounded-full text-sm mt-2">
-                                    <i class="fa-regular fa-compass mr-2"></i> มีทิศไปทางทิศเหนือ
-                                </div>
+                        <div class="bg-gradient-to-r from-violet-900/60 to-purple-900/60 p-6 rounded-xl border border-violet-500/50 text-center shadow-lg shadow-violet-900/20">
+                            <h4 class="text-violet-300 text-sm uppercase tracking-widest mb-2 font-bold">คำตอบ</h4>
+                            <div class="space-y-2">
+                                <p class="text-lg text-white">ก. โมเมนตัมเปลี่ยนไป <span class="text-emerald-400 font-bold">30,000</span> kg \(\cdot\) m/s</p>
+                                <p class="text-lg text-white">ข. แรงลัพธ์เท่ากับ <span class="text-rose-400 font-bold">3,000</span> N</p>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
 
-            <!-- EXAMPLE 6.2 -->
-            <div class="glass-card overflow-hidden border-t-4 border-emerald-500">
+            <div class="glass-card overflow-hidden border-t-4 border-rose-500">
                 <div class="p-6 md:p-8 pb-4">
                     <div class="flex items-center gap-3 mb-4">
-                        <span class="bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-md text-sm font-bold border border-emerald-500/30">EX</span>
-                        <h3 class="text-xl font-bold text-emerald-300">ตัวอย่าง 6.2</h3>
+                        <span class="bg-rose-500/20 text-rose-400 px-3 py-1 rounded-md text-sm font-bold border border-rose-500/30">ตัวอย่าง 6.4</span>
                     </div>
+                    
                     <div class="bg-white/5 p-6 rounded-xl border border-white/10 relative">
                         <p class="text-lg text-gray-100 leading-relaxed font-light">
-                            ลูกเทนนิสมีมวล <strong>60 g</strong> กำลังเคลื่อนที่ด้วยความเร็ว <strong>50 m/s</strong> ไปทางขวา และลูกบาสมวล <strong>500 g</strong> กำลังเคลื่อนที่ด้วยความเร็ว <strong>2.0 m/s</strong> ในทิศทางเดียวกัน สิ่งใดใช้มือเปล่าให้หยุดนิ่งได้ง่ายกว่า เพราะเหตุใด
+                            นักกีฬาเตะลูกฟุตบอลมวล <strong>0.4 kg</strong> เข้าหากำแพง ด้วยอัตราเร็ว <strong>6.0 m/s</strong> ถ้าลูกฟุตบอลสะท้อนกลับออกมาในทิศตรงข้ามด้วยอัตราเร็วเท่าเดิม โมเมนตัมของลูกฟุตบอลเปลี่ยนไป เท่าใด
                         </p>
                     </div>
                 </div>
 
                 <div class="bg-black/20 p-6 md:p-8 pt-2">
                     <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
-                        <i class="fa-solid fa-calculator mr-3 text-emerald-400"></i> วิธีทำ
+                        <i class="fa-solid fa-calculator mr-3 text-rose-400"></i> วิธีทำ
                     </h4>
-                    <div class="space-y-8">
+
+                    <div class="space-y-8 pl-4 ml-2">
                         
-                        <!-- Given -->
                         <div>
-                            <h5 class="text-emerald-300 font-bold mb-2">กำหนดให้ <span class="colon-space">:</span></h5>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300 bg-emerald-900/10 p-4 rounded-lg border border-emerald-500/10">
-                                <div class="flex flex-col gap-1">
-                                    <div class="font-bold text-yellow-300 mb-1"><i class="fa-solid fa-baseball mr-2"></i> ลูกเทนนิส</div>
-                                    <div class="pl-6 text-sm">
-                                        <span class="math-var">m</span> = 60 g <br>
-                                        <span class="math-var">v</span> = 50 m/s
-                                    </div>
-                                </div>
-                                <div class="flex flex-col gap-1">
-                                    <div class="font-bold text-orange-400 mb-1"><i class="fa-solid fa-basketball mr-2"></i> ลูกบาส</div>
-                                    <div class="pl-6 text-sm">
-                                        <span class="math-var">m</span> = 500 g <br>
-                                        <span class="math-var">v</span> = 2.0 m/s
-                                    </div>
-                                </div>
+                            <h5 class="text-rose-300 font-bold mb-2">กำหนดให้ <span class="text-sm font-normal text-gray-400">(ให้ทิศเข้าหากำแพงเป็น + , สะท้อนออกเป็น -)</span> <span class="colon-space">:</span></h5>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300 bg-rose-900/10 p-4 rounded-lg border border-rose-500/10">
+                                <div><span class="math-var text-cyan-400 font-bold">m</span> = 0.4 kg</div>
+                                <div><span class="math-var text-emerald-400 font-bold">u</span> = +6.0 m/s (เข้า)</div>
+                                <div><span class="math-var text-rose-400 font-bold">v</span> = -6.0 m/s (ออก)</div>
                             </div>
                         </div>
 
-                        <!-- Step 1 -->
                         <div>
-                            <h5 class="text-indigo-300 font-bold mb-2">ขั้นตอนที่ 1 <span class="colon-space">:</span> เปลี่ยนหน่วยมวล ( g เป็น kg )</h5>
-                            <div class="text-gray-300 bg-indigo-900/10 p-4 rounded-lg border border-indigo-500/10">
-                                <p class="mb-3 text-sm text-gray-400">เปลี่ยนกรัมเป็นกิโลกรัม โดยการหารด้วย <strong>1000</strong></p>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-lg">
-                                    <div>
-                                        <span class="text-yellow-300 text-sm block mb-1">ลูกเทนนิส</span>
-                                        <span class="math-var">m</span> = \(\frac{60}{1000}\) = <span class="font-bold text-indigo-300">0.06 kg</span>
-                                    </div>
-                                    <div>
-                                        <span class="text-orange-400 text-sm block mb-1">ลูกบาส</span>
-                                        <span class="math-var">m</span> = \(\frac{500}{1000}\) = <span class="font-bold text-indigo-300">0.5 kg</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Step 2 -->
-                        <div>
-                            <h5 class="text-cyan-300 font-bold mb-2">ขั้นตอนที่ 2 <span class="colon-space">:</span> คำนวณโมเมนตัม (\(p=mv\))</h5>
+                            <h5 class="text-cyan-300 font-bold mb-2">ขั้นตอนที่ 1 <span class="colon-space">:</span> ใช้สูตรการเปลี่ยนโมเมนตัม</h5>
                             <div class="text-gray-300 bg-cyan-900/10 p-4 rounded-lg border border-cyan-500/10">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-lg">
-                                    <div class="border-b md:border-b-0 md:border-r border-gray-700/50 pb-4 md:pb-0 pr-0 md:pr-4">
-                                        <span class="text-yellow-300 text-sm block mb-2">ลูกเทนนิส</span>
-                                        <p>\(p = 0.06 \times 50\)</p>
-                                        <p class="mt-2 font-bold text-white">\(p = 3 \text{ kg} \cdot \text{m/s}\)</p>
-                                    </div>
-                                    <div class="pl-0 md:pl-4">
-                                        <span class="text-orange-400 text-sm block mb-2">ลูกบาส</span>
-                                        <p>\(p = 0.5 \times 2.0\)</p>
-                                        <p class="mt-2 font-bold text-white">\(p = 1.0 \text{ kg} \cdot \text{m/s}\)</p>
-                                    </div>
+                                <p class="mb-2">จากสูตร <span class="colon-space">:</span> \(\Delta P = m(v - u)\)</p>
+                                <p class="text-sm text-yellow-300">* ระวังเครื่องหมายของความเร็ว</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h5 class="text-indigo-300 font-bold mb-2">ขั้นตอนที่ 2 <span class="colon-space">:</span> แทนค่า</h5>
+                            <div class="text-gray-300 bg-indigo-900/10 p-4 rounded-lg border border-indigo-500/10">
+                                <div class="text-lg space-y-2">
+                                    <p>\(\Delta P = 0.4 [ (-6.0) - (+6.0) ]\)</p>
+                                    <p>\(\Delta P = 0.4 [ -12.0 ]\)</p>
+                                    <p class="font-bold text-white">\(\Delta P = -4.8 \text{ kg} \cdot \text{m/s}\)</p>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Answer -->
-                        <div class="mt-8">
-                            <div class="bg-gradient-to-r from-emerald-900/60 to-teal-900/60 p-6 rounded-xl border border-emerald-500/50 text-center shadow-lg shadow-emerald-900/20">
-                                <h4 class="text-emerald-400 text-sm uppercase tracking-widest mb-3 font-bold">คำตอบ</h4>
-                                <p class="text-lg text-gray-200 mb-2 leading-relaxed">
-                                    โมเมนตัมของลูกเทนนิส <strong>(3 kg \(\cdot\) m/s)</strong> มีค่า <strong class="text-red-400">มากกว่า</strong> ลูกบาส <strong>(1.0 kg \(\cdot\) m/s)</strong>
-                                </p>
-                                <p class="text-xl md:text-2xl font-bold text-white mt-4">
-                                    <i class="fa-regular fa-hand-paper mr-2 text-emerald-400"></i> <span class="text-emerald-300">ลูกบาส</span> หยุดได้ง่ายกว่า
-                                </p>
-                                <p class="text-sm text-gray-400 mt-2">
-                                    เพราะมีโมเมนตัม<strong>น้อยกว่า</strong> จึงใช้แรงต้านน้อยกว่าในการทำให้หยุดนิ่ง
-                                </p>
+                        <div class="bg-gradient-to-r from-rose-900/60 to-red-900/60 p-6 rounded-xl border border-rose-500/50 text-center shadow-lg shadow-rose-900/20">
+                            <h4 class="text-rose-300 text-sm uppercase tracking-widest mb-2 font-bold">คำตอบ</h4>
+                            <p class="text-2xl font-bold text-white mb-2">
+                                โมเมนตัมเปลี่ยนไป <span class="text-rose-400">4.8</span> kg \(\cdot\) m/s
+                            </p>
+                            <div class="inline-flex items-center text-rose-200 bg-rose-500/10 px-4 py-1 rounded-full text-sm mt-2">
+                                <i class="fa-solid fa-arrow-left mr-2"></i> ทิศออกจากกำแพง (เครื่องหมายลบ)
                             </div>
                         </div>
 
                     </div>
                 </div>
             </div>
+
         </section>
 
-        <!-- QUIZ CHECK -->
         <section class="mb-12">
-            <h3 class="text-2xl font-bold mb-6 custom-underline text-cyan-300">คำถามตรวจสอบความเข้าใจ 6.1</h3>
+            <h3 class="text-2xl font-bold mb-6 custom-underline text-cyan-300">คำถามตรวจสอบความเข้าใจ 6.2</h3>
             <div class="space-y-6">
                 
-                <!-- Q1 (Restored) -->
                 <div class="glass-card p-6 border-l-4 border-l-primary hover:bg-white/5 transition-colors">
                     <h4 class="text-lg font-bold text-white mb-2 flex items-start">
-                        <span class="bg-primary/20 text-primary px-2 py-0.5 rounded mr-3 text-sm">ข้อ 1</span>
-                        อนุภาคชนิดเดียวกันสองอนุภาค มีอัตราเร็วเท่ากัน อนุภาคทั้งสองจะมีโมเมนตัมเท่ากันหรือไม่
+                        <span class="bg-primary/20 text-primary px-2 py-0.5 rounded mr-3 text-sm shrink-0">ข้อ 1</span>
+                        <span>แรงทำให้โมเมนตัมของวัตถุเปลี่ยนได้อย่างไร</span>
                     </h4>
                     <div class="mt-3 pl-4 border-l border-gray-700 ml-2">
                         <p class="text-gray-300">
-                            <strong class="text-emerald-400">คำตอบ :</strong> อาจจะเท่ากันหรือไม่ก็ได้ เพราะโมเมนตัมเป็นปริมาณเวกเตอร์จึงต้องพิจารณา ทั้งขนาดและทิศทาง หากอัตราเร็วเท่ากันและมีทิศทางเดียวกัน โมเมนตัมจะเท่ากัน แต่หาก อัตราเร็วเท่ากันแต่ทิศทางต่างกันถือว่าโมเมนตัมจะไม่เท่ากัน
+                            <strong class="text-emerald-400">คำตอบ :</strong> แรงทำให้ขนาดหรือทิศทางของโมเมนตัมอย่างใดอย่างหนึ่งเปลี่ยนแปลง หรือเปลี่ยนแปลงทั้งสองอย่างพร้อมกัน สอดคล้องสมการ <span class="math-var">\(\sum \vec{F} = \frac{\Delta \vec{p}}{\Delta t} = \vec{p}_f - \vec{p}_i\)</span> เนื่องจากแรงทำให้วัตถุเกิดความเร่งหรือเปลี่ยนแปลงความเร็ว ตามกฎการเคลื่อนที่ของนิวตัน
                         </p>
                     </div>
                 </div>
 
-                <!-- Q2 (Restored) -->
                 <div class="glass-card p-6 border-l-4 border-l-primary hover:bg-white/5 transition-colors">
                     <h4 class="text-lg font-bold text-white mb-2 flex items-start">
-                        <span class="bg-primary/20 text-primary px-2 py-0.5 rounded mr-3 text-sm">ข้อ 2</span>
-                        วัตถุชิ้นหนึ่งกำลังเคลื่อนที่ วัตถุนี้มีโมเมนตัมคงเดิมตลอดการเคลื่อนที่หรือไม่ เพราะเหตุใด
+                        <span class="bg-primary/20 text-primary px-2 py-0.5 rounded mr-3 text-sm shrink-0">ข้อ 2</span>
+                        <span>การเปลี่ยนโมเมนตัมมีทิศทางเดียวกับแรงหรือไม่ อย่างไร</span>
                     </h4>
                     <div class="mt-3 pl-4 border-l border-gray-700 ml-2">
                         <p class="text-gray-300">
-                            <strong class="text-emerald-400">คำตอบ :</strong> อาจจะคงเดิมหรือไม่ก็ได้ ขึ้นอยู่กับมวลและความเร็วของวัตถุว่าคงตัวหรือไม่ ถ้ามวลและความเร็วของวัตถุคงตัว โมเมนตัมก็จะคงเดิม
+                            <strong class="text-emerald-400">แนวคำตอบ :</strong> โมเมนตัมของวัตถุที่เปลี่ยนแปลงเป็นปริมาณเวกเตอร์ที่มีทิศทางเดียวกับแรงลัพธ์ที่กระทำต่อวัตถุ ตามสมการ <span class="math-var">\(\sum \vec{F} = \frac{\Delta \vec{p}}{\Delta t}\)</span>
                         </p>
                     </div>
                 </div>
 
-                <!-- Q3 (Restored) -->
                 <div class="glass-card p-6 border-l-4 border-l-primary hover:bg-white/5 transition-colors">
                     <h4 class="text-lg font-bold text-white mb-2 flex items-start">
-                        <span class="bg-primary/20 text-primary px-2 py-0.5 rounded mr-3 text-sm">ข้อ 3</span>
-                        นกสองตัวบินคู่กัน ไปทางทิศเหนือ ถ้านกตัวที่หนึ่งมีมวลเป็นสองเท่าของอีกตัว ขนาดของ โมเมนตัมของนกตัวที่สองเป็นกี่เท่าของนกตัวที่หนึ่ง
+                        <span class="bg-primary/20 text-primary px-2 py-0.5 rounded mr-3 text-sm shrink-0">ข้อ 3</span>
+                        <span>เมื่อขนาดความเร็วของวัตถุเพิ่ม การเปลี่ยนขนาดโมเมนตัมและการเปลี่ยนพลังงานจลน์ของวัตถุจะเป็นอย่างไร</span>
                     </h4>
                     <div class="mt-3 pl-4 border-l border-gray-700 ml-2">
                         <p class="text-gray-300">
-                            <strong class="text-emerald-400">คำตอบ :</strong> นกบินคู่กันไปแสดงว่ามีความเร็วเท่ากัน เมื่อมวลของนกตัวที่หนึ่งเป็นสองเท่าของอีกตัวหนึ่ง จึงทำให้โมเมนตัมของนกที่สองเป็นครึ่งหนึ่งของนกตัวที่หนึ่ง
+                            <strong class="text-emerald-400">แนวคำตอบ :</strong> ทั้งขนาดของโมเมนตัมและพลังงานจลน์ของวัตถุเพิ่มขึ้น เพราะทั้งขนาดโมเมนตัมและพลังงานจลน์ของวัตถุขึ้นอยู่กับขนาดความเร็วของวัตถุ โดยสอดคล้องกับสมการ <span class="math-var">\(\vec{p} = m\vec{v}\)</span> และ <span class="math-var">\(E_k = \frac{1}{2}mv^2\)</span>
                         </p>
                     </div>
                 </div>
 
-                <!-- Q4 -->
                 <div class="glass-card p-6 border-l-4 border-l-primary hover:bg-white/5 transition-colors">
                     <h4 class="text-lg font-bold text-white mb-2 flex items-start">
-                        <span class="bg-primary/20 text-primary px-2 py-0.5 rounded mr-3 text-sm">ข้อ 4</span>
-                        โมเมนตัมกับพลังงานจลน์ของวัตถุหนึ่งมีความเกี่ยวข้องกันหรือไม่ อย่างไร
+                        <span class="bg-primary/20 text-primary px-2 py-0.5 rounded mr-3 text-sm shrink-0">ข้อ 4</span>
+                        <span>วัตถุที่ตกแบบเสรีมีการเปลี่ยนโมเมนตัมหรือไม่ อย่างไร</span>
                     </h4>
                     <div class="mt-3 pl-4 border-l border-gray-700 ml-2">
                         <p class="text-gray-300">
-                            <strong class="text-emerald-400">คำตอบ :</strong> เกี่ยวข้องกัน เพราะทั้งโมเมนตัมและพลังงานจลน์เป็นปริมาณที่เกี่ยวข้องกับ มวลและความเร็วของวัตถุเหมือนกัน ถ้าโมเมนตัมเพิ่ม พลังงานจลน์ก็จะเพิ่มด้วย
+                            <strong class="text-emerald-400">แนวคำตอบ :</strong> การตกแบบเสรีมีแรงลัพธ์กระทำต่อวัตถุเท่ากับแรงโน้มถ่วงตลอดการเคลื่อนที่ ทำให้วัตถุมีความเร็วเปลี่ยน โมเมนตัมของวัตถุที่ตกแบบเสรี จึงมีการเปลี่ยนแปลง
                         </p>
-                        <p class="text-gray-400 text-sm mt-2 p-2 bg-black/20 rounded inline-block">
-                            ความสัมพันธ์ของปริมาณทั้งสองคือ <span class="colon-space">:</span> 
-                            <span class="text-xl ml-2 text-yellow-300">\(p = \sqrt{2mE_k}\)</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- EXERCISE 6.1 -->
-        <section class="mb-12">
-            <h3 class="text-2xl font-bold mb-6 custom-underline text-purple-300">แบบฝึกหัด 6.1</h3>
-            <div class="space-y-8">
-                
-                <!-- Ex 1 -->
-                <div class="glass-card overflow-hidden border-t-4 border-purple-500">
-                    <div class="p-6 md:p-8 pb-4">
-                        <div class="flex items-center gap-3 mb-4">
-                            <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-md text-sm font-bold border border-purple-500/30">ข้อ 1</span>
-                        </div>
-                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 relative">
-                            <p class="text-lg text-gray-100 leading-relaxed font-light">
-                                นกตัวหนึ่งมีมวล 30 g บินด้วยอัตราเร็ว 8 m/s ขนาดโมเมนตัม ของนกตัวนี้เป็นเท่าใด
-                            </p>
-                        </div>
-                    </div>
-                    <div class="bg-black/20 p-6 md:p-8 pt-2">
-                        <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
-                            <i class="fa-solid fa-calculator mr-3 text-purple-400"></i> วิธีทำ
-                        </h4>
-                        <div class="space-y-8">
-                            <!-- Given -->
-                            <div>
-                                <h5 class="text-purple-300 font-bold mb-2">กำหนดให้ <span class="colon-space">:</span></h5>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300 bg-purple-900/10 p-4 rounded-lg border border-purple-500/10">
-                                    <div class="flex items-center">
-                                        <span class="w-8 math-var text-cyan-400 font-bold">m</span> <span class="colon-space">=</span> 30 g
-                                    </div>
-                                    <div class="flex items-center">
-                                        <span class="w-8 math-var text-pink-400 font-bold">v</span> <span class="colon-space">=</span> 8 m/s
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Step 1 -->
-                            <div>
-                                <h5 class="text-indigo-300 font-bold mb-2">ขั้นตอนที่ 1 <span class="colon-space">:</span> เปลี่ยนหน่วยมวล</h5>
-                                <div class="text-gray-300 bg-indigo-900/10 p-4 rounded-lg border border-indigo-500/10">
-                                    <p class="mb-3 text-sm text-gray-400">เปลี่ยนจาก g เป็น kg โดยการหารด้วย <strong>1000</strong></p>
-                                    <div class="flex items-center text-lg">
-                                        <span class="math-var text-cyan-400 mr-2">m</span> = \(\frac{30}{1000}\) <span class="mx-2">=</span> <span class="font-bold text-indigo-300">0.03 kg</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Step 2 -->
-                            <div>
-                                <h5 class="text-cyan-300 font-bold mb-2">ขั้นตอนที่ 2 <span class="colon-space">:</span> แทนค่าในสูตร</h5>
-                                <div class="text-gray-300 bg-cyan-900/10 p-4 rounded-lg border border-cyan-500/10">
-                                    <p class="mb-3">จากสูตร <span class="colon-space">:</span> <strong class="text-xl text-yellow-200">\(p = mv\)</strong></p>
-                                    <div class="text-lg space-y-2">
-                                        <p><span class="math-var text-yellow-400">p</span> = <span class="text-cyan-400">0.03</span> \(\times\) <span class="text-pink-400">8</span></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Answer -->
-                            <div class="bg-gradient-to-r from-purple-900/60 to-indigo-900/60 p-6 rounded-xl border border-purple-500/50 text-center shadow-lg shadow-purple-900/20">
-                                <h4 class="text-purple-400 text-sm uppercase tracking-widest mb-2 font-bold">คำตอบ</h4>
-                                <p class="text-2xl font-bold text-white">ขนาดโมเมนตัมเท่ากับ <span class="text-purple-400">0.24</span> kg \(\cdot\) m/s</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ex 2 -->
-                <div class="glass-card overflow-hidden border-t-4 border-purple-500">
-                    <div class="p-6 md:p-8 pb-4">
-                        <div class="flex items-center gap-3 mb-4">
-                            <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-md text-sm font-bold border border-purple-500/30">ข้อ 2</span>
-                        </div>
-                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 relative">
-                            <p class="text-lg text-gray-100 leading-relaxed font-light">
-                                จงหาโมเมนตัมของรถบรรทุกที่มีมวล \(1.5 \times 10^4\) kg กำลังเคลื่อนที่ด้วยความเร็ว 36 km/h ไปทางทิศตะวันออก
-                            </p>
-                        </div>
-                    </div>
-                    <div class="bg-black/20 p-6 md:p-8 pt-2">
-                        <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
-                            <i class="fa-solid fa-calculator mr-3 text-purple-400"></i> วิธีทำ
-                        </h4>
-                        <div class="space-y-8">
-                            <!-- Given -->
-                            <div>
-                                <h5 class="text-purple-300 font-bold mb-2">กำหนดให้ <span class="colon-space">:</span></h5>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300 bg-purple-900/10 p-4 rounded-lg border border-purple-500/10">
-                                    <div class="flex items-center"><span class="w-8 math-var text-cyan-400 font-bold">m</span> <span class="colon-space">=</span> \(1.5 \times 10^4\) kg</div>
-                                    <div class="flex items-center"><span class="w-8 math-var text-pink-400 font-bold">v</span> <span class="colon-space">=</span> 36 km/h</div>
-                                </div>
-                            </div>
-                            <!-- Step 1 -->
-                            <div>
-                                <h5 class="text-indigo-300 font-bold mb-2">ขั้นตอนที่ 1 <span class="colon-space">:</span> เปลี่ยนหน่วยความเร็ว</h5>
-                                <div class="text-gray-300 bg-indigo-900/10 p-4 rounded-lg border border-indigo-500/10">
-                                    <p class="mb-3 text-sm text-gray-400">เปลี่ยนจาก km/h เป็น m/s โดยการคูณด้วย <strong>\(\frac{5}{18}\)</strong> หรือหารด้วย <strong>3.6</strong></p>
-                                    <div class="flex items-center text-lg">
-                                        <span class="math-var text-pink-400 mr-2">v</span> = 36 \(\times\) \(\frac{5}{18}\) <span class="mx-2">=</span> <span class="font-bold text-indigo-300">10 m/s</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Step 2 -->
-                            <div>
-                                <h5 class="text-cyan-300 font-bold mb-2">ขั้นตอนที่ 2 <span class="colon-space">:</span> แทนค่าในสูตร</h5>
-                                <div class="text-gray-300 bg-cyan-900/10 p-4 rounded-lg border border-cyan-500/10">
-                                    <p class="mb-3">จากสูตร <span class="colon-space">:</span> <strong class="text-xl text-yellow-200">\(p = mv\)</strong></p>
-                                    <div class="text-lg space-y-2">
-                                        <p><span class="math-var text-yellow-400">p</span> = \((1.5 \times 10^4)\) \(\times\) <span class="text-pink-400">10</span></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Answer -->
-                            <div class="bg-gradient-to-r from-purple-900/60 to-indigo-900/60 p-6 rounded-xl border border-purple-500/50 text-center shadow-lg shadow-purple-900/20">
-                                <h4 class="text-purple-400 text-sm uppercase tracking-widest mb-2 font-bold">คำตอบ</h4>
-                                <p class="text-2xl font-bold text-white mb-2">โมเมนตัมเท่ากับ <span class="text-purple-400">\(1.5 \times 10^5\)</span> kg \(\cdot\) m/s</p>
-                                <div class="inline-flex items-center text-purple-200 bg-purple-500/10 px-4 py-1 rounded-full text-sm mt-2">
-                                    <i class="fa-regular fa-compass mr-2"></i> ไปทางทิศตะวันออก
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ex 3 -->
-                <div class="glass-card overflow-hidden border-t-4 border-purple-500">
-                    <div class="p-6 md:p-8 pb-4">
-                        <div class="flex items-center gap-3 mb-4">
-                            <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-md text-sm font-bold border border-purple-500/30">ข้อ 3</span>
-                        </div>
-                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 relative">
-                            <div class="text-lg text-gray-100 leading-relaxed font-light space-y-2">
-                                <p>นักฟุตบอล A มีมวล 75 kg วิ่งไปทางขวาด้วยอัตราเร็ว 2.0 m/s</p>
-                                <p>นักฟุตบอล B มีมวล 60 kg วิ่งไปทางซ้ายด้วยอัตราเร็ว 3.0 m/s</p>
-                                <p class="font-bold pt-2">จงหาขนาดและทิศทางของ :</p>
-                                <div class="pl-4 space-y-1 text-gray-300">
-                                    <p>ก. โมเมนตัมของนักฟุตบอล A</p>
-                                    <p>ข. โมเมนตัมของนักฟุตบอล B</p>
-                                    <p>ค. โมเมนตัมรวมของนักฟุตบอลทั้งสอง</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-black/20 p-6 md:p-8 pt-2">
-                        <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
-                            <i class="fa-solid fa-calculator mr-3 text-purple-400"></i> วิธีทำ
-                        </h4>
-                        <div class="space-y-8">
-                            <!-- Given -->
-                            <div>
-                                <h5 class="text-purple-300 font-bold mb-2">กำหนดให้ (ทิศขวาเป็น + , ทิศซ้ายเป็น -) <span class="colon-space">:</span></h5>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300 bg-purple-900/10 p-4 rounded-lg border border-purple-500/10">
-                                    <div class="flex flex-col gap-1">
-                                        <div><span class="text-cyan-400 font-bold">A :</span> <span class="math-var">m</span> = 75 kg , <span class="math-var">v</span> = +2.0 m/s</div>
-                                    </div>
-                                    <div class="flex flex-col gap-1">
-                                        <div><span class="text-pink-400 font-bold">B :</span> <span class="math-var">m</span> = 60 kg , <span class="math-var">v</span> = -3.0 m/s</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Step 1 -->
-                            <div>
-                                <h5 class="text-indigo-300 font-bold mb-2">ก. โมเมนตัมของนักฟุตบอล A</h5>
-                                <div class="text-gray-300 bg-indigo-900/10 p-4 rounded-lg border border-indigo-500/10">
-                                    <p class="mb-2 text-lg">\(p_A = m_A v_A = 75 \times 2.0\)</p>
-                                    <p class="text-xl font-bold text-white">\(p_A = +150 \text{ kg} \cdot \text{m/s}\)</p>
-                                    <p class="text-sm text-gray-400 mt-1"><i class="fa-solid fa-arrow-right mr-1"></i> ทิศไปทางขวา</p>
-                                </div>
-                            </div>
-                            <!-- Step 2 -->
-                            <div>
-                                <h5 class="text-pink-300 font-bold mb-2">ข. โมเมนตัมของนักฟุตบอล B</h5>
-                                <div class="text-gray-300 bg-pink-900/10 p-4 rounded-lg border border-pink-500/10">
-                                    <p class="mb-2 text-lg">\(p_B = m_B v_B = 60 \times (-3.0)\)</p>
-                                    <p class="text-xl font-bold text-white">\(p_B = -180 \text{ kg} \cdot \text{m/s}\)</p>
-                                    <p class="text-sm text-gray-400 mt-1"><i class="fa-solid fa-arrow-left mr-1"></i> ทิศไปทางซ้าย</p>
-                                </div>
-                            </div>
-                            <!-- Step 3 -->
-                            <div>
-                                <h5 class="text-cyan-300 font-bold mb-2">ค. โมเมนตัมรวม</h5>
-                                <div class="text-gray-300 bg-cyan-900/10 p-4 rounded-lg border border-cyan-500/10">
-                                    <p class="mb-2 text-lg">\(p_{total} = p_A + p_B = 150 + (-180)\)</p>
-                                    <p class="text-xl font-bold text-white">\(p_{total} = -30 \text{ kg} \cdot \text{m/s}\)</p>
-                                </div>
-                            </div>
-                            <!-- Answer -->
-                            <div class="bg-gradient-to-r from-purple-900/60 to-indigo-900/60 p-6 rounded-xl border border-purple-500/50 text-center shadow-lg shadow-purple-900/20">
-                                <h4 class="text-purple-400 text-sm uppercase tracking-widest mb-2 font-bold">คำตอบ</h4>
-                                <p class="text-2xl font-bold text-white mb-2">โมเมนตัมรวมขนาด <span class="text-purple-400">30</span> kg \(\cdot\) m/s</p>
-                                <div class="inline-flex items-center text-purple-200 bg-purple-500/10 px-4 py-1 rounded-full text-sm mt-2">
-                                    <i class="fa-solid fa-arrow-left mr-2"></i> ทิศไปทางซ้าย
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ex 4 -->
-                <div class="glass-card overflow-hidden border-t-4 border-purple-500">
-                    <div class="p-6 md:p-8 pb-4">
-                        <div class="flex items-center gap-3 mb-4">
-                            <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-md text-sm font-bold border border-purple-500/30">ข้อ 4</span>
-                        </div>
-                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 relative">
-                            <div class="text-lg text-gray-100 leading-relaxed font-light space-y-2">
-                                <p>รถยนต์มีมวล 1000 kg เคลื่อนที่ด้วยความเร็ว 4.2 m/s ไปทางทิศใต้</p>
-                                <p>รถจักรยานยนต์มีมวล 120 kg จะต้องมีความเร็วขนาดเท่าใด ขนาดของโมเมนตัมของรถทั้งสองจึงจะเท่ากัน</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-black/20 p-6 md:p-8 pt-2">
-                        <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
-                            <i class="fa-solid fa-calculator mr-3 text-purple-400"></i> วิธีทำ
-                        </h4>
-                        <div class="space-y-8">
-                            <!-- Given -->
-                            <div>
-                                <h5 class="text-purple-300 font-bold mb-2">กำหนดให้ <span class="colon-space">:</span></h5>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300 bg-purple-900/10 p-4 rounded-lg border border-purple-500/10">
-                                    <div class="flex flex-col gap-1">
-                                        <div><span class="text-cyan-400 font-bold">รถยนต์ :</span> <span class="math-var">m</span> = 1000 kg , <span class="math-var">v</span> = 4.2 m/s</div>
-                                    </div>
-                                    <div class="flex flex-col gap-1">
-                                        <div><span class="text-pink-400 font-bold">รถจักรยานยนต์ :</span> <span class="math-var">m</span> = 120 kg , <span class="math-var">v</span> = ?</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Step 1 -->
-                            <div>
-                                <h5 class="text-indigo-300 font-bold mb-2">ขั้นตอนที่ 1 <span class="colon-space">:</span> หาโมเมนตัมรถยนต์</h5>
-                                <div class="text-gray-300 bg-indigo-900/10 p-4 rounded-lg border border-indigo-500/10">
-                                    <p class="text-lg">\(p_{car} = 1000 \times 4.2 = 4200 \text{ kg} \cdot \text{m/s}\)</p>
-                                </div>
-                            </div>
-                            <!-- Step 2 -->
-                            <div>
-                                <h5 class="text-cyan-300 font-bold mb-2">ขั้นตอนที่ 2 <span class="colon-space">:</span> ตั้งสมการหาความเร็วรถจักรยานยนต์</h5>
-                                <div class="text-gray-300 bg-cyan-900/10 p-4 rounded-lg border border-cyan-500/10">
-                                    <p class="mb-2">จากโจทย์ \(p_{bike} = p_{car}\)</p>
-                                    <div class="text-lg space-y-2">
-                                        <p>\(120 \times v_{bike} = 4200\)</p>
-                                        <p>\(v_{bike} = \frac{4200}{120}\)</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Answer -->
-                            <div class="bg-gradient-to-r from-purple-900/60 to-indigo-900/60 p-6 rounded-xl border border-purple-500/50 text-center shadow-lg shadow-purple-900/20">
-                                <h4 class="text-purple-400 text-sm uppercase tracking-widest mb-2 font-bold">คำตอบ</h4>
-                                <p class="text-2xl font-bold text-white">รถจักรยานยนต์ต้องมีความเร็ว <span class="text-purple-400">35</span> m/s</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ex 5 -->
-                <div class="glass-card overflow-hidden border-t-4 border-purple-500">
-                    <div class="p-6 md:p-8 pb-4">
-                        <div class="flex items-center gap-3 mb-4">
-                            <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-md text-sm font-bold border border-purple-500/30">ข้อ 5</span>
-                        </div>
-                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 relative">
-                            <p class="text-lg text-gray-100 leading-relaxed font-light">
-                                โยนก้อนหินมวล 0.5 kg ขึ้นในแนวดิ่งด้วยอัตราเร็วต้น 30 m/s ขนาดและทิศทางของโมเมนตัมก้อนหินหลังจากที่โยนไปแล้ว 5 วินาทีเป็นเท่าใด
-                            </p>
-                        </div>
-                    </div>
-                    <div class="bg-black/20 p-6 md:p-8 pt-2">
-                        <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
-                            <i class="fa-solid fa-calculator mr-3 text-purple-400"></i> วิธีทำ
-                        </h4>
-                        <div class="space-y-8">
-                            <!-- Given -->
-                            <div>
-                                <h5 class="text-purple-300 font-bold mb-2">กำหนดให้ (ทิศขึ้นเป็น + , \(g = -9.8\) ) <span class="colon-space">:</span></h5>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300 bg-purple-900/10 p-4 rounded-lg border border-purple-500/10">
-                                    <div class="flex items-center"><span class="w-8 math-var text-cyan-400 font-bold">m</span> <span class="colon-space">=</span> 0.5 kg</div>
-                                    <div class="flex items-center"><span class="w-8 math-var text-pink-400 font-bold">u</span> <span class="colon-space">=</span> +30 m/s</div>
-                                    <div class="flex items-center"><span class="w-8 math-var text-yellow-400 font-bold">t</span> <span class="colon-space">=</span> 5 s</div>
-                                </div>
-                            </div>
-                            <!-- Step 1 -->
-                            <div>
-                                <h5 class="text-indigo-300 font-bold mb-2">ขั้นตอนที่ 1 <span class="colon-space">:</span> หาความเร็วที่วินาทีที่ 5</h5>
-                                <div class="text-gray-300 bg-indigo-900/10 p-4 rounded-lg border border-indigo-500/10">
-                                    <p class="mb-3 text-sm text-gray-400">จากสูตร \(v = u + gt\)</p>
-                                    <div class="text-lg space-y-2">
-                                        <p>\(v = 30 + (-9.8)(5)\)</p>
-                                        <p>\(v = 30 - 49\)</p>
-                                        <p class="font-bold text-indigo-300">\(v = -19 \text{ m/s}\)</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Step 2 -->
-                            <div>
-                                <h5 class="text-cyan-300 font-bold mb-2">ขั้นตอนที่ 2 <span class="colon-space">:</span> แทนค่าหาโมเมนตัม</h5>
-                                <div class="text-gray-300 bg-cyan-900/10 p-4 rounded-lg border border-cyan-500/10">
-                                    <p class="mb-3">จากสูตร <span class="colon-space">:</span> <strong class="text-xl text-yellow-200">\(p = mv\)</strong></p>
-                                    <div class="text-lg space-y-2">
-                                        <p>\(p = 0.5 \times 19\)</p>
-                                        <p class="text-sm text-gray-400">( คิดเฉพาะขนาด )</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Answer -->
-                            <div class="bg-gradient-to-r from-purple-900/60 to-indigo-900/60 p-6 rounded-xl border border-purple-500/50 text-center shadow-lg shadow-purple-900/20">
-                                <h4 class="text-purple-400 text-sm uppercase tracking-widest mb-2 font-bold">คำตอบ</h4>
-                                <p class="text-2xl font-bold text-white mb-2">โมเมนตัมขนาด <span class="text-purple-400">9.5</span> kg \(\cdot\) m/s</p>
-                                <div class="inline-flex items-center text-purple-200 bg-purple-500/10 px-4 py-1 rounded-full text-sm mt-2">
-                                    <i class="fa-solid fa-arrow-down mr-2"></i> ทิศลงสู่พื้น
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -806,7 +589,7 @@
         </section>
 
         <footer class="text-center mt-12 mb-8 text-gray-500 text-sm font-bold">
-            <p class="mb-2">6.1 โมเมนตัม</p>
+            <p class="mb-2">6.2 แรงและการเปลี่ยนโมเมนตัม</p>
             <p>By-20nxskypqz</p>
         </footer>
 
