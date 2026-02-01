@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6.4 การอนุรักษ์โมเมนตัม</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Niramit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- MathJax Configuration & Script -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)'], ['$', '$']],
+                displayMath: [['\\[', '\\]'], ['$$', '$$']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: {
+                    sans: ['Niramit', 'sans-serif'],
+                    serif: ['Times New Roman', 'Times', 'serif'],
+                },
+                extend: {
+                    colors: {
+                        primary: '#10B981', // Emerald 500
+                        secondary: '#0EA5E9', // Sky 500
+                        darkbg: '#0F172A', // Slate 900
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Global Font Setting */
+        body {
+            font-family: 'Niramit', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #064e3b 100%);
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4, h5, h6, p, div, a, li, button, input {
+            font-family: 'Niramit', sans-serif;
+        }
+
+        /* EXCEPTION: MathJax elements */
+        mjx-container, .MathJax, .math-var {
+            font-family: inherit !important;
+        }
+        
+        .math-var {
+            font-family: 'Times New Roman', Times, serif;
+            font-style: italic;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #34d399, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 0.2em 0.1em;
+            line-height: 1.4;
+            display: inline-block;
+        }
+
+        .custom-underline {
+            position: relative;
+            display: inline-block;
+        }
+        .custom-underline::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            bottom: -8px;
+            left: 0;
+            background: linear-gradient(to right, #10b981, #0ea5e9);
+            border-radius: 2px;
+        }
+
+        .colon-space {
+            margin: 0 0.4em;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-anim {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Grid Alignment for Equations */
+        .eq-grid {
+            display: grid;
+            grid-template-columns: max-content auto;
+            column-gap: 0.75rem;
+            align-items: baseline;
+        }
+        .eq-lhs { text-align: right; }
+        .eq-rhs { text-align: left; }
+    </style>
+</head>
+<body class="p-4 md:p-8 overflow-x-hidden">
+
+    <!-- Background Elements -->
+    <div class="fixed top-20 right-10 w-40 h-40 bg-emerald-500 rounded-full mix-blend-multiply filter blur-[60px] opacity-20 animate-blob"></div>
+    <div class="fixed bottom-20 left-10 w-40 h-40 bg-sky-600 rounded-full mix-blend-multiply filter blur-[60px] opacity-20 animate-blob animation-delay-2000"></div>
+
+    <main class="max-w-4xl mx-auto relative z-10">
+        
+        <!-- Header -->
+        <header class="text-center mb-16 mt-10">
+            <h1 class="text-5xl md:text-6xl font-bold mb-4 flex flex-col items-center gap-1">
+                <span class="gradient-text pb-2">โมเมนตัม</span>
+                <span class="gradient-text pb-2">และการชน</span>
+            </h1>
+        </header>
+
+        <!-- Sub Header -->
+        <div class="mb-6 border-b border-gray-700 pb-2">
+            <h2 class="text-3xl font-bold text-white">6.4 การอนุรักษ์โมเมนตัม</h2>
+        </div>
+
+        <!-- 1. Key Concept -->
+        <section class="mb-10">
+            <div class="glass-card p-8 border-l-4 border-emerald-500 shadow-lg shadow-emerald-900/20">
+                <h3 class="text-2xl font-bold mb-6 custom-underline text-emerald-300">1. ใจความสำคัญ</h3>
+                
+                <div class="flex flex-col md:flex-row gap-8 items-center">
+                    <div class="flex-1 space-y-4 text-lg text-gray-200 font-light">
+                        <p>
+                            กฎการอนุรักษ์โมเมนตัมกล่าวว่า <br>
+                            "เมื่อ<strong>ไม่มีแรงภายนอก</strong>มากระทำต่อระบบ หรือ แรงลัพธ์ของแรงภายนอกที่กระทำต่อระบบเป็น<strong>ศูนย์</strong> <strong>ผลรวมของโมเมนตัม</strong>ของระบบก่อนชน จะ<strong>เท่ากับ</strong> <strong>ผลรวมของโมเมนตัม</strong>ของระบบหลังชน"
+                        </p>
+                    </div>
+                    <div class="p-6 bg-emerald-500/10 rounded-full border border-emerald-500/30 float-anim shrink-0">
+                        <i class="fa-solid fa-scale-balanced text-6xl text-emerald-400"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Origin of Law -->
+        <section class="mb-10">
+            <div class="glass-card p-8 border-l-4 border-sky-500 shadow-lg shadow-sky-900/20">
+                <h3 class="text-2xl font-bold mb-6 custom-underline text-sky-300">2. ที่มาของกฎ (พิสูจน์จากกฎของนิวตัน)</h3>
+                <div class="space-y-4 text-lg text-gray-200">
+                    <ul class="list-disc pl-5 space-y-3">
+                        <li>พิจารณาวัตถุ 2 ก้อน (<span class="math-var">m<sub>1</sub></span> และ <span class="math-var">m<sub>2</sub></span>) เคลื่อนที่มาชนกันบนพื้นลื่น</li>
+                        <li>ขณะชนกัน จะเกิดแรงกระทำระหว่างวัตถุตาม <strong>กฎข้อที่ 3 ของนิวตัน</strong> (แรงกิริยา = แรงปฏิกิริยา แต่ทิศตรงข้าม) คือ <span class="math-var">\(\vec{F}_{21} = -\vec{F}_{12}\)</span></li>
+                        <li>ส่งผลให้ <strong>การดล (Impulse)</strong> ที่เกิดขึ้นกับวัตถุทั้งสองมี<strong>ค่าเท่ากันแต่ทิศตรงข้าม</strong> (<span class="math-var">\(\vec{I}_{21} = -\vec{I}_{12}\)</span>) ทำให้การเปลี่ยนโมเมนตัมของวัตถุทั้งสองหักล้างกันพอดี</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Equation -->
+        <section class="mb-10">
+            <div class="glass-card p-8 border-l-4 border-teal-500 shadow-lg shadow-teal-900/20">
+                <h3 class="text-2xl font-bold mb-6 custom-underline text-teal-300">3. สมการการอนุรักษ์โมเมนตัม</h3>
+                
+                <div class="space-y-6 text-lg text-gray-200 font-light">
+                    <p>เขียนเป็นความสัมพันธ์ได้ว่า <span class="colon-space">:</span></p>
+                    
+                    <div class="bg-black/30 p-4 rounded-lg border border-white/10 text-center">
+                        <span class="text-2xl md:text-3xl font-bold text-white math-var">
+                            \(\sum \vec{P}_{\text{ก่อน}} = \sum \vec{P}_{\text{หลัง}}\)
+                        </span>
+                    </div>
+
+                    <p>หรือกระจายพจน์สำหรับวัตถุ 2 ก้อนได้เป็น <span class="colon-space">:</span></p>
+                    <div class="bg-black/30 p-4 rounded-lg border border-white/10 text-center">
+                        <span class="text-xl md:text-2xl font-bold text-sky-200 math-var">
+                            \(m_1\vec{u}_1 + m_2\vec{u}_2 = m_1\vec{v}_1 + m_2\vec{v}_2\)
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-base bg-white/5 p-4 rounded-lg">
+                        <div>
+                            <span class="math-var text-emerald-400 font-bold">m<sub>1</sub>, m<sub>2</sub></span> <span class="colon-space">:</span> มวลของวัตถุ
+                        </div>
+                        <div></div>
+                        <div>
+                            <span class="math-var text-sky-400 font-bold">\(\vec{u}_1, \vec{u}_2\)</span> <span class="colon-space">:</span> ความเร็ว <strong>ก่อน</strong> ชน
+                        </div>
+                        <div>
+                            <span class="math-var text-rose-400 font-bold">\(\vec{v}_1, \vec{v}_2\)</span> <span class="colon-space">:</span> ความเร็ว <strong>หลัง</strong> ชน
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3 bg-red-500/20 p-4 rounded-lg border border-red-500/30 text-red-200 text-base">
+                        <i class="fa-solid fa-triangle-exclamation mt-1"></i>
+                        <p><strong>ข้อควรระวัง :</strong> การคำนวณต้องคำนึงถึง <strong>ทิศทาง (เครื่องหมายบวก/ลบ)</strong> ของความเร็วด้วยเสมอ เพราะโมเมนตัมเป็นปริมาณเวกเตอร์</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXAMPLES SECTION -->
+        <section class="mb-12">
+            <h3 class="text-2xl font-bold mb-6 custom-underline text-emerald-300">ตัวอย่างการคำนวณ</h3>
+            
+            <!-- Example 6.9 -->
+            <div class="glass-card overflow-hidden border-t-4 border-sky-500 mb-8">
+                <!-- Question Header -->
+                <div class="p-6 md:p-8 pb-4">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-sky-500/20 text-sky-400 px-3 py-1 rounded-md text-sm font-bold border border-sky-500/30">ตัวอย่าง 6.9</span>
+                    </div>
+                    
+                    <div class="bg-white/5 p-6 rounded-xl border border-white/10 relative">
+                        <p class="text-lg text-gray-100 leading-relaxed font-light">
+                            เด็กคนหนึ่งมีมวล <strong>20 kg</strong> วิ่งด้วยความเร็วคงตัว <strong>1.5 m/s</strong> เข้าหารถเข็นสินค้า ที่มีมวลรวม <strong>100 kg</strong> ซึ่งอยู่นิ่งบนพื้นระดับผิวลื่น ทันทีที่เด็กขึ้นไปยืนบนรถเข็น รถเข็นจะเคลื่อนที่ด้วยความเร็วเท่าใด
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Solution Area -->
+                <div class="bg-black/20 p-6 md:p-8 pt-2">
+                    <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
+                        <i class="fa-solid fa-calculator mr-3 text-sky-400"></i> วิธีทำ
+                    </h4>
+
+                    <div class="space-y-8 pl-4 ml-2">
+                        <!-- Given -->
+                        <div>
+                            <h5 class="text-sky-300 font-bold mb-2">กำหนดให้ <span class="colon-space">:</span></h5>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300 bg-sky-900/10 p-4 rounded-lg border border-sky-500/10">
+                                <div><span class="math-var text-cyan-400 font-bold">m<sub>1</sub></span> (เด็ก) = 20 kg</div>
+                                <div><span class="math-var text-emerald-400 font-bold">u<sub>1</sub></span> = 1.5 m/s</div>
+                                <div><span class="math-var text-cyan-400 font-bold">m<sub>2</sub></span> (รถ) = 100 kg</div>
+                                <div><span class="math-var text-emerald-400 font-bold">u<sub>2</sub></span> = 0 m/s (อยู่นิ่ง)</div>
+                            </div>
+                        </div>
+
+                        <!-- Step 1 -->
+                        <div>
+                            <h5 class="text-teal-300 font-bold mb-2">ขั้นตอนที่ 1 <span class="colon-space">:</span> ตั้งสมการอนุรักษ์โมเมนตัม</h5>
+                            <div class="text-gray-300 bg-teal-900/10 p-4 rounded-lg border border-teal-500/10">
+                                <p class="mb-2">เนื่องจากเด็กขึ้นไปยืนบนรถเข็น (ติดกันไป) ดังนั้น <span class="math-var">v<sub>1</sub> = v<sub>2</sub> = v</span></p>
+                                <p class="text-lg math-var mt-2">\(\sum \vec{P}_{\text{ก่อน}} = \sum \vec{P}_{\text{หลัง}}\)</p>
+                                <p class="text-lg math-var mt-2">\(m_1 u_1 + m_2 u_2 = (m_1 + m_2)v\)</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div>
+                            <h5 class="text-indigo-300 font-bold mb-2">ขั้นตอนที่ 2 <span class="colon-space">:</span> แทนค่าและคำนวณ</h5>
+                            <div class="text-gray-300 bg-indigo-900/10 p-4 rounded-lg border border-indigo-500/10 text-lg eq-grid">
+                                <span class="eq-lhs">\((20)(1.5) + (100)(0)\)</span>
+                                <span class="eq-rhs">= \((20 + 100)v\)</span>
+                                
+                                <span class="eq-lhs">\(30 + 0\)</span>
+                                <span class="eq-rhs">= \(120v\)</span>
+                                
+                                <span class="eq-lhs">\(30\)</span>
+                                <span class="eq-rhs">= \(120v\)</span>
+                                
+                                <span class="eq-lhs">\(v\)</span>
+                                <span class="eq-rhs">= \(\frac{30}{120}\)</span>
+                                
+                                <span class="eq-lhs"></span>
+                                <span class="eq-rhs font-bold text-white">= 0.25 \(\text{m/s}\)</span>
+                            </div>
+                        </div>
+
+                        <!-- Answer -->
+                        <div class="bg-gradient-to-r from-sky-900/60 to-blue-900/60 p-6 rounded-xl border border-sky-500/50 text-center shadow-lg shadow-sky-900/20">
+                            <h4 class="text-sky-300 text-sm uppercase tracking-widest mb-2 font-bold">คำตอบ</h4>
+                            <p class="text-2xl font-bold text-white">รถเข็นจะเคลื่อนที่ด้วยความเร็ว <span class="text-sky-400">0.25</span> m/s</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUIZ CHECK 6.4 SECTION -->
+        <section class="mb-12">
+            <h3 class="text-2xl font-bold mb-6 custom-underline text-teal-300">คำถามตรวจสอบความเข้าใจ 6.4</h3>
+            <div class="space-y-6">
+                
+                <!-- Q1 -->
+                <div class="glass-card p-6 border-l-4 border-l-primary hover:bg-white/5 transition-colors">
+                    <h4 class="text-lg font-bold text-white mb-2 flex items-start">
+                        <span class="bg-primary/20 text-primary px-2 py-0.5 rounded mr-3 text-sm shrink-0">ข้อ 1</span>
+                        <span>การอนุรักษ์โมเมนตัมของระบบมีความเกี่ยวข้องกับแรงภายนอกหรือไม่ อย่างไร</span>
+                    </h4>
+                    <div class="mt-3 pl-4 border-l border-gray-700 ml-2">
+                        <p class="text-gray-300">
+                            <strong class="text-emerald-400">คำตอบ :</strong> เกี่ยวข้องโดยตรงกับแรงภายนอก เพราะ<strong>แรงลัพธ์ภายนอก</strong>เป็นต้นเหตุที่ทำให้โมเมนตัมของระบบเปลี่ยนไป ดังนั้นถ้าแรงลัพธ์ภายนอกเป็นศูนย์ โมเมนตัมของระบบจะมี<strong>ค่าคงตัว</strong> หรือมีการอนุรักษ์โมเมนตัมนั่นเอง
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="glass-card p-6 border-l-4 border-l-primary hover:bg-white/5 transition-colors">
+                    <h4 class="text-lg font-bold text-white mb-2 flex items-start">
+                        <span class="bg-primary/20 text-primary px-2 py-0.5 rounded mr-3 text-sm shrink-0">ข้อ 2</span>
+                        <span>วัตถุหนึ่งเคลื่อนที่ด้วยความเร็วสูง ชนกับอีกวัตถุหนึ่งที่มีมวลมากกว่าและอยู่นิ่ง โมเมนตัมของระบบที่ประกอบด้วยวัตถุทั้งสองชิ้นมีการเปลี่ยนหรือไม่ อย่างไร</span>
+                    </h4>
+                    <div class="mt-3 pl-4 border-l border-gray-700 ml-2">
+                        <p class="text-gray-300">
+                            <strong class="text-emerald-400">คำตอบ :</strong> โมเมนตัมของระบบมวลทั้งสอง<strong>คงตัว</strong> เป็นไปตามกฎการอนุรักษ์โมเมนตัม เพราะการชน<strong>ไม่มีแรงภายนอก</strong>กระทำ แรงที่เกิดจากการชนเป็นแรงภายในซึ่งแรงลัพธ์ของแรงภายในเป็นศูนย์เสมอ
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="glass-card p-6 border-l-4 border-l-primary hover:bg-white/5 transition-colors">
+                    <h4 class="text-lg font-bold text-white mb-2 flex items-start">
+                        <span class="bg-primary/20 text-primary px-2 py-0.5 rounded mr-3 text-sm shrink-0">ข้อ 3</span>
+                        <span>กฎการอนุรักษ์โมเมนตัม เขียนในรูปสมการได้อย่างไร</span>
+                    </h4>
+                    <div class="mt-3 pl-4 border-l border-gray-700 ml-2">
+                        <p class="text-gray-300 mb-2">
+                            <strong class="text-emerald-400">คำตอบ :</strong>
+                        </p>
+                        <div class="bg-black/30 p-4 rounded-lg inline-block border border-white/10">
+                            <span class="text-xl md:text-2xl font-bold text-white math-var">
+                                \(\vec{p}_i = \vec{p}_f\) หรือ \(m_1\vec{u}_1 + m_2\vec{u}_2 + ... = m_1\vec{v}_1 + m_2\vec{v}_2 + ...\)
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- EXERCISE 6.4 SECTION -->
+        <section class="mb-12">
+            <h3 class="text-2xl font-bold mb-6 custom-underline text-teal-300">แบบฝึกหัด 6.4</h3>
+            <div class="space-y-8">
+                
+                <!-- Ex 1 -->
+                <div class="glass-card overflow-hidden border-t-4 border-teal-500">
+                    <div class="p-6 md:p-8 pb-4">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="bg-teal-500/20 text-teal-400 px-3 py-1 rounded-md text-sm font-bold border border-teal-500/30">ข้อ 1</span>
+                        </div>
+                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 relative">
+                            <p class="text-lg text-gray-100 leading-relaxed font-light">
+                                วัตถุมวล <strong>10 kg</strong> เคลื่อนที่บนพื้นลื่น ไปทางขวาด้วยความเร็ว <strong>2.0 m/s</strong> ชนวัตถุมวล <strong>5 kg</strong> ที่อยู่นิ่ง หลังชน วัตถุทั้งสองติดกันไป วัตถุทั้งสองที่ติดกันไปมีขนาดความเร็วเท่าใด และมีทิศทางใด
+                            </p>
+                        </div>
+                    </div>
+                    <div class="bg-black/20 p-6 md:p-8 pt-2">
+                        <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
+                            <i class="fa-solid fa-calculator mr-3 text-teal-400"></i> วิธีทำ
+                        </h4>
+                        <div class="space-y-8 ml-2">
+                            <!-- Given -->
+                            <div>
+                                <h5 class="text-teal-300 font-bold mb-2">กำหนดให้ (ทิศขวาเป็น +) <span class="colon-space">:</span></h5>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300 bg-teal-900/10 p-4 rounded-lg border border-teal-500/10">
+                                    <div class="flex items-center"><span class="w-8 math-var text-cyan-400 font-bold">m<sub>1</sub></span> <span class="colon-space">=</span> 10 kg</div>
+                                    <div class="flex items-center"><span class="w-8 math-var text-emerald-400 font-bold">u<sub>1</sub></span> <span class="colon-space">=</span> +2.0 m/s</div>
+                                    <div class="flex items-center"><span class="w-8 math-var text-cyan-400 font-bold">m<sub>2</sub></span> <span class="colon-space">=</span> 5 kg</div>
+                                    <div class="flex items-center"><span class="w-8 math-var text-emerald-400 font-bold">u<sub>2</sub></span> <span class="colon-space">=</span> 0 m/s</div>
+                                </div>
+                            </div>
+                            <!-- Step 1 -->
+                            <div>
+                                <h5 class="text-indigo-300 font-bold mb-2">ขั้นตอนที่ 1 <span class="colon-space">:</span> ตั้งสมการอนุรักษ์โมเมนตัม</h5>
+                                <div class="text-gray-300 bg-indigo-900/10 p-4 rounded-lg border border-indigo-500/10">
+                                    <p class="mb-2">วัตถุติดกันไป ให้ความเร็วปลายคือ \(v\)</p>
+                                    <p class="text-lg math-var">\(m_1 u_1 + m_2 u_2 = (m_1 + m_2)v\)</p>
+                                </div>
+                            </div>
+                            <!-- Step 2 -->
+                            <div>
+                                <h5 class="text-sky-300 font-bold mb-2">ขั้นตอนที่ 2 <span class="colon-space">:</span> แทนค่า</h5>
+                                <div class="text-gray-300 bg-sky-900/10 p-4 rounded-lg border border-sky-500/10 text-lg eq-grid">
+                                    <span class="eq-lhs">\((10)(2.0) + (5)(0)\)</span>
+                                    <span class="eq-rhs">= \((10 + 5)v\)</span>
+                                    
+                                    <span class="eq-lhs">\(20\)</span>
+                                    <span class="eq-rhs">= \(15v\)</span>
+                                    
+                                    <span class="eq-lhs">\(v\)</span>
+                                    <span class="eq-rhs">= \(\frac{20}{15}\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs font-bold text-white">\(\approx 1.33 \text{ m/s}\)</span>
+                                </div>
+                            </div>
+                            <!-- Answer -->
+                            <div class="bg-gradient-to-r from-teal-900/60 to-emerald-900/60 p-6 rounded-xl border border-teal-500/50 text-center shadow-lg shadow-teal-900/20">
+                                <h4 class="text-teal-400 text-sm uppercase tracking-widest mb-2 font-bold">คำตอบ</h4>
+                                <p class="text-2xl font-bold text-white">ความเร็ว <span class="text-teal-400">1.33</span> m/s ทิศทางไปทางขวา</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ex 2 -->
+                <div class="glass-card overflow-hidden border-t-4 border-teal-500">
+                    <div class="p-6 md:p-8 pb-4">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="bg-teal-500/20 text-teal-400 px-3 py-1 rounded-md text-sm font-bold border border-teal-500/30">ข้อ 2</span>
+                        </div>
+                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 relative">
+                            <p class="text-lg text-gray-100 leading-relaxed font-light">
+                                พิจารณาการดีดตัวแยกออกจากกันของมวล <strong>1 kg</strong> และมวล <strong>2 kg</strong> ที่อัดสปริงเบาไว้ และเดิมมวลทั้งสองอยู่นิ่ง ถ้ามวล 1 กิโลกรัม เคลื่อนที่ไปทางซ้ายด้วยความเร็ว <strong>10 m/s</strong> มวล 2 กิโลกรัม จะเคลื่อนที่ด้วยความเร็วเท่าใด ในทิศทางใด
+                            </p>
+                        </div>
+                    </div>
+                    <div class="bg-black/20 p-6 md:p-8 pt-2">
+                        <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
+                            <i class="fa-solid fa-calculator mr-3 text-teal-400"></i> วิธีทำ
+                        </h4>
+                        <div class="space-y-8 ml-2">
+                            <!-- Given -->
+                            <div>
+                                <h5 class="text-teal-300 font-bold mb-2">กำหนดให้ (ทิศขวา + , ซ้าย -) <span class="colon-space">:</span></h5>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300 bg-teal-900/10 p-4 rounded-lg border border-teal-500/10">
+                                    <div><span class="math-var text-cyan-400 font-bold">m<sub>1</sub></span> = 1 kg</div>
+                                    <div><span class="math-var text-emerald-400 font-bold">v<sub>1</sub></span> = -10 m/s (ซ้าย)</div>
+                                    <div><span class="math-var text-cyan-400 font-bold">m<sub>2</sub></span> = 2 kg</div>
+                                    <div><span class="math-var text-purple-400 font-bold">\(\sum P_{\text{ก่อน}}\)</span> = 0 (เดิมอยู่นิ่ง)</div>
+                                </div>
+                            </div>
+                            <!-- Calculation -->
+                            <div>
+                                <h5 class="text-indigo-300 font-bold mb-2">ขั้นตอนที่ 1 : ตั้งสมการอนุรักษ์โมเมนตัม</h5>
+                                <div class="text-gray-300 bg-indigo-900/10 p-4 rounded-lg border border-indigo-500/10 text-lg eq-grid">
+                                    <span class="eq-lhs">\(\sum P_{\text{ก่อน}}\)</span>
+                                    <span class="eq-rhs">= \(\sum P_{\text{หลัง}}\)</span>
+                                    
+                                    <span class="eq-lhs">\(0\)</span>
+                                    <span class="eq-rhs">= \(m_1 v_1 + m_2 v_2\)</span>
+                                    
+                                    <span class="eq-lhs">\(0\)</span>
+                                    <span class="eq-rhs">= \((1)(-10) + (2)v_2\)</span>
+                                    
+                                    <span class="eq-lhs">\(10\)</span>
+                                    <span class="eq-rhs">= \(2v_2\)</span>
+
+                                    <span class="eq-lhs">\(v_2\)</span>
+                                    <span class="eq-rhs font-bold text-white">= \(5 \text{ m/s}\)</span>
+                                </div>
+                            </div>
+                            <!-- Answer -->
+                            <div class="bg-gradient-to-r from-teal-900/60 to-emerald-900/60 p-6 rounded-xl border border-teal-500/50 text-center shadow-lg shadow-teal-900/20">
+                                <h4 class="text-teal-400 text-sm uppercase tracking-widest mb-2 font-bold">คำตอบ</h4>
+                                <p class="text-2xl font-bold text-white">มวล 2 kg เคลื่อนที่ด้วยความเร็ว <span class="text-teal-400">5</span> m/s ไปทางขวา</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ex 3 -->
+                <div class="glass-card overflow-hidden border-t-4 border-teal-500">
+                    <div class="p-6 md:p-8 pb-4">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="bg-teal-500/20 text-teal-400 px-3 py-1 rounded-md text-sm font-bold border border-teal-500/30">ข้อ 3</span>
+                        </div>
+                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 relative">
+                            <p class="text-lg text-gray-100 leading-relaxed font-light">
+                                เมล็ดพืชชนิดหนึ่งขณะกำลังตกลงพื้นด้วยขนาดความเร็วตามแนวดิ่ง <strong>\(v\)</strong> เกิดการดีดตัวแยกเป็น สองส่วนเท่ากัน ส่วนหนึ่งของเมล็ดมีขนาดความเร็ว <strong>\(v\)</strong> ในทิศทางเคลื่อนที่ขึ้น อีกส่วนหนึ่งจะมีขนาด ความเร็วเท่าใด
+                            </p>
+                        </div>
+                    </div>
+                    <div class="bg-black/20 p-6 md:p-8 pt-2">
+                        <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
+                            <i class="fa-solid fa-calculator mr-3 text-teal-400"></i> วิธีคิด
+                        </h4>
+                        <div class="space-y-8 ml-2">
+                            <!-- Given -->
+                            <div>
+                                <h5 class="text-teal-300 font-bold mb-2">กำหนดให้ (ทิศลงเป็น +) <span class="colon-space">:</span></h5>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300 bg-teal-900/10 p-4 rounded-lg border border-teal-500/10">
+                                    <div class="col-span-2"><span class="math-var text-cyan-400 font-bold">M</span> = มวลรวมเดิม (สมมติ)</div>
+                                    <div class="col-span-2">แบ่งเป็น 2 ส่วนเท่ากัน: \(m_1 = m_2 = \frac{M}{2}\)</div>
+                                    <div><span class="math-var text-emerald-400 font-bold">u</span> = +\(v\) (ตกพื้น)</div>
+                                    <div><span class="math-var text-rose-400 font-bold">v<sub>1</sub></span> = -\(v\) (ดีดขึ้น)</div>
+                                </div>
+                            </div>
+                            <!-- Calculation -->
+                            <div>
+                                <h5 class="text-indigo-300 font-bold mb-2">ขั้นตอนที่ 1 : ตั้งสมการอนุรักษ์โมเมนตัม</h5>
+                                <div class="text-gray-300 bg-indigo-900/10 p-4 rounded-lg border border-indigo-500/10 text-lg eq-grid">
+                                    <span class="eq-lhs">\(\sum P_{\text{ก่อน}}\)</span>
+                                    <span class="eq-rhs">= \(\sum P_{\text{หลัง}}\)</span>
+                                    
+                                    <span class="eq-lhs">\(M(v)\)</span>
+                                    <span class="eq-rhs">= \(m_1 v_1 + m_2 v_2\)</span>
+                                    
+                                    <span class="eq-lhs">\(M(v)\)</span>
+                                    <span class="eq-rhs">= \(\frac{M}{2}(-v) + \frac{M}{2}(v_2)\)</span>
+                                    
+                                    <span class="eq-lhs text-sm text-gray-400 text-left" style="grid-column: 2;">(หาร M/2 ตลอดสมการ)</span>
+                                    <span class="eq-rhs"></span>
+
+                                    <span class="eq-lhs">\(2v\)</span>
+                                    <span class="eq-rhs">= \(-v + v_2\)</span>
+                                    
+                                    <span class="eq-lhs">\(v_2\)</span>
+                                    <span class="eq-rhs font-bold text-white">= \(3v\)</span>
+                                </div>
+                            </div>
+                             <!-- Answer -->
+                             <div class="bg-gradient-to-r from-teal-900/60 to-emerald-900/60 p-6 rounded-xl border border-teal-500/50 text-center shadow-lg shadow-teal-900/20">
+                                <h4 class="text-teal-400 text-sm uppercase tracking-widest mb-2 font-bold">คำตอบ</h4>
+                                <p class="text-2xl font-bold text-white">อีกส่วนจะมีความเร็ว <span class="text-teal-400">3 เท่า</span> (ทิศทางลง)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <footer class="text-center mt-12 mb-8 text-gray-500 text-sm font-bold">
+            <p class="mb-2">6.4 การอนุรักษ์โมเมนตัม</p>
+            <p>By-20nxskypqz</p>
+        </footer>
+
+    </main>
+
+</body>
+</html>
