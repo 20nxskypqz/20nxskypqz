@@ -100,6 +100,7 @@
             margin: 0 0.4em;
         }
 
+        /* Animation for Floating Icons */
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
@@ -325,7 +326,7 @@
                     </div>
                 </div>
 
-                <!-- Q3 -->
+                <!-- Q3 (Fixed format) -->
                 <div class="glass-card p-6 border-l-4 border-l-primary hover:bg-white/5 transition-colors">
                     <h4 class="text-lg font-bold text-white mb-2 flex items-start">
                         <span class="bg-primary/20 text-primary px-2 py-0.5 rounded mr-3 text-sm shrink-0">ข้อ 3</span>
@@ -335,10 +336,13 @@
                         <p class="text-gray-300 mb-2">
                             <strong class="text-emerald-400">คำตอบ :</strong>
                         </p>
-                        <div class="bg-black/30 p-4 rounded-lg inline-block border border-white/10">
-                            <span class="text-xl md:text-2xl font-bold text-white math-var">
-                                \(\vec{p}_i = \vec{p}_f\) หรือ \(m_1\vec{u}_1 + m_2\vec{u}_2 + ... = m_1\vec{v}_1 + m_2\vec{v}_2 + ...\)
-                            </span>
+                        <div class="bg-black/30 p-4 rounded-lg border border-white/10 w-full overflow-x-auto">
+                            <div class="text-lg md:text-2xl font-bold text-white math-var leading-relaxed">
+                                <div>\(\vec{p}_i = \vec{p}_f\)</div>
+                                <div class="text-sm text-gray-400 font-sans my-1">หรือ</div>
+                                <div>\(m_1\vec{u}_1 + m_2\vec{u}_2 + \dots + m_n\vec{u}_n\)</div>
+                                <div class="pl-4 md:pl-8">\(= m_1\vec{v}_1 + m_2\vec{v}_2 + \dots + m_n\vec{v}_n\)</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -420,13 +424,13 @@
                         </div>
                         <div class="bg-white/5 p-6 rounded-xl border border-white/10 relative">
                             <p class="text-lg text-gray-100 leading-relaxed font-light">
-                                พิจารณาการดีดตัวแยกออกจากกันของมวล <strong>1 kg</strong> และมวล <strong>2 kg</strong> ที่อัดสปริงเบาไว้ และเดิมมวลทั้งสองอยู่นิ่ง ถ้ามวล 1 กิโลกรัม เคลื่อนที่ไปทางซ้ายด้วยความเร็ว <strong>10 m/s</strong> มวล 2 กิโลกรัม จะเคลื่อนที่ด้วยความเร็วเท่าใด ในทิศทางใด
+                                พิจารณาการดีดตัวแยกออกจากกันของมวล <strong>1 kg</strong> และมวล <strong>2 kg</strong> ที่อัดสปริงเบาไว้ และเดิมมวลทั้งสอง<strong>อยู่นิ่ง</strong> ถ้ามวล 1 กิโลกรัม เคลื่อนที่ไปทางซ้ายด้วยความเร็ว <strong>10 m/s</strong> มวล 2 กิโลกรัม จะเคลื่อนที่ด้วยความเร็วเท่าใด ในทิศทางใด
                             </p>
                         </div>
                     </div>
                     <div class="bg-black/20 p-6 md:p-8 pt-2">
                         <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
-                            <i class="fa-solid fa-calculator mr-3 text-teal-400"></i> วิธีทำ
+                            <i class="fa-solid fa-calculator mr-3 text-teal-400"></i> วิธีคิด
                         </h4>
                         <div class="space-y-8 ml-2">
                             <!-- Given -->
