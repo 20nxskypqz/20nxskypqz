@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6.3 การดล</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Niramit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- MathJax Configuration & Script (Fixed) -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)'], ['$', '$']],
+                displayMath: [['\\[', '\\]'], ['$$', '$$']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: {
+                    sans: ['Niramit', 'sans-serif'],
+                    serif: ['Times New Roman', 'Times', 'serif'],
+                },
+                extend: {
+                    colors: {
+                        primary: '#F59E0B', // Amber 500
+                        secondary: '#3B82F6', // Blue 500
+                        darkbg: '#0F172A', // Slate 900
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Global Font Setting */
+        body {
+            font-family: 'Niramit', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4, h5, h6, p, div, a, li, button, input {
+            font-family: 'Niramit', sans-serif;
+        }
+
+        /* EXCEPTION: MathJax elements */
+        mjx-container, .MathJax, .math-var {
+            font-family: inherit !important;
+        }
+        
+        .math-var {
+            font-family: 'Times New Roman', Times, serif;
+            font-style: italic;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #fbbf24, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 0.2em 0.1em;
+            line-height: 1.4;
+            display: inline-block;
+        }
+
+        .custom-underline {
+            position: relative;
+            display: inline-block;
+        }
+        .custom-underline::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            bottom: -8px;
+            left: 0;
+            background: linear-gradient(to right, #f59e0b, #3b82f6);
+            border-radius: 2px;
+        }
+
+        .colon-space {
+            margin: 0 0.4em;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-anim {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Grid Alignment for Equations */
+        .eq-grid {
+            display: grid;
+            grid-template-columns: max-content auto;
+            column-gap: 0.75rem;
+            align-items: baseline;
+        }
+        .eq-lhs { text-align: right; }
+        .eq-rhs { text-align: left; }
+    </style>
+</head>
+<body class="p-4 md:p-8 overflow-x-hidden">
+
+    <!-- Background Elements -->
+    <div class="fixed top-20 left-10 w-40 h-40 bg-amber-500 rounded-full mix-blend-multiply filter blur-[60px] opacity-20 animate-blob"></div>
+    <div class="fixed bottom-20 right-10 w-40 h-40 bg-blue-600 rounded-full mix-blend-multiply filter blur-[60px] opacity-20 animate-blob animation-delay-2000"></div>
+
+    <main class="max-w-4xl mx-auto relative z-10">
+        
+        <!-- Header -->
+        <header class="text-center mb-16 mt-10">
+            <h1 class="text-5xl md:text-6xl font-bold mb-4 flex flex-col items-center gap-1">
+                <span class="gradient-text pb-2">โมเมนตัม</span>
+                <span class="gradient-text pb-2">และการชน</span>
+            </h1>
+        </header>
+
+        <!-- Sub Header -->
+        <div class="mb-6 border-b border-gray-700 pb-2">
+            <h2 class="text-3xl font-bold text-white">6.3 การดล</h2>
+        </div>
+
+        <!-- 1. Definition Section -->
+        <section class="mb-10">
+            <div class="glass-card p-8 border-l-4 border-amber-500 shadow-lg shadow-amber-900/20">
+                <h3 class="text-2xl font-bold mb-6 custom-underline text-amber-300">1. นิยามของการดล (\(I\))</h3>
+                
+                <div class="flex flex-col md:flex-row gap-8 items-center">
+                    <div class="flex-1 space-y-4 text-lg text-gray-200 font-light">
+                        <p><strong class="text-white">การดล</strong> คือ ปริมาณที่บอกถึงผลของแรงที่กระทำต่อวัตถุในช่วงเวลาสั้นๆ</p>
+                        <p class="mt-2">เขียนเป็นสมการได้ว่า <span class="colon-space">:</span></p>
+                        <div class="bg-black/30 p-4 rounded-lg border border-white/10 text-center my-4">
+                            <span class="text-3xl font-bold text-white math-var">\(\vec{I} = \sum \vec{F} \Delta t\)</span>
+                            <div class="text-sm text-gray-400 mt-2">หรือ</div>
+                            <span class="text-2xl font-bold text-gray-300 math-var block mt-1">\(\vec{I} = \vec{F}_{avg} \Delta t\)</span>
+                        </div>
+                        <ul class="list-disc pl-5 space-y-2 text-base text-gray-300">
+                            <li>โดย <span class="math-var text-amber-400">\(\vec{F}_{avg}\)</span> คือ แรงดลเฉลี่ย และ <span class="math-var text-blue-400">\(\Delta t\)</span> คือ ช่วงเวลาที่แรงกระทำ</li>
+                            <li>การดลเป็น <strong class="text-amber-300">ปริมาณเวกเตอร์</strong> มีทิศทางเดียวกับแรงลัพธ์ที่มากระทำ</li>
+                            <li>มีหน่วยเป็น <strong class="text-white">นิวตัน วินาที (N·s)</strong> หรือ กิโลกรัม เมตรต่อวินาที (kg·m/s)</li>
+                        </ul>
+                    </div>
+                    <div class="p-8 bg-amber-500/10 rounded-full border border-amber-500/30 float-anim shrink-0">
+                        <i class="fa-solid fa-gavel text-6xl text-amber-400"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Impulse-Momentum Theorem -->
+        <section class="mb-10">
+            <div class="glass-card p-8 border-l-4 border-blue-500 shadow-lg shadow-blue-900/20">
+                <h3 class="text-2xl font-bold mb-6 custom-underline text-blue-300">2. ทฤษฎีบทการดล-โมเมนตัม</h3>
+                <p class="text-lg text-gray-300 mb-4 font-light">(Impulse-Momentum Theorem)</p>
+                <div class="space-y-4 text-lg text-gray-200">
+                    <p>การดลมีค่าเท่ากับ <strong class="text-blue-300">การเปลี่ยนแปลงโมเมนตัม</strong> ของวัตถุ</p>
+                    <div class="bg-black/30 p-6 rounded-lg border border-blue-500/30 text-center">
+                        <div class="text-2xl md:text-3xl font-bold text-white math-var mb-3">\(\vec{I} = \Delta \vec{P} = \vec{P}_f - \vec{P}_i\)</div>
+                        <div class="h-px w-3/4 bg-white/10 mx-auto my-3"></div>
+                        <div class="text-xl md:text-2xl text-blue-200 math-var">\(\vec{I} = m\vec{v} - m\vec{u} = m(\vec{v} - \vec{u})\)</div>
+                    </div>
+                    <p class="text-sm text-gray-400 text-center">( เมื่อ <span class="math-var">v</span> คือความเร็วปลาย และ <span class="math-var">u</span> คือความเร็วต้น )</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Graph Section -->
+        <section class="mb-10">
+            <div class="glass-card p-8 border-l-4 border-emerald-500 shadow-lg shadow-emerald-900/20">
+                <h3 class="text-2xl font-bold mb-6 custom-underline text-emerald-300">3. การหาค่าการดลจากกราฟ</h3>
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="flex-1 space-y-3 text-lg text-gray-200 font-light">
+                        <p>ถ้ามีกราฟความสัมพันธ์ระหว่าง <strong class="text-amber-400">แรง (\(F\))</strong> กับ <strong class="text-blue-400">เวลา (\(t\))</strong> <span class="colon-space">:</span></p>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li><strong class="text-emerald-400">พื้นที่ใต้กราฟ</strong> จะมีค่าเท่ากับ <strong class="text-white">ขนาดของการดล (\(I\))</strong></li>
+                            <li>หลักการนี้ใช้ได้ทั้งกรณีแรงคงที่และแรงไม่คงที่</li>
+                        </ul>
+                    </div>
+                    <div class="flex-1 flex justify-center items-center">
+                        <!-- Simulated Graph -->
+                        <div class="relative w-64 h-48 border-l-2 border-b-2 border-white/50 p-1">
+                            <div class="absolute -left-8 top-0 text-amber-400 math-var">F</div>
+                            <div class="absolute right-0 -bottom-8 text-blue-400 math-var">t</div>
+                            <div class="absolute bottom-0 left-2 w-56 h-32 bg-emerald-500/20 clip-path-curve flex items-center justify-center">
+                                <span class="text-emerald-300 font-bold text-sm mt-8">พื้นที่ = \(I\)</span>
+                            </div>
+                            <svg class="absolute bottom-0 left-2 w-56 h-32 overflow-visible" preserveAspectRatio="none">
+                                <path d="M0,32 Q28,0 56,32 T112,32 T168,10 T224,32 L224,128 L0,128 Z" fill="none" stroke="#10B981" stroke-width="2" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Impulsive Force -->
+        <section class="mb-10">
+            <div class="glass-card p-8 border-l-4 border-rose-500 shadow-lg shadow-rose-900/20">
+                <h3 class="text-2xl font-bold mb-6 custom-underline text-rose-300">4. แรงดล (Impulsive Force)</h3>
+                <div class="space-y-4 text-lg text-gray-200 font-light">
+                    <p>คือ แรงลัพธ์ที่กระทำต่อวัตถุในช่วงเวลาสั้นๆ ซึ่งส่งผลให้โมเมนตัมของวัตถุเปลี่ยนไป</p>
+                    <p>หาได้จากอัตราการเปลี่ยนโมเมนตัม <span class="colon-space">:</span></p>
+                    <div class="bg-black/30 p-4 rounded-lg border border-white/10 text-center w-full md:w-1/2 mx-auto">
+                        <span class="text-2xl font-bold text-white math-var">\(\vec{F} = \frac{\Delta \vec{P}}{\Delta t} = \frac{m(\vec{v} - \vec{u})}{\Delta t}\)</span>
+                    </div>
+                    <p class="text-sm text-gray-400 text-center">(จากกฎข้อที่ 2 ของนิวตัน)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Summary -->
+        <section class="mb-12">
+            <div class="bg-gradient-to-r from-slate-800 to-slate-900 p-8 rounded-2xl border border-white/10 text-center shadow-2xl relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-blue-500/10"></div>
+                <h3 class="text-xl font-bold text-gray-300 mb-6 relative z-10 uppercase tracking-widest">สรุปสั้นๆ</h3>
+                <div class="relative z-10 flex justify-center">
+                    <div class="grid grid-cols-[max-content_auto] gap-x-4 text-lg md:text-2xl font-bold text-white text-left leading-relaxed">
+                        <div class="text-right text-amber-400 whitespace-nowrap">การดล</div>
+                        <div>= <strong>แรง \(\times\) เวลา</strong></div>
+                        <div></div>
+                        <div>= <strong>พื้นที่ใต้กราฟ \(F-t\)</strong></div>
+                        <div></div>
+                        <div>= <span class="text-blue-400">โมเมนตัมที่เปลี่ยนไป</span> \((\Delta P)\)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXAMPLES SECTION -->
+        <section class="mb-12">
+            <h3 class="text-2xl font-bold mb-6 custom-underline text-purple-300">ตัวอย่างการคำนวณ</h3>
+            <div class="space-y-8">
+                
+                <!-- Ex 6.5 -->
+                <div class="glass-card overflow-hidden border-t-4 border-purple-500">
+                    <div class="p-6 md:p-8 pb-4">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-md text-sm font-bold border border-purple-500/30">ตัวอย่าง 6.5</span>
+                        </div>
+                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 relative">
+                            <p class="text-lg text-gray-100 leading-relaxed font-light">
+                                ปล่อยไข่ไก่ดิบให้ตกบนฟองน้ำ ถ้าช่วงเวลาขณะไข่กระทบฟองน้ำจนหยุดเคลื่อนที่มีค่า <strong>2.5 s</strong> และแรงเฉลี่ยที่ฟองน้ำกระทำต่อไข่มีค่า <strong>0.1 N</strong> การดลที่เกิดขึ้นมีค่าเท่าใด
+                            </p>
+                        </div>
+                    </div>
+                    <div class="bg-black/20 p-6 md:p-8 pt-2">
+                        <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
+                            <i class="fa-solid fa-calculator mr-3 text-purple-400"></i> วิธีทำ
+                        </h4>
+                        <div class="space-y-8 ml-2">
+                            <!-- Given -->
+                            <div>
+                                <h5 class="text-purple-300 font-bold mb-2">กำหนดให้ <span class="colon-space">:</span></h5>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300 bg-purple-900/10 p-4 rounded-lg border border-purple-500/10">
+                                    <div class="flex items-center"><span class="w-8 math-var text-yellow-400 font-bold">t</span> <span class="colon-space">=</span> 2.5 s</div>
+                                    <div class="flex items-center"><span class="w-8 math-var text-rose-400 font-bold">F</span> <span class="colon-space">=</span> 0.1 N</div>
+                                </div>
+                            </div>
+                            <!-- Step 1 -->
+                            <div>
+                                <h5 class="text-indigo-300 font-bold mb-2">ขั้นตอนที่ 1 <span class="colon-space">:</span> ใช้สูตรการดล</h5>
+                                <div class="text-gray-300 bg-indigo-900/10 p-4 rounded-lg border border-indigo-500/10 text-lg eq-grid">
+                                    <span class="eq-lhs">\(I\)</span>
+                                    <span class="eq-rhs">= \(F \cdot t\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs">= \(0.1 \times 2.5\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs font-bold text-white">= 0.25 \(\text{N}\cdot\text{s}\)</span>
+                                </div>
+                            </div>
+                            <!-- Answer -->
+                            <div class="bg-gradient-to-r from-purple-900/60 to-indigo-900/60 p-6 rounded-xl border border-purple-500/50 text-center shadow-lg shadow-purple-900/20">
+                                <h4 class="text-purple-400 text-sm uppercase tracking-widest mb-2 font-bold">คำตอบ</h4>
+                                <p class="text-2xl font-bold text-white">การดลที่เกิดขึ้นมีค่า <span class="text-purple-400">0.25</span> N \(\cdot\) s</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ex 6.6 -->
+                <div class="glass-card overflow-hidden border-t-4 border-purple-500">
+                    <div class="p-6 md:p-8 pb-4">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-md text-sm font-bold border border-purple-500/30">ตัวอย่าง 6.6</span>
+                        </div>
+                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 relative">
+                            <div class="flex flex-col md:flex-row gap-6">
+                                <div class="flex-1">
+                                    <p class="text-lg text-gray-100 leading-relaxed font-light">
+                                        ลูกบอลยางเคลื่อนที่ในแนวระดับไปทางขวาถูกตีสวนด้วยไม้ ทำให้ลูกบอลยางเคลื่อนที่กลับไปในทิศตรงข้าม โดยกราฟระหว่างแรงที่ไม้กระทำต่อลูกบอลยางกับเวลาขณะกระทบมีลักษณะดังรูป จงหาการดล
+                                    </p>
+                                </div>
+                                <div class="shrink-0 flex justify-center bg-white/5 rounded-lg p-2">
+                                    <!-- GRAPH SVG -->
+                                    <svg width="280" height="200" viewBox="0 0 320 220" class="overflow-visible">
+                                        <line x1="40" y1="180" x2="300" y2="180" stroke="white" stroke-width="1.5" />
+                                        <line x1="40" y1="180" x2="40" y2="20" stroke="white" stroke-width="1.5" />
+                                        <text x="30" y="15" fill="white" font-family="Times New Roman" font-style="italic" font-size="18">F (N)</text>
+                                        <text x="305" y="185" fill="white" font-family="Times New Roman" font-style="italic" font-size="18">t (\(\times 10^{-2}\) s)</text>
+                                        
+                                        <line x1="35" y1="100" x2="45" y2="100" stroke="gray" />
+                                        <text x="30" y="105" fill="gray" text-anchor="end" font-size="14">500</text>
+                                        <line x1="35" y1="20" x2="45" y2="20" stroke="gray" />
+                                        <text x="30" y="25" fill="gray" text-anchor="end" font-size="14">1000</text>
+                                        <text x="30" y="195" fill="gray" text-anchor="end" font-size="14">0</text>
+
+                                        <text x="100" y="200" fill="gray" text-anchor="middle" font-size="14">1</text>
+                                        <text x="160" y="200" fill="gray" text-anchor="middle" font-size="14">2</text>
+                                        <text x="220" y="200" fill="gray" text-anchor="middle" font-size="14">3</text>
+                                        <text x="280" y="200" fill="gray" text-anchor="middle" font-size="14">4</text>
+                                        <line x1="100" y1="175" x2="100" y2="185" stroke="gray" />
+                                        <line x1="160" y1="175" x2="160" y2="185" stroke="gray" />
+                                        <line x1="220" y1="175" x2="220" y2="185" stroke="gray" />
+                                        <line x1="280" y1="175" x2="280" y2="185" stroke="gray" />
+
+                                        <polygon points="40,180 160,20 220,180" fill="rgba(245, 158, 11, 0.4)" stroke="#F59E0B" stroke-width="2" />
+                                        <line x1="40" y1="20" x2="160" y2="20" stroke="gray" stroke-dasharray="4" />
+                                        <line x1="160" y1="20" x2="160" y2="180" stroke="gray" stroke-dasharray="4" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-black/20 p-6 md:p-8 pt-2">
+                        <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
+                            <i class="fa-solid fa-calculator mr-3 text-purple-400"></i> วิธีทำ
+                        </h4>
+                        <div class="space-y-8 ml-2">
+                            <!-- Concept -->
+                            <div>
+                                <h5 class="text-purple-300 font-bold mb-2">แนวคิด <span class="colon-space">:</span></h5>
+                                <div class="text-gray-300 bg-purple-900/10 p-4 rounded-lg border border-purple-500/10">
+                                    <p class="text-lg">การดล (\(I\)) = <strong>พื้นที่ใต้กราฟ</strong> \(F-t\)</p>
+                                </div>
+                            </div>
+                            <!-- Step 1 -->
+                            <div>
+                                <h5 class="text-indigo-300 font-bold mb-2">ขั้นตอนที่ 1 <span class="colon-space">:</span> คำนวณพื้นที่สามเหลี่ยม</h5>
+                                <div class="text-gray-300 bg-indigo-900/10 p-4 rounded-lg border border-indigo-500/10 text-lg eq-grid">
+                                    <span class="eq-lhs">\(I\)</span>
+                                    <span class="eq-rhs">= \(\frac{1}{2} \times \text{ฐาน} \times \text{สูง}\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs">= \(\frac{1}{2} \times (3 \times 10^{-2}) \times 1000\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs">= \(\frac{1}{2} \times 0.03 \times 1000\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs">= \(1.5 \times 10\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs font-bold text-white">= 15 \(\text{N}\cdot\text{s}\)</span>
+                                </div>
+                            </div>
+                            <!-- Answer -->
+                            <div class="bg-gradient-to-r from-purple-900/60 to-indigo-900/60 p-6 rounded-xl border border-purple-500/50 text-center shadow-lg shadow-purple-900/20">
+                                <h4 class="text-purple-400 text-sm uppercase tracking-widest mb-2 font-bold">คำตอบ</h4>
+                                <p class="text-2xl font-bold text-white">การดลมีค่า <span class="text-purple-400">15</span> N \(\cdot\) s</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ex 6.7 -->
+                <div class="glass-card overflow-hidden border-t-4 border-purple-500">
+                    <div class="p-6 md:p-8 pb-4">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-md text-sm font-bold border border-purple-500/30">ตัวอย่าง 6.7</span>
+                        </div>
+                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 relative">
+                            <p class="text-lg text-gray-100 leading-relaxed font-light">
+                                ใช้ค้อนมวล <strong>0.5 kg</strong> ตอกตะปูในแนวระดับ ในขณะที่ค้อนเริ่มกระทบหัวตะปู ค้อนมีขนาดความเร็ว <strong>8.0 m/s</strong> หลังจากกระทบหัวตะปูแล้ว ค้อนสะท้อนกลับด้วยขนาดความเร็วเท่าเดิม ถ้าช่วงเวลาที่ค้อนกระทบหัวตะปูเป็น <strong>1 ms</strong> แรงดลเฉลี่ยและการดลที่ค้อนกระทำต่อหัวตะปูเป็นเท่าใด
+                            </p>
+                        </div>
+                    </div>
+                    <div class="bg-black/20 p-6 md:p-8 pt-2">
+                        <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
+                            <i class="fa-solid fa-calculator mr-3 text-purple-400"></i> วิธีทำ
+                        </h4>
+                        <div class="space-y-8 ml-2">
+                            <!-- Given -->
+                            <div>
+                                <h5 class="text-purple-300 font-bold mb-2">กำหนดให้ <span class="text-sm font-normal text-gray-400">(ให้ทิศเข้าหาตะปูเป็น + , สะท้อนออกเป็น -)</span> <span class="colon-space">:</span></h5>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300 bg-purple-900/10 p-4 rounded-lg border border-purple-500/10">
+                                    <div><span class="math-var text-cyan-400 font-bold">m</span> = 0.5 kg</div>
+                                    <div><span class="math-var text-emerald-400 font-bold">u</span> = +8.0 m/s</div>
+                                    <div><span class="math-var text-rose-400 font-bold">v</span> = -8.0 m/s</div>
+                                    <div><span class="math-var text-yellow-400 font-bold">t</span> = 1 ms = \(1 \times 10^{-3}\) s</div>
+                                </div>
+                            </div>
+                            <!-- Step 1 -->
+                            <div>
+                                <h5 class="text-indigo-300 font-bold mb-2">ส่วนที่ 1 <span class="colon-space">:</span> หาการดล (\(I = \Delta P\))</h5>
+                                <div class="text-gray-300 bg-indigo-900/10 p-4 rounded-lg border border-indigo-500/10 text-lg eq-grid">
+                                    <span class="eq-lhs">\(I\)</span>
+                                    <span class="eq-rhs">= \(m(v - u)\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs">= \(0.5 [ (-8.0) - (+8.0) ]\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs">= \(0.5 [ -16.0 ]\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs font-bold text-white">= \(-8 \text{N}\cdot\text{s}\)</span>
+                                </div>
+                                <div class="text-sm text-gray-400 mt-2 pl-4">( ขนาดเท่ากับ 8 N·s )</div>
+                            </div>
+                            <!-- Step 2 -->
+                            <div>
+                                <h5 class="text-rose-300 font-bold mb-2">ส่วนที่ 2 <span class="colon-space">:</span> หาแรงดลเฉลี่ย (\(F\))</h5>
+                                <div class="text-gray-300 bg-rose-900/10 p-4 rounded-lg border border-rose-500/10 text-lg eq-grid">
+                                    <span class="eq-lhs">\(F\)</span>
+                                    <span class="eq-rhs">= \(\frac{I}{t}\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs">= \(\frac{-8}{1 \times 10^{-3}}\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs">= \(-8000 \text{N}\)</span>
+                                </div>
+                                <div class="text-sm text-gray-400 mt-2 pl-4">( ขนาดเท่ากับ 8000 N )</div>
+                            </div>
+                            <!-- Answer -->
+                            <div class="bg-gradient-to-r from-purple-900/60 to-indigo-900/60 p-6 rounded-xl border border-purple-500/50 text-center shadow-lg shadow-purple-900/20">
+                                <h4 class="text-purple-400 text-sm uppercase tracking-widest mb-2 font-bold">คำตอบ</h4>
+                                <div class="space-y-2">
+                                    <p class="text-lg text-white">การดลขนาด <span class="text-purple-400 font-bold">8</span> N \(\cdot\) s</p>
+                                    <p class="text-lg text-white">แรงดลเฉลี่ยขนาด <span class="text-purple-400 font-bold">8,000</span> N</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ex 6.8 -->
+                <div class="glass-card overflow-hidden border-t-4 border-purple-500">
+                    <div class="p-6 md:p-8 pb-4">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-md text-sm font-bold border border-purple-500/30">ตัวอย่าง 6.8</span>
+                        </div>
+                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 relative">
+                            <div class="text-lg text-gray-100 leading-relaxed font-light">
+                                กระสุนปืนมวล <strong>0.005 kg</strong> เคลื่อนที่เข้ากระทบแท่งไม้ที่ยึดแน่นกับพื้น ขณะเริ่มกระทบเนื้อไม้ กระสุนปืนมีอัตราเร็ว <strong>400 m/s</strong> และสามารถทะลุเข้าไปในเนื้อไม้เป็นระยะ <strong>0.1 m</strong> ถ้าแรงต้านของเนื้อไม้มีค่าคงตัว จงหา
+                                <div class="pl-4 mt-2 text-gray-300 space-y-1">
+                                    <p>ก. การดลที่เนื้อไม้กระทำต่อกระสุนปืน</p>
+                                    <p>ข. เวลาที่กระสุนปืนเคลื่อนที่ในเนื้อไม้</p>
+                                    <p>ค. แรงต้านของเนื้อไม้ที่กระทำต่อกระสุนปืน</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-black/20 p-6 md:p-8 pt-2">
+                        <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
+                            <i class="fa-solid fa-calculator mr-3 text-purple-400"></i> วิธีทำ
+                        </h4>
+                        <div class="space-y-8 ml-2">
+                            <!-- Given -->
+                            <div>
+                                <h5 class="text-purple-300 font-bold mb-2">กำหนดให้ <span class="colon-space">:</span></h5>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300 bg-purple-900/10 p-4 rounded-lg border border-purple-500/10">
+                                    <div><span class="math-var text-cyan-400 font-bold">m</span> = 0.005 kg</div>
+                                    <div><span class="math-var text-emerald-400 font-bold">u</span> = 400 m/s</div>
+                                    <div><span class="math-var text-rose-400 font-bold">v</span> = 0 m/s (หยุดในเนื้อไม้)</div>
+                                    <div><span class="math-var text-yellow-400 font-bold">s</span> = 0.1 m</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Part A -->
+                            <div>
+                                <h5 class="text-emerald-300 font-bold mb-2">ก. การดล (\(I\))</h5>
+                                <div class="text-gray-300 bg-emerald-900/10 p-4 rounded-lg border border-emerald-500/10 text-lg eq-grid">
+                                    <span class="eq-lhs">\(I\)</span>
+                                    <span class="eq-rhs">= \(\Delta P = m(v - u)\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs">= \(0.005(0 - 400)\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs">= \(-2 \text{N}\cdot\text{s}\)</span>
+                                </div>
+                                <div class="text-sm text-gray-400 mt-2 pl-4">( ขนาดเท่ากับ 2 N·s )</div>
+                            </div>
+
+                            <!-- Part B -->
+                            <div>
+                                <h5 class="text-yellow-300 font-bold mb-2">ข. เวลาที่เคลื่อนที่ (\(t\))</h5>
+                                <div class="text-gray-300 bg-yellow-900/10 p-4 rounded-lg border border-yellow-500/10">
+                                    <p class="mb-2 text-sm text-gray-400">หาความเร็วเฉลี่ย \(v_{avg} = \frac{u+v}{2} = \frac{400+0}{2} = 200 \text{ m/s}\)</p>
+                                    <div class="text-lg eq-grid">
+                                        <span class="eq-lhs">\(t\)</span>
+                                        <span class="eq-rhs">= \(\frac{s}{v_{avg}}\)</span>
+                                        
+                                        <span class="eq-lhs"></span>
+                                        <span class="eq-rhs">= \(\frac{0.1}{200}\)</span>
+                                        
+                                        <span class="eq-lhs"></span>
+                                        <span class="eq-rhs">= 0.0005 \(\text{s}\) \((5 \times 10^{-4} \text{ s})\)</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Part C -->
+                            <div>
+                                <h5 class="text-rose-300 font-bold mb-2">ค. แรงต้าน (\(F\))</h5>
+                                <div class="text-gray-300 bg-rose-900/10 p-4 rounded-lg border border-rose-500/10 text-lg eq-grid">
+                                    <span class="eq-lhs">\(F\)</span>
+                                    <span class="eq-rhs">= \(\frac{I}{t}\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs">= \(\frac{-2}{0.0005}\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs">= \(-4000 \text{N}\)</span>
+                                </div>
+                                <div class="text-sm text-gray-400 mt-2 pl-4">( ขนาดแรงต้านเท่ากับ 4000 N )</div>
+                            </div>
+
+                            <!-- Answer -->
+                            <div class="bg-gradient-to-r from-purple-900/60 to-indigo-900/60 p-6 rounded-xl border border-purple-500/50 text-center shadow-lg shadow-purple-900/20">
+                                <h4 class="text-purple-400 text-sm uppercase tracking-widest mb-2 font-bold">คำตอบ</h4>
+                                <div class="space-y-2 text-white">
+                                    <p>ก. การดลขนาด <span class="font-bold text-purple-400">2</span> N \(\cdot\) s</p>
+                                    <p>ข. เวลาที่ใช้ <span class="font-bold text-purple-400">\(5 \times 10^{-4}\)</span> s</p>
+                                    <p>ค. แรงต้านขนาด <span class="font-bold text-purple-400">4,000</span> N</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- QUIZ CHECK 6.3 SECTION -->
+        <section class="mb-12">
+            <h3 class="text-2xl font-bold mb-6 custom-underline text-cyan-300">คำถามตรวจสอบความเข้าใจ 6.3</h3>
+            <div class="space-y-6">
+                
+                <!-- Q1 -->
+                <div class="glass-card p-6 border-l-4 border-l-primary hover:bg-white/5 transition-colors">
+                    <h4 class="text-lg font-bold text-white mb-2 flex items-start">
+                        <span class="bg-primary/20 text-primary px-2 py-0.5 rounded mr-3 text-sm shrink-0">ข้อ 1</span>
+                        <span>การดลและแรงมีความสัมพันธ์กันหรือไม่ อย่างไร</span>
+                    </h4>
+                    <div class="mt-3 pl-4 border-l border-gray-700 ml-2">
+                        <p class="text-gray-300">
+                            <strong class="text-emerald-400">คำตอบ :</strong> มีความสัมพันธ์กันตามสมการ <span class="math-var">\(\vec{I} = (\sum \vec{F}) \Delta t\)</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="glass-card p-6 border-l-4 border-l-primary hover:bg-white/5 transition-colors">
+                    <h4 class="text-lg font-bold text-white mb-2 flex items-start">
+                        <span class="bg-primary/20 text-primary px-2 py-0.5 rounded mr-3 text-sm shrink-0">ข้อ 2</span>
+                        <span>แรงดล \(\vec{F}\) มีทิศทางเดียวกับปริมาณใดต่อไปนี้</span>
+                    </h4>
+                    <div class="text-sm text-gray-400 ml-10 mb-2 space-y-1">
+                        <div class="block">ก. โมเมนตัม \(\vec{P}\)</div>
+                        <div class="block">ข. การเปลี่ยนโมเมนตัม \(\Delta \vec{p}\)</div>
+                        <div class="block">ค. การดล \(\vec{I}\)</div>
+                        <div class="block">ง. ความเร็ว \(\vec{v}\)</div>
+                        <div class="block">จ. การเปลี่ยนความเร็ว \(\Delta \vec{v}\)</div>
+                        <div class="block">ฉ. ความเร่ง \(\vec{a}\)</div>
+                    </div>
+                    <div class="mt-3 pl-4 border-l border-gray-700 ml-2">
+                        <p class="text-gray-300">
+                            <strong class="text-emerald-400">คำตอบ :</strong> แรงดล \(\vec{F}\) มีทิศทางเดียวกับ <strong>การเปลี่ยนโมเมนตัม \(\Delta \vec{p}\)</strong>, <strong>การดล \(\vec{I}\)</strong>, <strong>การเปลี่ยนความเร็ว \(\Delta \vec{v}\)</strong> และ <strong>ความเร่ง \(\vec{a}\)</strong> เพราะ
+                            <span class="block mt-2 math-var">\(\vec{F} = \frac{\Delta \vec{p}}{\Delta t} = \frac{\vec{I}}{\Delta t} = \frac{m\Delta \vec{v}}{\Delta t} = m\vec{a}\)</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="glass-card p-6 border-l-4 border-l-primary hover:bg-white/5 transition-colors">
+                    <h4 class="text-lg font-bold text-white mb-2 flex items-start">
+                        <span class="bg-primary/20 text-primary px-2 py-0.5 rounded mr-3 text-sm shrink-0">ข้อ 3</span>
+                        <span>การเบรกรถจักรยานให้รถช้าลงจนหยุด กับการเบรกรถจักรยานให้รถหยุดทันที การดลในกรณีแรก มากกว่า เท่ากับ หรือน้อยกว่ากรณีหลัง จงอธิบาย</span>
+                    </h4>
+                    <div class="mt-3 pl-4 border-l border-gray-700 ml-2">
+                        <p class="text-gray-300">
+                            <strong class="text-emerald-400">คำตอบ :</strong> <strong>เท่ากัน</strong> เพราะการดลเท่ากับโมเมนตัมที่เปลี่ยนไป ตามสมการ <span class="math-var">\(\vec{I} = \Delta \vec{p} = \vec{p}_f - \vec{p}_i\)</span> ก่อนเบรกถือว่ามีโมเมนตัมเท่ากัน เมื่อเบรกจนหยุดโมเมนตัมเป็นศูนย์เหมือนกันทั้งสองกรณี ดังนั้นทั้งสองกรณีมีโมเมนตัมเปลี่ยนไปเท่ากัน
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="glass-card p-6 border-l-4 border-l-primary hover:bg-white/5 transition-colors">
+                    <h4 class="text-lg font-bold text-white mb-2 flex items-start">
+                        <span class="bg-primary/20 text-primary px-2 py-0.5 rounded mr-3 text-sm shrink-0">ข้อ 4</span>
+                        <span>เป็นไปได้หรือไม่ ที่แรงดลที่มีค่ามากทำให้เกิดการดลที่มีค่าน้อยกว่าแรงดลที่มีค่าน้อย</span>
+                    </h4>
+                    <div class="mt-3 pl-4 border-l border-gray-700 ml-2">
+                        <p class="text-gray-300">
+                            <strong class="text-emerald-400">คำตอบ :</strong> <strong>เป็นไปได้</strong> เพราะการดล <span class="math-var">\(\vec{I} = \vec{F}\Delta t\)</span> นั่นคือการดลยังขึ้นอยู่กับช่วงเวลาด้วย ถ้าแรงน้อยแต่มีช่วงเวลามากกวามากๆ สามารถทำให้เกิดการดลมากกว่าแรงมากแต่มีช่วงเวลาน้อยได้
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- EXERCISE 6.3 SECTION -->
+        <section class="mb-12">
+            <h3 class="text-2xl font-bold mb-6 custom-underline text-purple-300">แบบฝึกหัด 6.3</h3>
+            <div class="space-y-8">
+                
+                <!-- Ex 1 -->
+                <div class="glass-card overflow-hidden border-t-4 border-purple-500">
+                    <div class="p-6 md:p-8 pb-4">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-md text-sm font-bold border border-purple-500/30">ข้อ 1</span>
+                        </div>
+                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 relative">
+                            <p class="text-lg text-gray-100 leading-relaxed font-light">
+                                รถยนต์กำลังแล่นไปตามถนน คนขับรถยนต์เห็นรถบรรทุกจอดนิ่งอยู่ข้างหน้าในระยะกระชั้นชิด เขาจึงเหยียบเบรกทันที ขณะที่ความเร็วของรถยนต์ลดลงเกือบหยุด รถยนต์ก็ชนรถบรรทุก ถ้ารถยนต์จะหยุดนิ่งภายในเวลา <strong>5.0 \(\times\) 10<sup>-3</sup> s</strong> แรงที่รถยนต์กระทำต่อรถบรรทุกเป็น <strong>1.0 \(\times\) 10<sup>6</sup> N</strong> การดลที่กระทำต่อรถบรรทุกเป็นเท่าใด
+                            </p>
+                        </div>
+                    </div>
+                    <div class="bg-black/20 p-6 md:p-8 pt-2">
+                        <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
+                            <i class="fa-solid fa-calculator mr-3 text-purple-400"></i> วิธีทำ
+                        </h4>
+                        <div class="space-y-8 ml-2">
+                            <!-- Given -->
+                            <div>
+                                <h5 class="text-purple-300 font-bold mb-2">กำหนดให้ <span class="colon-space">:</span></h5>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300 bg-purple-900/10 p-4 rounded-lg border border-purple-500/10">
+                                    <div class="flex items-center"><span class="w-8 math-var text-yellow-400 font-bold">t</span> <span class="colon-space">=</span> \(5.0 \times 10^{-3}\) s</div>
+                                    <div class="flex items-center"><span class="w-8 math-var text-rose-400 font-bold">F</span> <span class="colon-space">=</span> \(1.0 \times 10^6\) N</div>
+                                </div>
+                            </div>
+                            <!-- Step 1 -->
+                            <div>
+                                <h5 class="text-cyan-300 font-bold mb-2">ขั้นตอนที่ 1 <span class="colon-space">:</span> แทนค่าในสูตรการดล</h5>
+                                <div class="text-gray-300 bg-cyan-900/10 p-4 rounded-lg border border-cyan-500/10 text-lg eq-grid">
+                                    <span class="eq-lhs">\(I\)</span>
+                                    <span class="eq-rhs">= \(F \cdot t\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs">= \((1.0 \times 10^6)(5.0 \times 10^{-3})\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs font-bold text-white">= \(5.0 \times 10^3\) \(\text{N}\cdot\text{s}\)</span>
+                                </div>
+                            </div>
+                            <!-- Answer -->
+                            <div class="bg-gradient-to-r from-purple-900/60 to-indigo-900/60 p-6 rounded-xl border border-purple-500/50 text-center shadow-lg shadow-purple-900/20">
+                                <h4 class="text-purple-400 text-sm uppercase tracking-widest mb-2 font-bold">คำตอบ</h4>
+                                <p class="text-2xl font-bold text-white">การดลเท่ากับ <span class="text-purple-400">\(5.0 \times 10^3\)</span> N \(\cdot\) s</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ex 2 -->
+                <div class="glass-card overflow-hidden border-t-4 border-purple-500">
+                    <div class="p-6 md:p-8 pb-4">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-md text-sm font-bold border border-purple-500/30">ข้อ 2</span>
+                        </div>
+                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 relative">
+                            <p class="text-lg text-gray-100 leading-relaxed font-light">
+                                ลูกบอลมวล <strong>0.5 kg</strong> ขณะที่มีความเร็ว <strong>10 m/s</strong> ในทิศทางขวา นักกีฬาคนหนึ่งใช้เท้าเตะลูกบอลให้มีความเร็วเปลี่ยนเป็น <strong>15 m/s</strong> ในทิศทางตรงข้าม การดลเฉลี่ยที่เท้านักกีฬากระทำต่อลูกบอลมีขนาดเท่าใด
+                            </p>
+                        </div>
+                    </div>
+                    <div class="bg-black/20 p-6 md:p-8 pt-2">
+                        <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
+                            <i class="fa-solid fa-calculator mr-3 text-purple-400"></i> วิธีทำ
+                        </h4>
+                        <div class="space-y-8 ml-2">
+                            <!-- Given -->
+                            <div>
+                                <h5 class="text-purple-300 font-bold mb-2">กำหนดให้ (ทิศขวาเป็น + , ทิศตรงข้ามเป็น -) <span class="colon-space">:</span></h5>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300 bg-purple-900/10 p-4 rounded-lg border border-purple-500/10">
+                                    <div class="flex items-center"><span class="w-8 math-var text-cyan-400 font-bold">m</span> <span class="colon-space">=</span> 0.5 kg</div>
+                                    <div class="flex items-center"><span class="w-8 math-var text-emerald-400 font-bold">u</span> <span class="colon-space">=</span> +10 m/s</div>
+                                    <div class="flex items-center"><span class="w-8 math-var text-rose-400 font-bold">v</span> <span class="colon-space">=</span> -15 m/s</div>
+                                </div>
+                            </div>
+                            <!-- Step 1 -->
+                            <div>
+                                <h5 class="text-indigo-300 font-bold mb-2">ขั้นตอนที่ 1 <span class="colon-space">:</span> หาการดลเฉลี่ย (เท่ากับโมเมนตัมที่เปลี่ยนไป)</h5>
+                                <div class="text-gray-300 bg-indigo-900/10 p-4 rounded-lg border border-indigo-500/10 text-lg eq-grid">
+                                    <span class="eq-lhs">\(I\)</span>
+                                    <span class="eq-rhs">= \(\Delta P = m(v - u)\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs">= \(0.5[(-15) - 10]\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs">= \(0.5(-25)\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs font-bold text-white">= \(-12.5 \(\text{N}\cdot\text{s}\)\)</span>
+                                </div>
+                                <div class="text-sm text-gray-400 mt-2 pl-4">( ขนาดเท่ากับ 12.5 )</div>
+                            </div>
+                            <!-- Answer -->
+                            <div class="bg-gradient-to-r from-purple-900/60 to-indigo-900/60 p-6 rounded-xl border border-purple-500/50 text-center shadow-lg shadow-purple-900/20">
+                                <h4 class="text-purple-400 text-sm uppercase tracking-widest mb-2 font-bold">คำตอบ</h4>
+                                <p class="text-2xl font-bold text-white">การดลเฉลี่ยขนาดเท่ากับ <span class="text-purple-400">12.5</span> N \(\cdot\) s</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ex 3 -->
+                <div class="glass-card overflow-hidden border-t-4 border-purple-500">
+                    <div class="p-6 md:p-8 pb-4">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-md text-sm font-bold border border-purple-500/30">ข้อ 3</span>
+                        </div>
+                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 relative">
+                            <p class="text-lg text-gray-100 leading-relaxed font-light">
+                                ลูกบอลมวล <strong>400 g</strong> ตกจากหลังคาตึกสูง <strong>10 m</strong> เมื่อลูกบอลกระทบพื้น จะกระดอนขึ้นไป ถ้าลูกบอลกระทบพื้นนาน <strong>0.01 s</strong> และแรงดลเฉลี่ยที่พื้นกระทำต่อลูกบอลมีค่า <strong>960 N</strong> จงหาระยะสูงสุดที่ลูกบอลกระดอนขึ้นไป
+                            </p>
+                        </div>
+                    </div>
+                    <div class="bg-black/20 p-6 md:p-8 pt-2">
+                        <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
+                            <i class="fa-solid fa-calculator mr-3 text-purple-400"></i> วิธีทำ
+                        </h4>
+                        <div class="space-y-8 ml-2">
+                            <!-- Given -->
+                            <div>
+                                <h5 class="text-purple-300 font-bold mb-2">กำหนดให้ <span class="colon-space">:</span></h5>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300 bg-purple-900/10 p-4 rounded-lg border border-purple-500/10">
+                                    <div class="flex flex-col gap-1">
+                                        <div><span class="math-var text-cyan-400 font-bold">m</span> = 0.4 kg</div>
+                                        <div><span class="math-var text-emerald-400 font-bold">h<sub>down</sub></span> = 10 m</div>
+                                    </div>
+                                    <div class="flex flex-col gap-1">
+                                        <div><span class="math-var text-yellow-400 font-bold">t</span> = 0.01 s</div>
+                                        <div><span class="math-var text-rose-400 font-bold">F<sub>avg</sub></span> = 960 N</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Step 1 -->
+                            <div>
+                                <h5 class="text-indigo-300 font-bold mb-2">ขั้นตอนที่ 1 <span class="colon-space">:</span> หาความเร็วตกกระทบพื้น (\(u\))</h5>
+                                <div class="text-gray-300 bg-indigo-900/10 p-4 rounded-lg border border-indigo-500/10 text-lg eq-grid">
+                                    <span class="eq-lhs">\(u\)</span>
+                                    <span class="eq-rhs">= \(-\sqrt{2gh} \text{ (ทิศลงเป็น -)}\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs">= \(-\sqrt{2 \times 10 \times 10}\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs">= \(-\sqrt{200} \approx -14.14 \text{ m/s}\)</span>
+                                </div>
+                            </div>
+                            <!-- Step 2 -->
+                            <div>
+                                <h5 class="text-blue-300 font-bold mb-2">ขั้นตอนที่ 2 <span class="colon-space">:</span> หาความเร็วกระดอนขึ้น (\(v\)) จากการดล</h5>
+                                <div class="text-gray-300 bg-blue-900/10 p-4 rounded-lg border border-blue-500/10 text-lg eq-grid">
+                                    <span class="eq-lhs">\(F \Delta t\)</span>
+                                    <span class="eq-rhs">= \(m(v - u)\)</span>
+                                    
+                                    <span class="eq-lhs">\(960(0.01)\)</span>
+                                    <span class="eq-rhs">= \(0.4(v - (-14.14))\)</span>
+                                    
+                                    <span class="eq-lhs">\(9.6\)</span>
+                                    <span class="eq-rhs">= \(0.4(v + 14.14)\)</span>
+                                    
+                                    <span class="eq-lhs">\(\frac{9.6}{0.4}\)</span>
+                                    <span class="eq-rhs">= \(v + 14.14\)</span>
+                                    
+                                    <span class="eq-lhs">\(24\)</span>
+                                    <span class="eq-rhs">= \(v + 14.14\)</span>
+                                    
+                                    <span class="eq-lhs">\(v\)</span>
+                                    <span class="eq-rhs">= \(9.86 \text{ m/s}\)</span>
+                                </div>
+                            </div>
+                            <!-- Step 3 -->
+                            <div>
+                                <h5 class="text-cyan-300 font-bold mb-2">ขั้นตอนที่ 3 <span class="colon-space">:</span> หาระยะสูงสุด (\(h_{up}\))</h5>
+                                <div class="text-gray-300 bg-cyan-900/10 p-4 rounded-lg border border-cyan-500/10 text-lg eq-grid">
+                                    <span class="eq-lhs">\(h_{up}\)</span>
+                                    <span class="eq-rhs">= \(\frac{v^2}{2g}\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs">= \(\frac{(9.86)^2}{2(10)}\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs">= \(\frac{97.2}{20}\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs">\(\approx 4.86 \text{ m}\)</span>
+                                </div>
+                            </div>
+                            <!-- Answer -->
+                            <div class="bg-gradient-to-r from-purple-900/60 to-indigo-900/60 p-6 rounded-xl border border-purple-500/50 text-center shadow-lg shadow-purple-900/20">
+                                <h4 class="text-purple-400 text-sm uppercase tracking-widest mb-2 font-bold">คำตอบ</h4>
+                                <p class="text-2xl font-bold text-white">ระยะสูงสุดเท่ากับ <span class="text-purple-400">4.86</span> m</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ex 4 -->
+                <div class="glass-card overflow-hidden border-t-4 border-purple-500">
+                    <div class="p-6 md:p-8 pb-4">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-md text-sm font-bold border border-purple-500/30">ข้อ 4</span>
+                        </div>
+                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 relative">
+                            <div class="flex flex-col md:flex-row gap-6">
+                                <div class="flex-1">
+                                    <p class="text-lg text-gray-100 leading-relaxed font-light">
+                                        ลูกบอลมวล <strong>0.4 kg</strong> เคลื่อนที่ด้วยความเร็ว <strong>10 m/s</strong> ในแนวระดับ ถูกตีสวนด้วยไม้ กราฟระหว่างแรงกับเวลาในขณะกระทบกัน ดังรูป จงหาว่า
+                                    </p>
+                                    <div class="pl-4 mt-2 text-gray-300 space-y-1">
+                                        <p>ก. พื้นที่ใต้กราฟมีค่าเท่าใด และค่านี้แทนปริมาณใด</p>
+                                        <p>ข. การดลที่ไม้กระทำต่อลูกบอลมีค่าเท่าใด</p>
+                                        <p>ค. ความเร็วของลูกบอลหลังถูกตีเป็นเท่าใด</p>
+                                    </div>
+                                </div>
+                                <div class="shrink-0 flex justify-center bg-white/5 rounded-lg p-2">
+                                    <!-- GRAPH SVG Ex 4 -->
+                                    <svg width="280" height="200" viewBox="0 0 320 220" class="overflow-visible">
+                                        <line x1="40" y1="180" x2="300" y2="180" stroke="white" stroke-width="1.5" />
+                                        <line x1="40" y1="180" x2="40" y2="20" stroke="white" stroke-width="1.5" />
+                                        <text x="30" y="15" fill="white" font-family="Times New Roman" font-style="italic" font-size="18">F (N)</text>
+                                        <text x="305" y="185" fill="white" font-family="Times New Roman" font-style="italic" font-size="18">t (\(\times 10^{-2}\) s)</text>
+                                        
+                                        <line x1="35" y1="100" x2="45" y2="100" stroke="gray" />
+                                        <text x="30" y="105" fill="gray" text-anchor="end" font-size="14">500</text>
+                                        <line x1="35" y1="20" x2="45" y2="20" stroke="gray" />
+                                        <text x="30" y="25" fill="gray" text-anchor="end" font-size="14">1000</text>
+                                        
+                                        <text x="100" y="200" fill="gray" text-anchor="middle" font-size="14">1</text>
+                                        <text x="160" y="200" fill="gray" text-anchor="middle" font-size="14">2</text>
+                                        <text x="220" y="200" fill="gray" text-anchor="middle" font-size="14">3</text>
+                                        <text x="280" y="200" fill="gray" text-anchor="middle" font-size="14">4</text>
+                                        <line x1="100" y1="175" x2="100" y2="185" stroke="gray" />
+                                        <line x1="160" y1="175" x2="160" y2="185" stroke="gray" />
+                                        <line x1="220" y1="175" x2="220" y2="185" stroke="gray" />
+                                        <line x1="280" y1="175" x2="280" y2="185" stroke="gray" />
+
+                                        <!-- Triangle (0,0) to (2, 1000) to (3,0) -->
+                                        <polygon points="40,180 160,20 220,180" fill="rgba(245, 158, 11, 0.4)" stroke="#F59E0B" stroke-width="2" />
+                                        <line x1="160" y1="20" x2="160" y2="180" stroke="gray" stroke-dasharray="4" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-black/20 p-6 md:p-8 pt-2">
+                        <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
+                            <i class="fa-solid fa-calculator mr-3 text-purple-400"></i> วิธีทำ
+                        </h4>
+                        <div class="space-y-8 ml-2">
+                            <!-- Part A -->
+                            <div>
+                                <h5 class="text-indigo-300 font-bold mb-2">ก. พื้นที่ใต้กราฟ</h5>
+                                <div class="text-gray-300 bg-indigo-900/10 p-4 rounded-lg border border-indigo-500/10 text-lg eq-grid">
+                                    <span class="eq-lhs">พื้นที่</span>
+                                    <span class="eq-rhs">= \(\frac{1}{2} \times \text{ฐาน} \times \text{สูง}\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs">= \(\frac{1}{2} \times (3 \times 10^{-2}) \times 1000\)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs font-bold text-white">= 15 \(\text{N}\cdot\text{s}\)</span>
+                                </div>
+                                <p class="text-sm text-gray-400 pl-4 mt-1">แทนปริมาณ <strong>การดล</strong></p>
+                            </div>
+                            <!-- Part B -->
+                            <div>
+                                <h5 class="text-emerald-300 font-bold mb-2">ข. การดล</h5>
+                                <div class="text-gray-300 bg-emerald-900/10 p-4 rounded-lg border border-emerald-500/10">
+                                    <p class="text-lg">การดลเท่ากับพื้นที่ใต้กราฟ = <span class="font-bold text-white">15 N \(\cdot\) s</span></p>
+                                </div>
+                            </div>
+                            <!-- Part C -->
+                            <div>
+                                <h5 class="text-rose-300 font-bold mb-2">ค. ความเร็วหลังถูกตี (\(v\))</h5>
+                                <div class="text-gray-300 bg-rose-900/10 p-4 rounded-lg border border-rose-500/10 text-lg eq-grid">
+                                    <span class="eq-lhs">\(I\)</span>
+                                    <span class="eq-rhs">= \(m(v - u)\)</span>
+
+                                    <span class="eq-lhs">-15</span>
+                                    <span class="eq-rhs">= \(0.4(v - 10)\)</span>
+                                    
+                                    <span class="eq-lhs">\(\frac{-15}{0.4}\)</span>
+                                    <span class="eq-rhs">= \(v - 10\)</span>
+                                    
+                                    <span class="eq-lhs">-37.5</span>
+                                    <span class="eq-rhs">= \(v - 10\)</span>
+                                    
+                                    <span class="eq-lhs">\(v\)</span>
+                                    <span class="eq-rhs">= \(-27.5 \text{ m/s}\)</span>
+                                </div>
+                                <p class="text-sm text-gray-400 pl-4 mt-1">( อัตราเร็ว 27.5 m/s ทิศตรงข้ามเดิม )</p>
+                            </div>
+                            <!-- Answer -->
+                            <div class="bg-gradient-to-r from-purple-900/60 to-indigo-900/60 p-6 rounded-xl border border-purple-500/50 text-center shadow-lg shadow-purple-900/20">
+                                <h4 class="text-purple-400 text-sm uppercase tracking-widest mb-2 font-bold">คำตอบ</h4>
+                                <div class="space-y-1 text-white">
+                                    <p>ก. พื้นที่ใต้กราฟ <span class="font-bold text-purple-400">15</span> N \(\cdot\) s แทนปริมาณ <strong>การดล</strong></p>
+                                    <p>ข. การดลมีค่า <span class="font-bold text-purple-400">15</span> N \(\cdot\) s</p>
+                                    <p>ค. ความเร็วหลังถูกตี <span class="font-bold text-purple-400">27.5</span> m/s</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ex 5 -->
+                <div class="glass-card overflow-hidden border-t-4 border-purple-500">
+                    <div class="p-6 md:p-8 pb-4">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-md text-sm font-bold border border-purple-500/30">ข้อ 5</span>
+                        </div>
+                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 relative">
+                            <div class="flex flex-col md:flex-row gap-6">
+                                <div class="flex-1">
+                                    <p class="text-lg text-gray-100 leading-relaxed font-light">
+                                        กล่องบรรจุของมีมวล <strong>4.0 kg</strong> มีแรงลัพธ์ที่มีขนาดเปลี่ยนแปลงตามเวลากระทำ ดังกราฟ ในรูป ทำให้กล่องเคลื่อนที่ไปโดยมีความเร่งไม่คงตัว เมื่อเวลา <strong>t = 0</strong> กล่องนี้มีความเร็ว <strong>10 m/s</strong> ในทิศทางของแรงลัพธ์ จงหา
+                                    </p>
+                                    <div class="pl-4 mt-2 text-gray-300 space-y-1">
+                                        <p>ก. พื้นที่ใต้กราฟในช่วง 0-2 s และ 2-4 s มีค่าเท่าใด และแทนปริมาณใด</p>
+                                        <p>ข. อัตราเร็วของกล่องเมื่อเวลา t = 4 s</p>
+                                        <p>ค. ขนาดของความเร่งเมื่อเวลา t = 1 s</p>
+                                    </div>
+                                </div>
+                                <div class="shrink-0 flex justify-center bg-white/5 rounded-lg p-2">
+                                    <!-- GRAPH SVG Ex 5 -->
+                                    <svg width="280" height="200" viewBox="0 0 320 220" class="overflow-visible">
+                                        <line x1="40" y1="180" x2="300" y2="180" stroke="white" stroke-width="1.5" />
+                                        <line x1="40" y1="180" x2="40" y2="20" stroke="white" stroke-width="1.5" />
+                                        <text x="30" y="15" fill="white" font-family="Times New Roman" font-style="italic" font-size="18">F (N)</text>
+                                        <text x="305" y="185" fill="white" font-family="Times New Roman" font-style="italic" font-size="18">t (s)</text>
+                                        
+                                        <line x1="35" y1="140" x2="45" y2="140" stroke="gray" />
+                                        <text x="30" y="145" fill="gray" text-anchor="end" font-size="14">10</text>
+                                        <line x1="35" y1="100" x2="45" y2="100" stroke="gray" />
+                                        <text x="30" y="105" fill="gray" text-anchor="end" font-size="14">20</text>
+                                        <line x1="35" y1="60" x2="45" y2="60" stroke="gray" />
+                                        <text x="30" y="65" fill="gray" text-anchor="end" font-size="14">30</text>
+                                        
+                                        <text x="100" y="200" fill="gray" text-anchor="middle" font-size="14">1</text>
+                                        <text x="160" y="200" fill="gray" text-anchor="middle" font-size="14">2</text>
+                                        <text x="280" y="200" fill="gray" text-anchor="middle" font-size="14">4</text>
+                                        <line x1="100" y1="175" x2="100" y2="185" stroke="gray" />
+                                        <line x1="160" y1="175" x2="160" y2="185" stroke="gray" />
+                                        <line x1="280" y1="175" x2="280" y2="185" stroke="gray" />
+
+                                        <!-- Graph Line: (0,10) -> (2,20) -> (4,20) -->
+                                        <!-- Y scaling: 180 is 0, 140 is 10 (40px per 10N) -->
+                                        <!-- X scaling: 40 is 0, 100 is 1, 160 is 2, 280 is 4 (60px per unit) -->
+                                        <polyline points="40,140 160,100 280,100" fill="none" stroke="#F59E0B" stroke-width="3" />
+                                        
+                                        <!-- Dashed lines -->
+                                        <line x1="160" y1="100" x2="160" y2="180" stroke="gray" stroke-dasharray="4" />
+                                        <line x1="280" y1="100" x2="280" y2="180" stroke="gray" stroke-dasharray="4" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-black/20 p-6 md:p-8 pt-2">
+                        <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
+                            <i class="fa-solid fa-calculator mr-3 text-purple-400"></i> วิธีทำ
+                        </h4>
+                        <div class="space-y-8 ml-2">
+                            <!-- Part A -->
+                            <div>
+                                <h5 class="text-indigo-300 font-bold mb-2">ก. พื้นที่ใต้กราฟ (การดล)</h5>
+                                <div class="text-gray-300 bg-indigo-900/10 p-4 rounded-lg border border-indigo-500/10 text-lg eq-grid">
+                                    <span class="eq-lhs">พื้นที่ 0-2 s</span>
+                                    <span class="eq-rhs">= \(\frac{1}{2}(10 + 20) \times 2\) (สี่เหลี่ยมคางหมู)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs">= 30 \(\text{N}\cdot\text{s}\)</span>
+                                    
+                                    <span class="eq-lhs">พื้นที่ 2-4 s</span>
+                                    <span class="eq-rhs">= \(20 \times 2\) (สี่เหลี่ยมผืนผ้า)</span>
+                                    
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs">= 40 \(\text{N}\cdot\text{s}\)</span>
+                                    
+                                    <span class="eq-lhs">พื้นที่รวม</span>
+                                    <span class="eq-rhs">= \(30 + 40 = 70 \text{ N}\cdot\text{s}\) (แทนการดลรวม)</span>
+                                </div>
+                            </div>
+                            <!-- Part B -->
+                            <div>
+                                <h5 class="text-emerald-300 font-bold mb-2">ข. อัตราเร็วเมื่อ t = 4 s</h5>
+                                <div class="text-gray-300 bg-emerald-900/10 p-4 rounded-lg border border-emerald-500/10 text-lg eq-grid">
+                                    <span class="eq-lhs">\(I_{total}\)</span>
+                                    <span class="eq-rhs">= \(m(v - u)\)</span>
+                                    
+                                    <span class="eq-lhs">70</span>
+                                    <span class="eq-rhs">= \(4(v - 10)\)</span>
+                                    
+                                    <span class="eq-lhs">17.5</span>
+                                    <span class="eq-rhs">= \(v - 10\)</span>
+                                    
+                                    <span class="eq-lhs">\(v\)</span>
+                                    <span class="eq-rhs">= \(27.5 \text{ m/s}\)</span>
+                                </div>
+                            </div>
+                            <!-- Part C -->
+                            <div>
+                                <h5 class="text-rose-300 font-bold mb-2">ค. ความเร่งเมื่อ t = 1 s</h5>
+                                <div class="text-gray-300 bg-rose-900/10 p-4 rounded-lg border border-rose-500/10">
+                                    <p class="mb-2">ที่ t = 1 s แรง F อยู่กึ่งกลางระหว่าง 10 และ 20 N ดังนั้น F = 15 N</p>
+                                    <div class="text-lg eq-grid">
+                                        <span class="eq-lhs">\(F\)</span>
+                                        <span class="eq-rhs">= \(ma\)</span>
+                                        
+                                        <span class="eq-lhs">15</span>
+                                        <span class="eq-rhs">= \(4a\)</span>
+                                        
+                                        <span class="eq-lhs">\(a\)</span>
+                                        <span class="eq-rhs">= \(3.75 \text{ m/s}^2\)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Answer -->
+                            <div class="bg-gradient-to-r from-purple-900/60 to-indigo-900/60 p-6 rounded-xl border border-purple-500/50 text-center shadow-lg shadow-purple-900/20">
+                                <h4 class="text-purple-400 text-sm uppercase tracking-widest mb-2 font-bold">คำตอบ</h4>
+                                <div class="space-y-1 text-white">
+                                    <p>ก. พื้นที่ 0-2s = <strong>30</strong> N \(\cdot\) s</p>
+                                    <p class="pl-4">พื้นที่ 2-4s = <strong>40</strong> N \(\cdot\) s</p>
+                                    <p class="pl-4">แทนปริมาณ <strong>การดล</strong></p>
+                                    <p>ข. อัตราเร็ว <span class="font-bold text-purple-400">27.5</span> m/s</p>
+                                    <p>ค. ความเร่ง <span class="font-bold text-purple-400">3.75</span> m/s²</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <footer class="text-center mt-12 mb-8 text-gray-500 text-sm font-bold">
+            <p class="mb-2">6.3 การดล</p>
+            <p>By-20nxskypqz</p>
+        </footer>
+
+    </main>
+
+    <style>
+        /* CSS for Graph Visualization in Section 3 */
+        .clip-path-curve {
+            /* Simulating a curve area */
+            clip-path: polygon(0% 100%, 0% 25%, 25% 25%, 50% 10%, 75% 25%, 100% 25%, 100% 100%);
+        }
+    </style>
+
+</body>
+</html>
