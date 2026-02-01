@@ -114,7 +114,7 @@
         .eq-grid {
             display: grid;
             grid-template-columns: max-content auto;
-            column-gap: 0.75rem;
+            column-gap: 0.5rem;
             align-items: baseline;
         }
         .eq-lhs { text-align: right; }
@@ -242,7 +242,8 @@
                         <i class="fa-solid fa-calculator mr-3 text-sky-400"></i> วิธีทำ
                     </h4>
 
-                    <div class="space-y-8 pl-4 ml-2">
+                    <!-- Removed pl-4 ml-2 to fix alignment -->
+                    <div class="space-y-8">
                         <!-- Given -->
                         <div>
                             <h5 class="text-sky-300 font-bold mb-2">กำหนดให้ <span class="colon-space">:</span></h5>
@@ -326,7 +327,7 @@
                     </div>
                 </div>
 
-                <!-- Q3 (Fixed format) -->
+                <!-- Q3 -->
                 <div class="glass-card p-6 border-l-4 border-l-primary hover:bg-white/5 transition-colors">
                     <h4 class="text-lg font-bold text-white mb-2 flex items-start">
                         <span class="bg-primary/20 text-primary px-2 py-0.5 rounded mr-3 text-sm shrink-0">ข้อ 3</span>
@@ -336,13 +337,10 @@
                         <p class="text-gray-300 mb-2">
                             <strong class="text-emerald-400">คำตอบ :</strong>
                         </p>
-                        <div class="bg-black/30 p-4 rounded-lg border border-white/10 w-full overflow-x-auto">
-                            <div class="text-lg md:text-2xl font-bold text-white math-var leading-relaxed">
-                                <div>\(\vec{p}_i = \vec{p}_f\)</div>
-                                <div class="text-sm text-gray-400 font-sans my-1">หรือ</div>
-                                <div>\(m_1\vec{u}_1 + m_2\vec{u}_2 + \dots + m_n\vec{u}_n\)</div>
-                                <div class="pl-4 md:pl-8">\(= m_1\vec{v}_1 + m_2\vec{v}_2 + \dots + m_n\vec{v}_n\)</div>
-                            </div>
+                        <div class="bg-black/30 p-4 rounded-lg inline-block border border-white/10">
+                            <span class="text-xl md:text-2xl font-bold text-white math-var">
+                                \(\vec{p}_i = \vec{p}_f\) หรือ \(m_1\vec{u}_1 + m_2\vec{u}_2 + ... = m_1\vec{v}_1 + m_2\vec{v}_2 + ...\)
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -371,7 +369,8 @@
                         <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
                             <i class="fa-solid fa-calculator mr-3 text-teal-400"></i> วิธีทำ
                         </h4>
-                        <div class="space-y-8 ml-2">
+                        <!-- Removed pl-4 ml-2 -->
+                        <div class="space-y-8">
                             <!-- Given -->
                             <div>
                                 <h5 class="text-teal-300 font-bold mb-2">กำหนดให้ (ทิศขวาเป็น +) <span class="colon-space">:</span></h5>
@@ -432,7 +431,8 @@
                         <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
                             <i class="fa-solid fa-calculator mr-3 text-teal-400"></i> วิธีคิด
                         </h4>
-                        <div class="space-y-8 ml-2">
+                        <!-- Removed pl-4 ml-2 -->
+                        <div class="space-y-8">
                             <!-- Given -->
                             <div>
                                 <h5 class="text-teal-300 font-bold mb-2">กำหนดให้ (ทิศขวา + , ซ้าย -) <span class="colon-space">:</span></h5>
@@ -488,7 +488,8 @@
                         <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
                             <i class="fa-solid fa-calculator mr-3 text-teal-400"></i> วิธีคิด
                         </h4>
-                        <div class="space-y-8 ml-2">
+                        <!-- Removed pl-4 ml-2 -->
+                        <div class="space-y-8">
                             <!-- Given -->
                             <div>
                                 <h5 class="text-teal-300 font-bold mb-2">กำหนดให้ (ทิศลงเป็น +) <span class="colon-space">:</span></h5>
@@ -512,8 +513,8 @@
                                     <span class="eq-lhs">\(M(v)\)</span>
                                     <span class="eq-rhs">= \(\frac{M}{2}(-v) + \frac{M}{2}(v_2)\)</span>
                                     
-                                    <span class="eq-lhs text-sm text-gray-400 text-left" style="grid-column: 2;">(หาร M/2 ตลอดสมการ)</span>
-                                    <span class="eq-rhs"></span>
+                                    <span class="eq-lhs"></span>
+                                    <span class="eq-rhs text-sm text-gray-400">(หาร M/2 ตลอดสมการ)</span>
 
                                     <span class="eq-lhs">\(2v\)</span>
                                     <span class="eq-rhs">= \(-v + v_2\)</span>
