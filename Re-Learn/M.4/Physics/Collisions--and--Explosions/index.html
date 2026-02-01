@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6.5 การชนและการดีดตัวแยกจากกัน</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Niramit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- MathJax Configuration & Script -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)'], ['$', '$']],
+                displayMath: [['\\[', '\\]'], ['$$', '$$']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: {
+                    sans: ['Niramit', 'sans-serif'],
+                    serif: ['Times New Roman', 'Times', 'serif'],
+                },
+                extend: {
+                    colors: {
+                        primary: '#F97316', // Orange 500
+                        secondary: '#3B82F6', // Blue 500
+                        darkbg: '#0F172A', // Slate 900
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Global Font Setting */
+        body {
+            font-family: 'Niramit', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4, h5, h6, p, div, a, li, button, input {
+            font-family: 'Niramit', sans-serif;
+        }
+
+        /* EXCEPTION: MathJax elements */
+        mjx-container, .MathJax, .math-var {
+            font-family: inherit !important;
+        }
+        
+        .math-var {
+            font-family: 'Times New Roman', Times, serif;
+            font-style: italic;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #fb923c, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 0.2em 0.1em;
+            line-height: 1.4;
+            display: inline-block;
+        }
+
+        .custom-underline {
+            position: relative;
+            display: inline-block;
+        }
+        .custom-underline::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            bottom: -8px;
+            left: 0;
+            background: linear-gradient(to right, #f97316, #3b82f6);
+            border-radius: 2px;
+        }
+
+        .colon-space {
+            margin: 0 0.4em;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-anim {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Grid Alignment for Equations */
+        .eq-grid {
+            display: grid;
+            grid-template-columns: max-content auto;
+            column-gap: 0.5rem;
+            align-items: baseline;
+        }
+        .eq-lhs { text-align: right; }
+        .eq-rhs { text-align: left; }
+    </style>
+</head>
+<body class="p-4 md:p-8 overflow-x-hidden">
+
+    <!-- Background Elements -->
+    <div class="fixed top-20 left-10 w-40 h-40 bg-orange-500 rounded-full mix-blend-multiply filter blur-[60px] opacity-20 animate-blob"></div>
+    <div class="fixed bottom-20 right-10 w-40 h-40 bg-blue-600 rounded-full mix-blend-multiply filter blur-[60px] opacity-20 animate-blob animation-delay-2000"></div>
+
+    <main class="max-w-4xl mx-auto relative z-10">
+        
+        <!-- Header -->
+        <header class="text-center mb-16 mt-10">
+            <h1 class="text-5xl md:text-6xl font-bold mb-4 flex flex-col items-center gap-1">
+                <span class="gradient-text pb-2">โมเมนตัม</span>
+                <span class="gradient-text pb-2">และการชน</span>
+            </h1>
+        </header>
+
+        <!-- Sub Header -->
+        <div class="mb-6 border-b border-gray-700 pb-2">
+            <h2 class="text-3xl font-bold text-white">6.5 การชนและการดีดตัวแยกจากกัน</h2>
+        </div>
+
+        <!-- 1. Collision Section -->
+        <section class="mb-10">
+            <div class="glass-card p-8 border-l-4 border-orange-500 shadow-lg shadow-orange-900/20">
+                <h3 class="text-2xl font-bold mb-6 custom-underline text-orange-300">1. การชน (Collisions)</h3>
+                <p class="text-lg text-gray-200 mb-6 font-light">
+                    เป็นการชนในหนึ่งมิติ (แนวเส้นตรง) แบ่งออกเป็น 2 ประเภทตามการคงอยู่ของ<strong>พลังงานจลน์</strong> <span class="colon-space">:</span>
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Elastic -->
+                    <div class="bg-white/5 p-6 rounded-lg border border-white/10">
+                        <h4 class="text-xl font-bold text-emerald-400 mb-3 flex items-center">
+                            <i class="fa-solid fa-circle-check mr-2"></i> การชนแบบยืดหยุ่น
+                        </h4>
+                        <ul class="space-y-2 text-gray-300">
+                            <li><span class="text-white font-bold">โมเมนตัม</span> <span class="colon-space">:</span> คงตัว (\(\sum \vec{P}_i = \sum \vec{P}_f\))</li>
+                            <li><span class="text-white font-bold">พลังงานจลน์</span> <span class="colon-space">:</span> <strong>คงตัว</strong> (\(\sum E_{ki} = \sum E_{kf}\))</li>
+                        </ul>
+                        <p class="text-sm text-gray-400 mt-4 border-t border-gray-600 pt-2">
+                            <strong class="text-emerald-300">ลักษณะ <span class="colon-space">:</span></strong> ชนแล้วแยกจากกัน ไม่สูญเสียพลังงาน
+                        </p>
+                    </div>
+
+                    <!-- Inelastic -->
+                    <div class="bg-white/5 p-6 rounded-lg border border-white/10">
+                        <h4 class="text-xl font-bold text-rose-400 mb-3 flex items-center">
+                            <i class="fa-solid fa-circle-xmark mr-2"></i> การชนแบบไม่ยืดหยุ่น
+                        </h4>
+                        <ul class="space-y-2 text-gray-300">
+                            <li><span class="text-white font-bold">โมเมนตัม</span> <span class="colon-space">:</span> คงตัว (\(\sum \vec{P}_i = \sum \vec{P}_f\))</li>
+                            <li><span class="text-white font-bold">พลังงานจลน์</span> <span class="colon-space">:</span> <strong>ไม่คงตัว (ลดลง)</strong></li>
+                        </ul>
+                        <p class="text-sm text-gray-400 mt-4 border-t border-gray-600 pt-2">
+                            <strong class="text-rose-300">ลักษณะ <span class="colon-space">:</span></strong> อาจบุบสลาย หรือชนแล้วติดกันไป
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Explosion Section -->
+        <section class="mb-10">
+            <div class="glass-card p-8 border-l-4 border-blue-500 shadow-lg shadow-blue-900/20">
+                <h3 class="text-2xl font-bold mb-6 custom-underline text-blue-300">2. การดีดตัวแยกจากกัน</h3>
+                
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="flex-1 space-y-4 text-lg text-gray-200">
+                        <p>วัตถุเดิมติดอยู่ด้วยกันหรืออยู่นิ่ง แล้วแยกออกจากกันด้วย<strong>แรงภายใน</strong></p>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li><strong class="text-blue-300">โมเมนตัม</strong> <span class="colon-space">:</span> <strong>คงตัว</strong> (ถ้าเดิมอยู่นิ่ง ผลรวมเป็นศูนย์)</li>
+                            <li><strong class="text-orange-300">พลังงานจลน์</strong> <span class="colon-space">:</span> <strong>ไม่คงตัว (เพิ่มขึ้น)</strong> จากการเปลี่ยนรูปพลังงานศักย์</li>
+                        </ul>
+                        <p class="text-sm text-gray-400 mt-2">
+                            <strong class="text-blue-200">ตัวอย่าง <span class="colon-space">:</span></strong> ยิงปืน, จรวด, สปริงดีดตัว
+                        </p>
+                    </div>
+                    <div class="p-6 bg-blue-500/10 rounded-full border border-blue-500/30 float-anim shrink-0 flex items-center justify-center">
+                        <i class="fa-solid fa-arrows-split-up-and-left text-5xl text-blue-400"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Summary Table -->
+        <section class="mb-12">
+            <div class="glass-card overflow-hidden">
+                <table class="w-full text-center">
+                    <thead class="bg-black/30 text-orange-300">
+                        <tr>
+                            <th class="p-4 align-top">ประเภทเหตุการณ์</th>
+                            <th class="p-4 align-top">โมเมนตัม <br> (\(\vec{P}\))</th>
+                            <th class="p-4 align-top">พลังงานจลน์ <br> (\(E_k\))</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-200 divide-y divide-gray-700/50">
+                        <tr class="hover:bg-white/5">
+                            <td class="p-4 font-bold text-emerald-400">การชนแบบยืดหยุ่น</td>
+                            <td>คงตัว</td>
+                            <td><strong>คงตัว</strong></td>
+                        </tr>
+                        <tr class="hover:bg-white/5">
+                            <td class="p-4 font-bold text-rose-400">การชนแบบไม่ยืดหยุ่น</td>
+                            <td>คงตัว</td>
+                            <td class="text-rose-300"><strong>ไม่คงตัว</strong> (ลดลง)</td>
+                        </tr>
+                        <tr class="hover:bg-white/5">
+                            <td class="p-4 font-bold text-blue-400">การระเบิด / ดีดตัว</td>
+                            <td>คงตัว</td>
+                            <td class="text-blue-300"><strong>ไม่คงตัว</strong> (เพิ่มขึ้น)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Equations -->
+        <section class="mb-12">
+            <div class="glass-card p-6 border border-white/10">
+                <h3 class="text-xl font-bold mb-6 text-center custom-underline">สมการที่ใช้คำนวณ</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-black/20 p-4 rounded-lg">
+                        <div class="text-lg text-gray-300 mb-2">1. อนุรักษ์โมเมนตัม (ใช้ได้ทุกกรณี)</div>
+                        <div class="text-2xl font-bold text-white math-var mb-2 text-center">\(\sum \vec{P}_{\text{ก่อน}} = \sum \vec{P}_{\text{หลัง}}\)</div>
+                        <div class="text-sm text-sky-200 math-var text-center">\(m_1\vec{u}_1 + m_2\vec{u}_2 = m_1\vec{v}_1 + m_2\vec{v}_2\)</div>
+                    </div>
+                    <div class="bg-black/20 p-4 rounded-lg">
+                        <div class="text-lg text-gray-300 mb-2">2. อนุรักษ์พลังงานจลน์ (เช็คยืดหยุ่น)</div>
+                        <div class="text-2xl font-bold text-emerald-400 math-var mb-2 text-center">\(\sum E_{k\text{ก่อน}} = \sum E_{k\text{หลัง}}\)</div>
+                        <div class="text-sm text-emerald-200 math-var text-center">\(\frac{1}{2}m_1u_1^2 + \frac{1}{2}m_2u_2^2 = \frac{1}{2}m_1v_1^2 + \frac{1}{2}m_2v_2^2\)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXAMPLES SECTION -->
+        <section class="mb-12">
+            <h3 class="text-2xl font-bold mb-6 custom-underline text-orange-300">ตัวอย่างการคำนวณ</h3>
+            
+            <!-- Example 6.10 -->
+            <div class="glass-card overflow-hidden border-t-4 border-orange-500 mb-8">
+                <div class="p-6 md:p-8 pb-4">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-orange-500/20 text-orange-400 px-3 py-1 rounded-md text-sm font-bold border border-orange-500/30">ตัวอย่าง 6.10</span>
+                    </div>
+                    <div class="bg-white/5 p-6 rounded-xl border border-white/10 relative">
+                        <p class="text-lg text-gray-100 leading-relaxed font-light">
+                            ยิงกระสุนปืนมวล <strong>100 g</strong> ด้วยอัตราเร็ว <strong>420 m/s</strong> เข้าหาแท่งไม้มวล <strong>2.0 kg</strong> ที่วางอยู่นิ่งบนพื้นลื่นและฝังเข้าไปในแท่งไม้ ทำให้แท่งไม้เคลื่อนที่ไปด้วยอัตราเร็ว <strong>20 m/s</strong> ระบบนี้มีการอนุรักษ์โมเมนตัมและการอนุรักษ์พลังงานจลน์หรือไม่
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-black/20 p-6 md:p-8 pt-2">
+                    <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
+                        <i class="fa-solid fa-calculator mr-3 text-orange-400"></i> วิธีทำ
+                    </h4>
+                    <div class="space-y-8">
+                        <!-- Given -->
+                        <div>
+                            <h5 class="text-orange-300 font-bold mb-2">กำหนดให้ <span class="colon-space">:</span></h5>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-300 bg-orange-900/10 p-4 rounded-lg border border-orange-500/10">
+                                <div><span class="math-var text-cyan-400 font-bold">m<sub>1</sub></span> (กระสุน) = 100 g = 0.1 kg</div>
+                                <div><span class="math-var text-emerald-400 font-bold">u<sub>1</sub></span> = 420 m/s</div>
+                                <div><span class="math-var text-cyan-400 font-bold">m<sub>2</sub></span> (ไม้) = 2.0 kg</div>
+                                <div><span class="math-var text-emerald-400 font-bold">u<sub>2</sub></span> = 0 m/s</div>
+                                <div class="col-span-2 text-gray-400">* หลังชน ติดกันไป (ฝัง) ความเร็วปลาย <span class="math-var">v</span> = 20 m/s</div>
+                            </div>
+                        </div>
+
+                        <!-- Step 1 Check Momentum -->
+                        <div>
+                            <h5 class="text-indigo-300 font-bold mb-2">1. ตรวจสอบการอนุรักษ์โมเมนตัม</h5>
+                            <div class="text-gray-300 bg-indigo-900/10 p-4 rounded-lg border border-indigo-500/10 text-sm md:text-base eq-grid">
+                                <span class="eq-lhs">\(\sum P_{\text{ก่อน}}\)</span>
+                                <span class="eq-rhs">= \(m_1 u_1 + m_2 u_2\)</span>
+                                <span class="eq-lhs"></span>
+                                <span class="eq-rhs">= \((0.1)(420) + 0 = 42 \text{ kg} \cdot \text{m/s}\)</span>
+                                
+                                <span class="eq-lhs">\(\sum P_{\text{หลัง}}\)</span>
+                                <span class="eq-rhs">= \((m_1 + m_2)v\)</span>
+                                <span class="eq-lhs"></span>
+                                <span class="eq-rhs">= \((0.1 + 2.0)(20) = (2.1)(20) = 42 \text{ kg} \cdot \text{m/s}\)</span>
+                            </div>
+                            <p class="text-white font-bold pl-4 mt-2 text-sm"><i class="fa-solid fa-check text-green-400 mr-2"></i> โมเมนตัมคงตัว (อนุรักษ์)</p>
+                        </div>
+
+                        <!-- Step 2 Check Energy -->
+                        <div>
+                            <h5 class="text-rose-300 font-bold mb-2">2. ตรวจสอบการอนุรักษ์พลังงานจลน์</h5>
+                            <div class="text-gray-300 bg-rose-900/10 p-4 rounded-lg border border-rose-500/10 text-sm md:text-base eq-grid">
+                                <span class="eq-lhs">\(\sum E_{k\text{ก่อน}}\)</span>
+                                <span class="eq-rhs">= \(\frac{1}{2}m_1 u_1^2 + 0\)</span>
+                                <span class="eq-lhs"></span>
+                                <span class="eq-rhs">= \(\frac{1}{2}(0.1)(420)^2 = 8,820 \text{ J}\)</span>
+                                
+                                <span class="eq-lhs">\(\sum E_{k\text{หลัง}}\)</span>
+                                <span class="eq-rhs">= \(\frac{1}{2}(m_1 + m_2)v^2\)</span>
+                                <span class="eq-lhs"></span>
+                                <span class="eq-rhs">= \(\frac{1}{2}(2.1)(20)^2 = 420 \text{ J}\)</span>
+                            </div>
+                            <p class="text-white font-bold pl-4 mt-2 text-sm"><i class="fa-solid fa-xmark text-red-400 mr-2"></i> พลังงานจลน์ไม่คงตัว</p>
+                        </div>
+
+                        <!-- Answer -->
+                        <div class="bg-gradient-to-r from-orange-900/60 to-red-900/60 p-6 rounded-xl border border-orange-500/50 text-center shadow-lg shadow-orange-900/20">
+                            <h4 class="text-orange-300 text-sm uppercase tracking-widest mb-2 font-bold">คำตอบ</h4>
+                            <p class="text-lg font-bold text-white">มีการอนุรักษ์โมเมนตัม <span class="text-gray-400">แต่</span> ไม่มีการอนุรักษ์พลังงานจลน์</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Example 6.11 -->
+            <div class="glass-card overflow-hidden border-t-4 border-blue-500 mb-8">
+                <div class="p-6 md:p-8 pb-4">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-md text-sm font-bold border border-blue-500/30">ตัวอย่าง 6.11</span>
+                    </div>
+                    <div class="bg-white/5 p-6 rounded-xl border border-white/10 relative">
+                        <p class="text-lg text-gray-100 leading-relaxed font-light">
+                            กล่องมวล <strong>150 g</strong> ให้เคลื่อนที่ไปทางขวาบนลานน้ำแข็งด้วยอัตราเร็ว <strong>3.0 m/s</strong> ในขณะที่กล่องมวล <strong>300 g</strong> ให้เคลื่อนที่ไปทางซ้ายบนลานน้ำแข็งด้วยอัตราเร็ว <strong>3.0 m/s</strong> กล่องทั้งสองเคลื่อนที่อยู่ในแนวเดียวกัน และมาชนกัน หลังการชน กล่องมวล 300 g เคลื่อนที่ไปทางขวาด้วยอัตราเร็ว <strong>1.0 m/s</strong> <br>
+                            ก. กล่องมวล 150 g เคลื่อนที่ไปในทิศทางใดและมีอัตราเร็วเท่าใด ถ้าไม่พิจารณาแรงเสียดทานจากพื้นน้ำแข็งซึ่งมีขนาดน้อยมาก <br>
+                            ข. การชนในสถานการณ์นี้เป็นการชนแบบยืดหยุ่นหรือไม่ เพราะเหตุใด
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-black/20 p-6 md:p-8 pt-2">
+                    <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
+                        <i class="fa-solid fa-calculator mr-3 text-blue-400"></i> วิธีทำ
+                    </h4>
+                    <div class="space-y-8">
+                        <!-- Given -->
+                        <div>
+                            <h5 class="text-blue-300 font-bold mb-2">กำหนดให้ (ขวา + , ซ้าย -) <span class="colon-space">:</span></h5>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-300 bg-blue-900/10 p-4 rounded-lg border border-blue-500/10">
+                                <div><span class="math-var text-cyan-400 font-bold">m<sub>1</sub></span> = 0.15 kg</div>
+                                <div><span class="math-var text-emerald-400 font-bold">u<sub>1</sub></span> = +3.0 m/s</div>
+                                <div><span class="math-var text-cyan-400 font-bold">m<sub>2</sub></span> = 0.30 kg</div>
+                                <div><span class="math-var text-emerald-400 font-bold">u<sub>2</sub></span> = -3.0 m/s</div>
+                                <div><span class="math-var text-rose-400 font-bold">v<sub>2</sub></span> = +1.0 m/s</div>
+                            </div>
+                        </div>
+
+                        <!-- Step 1 Find v1 -->
+                        <div>
+                            <h5 class="text-indigo-300 font-bold mb-2">ก. หาความเร็วกล่อง 150 g (\(v_1\))</h5>
+                            <div class="text-gray-300 bg-indigo-900/10 p-4 rounded-lg border border-indigo-500/10 text-sm md:text-base eq-grid">
+                                <span class="eq-lhs">\(\sum P_{\text{ก่อน}}\)</span>
+                                <span class="eq-rhs">= \(\sum P_{\text{หลัง}}\)</span>
+                                
+                                <span class="eq-lhs">\(m_1 u_1 + m_2 u_2\)</span>
+                                <span class="eq-rhs">= \(m_1 v_1 + m_2 v_2\)</span>
+                                
+                                <span class="eq-lhs">\((0.15)(3) + (0.3)(-3)\)</span>
+                                <span class="eq-rhs">= \((0.15)v_1 + (0.3)(1)\)</span>
+                                
+                                <span class="eq-lhs">\(0.45 - 0.90\)</span>
+                                <span class="eq-rhs">= \(0.15v_1 + 0.30\)</span>
+                                
+                                <span class="eq-lhs">\(-0.45\)</span>
+                                <span class="eq-rhs">= \(0.15v_1 + 0.30\)</span>
+                                
+                                <span class="eq-lhs">\(-0.75\)</span>
+                                <span class="eq-rhs">= \(0.15v_1\)</span>
+                                
+                                <span class="eq-lhs">\(v_1\)</span>
+                                <span class="eq-rhs font-bold text-white">= -5.0 \(\text{m/s}\)</span>
+                            </div>
+                            <p class="text-sm text-gray-400 pl-4 mt-2">เครื่องหมายลบ แสดงว่าไปทางซ้าย</p>
+                        </div>
+
+                        <!-- Step 2 Check Elastic -->
+                        <div>
+                            <h5 class="text-teal-300 font-bold mb-2">ข. ตรวจสอบพลังงานจลน์</h5>
+                            <div class="text-gray-300 bg-teal-900/10 p-4 rounded-lg border border-teal-500/10 text-sm md:text-base eq-grid">
+                                <span class="eq-lhs">\(\sum E_{k\text{ก่อน}}\)</span>
+                                <span class="eq-rhs">= \(\frac{1}{2}(0.15)(3)^2 + \frac{1}{2}(0.3)(3)^2\)</span>
+                                <span class="eq-lhs"></span>
+                                <span class="eq-rhs">= \(0.675 + 1.35 = \mathbf{2.025 \text{ J}}\)</span>
+                                
+                                <span class="eq-lhs">\(\sum E_{k\text{หลัง}}\)</span>
+                                <span class="eq-rhs">= \(\frac{1}{2}(0.15)(5)^2 + \frac{1}{2}(0.3)(1)^2\)</span>
+                                <span class="eq-lhs"></span>
+                                <span class="eq-rhs">= \(1.875 + 0.15 = \mathbf{2.025 \text{ J}}\)</span>
+                            </div>
+                        </div>
+
+                        <!-- Answer -->
+                        <div class="bg-gradient-to-r from-blue-900/60 to-indigo-900/60 p-6 rounded-xl border border-blue-500/50 text-center shadow-lg shadow-blue-900/20">
+                            <h4 class="text-blue-300 text-sm uppercase tracking-widest mb-2 font-bold">คำตอบ</h4>
+                            <p class="text-base text-white">ก. กล่อง 150 g เคลื่อนที่ไปทางซ้ายด้วยอัตราเร็ว <span class="text-sky-400 font-bold">5.0</span> m/s</p>
+                            <p class="text-base text-white">ข. เป็นการชนแบบ <span class="text-emerald-400 font-bold">ยืดหยุ่น</span> เพราะพลังงานจลน์ของระบบคงตัว</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Example 6.12 -->
+            <div class="glass-card overflow-hidden border-t-4 border-emerald-500">
+                <div class="p-6 md:p-8 pb-4">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-md text-sm font-bold border border-emerald-500/30">ตัวอย่าง 6.12</span>
+                    </div>
+                    <div class="bg-white/5 p-6 rounded-xl border border-white/10 relative">
+                        <p class="text-lg text-gray-100 leading-relaxed font-light">
+                            นักบินอวกาศใช้ชุดขับเคลื่อนสำรวจสภาพแวดล้อมภายนอกของยานอวกาศ ซึ่งมีสภาพที่ แรงลัพธ์ภายนอกที่กระทำต่อนักบินอวกาศน้อยมากจนถือว่าเป็นศูนย์ <br>
+                            ขณะที่นักบินอวกาศอยู่ห่างจากยานอวกาศ 10 เมตร ชุดขับเคลื่อนของเขาขัดข้อง ทำให้ไม่สามารถ เคลื่อนที่กลับไปที่ยานอวกาศได้ เขาจึงใช้กฎการอนุรักษ์โมเมนตัมในการช่วยให้ตัวเขาเคลื่อนที่กลับไปยัง ยานอวกาศโดยถอดชุดขับเคลื่อนแล้วผลักชุดขับเคลื่อนที่มีมวล <strong>140 kg</strong> ไปในทิศทางออกจากยาน อวกาศ ถ้านักบินอวกาศและชุดของเขามีมวลรวมกัน <strong>120 kg</strong> เขาควรจะผลักชุดขับเคลื่อนออกไป ด้วยความเร็วเท่าใด เพื่อให้เขามีความเร็ว <strong>0.7 m/s</strong> ไปในทิศทางกลับเข้าหายานอวกาศ
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-black/20 p-6 md:p-8 pt-2">
+                    <h4 class="text-lg font-bold text-gray-300 mb-6 flex items-center">
+                        <i class="fa-solid fa-calculator mr-3 text-emerald-400"></i> วิธีทำ
+                    </h4>
+                    <div class="space-y-8">
+                        <!-- Given -->
+                        <div>
+                            <h5 class="text-emerald-300 font-bold mb-2">กำหนดให้ (ทิศเข้าหายาน +) <span class="colon-space">:</span></h5>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-300 bg-emerald-900/10 p-4 rounded-lg border border-emerald-500/10">
+                                <div><span class="math-var text-cyan-400 font-bold">m<sub>1</sub></span> (คน+ชุด) = 120 kg</div>
+                                <div><span class="math-var text-rose-400 font-bold">v<sub>1</sub></span> = +0.7 m/s</div>
+                                <div><span class="math-var text-cyan-400 font-bold">m<sub>2</sub></span> (ชุดขับเคลื่อน) = 140 kg</div>
+                                <div><span class="math-var text-yellow-400 font-bold">u</span> (เดิมอยู่นิ่งรวมกัน) = 0</div>
+                            </div>
+                        </div>
+
+                        <!-- Step 1 -->
+                        <div>
+                            <h5 class="text-indigo-300 font-bold mb-2">ขั้นตอนที่ 1 <span class="colon-space">:</span> กฎการอนุรักษ์โมเมนตัม</h5>
+                            <div class="text-gray-300 bg-indigo-900/10 p-4 rounded-lg border border-indigo-500/10 text-sm md:text-base eq-grid">
+                                <span class="eq-lhs">\(\sum P_{\text{ก่อน}}\)</span>
+                                <span class="eq-rhs">= \(\sum P_{\text{หลัง}}\)</span>
+                                
+                                <span class="eq-lhs">\(0\)</span>
+                                <span class="eq-rhs">= \(m_1 v_1 + m_2 v_2\)</span>
+                                
+                                <span class="eq-lhs">\(0\)</span>
+                                <span class="eq-rhs">= \((120)(0.7) + (140)v_2\)</span>
+                                
+                                <span class="eq-lhs">\(0\)</span>
+                                <span class="eq-rhs">= \(84 + 140v_2\)</span>
+                                
+                                <span class="eq-lhs">\(-84\)</span>
+                                <span class="eq-rhs">= \(140v_2\)</span>
+                                
+                                <span class="eq-lhs">\(v_2\)</span>
+                                <span class="eq-rhs font-bold text-white">= -0.6 \(\text{m/s}\)</span>
+                            </div>
+                            <p class="text-sm text-gray-400 pl-4 mt-2">( เครื่องหมายลบ แสดงว่าต้องผลักไปในทิศตรงข้ามกับยาน )</p>
+                        </div>
+
+                        <!-- Answer -->
+                        <div class="bg-gradient-to-r from-emerald-900/60 to-teal-900/60 p-6 rounded-xl border border-emerald-500/50 text-center shadow-lg shadow-emerald-900/20">
+                            <h4 class="text-emerald-300 text-sm uppercase tracking-widest mb-2 font-bold">คำตอบ</h4>
+                            <p class="text-lg font-bold text-white">เขาควรผลักชุดขับเคลื่อนด้วยอัตราเร็ว <span class="text-emerald-400">0.6</span> m/s</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUIZ CHECK 6.5 SECTION -->
+        <section class="mb-12">
+            <h3 class="text-2xl font-bold mb-6 custom-underline text-orange-300">คำถามตรวจสอบความเข้าใจ 6.5</h3>
+            <div class="space-y-6">
+                
+                <!-- Q1 -->
+                <div class="glass-card p-6 border-l-4 border-l-primary hover:bg-white/5 transition-colors">
+                    <h4 class="text-lg font-bold text-white mb-2 flex items-start">
+                        <span class="bg-primary/20 text-primary px-2 py-0.5 rounded mr-3 text-sm shrink-0">ข้อ 1</span>
+                        <span>การชนแบบยืดหยุ่นและการชนแบบไม่ยืดหยุ่นเหมือนและแตกต่างกันอย่างไร</span>
+                    </h4>
+                    <div class="mt-3 pl-4 border-l border-gray-700 ml-2">
+                        <p class="text-gray-300">
+                            <strong class="text-emerald-400">คำตอบ :</strong> การชนทั้งสองแบบมี <strong>โมเมนตัมคงตัว</strong> เหมือนกัน แต่แตกต่างกันที่ <strong>พลังงานจลน์</strong> โดยแบบยืดหยุ่นพลังงานจลน์คงตัว ส่วนแบบไม่ยืดหยุ่นพลังงานจลน์ไม่คงตัว (ลดลง)
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="glass-card p-6 border-l-4 border-l-primary hover:bg-white/5 transition-colors">
+                    <h4 class="text-lg font-bold text-white mb-2 flex items-start">
+                        <span class="bg-primary/20 text-primary px-2 py-0.5 rounded mr-3 text-sm shrink-0">ข้อ 2</span>
+                        <span>การชนแบบไม่ยืดหยุ่น พลังงานจลน์ของระบบคงตัวหรือไม่ เป็นเพราะเหตุใด</span>
+                    </h4>
+                    <div class="mt-3 pl-4 border-l border-gray-700 ml-2">
+                        <p class="text-gray-300">
+                            <strong class="text-emerald-400">คำตอบ :</strong> <strong>ไม่คงตัว</strong> เพราะมีการเปลี่ยนพลังงานจลน์บางส่วนไปเป็นงานของแรงต้าน หรือพลังงานอื่น เช่น เสียง ความร้อน หรือการเปลี่ยนรูปร่าง
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="glass-card p-6 border-l-4 border-l-primary hover:bg-white/5 transition-colors">
+                    <h4 class="text-lg font-bold text-white mb-2 flex items-start">
+                        <span class="bg-primary/20 text-primary px-2 py-0.5 rounded mr-3 text-sm shrink-0">ข้อ 3</span>
+                        <span>การชนกันของวัตถุแล้วติดกันไปเป็นการชนแบบยืดหยุ่นหรือการชนแบบไม่ยืดหยุ่น เพราะเหตุใด</span>
+                    </h4>
+                    <div class="mt-3 pl-4 border-l border-gray-700 ml-2">
+                        <p class="text-gray-300">
+                            <strong class="text-emerald-400">คำตอบ :</strong> เป็นการชนแบบ <strong>ไม่ยืดหยุ่น</strong> (สมบูรณ์) เพราะมีการสูญเสียพลังงานจลน์ไปมากที่สุดในการทำให้วัตถุติดกันไป
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="glass-card p-6 border-l-4 border-l-primary hover:bg-white/5 transition-colors">
+                    <h4 class="text-lg font-bold text-white mb-2 flex items-start">
+                        <span class="bg-primary/20 text-primary px-2 py-0.5 rounded mr-3 text-sm shrink-0">ข้อ 4</span>
+                        <span>ถ้าวัตถุมวลมากชนวัตถุมวลน้อยกว่าที่อยู่นิ่ง โมเมนตัมของวัตถุทั้งสองจะเปลี่ยนหรือไม่ อย่างไร</span>
+                    </h4>
+                    <div class="mt-3 pl-4 border-l border-gray-700 ml-2">
+                        <p class="text-gray-300">
+                            <strong class="text-emerald-400">คำตอบ :</strong> โมเมนตัมของแต่ละวัตถุ <strong>เปลี่ยนแปลง</strong> แต่ผลรวมโมเมนตัมของระบบ <strong>ไม่เปลี่ยนแปลง</strong> (คงตัว) ตามกฎการอนุรักษ์โมเมนตัม
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <footer class="text-center mt-12 mb-8 text-gray-500 text-sm font-bold">
+            <p class="mb-2">6.5 การชนและการดีดตัวแยกจากกัน</p>
+            <p>By-20nxskypqz</p>
+        </footer>
+
+    </main>
+
+</body>
+</html>
