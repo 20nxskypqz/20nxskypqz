@@ -31,24 +31,142 @@
             flex-direction: column;
             align-items: center;
             position: relative;
-            min-width: 60px;
+            min-width: 40px; 
+            margin: 0 4px;
         }
         .reaction-arrow::after {
             content: '⟶';
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             line-height: 1;
             color: #475569;
             margin-top: -5px;
         }
+        @media (min-width: 768px) {
+            .reaction-arrow { min-width: 50px; }
+            .reaction-arrow::after { font-size: 1.5rem; }
+        }
+
         .reaction-condition {
-            font-size: 0.85rem; /* Slightly adjusted size for Niramit */
+            font-size: 0.75rem; 
             font-weight: 500;
             color: #e11d48;
             margin-bottom: 2px;
         }
-        /* Helper class for spacing punctuation if needed manually */
-        .spaced-punct {
-            margin: 0 4px;
+        
+        /* Styles for Balancing Visualization */
+        .balancing-group {
+            display: flex;
+            align-items: flex-end; /* Align baselines of components */
+            gap: 1px;
+        }
+
+        /* Stack for Coefficients (Big numbers in front) */
+        .coef-stack {
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 40px; 
+            line-height: 1;
+            margin-bottom: 2px;
+            margin-right: 4px; /* Space between coef and formula */
+        }
+
+        /* Container for Symbol + Number Stack only */
+        .symbol-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Stack for Atom Counts (Small numbers above elements) */
+        .atom-stack {
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 28px; /* Fixed height to push numbers up */
+            line-height: 1;
+            margin-bottom: 0px; 
+        }
+
+        /* Styles for the text parts */
+        .chem-symbol {
+            font-size: 1.1rem;
+            font-weight: bold;
+            line-height: 1;
+        }
+        .chem-sub {
+            font-size: 0.7rem;
+            line-height: 1;
+            margin-bottom: -2px; /* Adjust baseline for subscript */
+        }
+        .chem-paren {
+            font-size: 1.1rem;
+            line-height: 1;
+            margin-bottom: 0px;
+        }
+        .chem-state {
+            font-size: 0.75rem;
+            color: #64748b;
+            font-weight: normal;
+            line-height: 1;
+            margin-bottom: 0px;
+            margin-left: 1px;
+        }
+
+        .coef-old {
+            position: relative;
+            color: #94a3b8; /* slate-400 */
+            font-size: 0.75rem; 
+        }
+        /* Diagonal strike-through */
+        .coef-old::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            height: 1px;
+            background: #94a3b8;
+            transform: rotate(-20deg);
+        }
+        
+        .coef-new {
+            color: #e11d48; /* Red highlight */
+            font-weight: bold;
+            font-size: 0.9rem; 
+        }
+
+        .atom-val-old {
+            position: relative;
+            color: #94a3b8;
+            font-size: 0.65rem;
+        }
+        .atom-val-old::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            height: 1px;
+            background: #94a3b8;
+            transform: rotate(-20deg);
+        }
+        .atom-val-new {
+            color: #059669; /* Green for atom check */
+            font-weight: bold;
+            font-size: 0.75rem;
+        }
+
+        @media (min-width: 768px) {
+            .chem-symbol, .chem-paren { font-size: 1.5rem; }
+            .chem-sub { font-size: 1rem; margin-bottom: -4px; }
+            .chem-state { font-size: 1rem; }
+            .coef-new { font-size: 1.1rem; }
+            .atom-val-new { font-size: 0.9rem; }
+            .atom-val-old { font-size: 0.75rem; }
+            .atom-stack { min-height: 35px; }
         }
     </style>
 </head>
@@ -147,11 +265,10 @@
                 
                 <div class="p-6 md:p-8 space-y-8">
                     <p class="text-slate-600">
-                        การอธิบายการเปลี่ยนแปลงของสารที่เป็นประโยคสัญลักษณ์ ทำให้เข้าใจตรงกัน โดยใช้ <span class="font-bold text-blue-600">สูตรเคมี</span> และสัญลักษณ์ ประกอบด้วย 4 องค์ประกอบหลัก <span class="spaced-punct">:</span>
+                        การอธิบายการเปลี่ยนแปลงของสารที่เป็นประโยคสัญลักษณ์ ทำให้เข้าใจตรงกัน โดยใช้ <span class="font-bold text-blue-600">สูตรเคมี</span> และสัญลักษณ์ ประกอบด้วย 4 องค์ประกอบหลัก :
                     </p>
 
                     <!-- Diagram for Components 1, 2, 3 -->
-                    <!-- Compact Version: Reduced padding, gap, and text size -->
                     <div class="relative bg-slate-50 rounded-xl p-4 border border-slate-200 text-center overflow-x-auto">
                         <div class="flex flex-row items-center justify-center gap-2 md:gap-4 min-w-[280px] chemical-formula text-sm md:text-lg font-bold text-slate-700">
                             
@@ -167,7 +284,7 @@
 
                             <!-- Arrow (Smaller) -->
                             <div class="flex flex-col items-center flex-shrink-0 px-1">
-                                <i data-lucide="arrow-right" class="w-5 h-5 md:w-6 md:h-6 text-slate-400"></i>
+                                <div class="reaction-arrow"></div>
                             </div>
 
                             <!-- Products (Smaller) -->
@@ -191,13 +308,12 @@
                         </h3>
 
                         <div class="grid md:grid-cols-3 gap-4">
-                            <!-- 4.1 สถานะ (Fixed Fonts for s, l, g, aq) -->
+                            <!-- 4.1 สถานะ -->
                             <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
                                 <h4 class="font-bold text-blue-600 mb-3 border-b pb-2">สถานะของสาร</h4>
                                 <ul class="space-y-2 text-sm">
                                     <li class="flex justify-between">
                                         <span>ของแข็ง (Solid)</span> 
-                                        <!-- Removed font-mono, using Niramit -->
                                         <code class="bg-slate-100 px-2 py-0.5 rounded text-pink-600">(s)</code>
                                     </li>
                                     <li class="flex justify-between">
@@ -255,6 +371,184 @@
                                 </ul>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Example Section Inside 6.2 (as requested) -->
+                    <div class="bg-slate-50 border-2 border-slate-200 border-dashed rounded-xl p-6 mt-6">
+                        <span class="bg-slate-600 text-white px-3 py-1 rounded text-sm font-bold mb-4 inline-block">ตัวอย่าง</span>
+                        <p class="text-slate-700 leading-relaxed mb-4">
+                            สารละลายโซเดียมฟอสเฟตทำปฏิกิริยากับสารละลายแบเรียมคลอไรด์ได้ตะกอนสีขาวของแบเรียมฟอสเฟต (Ba<sub>3</sub>(PO<sub>4</sub>)<sub>2</sub>) และสารละลายใสไม่มีสีของโซเดียมคลอไรด์ (NaCl) ปฏิกิริยาเคมีที่เกิดขึ้นเขียนแสดงได้ดังนี้
+                        </p>
+                        <div class="overflow-x-auto text-center py-4 bg-white rounded-lg border border-slate-200">
+                             <div class="inline-block text-lg md:text-xl font-bold font-kanit text-slate-800 px-4 whitespace-nowrap">
+                                 Na<sub>3</sub>PO<sub>4</sub>(aq) + BaCl<sub>2</sub>(aq) ⟶ Ba<sub>3</sub>(PO<sub>4</sub>)<sub>2</sub>(s) + NaCl(aq)
+                             </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 6.2.2 การดุลสมการเคมี (ADDED) -->
+        <section id="section-6-2-2" class="scroll-mt-20">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden card-hover">
+                <div class="bg-purple-50 px-6 py-4 border-b border-purple-100 flex items-center gap-3">
+                    <span class="bg-purple-600 text-white w-auto px-2 h-8 rounded-full flex items-center justify-center font-bold text-sm">6.2.2</span>
+                    <h2 class="text-2xl font-bold text-purple-900">การดุลสมการเคมี</h2>
+                </div>
+                <div class="p-6 md:p-8">
+                    <p class="text-slate-700 text-lg leading-relaxed">
+                        หลักการคือ การทำให้จำนวนอะตอมของแต่ละธาตุในฝั่ง <span class="font-bold text-purple-700">สารตั้งต้น</span> และฝั่ง <span class="font-bold text-purple-700">ผลิตภัณฑ์</span> มีค่าเท่ากัน 
+                        โดยการเติม <span class="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded font-bold border border-yellow-200">ตัวเลขสัมประสิทธิ์</span> (ตัวเลขจำนวนเต็ม) ไว้ด้านหน้าสูตรเคมีของสารนั้น ๆ
+                    </p>
+                    <div class="mt-6 flex flex-col md:flex-row items-center justify-center gap-4 text-slate-500 bg-purple-50 p-4 rounded-xl border border-purple-100">
+                        <div class="flex items-center gap-2 font-bold text-slate-700">
+                            <span class="bg-white px-3 py-1 rounded border shadow-sm">สารตั้งต้น</span>
+                        </div>
+                        <div class="flex flex-col items-center px-4">
+                            <i data-lucide="scale" class="w-8 h-8 text-purple-500"></i>
+                            <span class="text-xs text-purple-600 font-bold mt-1">ต้องเท่ากัน</span>
+                        </div>
+                        <div class="flex items-center gap-2 font-bold text-slate-700">
+                            <span class="bg-white px-3 py-1 rounded border shadow-sm">ผลิตภัณฑ์</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ตัวอย่างที่ 1 -->
+        <section id="example-1" class="scroll-mt-20">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden card-hover">
+                <div class="bg-pink-50 px-6 py-4 border-b border-pink-100 flex items-center gap-3">
+                    <span class="bg-pink-600 text-white px-4 py-1 rounded-full font-bold">ตัวอย่างที่ 1</span>
+                </div>
+                
+                <div class="p-4 md:p-8 space-y-6">
+                    <p class="text-slate-700 text-base md:text-lg leading-relaxed">
+                        เขียนและดุลสมการเคมีของปฏิกิริยาระหว่างโลหะโพแทสเซียม (K) กับน้ำ (H<sub>2</sub>O) ได้สารละลาย โพแทสเซียมไฮดรอกไซด์ (KOH) และแก๊สไฮโดรเจน (H<sub>2</sub>)
+                    </p>
+
+                    <!-- Balancing Equation Visualization -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col items-center overflow-x-auto">
+                        <div class="flex items-end justify-center gap-1 md:gap-3 font-bold text-slate-800 min-w-[320px]">
+                            
+                            <!-- K(s) Term -->
+                            <div class="balancing-group">
+                                <!-- Coefficient -->
+                                <div class="coef-stack">
+                                    <span class="coef-old">1</span>
+                                    <span class="coef-new">2</span>
+                                </div>
+                                <!-- Element K -->
+                                <div class="symbol-col">
+                                    <div class="atom-stack">
+                                        <span class="atom-val-old">1</span>
+                                        <span class="atom-val-new">2</span>
+                                    </div>
+                                    <div class="chem-symbol">K</div>
+                                </div>
+                                <!-- State -->
+                                <div class="chem-state">(s)</div>
+                            </div>
+
+                            <span class="mb-2 text-slate-400 text-xl font-light">+</span>
+
+                            <!-- H2O(l) Term -->
+                            <div class="balancing-group">
+                                <!-- Coefficient -->
+                                <div class="coef-stack">
+                                    <span class="coef-old">1</span>
+                                    <span class="coef-new">2</span>
+                                </div>
+                                <!-- Element H + 2 -->
+                                <div class="symbol-col">
+                                    <div class="atom-stack">
+                                        <span class="atom-val-old">2</span>
+                                        <span class="atom-val-new">4</span>
+                                    </div>
+                                    <div class="chem-symbol">H</div>
+                                </div>
+                                <div class="chem-sub">2</div>
+                                <!-- Element O + (l) -->
+                                <div class="symbol-col">
+                                    <div class="atom-stack">
+                                        <span class="atom-val-old">1</span>
+                                        <span class="atom-val-new">2</span>
+                                    </div>
+                                    <div class="chem-symbol">O</div>
+                                </div>
+                                <div class="chem-state">(l)</div>
+                            </div>
+
+                            <!-- Arrow -->
+                            <div class="flex items-center px-1 mb-2">
+                                <div class="reaction-arrow"></div>
+                            </div>
+
+                            <!-- KOH(aq) Term -->
+                            <div class="balancing-group">
+                                <!-- Coefficient -->
+                                <div class="coef-stack">
+                                    <span class="coef-old">1</span>
+                                    <span class="coef-new">2</span>
+                                </div>
+                                <!-- Element K -->
+                                <div class="symbol-col">
+                                    <div class="atom-stack">
+                                        <span class="atom-val-old">1</span>
+                                        <span class="atom-val-new">2</span>
+                                    </div>
+                                    <div class="chem-symbol">K</div>
+                                </div>
+                                <!-- Element O -->
+                                <div class="symbol-col">
+                                    <div class="atom-stack">
+                                        <span class="atom-val-old">1</span>
+                                        <span class="atom-val-new">2</span>
+                                    </div>
+                                    <div class="chem-symbol">O</div>
+                                </div>
+                                <!-- Element H -->
+                                <div class="symbol-col">
+                                    <div class="atom-stack">
+                                        <span class="atom-val-old">1</span>
+                                        <span class="atom-val-new">2</span>
+                                    </div>
+                                    <div class="chem-symbol">H</div>
+                                </div>
+                                <div class="chem-state">(aq)</div>
+                            </div>
+
+                            <span class="mb-2 text-slate-400 text-xl font-light">+</span>
+
+                            <!-- H2(g) Term -->
+                            <div class="balancing-group">
+                                <!-- Coefficient -->
+                                <div class="coef-stack">
+                                    <span class="coef-new">1</span>
+                                </div>
+                                <!-- Element H + 2 -->
+                                <div class="symbol-col">
+                                    <div class="atom-stack">
+                                        <span class="atom-val-new">2</span>
+                                    </div>
+                                    <div class="chem-symbol">H</div>
+                                </div>
+                                <div class="chem-sub">2</div>
+                                <div class="chem-state">(g)</div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Final Balanced Equation -->
+                    <div class="mt-4 pt-4 border-t border-slate-100 text-center">
+                         <p class="text-xs md:text-sm text-slate-500 mb-2 font-medium">สมการที่ดุลแล้ว</p>
+                         <div class="inline-block bg-pink-50 border border-pink-200 text-pink-900 px-4 py-2 rounded-lg text-sm md:text-xl font-bold font-kanit break-all md:break-normal">
+                             2K(s) + 2H<sub>2</sub>O(l) ⟶ 2KOH(aq) + H<sub>2</sub>(g)
+                         </div>
                     </div>
 
                 </div>
