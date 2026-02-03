@@ -97,54 +97,34 @@
             text-align: center;
             width: 100%;
         }
-
-        /* Styles for Balancing Visualization */
-        .balancing-group {
-            display: flex;
-            align-items: flex-end; /* Align baselines */
-            gap: 1px;
+        
+        /* MW Calculation Box Style */
+        .mw-box {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            color: #64748b;
+            display: inline-block;
+            margin-bottom: 8px;
+            text-align: left;
+            line-height: 1.4;
         }
-        .coef-stack {
-            display: flex;
-            flex-direction: column-reverse;
-            align-items: center;
-            justify-content: flex-start;
-            min-height: 40px; 
-            line-height: 1;
-            margin-bottom: 2px;
-            margin-right: 4px;
-        }
-        .symbol-col {
+        
+        /* Calculation Step Row Style */
+        .calc-row {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
         }
-        .atom-stack {
+        .calc-line-2 {
             display: flex;
-            flex-direction: column-reverse;
             align-items: center;
-            justify-content: flex-start;
-            min-height: 28px;
-            line-height: 1;
-            margin-bottom: 0px; 
+            gap: 4px;
+            margin-left: 0; 
         }
-        .coef-old, .atom-val-old {
-            position: relative;
-            color: #94a3b8;
-            font-size: 0.65rem;
-        }
-        .coef-old::after, .atom-val-old::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            width: 100%;
-            height: 1px;
-            background: #94a3b8;
-            transform: rotate(-20deg);
-        }
-        .coef-new { color: #e11d48; font-weight: bold; font-size: 0.9rem; }
-        .atom-val-new { color: #059669; font-weight: bold; font-size: 0.75rem; }
 
         @media (min-width: 768px) {
             .chem-symbol { font-size: 1.5rem; }
@@ -203,23 +183,6 @@
                                 เป็นการศึกษาความสัมพันธ์ระหว่างปริมาณสารตั้งต้นที่ใช้ไปและปริมาณผลิตภัณฑ์ที่เกิดขึ้นในปฏิกิริยาเคมี
                             </p>
                         </div>
-
-                        <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
-                            <div class="bg-red-50 p-4 rounded-xl border border-red-100">
-                                <p class="text-red-800 font-bold text-lg">สารตั้งต้น</p>
-                                <div class="flex items-center justify-center gap-2 mt-2 text-red-600">
-                                    <i data-lucide="trending-down" class="w-6 h-6"></i>
-                                    <span>ปริมาณลดลง</span>
-                                </div>
-                            </div>
-                            <div class="bg-green-50 p-4 rounded-xl border border-green-100">
-                                <p class="text-green-800 font-bold text-lg">ผลิตภัณฑ์</p>
-                                <div class="flex items-center justify-center gap-2 mt-2 text-green-600">
-                                    <i data-lucide="trending-up" class="w-6 h-6"></i>
-                                    <span>ปริมาณเพิ่มขึ้น</span>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <!-- Sub-section: Mole Ratio -->
@@ -233,64 +196,29 @@
                             ตัวเลขสัมประสิทธิ์ที่อยู่หน้าสารในสมการเคมีที่ดุลแล้ว แสดงถึง <strong>อัตราส่วนจำนวนโมล</strong> ของสารที่ทำปฏิกิริยากันพอดีและสารที่เกิดขึ้น
                         </p>
 
-                        <!-- Example 1 Box -->
+                        <!-- Example 1 Box (General) -->
                         <div class="bg-slate-50 border-2 border-slate-200 border-dashed rounded-xl p-6 flex flex-col items-center mb-8">
                             <span class="bg-slate-200 text-slate-600 px-3 py-1 rounded-full text-sm font-bold mb-4">ตัวอย่าง</span>
                             
                             <!-- Equation Visual -->
                             <div class="overflow-x-auto w-full flex justify-center">
                                 <div class="inline-flex items-end gap-2 md:gap-4 font-bold text-slate-800 pb-2">
-                                    <!-- 2Na(s) -->
-                                    <div class="flex items-baseline">
-                                        <span class="chem-coef">2</span>
-                                        <span class="chem-symbol">Na</span>
-                                        <span class="chem-state">(s)</span>
-                                    </div>
-
+                                    <div class="flex items-baseline"><span class="chem-coef">2</span><span class="chem-symbol">Na</span><span class="chem-state">(s)</span></div>
                                     <span class="mb-1 text-slate-400 text-xl font-light self-center">+</span>
-
-                                    <!-- Cl2(g) -->
-                                    <div class="flex items-baseline">
-                                        <!-- Implicit 1 -->
-                                        <span class="chem-coef opacity-0 w-0 md:w-auto">1</span>
-                                        <span class="chem-symbol">Cl</span>
-                                        <span class="chem-sub">2</span>
-                                        <span class="chem-state">(g)</span>
-                                    </div>
-
-                                    <!-- Arrow -->
-                                    <div class="flex items-center px-1 self-center">
-                                        <div class="reaction-arrow"></div>
-                                    </div>
-
-                                    <!-- 2NaCl(s) -->
-                                    <div class="flex items-baseline">
-                                        <span class="chem-coef">2</span>
-                                        <span class="chem-symbol">Na</span>
-                                        <span class="chem-symbol">Cl</span>
-                                        <span class="chem-state">(s)</span>
-                                    </div>
+                                    <div class="flex items-baseline"><span class="chem-coef opacity-0 w-0 md:w-auto">1</span><span class="chem-symbol">Cl</span><span class="chem-sub">2</span><span class="chem-state">(g)</span></div>
+                                    <div class="flex items-center px-1 self-center"><div class="reaction-arrow"></div></div>
+                                    <div class="flex items-baseline"><span class="chem-coef">2</span><span class="chem-symbol">Na</span><span class="chem-symbol">Cl</span><span class="chem-state">(s)</span></div>
                                 </div>
                             </div>
-
                             <!-- Mole Ratio Visual -->
                             <div class="w-full mt-4 pt-4 border-t border-slate-200">
                                 <p class="text-center font-bold text-slate-600 mb-3">อัตราส่วนโดยโมล</p>
                                 <div class="flex justify-center items-center gap-4 md:gap-8 text-xl md:text-2xl font-bold">
-                                    <div class="text-center">
-                                        <span class="text-pink-600 block">2</span>
-                                        <span class="text-xs text-slate-400 font-normal">โมล</span>
-                                    </div>
+                                    <div class="text-center"><span class="text-pink-600 block">2</span><span class="text-xs text-slate-400 font-normal">โมล</span></div>
                                     <span class="text-slate-300"> : </span>
-                                    <div class="text-center">
-                                        <span class="text-pink-600 block">1</span>
-                                        <span class="text-xs text-slate-400 font-normal">โมล</span>
-                                    </div>
+                                    <div class="text-center"><span class="text-pink-600 block">1</span><span class="text-xs text-slate-400 font-normal">โมล</span></div>
                                     <span class="text-slate-300"> : </span>
-                                    <div class="text-center">
-                                        <span class="text-pink-600 block">2</span>
-                                        <span class="text-xs text-slate-400 font-normal">โมล</span>
-                                    </div>
+                                    <div class="text-center"><span class="text-pink-600 block">2</span><span class="text-xs text-slate-400 font-normal">โมล</span></div>
                                 </div>
                             </div>
                         </div>
@@ -298,97 +226,48 @@
                         <!-- Example 5 Box -->
                         <div class="border-2 border-slate-100 rounded-xl p-5 bg-white relative mt-8 shadow-sm">
                             <span class="absolute -top-3 left-4 bg-orange-600 text-white px-3 py-0.5 rounded text-sm font-bold">ตัวอย่างที่ 5</span>
-                            
                             <div class="mb-4 mt-2">
-                                <p class="text-slate-700 leading-relaxed mb-3">
-                                    จากปฏิกิริยาเคมีต่อไปนี้ :
-                                </p>
-                                <!-- Equation Visual for Ex 5 -->
+                                <p class="text-slate-700 leading-relaxed mb-3">จากปฏิกิริยาเคมีต่อไปนี้ :</p>
                                 <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 overflow-x-auto text-center mb-4">
                                     <div class="inline-flex items-end gap-2 md:gap-3 font-bold text-slate-800 text-left min-w-max mx-auto">
-                                        <!-- 2Al(s) -->
-                                        <div class="flex items-baseline">
-                                            <span class="chem-coef">2</span>
-                                            <span class="chem-symbol">Al</span>
-                                            <span class="chem-state">(s)</span>
-                                        </div>
+                                        <div class="flex items-baseline"><span class="chem-coef">2</span><span class="chem-symbol">Al</span><span class="chem-state">(s)</span></div>
                                         <span class="mb-1 text-slate-400 text-xl font-light self-center">+</span>
-                                        <!-- 3Br2(l) -->
-                                        <div class="flex items-baseline">
-                                            <span class="chem-coef">3</span>
-                                            <span class="chem-symbol">Br</span>
-                                            <span class="chem-sub">2</span>
-                                            <span class="chem-state">(l)</span>
-                                        </div>
+                                        <div class="flex items-baseline"><span class="chem-coef">3</span><span class="chem-symbol">Br</span><span class="chem-sub">2</span><span class="chem-state">(l)</span></div>
                                         <div class="flex items-center px-1 self-center"><div class="reaction-arrow"></div></div>
-                                        <!-- 2AlBr3(s) -->
-                                        <div class="flex items-baseline">
-                                            <span class="chem-coef">2</span>
-                                            <span class="chem-symbol">Al</span>
-                                            <span class="chem-symbol">Br</span>
-                                            <span class="chem-sub">3</span>
-                                            <span class="chem-state">(s)</span>
-                                        </div>
+                                        <div class="flex items-baseline"><span class="chem-coef">2</span><span class="chem-symbol">Al</span><span class="chem-symbol">Br</span><span class="chem-sub">3</span><span class="chem-state">(s)</span></div>
                                     </div>
                                 </div>
-                                <!-- Balanced Check -->
-                                <p class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded inline-block mb-3 border border-green-200">
-                                    <i data-lucide="check-circle" class="w-3 h-3 inline"></i> สมการดุลแล้ว
-                                </p>
                                 <p class="text-slate-700 font-medium bg-orange-50 p-3 rounded-lg border-l-4 border-orange-400">
                                     โจทย์ : ถ้าต้องการอะลูมิเนียมโบรไมด์ (AlBr<sub>3</sub>) 0.6 โมล จะต้องใช้โบรมีน (Br<sub>2</sub>) กี่โมล
                                 </p>
                             </div>
-
                             <div class="bg-slate-50 border border-slate-200 rounded-lg p-5">
                                 <p class="text-sm font-bold text-slate-500 mb-2 border-b border-slate-200 pb-1">วิธีทำ (ใช้อัตราส่วนโดยโมล)</p>
-                                
                                 <div class="space-y-4">
-                                    <!-- Step 1 -->
-                                    <div>
-                                        <p class="text-slate-700 mb-1">1. พิจารณาอัตราส่วนจากสมการที่ดุลแล้ว</p>
-                                        <div class="flex items-center gap-4 text-lg ml-4">
-                                            <div class="text-center">
-                                                <span class="font-bold text-slate-800">Br<sub>2</sub></span>
-                                                <span class="block text-orange-600 font-bold">3 ส่วน</span>
-                                            </div>
-                                            <span class="text-slate-400"> : </span>
-                                            <div class="text-center">
-                                                <span class="font-bold text-slate-800">AlBr<sub>3</sub></span>
-                                                <span class="block text-orange-600 font-bold">2 ส่วน</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Step 2 -->
-                                    <div>
-                                        <p class="text-slate-700 mb-2">2. เทียบหาคำตอบ</p>
-                                        <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
-                                            <div class="flex items-center gap-1 flex-wrap">
-                                                <span>mol Br<span class="chem-sub">2</span></span>
+                                    <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
+                                        <div class="calc-row">
+                                            <span>mol Br<sub>2</sub></span>
+                                            <div class="calc-line-2">
                                                 <span>=</span>
-                                                <span>0.6 mol AlBr<span class="chem-sub">3</span></span>
+                                                <span>0.6 mol AlBr<sub>3</sub></span>
                                                 <span>×</span>
                                                 <div class="calc-fraction mx-1">
-                                                    <span class="calc-top px-1">3 mol Br<span class="chem-sub">2</span></span>
-                                                    <span class="calc-bottom px-1">2 mol AlBr<span class="chem-sub">3</span></span>
+                                                    <span class="calc-top px-1">3 mol Br<sub>2</sub></span>
+                                                    <span class="calc-bottom px-1">2 mol AlBr<sub>3</sub></span>
                                                 </div>
                                             </div>
-                                            <div class="mt-2 font-bold text-indigo-700 text-sm md:text-base">
-                                                = 0.9 โมล
+                                            <div class="calc-line-2 mt-2 font-bold text-indigo-700 text-sm md:text-base">
+                                                <span>=</span>
+                                                <span>0.9 โมล</span>
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    <p class="text-center mt-2 text-slate-700">
-                                        ∴ จะต้องใช้โบรมีน <span class="font-bold underline text-indigo-700">0.9 โมล</span>
-                                    </p>
+                                    <p class="text-center mt-2 text-slate-700">∴ จะต้องใช้โบรมีน <span class="font-bold underline text-indigo-700">0.9 โมล</span></p>
                                 </div>
                             </div>
                         </div>
 
                     </div>
-
                 </div>
             </div>
         </section>
@@ -402,33 +281,26 @@
                 </div>
                 
                 <div class="p-6 md:p-8 space-y-6">
-                    
                     <!-- Step 1 -->
                     <div class="bg-slate-50 border border-slate-200 rounded-xl p-5">
                         <h3 class="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
                             <span class="bg-teal-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm">1</span>
                             หาโมลที่ต้องการ
                         </h3>
-                        
-                        <div class="bg-white p-4 rounded-lg border border-slate-100 shadow-sm overflow-x-auto">
-                            <!-- Significantly reduced formula size (text-xs) -->
-                            <div class="flex flex-col md:flex-row items-center justify-center gap-2 text-center md:text-left min-w-max mx-auto text-xs text-slate-700">
-                                <div class="font-bold text-teal-700">โมลที่ต้องการ</div>
-                                <div class="font-bold text-slate-400">=</div>
-                                <div class="flex items-center gap-2">
-                                    <div class="calc-fraction">
-                                        <div class="calc-top px-1 font-bold text-indigo-600">สัมประสิทธิ์สารนั้น</div>
-                                        <div class="calc-bottom px-1 font-bold text-orange-600">สัมประสิทธิ์สารกำหนด</div>
-                                    </div>
-                                    <div class="font-bold text-slate-400">×</div>
-                                    <div class="font-bold text-slate-700">โมลสารกำหนด</div>
+                        <div class="bg-white p-4 rounded-lg border border-slate-100 shadow-sm overflow-x-auto text-center">
+                            <div class="font-bold text-teal-700 mb-1">โมลที่ต้องการ</div>
+                            <div class="flex items-center justify-center gap-2 text-xs text-slate-700">
+                                <span>=</span>
+                                <div class="calc-fraction">
+                                    <div class="calc-top px-1 font-bold text-indigo-600">สัมประสิทธิ์สารนั้น</div>
+                                    <div class="calc-bottom px-1 font-bold text-orange-600">สัมประสิทธิ์สารกำหนด</div>
                                 </div>
+                                <span>×</span>
+                                <span>โมลสารกำหนด</span>
                             </div>
                         </div>
-                        
-                        <!-- Added Formula for Mass -->
                         <div class="mt-2 text-center">
-                            <p class="text-xs text-slate-500">หาโมลสารตั้งต้นจากมวล : </p>
+                            <p class="text-xs text-slate-500 mb-1">หาโมลสารตั้งต้นจากมวล : </p>
                             <div class="font-bold text-slate-700 text-sm flex items-center justify-center gap-1">
                                 <span>mol =</span>
                                 <div class="calc-fraction">
@@ -438,7 +310,6 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- Step 2 -->
                     <div class="bg-slate-50 border border-slate-200 rounded-xl p-5">
                         <h3 class="text-lg font-bold text-slate-800 mb-3 flex items-start gap-2">
@@ -448,9 +319,7 @@
                                 <span class="text-sm font-normal text-slate-500">(ถ้ามี)</span>
                             </div>
                         </h3>
-                        
                         <div class="flex justify-center">
-                            <!-- Mass -->
                             <div class="bg-white p-4 rounded border border-slate-100 text-center hover:shadow-md transition-shadow max-w-sm w-full">
                                 <p class="text-xs text-slate-500 mb-1">หามวล (g)</p>
                                 <p class="font-bold text-slate-700 text-sm">g = mol × MW</p>
@@ -461,9 +330,7 @@
                     <!-- Example 6 -->
                     <div class="border-2 border-slate-100 rounded-xl p-5 bg-white relative mt-8 shadow-sm">
                         <span class="absolute -top-3 left-4 bg-teal-600 text-white px-3 py-0.5 rounded text-sm font-bold">ตัวอย่างที่ 6</span>
-                        
                         <div class="mb-4 mt-2">
-                            <!-- Equation Visual -->
                             <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 overflow-x-auto text-center mb-4">
                                 <div class="inline-flex items-end gap-1 md:gap-2 font-bold text-slate-800 text-left min-w-max mx-auto text-sm md:text-base">
                                     <span class="chem-coef">2</span>KI<span class="chem-state">(aq)</span>
@@ -475,48 +342,57 @@
                                     <span class="chem-coef">2</span>KNO<span class="chem-sub">3</span><span class="chem-state">(aq)</span>
                                 </div>
                             </div>
-                            <!-- Balanced Check -->
-                            <p class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded inline-block mb-3 border border-green-200">
-                                <i data-lucide="check-circle" class="w-3 h-3 inline"></i> สมการดุลแล้ว
-                            </p>
+                            <p class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded inline-block mb-3 border border-green-200"><i data-lucide="check-circle" class="w-3 h-3 inline"></i> สมการดุลแล้ว</p>
                             <p class="text-slate-700 font-medium bg-teal-50 p-3 rounded-lg border-l-4 border-teal-400">
-                                โจทย์ : ถ้า Pb(NO<span class="chem-sub">3</span>)<span class="chem-sub">2</span> ทำปฏิกิริยาพอดีกับ KI 0.400 โมล จะมี PbI<span class="chem-sub">2</span> เกิดขึ้นกี่กรัม
+                                โจทย์ : ถ้า Pb(NO<sub>3</sub>)<sub>2</sub> ทำปฏิกิริยาพอดีกับ KI 0.400 โมล จะมี PbI<sub>2</sub> เกิดขึ้นกี่กรัม
                             </p>
                         </div>
-
                         <div class="bg-slate-50 border border-slate-200 rounded-lg p-5 text-sm md:text-base">
                             <div class="space-y-4">
                                 <div>
-                                    <p class="text-slate-700 mb-1">1. หาโมลของ PbI<span class="chem-sub">2</span> (จากโมล KI ที่โจทย์ให้)</p>
+                                    <p class="text-slate-700 mb-1">1. หาโมลของ PbI<sub>2</sub> (จากโมล KI)</p>
                                     <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
-                                        <div class="flex items-center gap-1 flex-wrap">
-                                            <span>mol PbI<span class="chem-sub">2</span></span>
-                                            <span>=</span>
-                                            <div class="calc-fraction mx-1">
-                                                <span class="calc-top px-1">1 mol PbI<span class="chem-sub">2</span></span>
-                                                <span class="calc-bottom px-1">2 mol KI</span>
+                                        <div class="calc-row">
+                                            <span>mol PbI<sub>2</sub></span>
+                                            <div class="calc-line-2">
+                                                <span>=</span>
+                                                <div class="calc-fraction mx-1">
+                                                    <span class="calc-top px-1">1 mol PbI<sub>2</sub></span>
+                                                    <span class="calc-bottom px-1">2 mol KI</span>
+                                                </div>
+                                                <span>×</span>
+                                                <span>0.400 mol KI</span>
                                             </div>
-                                            <span>×</span>
-                                            <span>0.400 mol KI</span>
+                                            <div class="calc-line-2 mt-2 font-bold text-teal-700">
+                                                <span>=</span>
+                                                <span>0.200 mol</span>
+                                            </div>
                                         </div>
-                                        <div class="mt-2 font-bold text-teal-700">= 0.200 mol</div>
                                     </div>
                                 </div>
                                 <div>
-                                    <p class="text-slate-700 mb-1">2. เปลี่ยนโมลเป็นกรัม (g = mol × MW)</p>
-                                    <p class="text-xs text-slate-500 mb-1">MW ของ PbI<span class="chem-sub">2</span> = 207 + (127×2) = 461 g/mol</p>
+                                    <p class="text-slate-700 mb-1">2. เปลี่ยนโมลเป็นกรัม</p>
+                                    <div class="mw-box">
+                                        <strong>MW ของ PbI<sub>2</sub></strong><br>
+                                        Pb = 207<br>
+                                        I = (127×2)<br>
+                                        = 461 g/mol
+                                    </div>
                                     <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
-                                        <div class="flex items-center gap-2">
-                                            <span>g PbI<span class="chem-sub">2</span></span>
-                                            <span>=</span>
-                                            <span>0.200 mol × 461 g/mol</span>
+                                        <div class="calc-row">
+                                            <span>g PbI<sub>2</sub></span>
+                                            <div class="calc-line-2">
+                                                <span>=</span>
+                                                <span>0.200 mol × 461 g/mol</span>
+                                            </div>
+                                            <div class="calc-line-2 mt-2 font-bold text-teal-700">
+                                                <span>=</span>
+                                                <span>92.2 กรัม</span>
+                                            </div>
                                         </div>
-                                        <div class="mt-2 font-bold text-teal-700">= 92.2 กรัม</div>
                                     </div>
                                 </div>
-                                <p class="text-center mt-2 text-slate-700">
-                                    ∴ จะมี PbI<span class="chem-sub">2</span> เกิดขึ้น <span class="font-bold underline text-teal-700">92.2 กรัม</span>
-                                </p>
+                                <p class="text-center mt-2 text-slate-700">∴ จะมี PbI<sub>2</sub> เกิดขึ้น <span class="font-bold underline text-teal-700">92.2 กรัม</span></p>
                             </div>
                         </div>
                     </div>
@@ -524,9 +400,7 @@
                     <!-- Example 7 -->
                     <div class="border-2 border-slate-100 rounded-xl p-5 bg-white relative mt-8 shadow-sm">
                         <span class="absolute -top-3 left-4 bg-teal-600 text-white px-3 py-0.5 rounded text-sm font-bold">ตัวอย่างที่ 7</span>
-                        
                         <div class="mb-4 mt-2">
-                            <!-- Equation Visual -->
                             <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 overflow-x-auto text-center mb-4">
                                 <div class="inline-flex items-end gap-1 md:gap-2 font-bold text-slate-800 text-left min-w-max mx-auto text-sm md:text-base">
                                     <span class="chem-coef">8</span>Zn<span class="chem-state">(s)</span>
@@ -536,51 +410,59 @@
                                     <span class="chem-coef">8</span>ZnS<span class="chem-state">(s)</span>
                                 </div>
                             </div>
-                            <!-- Balanced Check -->
-                            <p class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded inline-block mb-3 border border-green-200">
-                                <i data-lucide="check-circle" class="w-3 h-3 inline"></i> สมการดุลแล้ว
-                            </p>
+                            <p class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded inline-block mb-3 border border-green-200"><i data-lucide="check-circle" class="w-3 h-3 inline"></i> สมการดุลแล้ว</p>
                             <p class="text-slate-700 font-medium bg-teal-50 p-3 rounded-lg border-l-4 border-teal-400">
-                                โจทย์ : ต้องใช้กำมะถัน (S<span class="chem-sub">8</span>) กี่โมล จึงจะทำปฏิกิริยาพอดีกับโลหะสังกะสี (Zn) 5.22 กรัม
+                                โจทย์ : ต้องใช้กำมะถัน (S<sub>8</sub>) กี่โมล จึงจะทำปฏิกิริยาพอดีกับโลหะสังกะสี (Zn) 5.22 กรัม
                             </p>
                         </div>
-
                         <div class="bg-slate-50 border border-slate-200 rounded-lg p-5 text-sm md:text-base">
                             <div class="space-y-4">
                                 <div>
-                                    <p class="text-slate-700 mb-1">1. หาโมลของ Zn (จากกรัมที่โจทย์ให้)</p>
-                                    <p class="text-xs text-slate-500 mb-1">MW ของ Zn = 65.4 g/mol</p>
+                                    <p class="text-slate-700 mb-1">1. หาโมลของ Zn</p>
+                                    <div class="mw-box">
+                                        <strong>MW ของ Zn</strong><br>
+                                        Zn = 65.4<br>
+                                        = 65.4 g/mol
+                                    </div>
                                     <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
-                                        <div class="flex items-center gap-2">
+                                        <div class="calc-row">
                                             <span>mol Zn</span>
-                                            <span>=</span>
-                                            <div class="calc-fraction">
-                                                <span class="calc-top px-1">5.22 g</span>
-                                                <span class="calc-bottom px-1">65.4 g/mol</span>
+                                            <div class="calc-line-2">
+                                                <span>=</span>
+                                                <div class="calc-fraction">
+                                                    <span class="calc-top px-1">5.22 g</span>
+                                                    <span class="calc-bottom px-1">65.4 g/mol</span>
+                                                </div>
+                                            </div>
+                                            <div class="calc-line-2 mt-2 font-bold text-teal-700">
+                                                <span>≈</span>
+                                                <span>0.08 mol</span>
                                             </div>
                                         </div>
-                                        <div class="mt-2 font-bold text-teal-700">≈ 0.08 mol</div>
                                     </div>
                                 </div>
                                 <div>
-                                    <p class="text-slate-700 mb-1">2. หาโมลของ S<span class="chem-sub">8</span> (จากโมล Zn ที่หาได้)</p>
+                                    <p class="text-slate-700 mb-1">2. หาโมลของ S<sub>8</sub> (จากโมล Zn)</p>
                                     <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
-                                        <div class="flex items-center gap-1 flex-wrap">
-                                            <span>mol S<span class="chem-sub">8</span></span>
-                                            <span>=</span>
-                                            <div class="calc-fraction mx-1">
-                                                <span class="calc-top px-1">1 mol S<span class="chem-sub">8</span></span>
-                                                <span class="calc-bottom px-1">8 mol Zn</span>
+                                        <div class="calc-row">
+                                            <span>mol S<sub>8</sub></span>
+                                            <div class="calc-line-2">
+                                                <span>=</span>
+                                                <div class="calc-fraction mx-1">
+                                                    <span class="calc-top px-1">1 mol S<sub>8</sub></span>
+                                                    <span class="calc-bottom px-1">8 mol Zn</span>
+                                                </div>
+                                                <span>×</span>
+                                                <span>0.08 mol Zn</span>
                                             </div>
-                                            <span>×</span>
-                                            <span>0.08 mol Zn</span>
+                                            <div class="calc-line-2 mt-2 font-bold text-teal-700">
+                                                <span>=</span>
+                                                <span>0.01 mol</span>
+                                            </div>
                                         </div>
-                                        <div class="mt-2 font-bold text-teal-700">= 0.01 mol</div>
                                     </div>
                                 </div>
-                                <p class="text-center mt-2 text-slate-700">
-                                    ∴ ต้องใช้กำมะถัน <span class="font-bold underline text-teal-700">0.01 โมล</span>
-                                </p>
+                                <p class="text-center mt-2 text-slate-700">∴ ต้องใช้กำมะถัน <span class="font-bold underline text-teal-700">0.01 โมล</span></p>
                             </div>
                         </div>
                     </div>
@@ -588,9 +470,7 @@
                     <!-- Example 8 -->
                     <div class="border-2 border-slate-100 rounded-xl p-5 bg-white relative mt-8 shadow-sm">
                         <span class="absolute -top-3 left-4 bg-teal-600 text-white px-3 py-0.5 rounded text-sm font-bold">ตัวอย่างที่ 8</span>
-                        
                         <div class="mb-4 mt-2">
-                            <!-- Equation Visual -->
                             <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 overflow-x-auto text-center mb-4">
                                 <div class="inline-flex items-end gap-1 md:gap-2 font-bold text-slate-800 text-left min-w-max mx-auto text-sm md:text-base">
                                     CH<span class="chem-sub">4</span><span class="chem-state">(g)</span>
@@ -602,61 +482,82 @@
                                     <span class="chem-coef">2</span>H<span class="chem-sub">2</span>O<span class="chem-state">(g)</span>
                                 </div>
                             </div>
-                            <!-- Balanced Check -->
-                            <p class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded inline-block mb-3 border border-green-200">
-                                <i data-lucide="check-circle" class="w-3 h-3 inline"></i> สมการดุลแล้ว
-                            </p>
+                            <p class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded inline-block mb-3 border border-green-200"><i data-lucide="check-circle" class="w-3 h-3 inline"></i> สมการดุลแล้ว</p>
                             <p class="text-slate-700 font-medium bg-teal-50 p-3 rounded-lg border-l-4 border-teal-400">
-                                โจทย์ : จงคำนวณมวลของไอน้ำ (H<span class="chem-sub">2</span>O) จากปฏิกิริยาเผาไหม้ของแก๊สมีเทน (CH<span class="chem-sub">4</span>) 24.00 กรัม
+                                โจทย์ : จงคำนวณมวลของไอน้ำ (H<sub>2</sub>O) จากปฏิกิริยาเผาไหม้ของแก๊สมีเทน (CH<sub>4</sub>) 24.00 กรัม
                             </p>
                         </div>
-
                         <div class="bg-slate-50 border border-slate-200 rounded-lg p-5 text-sm md:text-base">
                             <div class="space-y-4">
                                 <div>
-                                    <p class="text-slate-700 mb-1">1. หาโมลของ CH<span class="chem-sub">4</span> (MW = 12 + 4 = 16)</p>
+                                    <p class="text-slate-700 mb-1">1. หาโมลของ CH<sub>4</sub></p>
+                                    <div class="mw-box">
+                                        <strong>MW ของ CH<sub>4</sub></strong><br>
+                                        C = 12<br>
+                                        H = (1×4)<br>
+                                        = 16 g/mol
+                                    </div>
                                     <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
-                                        <div class="flex items-center gap-2">
-                                            <span>mol CH<span class="chem-sub">4</span></span>
-                                            <span>=</span>
-                                            <div class="calc-fraction">
-                                                <span class="calc-top px-1">24.00 g</span>
-                                                <span class="calc-bottom px-1">16 g/mol</span>
+                                        <div class="calc-row">
+                                            <span>mol CH<sub>4</sub></span>
+                                            <div class="calc-line-2">
+                                                <span>=</span>
+                                                <div class="calc-fraction">
+                                                    <span class="calc-top px-1">24.00 g</span>
+                                                    <span class="calc-bottom px-1">16 g/mol</span>
+                                                </div>
+                                            </div>
+                                            <div class="calc-line-2 mt-2 font-bold text-teal-700">
+                                                <span>=</span>
+                                                <span>1.5 mol</span>
                                             </div>
                                         </div>
-                                        <div class="mt-2 font-bold text-teal-700">= 1.5 mol</div>
                                     </div>
                                 </div>
                                 <div>
-                                    <p class="text-slate-700 mb-1">2. หาโมลของ H<span class="chem-sub">2</span>O (จากโมล CH<span class="chem-sub">4</span>)</p>
+                                    <p class="text-slate-700 mb-1">2. หาโมลของ H<sub>2</sub>O (จากโมล CH<sub>4</sub>)</p>
                                     <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
-                                        <div class="flex items-center gap-1 flex-wrap">
-                                            <span>mol H<span class="chem-sub">2</span>O</span>
-                                            <span>=</span>
-                                            <div class="calc-fraction mx-1">
-                                                <span class="calc-top px-1">2 mol H<span class="chem-sub">2</span>O</span>
-                                                <span class="calc-bottom px-1">1 mol CH<span class="chem-sub">4</span></span>
+                                        <div class="calc-row">
+                                            <span>mol H<sub>2</sub>O</span>
+                                            <div class="calc-line-2">
+                                                <span>=</span>
+                                                <div class="calc-fraction mx-1">
+                                                    <span class="calc-top px-1">2 mol H<sub>2</sub>O</span>
+                                                    <span class="calc-bottom px-1">1 mol CH<sub>4</sub></span>
+                                                </div>
+                                                <span>×</span>
+                                                <span>1.5 mol CH<sub>4</sub></span>
                                             </div>
-                                            <span>×</span>
-                                            <span>1.5 mol CH<span class="chem-sub">4</span></span>
+                                            <div class="calc-line-2 mt-2 font-bold text-teal-700">
+                                                <span>=</span>
+                                                <span>3.0 mol</span>
+                                            </div>
                                         </div>
-                                        <div class="mt-2 font-bold text-teal-700">= 3.0 mol</div>
                                     </div>
                                 </div>
                                 <div>
-                                    <p class="text-slate-700 mb-1">3. เปลี่ยนโมล H<span class="chem-sub">2</span>O เป็นกรัม (MW = 2 + 16 = 18)</p>
+                                    <p class="text-slate-700 mb-1">3. เปลี่ยนโมล H<sub>2</sub>O เป็นกรัม</p>
+                                    <div class="mw-box">
+                                        <strong>MW ของ H<sub>2</sub>O</strong><br>
+                                        H = (1×2)<br>
+                                        O = 16<br>
+                                        = 18 g/mol
+                                    </div>
                                     <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
-                                        <div class="flex items-center gap-2">
-                                            <span>g H<span class="chem-sub">2</span>O</span>
-                                            <span>=</span>
-                                            <span>3.0 mol × 18 g/mol</span>
+                                        <div class="calc-row">
+                                            <span>g H<sub>2</sub>O</span>
+                                            <div class="calc-line-2">
+                                                <span>=</span>
+                                                <span>3.0 mol × 18 g/mol</span>
+                                            </div>
+                                            <div class="calc-line-2 mt-2 font-bold text-teal-700">
+                                                <span>=</span>
+                                                <span>54.0 กรัม</span>
+                                            </div>
                                         </div>
-                                        <div class="mt-2 font-bold text-teal-700">= 54.0 กรัม</div>
                                     </div>
                                 </div>
-                                <p class="text-center mt-2 text-slate-700">
-                                    ∴ มวลของไอน้ำเท่ากับ <span class="font-bold underline text-teal-700">54.0 กรัม</span>
-                                </p>
+                                <p class="text-center mt-2 text-slate-700">∴ มวลของไอน้ำเท่ากับ <span class="font-bold underline text-teal-700">54.0 กรัม</span></p>
                             </div>
                         </div>
                     </div>
@@ -664,9 +565,7 @@
                     <!-- Example 9 -->
                     <div class="border-2 border-slate-100 rounded-xl p-5 bg-white relative mt-8 shadow-sm">
                         <span class="absolute -top-3 left-4 bg-teal-600 text-white px-3 py-0.5 rounded text-sm font-bold">ตัวอย่างที่ 9</span>
-                        
                         <div class="mb-4 mt-2">
-                            <!-- Equation Visual (Initial Unbalanced) -->
                             <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 overflow-x-auto text-center mb-2">
                                 <div class="inline-flex items-end gap-1 md:gap-2 font-bold text-slate-800 text-left min-w-max mx-auto text-sm md:text-base">
                                     C<span class="chem-sub">2</span>H<span class="chem-sub">6</span>O<span class="chem-state">(l)</span>
@@ -678,15 +577,11 @@
                                     H<span class="chem-sub">2</span><span class="chem-state">(g)</span>
                                 </div>
                             </div>
-                            <!-- Unbalanced Warning -->
-                            <p class="text-xs text-red-600 bg-red-50 px-2 py-1 rounded inline-block mb-3 border border-red-200">
-                                <i data-lucide="alert-circle" class="w-3 h-3 inline"></i> ยังไม่ดุลสมการเคมี
-                            </p>
+                            <p class="text-xs text-red-600 bg-red-50 px-2 py-1 rounded inline-block mb-3 border border-red-200"><i data-lucide="alert-circle" class="w-3 h-3 inline"></i> ยังไม่ดุลสมการเคมี</p>
                             <p class="text-slate-700 font-medium bg-teal-50 p-3 rounded-lg border-l-4 border-teal-400">
-                                โจทย์ : จงคำนวณปริมาตรของเอทานอล (C<span class="chem-sub">2</span>H<span class="chem-sub">6</span>O) ที่ต้องใช้ ถ้าต้องการแก๊สไฮโดรเจน 0.200 โมล (ความหนาแน่นเอทานอล = 0.789 g/mL)
+                                โจทย์ : จงคำนวณปริมาตรของเอทานอล (C<sub>2</sub>H<sub>6</sub>O) ที่ต้องใช้ ถ้าต้องการแก๊สไฮโดรเจน 0.200 โมล (ความหนาแน่นเอทานอล = 0.789 g/mL)
                             </p>
                         </div>
-
                         <div class="bg-slate-50 border border-slate-200 rounded-lg p-5 text-sm md:text-base">
                             <div class="space-y-4">
                                 <div>
@@ -699,44 +594,66 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <p class="text-slate-700 mb-1">2. หาโมลของเอทานอล (จากโมล H<span class="chem-sub">2</span>)</p>
+                                    <p class="text-slate-700 mb-1">2. หาโมลของเอทานอล (จากโมล H<sub>2</sub>)</p>
                                     <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
-                                        <div class="flex items-center gap-1 flex-wrap">
-                                            <span>mol C<span class="chem-sub">2</span>H<span class="chem-sub">6</span>O</span>
-                                            <span>=</span>
-                                            <div class="calc-fraction mx-1">
-                                                <span class="calc-top px-1">2 mol C<span class="chem-sub">2</span>H<span class="chem-sub">6</span>O</span>
-                                                <span class="calc-bottom px-1">1 mol H<span class="chem-sub">2</span></span>
+                                        <div class="calc-row">
+                                            <span>mol C<sub>2</sub>H<sub>6</sub>O</span>
+                                            <div class="calc-line-2">
+                                                <span>=</span>
+                                                <div class="calc-fraction mx-1">
+                                                    <span class="calc-top px-1">2 mol C<sub>2</sub>H<sub>6</sub>O</span>
+                                                    <span class="calc-bottom px-1">1 mol H<sub>2</sub></span>
+                                                </div>
+                                                <span>×</span>
+                                                <span>0.200 mol H<sub>2</sub></span>
                                             </div>
-                                            <span>×</span>
-                                            <span>0.200 mol H<span class="chem-sub">2</span></span>
+                                            <div class="calc-line-2 mt-2 font-bold text-teal-700">
+                                                <span>=</span>
+                                                <span>0.400 mol</span>
+                                            </div>
                                         </div>
-                                        <div class="mt-2 font-bold text-teal-700">= 0.400 mol</div>
                                     </div>
                                 </div>
                                 <div>
-                                    <p class="text-slate-700 mb-1">3. เปลี่ยนโมลเป็นกรัม (MW = (12×2) + (1×6) + 16 = 46)</p>
+                                    <p class="text-slate-700 mb-1">3. เปลี่ยนโมลเป็นกรัม</p>
+                                    <div class="mw-box">
+                                        <strong>MW ของ C<sub>2</sub>H<sub>6</sub>O</strong><br>
+                                        C = (12×2)<br>
+                                        H = (1×6)<br>
+                                        O = 16<br>
+                                        = 46 g/mol
+                                    </div>
                                     <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
-                                        <div class="flex items-center gap-2">
+                                        <div class="calc-row">
                                             <span>g</span>
-                                            <span>=</span>
-                                            <span>0.400 mol × 46 g/mol</span>
+                                            <div class="calc-line-2">
+                                                <span>=</span>
+                                                <span>0.400 mol × 46 g/mol</span>
+                                            </div>
+                                            <div class="calc-line-2 mt-2 font-bold text-teal-700">
+                                                <span>=</span>
+                                                <span>18.4 กรัม</span>
+                                            </div>
                                         </div>
-                                        <div class="mt-2 font-bold text-teal-700">= 18.4 กรัม</div>
                                     </div>
                                 </div>
                                 <div>
                                     <p class="text-slate-700 mb-1">4. เปลี่ยนกรัมเป็นปริมาตร (V = m / d)</p>
                                     <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
-                                        <div class="flex items-center gap-2">
+                                        <div class="calc-row">
                                             <span>V</span>
-                                            <span>=</span>
-                                            <div class="calc-fraction">
-                                                <span class="calc-top px-1">18.4 g</span>
-                                                <span class="calc-bottom px-1">0.789 g/mL</span>
+                                            <div class="calc-line-2">
+                                                <span>=</span>
+                                                <div class="calc-fraction">
+                                                    <span class="calc-top px-1">18.4 g</span>
+                                                    <span class="calc-bottom px-1">0.789 g/mL</span>
+                                                </div>
+                                            </div>
+                                            <div class="calc-line-2 mt-2 font-bold text-teal-700">
+                                                <span>≈</span>
+                                                <span>23.32 mL</span>
                                             </div>
                                         </div>
-                                        <div class="mt-2 font-bold text-teal-700">≈ 23.32 mL</div>
                                     </div>
                                 </div>
                                 <div class="text-center mt-2 text-slate-700">
@@ -746,7 +663,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
@@ -760,31 +676,26 @@
                 </div>
                 
                 <div class="p-6 md:p-8 space-y-6">
-                    
                     <!-- Step 1 -->
                     <div class="bg-slate-50 border border-slate-200 rounded-xl p-5">
                         <h3 class="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
                             <span class="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm">1</span>
                             หาโมลที่ต้องการ
                         </h3>
-                        <div class="bg-white p-4 rounded-lg border border-slate-100 shadow-sm overflow-x-auto">
-                            <!-- Significantly reduced formula size (text-xs) -->
-                            <div class="flex flex-col md:flex-row items-center justify-center gap-2 text-center md:text-left min-w-max mx-auto text-xs text-slate-700">
-                                <div class="font-bold text-blue-700">โมลที่ต้องการ</div>
-                                <div class="font-bold text-slate-400">=</div>
-                                <div class="flex items-center gap-2">
-                                    <div class="calc-fraction">
-                                        <div class="calc-top px-1 font-bold text-indigo-600">สัมประสิทธิ์สารนั้น</div>
-                                        <div class="calc-bottom px-1 font-bold text-orange-600">สัมประสิทธิ์สารกำหนด</div>
-                                    </div>
-                                    <div class="font-bold text-slate-400">×</div>
-                                    <div class="font-bold text-slate-700">โมลสารกำหนด</div>
+                        <div class="bg-white p-4 rounded-lg border border-slate-100 shadow-sm overflow-x-auto text-center">
+                            <div class="font-bold text-blue-700 mb-1">โมลที่ต้องการ</div>
+                            <div class="flex items-center justify-center gap-2 text-xs text-slate-700">
+                                <span>=</span>
+                                <div class="calc-fraction">
+                                    <div class="calc-top px-1 font-bold text-indigo-600">สัมประสิทธิ์สารนั้น</div>
+                                    <div class="calc-bottom px-1 font-bold text-orange-600">สัมประสิทธิ์สารกำหนด</div>
                                 </div>
+                                <span>×</span>
+                                <span>โมลสารกำหนด</span>
                             </div>
                         </div>
                         <div class="mt-2 text-center">
                             <p class="text-xs text-slate-500">หาโมลสารตั้งต้นจากความเข้มข้น : </p>
-                            <!-- UPDATED: Fraction formula -->
                             <div class="font-bold text-slate-700 text-sm flex items-center justify-center gap-1">
                                 <span>mol =</span>
                                 <div class="calc-fraction">
@@ -804,7 +715,6 @@
                                 <span class="text-sm font-normal text-slate-500">(ถ้ามี)</span>
                             </div>
                         </h3>
-                        
                         <div class="flex justify-center">
                             <div class="bg-white p-4 rounded border border-slate-100 text-center hover:shadow-md transition-shadow max-w-sm w-full">
                                 <p class="text-xs text-slate-500 mb-1">หาความเข้มข้น (mol/L)</p>
@@ -822,9 +732,7 @@
                     <!-- Example 10 -->
                     <div class="border-2 border-slate-100 rounded-xl p-5 bg-white relative mt-8 shadow-sm">
                         <span class="absolute -top-3 left-4 bg-blue-600 text-white px-3 py-0.5 rounded text-sm font-bold">ตัวอย่างที่ 10</span>
-                        
                         <div class="mb-4 mt-2">
-                            <!-- Equation -->
                             <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 overflow-x-auto text-center mb-4">
                                 <div class="inline-flex items-end gap-1 md:gap-2 font-bold text-slate-800 text-left min-w-max mx-auto text-sm md:text-base">
                                     H<span class="chem-sub">2</span>SO<span class="chem-sub">4</span><span class="chem-state">(aq)</span>
@@ -836,64 +744,73 @@
                                     <span class="chem-coef">2</span>H<span class="chem-sub">2</span>O<span class="chem-state">(l)</span>
                                 </div>
                             </div>
-                            <!-- Balanced Check -->
-                            <p class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded inline-block mb-3 border border-green-200">
-                                <i data-lucide="check-circle" class="w-3 h-3 inline"></i> สมการดุลแล้ว
-                            </p>
+                            <p class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded inline-block mb-3 border border-green-200"><i data-lucide="check-circle" class="w-3 h-3 inline"></i> สมการดุลแล้ว</p>
                             <p class="text-slate-700 font-medium bg-blue-50 p-3 rounded-lg border-l-4 border-blue-400">
-                                โจทย์ : สารละลาย NaOH 50.0 mL ทำปฏิกิริยาพอดีกับ H<span class="chem-sub">2</span>SO<span class="chem-sub">4</span> เข้มข้น 0.200 M ปริมาตร 12.4 mL จงหาความเข้มข้นของ NaOH
+                                โจทย์ : สารละลาย NaOH 50.0 mL ทำปฏิกิริยาพอดีกับ H<sub>2</sub>SO<sub>4</sub> เข้มข้น 0.200 M ปริมาตร 12.4 mL จงหาความเข้มข้นของ NaOH
                             </p>
                         </div>
-
                         <div class="bg-slate-50 border border-slate-200 rounded-lg p-5 text-sm md:text-base">
                             <div class="space-y-4">
                                 <div>
-                                    <p class="text-slate-700 mb-1">1. หาโมลของ H<span class="chem-sub">2</span>SO<span class="chem-sub">4</span></p>
+                                    <p class="text-slate-700 mb-1">1. หาโมลของ H<sub>2</sub>SO<sub>4</sub></p>
                                     <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
-                                        <div class="flex items-center gap-1 flex-wrap">
+                                        <div class="calc-row">
                                             <span>mol</span>
-                                            <span>=</span>
-                                            <div class="calc-fraction mx-1">
-                                                <span class="calc-top px-1">0.200 × 12.4</span>
-                                                <span class="calc-bottom px-1">1000</span>
+                                            <div class="calc-line-2">
+                                                <span>=</span>
+                                                <div class="calc-fraction mx-1">
+                                                    <span class="calc-top px-1">0.200 × 12.4</span>
+                                                    <span class="calc-bottom px-1">1000</span>
+                                                </div>
+                                            </div>
+                                            <div class="calc-line-2 mt-2 font-bold text-blue-700">
+                                                <span>=</span>
+                                                <span>0.00248 mol</span>
                                             </div>
                                         </div>
-                                        <div class="mt-2 font-bold text-blue-700">= 0.00248 mol</div>
                                     </div>
                                 </div>
                                 <div>
-                                    <p class="text-slate-700 mb-1">2. หาโมลของ NaOH (จากโมล H<span class="chem-sub">2</span>SO<span class="chem-sub">4</span>)</p>
+                                    <p class="text-slate-700 mb-1">2. หาโมลของ NaOH (จากโมล H<sub>2</sub>SO<sub>4</sub>)</p>
                                     <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
-                                        <div class="flex items-center gap-1 flex-wrap">
+                                        <div class="calc-row">
                                             <span>mol NaOH</span>
-                                            <span>=</span>
-                                            <div class="calc-fraction mx-1">
-                                                <span class="calc-top px-1">2 mol NaOH</span>
-                                                <span class="calc-bottom px-1">1 mol H<span class="chem-sub">2</span>SO<span class="chem-sub">4</span></span>
+                                            <div class="calc-line-2">
+                                                <span>=</span>
+                                                <div class="calc-fraction mx-1">
+                                                    <span class="calc-top px-1">2 mol NaOH</span>
+                                                    <span class="calc-bottom px-1">1 mol H<sub>2</sub>SO<sub>4</sub></span>
+                                                </div>
+                                                <span>×</span>
+                                                <span>0.00248</span>
                                             </div>
-                                            <span>×</span>
-                                            <span>0.00248</span>
+                                            <div class="calc-line-2 mt-2 font-bold text-blue-700">
+                                                <span>=</span>
+                                                <span>0.00496 mol</span>
+                                            </div>
                                         </div>
-                                        <div class="mt-2 font-bold text-blue-700">= 0.00496 mol</div>
                                     </div>
                                 </div>
                                 <div>
-                                    <p class="text-slate-700 mb-1">3. เปลี่ยนโมลเป็นความเข้มข้น (C = (mol×1000)/V)</p>
+                                    <p class="text-slate-700 mb-1">3. เปลี่ยนโมลเป็นความเข้มข้น</p>
                                     <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
-                                        <div class="flex items-center gap-1 flex-wrap">
+                                        <div class="calc-row">
                                             <span>C</span>
-                                            <span>=</span>
-                                            <div class="calc-fraction mx-1">
-                                                <span class="calc-top px-1">0.00496 × 1000</span>
-                                                <span class="calc-bottom px-1">50.0</span>
+                                            <div class="calc-line-2">
+                                                <span>=</span>
+                                                <div class="calc-fraction mx-1">
+                                                    <span class="calc-top px-1">0.00496 × 1000</span>
+                                                    <span class="calc-bottom px-1">50.0</span>
+                                                </div>
+                                            </div>
+                                            <div class="calc-line-2 mt-2 font-bold text-blue-700">
+                                                <span>=</span>
+                                                <span>0.0992 mol/L</span>
                                             </div>
                                         </div>
-                                        <div class="mt-2 font-bold text-blue-700">= 0.0992 mol/L</div>
                                     </div>
                                 </div>
-                                <p class="text-center mt-2 text-slate-700">
-                                    ∴ สารละลาย NaOH มีความเข้มข้น <span class="font-bold underline text-blue-700">0.0992 mol/L</span>
-                                </p>
+                                <p class="text-center mt-2 text-slate-700">∴ สารละลาย NaOH มีความเข้มข้น <span class="font-bold underline text-blue-700">0.0992 mol/L</span></p>
                             </div>
                         </div>
                     </div>
@@ -901,9 +818,7 @@
                     <!-- Example 11 -->
                     <div class="border-2 border-slate-100 rounded-xl p-5 bg-white relative mt-8 shadow-sm">
                         <span class="absolute -top-3 left-4 bg-blue-600 text-white px-3 py-0.5 rounded text-sm font-bold">ตัวอย่างที่ 11</span>
-                        
                         <div class="mb-4 mt-2">
-                            <!-- Equation -->
                             <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 overflow-x-auto text-center mb-4">
                                 <div class="inline-flex items-end gap-1 md:gap-2 font-bold text-slate-800 text-left min-w-max mx-auto text-sm md:text-base">
                                     Pb(NO<span class="chem-sub">3</span>)<span class="chem-sub">2</span><span class="chem-state">(aq)</span>
@@ -915,99 +830,119 @@
                                     <span class="chem-coef">2</span>KNO<span class="chem-sub">3</span><span class="chem-state">(aq)</span>
                                 </div>
                             </div>
-                            <!-- Balanced Check -->
-                            <p class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded inline-block mb-3 border border-green-200">
-                                <i data-lucide="check-circle" class="w-3 h-3 inline"></i> สมการดุลแล้ว
-                            </p>
+                            <p class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded inline-block mb-3 border border-green-200"><i data-lucide="check-circle" class="w-3 h-3 inline"></i> สมการดุลแล้ว</p>
                             <p class="text-slate-700 font-medium bg-blue-50 p-3 rounded-lg border-l-4 border-blue-400">
-                                โจทย์ : ใช้ KI 0.50 M ปริมาตร 4.0 mL ทำปฏิกิริยาพอดีกับ Pb(NO<span class="chem-sub">3</span>)<span class="chem-sub">2</span> ปริมาตร 1.0 mL จงคำนวณ :
-                                <br>1. ความเข้มข้นของ Pb(NO<span class="chem-sub">3</span>)<span class="chem-sub">2</span>
-                                <br>2. มวลของ PbI<span class="chem-sub">2</span> ที่เกิดขึ้น
-                                <br>3. ความเข้มข้นของ KNO<span class="chem-sub">3</span> (ปริมาตรสารละลายรวม = 5.0 mL)
+                                โจทย์ : ใช้ KI 0.50 M ปริมาตร 4.0 mL ทำปฏิกิริยาพอดีกับ Pb(NO<sub>3</sub>)<sub>2</sub> ปริมาตร 1.0 mL จงคำนวณ :
+                                <br>1. ความเข้มข้นของ Pb(NO<sub>3</sub>)<sub>2</sub>
+                                <br>2. มวลของ PbI<sub>2</sub> ที่เกิดขึ้น
+                                <br>3. ความเข้มข้นของ KNO<sub>3</sub> (ปริมาตรสารละลายรวม = 5.0 mL)
                             </p>
                         </div>
-
                         <div class="bg-slate-50 border border-slate-200 rounded-lg p-5 text-sm md:text-base">
                             <div class="space-y-6">
-                                <!-- Common Step -->
                                 <div>
                                     <p class="text-slate-700 mb-1 font-bold text-orange-600">ขั้นแรก : หาโมลสารกำหนด (KI)</p>
                                     <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
-                                        <div class="flex items-center gap-1 flex-wrap">
+                                        <div class="calc-row">
                                             <span>mol KI</span>
-                                            <span>=</span>
-                                            <div class="calc-fraction mx-1">
-                                                <span class="calc-top px-1">0.50 × 4.0</span>
-                                                <span class="calc-bottom px-1">1000</span>
+                                            <div class="calc-line-2">
+                                                <span>=</span>
+                                                <div class="calc-fraction mx-1">
+                                                    <span class="calc-top px-1">0.50 × 4.0</span>
+                                                    <span class="calc-bottom px-1">1000</span>
+                                                </div>
+                                            </div>
+                                            <div class="calc-line-2 mt-2 font-bold text-blue-700">
+                                                <span>=</span>
+                                                <span>0.002 mol</span>
                                             </div>
                                         </div>
-                                        <div class="mt-2 font-bold text-blue-700">= 0.002 mol</div>
                                     </div>
                                 </div>
 
-                                <!-- Q1 -->
                                 <div class="border-t border-slate-200 pt-4">
-                                    <p class="text-slate-700 mb-2 font-bold">1. ความเข้มข้นของ Pb(NO<span class="chem-sub">3</span>)<span class="chem-sub">2</span></p>
+                                    <p class="text-slate-700 mb-2 font-bold">1. ความเข้มข้นของ Pb(NO<sub>3</sub>)<sub>2</sub></p>
                                     <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
-                                        <p class="text-slate-500 mb-1">หาโมล Pb(NO<span class="chem-sub">3</span>)<span class="chem-sub">2</span> : </p>
-                                        <div class="flex items-center gap-1 flex-wrap mb-2">
+                                        <p class="text-slate-500 mb-1">หาโมล Pb(NO<sub>3</sub>)<sub>2</sub> : </p>
+                                        <div class="calc-row">
                                             <span>mol</span>
-                                            <span>=</span>
-                                            <div class="calc-fraction mx-1">
-                                                <span class="calc-top px-1">1</span>
-                                                <span class="calc-bottom px-1">2</span>
+                                            <div class="calc-line-2">
+                                                <span>=</span>
+                                                <div class="calc-fraction mx-1">
+                                                    <span class="calc-top px-1">1</span>
+                                                    <span class="calc-bottom px-1">2</span>
+                                                </div>
+                                                <span>× 0.002</span>
                                             </div>
-                                            <span>× 0.002</span>
-                                            <span class="font-bold text-blue-700 ml-2">= 0.001 mol</span>
+                                            <div class="calc-line-2 mt-1 font-bold text-blue-700">
+                                                <span>=</span>
+                                                <span>0.001 mol</span>
+                                            </div>
                                         </div>
-                                        <p class="text-slate-500 mb-1">หาความเข้มข้น (V = 1.0 mL) : </p>
-                                        <div class="flex items-center gap-1 flex-wrap">
+                                        <p class="text-slate-500 mb-1 mt-3">หาความเข้มข้น (V = 1.0 mL) : </p>
+                                        <div class="calc-row">
                                             <span>C</span>
-                                            <span>=</span>
-                                            <div class="calc-fraction mx-1">
-                                                <span class="calc-top px-1">0.001 × 1000</span>
-                                                <span class="calc-bottom px-1">1.0</span>
+                                            <div class="calc-line-2">
+                                                <span>=</span>
+                                                <div class="calc-fraction mx-1">
+                                                    <span class="calc-top px-1">0.001 × 1000</span>
+                                                    <span class="calc-bottom px-1">1.0</span>
+                                                </div>
                                             </div>
-                                            <span class="font-bold text-blue-700 ml-2">= 1.0 mol/L</span>
+                                            <div class="calc-line-2 mt-2 font-bold text-blue-700">
+                                                <span>=</span>
+                                                <span>1.0 mol/L</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Q2 -->
                                 <div class="border-t border-slate-200 pt-4">
-                                    <p class="text-slate-700 mb-2 font-bold">2. มวลของ PbI<span class="chem-sub">2</span></p>
+                                    <p class="text-slate-700 mb-2 font-bold">2. มวลของ PbI<sub>2</sub></p>
+                                    <div class="mw-box">
+                                        <strong>MW ของ PbI<sub>2</sub></strong><br>
+                                        Pb = 207<br>
+                                        I = (127×2)<br>
+                                        = 461 g/mol
+                                    </div>
                                     <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
-                                        <p class="text-slate-500 mb-1">หาโมล PbI<span class="chem-sub">2</span> (เท่ากับ Pb(NO<span class="chem-sub">3</span>)<span class="chem-sub">2</span>) : </p>
-                                        <p class="font-bold text-blue-700 mb-2">0.001 mol</p>
-                                        <p class="text-slate-500 mb-1">เปลี่ยนเป็นกรัม (MW PbI<span class="chem-sub">2</span> = 461 g/mol) : </p>
-                                        <div class="flex items-center gap-1 flex-wrap">
+                                        <p class="text-slate-500 mb-1">หาโมล PbI<sub>2</sub> (เท่ากับ Pb(NO<sub>3</sub>)<sub>2</sub>) : <span class="font-bold text-blue-700">0.001 mol</span></p>
+                                        <p class="text-slate-500 mb-1">เปลี่ยนเป็นกรัม : </p>
+                                        <div class="calc-row">
                                             <span>g</span>
-                                            <span>=</span>
-                                            <span>0.001 × 461</span>
-                                            <span class="font-bold text-blue-700 ml-2">= 0.461 กรัม</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Q3 -->
-                                <div class="border-t border-slate-200 pt-4">
-                                    <p class="text-slate-700 mb-2 font-bold">3. ความเข้มข้นของ KNO<span class="chem-sub">3</span></p>
-                                    <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
-                                        <p class="text-slate-500 mb-1">หาโมล KNO<span class="chem-sub">3</span> (เท่ากับ KI) : </p>
-                                        <p class="font-bold text-blue-700 mb-2">0.002 mol</p>
-                                        <p class="text-slate-500 mb-1">หาความเข้มข้น (V รวม = 1.0 + 4.0 = 5.0 mL) : </p>
-                                        <div class="flex items-center gap-1 flex-wrap">
-                                            <span>C</span>
-                                            <span>=</span>
-                                            <div class="calc-fraction mx-1">
-                                                <span class="calc-top px-1">0.002 × 1000</span>
-                                                <span class="calc-bottom px-1">5.0</span>
+                                            <div class="calc-line-2">
+                                                <span>=</span>
+                                                <span>0.001 × 461</span>
                                             </div>
-                                            <span class="font-bold text-blue-700 ml-2">= 0.4 mol/L</span>
+                                            <div class="calc-line-2 mt-2 font-bold text-blue-700">
+                                                <span>=</span>
+                                                <span>0.461 กรัม</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
+                                <div class="border-t border-slate-200 pt-4">
+                                    <p class="text-slate-700 mb-2 font-bold">3. ความเข้มข้นของ KNO<sub>3</sub></p>
+                                    <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
+                                        <p class="text-slate-500 mb-1">หาโมล KNO<sub>3</sub> (เท่ากับ KI) : <span class="font-bold text-blue-700">0.002 mol</span></p>
+                                        <p class="text-slate-500 mb-1">หาความเข้มข้น (V รวม = 1.0 + 4.0 = 5.0 mL) : </p>
+                                        <div class="calc-row">
+                                            <span>C</span>
+                                            <div class="calc-line-2">
+                                                <span>=</span>
+                                                <div class="calc-fraction mx-1">
+                                                    <span class="calc-top px-1">0.002 × 1000</span>
+                                                    <span class="calc-bottom px-1">5.0</span>
+                                                </div>
+                                            </div>
+                                            <div class="calc-line-2 mt-2 font-bold text-blue-700">
+                                                <span>=</span>
+                                                <span>0.4 mol/L</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1016,7 +951,7 @@
             </div>
         </section>
 
-        <!-- 6.3.3 การคำนวณปริมาณสารที่เกี่ยวข้องกับปริมาตรของแก๊ส (NEW) -->
+        <!-- 6.3.3 การคำนวณปริมาณสารที่เกี่ยวข้องกับปริมาตรของแก๊ส -->
         <section id="section-6-3-3" class="scroll-mt-20">
             <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden card-hover">
                 <div class="bg-rose-50 px-6 py-4 border-b border-rose-100 flex items-center gap-3">
@@ -1036,18 +971,16 @@
                                     <span class="bg-rose-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm">1</span>
                                     หาโมลที่ต้องการ
                                 </h4>
-                                <div class="bg-white p-4 rounded-lg border border-slate-100 shadow-sm overflow-x-auto">
-                                    <div class="flex flex-col md:flex-row items-center justify-center gap-2 text-center md:text-left min-w-max mx-auto text-xs text-slate-700">
-                                        <div class="font-bold text-rose-700">โมลที่ต้องการ</div>
-                                        <div class="font-bold text-slate-400">=</div>
-                                        <div class="flex items-center gap-2">
-                                            <div class="calc-fraction">
-                                                <div class="calc-top px-1 font-bold text-indigo-600">สัมประสิทธิ์สารนั้น</div>
-                                                <div class="calc-bottom px-1 font-bold text-orange-600">สัมประสิทธิ์สารกำหนด</div>
-                                            </div>
-                                            <div class="font-bold text-slate-400">×</div>
-                                            <div class="font-bold text-slate-700">โมลสารกำหนด</div>
+                                <div class="bg-white p-4 rounded-lg border border-slate-100 shadow-sm overflow-x-auto text-center">
+                                    <div class="font-bold text-rose-700 mb-1">โมลที่ต้องการ</div>
+                                    <div class="flex items-center justify-center gap-2 text-xs text-slate-700">
+                                        <span>=</span>
+                                        <div class="calc-fraction">
+                                            <div class="calc-top px-1 font-bold text-indigo-600">สัมประสิทธิ์สารนั้น</div>
+                                            <div class="calc-bottom px-1 font-bold text-orange-600">สัมประสิทธิ์สารกำหนด</div>
                                         </div>
+                                        <span>×</span>
+                                        <span>โมลสารกำหนด</span>
                                     </div>
                                 </div>
                                 <div class="mt-2 text-center">
@@ -1061,7 +994,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <!-- Step 2 -->
                             <div class="bg-slate-50 border border-slate-200 rounded-xl p-5">
                                 <h4 class="text-lg font-bold text-slate-800 mb-3 flex items-start gap-2">
@@ -1074,17 +1006,20 @@
                                 <div class="flex justify-center">
                                     <div class="bg-white p-4 rounded border border-slate-100 text-center hover:shadow-md transition-shadow max-w-sm w-full">
                                         <p class="text-xs text-slate-500 mb-1">หาปริมาตรแก๊ส (STP)</p>
-                                        <p class="font-bold text-slate-700 text-sm">V = mol × 22.4</p>
+                                        <div class="font-bold text-slate-700 text-sm flex items-center justify-center gap-1">
+                                            <span>V =</span>
+                                            <div class="calc-fraction">
+                                                <div class="calc-top px-1">mol × 22.4</div>
+                                                <div class="calc-bottom px-1"> </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
                             <!-- Example 12 -->
                             <div class="border-2 border-slate-100 rounded-xl p-5 bg-white relative mt-4 shadow-sm">
                                 <span class="absolute -top-3 left-4 bg-rose-600 text-white px-3 py-0.5 rounded text-sm font-bold">ตัวอย่างที่ 12</span>
-                                
                                 <div class="mb-4 mt-2">
-                                    <!-- Equation -->
                                     <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 overflow-x-auto text-center mb-4">
                                         <div class="inline-flex items-end gap-1 md:gap-2 font-bold text-slate-800 text-left min-w-max mx-auto text-sm md:text-base">
                                             C<span class="chem-state">(s)</span>
@@ -1094,61 +1029,75 @@
                                             CH<span class="chem-sub">4</span><span class="chem-state">(g)</span>
                                         </div>
                                     </div>
-                                    <!-- Balanced Check -->
-                                    <p class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded inline-block mb-3 border border-green-200">
-                                        <i data-lucide="check-circle" class="w-3 h-3 inline"></i> สมการดุลแล้ว
-                                    </p>
+                                    <p class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded inline-block mb-3 border border-green-200"><i data-lucide="check-circle" class="w-3 h-3 inline"></i> สมการดุลแล้ว</p>
                                     <p class="text-slate-700 font-medium bg-rose-50 p-3 rounded-lg border-l-4 border-rose-400">
                                         โจทย์ : ที่ STP ถ้าใช้แก๊สไฮโดรเจน 13.44 ลิตร จะทำปฏิกิริยาพอดีกับถ่านกี่กรัม
                                     </p>
                                 </div>
-
                                 <div class="bg-slate-50 border border-slate-200 rounded-lg p-5 text-sm md:text-base">
                                     <div class="space-y-4">
                                         <div>
-                                            <p class="text-slate-700 mb-1">1. หาโมลของ H<span class="chem-sub">2</span> (ที่ STP)</p>
+                                            <p class="text-slate-700 mb-1">1. หาโมลของ H<sub>2</sub> (ที่ STP)</p>
                                             <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
-                                                <div class="flex items-center gap-1 flex-wrap">
-                                                    <span>mol H<span class="chem-sub">2</span></span>
-                                                    <span>=</span>
-                                                    <div class="calc-fraction mx-1">
-                                                        <span class="calc-top px-1">13.44 L</span>
-                                                        <span class="calc-bottom px-1">22.4 L/mol</span>
+                                                <div class="calc-row">
+                                                    <span>mol H<sub>2</sub></span>
+                                                    <div class="calc-line-2">
+                                                        <span>=</span>
+                                                        <div class="calc-fraction">
+                                                            <span class="calc-top px-1">13.44 L</span>
+                                                            <span class="calc-bottom px-1">22.4 L/mol</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="calc-line-2 mt-2 font-bold text-rose-700">
+                                                        <span>=</span>
+                                                        <span>0.6 mol</span>
                                                     </div>
                                                 </div>
-                                                <div class="mt-2 font-bold text-rose-700">= 0.6 mol</div>
                                             </div>
                                         </div>
                                         <div>
-                                            <p class="text-slate-700 mb-1">2. หาโมลของ C (จากโมล H<span class="chem-sub">2</span>)</p>
+                                            <p class="text-slate-700 mb-1">2. หาโมลของ C (จากโมล H<sub>2</sub>)</p>
                                             <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
-                                                <div class="flex items-center gap-1 flex-wrap">
+                                                <div class="calc-row">
                                                     <span>mol C</span>
-                                                    <span>=</span>
-                                                    <div class="calc-fraction mx-1">
-                                                        <span class="calc-top px-1">1 mol C</span>
-                                                        <span class="calc-bottom px-1">2 mol H<span class="chem-sub">2</span></span>
+                                                    <div class="calc-line-2">
+                                                        <span>=</span>
+                                                        <div class="calc-fraction mx-1">
+                                                            <span class="calc-top px-1">1 mol C</span>
+                                                            <span class="calc-bottom px-1">2 mol H<sub>2</sub></span>
+                                                        </div>
+                                                        <span>×</span>
+                                                        <span>0.6 mol H<sub>2</sub></span>
                                                     </div>
-                                                    <span>×</span>
-                                                    <span>0.6 mol H<span class="chem-sub">2</span></span>
+                                                    <div class="calc-line-2 mt-2 font-bold text-rose-700">
+                                                        <span>=</span>
+                                                        <span>0.3 mol</span>
+                                                    </div>
                                                 </div>
-                                                <div class="mt-2 font-bold text-rose-700">= 0.3 mol</div>
                                             </div>
                                         </div>
                                         <div>
-                                            <p class="text-slate-700 mb-1">3. เปลี่ยนโมลเป็นกรัม (MW C = 12)</p>
+                                            <p class="text-slate-700 mb-1">3. เปลี่ยนโมลเป็นกรัม</p>
+                                            <div class="mw-box">
+                                                <strong>MW ของ C</strong><br>
+                                                C = 12<br>
+                                                = 12 g/mol
+                                            </div>
                                             <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
-                                                <div class="flex items-center gap-2">
+                                                <div class="calc-row">
                                                     <span>g C</span>
-                                                    <span>=</span>
-                                                    <span>0.3 mol × 12 g/mol</span>
+                                                    <div class="calc-line-2">
+                                                        <span>=</span>
+                                                        <span>0.3 mol × 12 g/mol</span>
+                                                    </div>
+                                                    <div class="calc-line-2 mt-2 font-bold text-rose-700">
+                                                        <span>=</span>
+                                                        <span>3.6 กรัม</span>
+                                                    </div>
                                                 </div>
-                                                <div class="mt-2 font-bold text-rose-700">= 3.6 กรัม</div>
                                             </div>
                                         </div>
-                                        <p class="text-center mt-2 text-slate-700">
-                                            ∴ ต้องใช้ถ่าน <span class="font-bold underline text-rose-700">3.6 กรัม</span>
-                                        </p>
+                                        <p class="text-center mt-2 text-slate-700">∴ ต้องใช้ถ่าน <span class="font-bold underline text-rose-700">3.6 กรัม</span></p>
                                     </div>
                                 </div>
                             </div>
@@ -1158,30 +1107,22 @@
                     <!-- PART 2: Gas Reactions -->
                     <div>
                         <h3 class="text-xl font-bold text-sky-800 mb-4 bg-sky-100 px-3 py-1 rounded inline-block">2. ปฏิกิริยาเคมีของแก๊ส</h3>
-                        
+                        <!-- Gay-Lussac & Avogadro Definitions -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                            <!-- Gay-Lussac -->
                             <div class="bg-sky-50 p-5 rounded-xl border border-sky-100">
                                 <h4 class="font-bold text-sky-900 text-lg mb-2">กฎของเกย์-ลูสแซก (Gay-Lussac's law)</h4>
-                                <p class="text-slate-700 leading-relaxed text-sm">
-                                    ที่อุณหภูมิและความดันคงที่ ปริมาตรของสารตั้งต้นและผลิตภัณฑ์ที่เป็นแก๊ส สามารถแสดงด้วยอัตราส่วนของตัวเลขจำนวนเต็มที่มีค่าน้อย
-                                </p>
+                                <p class="text-slate-700 leading-relaxed text-sm">ที่อุณหภูมิและความดันคงที่ ปริมาตรของสารตั้งต้นและผลิตภัณฑ์ที่เป็นแก๊ส สามารถแสดงด้วยอัตราส่วนของตัวเลขจำนวนเต็มที่มีค่าน้อย</p>
                             </div>
-                            <!-- Avogadro -->
                             <div class="bg-indigo-50 p-5 rounded-xl border border-indigo-100">
                                 <h4 class="font-bold text-indigo-900 text-lg mb-2">สมมติฐานของอาโวกาโดร (Avogadro's Hypothesis)</h4>
-                                <p class="text-slate-700 leading-relaxed text-sm">
-                                    ที่อุณหภูมิและความดันคงที่ แก๊สใด ๆ ที่มีปริมาตรเท่ากัน จะมีจำนวนโมเลกุลเท่ากัน
-                                </p>
+                                <p class="text-slate-700 leading-relaxed text-sm">ที่อุณหภูมิและความดันคงที่ แก๊สใด ๆ ที่มีปริมาตรเท่ากัน จะมีจำนวนโมเลกุลเท่ากัน</p>
                             </div>
                         </div>
 
                         <!-- Example 13 -->
                         <div class="border-2 border-slate-100 rounded-xl p-5 bg-white relative mt-4 shadow-sm mb-8">
                             <span class="absolute -top-3 left-4 bg-sky-600 text-white px-3 py-0.5 rounded text-sm font-bold">ตัวอย่างที่ 13</span>
-                            
                             <div class="mb-4 mt-2">
-                                <!-- Equation -->
                                 <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 overflow-x-auto text-center mb-4">
                                     <div class="inline-flex items-end gap-1 md:gap-2 font-bold text-slate-800 text-left min-w-max mx-auto text-sm md:text-base">
                                         <span class="chem-coef">2</span>H<span class="chem-sub">2</span><span class="chem-state">(g)</span>
@@ -1191,35 +1132,33 @@
                                         <span class="chem-coef">2</span>H<span class="chem-sub">2</span>O<span class="chem-state">(g)</span>
                                     </div>
                                 </div>
-                                <!-- Balanced Check -->
-                                <p class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded inline-block mb-3 border border-green-200">
-                                    <i data-lucide="check-circle" class="w-3 h-3 inline"></i> สมการดุลแล้ว
-                                </p>
+                                <p class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded inline-block mb-3 border border-green-200"><i data-lucide="check-circle" class="w-3 h-3 inline"></i> สมการดุลแล้ว</p>
                                 <p class="text-slate-700 font-medium bg-sky-50 p-3 rounded-lg border-l-4 border-sky-400">
                                     โจทย์ : จงคำนวณปริมาตรของแก๊สไฮโดรเจนที่ทำปฏิกิริยาพอดีกับแก๊สออกซิเจน 40 ลิตร ที่อุณหภูมิ 25 องศาเซลเซียส ความดัน 1 บรรยากาศ (เกิดเป็นไอน้ำ)
                                 </p>
                             </div>
-
                             <div class="bg-slate-50 border border-slate-200 rounded-lg p-5 text-sm md:text-base">
                                 <div class="space-y-4">
                                     <p class="text-slate-500 mb-1 italic">* อุณหภูมิและความดันคงที่ อัตราส่วนโดยปริมาตร = อัตราส่วนโดยโมล (สัมประสิทธิ์)</p>
                                     <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
-                                        <div class="flex items-center gap-1 flex-wrap">
-                                            <span>V H<span class="chem-sub">2</span></span>
-                                            <span>=</span>
-                                            <div class="calc-fraction mx-1">
-                                                <span class="calc-top px-1">2 L H<span class="chem-sub">2</span></span>
-                                                <span class="calc-bottom px-1">1 L O<span class="chem-sub">2</span></span>
+                                        <div class="calc-row">
+                                            <span>V H<sub>2</sub></span>
+                                            <div class="calc-line-2">
+                                                <span>=</span>
+                                                <div class="calc-fraction mx-1">
+                                                    <span class="calc-top px-1">2 L H<sub>2</sub></span>
+                                                    <span class="calc-bottom px-1">1 L O<sub>2</sub></span>
+                                                </div>
+                                                <span>×</span>
+                                                <span>40 L O<sub>2</sub></span>
                                             </div>
-                                            <span>×</span>
-                                            <span>40 L O<span class="chem-sub">2</span></span>
+                                            <div class="calc-line-2 mt-2 font-bold text-sky-700">
+                                                <span>=</span>
+                                                <span>80 ลิตร</span>
+                                            </div>
                                         </div>
-                                        <div class="mt-2 font-bold text-sky-700">= 80 ลิตร</div>
                                     </div>
-                                    <div class="text-center mt-2 text-slate-700">
-                                        <p>∴ ปริมาตรของแก๊สไฮโดรเจนเท่ากับ</p>
-                                        <p class="font-bold underline text-sky-700 mt-1">80 ลิตร</p>
-                                    </div>
+                                    <p class="text-center mt-2 text-slate-700">∴ ปริมาตรของแก๊สไฮโดรเจนเท่ากับ <span class="font-bold underline text-sky-700">80 ลิตร</span></p>
                                 </div>
                             </div>
                         </div>
@@ -1227,32 +1166,27 @@
                         <!-- Example 14 -->
                         <div class="border-2 border-slate-100 rounded-xl p-5 bg-white relative mt-4 shadow-sm">
                             <span class="absolute -top-3 left-4 bg-sky-600 text-white px-3 py-0.5 rounded text-sm font-bold">ตัวอย่างที่ 14</span>
-                            
                             <div class="mb-4 mt-2">
                                 <p class="text-slate-700 font-medium bg-sky-50 p-3 rounded-lg border-l-4 border-sky-400">
-                                    โจทย์ : แก๊สไนโตรเจน (N<span class="chem-sub">2</span>) 30 mL ทำปฏิกิริยาพอดีกับแก๊สไฮโดรเจน (H<span class="chem-sub">2</span>) 90 mL ได้แก๊สชนิดหนึ่งปริมาตร 60 mL จงหาสูตรโมเลกุลของแก๊สที่เกิดขึ้น
+                                    โจทย์ : แก๊สไนโตรเจน (N<sub>2</sub>) 30 mL ทำปฏิกิริยาพอดีกับแก๊สไฮโดรเจน (H<sub>2</sub>) 90 mL ได้แก๊สชนิดหนึ่งปริมาตร 60 mL จงหาสูตรโมเลกุลของแก๊สที่เกิดขึ้น
                                 </p>
                             </div>
-
                             <div class="bg-slate-50 border border-slate-200 rounded-lg p-5 text-sm md:text-base">
                                 <div class="space-y-4">
                                     <div>
-                                        <p class="text-slate-700 mb-1">1. หาอัตราส่วนโดยปริมาตรอย่างต่ำ (N<span class="chem-sub">2</span> : H<span class="chem-sub">2</span> : แก๊สใหม่)</p>
+                                        <p class="text-slate-700 mb-1">1. หาอัตราส่วนโดยปริมาตรอย่างต่ำ (N<sub>2</sub> : H<sub>2</sub> : แก๊สใหม่)</p>
                                         <div class="bg-white p-3 rounded border border-slate-200 text-center font-bold text-slate-700">
                                             30 : 90 : 60  &nbsp;&nbsp;⟶&nbsp;&nbsp; <span class="text-sky-600">1 : 3 : 2</span>
                                         </div>
                                     </div>
                                     <div>
-                                        <p class="text-slate-700 mb-1">2. เขียนสมการเคมีตามอัตราส่วน (ตามกฎของอาโวกาโดร อัตราส่วนปริมาตร = อัตราส่วนโมล)</p>
+                                        <p class="text-slate-700 mb-1">2. เขียนสมการเคมีตามอัตราส่วน</p>
                                         <div class="bg-white p-3 rounded border border-slate-200 text-center">
-                                            <span class="chem-coef">1</span>N<span class="chem-sub">2</span> + 
-                                            <span class="chem-coef">3</span>H<span class="chem-sub">2</span> ⟶ 
+                                            <span class="chem-coef">1</span>N<sub>2</sub> + 
+                                            <span class="chem-coef">3</span>H<sub>2</sub> ⟶ 
                                             <span class="chem-coef">2</span> <span class="text-orange-600 font-bold">X</span>
                                         </div>
-                                        <!-- Check Status for Derivation -->
-                                        <p class="text-xs text-orange-600 bg-orange-50 px-2 py-1 rounded inline-block mt-2 border border-orange-200">
-                                            <i data-lucide="search" class="w-3 h-3 inline"></i> กำลังหาสูตรโมเลกุล
-                                        </p>
+                                        <p class="text-xs text-orange-600 bg-orange-50 px-2 py-1 rounded inline-block mt-2 border border-orange-200"><i data-lucide="alert-circle" class="w-3 h-3 inline"></i> ยังไม่ดุลสมการเคมี (หา X)</p>
                                     </div>
                                     <div>
                                         <p class="text-slate-700 mb-1">3. ดุลจำนวนอะตอมเพื่อหาสูตรโมเลกุล X</p>
@@ -1263,56 +1197,49 @@
                                                 <li>ดังนั้น 1X ต้องมี N = 1 , H = 3</li>
                                             </ul>
                                             <div class="mt-2 text-center font-bold text-sky-700 text-lg">
-                                                สูตรคือ NH<span class="chem-sub">3</span>
+                                                สูตรคือ NH<sub>3</sub>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="text-center mt-2 text-slate-700">
                                         <p>∴ สูตรโมเลกุลของแก๊สที่เกิดขึ้นคือ</p>
-                                        <p class="font-bold underline text-sky-700 mt-1">NH<span class="chem-sub">3</span> (แอมโมเนีย)</p>
+                                        <p class="font-bold underline text-sky-700 mt-1">NH<sub>3</sub> (แอมโมเนีย)</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                 </div>
             </div>
         </section>
 
-        <!-- 6.3.4 การคำนวณปริมาณสารในปฏิกิริยาเคมีหลายขั้นตอน (NEW) -->
+        <!-- 6.3.4 การคำนวณปริมาณสารในปฏิกิริยาเคมีหลายขั้นตอน -->
         <section id="section-6-3-4" class="scroll-mt-20">
             <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden card-hover">
                 <div class="bg-cyan-50 px-6 py-4 border-b border-cyan-100 flex items-center gap-3">
                     <span class="bg-cyan-600 text-white w-auto px-2 h-8 rounded-full flex items-center justify-center font-bold font-kanit">6.3.4</span>
                     <h2 class="text-xl md:text-2xl font-bold text-cyan-900">การคำนวณปริมาณสารในปฏิกิริยาเคมีหลายขั้นตอน</h2>
                 </div>
-                
                 <div class="p-6 md:p-8 space-y-12">
                     
-                    <!-- Example 15 (UPDATED) -->
+                    <!-- Example 15 -->
                     <div class="border-2 border-slate-100 rounded-xl p-5 bg-white relative mt-4 shadow-sm">
                         <span class="absolute -top-3 left-4 bg-cyan-600 text-white px-3 py-0.5 rounded text-sm font-bold">ตัวอย่างที่ 15</span>
-                        
                         <div class="mb-4 mt-2">
                             <p class="text-slate-700 font-medium bg-cyan-50 p-3 rounded-lg border-l-4 border-cyan-400 mb-4">
                                 โจทย์ : แก๊สไฮโดรเจนไซยาไนด์ (HCN) สามารถเตรียมได้ดังนี้ <br>
-                                ถ้าใช้แก๊สออกซิเจน (O<span class="chem-sub">2</span>) 15.0 ลิตร จะเกิดแก๊สไฮโดรเจนไซยาไนด์กี่ลิตร
+                                ถ้าใช้แก๊สออกซิเจน (O<sub>2</sub>) 15.0 ลิตร จะเกิดแก๊สไฮโดรเจนไซยาไนด์กี่ลิตร
                             </p>
-                            <!-- Equations -->
                             <div class="space-y-2 text-sm md:text-base">
                                 <div class="bg-slate-50 border border-slate-200 rounded p-2 text-center">
-                                    1. NH<span class="chem-sub">3</span>(g) + O<span class="chem-sub">2</span>(g) ⟶ NO(g) + H<span class="chem-sub">2</span>O(g)
+                                    1. NH<sub>3</sub>(g) + O<sub>2</sub>(g) ⟶ NO(g) + H<sub>2</sub>O(g)
                                 </div>
                                 <div class="bg-slate-50 border border-slate-200 rounded p-2 text-center">
-                                    2. NO(g) + CH<span class="chem-sub">4</span>(g) ⟶ HCN(g) + H<span class="chem-sub">2</span>O(g) + H<span class="chem-sub">2</span>(g)
+                                    2. NO(g) + CH<sub>4</sub>(g) ⟶ HCN(g) + H<sub>2</sub>O(g) + H<sub>2</sub>(g)
                                 </div>
                             </div>
-                            <!-- Unbalanced Warning -->
-                            <p class="text-xs text-red-600 bg-red-50 px-2 py-1 rounded inline-block mt-3 border border-red-200">
-                                <i data-lucide="alert-circle" class="w-3 h-3 inline"></i> ยังไม่ดุลสมการเคมี
-                            </p>
+                            <p class="text-xs text-red-600 bg-red-50 px-2 py-1 rounded inline-block mt-3 border border-red-200"><i data-lucide="alert-circle" class="w-3 h-3 inline"></i> ยังไม่ดุลสมการเคมี</p>
                         </div>
 
                         <div class="bg-slate-50 border border-slate-200 rounded-lg p-5 text-sm md:text-base">
@@ -1320,40 +1247,46 @@
                                 <div>
                                     <p class="text-slate-700 mb-1">1. ดุลสมการที่ 1</p>
                                     <div class="bg-white p-2 rounded border border-slate-200 text-center font-bold text-slate-800">
-                                        <span class="chem-coef">4</span>NH<span class="chem-sub">3</span> + <span class="chem-coef">5</span>O<span class="chem-sub">2</span> ⟶ <span class="chem-coef">4</span>NO + <span class="chem-coef">6</span>H<span class="chem-sub">2</span>O
+                                        <span class="chem-coef">4</span>NH<sub>3</sub> + <span class="chem-coef">5</span>O<sub>2</sub> ⟶ <span class="chem-coef">4</span>NO + <span class="chem-coef">6</span>H<sub>2</sub>O
                                     </div>
                                 </div>
                                 <div>
                                     <p class="text-slate-700 mb-1">2. ดุลสมการที่ 2</p>
                                     <div class="bg-white p-2 rounded border border-slate-200 text-center font-bold text-slate-800 text-xs md:text-sm">
-                                        <span class="chem-coef">2</span>NO + <span class="chem-coef">2</span>CH<span class="chem-sub">4</span> ⟶ <span class="chem-coef">2</span>HCN + <span class="chem-coef">2</span>H<span class="chem-sub">2</span>O + <span class="chem-coef">1</span>H<span class="chem-sub">2</span>
+                                        <span class="chem-coef">2</span>NO + <span class="chem-coef">2</span>CH<sub>4</sub> ⟶ <span class="chem-coef">2</span>HCN + <span class="chem-coef">2</span>H<sub>2</sub>O + <span class="chem-coef">1</span>H<sub>2</sub>
                                     </div>
                                 </div>
                                 <div>
                                     <p class="text-slate-700 mb-1">3. รวมสมการ (ทำ NO ให้เท่ากัน : คูณสมการที่ 2 ด้วย 2)</p>
                                     <div class="bg-white p-2 rounded border border-slate-200 text-xs md:text-sm space-y-1">
                                         <p class="text-slate-500">สมการ 1 มี 4NO (ผลิตภัณฑ์)</p>
-                                        <p class="text-slate-500">สมการ 2 (×2) : 4NO + 4CH<span class="chem-sub">4</span> ⟶ 4HCN + 4H<span class="chem-sub">2</span>O + 2H<span class="chem-sub">2</span></p>
+                                        <p class="text-slate-500">สมการ 2 (×2) : 4NO + 4CH<sub>4</sub> ⟶ 4HCN + 4H<sub>2</sub>O + 2H<sub>2</sub></p>
                                         <div class="font-bold text-cyan-700 mt-2 text-center text-sm md:text-base border-t pt-2">
-                                            สมการรวม : 4NH<span class="chem-sub">3</span> + 5O<span class="chem-sub">2</span> + 4CH<span class="chem-sub">4</span> <br>
-                                            ⟶ 4HCN + 10H<span class="chem-sub">2</span>O + 2H<span class="chem-sub">2</span>
+                                            สมการรวม : <br>
+                                            4NH<sub>3</sub> + 5O<sub>2</sub> + 4CH<sub>4</sub> ⟶ 4HCN + 10H<sub>2</sub>O + 2H<sub>2</sub>
                                         </div>
                                     </div>
+                                    <p class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded inline-block mt-2 border border-green-200"><i data-lucide="check-circle" class="w-3 h-3 inline"></i> สมการดุลแล้ว</p>
                                 </div>
                                 <div>
-                                    <p class="text-slate-700 mb-1">4. คำนวณปริมาตร HCN (อัตราส่วน O<span class="chem-sub">2</span> : HCN = 5 : 4)</p>
+                                    <p class="text-slate-700 mb-1">4. คำนวณปริมาตร HCN (อัตราส่วน O<sub>2</sub> : HCN = 5 : 4)</p>
                                     <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
-                                        <div class="flex items-center gap-1 flex-wrap">
+                                        <div class="calc-row">
                                             <span>V HCN</span>
-                                            <span>=</span>
-                                            <div class="calc-fraction mx-1">
-                                                <span class="calc-top px-1">4 L HCN</span>
-                                                <span class="calc-bottom px-1">5 L O<span class="chem-sub">2</span></span>
+                                            <div class="calc-line-2">
+                                                <span>=</span>
+                                                <div class="calc-fraction mx-1">
+                                                    <span class="calc-top px-1">4 L HCN</span>
+                                                    <span class="calc-bottom px-1">5 L O<sub>2</sub></span>
+                                                </div>
+                                                <span>×</span>
+                                                <span>15.0 L O<sub>2</sub></span>
                                             </div>
-                                            <span>×</span>
-                                            <span>15.0 L O<span class="chem-sub">2</span></span>
+                                            <div class="calc-line-2 mt-2 font-bold text-cyan-700">
+                                                <span>=</span>
+                                                <span>12.0 ลิตร</span>
+                                            </div>
                                         </div>
-                                        <div class="mt-2 font-bold text-cyan-700">= 12.0 ลิตร</div>
                                     </div>
                                 </div>
                                 <div class="text-center mt-2 text-slate-700">
@@ -1367,99 +1300,108 @@
                     <!-- Example 16 -->
                     <div class="border-2 border-slate-100 rounded-xl p-5 bg-white relative mt-8 shadow-sm">
                         <span class="absolute -top-3 left-4 bg-cyan-600 text-white px-3 py-0.5 rounded text-sm font-bold">ตัวอย่างที่ 16</span>
-                        
                         <div class="mb-4 mt-2">
                             <p class="text-slate-700 font-medium bg-cyan-50 p-3 rounded-lg border-l-4 border-cyan-400 mb-4">
                                 โจทย์ : คำนวณมวลของแก๊สคลอรีนที่ต้องใช้ในการสังเคราะห์คาร์บอนเตตระคลอไรด์ 5.00 กิโลกรัม จากการเปลี่ยนแปลงดังสมการ
                             </p>
-                            <!-- Equations -->
                             <div class="space-y-2 text-sm md:text-base">
                                 <div class="bg-slate-50 border border-slate-200 rounded p-2 text-center">
-                                    1. CS<span class="chem-sub">2</span>(l) + 3Cl<span class="chem-sub">2</span>(g) ⟶ S<span class="chem-sub">2</span>Cl<span class="chem-sub">2</span>(l) + CCl<span class="chem-sub">4</span>(l)
+                                    1. CS<sub>2</sub>(l) + 3Cl<sub>2</sub>(g) ⟶ S<sub>2</sub>Cl<sub>2</sub>(l) + CCl<sub>4</sub>(l)
                                 </div>
                                 <div class="bg-slate-50 border border-slate-200 rounded p-2 text-center">
-                                    2. 8S<span class="chem-sub">2</span>Cl<span class="chem-sub">2</span>(l) + 4CS<span class="chem-sub">2</span>(l) ⟶ 3S<span class="chem-sub">8</span>(s) + 4CCl<span class="chem-sub">4</span>(l)
+                                    2. 8S<sub>2</sub>Cl<sub>2</sub>(l) + 4CS<sub>2</sub>(l) ⟶ 3S<sub>8</sub>(s) + 4CCl<sub>4</sub>(l)
                                 </div>
                             </div>
-                            <!-- Balanced Check -->
-                            <p class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded inline-block mt-3 border border-green-200">
-                                <i data-lucide="check-circle" class="w-3 h-3 inline"></i> สมการดุลแล้ว
-                            </p>
+                            <p class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded inline-block mt-3 border border-green-200"><i data-lucide="check-circle" class="w-3 h-3 inline"></i> สมการดุลแล้ว</p>
                         </div>
-
                         <div class="bg-slate-50 border border-slate-200 rounded-lg p-5 text-sm md:text-base">
                             <div class="space-y-6">
                                 <!-- Step 1 -->
                                 <div>
-                                    <p class="text-slate-700 mb-2 font-bold text-cyan-700">1. รวมสมการเพื่อหาความสัมพันธ์ระหว่าง Cl<span class="chem-sub">2</span> และ CCl<span class="chem-sub">4</span></p>
+                                    <p class="text-slate-700 mb-2 font-bold text-cyan-700">1. รวมสมการเพื่อหาความสัมพันธ์ระหว่าง Cl<sub>2</sub> และ CCl<sub>4</sub></p>
                                     <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm">
-                                        <p class="mb-1 text-slate-600">• ตัวเชื่อมคือ S<span class="chem-sub">2</span>Cl<span class="chem-sub">2</span> (สมการ 1 มี 1 โมล , สมการ 2 ใช้ 8 โมล)</p>
+                                        <p class="mb-1 text-slate-600">• ตัวเชื่อมคือ S<sub>2</sub>Cl<sub>2</sub> (สมการ 1 มี 1 โมล , สมการ 2 ใช้ 8 โมล)</p>
                                         <p class="mb-1 text-slate-600">• คูณสมการที่ 1 ด้วย 8 แล้วบวกกับสมการที่ 2</p>
                                         <div class="my-2 border-l-2 border-slate-300 pl-2">
-                                            <p>8(CS<span class="chem-sub">2</span> + 3Cl<span class="chem-sub">2</span> ⟶ S<span class="chem-sub">2</span>Cl<span class="chem-sub">2</span> + CCl<span class="chem-sub">4</span>)</p>
+                                            <p>8(CS<sub>2</sub> + 3Cl<sub>2</sub> ⟶ S<sub>2</sub>Cl<sub>2</sub> + CCl<sub>4</sub>)</p>
                                             <p class="text-slate-400">⇩</p>
-                                            <p>8CS<span class="chem-sub">2</span> + 24Cl<span class="chem-sub">2</span> ⟶ 8S<span class="chem-sub">2</span>Cl<span class="chem-sub">2</span> + 8CCl<span class="chem-sub">4</span></p>
+                                            <p>8CS<sub>2</sub> + 24Cl<sub>2</sub> ⟶ 8S<sub>2</sub>Cl<sub>2</sub> + 8CCl<sub>4</sub></p>
                                         </div>
                                         <p class="mb-1 text-slate-600">• รวมกับสมการ 2 :</p>
                                         <p class="font-bold text-center my-2 text-slate-800">
-                                            12CS<span class="chem-sub">2</span> + <span class="text-orange-600">24Cl<span class="chem-sub">2</span></span> ⟶ 3S<span class="chem-sub">8</span> + <span class="text-indigo-600">12CCl<span class="chem-sub">4</span></span>
+                                            12CS<sub>2</sub> + <span class="text-orange-600">24Cl<sub>2</sub></span> ⟶ 3S<sub>8</sub> + <span class="text-indigo-600">12CCl<sub>4</sub></span>
                                         </p>
                                         <p class="text-center font-bold">
-                                            อัตราส่วน Cl<span class="chem-sub">2</span> : CCl<span class="chem-sub">4</span> = 24 : 12 = <span class="text-cyan-600 text-lg">2 : 1</span>
+                                            อัตราส่วน Cl<sub>2</sub> : CCl<sub>4</sub> = 24 : 12 = <span class="text-cyan-600 text-lg">2 : 1</span>
                                         </p>
                                     </div>
                                 </div>
-
                                 <!-- Step 2 -->
                                 <div>
                                     <p class="text-slate-700 mb-2 font-bold text-cyan-700">2. คำนวณหาคำตอบ</p>
                                     <div class="bg-white p-3 rounded border border-slate-200 text-xs md:text-sm space-y-3">
-                                        
-                                        <!-- Sub-step 2.1 -->
                                         <div>
-                                            <p class="text-slate-500 mb-1">หาโมลของ CCl<span class="chem-sub">4</span> (5.00 kg = 5000 g) : </p>
-                                            <p class="text-xs text-slate-400 mb-1">(MW CCl<span class="chem-sub">4</span> = 12 + (35.5×4) = 154 g/mol)</p>
-                                            <div class="flex items-center gap-1 flex-wrap">
-                                                <span>mol CCl<span class="chem-sub">4</span></span>
-                                                <span>=</span>
-                                                <div class="calc-fraction mx-1">
-                                                    <span class="calc-top px-1">5000</span>
-                                                    <span class="calc-bottom px-1">154</span>
+                                            <p class="text-slate-500 mb-1">หาโมลของ CCl<sub>4</sub> (5.00 kg = 5000 g) : </p>
+                                            <div class="mw-box">
+                                                <strong>MW ของ CCl<sub>4</sub></strong><br>
+                                                C = 12<br>
+                                                Cl = (35.5×4)<br>
+                                                = 154 g/mol
+                                            </div>
+                                            <div class="calc-row">
+                                                <span>mol CCl<sub>4</sub></span>
+                                                <div class="calc-line-2">
+                                                    <span>=</span>
+                                                    <div class="calc-fraction mx-1">
+                                                        <span class="calc-top px-1">5000</span>
+                                                        <span class="calc-bottom px-1">154</span>
+                                                    </div>
                                                 </div>
-                                                <span class="font-bold text-indigo-700 ml-2">≈ 32.47 mol</span>
+                                                <div class="calc-line-2 mt-2 font-bold text-indigo-700">
+                                                    <span>≈</span>
+                                                    <span>32.47 mol</span>
+                                                </div>
                                             </div>
                                         </div>
-
-                                        <!-- Sub-step 2.2 -->
                                         <div>
-                                            <p class="text-slate-500 mb-1">หาโมล Cl<span class="chem-sub">2</span> (จากอัตราส่วน 2 : 1) : </p>
-                                            <div class="flex items-center gap-1 flex-wrap">
-                                                <span>mol Cl<span class="chem-sub">2</span></span>
-                                                <span>=</span>
-                                                <span>2 × 32.47</span>
-                                                <span class="font-bold text-orange-700 ml-2">= 64.94 mol</span>
+                                            <p class="text-slate-500 mb-1">หาโมล Cl<sub>2</sub> (จากอัตราส่วน 2 : 1) : </p>
+                                            <div class="calc-row">
+                                                <span>mol Cl<sub>2</sub></span>
+                                                <div class="calc-line-2">
+                                                    <span>=</span>
+                                                    <span>2 × 32.47</span>
+                                                </div>
+                                                <div class="calc-line-2 mt-2 font-bold text-orange-700">
+                                                    <span>=</span>
+                                                    <span>64.94 mol</span>
+                                                </div>
                                             </div>
                                         </div>
-
-                                        <!-- Sub-step 2.3 -->
                                         <div>
-                                            <p class="text-slate-500 mb-1">หามวล Cl<span class="chem-sub">2</span> (MW Cl<span class="chem-sub">2</span> = 71 g/mol) : </p>
-                                            <div class="flex items-center gap-1 flex-wrap">
-                                                <span>g Cl<span class="chem-sub">2</span></span>
-                                                <span>=</span>
-                                                <span>64.94 × 71</span>
-                                                <span class="font-bold text-cyan-700 ml-2">≈ 4610.74 g</span>
+                                            <p class="text-slate-500 mb-1">หามวล Cl<sub>2</sub> : </p>
+                                            <div class="mw-box">
+                                                <strong>MW ของ Cl<sub>2</sub></strong><br>
+                                                Cl = (35.5×2)<br>
+                                                = 71 g/mol
+                                            </div>
+                                            <div class="calc-row">
+                                                <span>g Cl<sub>2</sub></span>
+                                                <div class="calc-line-2">
+                                                    <span>=</span>
+                                                    <span>64.94 × 71</span>
+                                                </div>
+                                                <div class="calc-line-2 mt-2 font-bold text-cyan-700">
+                                                    <span>≈</span>
+                                                    <span>4610.74 g</span>
+                                                </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
-
                                 <div class="text-center mt-2 text-slate-700">
                                     <p>∴ ต้องใช้แก๊สคลอรีนประมาณ</p>
                                     <p class="font-bold underline text-cyan-700 mt-1">4.61 กิโลกรัม</p>
                                 </div>
-
                             </div>
                         </div>
                     </div>
