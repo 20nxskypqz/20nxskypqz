@@ -48,28 +48,26 @@
         }
 
         /* Styles for Equation Components */
+        /* Updated: Removed flex/baseline to ensure sub tags work properly */
+        .chem-wrapper {
+            display: inline-block;
+        }
         .chem-symbol {
             font-size: 1.2rem;
             font-weight: bold;
             line-height: 1;
             color: #1e293b;
         }
-        .chem-sub {
+        /* Using native sub tag styling but ensuring size */
+        sub {
             font-size: 0.75rem;
-            line-height: 1;
-            margin-bottom: -4px;
-        }
-        .chem-paren {
-            font-size: 1.2rem;
-            line-height: 1;
-            margin-bottom: -2px;
+            vertical-align: sub;
+            bottom: -0.25em;
         }
         .chem-state {
             font-size: 0.85rem;
             color: #64748b;
             font-weight: normal;
-            line-height: 1;
-            margin-left: 2px;
         }
         .chem-coef {
             font-size: 1.2rem;
@@ -141,7 +139,7 @@
         @media (min-width: 768px) {
             .chem-symbol { font-size: 1.5rem; }
             .chem-coef { font-size: 1.5rem; }
-            .chem-sub { font-size: 1rem; }
+            sub { font-size: 1rem; }
             .chem-state { font-size: 1rem; }
         }
     </style>
@@ -212,14 +210,14 @@
                         <div class="bg-slate-50 border-2 border-slate-200 border-dashed rounded-xl p-6 flex flex-col items-center mb-8">
                             <span class="bg-slate-200 text-slate-600 px-3 py-1 rounded-full text-sm font-bold mb-4">ตัวอย่าง</span>
                             
-                            <!-- Equation Visual (Fixed Subscripts) -->
+                            <!-- Equation Visual (Fixed Subscripts with <sub>) -->
                             <div class="overflow-x-auto w-full flex justify-center">
                                 <div class="inline-flex items-end gap-2 md:gap-4 font-bold text-slate-800 pb-2">
-                                    <div class="flex items-baseline"><span class="chem-coef">2</span><span class="chem-symbol">Na</span><span class="chem-state">(s)</span></div>
+                                    <div class="chem-wrapper"><span class="chem-coef">2</span><span class="chem-symbol">Na</span><span class="chem-state">(s)</span></div>
                                     <span class="mb-1 text-slate-400 text-xl font-light self-center">+</span>
-                                    <div class="flex items-baseline"><span class="chem-coef opacity-0 w-0 md:w-auto">1</span><span class="chem-symbol">Cl</span><span class="chem-sub">2</span><span class="chem-state">(g)</span></div>
+                                    <div class="chem-wrapper"><span class="chem-coef opacity-0 w-0 md:w-auto">1</span><span class="chem-symbol">Cl<sub>2</sub></span><span class="chem-state">(g)</span></div>
                                     <div class="flex items-center px-1 self-center"><div class="reaction-arrow"></div></div>
-                                    <div class="flex items-baseline"><span class="chem-coef">2</span><span class="chem-symbol">Na</span><span class="chem-symbol">Cl</span><span class="chem-state">(s)</span></div>
+                                    <div class="chem-wrapper"><span class="chem-coef">2</span><span class="chem-symbol">NaCl</span><span class="chem-state">(s)</span></div>
                                 </div>
                             </div>
                             <!-- Mole Ratio Visual -->
@@ -240,14 +238,14 @@
                             <span class="absolute -top-3 left-4 bg-orange-600 text-white px-3 py-0.5 rounded text-sm font-bold">ตัวอย่างที่ 5</span>
                             <div class="mb-4 mt-2">
                                 <p class="text-slate-700 leading-relaxed mb-3">จากปฏิกิริยาเคมีต่อไปนี้ :</p>
-                                <!-- Equation Visual (Fixed Subscripts) -->
+                                <!-- Equation Visual (Fixed Subscripts with <sub>) -->
                                 <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 overflow-x-auto text-center mb-4">
                                     <div class="inline-flex items-end gap-2 md:gap-3 font-bold text-slate-800 text-left min-w-max mx-auto">
-                                        <div class="flex items-baseline"><span class="chem-coef">2</span><span class="chem-symbol">Al</span><span class="chem-state">(s)</span></div>
+                                        <div class="chem-wrapper"><span class="chem-coef">2</span><span class="chem-symbol">Al</span><span class="chem-state">(s)</span></div>
                                         <span class="mb-1 text-slate-400 text-xl font-light self-center">+</span>
-                                        <div class="flex items-baseline"><span class="chem-coef">3</span><span class="chem-symbol">Br</span><span class="chem-sub">2</span><span class="chem-state">(l)</span></div>
+                                        <div class="chem-wrapper"><span class="chem-coef">3</span><span class="chem-symbol">Br<sub>2</sub></span><span class="chem-state">(l)</span></div>
                                         <div class="flex items-center px-1 self-center"><div class="reaction-arrow"></div></div>
-                                        <div class="flex items-baseline"><span class="chem-coef">2</span><span class="chem-symbol">Al</span><span class="chem-symbol">Br</span><span class="chem-sub">3</span><span class="chem-state">(s)</span></div>
+                                        <div class="chem-wrapper"><span class="chem-coef">2</span><span class="chem-symbol">AlBr<sub>3</sub></span><span class="chem-state">(s)</span></div>
                                     </div>
                                 </div>
                                 <p class="text-slate-700 font-medium bg-orange-50 p-3 rounded-lg border-l-4 border-orange-400">
@@ -315,6 +313,8 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <!-- Added Formula for Mass -->
                         <div class="mt-4 text-center">
                             <p class="text-xs text-slate-500 mb-1">หาโมลสารตั้งต้นจากมวล : </p>
                             <div class="font-bold text-slate-700 text-sm flex items-center justify-center gap-1">
@@ -351,11 +351,11 @@
                                 <div class="inline-flex items-end gap-1 md:gap-2 font-bold text-slate-800 text-left min-w-max mx-auto text-sm md:text-base">
                                     <span class="chem-coef">2</span>KI<span class="chem-state">(aq)</span>
                                     <span class="text-slate-400 px-1">+</span>
-                                    Pb(NO<span class="chem-sub">3</span>)<span class="chem-sub">2</span><span class="chem-state">(aq)</span>
+                                    Pb(NO<sub>3</sub>)<sub>2</sub><span class="chem-state">(aq)</span>
                                     <span class="px-1"><div class="reaction-arrow"></div></span>
-                                    PbI<span class="chem-sub">2</span><span class="chem-state">(s)</span>
+                                    PbI<sub>2</sub><span class="chem-state">(s)</span>
                                     <span class="text-slate-400 px-1">+</span>
-                                    <span class="chem-coef">2</span>KNO<span class="chem-sub">3</span><span class="chem-state">(aq)</span>
+                                    <span class="chem-coef">2</span>KNO<sub>3</sub><span class="chem-state">(aq)</span>
                                 </div>
                             </div>
                             <p class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded inline-block mb-3 border border-green-200"><i data-lucide="check-circle" class="w-3 h-3 inline"></i> สมการดุลแล้ว</p>
@@ -421,7 +421,7 @@
                                 <div class="inline-flex items-end gap-1 md:gap-2 font-bold text-slate-800 text-left min-w-max mx-auto text-sm md:text-base">
                                     <span class="chem-coef">8</span>Zn<span class="chem-state">(s)</span>
                                     <span class="text-slate-400 px-1">+</span>
-                                    S<span class="chem-sub">8</span><span class="chem-state">(s)</span>
+                                    S<sub>8</sub><span class="chem-state">(s)</span>
                                     <span class="px-1"><div class="reaction-arrow"></div></span>
                                     <span class="chem-coef">8</span>ZnS<span class="chem-state">(s)</span>
                                 </div>
@@ -489,13 +489,13 @@
                         <div class="mb-4 mt-2">
                             <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 overflow-x-auto text-center mb-4">
                                 <div class="inline-flex items-end gap-1 md:gap-2 font-bold text-slate-800 text-left min-w-max mx-auto text-sm md:text-base">
-                                    CH<span class="chem-sub">4</span><span class="chem-state">(g)</span>
+                                    CH<sub>4</sub><span class="chem-state">(g)</span>
                                     <span class="text-slate-400 px-1">+</span>
-                                    <span class="chem-coef">2</span>O<span class="chem-sub">2</span><span class="chem-state">(g)</span>
+                                    <span class="chem-coef">2</span>O<sub>2</sub><span class="chem-state">(g)</span>
                                     <span class="px-1"><div class="reaction-arrow"></div></span>
-                                    CO<span class="chem-sub">2</span><span class="chem-state">(g)</span>
+                                    CO<sub>2</sub><span class="chem-state">(g)</span>
                                     <span class="text-slate-400 px-1">+</span>
-                                    <span class="chem-coef">2</span>H<span class="chem-sub">2</span>O<span class="chem-state">(g)</span>
+                                    <span class="chem-coef">2</span>H<sub>2</sub>O<span class="chem-state">(g)</span>
                                 </div>
                             </div>
                             <p class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded inline-block mb-3 border border-green-200"><i data-lucide="check-circle" class="w-3 h-3 inline"></i> สมการดุลแล้ว</p>
@@ -584,13 +584,13 @@
                         <div class="mb-4 mt-2">
                             <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 overflow-x-auto text-center mb-2">
                                 <div class="inline-flex items-end gap-1 md:gap-2 font-bold text-slate-800 text-left min-w-max mx-auto text-sm md:text-base">
-                                    C<span class="chem-sub">2</span>H<span class="chem-sub">6</span>O<span class="chem-state">(l)</span>
+                                    C<sub>2</sub>H<sub>6</sub>O<span class="chem-state">(l)</span>
                                     <span class="text-slate-400 px-1">+</span>
                                     Na<span class="chem-state">(s)</span>
                                     <span class="px-1"><div class="reaction-arrow"></div></span>
-                                    C<span class="chem-sub">2</span>H<span class="chem-sub">5</span>ONa<span class="chem-state">(aq)</span>
+                                    C<sub>2</sub>H<sub>5</sub>ONa<span class="chem-state">(aq)</span>
                                     <span class="text-slate-400 px-1">+</span>
-                                    H<span class="chem-sub">2</span><span class="chem-state">(g)</span>
+                                    H<sub>2</sub><span class="chem-state">(g)</span>
                                 </div>
                             </div>
                             <p class="text-xs text-red-600 bg-red-50 px-2 py-1 rounded inline-block mb-3 border border-red-200"><i data-lucide="alert-circle" class="w-3 h-3 inline"></i> ยังไม่ดุลสมการเคมี</p>
@@ -603,10 +603,10 @@
                                 <div>
                                     <p class="text-slate-700 mb-1 font-bold text-red-600">1. ดุลสมการเคมีก่อน</p>
                                     <div class="bg-white p-3 rounded border border-slate-200 text-center text-xs md:text-sm">
-                                        <span class="chem-coef">2</span>C<span class="chem-sub">2</span>H<span class="chem-sub">6</span>O + 
+                                        <span class="chem-coef">2</span>C<sub>2</sub>H<sub>6</sub>O + 
                                         <span class="chem-coef">2</span>Na ⟶ 
-                                        <span class="chem-coef">2</span>C<span class="chem-sub">2</span>H<span class="chem-sub">5</span>ONa + 
-                                        <span class="chem-coef">1</span>H<span class="chem-sub">2</span>
+                                        <span class="chem-coef">2</span>C<sub>2</sub>H<sub>5</sub>ONa + 
+                                        <span class="chem-coef">1</span>H<sub>2</sub>
                                     </div>
                                 </div>
                                 <div>
@@ -753,13 +753,13 @@
                         <div class="mb-4 mt-2">
                             <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 overflow-x-auto text-center mb-4">
                                 <div class="inline-flex items-end gap-1 md:gap-2 font-bold text-slate-800 text-left min-w-max mx-auto text-sm md:text-base">
-                                    H<span class="chem-sub">2</span>SO<span class="chem-sub">4</span><span class="chem-state">(aq)</span>
+                                    H<sub>2</sub>SO<sub>4</sub><span class="chem-state">(aq)</span>
                                     <span class="text-slate-400 px-1">+</span>
                                     <span class="chem-coef">2</span>NaOH<span class="chem-state">(aq)</span>
                                     <span class="px-1"><div class="reaction-arrow"></div></span>
-                                    Na<span class="chem-sub">2</span>SO<span class="chem-sub">4</span><span class="chem-state">(aq)</span>
+                                    Na<sub>2</sub>SO<sub>4</sub><span class="chem-state">(aq)</span>
                                     <span class="text-slate-400 px-1">+</span>
-                                    <span class="chem-coef">2</span>H<span class="chem-sub">2</span>O<span class="chem-state">(l)</span>
+                                    <span class="chem-coef">2</span>H<sub>2</sub>O<span class="chem-state">(l)</span>
                                 </div>
                             </div>
                             <p class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded inline-block mb-3 border border-green-200"><i data-lucide="check-circle" class="w-3 h-3 inline"></i> สมการดุลแล้ว</p>
@@ -839,13 +839,13 @@
                         <div class="mb-4 mt-2">
                             <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 overflow-x-auto text-center mb-4">
                                 <div class="inline-flex items-end gap-1 md:gap-2 font-bold text-slate-800 text-left min-w-max mx-auto text-sm md:text-base">
-                                    Pb(NO<span class="chem-sub">3</span>)<span class="chem-sub">2</span><span class="chem-state">(aq)</span>
+                                    Pb(NO<sub>3</sub>)<sub>2</sub><span class="chem-state">(aq)</span>
                                     <span class="text-slate-400 px-1">+</span>
                                     <span class="chem-coef">2</span>KI<span class="chem-state">(aq)</span>
                                     <span class="px-1"><div class="reaction-arrow"></div></span>
-                                    PbI<span class="chem-sub">2</span><span class="chem-state">(s)</span>
+                                    PbI<sub>2</sub><span class="chem-state">(s)</span>
                                     <span class="text-slate-400 px-1">+</span>
-                                    <span class="chem-coef">2</span>KNO<span class="chem-sub">3</span><span class="chem-state">(aq)</span>
+                                    <span class="chem-coef">2</span>KNO<sub>3</sub><span class="chem-state">(aq)</span>
                                 </div>
                             </div>
                             <p class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded inline-block mb-3 border border-green-200"><i data-lucide="check-circle" class="w-3 h-3 inline"></i> สมการดุลแล้ว</p>
@@ -1038,9 +1038,9 @@
                                         <div class="inline-flex items-end gap-1 md:gap-2 font-bold text-slate-800 text-left min-w-max mx-auto text-sm md:text-base">
                                             C<span class="chem-state">(s)</span>
                                             <span class="text-slate-400 px-1">+</span>
-                                            <span class="chem-coef">2</span>H<span class="chem-sub">2</span><span class="chem-state">(g)</span>
+                                            <span class="chem-coef">2</span>H<sub>2</sub><span class="chem-state">(g)</span>
                                             <span class="px-1"><div class="reaction-arrow"></div></span>
-                                            CH<span class="chem-sub">4</span><span class="chem-state">(g)</span>
+                                            CH<sub>4</sub><span class="chem-state">(g)</span>
                                         </div>
                                     </div>
                                     <p class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded inline-block mb-3 border border-green-200"><i data-lucide="check-circle" class="w-3 h-3 inline"></i> สมการดุลแล้ว</p>
@@ -1138,11 +1138,11 @@
                             <div class="mb-4 mt-2">
                                 <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 overflow-x-auto text-center mb-4">
                                     <div class="inline-flex items-end gap-1 md:gap-2 font-bold text-slate-800 text-left min-w-max mx-auto text-sm md:text-base">
-                                        <span class="chem-coef">2</span>H<span class="chem-sub">2</span><span class="chem-state">(g)</span>
+                                        <span class="chem-coef">2</span>H<sub>2</sub><span class="chem-state">(g)</span>
                                         <span class="text-slate-400 px-1">+</span>
-                                        O<span class="chem-sub">2</span><span class="chem-state">(g)</span>
+                                        O<sub>2</sub><span class="chem-state">(g)</span>
                                         <span class="px-1"><div class="reaction-arrow"></div></span>
-                                        <span class="chem-coef">2</span>H<span class="chem-sub">2</span>O<span class="chem-state">(g)</span>
+                                        <span class="chem-coef">2</span>H<sub>2</sub>O<span class="chem-state">(g)</span>
                                     </div>
                                 </div>
                                 <p class="text-xs text-green-600 bg-green-50 px-2 py-1 rounded inline-block mb-3 border border-green-200"><i data-lucide="check-circle" class="w-3 h-3 inline"></i> สมการดุลแล้ว</p>
@@ -1247,7 +1247,7 @@
                                 <div class="bg-slate-50 border border-slate-200 rounded p-2 text-center">
                                     1. NH<sub>3</sub>(g) + O<sub>2</sub>(g) ⟶ NO(g) + H<sub>2</sub>O(g)
                                 </div>
-                                <div class="bg-slate-50 border border-slate-200 rounded p-2 text-center">
+                                <div class="bg-slate-50 border border-slate-200 rounded p-2 text-center text-xs">
                                     2. NO(g) + CH<sub>4</sub>(g) ⟶ HCN(g) + H<sub>2</sub>O(g) + H<sub>2</sub>(g)
                                 </div>
                             </div>
