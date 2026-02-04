@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบทดสอบท้ายบท : ความน่าจะเป็น</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Import Niramit Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Force Niramit font everywhere */
+        body, h1, h2, h3, h4, p, span, div, li, td, th, label {
+            font-family: 'Niramit', sans-serif !important;
+        }
+
+        body {
+            background-color: #f0f9ff;
+            color: #334155;
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Fraction Style */
+        .fraction {
+            display: inline-block;
+            text-align: center;
+            vertical-align: middle;
+            margin: 0 0.2rem;
+        }
+        .fraction .top {
+            display: block;
+            border-bottom: 1px solid currentColor;
+            padding: 0 0.2rem;
+            line-height: 1.2;
+            font-size: 0.9em;
+        }
+        .fraction .bottom {
+            display: block;
+            padding: 0 0.2rem;
+            line-height: 1.2;
+            font-size: 0.9em;
+        }
+
+        /* Answer Section Styles */
+        .answer-reveal {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: none; /* Hidden by default */
+        }
+        
+        .answer-reveal.show {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .correct-badge {
+            background-color: #22c55e;
+            color: white;
+            padding: 0.1rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .explanation-text {
+            color: #15803d;
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+            line-height: 1.6;
+        }
+
+        /* Option Styles */
+        .quiz-option {
+            display: flex;
+            align-items: flex-start;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s;
+        }
+        .quiz-option:hover {
+            background-color: #f8fafc;
+        }
+        .option-label {
+            font-weight: bold;
+            margin-right: 0.75rem;
+            min-width: 20px;
+            color: #64748b;
+        }
+
+        /* Button */
+        .toggle-btn {
+            background-color: #3b82f6;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .toggle-btn:hover {
+            background-color: #2563eb;
+        }
+
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <!-- Navbar -->
+    <nav class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i data-lucide="check-square" class="w-8 h-8"></i>
+                <div>
+                    <h1 class="text-xl font-bold leading-none">Mathematics Quiz</h1>
+                </div>
+            </div>
+            <span class="bg-emerald-800 bg-opacity-50 px-3 py-1 rounded-full text-sm font-light">บทที่ 4</span>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 py-8 space-y-8">
+
+        <!-- Header -->
+        <header class="text-center py-6">
+            <!-- Removed leading-none to prevent cutting off vowels -->
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-800 mb-2 text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 leading-normal">
+                แบบทดสอบวัดความรู้
+            </h1>
+            <p class="text-slate-500">บทที่ 4 ความน่าจะเป็น</p>
+        </header>
+
+        <!-- Instructions -->
+        <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200 text-sm text-center text-slate-500 mb-8">
+            <p>คลิกปุ่ม <span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded font-bold mx-1">ดูเฉลย</span> เพื่อตรวจสอบคำตอบและดูวิธีทำ</p>
+        </div>
+
+        <!-- Question 1 -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 card-hover" id="q1">
+            <div class="flex justify-between items-start mb-4">
+                <h3 class="font-bold text-lg text-slate-800">1. การกระทำในตัวเลือกใดเป็นการทดลองสุ่ม</h3>
+            </div>
+            <div class="space-y-2">
+                <div class="quiz-option"><span class="option-label">ก.</span> การคัดส้มที่ไม่มีตำหนิออกจากกองส้มซึ่งมีส้มทั้งหมด 100 ผล</div>
+                <div class="quiz-option"><span class="option-label">ข.</span> การทดลองเปรียบเทียบการงอกของเมล็ดถั่ว เมื่อรดน้ำในปริมาณต่าง ๆ กัน</div>
+                <div class="quiz-option"><span class="option-label">ค.</span> การออกหมายเลขสลากกินแบ่งที่ได้รับรางวัลโดยการหมุนวงล้อให้ลูกปิงปองที่มีตัวเลขออกมาจากวงล้อ</div>
+                <div class="quiz-option"><span class="option-label">ง.</span> การสอบคัดเลือกนักเรียนที่มีความสามารถทางคณิตศาสตร์จากนักเรียนทั่วประเทศ</div>
+            </div>
+            <button class="toggle-btn mt-4" onclick="toggleAnswer('ans1')">ดูเฉลย</button>
+            <div id="ans1" class="answer-reveal">
+                <p><span class="correct-badge">เฉลย ข้อ ค.</span></p>
+                <div class="explanation-text">
+                    <p><strong>เหตุผล :</strong> การทดลองสุ่ม คือ การกระทำที่เราทราบผลลัพธ์ทั้งหมดที่เป็นไปได้ แต่ไม่สามารถบอกได้แน่นอนว่าจะเกิดผลลัพธ์ใดในการทดลองครั้งนั้น</p>
+                    <ul class="list-disc list-inside mt-2 text-sm text-slate-600">
+                        <li>ข้อ ก , ข และ ง เป็นการกระทำที่มีเกณฑ์กำหนดหรือมีผลลัพธ์ที่คาดการณ์ได้ตามเหตุผล ไม่ใช่การสุ่ม</li>
+                        <li>ข้อ ค เป็นการสุ่มตัวเลข ซึ่งเราไม่รู้ล่วงหน้าว่าจะออกเลขอะไร แต่รู้ว่ามีเลข 0 - 9 ที่เป็นไปได้</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Question 2 -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 card-hover" id="q2">
+            <h3 class="font-bold text-lg text-slate-800 mb-4">2. เหตุการณ์ในข้อใดที่เป็นไปไม่ได้</h3>
+            <div class="space-y-2">
+                <div class="quiz-option"><span class="option-label">ก.</span> เพาะเมล็ดถั่วเหลือง 100 เมล็ด แต่ไม่มีเมล็ดใดงอกเลย</div>
+                <div class="quiz-option"><span class="option-label">ข.</span> เมื่อแมวออกลูกครั้งแรกและครั้งที่สองเป็นตัวผู้ ในการออกลูกครั้งที่สามย่อมเป็นตัวผู้ด้วย</div>
+                <div class="quiz-option"><span class="option-label">ค.</span> กอบชัยไม่ชอบสีเหลืองแต่ในสัปดาห์นี้เขาสวมใส่เสื้อสีเหลืองทุกวัน</div>
+                <div class="quiz-option"><span class="option-label">ง.</span> ภาากรหยิบสลากซึ่งเป็นจำนวนที่มีสองหลักขึ้นมา 1 ใบ ซึ่งมีผลบวกของเลขโดดในหลักทั้งสองเท่ากับ 20</div>
+            </div>
+            <button class="toggle-btn mt-4" onclick="toggleAnswer('ans2')">ดูเฉลย</button>
+            <div id="ans2" class="answer-reveal">
+                <p><span class="correct-badge">เฉลย ข้อ ง.</span></p>
+                <div class="explanation-text">
+                    <p><strong>เหตุผล :</strong> จำนวนสองหลักที่มีค่ามากที่สุดคือ 99 ซึ่งผลบวกของเลขโดดคือ 9 + 9 = 18</p>
+                    <p>ดังนั้น เป็นไปไม่ได้ที่จะมีเลขโดดสองหลักที่บวกกันได้ 20</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Question 3 -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 card-hover" id="q3">
+            <h3 class="font-bold text-lg text-slate-800 mb-4">3. เหตุการณ์ในข้อใดที่เกิดขึ้นอย่างแน่นอน</h3>
+            <div class="space-y-2">
+                <div class="quiz-option"><span class="option-label">ก.</span> นารีและมีนาเรียนหนังสืออยู่ชั้นเดียวกัน เขาจึงมีอายุเท่ากัน</div>
+                <div class="quiz-option"><span class="option-label">ข.</span> ในกล่องใบหนึ่งมีลูกแก้วสีแดง 5 ลูก สีเหลือง 1 ลูก ถ้าหยิบลูกแก้วขึ้นมาพร้อมกันสองลูก จะได้ลูกแก้วสีแดงอย่างน้อย 1 ลูก</div>
+                <div class="quiz-option"><span class="option-label">ค.</span> ในการเรียงเลขโดดสามตัว คือ 1 , 2 , 3 จะได้จำนวนที่มีค่าไม่เกิน 300 เสมอ</div>
+                <div class="quiz-option"><span class="option-label">ง.</span> ในการดึงไพ่ 1 ใบ ออกจากไพ่หนึ่งสำรับ จะได้ไพ่ Q โพแดง</div>
+            </div>
+            <button class="toggle-btn mt-4" onclick="toggleAnswer('ans3')">ดูเฉลย</button>
+            <div id="ans3" class="answer-reveal">
+                <p><span class="correct-badge">เฉลย ข้อ ข.</span></p>
+                <div class="explanation-text">
+                    <p><strong>เหตุผล :</strong> เนื่องจากมีลูกแก้วสีเหลืองเพียง 1 ลูก การหยิบขึ้นมา 2 ลูกพร้อมกัน จะต้องมีสีแดงติดมาด้วยอย่างน้อย 1 ลูกเสมอ (กรณีที่แย่ที่สุดคือหยิบได้ เหลือง 1 + แดง 1)</p>
+                    <p class="text-sm text-slate-500 mt-1">* ข้อ ค ผิด เพราะอาจเรียงได้ 312 หรือ 321 ซึ่งเกิน 300</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Question 4 -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 card-hover" id="q4">
+            <h3 class="font-bold text-lg text-slate-800 mb-4">4. ในการทอดลูกเต๋า 2 ลูกพร้อมกัน 1 ครั้ง เหตุการณ์ที่จะได้ผลรวมของแต้มบนหน้าลูกเต๋าทั้งสองเท่ากับ 6 คือ ข้อใด</h3>
+            <div class="space-y-2">
+                <div class="quiz-option"><span class="option-label">ก.</span> (0 , 6) , (1 , 5) , (2 , 4) , (3 , 3) , (4 , 2) , (5 , 1) , (6 , 0)</div>
+                <div class="quiz-option"><span class="option-label">ข.</span> (1 , 5) , (2 , 4) , (3 , 3) , (4 , 2) , (5 , 1)</div>
+                <div class="quiz-option"><span class="option-label">ค.</span> (0 , 6) , (1 , 5) , (2 , 4) , (3 , 3)</div>
+                <div class="quiz-option"><span class="option-label">ง.</span> (1 , 5) , (2 , 4) , (3 , 3)</div>
+            </div>
+            <button class="toggle-btn mt-4" onclick="toggleAnswer('ans4')">ดูเฉลย</button>
+            <div id="ans4" class="answer-reveal">
+                <p><span class="correct-badge">เฉลย ข้อ ข.</span></p>
+                <div class="explanation-text">
+                    <p><strong>เหตุผล :</strong> ลูกเต๋ามีแต้ม 1 ถึง 6 (ไม่มีแต้ม 0) คู่ที่บวกกันได้ 6 มีทั้งหมด 5 คู่ คือ (1 , 5) , (2 , 4) , (3 , 3) , (4 , 2) และ (5 , 1)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Question 5 -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 card-hover" id="q5">
+            <h3 class="font-bold text-lg text-slate-800 mb-4">5. ในการสุ่มหยิบลูกอม 2 เม็ดพร้อมกัน จากถ้วยกระเบื้องซึ่งมีลูกอมสีเขียว 2 เม็ด สีแดง 1 เม็ด ผลที่เกิดขึ้นทั้งหมดคือข้อใด (ข1 , ข2 คือสีเขียว และ ด คือสีแดง)</h3>
+            <div class="space-y-2">
+                <div class="quiz-option"><span class="option-label">ก.</span> (ข1 , ข2) , (ข1 , ด) , (ข2 , ด)</div>
+                <div class="quiz-option"><span class="option-label">ข.</span> (ข1 , ด) , (ข2 , ด)</div>
+                <div class="quiz-option"><span class="option-label">ค.</span> (ข1 , ข2)</div>
+                <div class="quiz-option"><span class="option-label">ง.</span> (ด , ด)</div>
+            </div>
+            <button class="toggle-btn mt-4" onclick="toggleAnswer('ans5')">ดูเฉลย</button>
+            <div id="ans5" class="answer-reveal">
+                <p><span class="correct-badge">เฉลย ข้อ ก.</span></p>
+                <div class="explanation-text">
+                    <p><strong>เหตุผล :</strong> มีลูกอม 3 เม็ด { ข1 , ข2 , ด } หยิบ 2 เม็ดพร้อมกัน (ไม่สนใจลำดับ) คู่ที่เป็นไปได้คือ :</p>
+                    <ul class="list-disc list-inside mt-1">
+                        <li>เขียวคู่กับเขียว : (ข1 , ข2)</li>
+                        <li>เขียว 1 คู่กับแดง : (ข1 , ด)</li>
+                        <li>เขียว 2 คู่กับแดง : (ข2 , ด)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Question 6 -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 card-hover" id="q6">
+            <h3 class="font-bold text-lg text-slate-800 mb-4">6. ในการสุ่มเลือกนักเรียนสองคนจากนักเรียนห้าคน (1, 2, 3, 4, 5) เพื่อร่วมกิจกรรมพร้อมกัน ผลทั้งหมดที่เกิดขึ้นคือข้อใด</h3>
+            <div class="space-y-2">
+                <div class="quiz-option"><span class="option-label">ก.</span> (1 , 2) , (1 , 3) , (1 , 4) , (1 , 5)</div>
+                <div class="quiz-option"><span class="option-label">ข.</span> (1 , 2) , (2 , 3) , (3 , 4) , (4 , 5)</div>
+                <div class="quiz-option"><span class="option-label">ค.</span> (1 , 2) , (1 , 3) , (1 , 4) , (1 , 5) , (2 , 3) , (2 , 4) , (2 , 5) , (3 , 4) , (3 , 5) , (4 , 5)</div>
+                <div class="quiz-option"><span class="option-label">ง.</span> (1 , 1) , (1 , 2) ... (5 , 5)</div>
+            </div>
+            <button class="toggle-btn mt-4" onclick="toggleAnswer('ans6')">ดูเฉลย</button>
+            <div id="ans6" class="answer-reveal">
+                <p><span class="correct-badge">เฉลย ข้อ ค.</span></p>
+                <div class="explanation-text">
+                    <p><strong>เหตุผล :</strong> การเลือก 2 คนจาก 5 คน (ไม่สนใจลำดับและไม่ซ้ำคนเดิม) จะได้จำนวนวิธีคือ C(5,2) = 10 วิธี ซึ่งข้อ ค. แจกแจงได้ครบถ้วนที่สุด</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Question 7 -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 card-hover" id="q7">
+            <h3 class="font-bold text-lg text-slate-800 mb-4">7. ชายคนหนึ่งมีเสื้อ 5 ตัวสีต่างกัน กางเกง 3 ตัวสีต่างกัน และรองเท้า 2 คู่สีต่างกัน จงหาจำนวนวิธีทั้งหมดที่จะสวมชุดต่าง ๆ กัน</h3>
+            <div class="space-y-2">
+                <div class="quiz-option"><span class="option-label">ก.</span> 40</div>
+                <div class="quiz-option"><span class="option-label">ข.</span> 30</div>
+                <div class="quiz-option"><span class="option-label">ค.</span> 20</div>
+                <div class="quiz-option"><span class="option-label">ง.</span> 10</div>
+            </div>
+            <button class="toggle-btn mt-4" onclick="toggleAnswer('ans7')">ดูเฉลย</button>
+            <div id="ans7" class="answer-reveal">
+                <p><span class="correct-badge">เฉลย ข้อ ข.</span></p>
+                <div class="explanation-text">
+                    <p><strong>วิธีทำ :</strong> ใช้หลักการคูณ</p>
+                    <p>จำนวนวิธี = (จำนวนเสื้อ) x (จำนวนกางเกง) x (จำนวนรองเท้า)</p>
+                    <p>จำนวนวิธี = 5 x 3 x 2 = 30 วิธี</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Question 8 -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 card-hover" id="q8">
+            <h3 class="font-bold text-lg text-slate-800 mb-4">8. จำนวนวิธีที่ผู้โดยสาร 3 คน จะนั่งที่นั่งว่าง 5 ที่ ตรงกับข้อใด</h3>
+            <div class="space-y-2">
+                <div class="quiz-option"><span class="option-label">ก.</span> 60</div>
+                <div class="quiz-option"><span class="option-label">ข.</span> 8</div>
+                <div class="quiz-option"><span class="option-label">ค.</span> 15</div>
+                <div class="quiz-option"><span class="option-label">ง.</span> 2</div>
+            </div>
+            <button class="toggle-btn mt-4" onclick="toggleAnswer('ans8')">ดูเฉลย</button>
+            <div id="ans8" class="answer-reveal">
+                <p><span class="correct-badge">เฉลย ข้อ ก.</span></p>
+                <div class="explanation-text">
+                    <p><strong>วิธีทำ :</strong> คนที่ 1 เลือกได้ 5 ที่นั่ง , คนที่ 2 เลือกได้ 4 ที่นั่ง , คนที่ 3 เลือกได้ 3 ที่นั่ง</p>
+                    <p>จำนวนวิธี = 5 x 4 x 3 = 60 วิธี</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Question 9 -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 card-hover" id="q9">
+            <h3 class="font-bold text-lg text-slate-800 mb-4">9. มีบัตร 4 ใบ (เลข 1-4) นำมาเรียงเป็นเลขสองหลักได้กี่วิธี (ใช้แล้วหมดไป)</h3>
+            <div class="space-y-2">
+                <div class="quiz-option"><span class="option-label">ก.</span> 10</div>
+                <div class="quiz-option"><span class="option-label">ข.</span> 8</div>
+                <div class="quiz-option"><span class="option-label">ค.</span> 12</div>
+                <div class="quiz-option"><span class="option-label">ง.</span> 16</div>
+            </div>
+            <button class="toggle-btn mt-4" onclick="toggleAnswer('ans9')">ดูเฉลย</button>
+            <div id="ans9" class="answer-reveal">
+                <p><span class="correct-badge">เฉลย ข้อ ค.</span></p>
+                <div class="explanation-text">
+                    <p><strong>วิธีทำ :</strong> หลักสิบเลือกได้ 4 วิธี , หลักหน่วยเลือกได้ 3 วิธี (ห้ามซ้ำ)</p>
+                    <p>จำนวนวิธี = 4 x 3 = 12 วิธี</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Question 10 -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 card-hover" id="q10">
+            <h3 class="font-bold text-lg text-slate-800 mb-4">10. ในการโยนเหรียญ 3 เหรียญ 1 ครั้ง ความน่าจะเป็นที่เหรียญขึ้นหัวอย่างมาก 2 เหรียญ ตรงกับข้อใด</h3>
+            <div class="space-y-2">
+                <div class="quiz-option"><span class="option-label">ก.</span> <div class="fraction"><span class="top">6</span><span class="bottom">8</span></div></div>
+                <div class="quiz-option"><span class="option-label">ข.</span> <div class="fraction"><span class="top">7</span><span class="bottom">8</span></div></div>
+                <div class="quiz-option"><span class="option-label">ค.</span> 1</div>
+                <div class="quiz-option"><span class="option-label">ง.</span> 0</div>
+            </div>
+            <button class="toggle-btn mt-4" onclick="toggleAnswer('ans10')">ดูเฉลย</button>
+            <div id="ans10" class="answer-reveal">
+                <p><span class="correct-badge">เฉลย ข้อ ข.</span></p>
+                <div class="explanation-text">
+                    <p><strong>วิธีทำ :</strong> S = { HHH , HHT , HTH , HTT , THH , THT , TTH , TTT } (8 แบบ)</p>
+                    <p>E (หัวอย่างมาก 2) = ตัดกรณีหัว 3 เหรียญ (HHH) ออก 1 กรณี เหลือ 7 กรณี</p>
+                    <p>P(E) = <div class="fraction"><span class="top">7</span><span class="bottom">8</span></div></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Question 11 -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 card-hover" id="q11">
+            <h3 class="font-bold text-lg text-slate-800 mb-4">11. ครอบครัวหนึ่งต้องการมีบุตร 3 คน ความน่าจะเป็นที่ครอบครัวนี้จะมีบุตรคนแรกเป็นหญิง และคนสุดท้ายเป็นชาย</h3>
+            <div class="space-y-2">
+                <div class="quiz-option"><span class="option-label">ก.</span> <div class="fraction"><span class="top">1</span><span class="bottom">2</span></div></div>
+                <div class="quiz-option"><span class="option-label">ข.</span> <div class="fraction"><span class="top">3</span><span class="bottom">8</span></div></div>
+                <div class="quiz-option"><span class="option-label">ค.</span> <div class="fraction"><span class="top">1</span><span class="bottom">4</span></div></div>
+                <div class="quiz-option"><span class="option-label">ง.</span> <div class="fraction"><span class="top">5</span><span class="bottom">8</span></div></div>
+            </div>
+            <button class="toggle-btn mt-4" onclick="toggleAnswer('ans11')">ดูเฉลย</button>
+            <div id="ans11" class="answer-reveal">
+                <p><span class="correct-badge">เฉลย ข้อ ค.</span></p>
+                <div class="explanation-text">
+                    <p><strong>วิธีทำ :</strong> S มี 8 แบบ (2x2x2)</p>
+                    <p>E (หญิง - ... - ชาย) : คนกลางเป็นอะไรก็ได้ = { ญชช , ญญช } มี 2 แบบ</p>
+                    <p>P(E) = <div class="fraction"><span class="top">2</span><span class="bottom">8</span></div> = <div class="fraction"><span class="top">1</span><span class="bottom">4</span></div></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Question 12 -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 card-hover" id="q12">
+            <h3 class="font-bold text-lg text-slate-800 mb-4">12. จากข้อ 11 ความน่าจะเป็นที่ไม่ได้บุตรชายตรงกับข้อใด</h3>
+            <div class="space-y-2">
+                <div class="quiz-option"><span class="option-label">ก.</span> <div class="fraction"><span class="top">1</span><span class="bottom">2</span></div></div>
+                <div class="quiz-option"><span class="option-label">ข.</span> <div class="fraction"><span class="top">1</span><span class="bottom">4</span></div></div>
+                <div class="quiz-option"><span class="option-label">ค.</span> <div class="fraction"><span class="top">3</span><span class="bottom">8</span></div></div>
+                <div class="quiz-option"><span class="option-label">ง.</span> <div class="fraction"><span class="top">1</span><span class="bottom">8</span></div></div>
+            </div>
+            <button class="toggle-btn mt-4" onclick="toggleAnswer('ans12')">ดูเฉลย</button>
+            <div id="ans12" class="answer-reveal">
+                <p><span class="correct-badge">เฉลย ข้อ ง.</span></p>
+                <div class="explanation-text">
+                    <p><strong>วิธีทำ :</strong> ไม่ได้บุตรชาย = ได้หญิงล้วน { ญญญ } มี 1 กรณี</p>
+                    <p>P(E) = <div class="fraction"><span class="top">1</span><span class="bottom">8</span></div></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Question 13 -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 card-hover" id="q13">
+            <h3 class="font-bold text-lg text-slate-800 mb-4">13. ในการโยนลูกเต๋า 2 ลูก 1 ครั้ง ความน่าจะเป็นที่ลูกเต๋าลูกแรกมีแต้มมากกว่าลูกที่สองตรงกับข้อใด</h3>
+            <div class="space-y-2">
+                <div class="quiz-option"><span class="option-label">ก.</span> <div class="fraction"><span class="top">5</span><span class="bottom">12</span></div></div>
+                <div class="quiz-option"><span class="option-label">ข.</span> <div class="fraction"><span class="top">1</span><span class="bottom">6</span></div></div>
+                <div class="quiz-option"><span class="option-label">ค.</span> <div class="fraction"><span class="top">7</span><span class="bottom">12</span></div></div>
+                <div class="quiz-option"><span class="option-label">ง.</span> <div class="fraction"><span class="top">1</span><span class="bottom">2</span></div></div>
+            </div>
+            <button class="toggle-btn mt-4" onclick="toggleAnswer('ans13')">ดูเฉลย</button>
+            <div id="ans13" class="answer-reveal">
+                <p><span class="correct-badge">เฉลย ข้อ ก.</span></p>
+                <div class="explanation-text">
+                    <p><strong>วิธีทำ :</strong> n(S) = 36</p>
+                    <p>E (ลูกแรก > ลูกสอง) : (2,1), (3,1-2), (4,1-3), (5,1-4), (6,1-5) รวม 1+2+3+4+5 = 15 แบบ</p>
+                    <p>P(E) = <div class="fraction"><span class="top">15</span><span class="bottom">36</span></div> = <div class="fraction"><span class="top">5</span><span class="bottom">12</span></div></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Question 14 -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 card-hover" id="q14">
+            <h3 class="font-bold text-lg text-slate-800 mb-4">14. จากข้อ 13 ความน่าจะเป็นที่ผลคูณแต้มลูกเต๋าเป็นจำนวนเฉพาะ ตรงกับข้อใด</h3>
+            <div class="space-y-2">
+                <div class="quiz-option"><span class="option-label">ก.</span> <div class="fraction"><span class="top">5</span><span class="bottom">12</span></div></div>
+                <div class="quiz-option"><span class="option-label">ข.</span> <div class="fraction"><span class="top">1</span><span class="bottom">6</span></div></div>
+                <div class="quiz-option"><span class="option-label">ค.</span> <div class="fraction"><span class="top">5</span><span class="bottom">9</span></div></div>
+                <div class="quiz-option"><span class="option-label">ง.</span> <div class="fraction"><span class="top">2</span><span class="bottom">3</span></div></div>
+            </div>
+            <button class="toggle-btn mt-4" onclick="toggleAnswer('ans14')">ดูเฉลย</button>
+            <div id="ans14" class="answer-reveal">
+                <p><span class="correct-badge">เฉลย ข้อ ข.</span></p>
+                <div class="explanation-text">
+                    <p><strong>วิธีทำ :</strong> ผลคูณเป็นจำนวนเฉพาะ ต้องเกิดจาก 1 x (จำนวนเฉพาะ) เท่านั้น</p>
+                    <p>คู่ที่เป็นไปได้ : (1 , 2) , (2 , 1) , (1 , 3) , (3 , 1) , (1 , 5) , (5 , 1) รวม 6 แบบ</p>
+                    <p>P(E) = <div class="fraction"><span class="top">6</span><span class="bottom">36</span></div> = <div class="fraction"><span class="top">1</span><span class="bottom">6</span></div></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Question 15 -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 card-hover" id="q15">
+            <h3 class="font-bold text-lg text-slate-800 mb-4">15. ทอดลูกเต๋า 2 ลูก 1 ครั้ง ความน่าจะเป็นที่จะได้ผลรวมของแต้มบนหน้าลูกเต๋าเป็น 6 หรือ 12 มีค่าเท่าใด</h3>
+            <div class="space-y-2">
+                <div class="quiz-option"><span class="option-label">ก.</span> <div class="fraction"><span class="top">1</span><span class="bottom">6</span></div></div>
+                <div class="quiz-option"><span class="option-label">ข.</span> <div class="fraction"><span class="top">2</span><span class="bottom">3</span></div></div>
+                <div class="quiz-option"><span class="option-label">ค.</span> <div class="fraction"><span class="top">1</span><span class="bottom">2</span></div></div>
+                <div class="quiz-option"><span class="option-label">ง.</span> <div class="fraction"><span class="top">5</span><span class="bottom">6</span></div></div>
+            </div>
+            <button class="toggle-btn mt-4" onclick="toggleAnswer('ans15')">ดูเฉลย</button>
+            <div id="ans15" class="answer-reveal">
+                <p><span class="correct-badge">เฉลย ข้อ ก.</span></p>
+                <div class="explanation-text">
+                    <p><strong>วิธีทำ :</strong></p>
+                    <p>ผลรวม 6 : (1 , 5) , (2 , 4) , (3 , 3) , (4 , 2) , (5 , 1) = 5 แบบ</p>
+                    <p>ผลรวม 12 : (6 , 6) = 1 แบบ</p>
+                    <p>รวม 6 แบบ -> P(E) = <div class="fraction"><span class="top">6</span><span class="bottom">36</span></div> = <div class="fraction"><span class="top">1</span><span class="bottom">6</span></div></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Question 16 -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 card-hover" id="q16">
+            <h3 class="font-bold text-lg text-slate-800 mb-4">16. นักเรียนกลุ่มหนึ่งมี 10 คน เป็นนักเรียนหญิง 6 คน ถ้าสุ่มเลือกนักเรียนกลุ่มนี้ครั้งละ 2 คน ความน่าจะเป็นที่จะได้นักเรียนเพศเดียวกันเท่ากับเท่าใด</h3>
+            <div class="space-y-2">
+                <div class="quiz-option"><span class="option-label">ก.</span> <div class="fraction"><span class="top">1</span><span class="bottom">3</span></div></div>
+                <div class="quiz-option"><span class="option-label">ข.</span> <div class="fraction"><span class="top">7</span><span class="bottom">15</span></div></div>
+                <div class="quiz-option"><span class="option-label">ค.</span> <div class="fraction"><span class="top">8</span><span class="bottom">15</span></div></div>
+                <div class="quiz-option"><span class="option-label">ง.</span> <div class="fraction"><span class="top">2</span><span class="bottom">3</span></div></div>
+            </div>
+            <button class="toggle-btn mt-4" onclick="toggleAnswer('ans16')">ดูเฉลย</button>
+            <div id="ans16" class="answer-reveal">
+                <p><span class="correct-badge">เฉลย ข้อ ข.</span></p>
+                <div class="explanation-text">
+                    <p><strong>วิธีทำ :</strong> ชาย 4 คน , หญิง 6 คน</p>
+                    <p>n(S) = C(10 , 2) = 45 วิธี</p>
+                    <p>E (เพศเดียวกัน) = (ชาย 2) หรือ (หญิง 2)</p>
+                    <p>ชาย 2 = C(4 , 2) = 6 วิธี | หญิง 2 = C(6 , 2) = 15 วิธี | รวม 21 วิธี</p>
+                    <p>P(E) = <div class="fraction"><span class="top">21</span><span class="bottom">45</span></div> = <div class="fraction"><span class="top">7</span><span class="bottom">15</span></div></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Question 17 -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 card-hover" id="q17">
+            <h3 class="font-bold text-lg text-slate-800 mb-4">17. ไพ่สำรับหนึ่งมี 52 ใบ สุ่มหยิบไพ่มา 1 ใบ ความน่าจะเป็นที่ได้ K หรือโพดำ</h3>
+            <div class="space-y-2">
+                <div class="quiz-option"><span class="option-label">ก.</span> <div class="fraction"><span class="top">4</span><span class="bottom">13</span></div></div>
+                <div class="quiz-option"><span class="option-label">ข.</span> <div class="fraction"><span class="top">5</span><span class="bottom">13</span></div></div>
+                <div class="quiz-option"><span class="option-label">ค.</span> <div class="fraction"><span class="top">17</span><span class="bottom">52</span></div></div>
+                <div class="quiz-option"><span class="option-label">ง.</span> <div class="fraction"><span class="top">16</span><span class="bottom">52</span></div></div>
+            </div>
+            <button class="toggle-btn mt-4" onclick="toggleAnswer('ans17')">ดูเฉลย</button>
+            <div id="ans17" class="answer-reveal">
+                <p><span class="correct-badge">เฉลย ข้อ ก.</span></p>
+                <div class="explanation-text">
+                    <p><strong>วิธีทำ :</strong> K มี 4 ใบ , โพดำมี 13 ใบ</p>
+                    <p>K โพดำ ถูกนับซ้ำ 1 ใบ -> n(E) = 4 + 13 - 1 = 16</p>
+                    <p>P(E) = <div class="fraction"><span class="top">16</span><span class="bottom">52</span></div> = <div class="fraction"><span class="top">4</span><span class="bottom">13</span></div></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Question 18 -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 card-hover" id="q18">
+            <h3 class="font-bold text-lg text-slate-800 mb-4">18. สลากกาชาด 000 ถึง 999 ความน่าจะเป็นที่รางวัลที่ 1 จะเป็นหมายเลขที่เรียงถัดกัน (เช่น 123) เป็นเท่าใด</h3>
+            <div class="space-y-2">
+                <div class="quiz-option"><span class="option-label">ก.</span> <div class="fraction"><span class="top">1</span><span class="bottom">125</span></div></div>
+                <div class="quiz-option"><span class="option-label">ข.</span> <div class="fraction"><span class="top">2</span><span class="bottom">125</span></div></div>
+                <div class="quiz-option"><span class="option-label">ค.</span> <div class="fraction"><span class="top">8</span><span class="bottom">999</span></div></div>
+                <div class="quiz-option"><span class="option-label">ง.</span> <div class="fraction"><span class="top">16</span><span class="bottom">999</span></div></div>
+            </div>
+            <button class="toggle-btn mt-4" onclick="toggleAnswer('ans18')">ดูเฉลย</button>
+            <div id="ans18" class="answer-reveal">
+                <p><span class="correct-badge">เฉลย ข้อ ข.</span></p>
+                <div class="explanation-text">
+                    <p><strong>วิธีทำ :</strong> จำนวนทั้งหมด 1,000 หมายเลข</p>
+                    <p>เรียงเพิ่ม (8 จำนวน) : 012 , 123 , 234 , 345 , 456 , 567 , 678 , 789</p>
+                    <p>เรียงลด (8 จำนวน) : 210 , 321 , 432 , 543 , 654 , 765 , 876 , 987</p>
+                    <p>รวม 16 จำนวน -> P(E) = <div class="fraction"><span class="top">16</span><span class="bottom">1000</span></div> = <div class="fraction"><span class="top">2</span><span class="bottom">125</span></div></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Question 19 -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 card-hover" id="q19">
+            <h3 class="font-bold text-lg text-slate-800 mb-4">19. ตรวจสภาพไฟ 3 หลอด (ดี/เสีย) ความน่าจะเป็นที่จะพบ หลอดดี 2 หลอด และหลอดเสีย 1 หลอด เป็นเท่าใด</h3>
+            <div class="space-y-2">
+                <div class="quiz-option"><span class="option-label">ก.</span> <div class="fraction"><span class="top">1</span><span class="bottom">3</span></div></div>
+                <div class="quiz-option"><span class="option-label">ข.</span> <div class="fraction"><span class="top">2</span><span class="bottom">3</span></div></div>
+                <div class="quiz-option"><span class="option-label">ค.</span> <div class="fraction"><span class="top">3</span><span class="bottom">8</span></div></div>
+                <div class="quiz-option"><span class="option-label">ง.</span> <div class="fraction"><span class="top">1</span><span class="bottom">2</span></div></div>
+            </div>
+            <button class="toggle-btn mt-4" onclick="toggleAnswer('ans19')">ดูเฉลย</button>
+            <div id="ans19" class="answer-reveal">
+                <p><span class="correct-badge">เฉลย ข้อ ค.</span></p>
+                <div class="explanation-text">
+                    <p><strong>วิธีทำ :</strong> S มี 8 แบบ (2x2x2)</p>
+                    <p>E (ดี 2 เสีย 1) : { ดีดีเสีย , ดีเสียดี , เสียดีดี } มี 3 แบบ</p>
+                    <p>P(E) = <div class="fraction"><span class="top">3</span><span class="bottom">8</span></div></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Question 20 -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 card-hover" id="q20">
+            <h3 class="font-bold text-lg text-slate-800 mb-4">20. ครอบครัวหนึ่งมีบุตร 4 คน ความน่าจะเป็นที่จะมีบุตรเป็นผู้ชายอย่างน้อยที่สุดหนึ่งคนตรงกับข้อใด</h3>
+            <div class="space-y-2">
+                <div class="quiz-option"><span class="option-label">ก.</span> <div class="fraction"><span class="top">1</span><span class="bottom">4</span></div></div>
+                <div class="quiz-option"><span class="option-label">ข.</span> <div class="fraction"><span class="top">1</span><span class="bottom">2</span></div></div>
+                <div class="quiz-option"><span class="option-label">ค.</span> <div class="fraction"><span class="top">3</span><span class="bottom">4</span></div></div>
+                <div class="quiz-option"><span class="option-label">ง.</span> <div class="fraction"><span class="top">15</span><span class="bottom">16</span></div></div>
+            </div>
+            <button class="toggle-btn mt-4" onclick="toggleAnswer('ans20')">ดูเฉลย</button>
+            <div id="ans20" class="answer-reveal">
+                <p><span class="correct-badge">เฉลย ข้อ ง.</span></p>
+                <div class="explanation-text">
+                    <p><strong>วิธีทำ :</strong> S มี 16 แบบ (2 ยกกำลัง 4)</p>
+                    <p>คิดแบบตรงข้าม : ไม่มีชายเลย (หญิงล้วน) มี 1 แบบ { ญญญญ }</p>
+                    <p>ชายอย่างน้อย 1 = ทั้งหมด - หญิงล้วน = 16 - 1 = 15 แบบ</p>
+                    <p>P(E) = <div class="fraction"><span class="top">15</span><span class="bottom">16</span></div></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-8 text-center text-slate-400 text-sm">
+            <p>แบบทดสอบวัดความรู้ เรื่อง ความน่าจะเป็น</p>
+            <p class="mt-2 text-xs opacity-60">By-20nxskypqz</p>
+        </footer>
+
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        function toggleAnswer(id) {
+            const element = document.getElementById(id);
+            if (element.classList.contains('show')) {
+                element.classList.remove('show');
+                event.target.textContent = "ดูเฉลย";
+            } else {
+                element.classList.add('show');
+                event.target.textContent = "ซ่อนเฉลย";
+            }
+        }
+    </script>
+</body>
+</html>
