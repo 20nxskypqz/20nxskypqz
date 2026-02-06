@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บทที่ 2.4 ระบบภูมิคุ้มกัน</title>
+    <meta property="og:title" content="บทที่ 2.4 ระบบภูมิคุ้มกัน">
+    
+    <!-- Google Fonts: Niramit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Niramit', sans-serif;
+        }
+        .scroll-smooth {
+            scroll-behavior: smooth;
+        }
+        /* Animation for background elements */
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 selection:bg-teal-200 scroll-smooth font-niramit">
+
+    <!-- Navigation -->
+    <nav class="bg-white sticky top-0 z-50 shadow-sm border-b border-slate-100">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <span class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                    <i data-lucide="shield-check" class="text-teal-600"></i>
+                    Immune System
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-4 py-8 space-y-12">
+
+        <!-- Hero Section -->
+        <section class="text-center py-12 bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl text-white shadow-xl relative overflow-hidden">
+            <!-- Decorative background element -->
+            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-teal-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-64 h-64 bg-emerald-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+
+            <div class="relative z-10">
+                <h1 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">บทที่ 2 การรักษาดุลยภาพของร่างกาย</h1>
+                <h2 class="text-xl md:text-2xl text-teal-200 font-medium mb-6">2.4 ระบบภูมิคุ้มกัน</h2>
+                
+                <div class="mt-8 flex justify-center gap-3 flex-wrap text-xs md:text-sm">
+                    <div class="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full flex items-center gap-2 border border-white/20">
+                        <i data-lucide="shield" width="14"></i> ป้องกัน
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full flex items-center gap-2 border border-white/20">
+                        <i data-lucide="sword" width="14"></i> ต่อต้าน
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full flex items-center gap-2 border border-white/20">
+                        <i data-lucide="activity" width="14"></i> ฟื้นฟู
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 1: Overview & Structure -->
+        <section>
+            <div class="flex items-start gap-4 mb-6 border-b border-slate-200 pb-4">
+                <div class="p-3 bg-teal-50 rounded-lg text-teal-600">
+                    <i data-lucide="layout-grid" width="32" height="32"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">โครงสร้างของระบบภูมิคุ้มกัน</h2>
+                    <p class="text-slate-500 mt-1">อวัยวะและเนื้อเยื่อที่ทำหน้าที่ปกป้องร่างกาย</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <!-- Lymphocyte Production -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-lg text-teal-700 mb-3 flex items-center gap-2">
+                        <i data-lucide="hammer"></i> สร้างและพัฒนาเซลล์เม็ดเลือดขาว (ลิมโฟไซต์)
+                    </h3>
+                    <ul class="space-y-2 text-slate-600 ml-2">
+                        <li class="flex items-start gap-2">
+                            <span class="bg-teal-100 text-teal-800 text-xs px-2 py-0.5 rounded mt-0.5">ไขกระดูก</span>
+                            <span>สร้างเม็ดเลือดทุกชนิด , และพัฒนา B-cell</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="bg-teal-100 text-teal-800 text-xs px-2 py-0.5 rounded mt-0.5">ไทมัส</span>
+                            <span>พัฒนา T-cell ให้สมบูรณ์</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Trapping & Destroying -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-lg text-rose-700 mb-3 flex items-center gap-2">
+                        <i data-lucide="trash-2"></i> ดักจับและทำลายสิ่งแปลกปลอม
+                    </h3>
+                    <ul class="space-y-2 text-slate-600 ml-2">
+                        <li class="flex items-start gap-2">
+                            <span class="bg-rose-100 text-rose-800 text-xs px-2 py-0.5 rounded mt-0.5">ม้าม</span>
+                            <span>ดักจับเชื้อโรคในกระแสเลือด</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="bg-rose-100 text-rose-800 text-xs px-2 py-0.5 rounded mt-0.5">ต่อมน้ำเหลือง</span>
+                            <span>ดักจับเชื้อโรคในน้ำเหลือง</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="bg-rose-100 text-rose-800 text-xs px-2 py-0.5 rounded mt-0.5">อื่นๆ</span>
+                            <span>ทอนซิล , ไส้ติ่ง , เนื้อเยื่อน้ำเหลืองตามทางเดินอาหาร/หายใจ</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-sm text-slate-600">
+                <p class="mb-2"><strong>ลิมโฟไซต์ (Lymphocyte) :</strong> เซลล์เม็ดเลือดขาวที่ตอบสนองจำเพาะต่อสิ่งแปลกปลอม , ลำเลียงผ่านหลอดเลือดและน้ำเหลือง</p>
+                <p><strong>ไส้ติ่ง (Appendix) :</strong> ท่อปลายตันที่ลำไส้ใหญ่ส่วนต้น , มีลิมโฟไซต์หนาแน่น , และอาจเป็นที่อยู่ของแบคทีเรียที่มีประโยชน์</p>
+            </div>
+        </section>
+
+        <!-- Section 2: Non-specific Defense -->
+        <section>
+            <div class="flex items-start gap-4 mb-6 border-b border-slate-200 pb-4">
+                <div class="p-3 bg-teal-50 rounded-lg text-teal-600">
+                    <i data-lucide="shield-alert" width="32" height="32"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">2.4.1 กลไกแบบไม่จำเพาะ</h2>
+                    <p class="text-slate-500 mt-1">ด่านแรกของการป้องกันร่างกาย</p>
+                </div>
+            </div>
+
+            <!-- FIGURE 2 (Moved up for context) -->
+            <div class="mb-8 p-6 bg-slate-100 rounded-xl border border-slate-200">
+                <h4 class="text-center font-bold text-slate-700 mb-6 bg-white w-fit mx-auto px-6 py-2 rounded-full shadow-sm border border-slate-200">
+                    แผนผังกลไกการต่อต้านแบบไม่จำเพาะ
+                </h4>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3 bg-white p-3 rounded-lg shadow-sm">
+                            <div class="bg-teal-100 p-2 rounded text-teal-700 font-bold w-32 text-center">ผิวหนัง</div>
+                            <i data-lucide="arrow-right" class="text-slate-400"></i>
+                            <div class="text-sm">เป็นแนวขวางกั้น , ป้องกันสิ่งแปลกปลอมเข้าสู่ร่างกาย</div>
+                        </div>
+                        <div class="flex items-center gap-3 bg-white p-3 rounded-lg shadow-sm">
+                            <div class="bg-teal-100 p-2 rounded text-teal-700 font-bold w-32 text-center">ช่องปาก</div>
+                            <i data-lucide="arrow-right" class="text-slate-400"></i>
+                            <div class="text-sm">หลั่ง <strong>น้ำลาย</strong> , ทำลายสิ่งแปลกปลอมที่มากับอาหาร</div>
+                        </div>
+                        <div class="flex items-center gap-3 bg-white p-3 rounded-lg shadow-sm">
+                            <div class="bg-teal-100 p-2 rounded text-teal-700 font-bold w-32 text-center">กระเพาะอาหาร</div>
+                            <i data-lucide="arrow-right" class="text-slate-400"></i>
+                            <div class="text-sm">หลั่ง <strong>กรดไฮโดรคลอริก</strong> , ทำลายเชื้อโรค</div>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3 bg-white p-3 rounded-lg shadow-sm">
+                            <div class="bg-teal-100 p-2 rounded text-teal-700 font-bold w-32 text-center">ต่อมต่างๆ</div>
+                            <i data-lucide="arrow-right" class="text-slate-400"></i>
+                            <div class="text-sm">เหงื่อ , น้ำมัน , น้ำมูก , น้ำตา , ดักจับ/ทำลายสิ่งแปลกปลอม</div>
+                        </div>
+                        <div class="flex items-center gap-3 bg-white p-3 rounded-lg shadow-sm">
+                            <div class="bg-teal-100 p-2 rounded text-teal-700 font-bold w-32 text-center">ทางเดินหายใจ</div>
+                            <i data-lucide="arrow-right" class="text-slate-400"></i>
+                            <div class="text-sm">มี <strong>เมือกและซิเลีย</strong> , ดักจับฝุ่นละออง</div>
+                        </div>
+                        <div class="flex items-center gap-3 bg-white p-3 rounded-lg shadow-sm">
+                            <div class="bg-teal-100 p-2 rounded text-teal-700 font-bold w-32 text-center">เซลล์เม็ดเลือดขาว</div>
+                            <i data-lucide="arrow-right" class="text-slate-400"></i>
+                            <div class="text-sm">กลุ่ม <strong>ฟาโกไซต์</strong> , ดักจับทำลาย , ทำให้เกิดการอักเสบ</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-slate-100 mb-6">
+                <h3 class="font-bold text-lg text-slate-700 mb-4">ประเภทของเซลล์เม็ดเลือดขาว</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left text-slate-600">
+                        <thead class="text-xs text-slate-700 uppercase bg-slate-50">
+                            <tr>
+                                <th class="px-4 py-3 rounded-tl-lg">กลุ่ม</th>
+                                <th class="px-4 py-3">ชนิด</th>
+                                <th class="px-4 py-3 rounded-tr-lg">ลักษณะเด่นและหน้าที่</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td rowspan="3" class="px-4 py-3 font-medium text-indigo-700 bg-indigo-50/30 align-top">แกรนูโลไซต์<br><span class="text-xs font-normal text-slate-500">(นิวเคลียสหลายพู , มีแกรนูล)</span></td>
+                                <td class="px-4 py-3 font-medium">นิวโทรฟิล</td>
+                                <td class="px-4 py-3">มากที่สุด (60-70%) , กินเชื้อโรค , เกิดหนอง</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="px-4 py-3 font-medium">อิโอซิโนฟิล</td>
+                                <td class="px-4 py-3">ทำลายปรสิต/พยาธิ , กำจัดแอนติเจนที่จับกับแอนติบอดี</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="px-4 py-3 font-medium">เบโซฟิล</td>
+                                <td class="px-4 py-3">น้อยที่สุด , หลั่งฮิสตามีน (แพ้)</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2" class="px-4 py-3 font-medium text-rose-700 bg-rose-50/30 align-top">อะแกรนูโลไซต์<br><span class="text-xs font-normal text-slate-500">(นิวเคลียสกลม/รูปไต , ไร้แกรนูลพิเศษ)</span></td>
+                                <td class="px-4 py-3 font-medium">ลิมโฟไซต์</td>
+                                <td class="px-4 py-3">ขนาดเล็กสุด , นิวเคลียสกลมโต , แบ่งเป็น B-cell และ T-cell</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-medium">โมโนไซต์</td>
+                                <td class="px-4 py-3">ขนาดใหญ่สุด , เมื่อเข้าเนื้อเยื่อจะเปลี่ยนเป็น <strong>แมโครฟาจ</strong> (นักกินจุ)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- FIGURE 1: Phagocytosis & Inflammation -->
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-rose-50 p-6 rounded-xl border border-rose-100">
+                    <h4 class="font-bold text-rose-800 mb-3 flex items-center gap-2"><i data-lucide="flame"></i> การอักเสบ (Inflammation)</h4>
+                    <p class="text-sm text-rose-700 mb-3">เมื่อเกิดบาดแผล , เชื้อโรคเข้าสู่ร่างกาย :</p>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-6 bg-rose-200 text-rose-700 rounded-full flex items-center justify-center text-xs font-bold">1</span>
+                            <span class="text-sm text-slate-700">หลอดเลือดขยายตัว &rarr; บวม , แดง , ร้อน , เจ็บ</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-6 bg-rose-200 text-rose-700 rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                            <span class="text-sm text-slate-700">ฟาโกไซต์ (นิวโทรฟิล , โมโนไซต์) เข้ากินเชื้อโรค</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-6 bg-rose-200 text-rose-700 rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                            <span class="text-sm text-slate-700">กลายเป็น <strong>หนอง</strong> (ซากเซลล์ + เชื้อโรค)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <h4 class="font-bold text-slate-700 mb-3">เกร็ดความรู้ : สิว (Acne)</h4>
+                    <p class="text-sm text-slate-600 mb-2">
+                        เกิดจากต่อมไขมันอุดตัน (ซีบัมมากเกินไป) , ทำให้แบคทีเรีย <em>P. acnes</em> เพิ่มจำนวน
+                    </p>
+                    <ul class="text-sm text-slate-600 list-disc list-inside">
+                        <li>ทำลายเนื้อเยื่อรอบรูขุมขน</li>
+                        <li>กระตุ้นการอักเสบ (สิวอักเสบ)</li>
+                        <li>ตุ่มบวมแดง , เจ็บ , อาจมีหนอง</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Specific Defense -->
+        <section>
+            <div class="flex items-start gap-4 mb-6 border-b border-slate-200 pb-4">
+                <div class="p-3 bg-teal-50 rounded-lg text-teal-600">
+                    <i data-lucide="target" width="32" height="32"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">2.4.2 กลไกแบบจำเพาะ</h2>
+                    <p class="text-slate-500 mt-1">การทำงานของลิมโฟไซต์ (B-cell และ T-cell)</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white p-5 rounded-xl border border-slate-100 shadow-sm">
+                    <h3 class="font-bold text-indigo-700 mb-2">คำศัพท์สำคัญ</h3>
+                    <ul class="text-sm text-slate-600 space-y-2">
+                        <li><strong>แอนติเจน (Antigen) :</strong> สิ่งแปลกปลอมที่กระตุ้นภูมิคุ้มกัน</li>
+                        <li><strong>แอนติบอดี (Antibody) :</strong> โปรตีนที่สร้างมาจับกับแอนติเจนอย่างจำเพาะ</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-5 rounded-xl border border-slate-100 shadow-sm">
+                    <h3 class="font-bold text-teal-700 mb-2">ชนิดของเซลล์</h3>
+                    <ul class="text-sm text-slate-600 space-y-2">
+                        <li><strong>เซลล์บี (B cell) :</strong> สร้างที่ไขกระดูก &rarr; พัฒนาเป็นพลาสมาเซลล์ &rarr; สร้างแอนติบอดี</li>
+                        <li><strong>เซลล์ที (T cell) :</strong> สร้างที่ไขกระดูก , พัฒนาที่ไทมัส &rarr; ทำลายเซลล์ติดเชื้อ / ช่วยกระตุ้นเซลล์อื่น</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- FIGURE 3: Specific Immune Response Diagram -->
+            <div class="bg-slate-800 p-8 rounded-xl border border-slate-700 text-white relative">
+                <h4 class="text-center font-bold text-white mb-8 bg-slate-700 w-fit mx-auto px-6 py-2 rounded-full shadow-sm border border-slate-600">
+                    แผนผังสรุปกลไกแบบจำเพาะ
+                </h4>
+
+                <div class="flex flex-col items-center mb-8">
+                    <div class="bg-rose-500 p-3 rounded-full animate-bounce shadow-lg shadow-rose-900/50">
+                        <i data-lucide="bug" width="24"></i>
+                    </div>
+                    <span class="text-rose-400 font-bold mt-2">แอนติเจน / เชื้อโรค</span>
+                    <i data-lucide="arrow-down" class="text-slate-500 my-2"></i>
+                    <div class="text-xs text-slate-400 bg-slate-900 px-2 py-1 rounded">กระตุ้น</div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8 text-center relative">
+                    <!-- Helper T Cell (Center) -->
+                    <div class="md:col-start-2 md:row-start-1 order-1 md:order-none mb-8 md:mb-0 relative z-10">
+                        <div class="bg-yellow-500 text-slate-900 p-4 rounded-xl font-bold shadow-lg shadow-yellow-900/50 mx-auto w-40">
+                            เซลล์ทีผู้ช่วย<br>(Helper T)
+                        </div>
+                        <div class="text-xs text-yellow-300 mt-2">ผู้บัญชาการ</div>
+                        
+                        <!-- Arrows out -->
+                        <div class="hidden md:block absolute top-1/2 -left-16 w-16 h-0.5 bg-yellow-500"></div>
+                        <div class="hidden md:block absolute top-1/2 -right-16 w-16 h-0.5 bg-yellow-500"></div>
+                        
+                        <!-- Arrows out (Mobile) -->
+                        <div class="md:hidden flex justify-center gap-8 my-2">
+                            <i data-lucide="arrow-down-left" class="text-yellow-500"></i>
+                            <i data-lucide="arrow-down-right" class="text-yellow-500"></i>
+                        </div>
+                    </div>
+
+                    <!-- B Cell Path -->
+                    <div class="order-2 relative">
+                        <div class="bg-indigo-600 p-4 rounded-xl font-bold shadow-lg shadow-indigo-900/50 mb-4 mx-auto w-40">
+                            เซลล์บี (B Cell)
+                        </div>
+                        <i data-lucide="arrow-down" class="mx-auto text-indigo-400 mb-2"></i>
+                        <div class="bg-indigo-500 p-3 rounded-lg text-sm mb-4 mx-auto w-36">
+                            เซลล์พลาสมา
+                        </div>
+                        <i data-lucide="arrow-down" class="mx-auto text-indigo-400 mb-2"></i>
+                        <div class="flex justify-center gap-2 mb-4">
+                            <i data-lucide="y-axis" class="text-rose-400 rotate-180"></i>
+                            <i data-lucide="y-axis" class="text-rose-400 rotate-180"></i>
+                        </div>
+                        <div class="text-sm text-rose-300 font-bold">หลั่งแอนติบอดี</div>
+                        <div class="text-xs text-slate-400">จับกับแอนติเจน</div>
+                        
+                        <div class="mt-4 bg-slate-700 p-2 rounded-lg text-xs mx-auto w-32 border border-slate-600">
+                            + เซลล์ความจำ<br>(Memory B)
+                        </div>
+                    </div>
+
+                    <!-- Cytotoxic T Cell Path -->
+                    <div class="order-3 relative">
+                        <div class="bg-emerald-600 p-4 rounded-xl font-bold shadow-lg shadow-emerald-900/50 mb-4 mx-auto w-44">
+                            เซลล์ทีทำลาย<br>(Cytotoxic T)
+                        </div>
+                        <i data-lucide="arrow-down" class="mx-auto text-emerald-400 mb-2"></i>
+                        <div class="bg-emerald-500 p-3 rounded-lg text-sm mb-4 mx-auto w-40">
+                            เข้าทำลายเซลล์
+                        </div>
+                        <div class="text-xs text-slate-400 mb-4">
+                            เซลล์ติดไวรัส / เซลล์มะเร็ง
+                        </div>
+                        
+                        <div class="mt-8 bg-slate-700 p-2 rounded-lg text-xs mx-auto w-32 border border-slate-600">
+                            + เซลล์ความจำ<br>(Memory T)
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8 text-center text-xs text-slate-400 bg-slate-900 p-3 rounded-lg">
+                    <strong>Note :</strong> ถ้าเซลล์ทีผู้ช่วยถูกทำลาย (เช่น โดย HIV) ระบบภูมิคุ้มกันจะล่มสลาย , เพราะขาดตัวกระตุ้นทั้ง 2 ฝั่ง
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Immunization -->
+        <section>
+            <div class="flex items-start gap-4 mb-6 border-b border-slate-200 pb-4">
+                <div class="p-3 bg-teal-50 rounded-lg text-teal-600">
+                    <i data-lucide="syringe" width="32" height="32"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">การสร้างภูมิคุ้มกัน</h2>
+                    <p class="text-slate-500 mt-1">เกราะป้องกันโรคแบบรับมาและก่อเอง</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <!-- Passive -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+                    <div class="bg-orange-100 p-4 text-orange-800 font-bold flex items-center gap-2">
+                        <i data-lucide="download"></i> 1. ภูมิคุ้มกันรับมา (Passive)
+                    </div>
+                    <div class="p-6">
+                        <p class="text-sm text-slate-600 mb-4">รับแอนติบอดีเข้าสู่ร่างกายโดยตรง , <strong>ทำงานทันที , แต่อยู่ไม่นาน</strong></p>
+                        <ul class="space-y-2 text-sm text-slate-700">
+                            <li class="flex gap-2"><i data-lucide="check" class="text-orange-500 w-4"></i> จากแม่สู่ลูก (ผ่านรก / น้ำนม)</li>
+                            <li class="flex gap-2"><i data-lucide="check" class="text-orange-500 w-4"></i> ฉีดเซรุ่ม (Serum) เช่น เซรุ่มพิษสุนัขบ้า , พิษงู</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Active -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+                    <div class="bg-blue-100 p-4 text-blue-800 font-bold flex items-center gap-2">
+                        <i data-lucide="wrench"></i> 2. ภูมิคุ้มกันก่อเอง (Active)
+                    </div>
+                    <div class="p-6">
+                        <p class="text-sm text-slate-600 mb-4">รับเชื้อ/วัคซีน , แล้วร่างกายสร้างแอนติบอดีเอง , <strong>ใช้เวลาสร้าง , แต่อยู่ได้นาน</strong></p>
+                        <ul class="space-y-2 text-sm text-slate-700">
+                            <li class="flex gap-2"><i data-lucide="check" class="text-blue-500 w-4"></i> การป่วยและหายเอง (เช่น อีสุกอีใส)</li>
+                            <li class="flex gap-2"><i data-lucide="check" class="text-blue-500 w-4"></i> การฉีดวัคซีน (Vaccine)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                <h4 class="font-bold text-slate-700 mb-4">เกร็ดความรู้เรื่องวัคซีน</h4>
+                <div class="grid md:grid-cols-3 gap-4 text-sm">
+                    <div class="bg-white p-3 rounded shadow-sm border-l-4 border-teal-500">
+                        <strong>บาดทะยัก</strong>
+                        <p class="text-slate-500 text-xs mt-1">ต้องฉีดกระตุ้นทุก 10 ปี</p>
+                    </div>
+                    <div class="bg-white p-3 rounded shadow-sm border-l-4 border-teal-500">
+                        <strong>ผู้ใหญ่/ผู้สูงอายุ</strong>
+                        <p class="text-slate-500 text-xs mt-1">ควรฉีดไข้หวัดใหญ่ , มะเร็งปากมดลูก (หญิง)</p>
+                    </div>
+                    <div class="bg-white p-3 rounded shadow-sm border-l-4 border-teal-500">
+                        <strong>นักท่องเที่ยว</strong>
+                        <p class="text-slate-500 text-xs mt-1">ไข้เหลือง (แอฟริกา/อเมริกาใต้) , ไทฟอยด์ (เอเชียใต้)</p>
+                    </div>
+                </div>
+                <p class="text-xs text-slate-500 mt-4 text-center">* ต้องฉีดซ้ำเพื่อกระตุ้นให้ระดับแอนติบอดีสูงเพียงพอต่อการป้องกันโรค</p>
+            </div>
+        </section>
+
+        <!-- Section 5: Immune Disorders -->
+        <section>
+            <div class="flex items-start gap-4 mb-6 border-b border-slate-200 pb-4">
+                <div class="p-3 bg-teal-50 rounded-lg text-teal-600">
+                    <i data-lucide="alert-triangle" width="32" height="32"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">ความผิดปกติของระบบภูมิคุ้มกัน</h2>
+                    <p class="text-slate-500 mt-1">ภูมิแพ้ , SLE , และ โรคเอดส์</p>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Allergy -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-lg text-indigo-700 mb-2">1. โรคภูมิแพ้ (Allergy)</h3>
+                    <p class="text-sm text-slate-600 mb-3">ตอบสนองต่อ <strong>สารก่อภูมิแพ้ (Allergen)</strong> รุนแรงเกินไป</p>
+                    <div class="bg-indigo-50 p-4 rounded-lg text-sm text-slate-700">
+                        <strong>กลไก :</strong> สารก่อภูมิแพ้ &rarr; กระตุ้นสร้าง IgE &rarr; เกาะที่ <strong>แมสต์เซลล์ (Mast cell)</strong> &rarr; หลั่ง <strong>ฮิสตามิน (Histamine)</strong>
+                        <br><br>
+                        <strong>อาการ :</strong> ไอ , จาม , คัน , ผื่น , บวม (ถ้าแพ้รุนแรงอาจถึงตาย)
+                        <br>
+                        <strong>รักษา :</strong> ยาแก้แพ้ (Antihistamine)
+                    </div>
+                </div>
+
+                <!-- SLE -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-lg text-purple-700 mb-2">2. โรคลูปัส / เอสแอลอี (SLE)</h3>
+                    <p class="text-sm text-slate-600 mb-3">โรคภูมิคุ้มกันทำลายตนเอง (Autoimmune)</p>
+                    <div class="bg-purple-50 p-4 rounded-lg text-sm text-slate-700">
+                        ร่างกายสร้างแอนติบอดีทำลายเนื้อเยื่อตนเอง (หัวใจ , ไต , ข้อ , ผิวหนัง)
+                        <br>
+                        <strong>อาการเด่น :</strong> ผื่นแดงรูปผีเสื้อที่หน้า , ปวดข้อ
+                    </div>
+                </div>
+
+                <!-- AIDS -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-lg text-rose-700 mb-2">3. โรคเอดส์ (AIDS)</h3>
+                    <p class="text-sm text-slate-600 mb-3">ภูมิคุ้มกันบกพร่องจากการติดเชื้อ <strong>HIV</strong></p>
+                    
+                    <!-- FIGURE 4: HIV Mechanism -->
+                    <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 text-white mb-4">
+                        <h4 class="text-center font-bold text-white mb-6 bg-slate-700 w-fit mx-auto px-6 py-2 rounded-full shadow-sm border border-slate-600">
+                            วงจรการทำลายล้างของ HIV
+                        </h4>
+                        <div class="flex flex-col items-center gap-4 text-center text-sm">
+                            <div class="bg-rose-500 p-2 rounded-full animate-pulse shadow-lg shadow-rose-900/50">HIV (ไวรัส)</div>
+                            <i data-lucide="arrow-down" class="text-slate-500"></i>
+                            <div class="bg-yellow-600 p-2 rounded-lg w-full max-w-xs">
+                                เจาะเข้าสู่ <strong>เซลล์ทีผู้ช่วย (Helper T)</strong>
+                            </div>
+                            <i data-lucide="arrow-down" class="text-slate-500"></i>
+                            <div class="bg-slate-700 p-2 rounded-lg w-full max-w-xs border border-slate-600">
+                                ใช้เซลล์ทีเป็นโรงงานผลิตไวรัสตัวใหม่
+                            </div>
+                            <i data-lucide="arrow-down" class="text-slate-500"></i>
+                            <div class="bg-slate-900 p-2 rounded-lg w-full max-w-xs border border-slate-700 text-rose-400">
+                                เซลล์ทีแตกตาย &rarr; ปล่อย HIV จำนวนมากไปติดเซลล์อื่น
+                            </div>
+                            <i data-lucide="arrow-down" class="text-slate-500"></i>
+                            <div class="bg-rose-900/50 p-3 rounded-lg w-full max-w-xs border border-rose-800 text-rose-200">
+                                <strong>ผลลัพธ์ :</strong> เซลล์ทีผู้ช่วยลดจำนวนลง &rarr; ภูมิคุ้มกันล่มสลาย &rarr; โรคแทรกซ้อน (วัณโรค , ปอดบวม)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-4 text-sm">
+                        <div class="bg-rose-50 p-3 rounded-lg">
+                            <strong class="text-rose-800">การติดต่อ</strong>
+                            <ul class="list-disc list-inside text-rose-700 mt-1">
+                                <li>เลือด / สารคัดหลั่งทางเพศสัมพันธ์</li>
+                                <li>แม่สู่ลูก (ครรภ์/น้ำนม)</li>
+                                <li>เข็มฉีดยาร่วมกัน</li>
+                            </ul>
+                        </div>
+                        <div class="bg-green-50 p-3 rounded-lg">
+                            <strong class="text-green-800">ไม่ติดต่อผ่าน</strong>
+                            <ul class="list-disc list-inside text-green-700 mt-1">
+                                <li>เหงื่อ , น้ำลาย , น้ำตา (เชื้อน้อยมาก)</li>
+                                <li>การสัมผัสทั่วไป</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center text-sm mt-12">
+        <div class="max-w-4xl mx-auto px-4 flex flex-col justify-center items-center gap-2">
+           <i data-lucide="book-open" width="20"></i>
+           <span class="text-base font-semibold">2.4 ระบบภูมิคุ้มกัน</span>
+           <span class="text-xs opacity-70">By-20nxskypqz</span>
+        </div>
+    </footer>
+
+    <!-- Script to render Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
