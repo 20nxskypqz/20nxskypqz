@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บทที่ 6.2 การหาขนาดของ DNA และการหาลำดับนิวคลีโอไทด์</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Import Niramit Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Force Niramit font everywhere */
+        body, h1, h2, h3, h4, h5, h6, p, span, div, li, a, button {
+            font-family: 'Niramit', sans-serif !important;
+        }
+
+        body {
+            background-color: #f0fdf4; /* Green-50 background base */
+            color: #1e293b; /* Slate-800 text */
+            line-height: 1.8;
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Highlight styles */
+        .hl-term {
+            font-weight: bold;
+            color: #047857; /* Emerald-700 */
+        }
+        .hl-imp {
+            font-weight: bold;
+            background-color: #fef3c7; /* Yellow-100 */
+            padding: 0 4px;
+            border-radius: 4px;
+            color: #92400e; /* Amber-800 */
+        }
+        .hl-process {
+            font-weight: bold;
+            color: #0369a1; /* Sky-700 */
+        }
+
+        /* Gel Electrophoresis Simulation Styles */
+        .gel-tank {
+            background-color: #e0f2fe;
+            border: 4px solid #bae6fd;
+            border-radius: 8px;
+            position: relative;
+        }
+        .gel-slab {
+            background-color: #cbd5e1; /* agarose color */
+            opacity: 0.8;
+            border-radius: 4px;
+        }
+        .gel-well {
+            background-color: #475569;
+            height: 10px;
+            width: 30px;
+            margin: 0 auto;
+            border-radius: 0 0 4px 4px;
+        }
+        .dna-band {
+            height: 4px;
+            background-color: #ef4444; /* ethidium bromide stain look (reddish/pink under UV) or blue for loading dye */
+            border-radius: 2px;
+            width: 20px;
+            margin: 0 auto;
+        }
+        
+        /* Real UV Gel Look */
+        .uv-gel {
+            background-color: #1e1e1e; /* Dark background */
+            border: 2px solid #333;
+        }
+        .uv-band {
+            background-color: #fff; /* Glowing band */
+            box-shadow: 0 0 5px #fff, 0 0 10px #bfdbfe;
+            height: 3px;
+            width: 25px;
+            border-radius: 2px;
+            margin: 0 auto;
+        }
+
+        /* Chromatogram Styles */
+        .chroma-peak {
+            border-radius: 50% 50% 0 0;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <!-- Navbar -->
+    <nav class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <i data-lucide="dna" class="w-8 h-8"></i>
+                <div>
+                    <h1 class="text-xl font-bold leading-none">Biology Note</h1>
+                </div>
+            </div>
+            <span class="bg-emerald-800 bg-opacity-50 px-3 py-1 rounded-full text-sm font-light hidden md:inline-block">บทที่ 6.2</span>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto px-4 py-8 space-y-8">
+
+        <!-- Header Section -->
+        <header class="text-center py-6">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-800 mb-2 text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600">
+                บทที่ 6 เทคโนโลยีทางดีเอ็นเอ
+            </h1>
+            <h2 class="text-xl md:text-2xl font-bold text-slate-600 mb-4">
+                6.2 การหาขนาดของ DNA และการหาลำดับนิวคลีโอไทด์
+            </h2>
+        </header>
+
+        <!-- 6.2.1 การหาขนาด DNA -->
+        <section id="section-6-2-1" class="scroll-mt-20">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden card-hover">
+                <div class="bg-blue-50 px-6 py-4 border-b border-blue-100 flex items-center gap-3">
+                    <span class="bg-blue-600 text-white w-14 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow-md">6.2.1</span>
+                    <h2 class="text-2xl font-bold text-blue-900">การหาขนาด DNA ด้วยเทคนิคเจลอิเล็กโทรฟอรีซิส</h2>
+                </div>
+
+                <div class="p-6 md:p-8 space-y-6 text-slate-700">
+                    <p class="indent-8">
+                        เมื่อเพิ่มจำนวน DNA แล้ว สามารถนำมาหาขนาดของ DNA ได้ด้วยเทคนิค <span class="hl-term">เจลอิเล็กโทรฟอรีซิส (gel electrophoresis)</span> ซึ่งแยกโมเลกุลของ DNA ที่มีขนาดแตกต่างกันออกจากกันในสนามไฟฟ้าผ่าน ตัวกลางที่มีลักษณะเป็นวุ้นที่มีรูพรุน นอกจากนี้ยังสามารถใช้แยกและศึกษาโมเลกุลของโปรตีนได้อีกด้วย
+                    </p>
+                    <p class="indent-8">
+                        เทคนิคเจลอิเล็กโทรฟอรีซิสทำได้โดยให้โมเลกุล DNA เคลื่อนที่ผ่านตัวกลาง เช่น <span class="hl-imp">อะกาโรสเจล (agarose gel)</span> และ <strong>พอลิอะคริลาไมด์เจล (polyacrylamide gel)</strong> ที่อยู่ภายใต้สนามไฟฟ้า ดังรูป โมเลกุลของ DNA เป็นโมเลกุลที่มี <span class="font-bold text-red-500">ประจุลบ</span> จะเคลื่อนที่เข้าหา <span class="font-bold text-blue-600">ขั้วบวก</span> โดยผ่านไปตามรูพรุนของตัวกลาง โดยที่ <strong>โมเลกุล DNA ที่มีขนาดเล็กจะเคลื่อนที่ผ่านรูพรุนในวุ้นได้เร็วกว่าโมเลกุลที่มีขนาดใหญ่</strong> โมเลกุล DNA ขนาดต่างๆ จึงแยกออกจากกันภายใต้สนามไฟฟ้า ส่วนโมเลกุล DNA ที่มีขนาดเดียวกันจะ เคลื่อนที่ได้ระยะทางเท่ากัน
+                    </p>
+
+                    <!-- รูปที่ 1: เครื่องมือ (Gel Electrophoresis Setup) -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 my-6">
+                        <div class="text-center font-bold text-slate-500 mb-4 text-sm">เจลอิเล็กโทรฟอรีซิส (gel electrophoresis)</div>
+                        <div class="flex flex-col md:flex-row justify-center items-center gap-8">
+                            
+                            <!-- Power Supply -->
+                            <div class="flex flex-col items-center">
+                                <span class="text-xs mb-1">เครื่องให้กระแสไฟฟ้า</span>
+                                <div class="w-32 h-24 bg-gray-100 rounded-lg shadow-md border border-gray-300 flex flex-col justify-end p-2 relative">
+                                    <div class="absolute top-2 left-2 w-full h-8 bg-gray-200 rounded opacity-50"></div>
+                                    <div class="bg-black text-red-500 font-mono text-center text-lg rounded mb-2">120 V</div>
+                                    <div class="flex justify-around">
+                                        <div class="w-4 h-4 bg-red-600 rounded-full border-2 border-gray-400"></div> <!-- Red Port -->
+                                        <div class="w-4 h-4 bg-black rounded-full border-2 border-gray-400"></div> <!-- Black Port -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Wires -->
+                            <div class="hidden md:flex flex-col w-20 relative h-24 justify-center">
+                                <div class="absolute top-1/2 left-0 w-full h-1 bg-red-500 transform -rotate-12 rounded"></div>
+                                <div class="absolute top-1/2 left-0 w-full h-1 bg-black transform rotate-12 rounded"></div>
+                            </div>
+
+                            <!-- Gel Tank -->
+                            <div class="relative">
+                                <div class="absolute -left-16 top-10 text-xs text-right w-32 hidden md:block">
+                                    <div class="mb-2">ช่องสำหรับใส่ตัวอย่าง DNA <span class="text-slate-400">→</span></div>
+                                    <div>ตัวกลางที่เป็นอะกาโรสเจล <span class="text-slate-400">→</span></div>
+                                </div>
+                                <div class="w-48 h-32 gel-tank shadow-md flex flex-col items-center justify-center p-2">
+                                    <div class="absolute top-2 left-2 text-xs font-bold text-slate-500">ขั้วลบ (-)</div>
+                                    <div class="absolute bottom-2 left-2 text-xs font-bold text-red-500">ขั้วบวก (+)</div>
+                                    
+                                    <!-- The Gel -->
+                                    <div class="w-32 h-24 gel-slab relative">
+                                        <div class="flex justify-around pt-1">
+                                            <div class="gel-well"></div>
+                                            <div class="gel-well"></div>
+                                            <div class="gel-well"></div>
+                                        </div>
+                                        <!-- Simulated DNA moving -->
+                                        <div class="absolute top-8 left-0 w-full flex justify-around opacity-50">
+                                            <div class="dna-band bg-purple-500 w-6"></div>
+                                            <div class="dna-band bg-purple-500 w-6 translate-y-4"></div>
+                                            <div class="dna-band bg-purple-500 w-6 translate-y-8"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Electrodes simulation -->
+                                    <div class="absolute top-0 w-full h-1 bg-black opacity-20"></div>
+                                    <div class="absolute bottom-0 w-full h-1 bg-red-600 opacity-20"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- รูปที่ 2: Process Flow -->
+                    <div class="bg-white border border-slate-200 rounded-xl p-6 my-6 shadow-sm">
+                        <div class="text-center font-bold text-slate-500 mb-4 text-sm">โมเลกุล DNA เคลื่อนที่ผ่านตัวกลางที่เป็นอะกาโรสเจล</div>
+                        <div class="grid md:grid-cols-3 gap-4 text-center">
+                            <!-- Step 1 -->
+                            <div class="flex flex-col items-center">
+                                <div class="w-32 h-40 border-2 border-blue-300 rounded p-2 relative">
+                                    <div class="absolute top-1 left-2 text-xs text-slate-400">-</div>
+                                    <div class="absolute bottom-1 left-2 text-xs text-slate-400">+</div>
+                                    <div class="flex justify-around mb-2">
+                                        <div class="w-6 h-2 bg-blue-600 rounded-sm"></div>
+                                        <div class="w-6 h-2 bg-blue-600 rounded-sm"></div>
+                                        <div class="w-6 h-2 bg-blue-600 rounded-sm"></div>
+                                    </div>
+                                    <div class="text-xs text-slate-400 mt-10">agarose gel</div>
+                                    <!-- Pipette Tip Simulation -->
+                                    <div class="absolute -top-6 left-1/2 transform -translate-x-1/2">
+                                        <i data-lucide="pipette" class="text-slate-500 transform rotate-180"></i>
+                                    </div>
+                                </div>
+                                <p class="text-xs mt-2 font-bold text-blue-800 bg-blue-50 p-2 rounded w-full">ใส่ตัวอย่าง DNA ลงใน<br>ช่องบนแผ่นอะกาโรสเจล</p>
+                            </div>
+                            
+                            <!-- Arrow -->
+                            <div class="hidden md:flex items-center justify-center text-slate-300"><i data-lucide="arrow-right" class="w-8 h-8"></i></div>
+
+                            <!-- Step 2 -->
+                            <div class="flex flex-col items-center">
+                                <div class="w-32 h-40 border-2 border-blue-300 rounded p-2 relative">
+                                    <div class="flex justify-around">
+                                        <div class="w-6 h-2 bg-blue-600 opacity-20 rounded-sm"></div>
+                                        <div class="w-6 h-2 bg-blue-600 opacity-20 rounded-sm"></div>
+                                        <div class="w-6 h-2 bg-blue-600 opacity-20 rounded-sm"></div>
+                                    </div>
+                                    <div class="mt-4 flex justify-around">
+                                        <div class="w-6 h-1 bg-black rounded-sm"></div> <!-- Slow -->
+                                        <div class="w-6 h-1 bg-black rounded-sm translate-y-4"></div> <!-- Medium -->
+                                        <div class="w-6 h-1 bg-black rounded-sm translate-y-8"></div> <!-- Fast -->
+                                    </div>
+                                </div>
+                                <p class="text-xs mt-2 font-bold text-blue-800 bg-blue-50 p-2 rounded w-full">DNA เคลื่อนที่ผ่าน<br>อะกาโรสเจล</p>
+                            </div>
+
+                            <!-- Arrow -->
+                            <div class="hidden md:flex items-center justify-center text-slate-300"><i data-lucide="arrow-right" class="w-8 h-8"></i></div>
+
+                            <!-- Step 3 -->
+                            <div class="flex flex-col items-center">
+                                <div class="w-32 h-40 border-2 border-blue-300 rounded p-2 relative">
+                                    <div class="mt-4 flex justify-around h-full">
+                                        <!-- Lane 1 -->
+                                        <div class="flex flex-col gap-1 items-center w-6">
+                                            <div class="w-full h-1 bg-black"></div>
+                                            <div class="w-full h-1 bg-black mt-2"></div>
+                                            <div class="w-full h-1 bg-black mt-4"></div>
+                                        </div>
+                                        <!-- Lane 2 -->
+                                        <div class="flex flex-col gap-1 items-center w-6">
+                                            <div class="w-full h-1 bg-black mt-6"></div>
+                                        </div>
+                                        <!-- Lane 3 -->
+                                        <div class="flex flex-col gap-1 items-center w-6">
+                                            <div class="w-full h-1 bg-black mt-10"></div>
+                                            <div class="w-full h-1 bg-black mt-4"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="text-xs mt-2 font-bold text-blue-800 bg-blue-50 p-2 rounded w-full">DNA แยกออกจากกัน<br>ตามขนาด</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="indent-8">
+                        DNA ที่อยู่ในรูปสารละลายจะมีลักษณะใส ไม่มีสี จึงไม่สามารถมองเห็นได้ ต้องอาศัยการย้อม สีในการตรวจสอบ DNA สามารถใช้สีย้อมได้หลายชนิด เช่น <strong>อีธิเดียมโบรไมด์ (ethidium bromide)</strong> ซึ่งจะจับกับโมเลกุล DNA จากนั้นนำไปส่องด้วยแสงอัลตราไวโอเลตจะเกิดการเรืองแสง บริเวณที่ โมเลกุล DNA ขนาดเท่ากันเคลื่อนที่ไปอยู่ด้วยกันจำนวนมากจะมองเห็นเป็น <span class="hl-imp">แถบ (band)</span>
+                    </p>
+                    <p class="indent-8">
+                        การหาขนาดของ DNA สามารถทำได้โดย เปรียบเทียบกับ <span class="hl-term">โมเลกุลดีเอ็นเอมาตรฐาน (DNA marker : M)</span> ซึ่งประกอบด้วยชิ้น DNA ที่ทราบ ขนาดเป็น <strong>จำนวนคู่เบส (base pair ; bp)</strong> จะทำให้ ทราบขนาดโมเลกุลของ DNA ที่ต้องการศึกษาได้
+                    </p>
+
+                    <!-- รูปที่ 3: Gel Result Example -->
+                    <div class="flex flex-col items-center my-8">
+                        <div class="bg-white p-2 rounded shadow-lg border border-slate-300">
+                            <!-- Labels -->
+                            <div class="flex justify-between w-64 px-4 pb-2 font-mono text-sm font-bold border-b mb-2">
+                                <span class="w-8 text-center">bp</span>
+                                <span class="w-8 text-center text-blue-600">M</span>
+                                <span class="w-8 text-center">1</span>
+                                <span class="w-8 text-center">2</span>
+                                <span class="w-8 text-center">3</span>
+                            </div>
+                            
+                            <div class="flex gap-2">
+                                <!-- Y-Axis Label -->
+                                <div class="flex flex-col justify-between h-48 py-2 text-xs font-mono text-right text-slate-500">
+                                    <span>6,000</span>
+                                    <span>3,000</span>
+                                    <span>1,000</span>
+                                    <span>750</span>
+                                    <span>500</span>
+                                    <span>250</span>
+                                </div>
+
+                                <!-- The Gel -->
+                                <div class="w-64 h-48 uv-gel p-2 flex justify-between px-4 relative">
+                                    <!-- Lane M (Marker) -->
+                                    <div class="flex flex-col justify-between h-full w-8 py-1">
+                                        <div class="uv-band opacity-90"></div>
+                                        <div class="uv-band opacity-80"></div>
+                                        <div class="uv-band opacity-70"></div>
+                                        <div class="uv-band opacity-80"></div>
+                                        <div class="uv-band opacity-90"></div>
+                                        <div class="uv-band opacity-60"></div>
+                                        <div class="uv-band opacity-50"></div>
+                                    </div>
+
+                                    <!-- Lane 1 (From image: Low band ~500) -->
+                                    <div class="flex flex-col h-full w-8 relative">
+                                        <div class="uv-band absolute bottom-8 opacity-100 shadow-[0_0_8px_rgba(255,255,255,0.8)]"></div>
+                                    </div>
+
+                                    <!-- Lane 2 (From image: Two bands ~500 and ~1000) -->
+                                    <div class="flex flex-col h-full w-8 relative">
+                                        <div class="uv-band absolute bottom-20 opacity-90"></div>
+                                        <div class="uv-band absolute bottom-8 opacity-100"></div>
+                                    </div>
+
+                                    <!-- Lane 3 (From image: Band at ~2000 and faint low) -->
+                                    <div class="flex flex-col h-full w-8 relative">
+                                        <div class="uv-band absolute top-24 opacity-100 w-10 -ml-1 h-4 blur-[1px]"></div>
+                                        <div class="uv-band absolute bottom-8 opacity-40"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-2 text-sm bg-yellow-50 text-yellow-800 px-3 py-1 rounded border border-yellow-200 font-bold">
+                            แถบโมเลกุล DNA ขนาดต่าง ๆ
+                        </div>
+                    </div>
+
+                    <!-- กรณีศึกษา -->
+                    <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-6 mt-8">
+                        <h3 class="font-bold text-indigo-900 text-lg mb-3 flex items-center gap-2">
+                            <i data-lucide="microscope" class="w-5 h-5"></i> กรณีศึกษา : การตรวจสอบแบคทีเรียก่อโรคในอาหาร
+                        </h3>
+                        <div class="space-y-4 text-slate-700">
+                            <p class="indent-8">
+                                ในงานเลี้ยงหนึ่งมีผู้รับประทานอาหารแล้วเกิดอาการอาหารเป็นพิษ เมื่อนำเชื้อแบคทีเรียจาก ผู้ป่วยไปเพาะเชื้อ พบว่ามีเชื้อแบคทีเรียที่ไม่ก่อโรค (B1) และแบคทีเรียที่ก่อโรค (B2) เมื่อ สอบถามผู้ป่วยพบว่า ผู้ป่วยทุกคนรับประทานอาหารชนิดที่ 1 (F1) และอาหารชนิดที่ 2 (F2)
+                            </p>
+                            <p class="indent-8">
+                                ในการตรวจหาแบคทีเรียสามารถทำโดยใช้เทคนิค PCR ถ้าสกัด DNA จากจานเพาะเชื้อ 1 ซึ่ง เป็นแบคทีเรียที่ไม่ก่อโรค จานเพาะเชื้อ 2 ซึ่งเป็นแบคทีเรียที่ก่อโรค อาหารชนิดที่ 1 และอาหาร ชนิดที่ 2 แล้วนำไปทำปฏิกิริยา PCR โดยใส่ไพรเมอร์ 2 คู่ ลงในแต่ละหลอด เพื่อตรวจสอบ สายพันธุ์ของแบคทีเรีย โดยไพรเมอร์จะทำให้เกิดการสังเคราะห์ DNA ขนาดแตกต่างกัน
+                            </p>
+
+                            <!-- รูปที่ 4: PCR Logic Diagram -->
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200 overflow-x-auto">
+                                <div class="text-center font-bold text-slate-500 mb-4 text-sm">สกัด DNA ไปเพิ่มจำนวนด้วยเทคนิค PCR</div>
+                                <div class="flex justify-around items-end text-xs md:text-sm min-w-[500px]">
+                                    
+                                    <!-- B1 Path -->
+                                    <div class="flex flex-col items-center gap-2">
+                                        <div class="w-12 h-12 rounded-full border-2 border-orange-300 bg-orange-50 flex items-center justify-center font-bold text-orange-600">B1</div>
+                                        <div class="h-8 w-px bg-slate-400"></div>
+                                        <div class="flex flex-col items-center">
+                                            <div class="w-16 h-1 bg-slate-300 relative my-2">
+                                                <div class="absolute top-0 left-1/3 w-1/3 h-full bg-orange-400"></div>
+                                                <div class="absolute -top-2 left-1/3 text-[8px]">←</div>
+                                                <div class="absolute -bottom-2 right-1/3 text-[8px]">→</div>
+                                            </div>
+                                            <span class="font-bold text-orange-600">150 bp</span>
+                                            <span class="text-[10px] text-slate-500">DNA ที่ได้จากการทำ PCR</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Samples -->
+                                    <div class="flex gap-4">
+                                        <i data-lucide="test-tube-2" class="w-8 h-8 text-slate-400"></i>
+                                        <i data-lucide="test-tube-2" class="w-8 h-8 text-slate-400"></i>
+                                        <i data-lucide="test-tube-2" class="w-8 h-8 text-slate-400"></i>
+                                        <i data-lucide="test-tube-2" class="w-8 h-8 text-slate-400"></i>
+                                    </div>
+
+                                    <!-- B2 Path -->
+                                    <div class="flex flex-col items-center gap-2">
+                                        <div class="w-12 h-12 rounded-full border-2 border-blue-300 bg-blue-50 flex items-center justify-center font-bold text-blue-600">B2</div>
+                                        <div class="h-8 w-px bg-slate-400"></div>
+                                        <div class="flex flex-col items-center">
+                                            <div class="w-16 h-1 bg-slate-300 relative my-2">
+                                                <div class="absolute top-0 left-1/4 w-1/2 h-full bg-blue-500"></div>
+                                                <div class="absolute -top-2 left-1/4 text-[8px]">←</div>
+                                                <div class="absolute -bottom-2 right-1/4 text-[8px]">→</div>
+                                            </div>
+                                            <span class="font-bold text-blue-600">400 bp</span>
+                                            <span class="text-[10px] text-slate-500">DNA ที่ได้จากการทำ PCR</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <p class="indent-8">
+                                จากนั้นนำ DNA ที่ได้จากเทคนิค PCR ไปหาขนาดด้วยเทคนิคเจลอิเล็กโทรฟอรีซิส โดย เปรียบเทียบกับ DNA ที่ทราบขนาด (M) จงเขียนแถบ DNA จาก DNA ที่ได้จากแต่ละตัวอย่าง ลงในแต่ละแถวของแผ่นเจล
+                            </p>
+
+                            <!-- รูปที่ 5: The Result Gel -->
+                            <div class="flex justify-center mt-4">
+                                <div class="bg-white p-4 rounded shadow border border-slate-300">
+                                    <div class="flex justify-between w-64 px-4 pb-1 mb-2 border-b font-mono font-bold text-sm">
+                                        <span class="w-8 text-center text-slate-500">bp</span>
+                                        <span class="w-8 text-center text-blue-600">M</span>
+                                        <span class="w-8 text-center">B1</span>
+                                        <span class="w-8 text-center">F1</span>
+                                        <span class="w-8 text-center">F2</span>
+                                        <span class="w-8 text-center">B2</span>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <div class="flex flex-col justify-between h-48 py-2 text-xs font-mono text-right text-slate-500 w-8">
+                                            <span>1,000</span>
+                                            <span>500</span>
+                                            <span class="font-bold text-blue-600">400</span>
+                                            <span>300</span>
+                                            <span>200</span>
+                                            <span class="font-bold text-orange-600">100</span>
+                                        </div>
+                                        <div class="w-64 h-48 border-2 border-blue-400 bg-white p-2 flex justify-between px-4 relative">
+                                            <!-- M Lane (Ladder) -->
+                                            <div class="flex flex-col justify-between h-full w-8 py-1">
+                                                <div class="h-1 bg-slate-800 w-full mb-1"></div>
+                                                <div class="h-1 bg-slate-800 w-full mb-1"></div>
+                                                <div class="h-1 bg-slate-800 w-full mb-1"></div>
+                                                <div class="h-1 bg-slate-800 w-full mb-1"></div>
+                                                <div class="h-1 bg-slate-800 w-full mb-1"></div>
+                                                <div class="h-1 bg-slate-800 w-full mb-1"></div>
+                                            </div>
+                                            <!-- B1 Lane (150bp - Low) -->
+                                            <div class="flex flex-col h-full w-8 relative">
+                                                <div class="h-2 bg-slate-800 w-full absolute bottom-4 rounded-sm"></div>
+                                            </div>
+                                            <!-- F1 Lane (Both bands?) -->
+                                            <div class="flex flex-col h-full w-8 relative">
+                                                <div class="h-2 bg-slate-800 w-full absolute top-24 rounded-sm"></div> <!-- 400bp -->
+                                                <div class="h-2 bg-slate-800 w-full absolute bottom-4 rounded-sm"></div> <!-- 150bp -->
+                                            </div>
+                                            <!-- F2 Lane (150bp only) -->
+                                            <div class="flex flex-col h-full w-8 relative">
+                                                <div class="h-2 bg-slate-800 w-full absolute bottom-4 rounded-sm"></div>
+                                            </div>
+                                            <!-- B2 Lane (400bp - High) -->
+                                            <div class="flex flex-col h-full w-8 relative">
+                                                <div class="h-2 bg-slate-800 w-full absolute top-24 rounded-sm"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6.2.2 การหาลำดับนิวคลีโอไทด์ -->
+        <section id="section-6-2-2" class="scroll-mt-20">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden card-hover">
+                <div class="bg-pink-50 px-6 py-4 border-b border-pink-100 flex items-center gap-3">
+                    <span class="bg-pink-600 text-white w-14 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow-md">6.2.2</span>
+                    <h2 class="text-2xl font-bold text-pink-900">การหาลำดับนิวคลีโอไทด์</h2>
+                </div>
+
+                <div class="p-6 md:p-8 space-y-6 text-slate-700">
+                    <p class="indent-8">
+                        การหาลำดับการเรียงตัวของนิวคลีโอไทด์ในสาย DNA เรียกว่า <span class="hl-term">การหาลำดับดีเอ็นเอ (DNA sequencing)</span> สามารถทำได้โดยหาลำดับเบสที่เป็นองค์ประกอบของนิวคลีโอไทด์บนสาย DNA ด้วย เครื่องมือที่เรียกว่า <strong>เครื่องหาลำดับนิวคลีโอไทด์แบบอัตโนมัติ (automated sequencer)</strong> โดยมีการ พัฒนาเทคนิคและซอฟต์แวร์ ทำให้สามารถอ่านผลในรูปของลำดับเบสได้อย่างรวดเร็ว
+                    </p>
+
+                    <!-- รูปที่ 6: Automated Sequencer & Chromatogram -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 flex flex-col items-center">
+                        <div class="text-center font-bold text-slate-500 mb-4 text-sm">การหาลำดับดีเอ็นเอ (DNA sequencing)</div>
+                        
+                        <div class="flex flex-col md:flex-row items-center gap-6">
+                            <!-- Machine -->
+                            <div class="w-40 h-48 bg-gray-200 rounded-lg border border-gray-300 relative flex items-center justify-center shadow-inner">
+                                <div class="w-32 h-32 bg-gray-300 rounded border border-gray-400"></div> <!-- Window -->
+                                <div class="absolute bottom-4 right-4 w-4 h-4 bg-green-400 rounded-full shadow-[0_0_5px_#4ade80]"></div> <!-- Power Light -->
+                                <div class="absolute bottom-4 left-4 text-[10px] text-gray-500">Automated<br>Sequencer</div>
+                            </div>
+                            
+                            <!-- Chromatogram Display -->
+                            <div class="bg-black p-4 rounded-lg shadow-lg w-full max-w-sm">
+                                <div class="flex justify-between text-white font-mono text-xs mb-2">
+                                    <span>140</span>
+                                    <span>150</span>
+                                    <span>160</span>
+                                </div>
+                                <!-- Sequence Text -->
+                                <div class="flex justify-between font-mono font-bold text-sm mb-1 tracking-widest">
+                                    <span class="text-red-500">T</span><span class="text-yellow-400">G</span><span class="text-blue-400">C</span><span class="text-blue-400">C</span><span class="text-blue-400">C</span><span class="text-red-500">T</span><span class="text-blue-400">C</span><span class="text-red-500">T</span><span class="text-green-500">A</span><span class="text-red-500">T</span><span class="text-red-500">T</span><span class="text-green-500">A</span><span class="text-yellow-400">G</span><span class="text-red-500">T</span><span class="text-blue-400">C</span><span class="text-red-500">T</span><span class="text-blue-400">C</span><span class="text-red-500">T</span><span class="text-yellow-400">G</span><span class="text-red-500">T</span><span class="text-green-500">A</span><span class="text-yellow-400">G</span><span class="text-green-500">A</span><span class="text-red-500">T</span><span class="text-blue-400">C</span>
+                                </div>
+                                <!-- Waves -->
+                                <div class="h-16 flex items-end gap-0.5 opacity-90">
+                                    <!-- Simple representation of peaks using CSS borders/divs -->
+                                    <div class="w-2 h-12 bg-red-500 chroma-peak"></div>
+                                    <div class="w-2 h-8 bg-yellow-400 chroma-peak"></div>
+                                    <div class="w-2 h-10 bg-blue-500 chroma-peak"></div>
+                                    <div class="w-2 h-14 bg-blue-500 chroma-peak"></div>
+                                    <div class="w-2 h-9 bg-blue-500 chroma-peak"></div>
+                                    <div class="w-2 h-11 bg-red-500 chroma-peak"></div>
+                                    <div class="w-2 h-7 bg-blue-500 chroma-peak"></div>
+                                    <div class="w-2 h-10 bg-red-500 chroma-peak"></div>
+                                    <div class="w-2 h-13 bg-green-500 chroma-peak"></div>
+                                    <div class="w-2 h-9 bg-red-500 chroma-peak"></div>
+                                    <div class="w-2 h-12 bg-red-500 chroma-peak"></div>
+                                    <div class="w-2 h-8 bg-green-500 chroma-peak"></div>
+                                    <div class="w-2 h-14 bg-yellow-400 chroma-peak"></div>
+                                    <div class="w-2 h-10 bg-red-500 chroma-peak"></div>
+                                    <div class="w-2 h-6 bg-blue-500 chroma-peak"></div>
+                                    <div class="w-2 h-9 bg-red-500 chroma-peak"></div>
+                                    <div class="w-2 h-12 bg-blue-500 chroma-peak"></div>
+                                    <div class="w-2 h-8 bg-red-500 chroma-peak"></div>
+                                    <div class="w-2 h-10 bg-yellow-400 chroma-peak"></div>
+                                    <div class="w-2 h-7 bg-red-500 chroma-peak"></div>
+                                    <div class="w-2 h-13 bg-green-500 chroma-peak"></div>
+                                    <div class="w-2 h-11 bg-yellow-400 chroma-peak"></div>
+                                    <div class="w-2 h-9 bg-green-500 chroma-peak"></div>
+                                    <div class="w-2 h-12 bg-red-500 chroma-peak"></div>
+                                    <div class="w-2 h-8 bg-blue-500 chroma-peak"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <p class="font-bold text-slate-700">เครื่องหาลำดับนิวคลีโอไทด์แบบอัตโนมัติ</p>
+                            <p class="text-slate-500 text-sm">(automated sequencer)</p>
+                        </div>
+                    </div>
+
+                    <p class="indent-8">
+                        เมื่อได้ลำดับเบสแล้วสามารถนำไปประยุกต์ใช้ได้หลากหลาย เช่น นำไปเทียบกับฐานข้อมูลเพื่อ ให้ทราบว่าลำดับเบสนั้นเป็นยีนใดหรือมีมิวเทชันในตำแหน่งใดบ้าง นอกจากนี้ยังสามารถนำลำดับเบส นั้นไปแปลงเป็นลำดับกรดแอมิโนเพื่อใช้ทำนายโครงสร้างและหน้าที่ของโปรตีนได้อีกด้วย
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-8 text-center text-slate-400 text-sm border-t border-slate-200 mt-12">
+            <p class="text-emerald-800 font-bold text-lg">6.2 การหาขนาดของ DNA และการหาลำดับนิวคลีโอไทด์</p>
+            <p class="mt-2 text-xs opacity-60">By-20nxskypqz</p>
+        </footer>
+
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
