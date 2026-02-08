@@ -10,7 +10,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         /* Force Niramit font everywhere */
-        body, h1, h2, h3, h4, h5, h6, p, span, div, li, a, button {
+        body, h1, h2, h3, h4, h5, h6, p, span, div, li, a, button, table, th, td {
             font-family: 'Niramit', sans-serif !important;
         }
 
@@ -82,6 +82,60 @@
         }
         .pcr-template { background-color: #3b82f6; width: 100%; }
         .pcr-new { background-color: #ec4899; width: 100%; }
+
+        /* Plasmid Styles */
+        .plasmid-ring {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            /* Pink base with Yellow and Green segments */
+            background: conic-gradient(
+                #fbbf24 0deg 45deg,   /* Yellow: Antibiotic Gene */
+                #ec4899 45deg 135deg, /* Pink */
+                #4ade80 135deg 180deg, /* Green: Restriction Site */
+                #ec4899 180deg 360deg /* Pink */
+            );
+            position: relative;
+            margin: 0 auto;
+        }
+        .plasmid-core {
+            width: 120px;
+            height: 120px;
+            background-color: #fffbeb; /* Matches yellow-50 bg */
+            border-radius: 50%;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+        }
+
+        /* Table Styles */
+        .enzyme-table th {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            padding: 12px;
+            border-bottom: 2px solid #bae6fd;
+        }
+        .enzyme-table td {
+            padding: 10px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: middle;
+        }
+        .cut-arrow-down {
+            color: #000;
+            font-weight: bold;
+            font-size: 1.2em;
+            line-height: 0.5;
+            display: inline-block;
+            transform: translateY(-2px);
+        }
+        .cut-arrow-up {
+            color: #000;
+            font-weight: bold;
+            font-size: 1.2em;
+            line-height: 0.5;
+            display: inline-block;
+            transform: translateY(2px);
+        }
     </style>
 </head>
 <body class="text-slate-700">
@@ -110,7 +164,6 @@
             <h2 class="text-xl md:text-2xl font-bold text-slate-600 mb-4">
                 6.1 พันธุวิศวกรรมและการโคลนยีน
             </h2>
-            <!-- Removed the description paragraph here as requested -->
         </header>
 
         <!-- Intro Box -->
@@ -160,18 +213,37 @@
                         การโคลนยีนที่นิยมวิธีหนึ่งคือ การเพิ่มปริมาณยีนหรือ DNA ที่ต้องการโดยใช้ <strong>ดีเอ็นเอพาหะ</strong> หรือ <strong>เวกเตอร์ (vector)</strong> เช่น <span class="hl-imp">พลาสมิด (plasmid)</span> ของแบคทีเรีย ซึ่งตามธรรมชาติแล้วแบคทีเรียแต่ละเซลล์อาจมี พลาสมิดตั้งแต่หนึ่งถึงหลายร้อยพลาสมิด
                     </p>
 
-                    <!-- Knowledge Box -->
+                    <!-- Knowledge Box: Plasmid -->
                     <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
                         <h3 class="font-bold text-yellow-800 text-lg mb-2 flex items-center gap-2">
                             <i data-lucide="lightbulb" class="w-5 h-5"></i> ความรู้เพิ่มเติม : พลาสมิด (Plasmid)
                         </h3>
-                        <div class="space-y-2 text-slate-700">
+                        <div class="space-y-4 text-slate-700">
                             <p class="indent-8">
                                 พลาสมิดเป็น <strong>DNA สายคู่</strong> ลักษณะเป็นวงอยู่แยกจากโครโมโซมของแบคทีเรีย พบได้ในเซลล์ ของแบคทีเรียหลายชนิด มียีนที่เป็นประโยชน์ในการดำรงชีวิตของแบคทีเรีย
                             </p>
                             <p class="indent-8">
                                 มีการสร้างพลาสมิดที่มี <strong>ยีนต้านยาปฏิชีวนะ</strong> เช่น แอมพิซิลลิน เพื่อใช้ในการคัดเลือกเซลล์แบคทีเรีย ที่ได้รับพลาสมิดเข้าไปในเซลล์ และพลาสมิดนี้จะมีบริเวณที่เหมาะสมต่อการแทรกสาย DNA ที่ มียีนที่ต้องการ ซึ่งมีลำดับนิวคลีโอไทด์ที่สามารถตัดด้วยเอนไซม์ตัดจำเพาะหลายชนิด
                             </p>
+
+                            <!-- Image 1 Inserted Here -->
+                            <div class="bg-white border border-yellow-200 rounded-xl p-6 my-4 flex flex-col items-center">
+                                <div class="plasmid-ring">
+                                    <div class="plasmid-core"></div>
+                                </div>
+                                <div class="mt-4 flex flex-col md:flex-row gap-4 text-sm justify-center w-full">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
+                                        <span class="font-bold text-slate-700">ยีนต้านยาปฏิชีวนะ</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-3 h-3 rounded-full bg-green-400"></span>
+                                        <span class="font-bold text-slate-700">บริเวณที่เป็นตำแหน่งตัดของเอนไซม์ตัดจำเพาะหลายชนิด</span>
+                                    </div>
+                                </div>
+                                <div class="text-xs text-slate-400 mt-2 text-center">ภาพจำลองพลาสมิด</div>
+                            </div>
+
                             <p class="indent-8">
                                 เซลล์แบคทีเรียที่ได้รับพลาสมิดนี้จะเจริญได้ในอาหารเลี้ยงเชื้อที่ใส่ยาปฏิชีวนะ ซึ่งแบคทีเรียที่ เจริญบนอาหารเลี้ยงเชื้อนั้นจะมีลักษณะที่แตกต่างกันขึ้นกับยีนที่อยู่บนพลาสมิดที่แบคทีเรีย ได้รับ เช่น ยีนที่สร้างโปรตีนที่มีสีต่าง ๆ และยีนที่สร้างโปรตีนเรืองแสง ซึ่งโปรตีนจะเรืองแสงได้ เมื่อถูกกระตุ้นด้วยแสงที่มีความยาวคลื่นที่เหมาะสม
                             </p>
@@ -195,7 +267,7 @@
                         <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-inner my-6 overflow-x-auto">
                             <div class="text-center font-bold text-slate-500 mb-2 text-sm">บริเวณจดจำของเอนไซม์ตัดจำเพาะ 3 ชนิด บนสาย DNA</div>
                             
-                            <!-- Simulated DNA Sequence from Image 1 -->
+                            <!-- Simulated DNA Sequence -->
                             <div class="dna-strand justify-center min-w-max">
                                 <span class="mr-2 text-slate-400">5'...</span>
                                 <!-- Normal -->
@@ -238,6 +310,116 @@
                             <p class="indent-8">
                                 เอนไซม์ตัดจำเพาะซึ่งสร้างจากแบคทีเรียต่าง ๆ มีจำนวนมากนับพันชนิด เมื่อตัด DNA ที่ ตำแหน่งตัดจำเพาะแล้วจะได้ผลิตภัณฑ์ที่แตกต่างกัน
                             </p>
+
+                            <!-- Image 2 Inserted Here: Enzyme Table -->
+                            <div class="overflow-x-auto my-6 bg-white rounded-lg shadow-sm border border-slate-200">
+                                <div class="p-3 bg-blue-50 border-b border-blue-100 text-center font-bold text-slate-700">
+                                    ตารางตัวอย่างเอนไซม์ตัดจำเพาะ ลำดับเบสที่เป็นบริเวณจดจำ และตำแหน่งตัดจำเพาะ
+                                </div>
+                                <table class="w-full text-sm text-left enzyme-table min-w-[600px]">
+                                    <thead>
+                                        <tr>
+                                            <th>เอนไซม์</th>
+                                            <th>แบคทีเรียที่ผลิตเอนไซม์</th>
+                                            <th class="text-center">ลำดับเบสที่เป็นบริเวณจดจำ<br>และตำแหน่งตัดจำเพาะ (↓)</th>
+                                            <th class="text-center">ผลิตภัณฑ์จากการตัด<br>ของเอนไซม์</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="font-mono text-xs md:text-sm">
+                                        <!-- EcoRI -->
+                                        <tr>
+                                            <td class="font-bold">EcoRI</td>
+                                            <td class="italic">Escherichia coli RY13</td>
+                                            <td class="text-center">
+                                                5'...G<span class="cut-arrow-down">↓</span>A A T T C...3'<br>
+                                                3'...C T T A A<span class="cut-arrow-up">↑</span>G...5'
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="flex justify-center gap-2">
+                                                    <div>5'...G<br>3'...C T T A A</div>
+                                                    <div>A A T T C...3'<br>G...5'</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- PstI -->
+                                        <tr>
+                                            <td class="font-bold">PstI</td>
+                                            <td class="italic">Providencia stuartii</td>
+                                            <td class="text-center">
+                                                5'...C T G C A<span class="cut-arrow-down">↓</span>G...3'<br>
+                                                3'...G<span class="cut-arrow-up">↑</span>A C G T C...5'
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="flex justify-center gap-2">
+                                                    <div>5'...C T G C A<br>3'...G</div>
+                                                    <div>G...3'<br>A C G T C...5'</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- XmaI -->
+                                        <tr>
+                                            <td class="font-bold">XmaI</td>
+                                            <td class="italic">Xanthomonas malvacearum</td>
+                                            <td class="text-center">
+                                                5'...C<span class="cut-arrow-down">↓</span>C C G G G...3'<br>
+                                                3'...G G G C C<span class="cut-arrow-up">↑</span>C...5'
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="flex justify-center gap-2">
+                                                    <div>5'...C<br>3'...G G G C C</div>
+                                                    <div>C C G G G...3'<br>C...5'</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- XcyI -->
+                                        <tr>
+                                            <td class="font-bold">XcyI</td>
+                                            <td class="italic">Xanthomonas cyanopsidis</td>
+                                            <td class="text-center">
+                                                5'...C<span class="cut-arrow-down">↓</span>C C G G G...3'<br>
+                                                3'...G G G C C<span class="cut-arrow-up">↑</span>C...5'
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="flex justify-center gap-2">
+                                                    <div>5'...C<br>3'...G G G C C</div>
+                                                    <div>C C G G G...3'<br>C...5'</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- SmaI -->
+                                        <tr>
+                                            <td class="font-bold">SmaI</td>
+                                            <td class="italic">Serratia marcescens</td>
+                                            <td class="text-center">
+                                                5'...C C C<span class="cut-arrow-down">↓</span>G G G...3'<br>
+                                                3'...G G G<span class="cut-arrow-up">↑</span>C C C...5'
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="flex justify-center gap-2">
+                                                    <div>5'...C C C<br>3'...G G G</div>
+                                                    <div>G G G...3'<br>C C C...5'</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- HaeIII -->
+                                        <tr>
+                                            <td class="font-bold">HaeIII</td>
+                                            <td class="italic">Haemophilus aegypticus</td>
+                                            <td class="text-center">
+                                                5'...G G<span class="cut-arrow-down">↓</span>C C...3'<br>
+                                                3'...C C<span class="cut-arrow-up">↑</span>G G...5'
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="flex justify-center gap-2">
+                                                    <div>5'...G G<br>3'...C C</div>
+                                                    <div>C C...3'<br>G G...5'</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
                             <p class="indent-8">
                                 จากตารางจะเห็นว่าเอนไซม์ตัดจำเพาะแต่ละชนิดมีบริเวณที่เป็นบริเวณจดจำและตำแหน่ง ตัดจำเพาะที่แตกต่างกัน เช่น เอนไซม์ <span class="font-bold text-pink-600">EcoRI</span> จะมีลำดับเบสจำเพาะในการจดจำจำนวน 6 คู่เบส ใน ขณะที่ <span class="font-bold text-pink-600">HaeIII</span> จะมีเพียง 4 คู่เบส สาย DNA หลังจากถูกตัดแล้วจะมี 2 รูปแบบ เช่น ถ้าตัดด้วยเอนไซม์ EcoRI ซึ่งตำแหน่งตัดจำเพาะจะอยู่ระหว่างเบส G และ A จะทำให้ได้ปลายสายเดี่ยวทั้ง 2 ปลาย ที่ รอยตัดของสาย DNA ซึ่งมีสายนิวคลีโอไทด์สายเดี่ยวยื่นออกมา เรียกปลายสาย DNA ที่เกิดขึ้นเช่นนี้ ว่า <span class="hl-imp">ปลายเหนียว (sticky end)</span> แต่ในกรณีของ HaeIII มีตำแหน่งตัดจำเพาะอยู่ระหว่าง G และ C เมื่อ ตัดแล้วจะไม่เกิดปลายสาย DNA เป็นสายนิวคลีโอไทด์สายเดี่ยว เนื่องจากตำแหน่งตัดของสาย DNA ทั้งสองเส้นอยู่ตรงกันพอดี ปลายรอยตัด DNA เช่นนี้เรียกว่า <span class="hl-imp">ปลายทู่ (blunt end)</span>
                             </p>
