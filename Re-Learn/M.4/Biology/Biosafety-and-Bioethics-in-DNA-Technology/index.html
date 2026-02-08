@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6.4 เทคโนโลยีทางดีเอ็นเอกับความปลอดภัยทางชีวภาพและชีวจริยธรรม</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Import Niramit Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Force Niramit font everywhere */
+        body, h1, h2, h3, h4, h5, h6, p, span, div, li, a, button, table, th, td {
+            font-family: 'Niramit', sans-serif !important;
+        }
+
+        body {
+            background-color: #f0fdf4; /* Green-50 background base */
+            color: #1e293b; /* Slate-800 text */
+            line-height: 1.8;
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Highlight styles */
+        .hl-term {
+            font-weight: bold;
+            color: #047857; /* Emerald-700 */
+        }
+        .hl-imp {
+            font-weight: bold;
+            background-color: #fef3c7; /* Yellow-100 */
+            padding: 0 4px;
+            border-radius: 4px;
+            color: #92400e; /* Amber-800 */
+        }
+
+        /* Table Styles */
+        .comparison-table th {
+            background-color: #d1fae5; /* Emerald-100 */
+            color: #065f46; /* Emerald-800 */
+            padding: 16px;
+            text-align: center;
+            border-bottom: 2px solid #34d399;
+        }
+        .comparison-table td {
+            padding: 16px;
+            vertical-align: top;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        .comparison-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <!-- Navbar -->
+    <nav class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <i data-lucide="dna" class="w-8 h-8"></i>
+                <div>
+                    <h1 class="text-xl font-bold leading-none">Biology Note</h1>
+                </div>
+            </div>
+            <span class="bg-emerald-800 bg-opacity-50 px-3 py-1 rounded-full text-sm font-light hidden md:inline-block">บทที่ 6.4</span>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto px-4 py-8 space-y-8">
+
+        <!-- Header Section -->
+        <header class="text-center py-6">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-800 mb-2 text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600">
+                บทที่ 6 เทคโนโลยีทางดีเอ็นเอ
+            </h1>
+            <h2 class="text-xl md:text-2xl font-bold text-slate-600 mb-4">
+                6.4 เทคโนโลยีทางดีเอ็นเอกับความปลอดภัยทางชีวภาพและชีวจริยธรรม
+            </h2>
+        </header>
+
+        <!-- Intro Section -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8 card-hover">
+            <div class="space-y-6 text-slate-700">
+                <p class="indent-8">
+                    เทคโนโลยีทางดีเอ็นเอมีการนำมาใช้ประโยชน์ในด้านต่าง ๆ แต่ในขณะเดียวกันก็ทำให้เกิด ข้อกังวลเกี่ยวกับผลกระทบที่อาจเกิดขึ้น การใช้เทคโนโลยีเหล่านี้จึงควรคำนึงถึง <span class="hl-term">ความปลอดภัย ทางชีวภาพและชีวจริยธรรม</span> เช่น ความปลอดภัยต่อชีวิตและสุขภาพของมนุษย์ , การป้องกันการ สูญเสียความหลากหลายทางชีวภาพ , การปฏิบัติต่อสิ่งมีชีวิตอย่างมีคุณธรรม นอกจากนี้ยังควรคำนึง ถึงมุมมองทางสังคมในด้านอื่นๆ อีกด้วย
+                </p>
+            </div>
+        </section>
+
+        <!-- Concerns: Screening & Database -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8 card-hover">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-blue-100 p-2 rounded-full">
+                    <i data-lucide="scan-eye" class="w-6 h-6 text-blue-600"></i>
+                </div>
+                <h3 class="text-lg md:text-xl font-bold text-slate-800">
+                    ข้อควรคำนึงเกี่ยวกับการตรวจคัดกรองโรคและการใช้ฐานข้อมูลทางพันธุกรรม
+                </h3>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-blue-50 p-6 rounded-xl border border-blue-100">
+                    <h4 class="font-bold text-blue-800 mb-2 flex items-center gap-2">
+                        <i data-lucide="users" class="w-5 h-5"></i> สิทธิมนุษยชน
+                    </h4>
+                    <p class="text-sm text-slate-700">
+                        จากการใช้เทคโนโลยีดีเอ็นเอในการตรวจคัดกรองโอกาสในการเกิดโรคหรือ ยีนก่อโรค และการใช้ฐานข้อมูลทางพันธุกรรมของประชาชน ในแง่ของการให้สิทธิ์ว่าใครที่ สามารถเข้าถึงข้อมูลและใช้ประโยชน์จากข้อมูล และอาจทำให้เกิดการสร้างเงื่อนไขในการ คัดเลือกคนเข้าทำงาน , การทำประกันชีวิต หรืออื่นๆ
+                    </p>
+                </div>
+
+                <div class="bg-red-50 p-6 rounded-xl border border-red-100">
+                    <h4 class="font-bold text-red-800 mb-2 flex items-center gap-2">
+                        <i data-lucide="heart-handshake" class="w-5 h-5"></i> จริยธรรมในการคัดเลือกตัวอ่อน
+                    </h4>
+                    <p class="text-sm text-slate-700">
+                        จริยธรรมในการคัดเลือกตัวอ่อนสิ่งมีชีวิต จากการทำลายตัวอ่อนที่มีลักษณะที่ไม่ต้องการ รวมถึงการยุติการตั้งครรภ์ ซึ่งอาจขัดต่อหลักจริยธรรม
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Concerns: GMOs -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8 card-hover">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-green-100 p-2 rounded-full">
+                    <i data-lucide="sprout" class="w-6 h-6 text-green-600"></i>
+                </div>
+                <h3 class="text-lg md:text-xl font-bold text-slate-800">
+                    ข้อควรคำนึงเกี่ยวกับการสร้างสิ่งมีชีวิตดัดแปรพันธุกรรม (GMOs)
+                </h3>
+            </div>
+
+            <div class="space-y-4">
+                <div class="flex items-start gap-4 p-4 rounded-lg bg-slate-50 border border-slate-200">
+                    <i data-lucide="alert-triangle" class="w-6 h-6 text-orange-500 flex-shrink-0 mt-1"></i>
+                    <div>
+                        <span class="font-bold text-slate-800">ความปลอดภัยต่อมนุษย์</span>
+                        <p class="text-sm text-slate-600 mt-1">สิ่งมีชีวิตดัดแปรพันธุกรรม จะมีโอกาสสร้างสารที่เป็นอันตรายต่อมนุษย์หรือไม่</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-4 p-4 rounded-lg bg-slate-50 border border-slate-200">
+                    <i data-lucide="globe" class="w-6 h-6 text-emerald-500 flex-shrink-0 mt-1"></i>
+                    <div>
+                        <span class="font-bold text-slate-800">ผลกระทบต่อสิ่งแวดล้อม</span>
+                        <p class="text-sm text-slate-600 mt-1">ผลกระทบที่อาจเกิดขึ้นต่อสิ่งมีชีวิตในธรรมชาติจากการที่สิ่งมีชีวิตดัดแปรพันธุกรรม แพร่กระจายเข้าสู่ระบบนิเวศ หรืออาจทำให้ความหลากหลายทางชีวภาพลดลง</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-4 p-4 rounded-lg bg-slate-50 border border-slate-200">
+                    <i data-lucide="paw-print" class="w-6 h-6 text-pink-500 flex-shrink-0 mt-1"></i>
+                    <div>
+                        <span class="font-bold text-slate-800">จริยธรรมต่อสัตว์</span>
+                        <p class="text-sm text-slate-600 mt-1">จริยธรรมในการใช้สัตว์ทดลอง จริยธรรมในการสร้างสิ่งมีชีวิตที่มีลักษณะแตกต่างไปจาก ธรรมชาติเพียงเพื่อตอบสนองความต้องการหรือความอยากรู้อยากเห็นของมนุษย์</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-4 p-4 rounded-lg bg-slate-50 border border-slate-200">
+                    <i data-lucide="gavel" class="w-6 h-6 text-purple-500 flex-shrink-0 mt-1"></i>
+                    <div>
+                        <span class="font-bold text-slate-800">การผูกขาดทางการค้า</span>
+                        <p class="text-sm text-slate-600 mt-1">จากการจดสิทธิบัตรและผูกขาดการขายเมล็ดพันธุ์หรือสิ่งมีชีวิต ดัดแปรพันธุกรรม รวมถึงการกำหนดราคาสินค้าโดยเจ้าของสิทธิบัตร</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHO Data Table (Figure 1) -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden card-hover">
+            <div class="bg-emerald-50 px-6 py-4 border-b border-emerald-100 flex items-center gap-3">
+                <span class="bg-emerald-600 text-white px-3 py-1 rounded-full font-bold text-sm shadow-md">ข้อมูลจาก WHO</span>
+                <h2 class="text-lg font-bold text-emerald-900">ข้อกังวลและข้อมูลจากองค์การอนามัยโลก</h2>
+            </div>
+            
+            <div class="p-6 md:p-8">
+                <p class="mb-4 text-slate-600 text-center">ในแง่ของข้อกังวลบางด้านนั้นทางองค์การอนามัยโลก (World Health Organization , WHO) ได้ให้ข้อมูลไว้ เช่น</p>
+                
+                <div class="overflow-x-auto rounded-xl border border-emerald-200 shadow-sm">
+                    <table class="w-full text-left comparison-table min-w-[600px]">
+                        <thead>
+                            <tr>
+                                <th class="w-1/2">ข้อกังวล</th>
+                                <th class="w-1/2">ข้อมูลจากองค์การอนามัยโลก</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm md:text-base">
+                            <tr>
+                                <td>
+                                    <span class="font-bold text-orange-700 block mb-2">การก่อภูมิแพ้</span>
+                                    อาหารที่มีส่วนผสมของสิ่งมีชีวิตดัดแปรพันธุกรรม หรือผลิตภัณฑ์ของสิ่งมีชีวิตเหล่านั้นจะกระตุ้นให้ เกิดภูมิแพ้ในตัวผู้บริโภคได้หรือไม่
+                                </td>
+                                <td>
+                                    โดยหลักการแล้ว <strong>ไม่ส่งเสริมให้มีการถ่ายยีนจาก สิ่งมีชีวิตที่อาจกระตุ้นให้เกิดภูมิแพ้ไปยัง สิ่งมีชีวิตอื่น</strong> นอกจากจะสามารถพิสูจน์ได้ว่า โปรตีนที่สร้างจากยีนที่ถูกถ่ายไปนั้นไม่ก่อให้เกิด ภูมิแพ้ ซึ่งปัจจุบัน <strong>ยังไม่พบผลกระทบจากสาร ก่อภูมิแพ้</strong> ที่เป็นผลจากอาหารที่มีส่วนผสมของ สิ่งมีชีวิตดัดแปรพันธุกรรมซึ่งมีวางขายในตลาด
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="font-bold text-orange-700 block mb-2">การถ่ายทอดยีนสู่มนุษย์</span>
+                                    มีโอกาสเกิดการถ่ายยีนจากสิ่งมีชีวิตดัดแปร พันธุกรรม ไปยังจีโนมของมนุษย์หรือแบคทีเรีย ในระบบทางเดินอาหารหรือไม่ โดยเฉพาะถ้ายีน ดังกล่าวเป็นยีนต้านยาปฏิชีวนะซึ่งมักถูกใช้ ในการคัดเลือกในขั้นตอนการสร้างสิ่งมีชีวิต ดัดแปรพันธุกรรม
+                                </td>
+                                <td>
+                                    การถ่ายยีนจากอาหารมีส่วนผสมของสิ่งมีชีวิต ดัดแปรพันธุกรรมเข้าสู่เซลล์ของมนุษย์หรือ แบคทีเรียในทางเดินอาหารนั้น <strong>มีความเป็นไปได้ต่ำ</strong> นอกจากนี้ยังมีการสนับสนุนให้ใช้เทคโนโลยี การถ่ายยีนที่ <strong>ไม่ต้องใช้ยีนต้านยาปฏิชีวนะ</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="font-bold text-orange-700 block mb-2">การผสมข้ามสายพันธุ์ (Outcrossing)</span>
+                                    เป็นไปได้หรือไม่ที่จะมีการผสมข้าม (outcrossing) ระหว่างสิ่งมีชีวิตดัดแปรพันธุกรรมกับสิ่งมีชีวิต สปีชีส์เดียวกันหรือสปีชีส์ใกล้เคียงกันใน ธรรมชาติ รวมทั้งการปะปนกันของเมล็ดพันธุ์ พืชดัดแปรพันธุกรรมกับพืชทั่วไป
+                                </td>
+                                <td>
+                                    <strong>มีรายงานเกี่ยวกับกรณีดังกล่าว</strong> จากการที่ พืชดัดแปรพันธุกรรมที่ได้รับอนุญาตสำหรับ ใช้เป็นพืชอาหารสัตว์ ได้ถูกพบในผลิตภัณฑ์ที่มี วัตถุประสงค์เพื่อการบริโภคสำหรับมนุษย์ โดย พบในปริมาณต่ำ
+                                    <br><br>
+                                    ในหลายประเทศนั้นได้มีการวางแนวทางเพื่อลด การปะปน ซึ่งรวมถึงการ <strong>แยกพื้นที่แปลงปลูก พืชดัดแปรพันธุกรรมและพืชทั่วไป</strong>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section class="bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-100 rounded-2xl p-6 md:p-8 card-hover">
+            <div class="flex items-start gap-4">
+                <div class="bg-white p-3 rounded-full shadow-sm">
+                    <i data-lucide="scale" class="w-8 h-8 text-emerald-600"></i>
+                </div>
+                <div class="space-y-4 text-slate-700">
+                    <p class="indent-8">
+                        เมื่อเทคโนโลยีทางดีเอ็นเอก้าวไปในระดับหนึ่ง คำถามเหล่านี้มักจะเกิดขึ้นในสังคม อย่างไรก็ดี ทุกคนควรมีสิทธิ์ในการรับทราบความก้าวหน้าของเทคโนโลยีและใช้ข้อมูลต่างๆ ในการวิเคราะห์อย่าง ถี่ถ้วนรอบคอบ เพื่อเป็นประโยชน์ต่อการตัดสินใจในการร่วมกันวางแผนการใช้ประโยชน์ของ เทคโนโลยีต่างๆ ในอนาคต
+                    </p>
+                    <p class="indent-8">
+                        ซึ่งข้อมูลข่าวสารจากทั้งฝ่ายสนับสนุนและฝ่ายคัดค้านการใช้เทคโนโลยี ต่าง ๆ นั้นอาจมีทั้งข้อมูลที่เป็นจริง , ข้อมูลที่คลาดเคลื่อนจากความจริง และข้อมูลที่เกินความจริง นอกจากนี้ยังมีทั้งข้อมูลที่มาจากแหล่งที่น่าเชื่อถือและไม่น่าเชื่อถือ นักเรียนควรสืบค้นข้อมูลให้ รอบด้านและอาศัยข้อมูลที่น่าเชื่อถือในการตัดสินใจสนับสนุนหรือคัดค้านไม่ว่าจะเป็นฝ่ายใด นอกจากนี้ ทุกคนมีสิทธิ์ที่จะตัดสินใจและแสดงความคิดเห็น จึงควรรับฟังและยอมรับในความเห็นของทุกฝ่าย แม้ว่าจะเป็นความคิดเห็นที่แตกต่างจากตนเองก็ตาม
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-8 text-center text-slate-400 text-sm border-t border-slate-200 mt-12">
+            <p class="text-emerald-800 font-bold text-lg">6.4 เทคโนโลยีทางดีเอ็นเอกับความปลอดภัยทางชีวภาพและชีวจริยธรรม</p>
+            <p class="mt-2 text-xs opacity-60">By-20nxskypqz</p>
+        </footer>
+
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
