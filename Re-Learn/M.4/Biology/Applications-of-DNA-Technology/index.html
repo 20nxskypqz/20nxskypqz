@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6.3 การประยุกต์ใช้เทคโนโลยีทางดีเอ็นเอ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Import Niramit Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Force Niramit font everywhere */
+        body, h1, h2, h3, h4, h5, h6, p, span, div, li, a, button, table, th, td {
+            font-family: 'Niramit', sans-serif !important;
+        }
+
+        body {
+            background-color: #f0fdf4; /* Green-50 background base */
+            color: #1e293b; /* Slate-800 text */
+            line-height: 1.8;
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Highlight styles */
+        .hl-term {
+            font-weight: bold;
+            color: #047857; /* Emerald-700 */
+        }
+        .hl-imp {
+            font-weight: bold;
+            background-color: #fef3c7; /* Yellow-100 */
+            padding: 0 4px;
+            border-radius: 4px;
+            color: #92400e; /* Amber-800 */
+        }
+
+        /* Custom Visuals */
+        .chromosome {
+            width: 20px;
+            background-color: #4ade80;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: inset -2px -2px 5px rgba(0,0,0,0.2);
+        }
+        .chromosome-centromere {
+            width: 24px;
+            height: 12px;
+            background-color: #166534;
+            border-radius: 6px;
+            position: absolute;
+            left: -2px;
+        }
+        .gene-locus {
+            width: 100%;
+            height: 4px;
+            background-color: #ef4444;
+            position: absolute;
+        }
+        
+        /* Timeline */
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: #10b981;
+            transform: translateX(-50%);
+        }
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            background-color: #047857;
+            border: 3px solid #a7f3d0;
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        /* Graph Styles */
+        .graph-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+            overflow-x: auto; /* Enable horizontal scroll for graph */
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <!-- Navbar -->
+    <nav class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <i data-lucide="dna" class="w-8 h-8"></i>
+                <div>
+                    <h1 class="text-xl font-bold leading-none">Biology Note</h1>
+                </div>
+            </div>
+            <span class="bg-emerald-800 bg-opacity-50 px-3 py-1 rounded-full text-sm font-light hidden md:inline-block">บทที่ 6.3</span>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto px-4 py-8 space-y-8">
+
+        <!-- Header Section -->
+        <header class="text-center py-6">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-800 mb-2 text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600">
+                บทที่ 6 เทคโนโลยีทางดีเอ็นเอ
+            </h1>
+            <h2 class="text-xl md:text-2xl font-bold text-slate-600 mb-4">
+                6.3 การประยุกต์ใช้เทคโนโลยีทางดีเอ็นเอ
+            </h2>
+        </header>
+
+        <!-- Intro: Rice Research -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8 card-hover">
+            <div class="space-y-6 text-slate-700">
+                <p class="indent-8">
+                    จากงานวิจัยของมหาวิทยาลัยเกษตรศาสตร์ที่ได้ศึกษาลักษณะความหอมของข้าวขาวดอกมะลิ 105 พบว่าแอลลีลที่ควบคุมลักษณะดังกล่าวเป็นแอลลีลด้อย และเมื่อศึกษาตำแหน่งของยีนร่วมกับ การผสมพันธุ์ และการใช้ข้อมูลของจีโนมข้าว ทำให้สามารถระบุได้ว่ายีนดังกล่าวมีตำแหน่งอยู่บน <span class="hl-imp">โครโมโซมแท่งที่ 8</span> ทำหน้าที่สร้างเอนไซม์ในกระบวนการสังเคราะห์ Y-Aminobutyric acid (GABA) โดย <strong>แอลลีลด้อยจะไม่สร้างเอนไซม์นี้</strong> ทำให้สารตั้งต้นในการสังเคราะห์ GABA ถูกเปลี่ยนเป็น สาร <span class="hl-term">2 Acetyl-1-pyrroline (2AP)</span> ซึ่งเป็นสารที่ให้ความหอม จากข้อมูลดังกล่าวทำให้ สามารถใช้ความรู้นี้ในการตรวจสอบสายพันธุ์ข้าวที่มีความหอม และการพัฒนาพันธุ์ข้าวโดยการยับยั้ง การแสดงออกของยีนดังกล่าว
+                </p>
+
+                <!-- Figure 1: Biochemical Pathway -->
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-6">
+                    <div class="text-center font-bold text-slate-500 mb-6 text-sm">กลไกการเกิดสารหอมในข้าว</div>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <!-- Pathway A: Normal (Non-fragrant) -->
+                        <div class="flex flex-col items-center">
+                            <div class="bg-green-100 px-4 py-2 rounded-lg text-green-800 font-bold mb-4">ข้าวพันธุ์ปกติ (ไม่หอม)</div>
+                            <div class="text-sm border-l-2 border-green-300 pl-4 space-y-2 flex flex-col items-center w-full">
+                                <div class="font-bold text-slate-600">แอลลีลเด่น (ปกติ)</div>
+                                <div class="text-center text-xl">↓</div>
+                                <div class="bg-blue-100 p-2 rounded text-center w-full">สร้างเอนไซม์ปกติ</div>
+                                <div class="text-center text-xl">↓</div>
+                                <div class="bg-gray-100 p-2 rounded text-center border w-full">สารตั้งต้น</div>
+                                <div class="text-center text-xl text-green-600 font-bold">↓ <span class="text-xs font-normal text-slate-500">(เอนไซม์ทำงาน)</span></div>
+                                <div class="bg-green-500 text-white p-2 rounded text-center font-bold shadow w-full">GABA</div>
+                                <div class="text-xs text-center mt-1 text-slate-500">(ไม่เกิดสารหอม)</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Pathway B: Fragrant (Recessive) -->
+                        <div class="flex flex-col items-center">
+                            <div class="bg-pink-100 px-4 py-2 rounded-lg text-pink-800 font-bold mb-4">ข้าวขาวดอกมะลิ 105 (หอม)</div>
+                            <div class="text-sm border-l-2 border-pink-300 pl-4 space-y-2 flex flex-col items-center w-full">
+                                <div class="font-bold text-slate-600">แอลลีลด้อย (กลายพันธุ์)</div>
+                                <div class="text-center text-xl">↓</div>
+                                <div class="bg-red-100 p-2 rounded text-center text-red-700 w-full">❌ ไม่สร้างเอนไซม์</div>
+                                <div class="text-center text-xl">↓</div>
+                                <div class="bg-gray-100 p-2 rounded text-center border w-full">สารตั้งต้น</div>
+                                <div class="text-center text-xl text-pink-500 font-bold">↓ <span class="text-xs font-normal text-slate-500">(เปลี่ยนวิถี)</span></div>
+                                <div class="bg-pink-500 text-white p-2 rounded text-center font-bold shadow w-full">2AP (สารหอม)</div>
+                                <div class="text-xs text-center mt-1 text-slate-500">(เกิดความหอม)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="indent-8">
+                    ลักษณะของสิ่งมีชีวิตถูกควบคุมด้วยยีน โดยลักษณะหรือแอลลีลที่แตกต่างกันเกิดขึ้นจาก DNA ซึ่งมีลำดับนิวคลีโอไทด์ที่แตกต่างกัน การศึกษาจีโนมของสิ่งมีชีวิตทำให้ทราบลำดับนิวคลีโอไทด์ที่ ทำหน้าที่เป็นยีน และการวิเคราะห์ข้อมูลนี้อาจทำให้ทราบหน้าที่และตำแหน่งของยีนต่าง ๆ เช่น การศึกษาจีโนมของข้าวทำให้ทราบข้อมูลลำดับเบสของยีนที่ทำหน้าที่ควบคุมการสังเคราะห์เอนไซม์ ที่เกี่ยวข้องในกระบวนการสังเคราะห์สารที่ให้ความหอมซึ่งอยู่บนโครโมโซมแท่งที่ 8 ที่ได้ กล่าวถึงข้างต้น
+                </p>
+
+                <!-- Figure 2: Chromosome 8 (Fixed Overlap) -->
+                <div class="bg-white border border-slate-200 rounded-xl p-6 flex flex-col items-center pt-10">
+                    <div class="text-center font-bold text-slate-500 mb-10 text-sm">ตำแหน่งยีนควบคุมความหอมบนโครโมโซมข้าว</div>
+                    <div class="flex items-end gap-2 h-40">
+                        <!-- Dummy Chromosomes -->
+                        <div class="flex flex-col items-center">
+                            <div class="chromosome h-24"></div>
+                            <span class="text-xs mt-1">1</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="chromosome h-28"></div>
+                            <span class="text-xs mt-1">2</span>
+                        </div>
+                        <div class="text-slate-300">...</div>
+                        <!-- Chromosome 8 -->
+                        <div class="flex flex-col items-center relative">
+                            <!-- Adjusted positioning to prevent overlap -->
+                            <div class="absolute -top-16 bg-pink-100 text-pink-800 text-xs px-2 py-1 rounded shadow border border-pink-200 whitespace-nowrap z-10 font-bold">
+                                ยีนความหอม (BADH2)
+                                <!-- Connector line -->
+                                <div class="absolute left-1/2 -translate-x-1/2 top-full w-px h-6 bg-pink-300"></div>
+                            </div>
+                            
+                            <div class="chromosome h-20 bg-emerald-400 mt-2">
+                                <div class="chromosome-centromere top-8"></div>
+                                <div class="gene-locus top-14 animate-pulse"></div> <!-- The Gene -->
+                            </div>
+                            <span class="text-xs mt-1 font-bold text-emerald-700">8</span>
+                        </div>
+                        <div class="text-slate-300">...</div>
+                        <div class="flex flex-col items-center">
+                            <div class="chromosome h-16"></div>
+                            <span class="text-xs mt-1">12</span>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="indent-8">
+                    เซลล์ของสิ่งมีชีวิตมีโปรตีนทำหน้าที่ต่างๆ ภายในเซลล์ หากการทำงานของยีนในการควบคุม การสร้างโปรตีนเปลี่ยนแปลงไป อาจมีผลต่อลักษณะของสิ่งมีชีวิตได้ ถ้าทราบว่าการเปลี่ยนแปลงของ ฟีโนไทป์เกิดจากการเปลี่ยนแปลงของโปรตีนหรือยีนใด อาจทำให้ทราบถึงหน้าที่ของยีนนั้นได้ ดังนั้น การศึกษาหน้าที่ของยีนอาจทำได้โดยการชักนำให้เกิดมิวเทชันในสิ่งมีชีวิต แล้วอาศัยเทคนิคต่าง ๆ ทาง ชีววิทยาระดับโมเลกุล เพื่อศึกษาสิ่งมีชีวิตที่มีการเปลี่ยนแปลงของฟีโนไทป์ที่สนใจว่าเกิดการ เปลี่ยนแปลงที่ยีนใด
+                </p>
+
+                <!-- Figure 3: Flowchart (Text not overlapping arrows) -->
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 flex flex-col items-center">
+                    <div class="text-center font-bold text-slate-500 mb-4 text-sm">กระบวนการศึกษาหน้าที่ของยีน</div>
+                    <div class="flex flex-col items-center gap-1 text-sm w-full max-w-md">
+                        <div class="bg-white p-3 rounded shadow border w-full text-center">สิ่งมีชีวิตที่ศึกษา</div>
+                        
+                        <!-- Step 1 Arrow & Text -->
+                        <div class="flex items-center gap-2 py-2">
+                            <i data-lucide="arrow-down" class="text-slate-400"></i>
+                            <span class="text-xs text-orange-600 font-bold">ทำให้เกิดมิวเทชัน</span>
+                        </div>
+
+                        <div class="bg-orange-50 p-3 rounded shadow border border-orange-200 w-full text-center">สิ่งมีชีวิตที่มีฟีโนไทป์<br>เปลี่ยนแปลงไป</div>
+                        
+                        <!-- Step 2 Arrow & Text -->
+                        <div class="flex items-center gap-2 py-2">
+                            <i data-lucide="arrow-down" class="text-slate-400"></i>
+                            <span class="text-xs text-blue-600 font-bold">ตรวจสอบหา DNA</span>
+                        </div>
+
+                        <div class="bg-blue-50 p-3 rounded shadow border border-blue-200 w-full text-center">ยีนที่ทำหน้าที่เกี่ยวข้องกับ<br>ลักษณะที่ต้องการศึกษา</div>
+                    </div>
+                </div>
+
+                <p class="indent-8">
+                    จะเห็นได้ว่าการศึกษาพันธุศาสตร์ประกอบกับความก้าวหน้าของเทคโนโลยีทางดีเอ็นเอสามารถ นำไปสู่การค้นพบยีนที่ทำหน้าที่ต่าง ๆ และหากเข้าใจกลไกการทำงานของยีนและโปรตีนนั้นจะสามารถ นำไปประยุกต์ใช้ในด้านต่าง ๆ ได้ เช่น การแพทย์และเภสัชกรรม การเกษตร อุตสาหกรรม และ นิติวิทยาศาสตร์
+                </p>
+            </div>
+        </section>
+
+        <!-- 6.3.1 Medical -->
+        <section id="section-6-3-1" class="scroll-mt-20">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden card-hover">
+                <div class="bg-blue-50 px-6 py-4 border-b border-blue-100 flex items-center gap-3">
+                    <span class="bg-blue-600 text-white w-14 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow-md">6.3.1</span>
+                    <h2 class="text-2xl font-bold text-blue-900">ด้านการแพทย์และเภสัชกรรม</h2>
+                </div>
+
+                <div class="p-6 md:p-8 space-y-6 text-slate-700">
+                    <p class="indent-8">
+                        การประยุกต์เทคโนโลยีทางดีเอ็นเอใช้ในด้านการแพทย์และเภสัชกรรมนั้นมีมาเป็นเวลานาน แล้ว โดยได้มีการนำไปประยุกต์ใช้อย่างหลากหลาย ในหัวข้อนี้จะกล่าวถึงการสร้างผลิตภัณฑ์ ทางการแพทย์ การวินิจฉัยโรค และการบำบัดด้วยยีน
+                    </p>
+
+                    <h3 class="text-lg font-bold text-blue-700 border-l-4 border-blue-400 pl-3">การสร้างผลิตภัณฑ์ทางการแพทย์และเภสัชกรรม</h3>
+                    <p class="indent-8">
+                        การประยุกต์ใช้เทคโนโลยีในเชิงเภสัชกรรมนั้นส่วนมากจะเป็นการสร้างสิ่งมีชีวิตดัดแปร พันธุกรรมเพื่อผลิตโปรตีนที่นำมาใช้ประกอบการรักษา เช่น การผลิตฮอร์โมนอินซูลิน เพื่อนำมาใช้ควบคุมอาการของโรคเบาหวาน ซึ่งเป็นตัวอย่างแรกที่นำเทคโนโลยีทางดีเอ็นเอมาใช้ ในการสร้างผลิตภัณฑ์ทางการแพทย์
+                    </p>
+
+                    <!-- Figure 4: Insulin Production (Fixed Scissors) -->
+                    <div class="bg-white border border-slate-200 rounded-xl p-6">
+                        <div class="text-center font-bold text-slate-500 mb-6 text-sm">การผลิตอินซูลินโดยใช้พันธุวิศวกรรม</div>
+                        <div class="flex flex-col items-center gap-4 max-w-lg mx-auto">
+                            <!-- Step 1 -->
+                            <div class="flex items-center gap-4 w-full">
+                                <div class="w-12 h-12 rounded-full border-4 border-emerald-400 flex items-center justify-center text-[10px] text-center bg-white z-10">พลาสมิด</div>
+                                
+                                <!-- Fixed Scissors Overlap: Moved text and icon apart -->
+                                <div class="flex-1 border-t-2 border-dashed border-slate-300 relative h-10 flex flex-col items-center justify-center">
+                                    <div class="bg-white px-2 text-xs text-slate-500 mb-1 absolute -top-4">ตัดต่อยีน</div>
+                                    <i data-lucide="scissors" class="w-4 h-4 text-red-500 bg-white z-10"></i>
+                                </div>
+
+                                <div class="w-12 h-12 rounded bg-pink-100 border border-pink-300 flex items-center justify-center text-[10px] text-center z-10">ยีนอินซูลิน<br>(มนุษย์)</div>
+                            </div>
+                            <i data-lucide="arrow-down" class="text-slate-400"></i>
+                            
+                            <!-- Step 2 -->
+                            <div class="w-full bg-blue-50 p-3 rounded-lg border border-blue-200 text-center">
+                                <div class="w-10 h-10 rounded-full border-4 border-emerald-400 mx-auto relative">
+                                    <div class="w-2 h-4 bg-pink-400 absolute top-0 left-1/2 -ml-1"></div> <!-- Insert -->
+                                </div>
+                                <div class="text-xs font-bold mt-1">ดีเอ็นเอรีคอมบิแนนท์</div>
+                            </div>
+                            <i data-lucide="arrow-down" class="text-slate-400"></i>
+
+                            <!-- Step 3 -->
+                            <div class="w-full bg-slate-100 p-3 rounded-lg border border-slate-300 flex items-center justify-center gap-4">
+                                <div class="w-16 h-24 rounded-full border-2 border-slate-600 bg-white relative flex items-center justify-center">
+                                    <div class="w-6 h-6 rounded-full border-2 border-emerald-400"></div>
+                                </div>
+                                <div class="text-left text-xs">
+                                    <span class="font-bold">ถ่ายเข้าสู่แบคทีเรีย</span><br>
+                                    แบคทีเรียแบ่งเซลล์และสร้างโปรตีน
+                                </div>
+                            </div>
+                            <i data-lucide="arrow-down" class="text-slate-400"></i>
+
+                            <!-- Step 4 -->
+                            <div class="flex gap-2">
+                                <i data-lucide="flask-round" class="text-blue-500"></i>
+                                <div class="bg-blue-600 text-white px-4 py-1 rounded shadow text-sm font-bold">ได้อินซูลินบริสุทธิ์</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="indent-8">
+                        การผลิตอินซูลินโดยอาศัยแบคทีเรียดัดแปรพันธุกรรมนี้จะได้อินซูลินในปริมาณมาก สะดวก และรวดเร็วกว่าวิธีแบบเดิมซึ่งอาศัยการสกัดจากตับอ่อนของวัวหรือหมูอีกด้วย นอกจากอินซูลินแล้ว ยังมีการนำเทคโนโลยีทางดีเอ็นเอมาใช้ในการสร้างสิ่งมีชีวิตดัดแปรพันธุกรรมเพื่อผลิตโปรตีนอื่น ๆ เช่น ใช้ผลิต <span class="hl-imp">โกรทฮอร์โมน (growth hormone)</span> ซึ่งนำมาใช้ในการรักษาเด็กที่มีสภาพแคระเนื่องจาก การขาดโกรทฮอร์โมน ใช้ผลิตวัคซีนเพื่อกระตุ้นภูมิคุ้มกันแทนการใช้ไวรัสซึ่งทำให้มีความปลอดภัย ยิ่งขึ้น เช่น วัคซีนป้องกันไวรัสตับอักเสบชนิด B
+                    </p>
+
+                    <!-- Knowledge Box: Pharmacogenomics -->
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
+                        <h3 class="font-bold text-yellow-800 text-lg mb-2 flex items-center gap-2">
+                            <i data-lucide="lightbulb" class="w-5 h-5"></i> ความรู้เพิ่มเติม
+                        </h3>
+                        <p class="indent-8 text-slate-700">
+                            ลำดับนิวคลีโอไทด์ที่จำเพาะของแต่ละบุคคล สามารถใช้ในการตรวจสอบ <strong>การตอบสนองต่อยา (drug response)</strong> หรือ ภาวะแทรกซ้อนจากการรับยา ซึ่งจะแตกต่างกันไปในแต่ละบุคคล เช่น
+                        </p>
+                        <ul class="list-disc list-inside ml-8 my-2 space-y-1">
+                            <li>ยา <strong>carbamazepine</strong> ซึ่งใช้รักษาผู้ป่วยซึ่งมีอาการลมชัก</li>
+                            <li>ยา <strong>allopurinol</strong> ซึ่งใช้รักษาโรคเกาต์</li>
+                        </ul>
+                        <p class="indent-8 text-slate-700">
+                            ซึ่งก่อให้เกิดอาการแพ้อย่างรุนแรงในบางคน แพทย์จึงสามารถวางแนวทางในการรักษา การระบุชนิดและปริมาณของยาได้อย่างเหมาะสมและจำเพาะกับผู้ป่วยแต่ละคน เพื่อเพิ่ม ประสิทธิภาพในการรักษา และลดความเสี่ยงของการแพ้ยาและการรับยาเกินขนาด
+                        </p>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-blue-700 border-l-4 border-blue-400 pl-3 mt-8">การวินิจฉัยโรค</h3>
+                    <p class="indent-8">
+                        โรคทางพันธุกรรมอาจมีสาเหตุมาจากการเกิดมิวเทชันของยีนจนทำให้เกิดแอลลีลก่อโรค ซึ่งมี ลำดับนิวคลีโอไทด์แตกต่างไปจากแอลลีลปกติ เมื่อทราบลำดับนิวคลีโอไทด์ของแอลลีลดังกล่าว สามารถนำข้อมูลมาใช้ในการวินิจฉัยโรคทางพันธุกรรมตรวจสอบความเสี่ยงในการเกิดโรคเพื่อป้องกัน หรือวางแผนในการรักษา เช่น การตรวจสอบแอลลีลก่อโรคในเอ็มบริโอและทารกแรกเกิด
+                    </p>
+                    <p class="indent-8">
+                        การตรวจหาแอลลีลก่อโรคสามารถทำได้หลายวิธี หนึ่งในวิธีที่นิยมใช้ คือ การทำ PCR เพื่อเพิ่ม ปริมาณ DNA ในบริเวณของยีนที่เกี่ยวข้องกับการก่อโรค โดยใช้ไพรเมอร์ที่มีความจำเพาะกับลำดับ นิวคลีโอไทด์ที่มีความแตกต่างกันระหว่างแอลลีลไม่ก่อโรคกับแอลลีลก่อโรค ซึ่งในตัวอย่างจะทำให้ ไพรเมอร์ไม่สามารถจับกับ DNA ของแอลลีลก่อโรคได้และไม่เกิดผลิตภัณฑ์ของการทำ PCR จึงสามารถ แยกความแตกต่างและตรวจหาแอลลีลก่อโรคได้ เช่น การตรวจคัดโรคทาลัสซีเมียบางชนิด
+                    </p>
+
+                    <!-- Figure 5: Thalassemia Diagnosis Gel -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 flex flex-col items-center">
+                        <div class="text-center font-bold text-slate-500 mb-4 text-sm">การวินิจฉัยโรคทาลัสซีเมียด้วย PCR และ เจลอิเล็กโทรฟอรีซิส</div>
+                        
+                        <div class="relative w-full max-w-md">
+                            <!-- Primers Setup -->
+                            <div class="flex justify-between text-xs mb-4 text-slate-500">
+                                <div>แอลลีลปกติ (Normal)</div>
+                                <div>แอลลีลก่อโรค (Disease)</div>
+                            </div>
+                            
+                            <!-- Gel Simulation -->
+                            <div class="bg-white p-4 rounded shadow-lg border">
+                                <div class="flex justify-between font-mono font-bold text-sm border-b pb-2 mb-2">
+                                    <span class="w-10 text-center">M</span>
+                                    <span class="w-16 text-center text-green-600">ปกติ</span>
+                                    <span class="w-16 text-center text-yellow-600">พาหะ</span>
+                                    <span class="w-16 text-center text-red-600">เป็นโรค</span>
+                                </div>
+                                <div class="h-40 bg-gray-900 rounded p-2 relative flex justify-between px-2">
+                                    <!-- Marker -->
+                                    <div class="w-10 flex flex-col gap-2 items-center opacity-70">
+                                        <div class="w-6 h-1 bg-white"></div>
+                                        <div class="w-6 h-1 bg-white"></div>
+                                        <div class="w-6 h-1 bg-white"></div>
+                                        <div class="w-6 h-1 bg-white"></div>
+                                        <div class="w-6 h-1 bg-white"></div>
+                                    </div>
+                                    <!-- Normal (Example: Has band A, No band B) -->
+                                    <div class="w-16 flex flex-col items-center relative">
+                                        <div class="w-10 h-1 bg-white absolute top-10 shadow-[0_0_5px_#fff]"></div> <!-- 570 bp -->
+                                        <div class="w-10 h-1 bg-white absolute bottom-4 shadow-[0_0_5px_#fff]"></div> <!-- 194 bp control? -->
+                                    </div>
+                                    <!-- Carrier (Has both) -->
+                                    <div class="w-16 flex flex-col items-center relative">
+                                        <div class="w-10 h-1 bg-white absolute top-10 shadow-[0_0_5px_#fff]"></div>
+                                        <div class="w-10 h-1 bg-white absolute top-24 shadow-[0_0_5px_#fff]"></div> <!-- Deletion band? -->
+                                        <div class="w-10 h-1 bg-white absolute bottom-4 shadow-[0_0_5px_#fff]"></div>
+                                    </div>
+                                    <!-- Disease (Only mutant band) -->
+                                    <div class="w-16 flex flex-col items-center relative">
+                                        <div class="w-10 h-1 bg-white absolute top-24 shadow-[0_0_5px_#fff]"></div>
+                                        <div class="w-10 h-1 bg-white absolute bottom-4 shadow-[0_0_5px_#fff]"></div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between text-xs mt-2 text-slate-500">
+                                    <span>(Ladder)</span>
+                                    <span>(Normal)</span>
+                                    <span>(Carrier)</span>
+                                    <span>(Disease)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="indent-8">
+                        นอกจากนี้ยังมีการนำเทคโนโลยีทางดีเอ็นเอมาใช้ในการวินิจฉัยโรคที่เกิดจากการติดเชื้อต่าง ๆ เช่น การติดเชื้อ HIV โดยการใช้เทคนิค PCR เพื่อตรวจสอบหาจีโนมของ HIV ซึ่งจะสามารถตรวจพบ ได้แม้มีปริมาณตัวอย่างน้อย และตรวจพบได้รวดเร็วหลังการติดเชื้อ ซึ่งทำให้การรักษาเป็นไปอย่าง รวดเร็วและมีประสิทธิภาพยิ่งขึ้น
+                    </p>
+
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg mt-4">
+                        <h3 class="font-bold text-yellow-800 text-lg mb-2 flex items-center gap-2">
+                            <i data-lucide="lightbulb" class="w-5 h-5"></i> ความรู้เพิ่มเติม
+                        </h3>
+                        <p class="indent-8 text-slate-700">
+                            ในบางครั้งการตรวจพบแอลลีลที่เกี่ยวกับการเกิดโรค อาจไม่ได้หมายความว่าผู้ถูกตรวจพบจะ เป็นโรคดังกล่าว เช่น การตรวจหาแอลลีลที่เกิดจากการกลายของยีน <strong>BRCA</strong> ซึ่งเกี่ยวข้องกับ การเกิดโรคมะเร็งเต้านมและมะเร็งรังไข่ ผู้มีแอลลีลดังกล่าวเพียง <strong>มีโอกาสหรือมีความเสี่ยง</strong> ในการเป็นโรคมะเร็งเท่านั้น โดยแพทย์จะแนะนำให้ผู้ที่ตรวจพบแอลลีลดังกล่าวเข้ารับการตรวจหา มะเร็งเต้านมในช่วงอายุที่น้อยกว่าและถี่กว่าผู้ที่ไม่มีแอลลีลนี้ รวมทั้งเข้ารับการตรวจที่มี ความละเอียดมากขึ้น
+                        </p>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-blue-700 border-l-4 border-blue-400 pl-3 mt-8">การบำบัดด้วยยีน</h3>
+                    <p class="indent-8">
+                        จากความรู้เกี่ยวกับโรคทางพันธุกรรมรวมถึงอาการผิดปกติต่าง ๆ ที่เกิดจากยีน จึงมีแนวคิด ในการบำบัดด้วยยีนที่เกี่ยวข้องกับการเกิดโรคหรืออาการดังกล่าวโดยตรง โดยการถ่ายแอลลีลที่ปกติ เข้าไปในเซลล์หรือเนื้อเยื่อที่แสดงอาการผิดปกติ เพื่อให้ยีนนั้นแทรกตัวเข้าสู่จีโนมของมนุษย์ และ ควบคุมให้ยีนนั้นมีการแสดงออกและสร้างโปรตีนที่ปกติ ซึ่งจะสามารถบรรเทาหรือรักษาอาการ ผิดปกติที่เกิดขึ้นได้ เรียกวิธีการนี้ว่า <span class="hl-term">การบำบัดด้วยยีน (gene therapy)</span> ซึ่งอาจทำได้โดยใช้ไวรัส บางชนิดเป็นตัวนำยีนที่ต้องการถ่ายเข้าสู่เซลล์มนุษย์ ซึ่งยีนที่เป็นอันตรายต่อมนุษย์จะถูกกำจัด ออกก่อนและแทนที่ด้วยยีนที่ต้องการ
+                    </p>
+
+                    <!-- Figure 6: Gene Therapy -->
+                    <div class="bg-white border border-slate-200 rounded-xl p-6 flex flex-col items-center">
+                        <div class="text-center font-bold text-slate-500 mb-6 text-sm">หลักการบำบัดด้วยยีนโดยใช้ไวรัสเป็นพาหะ</div>
+                        <div class="flex flex-col items-center gap-4 text-center w-full max-w-sm">
+                            
+                            <!-- 1. Virus Prep -->
+                            <div class="flex items-center gap-4 bg-slate-50 p-2 rounded-lg w-full">
+                                <div class="relative w-12 h-12 flex-shrink-0">
+                                    <div class="absolute inset-0 bg-purple-200 rounded-full opacity-50"></div>
+                                    <i data-lucide="bug" class="w-8 h-8 text-purple-600 absolute top-2 left-2"></i>
+                                </div>
+                                <div class="text-xs text-left">1. ใส่ยีนปกติเข้าสู่ไวรัส (พาหะ)</div>
+                            </div>
+
+                            <i data-lucide="arrow-down" class="text-slate-400"></i>
+
+                            <!-- 2. Infection -->
+                            <div class="flex items-center gap-4 bg-slate-50 p-2 rounded-lg w-full">
+                                <div class="w-12 h-12 bg-pink-100 border-2 border-pink-300 rounded-full relative flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="bug" class="w-6 h-6 text-purple-600"></i>
+                                </div>
+                                <div class="text-xs text-left">2. ไวรัสเข้าสู่เซลล์เป้าหมาย</div>
+                            </div>
+
+                            <i data-lucide="arrow-down" class="text-slate-400"></i>
+
+                            <!-- 3. Integration -->
+                            <div class="flex items-center gap-4 bg-slate-50 p-2 rounded-lg w-full">
+                                <div class="w-12 h-12 bg-pink-100 border-2 border-pink-300 rounded-full relative flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="dna" class="w-6 h-6 text-green-600"></i>
+                                </div>
+                                <div class="text-xs text-left">3. ยีนปกติแทรกเข้าสู่จีโนม</div>
+                            </div>
+
+                            <i data-lucide="arrow-down" class="text-slate-400"></i>
+
+                            <!-- 4. Expression -->
+                            <div class="flex items-center gap-4 bg-green-50 p-2 rounded-lg w-full border border-green-200">
+                                <div class="w-12 h-12 bg-pink-100 border-2 border-pink-300 rounded-full relative flex items-center justify-center flex-shrink-0">
+                                    <div class="bg-green-500 text-white text-[8px] px-1 rounded">Protein</div>
+                                </div>
+                                <div class="text-xs text-left font-bold text-green-800">4. เซลล์สร้างโปรตีนปกติ</div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <p class="indent-8">
+                        เทคนิคการบำบัดด้วยยีนมีการพัฒนาและนำไปใช้ในการรักษาจริง เช่น บางประเทศใน ทวีปยุโรปอนุญาตให้นำเทคโนโลยีนี้มาใช้รักษาโรคภูมิคุ้มกันบกพร่องที่เกิดจากการขาดเอนไซม์ adenosine deaminase (ADA deficiency) ซึ่งเป็นโรคทางพันธุกรรมชนิดหนึ่งที่ควบคุมโดย แอลลีลด้อย เกิดจากการกลายในยีน ADA ที่สร้างเอนไซม์ adenosine deaminase ทำให้ระบบ ภูมิคุ้มกันบกพร่อง ไม่สามารถต่อสู้กับเชื้อโรคที่พบได้ทั่วไป ในการบำบัดด้วยยีนจะใช้เซลล์ไขกระดูก จากผู้ป่วยมาผ่านกระบวนการทำให้เซลล์มีแอลลีลที่ปกติของยีน ADA และนำกลับเข้าไปในร่างกาย ทำให้ผู้ป่วยมีเซลล์ที่สร้างเอนไซม์ adenosine deaminase ได้ตามปกติ
+                    </p>
+                    <p class="indent-8">
+                        อย่างไรก็ตามการบำบัดด้วยยีนยังอยู่ใน ขั้นตอนการศึกษาซึ่งต้องใช้ด้วยความระมัดระวัง และมีการตรวจสอบอย่างเคร่งครัดในทุกขั้นตอน เนื่องจากยังคงมีความกังวลเกี่ยวกับการใช้เทคนิค และความปลอดภัยในหลาย ๆ ด้าน เช่น การแทรก ยีนเข้าไปในจีโนมอาจรบกวนการทำงานของ ยีนอื่นหรืออาจทำให้เกิดมะเร็งได้ ด้วยเหตุนี้ ในปัจจุบันจึงมีการพัฒนาเทคนิคที่จำเพาะขึ้น เช่น การรักษาโรคด้วยการปรับแต่งจีโนมหรือ <span class="hl-term">การตรวจแก้จีโนม (genome editing)</span> โดย แก้ไขมิวเทชันในยีนเป้าหมายเฉพาะตำแหน่งที่ ผิดปกติในจีโนม ซึ่งแตกต่างจากการบำบัดด้วยยีน ที่เป็นการใส่ยีนปกติทั้งยีนเข้าไปในจีโนม
+                    </p>
+                    <p class="indent-8">
+                        นอกจากการรักษาโดยตรงแล้ว ยังมีการนำเทคโนโลยีทางดีเอ็นเอมาใช้ในการติดตามผล การรักษาโรค เช่น การปลูกถ่ายไขกระดูกในการรักษาโรคมะเร็งเม็ดเลือดขาว โดยจะเปรียบเทียบ DNA ในเซลล์เม็ดเลือดขาวของผู้ที่รับการปลูกถ่ายไขกระดูกว่ามี DNA ของผู้บริจาคหรือไม่ เพื่อตรวจสอบ ว่ามีเซลล์ไขกระดูกของผู้บริจาคไปแทนที่เซลล์ไขกระดูกเดิมที่ผิดปกติ ซึ่งแสดงให้เห็นว่าการปลูกถ่าย ไขกระดูกประสบความสำเร็จ
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6.3.2 Agriculture -->
+        <section id="section-6-3-2" class="scroll-mt-20">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden card-hover">
+                <div class="bg-green-50 px-6 py-4 border-b border-green-100 flex items-center gap-3">
+                    <span class="bg-green-600 text-white w-14 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow-md">6.3.2</span>
+                    <h2 class="text-2xl font-bold text-green-900">ด้านการเกษตรและอุตสาหกรรม</h2>
+                </div>
+
+                <div class="p-6 md:p-8 space-y-6 text-slate-700">
+                    <p class="indent-8">
+                        ด้านการเกษตรได้มีการนำเทคโนโลยีทางดีเอ็นเอมาประยุกต์ใช้ในด้านการปรับปรุงพันธุ์พืชและ สัตว์ โดยใช้ในการคัดเลือกพืชและสัตว์ด้วยการตรวจหา <span class="hl-term">เครื่องหมายโมเลกุล (molecular marker)</span> ของลักษณะที่ต้องการเพื่อช่วยลดระยะเวลาการปรับปรุงพันธุ์แบบดั้งเดิมซึ่งเป็นการคัดเลือก จากลักษณะฟีโนไทป์เพียงอย่างเดียว เช่นในการปรับปรุงพันธุ์ข้าวได้มีการศึกษาลักษณะทนเค็มของ ข้าว โดยตรวจสอบได้จากเครื่องหมายโมเลกุลที่ถ่ายทอดร่วมกับยีนทนเค็ม เมื่อทำการผสมพันธุ์ระหว่าง ข้าวพันธุ์ขาวดอกมะลิที่ปลูกเพื่อการค้าซึ่งมีลักษณะความหอม ต้นเตี้ย กับข้าวพันธุ์ที่มีลักษณะทนเค็ม เพื่อให้ได้ข้าวที่มีลักษณะที่ดีของข้าวขาวดอกมะลิและมีลักษณะทนเค็มร่วมด้วย จึงสามารถใช้ เครื่องหมายโมเลกุลเหล่านี้เป็นตัวคัดเลือกต้นข้าวที่ได้รับยีนดังกล่าวได้
+                    </p>
+
+                    <!-- Figure 7: Molecular Marker Selection -->
+                    <div class="bg-white border border-slate-200 rounded-xl p-6">
+                        <div class="text-center font-bold text-slate-500 mb-6 text-sm">การใช้เครื่องหมายโมเลกุลในการคัดเลือกพันธุ์ข้าว</div>
+                        <div class="flex flex-col items-center gap-4">
+                            <!-- Parents -->
+                            <div class="flex justify-around w-full max-w-lg">
+                                <div class="text-center">
+                                    <div class="font-bold text-pink-600">พันธุ์ A (หอม, ไม่ทนเค็ม)</div>
+                                    <div class="flex justify-center gap-1 my-2">
+                                        <div class="w-2 h-10 bg-slate-300 relative"><div class="absolute top-2 w-full h-1 bg-red-500"></div></div>
+                                        <div class="w-2 h-10 bg-slate-300 relative"><div class="absolute top-2 w-full h-1 bg-red-500"></div></div>
+                                    </div>
+                                    <div class="text-xs text-slate-400">Marker A (หอม)</div>
+                                </div>
+                                <div class="font-bold text-xl self-center">x</div>
+                                <div class="text-center">
+                                    <div class="font-bold text-blue-600">พันธุ์ B (ไม่หอม, ทนเค็ม)</div>
+                                    <div class="flex justify-center gap-1 my-2">
+                                        <div class="w-2 h-10 bg-slate-300 relative"><div class="absolute bottom-2 w-full h-1 bg-blue-500"></div></div>
+                                        <div class="w-2 h-10 bg-slate-300 relative"><div class="absolute bottom-2 w-full h-1 bg-blue-500"></div></div>
+                                    </div>
+                                    <div class="text-xs text-slate-400">Marker B (ทนเค็ม)</div>
+                                </div>
+                            </div>
+
+                            <i data-lucide="arrow-down" class="text-slate-400"></i>
+
+                            <!-- Offspring Selection -->
+                            <div class="text-center bg-green-50 p-4 rounded-lg border border-green-200">
+                                <div class="font-bold text-green-800 mb-2">ลูกผสมที่ต้องการ (หอม + ทนเค็ม)</div>
+                                <div class="flex justify-center gap-1 my-2">
+                                    <div class="w-2 h-10 bg-slate-300 relative">
+                                        <div class="absolute top-2 w-full h-1 bg-red-500"></div>
+                                        <div class="absolute bottom-2 w-full h-1 bg-blue-500"></div>
+                                    </div>
+                                    <div class="w-2 h-10 bg-slate-300 relative">
+                                        <div class="absolute top-2 w-full h-1 bg-red-500"></div>
+                                        <div class="absolute bottom-2 w-full h-1 bg-blue-500"></div>
+                                    </div>
+                                </div>
+                                <div class="text-xs text-green-700">ตรวจพบเครื่องหมายโมเลกุลทั้ง 2 ตำแหน่ง<br>โดยไม่ต้องรอให้ต้นโตจนออกรวง</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
+                        <h3 class="font-bold text-yellow-800 text-lg mb-2 flex items-center gap-2">
+                            <i data-lucide="lightbulb" class="w-5 h-5"></i> ความรู้เพิ่มเติม
+                        </h3>
+                        <p class="indent-8 text-slate-700">
+                            <strong>เครื่องหมายโมเลกุล</strong> คือ ลำดับนิวคลีโอไทด์ภายในจีโนมที่สามารถใช้ระบุตัวตนหรือชนิดของ สิ่งมีชีวิต รวมถึงลักษณะที่สนใจ โดยอาศัยความแตกต่างในรูปแบบต่างๆ เช่น ความต่างของ ลำดับนิวคลีโอไทด์ซึ่งเกิดจากการแทนที่คู่เบส การเพิ่มขึ้นหรือขาดหายไปของนิวคลีโอไทด์ รวมทั้งจำนวนของลำดับนิวคลีโอไทด์สั้นๆ ที่เรียงต่อกัน
+                        </p>
+                    </div>
+
+                    <p class="indent-8">
+                        การสร้างสิ่งมีชีวิตดัดแปรพันธุกรรมเป็นอีกวิธีหนึ่งในการปรับปรุงพันธุ์สิ่งมีชีวิตให้มีลักษณะที่ มนุษย์ต้องการเพื่อการเกษตร ซึ่งอาจเป็นไปเพื่อเพิ่มมูลค่าผลผลิต เพื่อลดค่าใช้จ่ายในกระบวนการผลิต เพื่อยืดอายุผลผลิต เป็นต้น การสร้างสิ่งมีชีวิตดัดแปรพันธุกรรมนี้สามารถทำได้หลายวิธี เช่น การใช้ microinjection ในเซลล์สัตว์ การใช้แบคทีเรีย <em>Agrobacterium tumefaciens</em> เพื่อนำยีนที่ต้องการ เข้าสู่จีโนมพืช
+                    </p>
+
+                    <!-- Figure 8: Agrobacterium -->
+                    <div class="bg-white border border-slate-200 rounded-xl p-6">
+                        <div class="text-center font-bold text-slate-500 mb-6 text-sm">การสร้างพืชดัดแปรพันธุกรรมด้วย Agrobacterium</div>
+                        <div class="flex flex-col items-center justify-center gap-4">
+                            <div class="flex items-center gap-4 w-full max-w-sm p-2 rounded hover:bg-slate-50">
+                                <div class="w-12 h-12 rounded-full border-2 border-slate-400 flex flex-col items-center justify-center bg-slate-100 flex-shrink-0 text-center leading-none overflow-hidden">
+                                    <span class="text-[9px] font-bold">Ti</span>
+                                    <span class="text-[8px]">Plasmid</span>
+                                </div>
+                                <div class="text-xs text-left">1. ตัดต่อยีนใส่พลาสมิด</div>
+                            </div>
+                            <i data-lucide="arrow-down" class="text-slate-400"></i>
+                            <div class="flex items-center gap-4 w-full max-w-sm p-2 rounded hover:bg-slate-50">
+                                <div class="w-10 h-16 bg-green-100 rounded-full border border-green-500 flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="bug" class="w-6 h-6 text-green-700"></i>
+                                </div>
+                                <div class="text-xs text-left">2. ใส่เข้าแบคทีเรีย</div>
+                            </div>
+                            <i data-lucide="arrow-down" class="text-slate-400"></i>
+                            <div class="flex items-center gap-4 w-full max-w-sm p-2 rounded hover:bg-slate-50">
+                                <div class="w-16 h-16 bg-green-50 rounded border border-green-300 relative overflow-hidden flex-shrink-0">
+                                    <div class="absolute bottom-0 w-full h-2 bg-green-800"></div>
+                                    <i data-lucide="sprout" class="w-8 h-8 text-green-600 absolute bottom-2 left-4"></i>
+                                </div>
+                                <div class="text-xs text-left">3. แบคทีเรียส่งยีนเข้าเซลล์พืช</div>
+                            </div>
+                            <i data-lucide="arrow-down" class="text-slate-400"></i>
+                            <div class="flex items-center gap-4 w-full max-w-sm p-2 rounded hover:bg-slate-50">
+                                <div class="w-12 h-12 flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="flower-2" class="w-12 h-12 text-blue-600"></i>
+                                </div>
+                                <div class="text-xs text-left">4. พืชแสดงลักษณะใหม่<br>(เช่น กุหลาบสีน้ำเงิน)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="indent-8">
+                        สิ่งมีชีวิตดัดแปรพันธุกรรมหลายชนิดได้รับการอนุญาตให้เลี้ยงและเพาะปลูกเพื่อการค้าขายใน หลายประเทศ เช่น ถั่วเหลืองต้านทานสารปราบศัตรูพืช ข้าวโพด Bt ซึ่งผลิตโปรตีนที่เป็นพิษต่อตัวอ่อน ของแมลงศัตรูพืช มะละกอต้านทานโรคพืชใบด่างจุดวงแหวน มะเขือเทศชะลอการสุกและเน่าเสีย ปลาม้าลายเรืองแสง รวมทั้งปลาแซลมอนที่เติบโตเร็วกว่าปลาแซลมอนแอตแลนติกปกติ ซึ่งเป็นสัตว์ชนิดแรกที่ได้รับการรับรองจาก FDA (Food and Drug Administration) สหรัฐอเมริกา ทำให้สามารถวางจำหน่ายเพื่อใช้ประกอบอาหารได้อย่างถูกกฎหมาย
+                    </p>
+
+                    <!-- Figure 9: Salmon Growth Chart (Improved) -->
+                    <div class="bg-white border border-slate-200 rounded-xl p-6 flex flex-col items-center">
+                        <div class="text-center font-bold text-slate-500 mb-6 text-sm">กราฟเปรียบเทียบการเจริญเติบโตของปลาแซลมอน</div>
+                        
+                        <!-- Scrollable Container -->
+                        <div class="w-full max-w-lg graph-container p-6 relative">
+                            <div class="min-w-[400px]"> <!-- Force min width for scrolling -->
+                                <!-- Y axis label -->
+                                <div class="absolute -left-12 top-1/2 -rotate-90 text-xs text-slate-500 font-bold">ขนาดตัว (น้ำหนัก : กรัม)</div>
+                                <!-- X axis label -->
+                                <div class="absolute bottom-1 left-1/2 text-xs text-slate-500 font-bold">อายุ (วัน)</div>
+                                
+                                <!-- Improved Graph SVG with Numbers -->
+                                <svg class="w-full h-64" viewBox="0 0 450 250">
+                                    <!-- Grid Lines -->
+                                    <g stroke="#f1f5f9" stroke-width="1">
+                                        <line x1="50" y1="50" x2="420" y2="50" />
+                                        <line x1="50" y1="100" x2="420" y2="100" />
+                                        <line x1="50" y1="150" x2="420" y2="150" />
+                                        <line x1="50" y1="200" x2="420" y2="200" />
+                                    </g>
+
+                                    <!-- Axes -->
+                                    <g stroke="#64748b" stroke-width="2">
+                                        <line x1="50" y1="20" x2="50" y2="220" /> <!-- Y Axis -->
+                                        <line x1="50" y1="220" x2="420" y2="220" /> <!-- X Axis -->
+                                    </g>
+
+                                    <!-- Axis Labels (Y - Weight) -->
+                                    <g font-size="10" fill="#64748b" text-anchor="end">
+                                        <text x="45" y="220">0</text>
+                                        <text x="45" y="170">2,000</text>
+                                        <text x="45" y="120">4,000</text>
+                                        <text x="45" y="70">6,000</text>
+                                        <text x="45" y="20">8,000</text>
+                                    </g>
+
+                                    <!-- Axis Labels (X - Days) -->
+                                    <g font-size="10" fill="#64748b" text-anchor="middle">
+                                        <text x="50" y="235">0</text>
+                                        <text x="120" y="235">200</text>
+                                        <text x="190" y="235">400</text>
+                                        <text x="260" y="235">600</text>
+                                        <text x="330" y="235">800</text>
+                                        <text x="400" y="235">1,000</text>
+                                    </g>
+
+                                    <!-- GMO Salmon Curve (Green) -->
+                                    <path d="M50,220 C120,210 180,150 260,70" fill="none" stroke="#10b981" stroke-width="3" />
+                                    <circle cx="260" cy="70" r="4" fill="#10b981" />
+                                    
+                                    <!-- Normal Salmon Curve (Purple) -->
+                                    <path d="M50,220 C140,215 240,180 350,120" fill="none" stroke="#8b5cf6" stroke-width="3" stroke-dasharray="5,5" />
+                                    <circle cx="350" cy="120" r="4" fill="#8b5cf6" />
+                                    
+                                    <!-- Market Size Threshold Line (~4000g) -->
+                                    <line x1="50" y1="120" x2="420" y2="120" stroke="#ef4444" stroke-width="1" stroke-dasharray="4,4" opacity="0.5" />
+                                    <text x="55" y="115" font-size="10" fill="#ef4444">ขนาดตลาด</text>
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        <!-- Color Legend -->
+                        <div class="mt-4 flex gap-6 text-xs text-slate-600">
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+                                <span>ปลาแซลมอนดัดแปรพันธุกรรม</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-full bg-purple-500"></div>
+                                <span>ปลาแซลมอนปกติ</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="indent-8">
+                        นอกจากนี้ยังมีการนำเทคโนโลยีการสร้างสิ่งมีชีวิตดัดแปรพันธุกรรมมาใช้ประโยชน์ใน เชิงอุตสาหกรรมอีกด้วย เช่น มีการนำเอนไซม์ที่ได้จากสิ่งมีชีวิตดัดแปรพันธุกรรมมาทำให้โปรตีนใน น้ำนมตกตะกอนเพื่อผลิตชีส ใช้เป็นส่วนผสมในผงซักฟอกเพื่อขจัดคราบไขมัน เป็นต้น และยังมี แนวคิดในการสร้างสิ่งมีชีวิตดัดแปรพันธุกรรมเพื่อใช้ประโยชน์ในด้านอื่น ๆ เช่น ในการอนุรักษ์ สิ่งแวดล้อม เช่น แนวคิดในการสร้างแบคทีเรียที่ผลิตสารที่ช่วยย่อยน้ำมัน แต่แนวคิดดังกล่าวยังอยู่ ในระหว่างการศึกษา
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6.3.3 Forensic Science -->
+        <section id="section-6-3-3" class="scroll-mt-20">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden card-hover">
+                <div class="bg-purple-50 px-6 py-4 border-b border-purple-100 flex items-center gap-3">
+                    <span class="bg-purple-600 text-white w-14 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow-md">6.3.3</span>
+                    <h2 class="text-2xl font-bold text-purple-900">ด้านนิติวิทยาศาสตร์</h2>
+                </div>
+
+                <div class="p-6 md:p-8 space-y-6 text-slate-700">
+                    <p class="indent-8">
+                        ปัจจุบันมีการนำองค์ความรู้ทางวิทยาศาสตร์มาใช้ประโยชน์ในเชิงกฎหมาย เรียกว่า <span class="hl-term">นิติวิทยาศาสตร์ (forensic science)</span> โดยใช้เป็นหลักฐานในการสนับสนุนข้อกล่าวอ้างหรือพิสูจน์ ข้อเท็จจริงเพื่อประกอบการพิจารณาคดี ซึ่งองค์ความรู้ทางวิทยาศาสตร์ที่นำมาใช้นั้นมีหลากหลายด้าน รวมถึงความรู้เกี่ยวกับพันธุศาสตร์และเทคโนโลยีทางดีเอ็นเอ
+                    </p>
+                    <p class="indent-8">
+                        เนื่องจากสิ่งมีชีวิตมีความแตกต่างทาง พันธุกรรมในระดับบุคคล จะไม่มีใครที่มีลำดับเบส เหมือนกันทุกประการ จึงสามารถใช้ความแตกต่าง ระดับพันธุกรรมนี้เป็นข้อมูลในการระบุบุคคลได้ (ยกเว้นแฝดร่วมไข่) โดยเทคนิคหนึ่งที่นำมาใช้คือ การวิเคราะห์ <span class="hl-term">STR (short tandem repeat analysis)</span>
+                    </p>
+                    <p class="indent-8">
+                        สาย DNA จะมีบริเวณที่มีลำดับเบสประมาณ 2-6 เบส ซ้ำๆ กันต่อเนื่องเป็นช่วงยาว เรียก <strong>short tandem repeat (STR)</strong> ซึ่งกระจายอยู่ทั่วไปในจีโนมของสิ่งมีชีวิต โครโมโซมที่เป็นฮอมอโลกัสกัน จะมี STR อยู่ที่ตำแหน่งเดียวกัน แต่ STR นั้นอาจมีความยาวต่างกันในแต่ละแอลลีล ขึ้นอยู่กับจำนวน ใน STR และจะแตกต่างกันออกไปในแต่ละบุคคล ซึ่งในการนับจำนวนจะนับเป็นคู่เบส และการเขียนลำดับนิวคลีโอไทด์มักจะเขียนของสายบนจากทิศ 5' ไป 3' เพียงสายเดียว
+                    </p>
+
+                    <!-- Figure 10: STR Diagram -->
+                    <div class="bg-white border border-slate-200 rounded-xl p-6">
+                        <div class="text-center font-bold text-slate-500 mb-6 text-sm">STR บนฮอมอโลกัสโครโมโซม</div>
+                        <div class="flex flex-col items-center gap-6 font-mono text-sm">
+                            <!-- Chromosome 1 -->
+                            <div class="w-full max-w-lg">
+                                <div class="text-xs text-slate-400 mb-1">โครโมโซมแท่งที่ 1 (จากพ่อ) : 3 repeats</div>
+                                <div class="bg-slate-100 p-2 rounded flex items-center overflow-x-auto whitespace-nowrap">
+                                    <span class="text-slate-400">...GAT</span>
+                                    <span class="bg-yellow-200 px-1 border border-yellow-400 mx-1">TTA</span>
+                                    <span class="bg-yellow-200 px-1 border border-yellow-400 mx-1">TTA</span>
+                                    <span class="bg-yellow-200 px-1 border border-yellow-400 mx-1">TTA</span>
+                                    <span class="text-slate-400">AGC...</span>
+                                </div>
+                            </div>
+                            <!-- Chromosome 2 -->
+                            <div class="w-full max-w-lg">
+                                <div class="text-xs text-slate-400 mb-1">โครโมโซมแท่งที่ 2 (จากแม่) : 5 repeats</div>
+                                <div class="bg-slate-100 p-2 rounded flex items-center overflow-x-auto whitespace-nowrap">
+                                    <span class="text-slate-400">...GAT</span>
+                                    <span class="bg-yellow-200 px-1 border border-yellow-400 mx-1">TTA</span>
+                                    <span class="bg-yellow-200 px-1 border border-yellow-400 mx-1">TTA</span>
+                                    <span class="bg-yellow-200 px-1 border border-yellow-400 mx-1">TTA</span>
+                                    <span class="bg-yellow-200 px-1 border border-yellow-400 mx-1">TTA</span>
+                                    <span class="bg-yellow-200 px-1 border border-yellow-400 mx-1">TTA</span>
+                                    <span class="text-slate-400">AGC...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="indent-8">
+                        การวิเคราะห์ STR คือการตรวจหาจำนวนของ STR ในแต่ละตำแหน่งโดยการใช้ เทคนิค PCR โดยการวิเคราะห์ STR แต่ละตำแหน่งจะใช้ไพรเมอร์ 1 คู่ ซึ่งมีลำดับเบสที่เป็นเบสคู่สม กับสายดีเอ็นเอแม่แบบในบริเวณที่ขนาบข้างกับ STR ที่ต้องการตรวจสอบ จากนั้นพิจารณาขนาดของ ผลิตภัณฑ์ที่ได้จากการทำ PCR ซึ่งในแต่ละแอลลีลจะมีขนาดของผลิตภัณฑ์แตกต่างกันตามจำนวน ใน STR นั้น แต่เมื่อวิเคราะห์ STR 1 ตำแหน่ง ผลที่ได้อาจไม่สามารถจำแนกความแตกต่างระหว่าง บุคคลได้ เมื่อใช้ไพรเมอร์ที่แตกต่างกันหลาย ๆ คู่เพื่อตรวจสอบ STR ในหลาย ๆ ตำแหน่งจะเกิดเป็น รูปแบบเฉพาะบุคคล เรียกว่า <span class="hl-term">ลายพิมพ์ดีเอ็นเอ (DNA fingerprint)</span> ซึ่งจำนวนตำแหน่งที่มากขึ้นจะ ช่วยให้สามารถแยกแยะความแตกต่างของแต่ละบุคคลได้อย่างจำเพาะมากขึ้นด้วย สำหรับ ประเทศไทยมีการสร้างลายพิมพ์ดีเอ็นเอเพื่อระบุตัวบุคคลโดยเลือกเปรียบเทียบจากตำแหน่งของ STR ประมาณ 10-16 ตำแหน่ง ซึ่ง STR จัดเป็นเครื่องหมายโมเลกุลชนิดหนึ่ง
+                    </p>
+
+                    <!-- Figure 11: DNA Fingerprint -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 flex flex-col items-center">
+                        <div class="text-center font-bold text-slate-500 mb-4 text-sm">ลายพิมพ์ดีเอ็นเอ (DNA fingerprint)</div>
+                        <!-- Gel Simulation -->
+                        <div class="bg-black p-4 rounded shadow-lg border-4 border-slate-600 w-full max-w-md">
+                            <div class="flex justify-around text-white font-mono text-xs mb-2 pb-2 border-b border-gray-700">
+                                <span>M</span>
+                                <span>หลักฐาน</span>
+                                <span>ผู้ต้องสงสัย1</span>
+                                <span>ผู้ต้องสงสัย2</span>
+                            </div>
+                            <div class="flex justify-around h-40">
+                                <!-- Marker -->
+                                <div class="w-8 flex flex-col justify-between py-1 opacity-50">
+                                    <div class="h-1 bg-white w-full"></div>
+                                    <div class="h-1 bg-white w-full"></div>
+                                    <div class="h-1 bg-white w-full"></div>
+                                    <div class="h-1 bg-white w-full"></div>
+                                    <div class="h-1 bg-white w-full"></div>
+                                </div>
+                                <!-- Evidence -->
+                                <div class="w-8 flex flex-col justify-center gap-8 relative">
+                                    <div class="h-1 bg-white w-full absolute top-8 shadow-[0_0_5px_#fff]"></div>
+                                    <div class="h-1 bg-white w-full absolute bottom-10 shadow-[0_0_5px_#fff]"></div>
+                                </div>
+                                <!-- Suspect 1 (Match) -->
+                                <div class="w-8 flex flex-col justify-center gap-8 relative">
+                                    <div class="h-1 bg-white w-full absolute top-8 shadow-[0_0_5px_#fff]"></div>
+                                    <div class="h-1 bg-white w-full absolute bottom-10 shadow-[0_0_5px_#fff]"></div>
+                                </div>
+                                <!-- Suspect 2 (No Match) -->
+                                <div class="w-8 flex flex-col justify-center gap-8 relative">
+                                    <div class="h-1 bg-white w-full absolute top-12 opacity-80"></div>
+                                    <div class="h-1 bg-white w-full absolute bottom-4 opacity-80"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-xs text-slate-500 mt-2">ตัวอย่างการเปรียบเทียบ DNA จากหลักฐานและผู้ต้องสงสัย</div>
+                    </div>
+
+                    <p class="indent-8">
+                        การที่บุคคลแต่ละบุคคลมีรูปแบบของลายพิมพ์ดีเอ็นเอที่แตกต่างกันออกไป จึงสามารถใช้ การวิเคราะห์ STR เพื่อระบุตัวบุคคลได้ถูกต้อง นอกจากนี้ลายพิมพ์ดีเอ็นเอยังสามารถนำมาใช้ในการ ตรวจพิสูจน์ความสัมพันธ์ทางสายเลือด โดยลูกจะมีรูปแบบของลายพิมพ์ดีเอ็นเอครึ่งหนึ่งเหมือน พ่อและอีกครึ่งหนึ่งเหมือนแม่ เนื่องจากลูกจะได้รับ DNA มาจากพ่อและแม่อย่างละครึ่งผ่าน การสืบพันธุ์แบบอาศัยเพศ
+                    </p>
+                    <p class="indent-8">
+                        ในประเทศไทยมีการนำลายพิมพ์ดีเอ็นเอมาใช้ประโยชน์ในหลากหลายด้าน เช่น
+                    </p>
+                    <ul class="list-disc list-inside ml-8 space-y-2 text-slate-700">
+                        <li>ระบุตัวบุคคล เช่น ผู้เสียชีวิตจากเครื่องบินตก ผู้กระทำความผิดในคดีอาชญากรรม</li>
+                        <li>ระบุตัวตนของสิ่งมีชีวิตต่าง ๆ เช่น ช้าง เสือ เพื่อป้องกันการนำสัตว์ป่ามาสวมสิทธิ์เป็นสัตว์ ที่ลงทะเบียนถูกต้องตามกฎหมาย</li>
+                        <li>ตรวจพิสูจน์ความสัมพันธ์ทางสายเลือด ทั้งการหาความสัมพันธ์พ่อแม่ลูก รวมถึงความสัมพันธ์ ในหมู่เครือญาติ</li>
+                        <li>จำแนกสิ่งมีชีวิตในระดับกลุ่มประชากร ซึ่งสามารถนำมาใช้ประโยชน์ในแง่ของการระบุเชื้อชาติ ระบุถิ่นที่อยู่ของสิ่งมีชีวิตซึ่งสามารถนำมาใช้เป็นข้อมูลเกี่ยวกับการลักลอบนำเข้าสัตว์ผิดกฎหมาย</li>
+                        <li>จำแนกสิ่งมีชีวิตในระดับสปีชีส์ ซึ่งสามารถใช้ระบุว่าเป็นชิ้นเนื้อเยื่อหรือชิ้นส่วนของมนุษย์หรือ สิ่งมีชีวิตอื่น หรือตรวจสอบการปนเปื้อนของอาหารเช่น เนื้อหมูในอาหารฮาลาล เนื้อปลาปักเป้า ในลูกชิ้นปลา</li>
+                    </ul>
+
+                    <p class="indent-8 mt-6">
+                        เทคโนโลยีทางดีเอ็นเอมีการวิจัยและพัฒนาอย่างกว้างขวาง และมีการนำไปใช้อย่างแพร่หลาย ส่งผลให้เกิดความก้าวหน้าไปอย่างรวดเร็วในปัจจุบัน
+                    </p>
+
+                    <!-- Figure 12: Timeline of DNA Technology (Scrollable) -->
+                    <div class="bg-gradient-to-br from-slate-50 to-emerald-50 border border-slate-200 rounded-xl p-8 relative overflow-hidden">
+                        <div class="text-center font-bold text-slate-500 mb-10 text-sm z-10 relative">เส้นทางความก้าวหน้าของเทคโนโลยีทางดีเอ็นเอ</div>
+                        
+                        <!-- Scrollable Timeline Container -->
+                        <div class="overflow-x-auto pb-4">
+                            <div class="relative max-w-2xl mx-auto py-4 min-w-[500px]"> <!-- Set min-width to force scroll on small screens -->
+                                <!-- Vertical Line -->
+                                <div class="timeline-line"></div>
+
+                                <!-- 1950s -->
+                                <div class="relative mb-8">
+                                    <div class="timeline-dot top-0"></div>
+                                    <div class="absolute left-1/2 ml-6 top-[-4px] bg-emerald-600 text-white text-xs px-2 py-1 rounded">1950</div>
+                                    <div class="absolute right-1/2 mr-8 top-0 text-right w-64 bg-white p-2 rounded shadow border border-emerald-100">
+                                        <span class="text-xs font-bold text-emerald-800">1953 (พ.ศ. 2496)</span><br>
+                                        <span class="text-[10px]">Watson และ Crick ตีพิมพ์โครงสร้างของ DNA</span>
+                                    </div>
+                                </div>
+
+                                <!-- 1960s/1970s -->
+                                <div class="relative mb-8 h-24">
+                                    <div class="timeline-dot top-8"></div>
+                                    <div class="absolute left-1/2 ml-6 top-6 bg-emerald-600 text-white text-xs px-2 py-1 rounded">1960-70</div>
+                                    <!-- Left Event -->
+                                    <div class="absolute right-1/2 mr-8 top-12 text-right w-64 bg-white p-2 rounded shadow border border-emerald-100">
+                                        <span class="text-xs font-bold text-emerald-800">1973 (พ.ศ. 2516)</span><br>
+                                        <span class="text-[10px]">รายงานการสร้างดีเอ็นเอรีคอมบิแนนท์สำเร็จครั้งแรก</span>
+                                    </div>
+                                    <!-- Right Event -->
+                                    <div class="absolute left-1/2 ml-8 top-[-10px] text-left w-64 bg-white p-2 rounded shadow border border-emerald-100">
+                                        <span class="text-xs font-bold text-emerald-800">1970 (พ.ศ. 2513)</span><br>
+                                        <span class="text-[10px]">ค้นพบเอนไซม์ตัดจำเพาะชนิดแรกคือ HindIII</span>
+                                    </div>
+                                </div>
+
+                                <!-- 1980s -->
+                                <div class="relative mb-20 h-24">
+                                    <div class="timeline-dot top-0"></div>
+                                    <div class="absolute left-1/2 ml-6 top-[-4px] bg-emerald-600 text-white text-xs px-2 py-1 rounded">1980</div>
+                                    
+                                    <div class="absolute right-1/2 mr-8 top-4 text-right w-64 bg-white p-2 rounded shadow border border-emerald-100">
+                                        <span class="text-xs font-bold text-emerald-800">1982 (พ.ศ. 2525)</span><br>
+                                        <span class="text-[10px]">นำอินซูลินจากแบคทีเรีย GMOs มาใช้รักษา</span>
+                                    </div>
+                                    <div class="absolute left-1/2 ml-8 top-16 text-left w-64 bg-white p-2 rounded shadow border border-emerald-100">
+                                        <span class="text-xs font-bold text-emerald-800">1985 (พ.ศ. 2528)</span><br>
+                                        <span class="text-[10px]">คิดค้นเทคนิค PCR และลายพิมพ์ DNA</span>
+                                    </div>
+                                </div>
+
+                                <!-- 1990s -->
+                                <div class="relative mb-16 h-24">
+                                    <div class="timeline-dot top-0"></div>
+                                    <div class="absolute left-1/2 ml-6 top-[-4px] bg-emerald-600 text-white text-xs px-2 py-1 rounded">1990</div>
+                                    
+                                    <div class="absolute right-1/2 mr-8 top-4 text-right w-64 bg-white p-2 rounded shadow border border-emerald-100">
+                                        <span class="text-xs font-bold text-emerald-800">1990 (พ.ศ. 2533)</span><br>
+                                        <span class="text-[10px]">ทดลองใช้ gene therapy รักษาโรค ADA ในเด็ก</span>
+                                    </div>
+                                    <div class="absolute left-1/2 ml-8 top-16 text-left w-64 bg-white p-2 rounded shadow border border-emerald-100">
+                                        <span class="text-xs font-bold text-emerald-800">1994 (พ.ศ. 2537)</span><br>
+                                        <span class="text-[10px]">มะเขือเทศ GMO ชะลอการสุกวางขายในอเมริกา</span>
+                                    </div>
+                                </div>
+
+                                <!-- 2000s -->
+                                <div class="relative mb-16 h-24">
+                                    <div class="timeline-dot top-0"></div>
+                                    <div class="absolute left-1/2 ml-6 top-[-4px] bg-emerald-600 text-white text-xs px-2 py-1 rounded">2000</div>
+                                    
+                                    <div class="absolute right-1/2 mr-8 top-4 text-right w-64 bg-white p-2 rounded shadow border border-emerald-100">
+                                        <span class="text-xs font-bold text-emerald-800">2003 (พ.ศ. 2546)</span><br>
+                                        <span class="text-[10px]">ประกาศความสำเร็จโครงการจีโนมมนุษย์</span>
+                                    </div>
+                                    <div class="absolute left-1/2 ml-8 top-16 text-left w-64 bg-white p-2 rounded shadow border border-emerald-100">
+                                        <span class="text-xs font-bold text-emerald-800">2009 (พ.ศ. 2552)</span><br>
+                                        <span class="text-[10px]">FDA อนุญาตยารักษาโรคเลือดจากน้ำนมแพะ GMO</span>
+                                    </div>
+                                </div>
+
+                                <!-- 2010s/2020s -->
+                                <div class="relative h-48">
+                                    <div class="timeline-dot top-0"></div>
+                                    <div class="timeline-dot top-24 bg-teal-600 border-teal-300"></div>
+                                    <div class="absolute left-1/2 ml-6 top-[-4px] bg-emerald-600 text-white text-xs px-2 py-1 rounded">2010</div>
+                                    <div class="absolute left-1/2 ml-6 top-20 bg-teal-600 text-white text-xs px-2 py-1 rounded">2020</div>
+                                    
+                                    <div class="absolute right-1/2 mr-8 top-4 text-right w-64 bg-white p-2 rounded shadow border border-emerald-100">
+                                        <span class="text-xs font-bold text-emerald-800">2016 (พ.ศ. 2559)</span><br>
+                                        <span class="text-[10px]">นำเทคนิค CRISPR มาใช้รักษามะเร็งในมนุษย์</span>
+                                    </div>
+                                    <div class="absolute left-1/2 ml-8 top-12 text-left w-64 bg-white p-2 rounded shadow border border-emerald-100">
+                                        <span class="text-xs font-bold text-emerald-800">2017 (พ.ศ. 2560)</span><br>
+                                        <span class="text-[10px]">FDA อนุญาตวางจำหน่ายปลาแซลมอน GMO</span>
+                                    </div>
+                                    <div class="absolute right-1/2 mr-8 top-28 text-right w-64 bg-white p-2 rounded shadow border border-teal-100">
+                                        <span class="text-xs font-bold text-teal-800">2017 (พ.ศ. 2560)</span><br>
+                                        <span class="text-[10px]">FDA อนุญาตใช้เซลล์ CAR-T รักษามะเร็งเม็ดเลือดขาว</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-8 text-center text-slate-400 text-sm border-t border-slate-200 mt-12">
+            <p class="text-emerald-800 font-bold text-lg">6.3 การประยุกต์ใช้เทคโนโลยีทางดีเอ็นเอ</p>
+            <p class="mt-2 text-xs opacity-60">By-20nxskypqz</p>
+        </footer>
+
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
