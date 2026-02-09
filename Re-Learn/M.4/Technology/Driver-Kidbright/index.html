@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.1 วิธีติดตั้งไดรฟ์เวอร์คิดไบร์ท</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Import Niramit Font Only -->
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Force Niramit font everywhere including code blocks */
+        body, h1, h2, h3, h4, code, .chemical-formula, .font-kanit {
+            font-family: 'Niramit', sans-serif !important;
+        }
+
+        body {
+            background-color: #f0f9ff;
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Custom arrow style reused from original code (adapted for flow) */
+        .reaction-arrow {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            min-width: 40px; 
+            margin: 0 4px;
+        }
+        .reaction-arrow::after {
+            content: '⟶';
+            font-size: 1.2rem;
+            line-height: 1;
+            color: #475569;
+            margin-top: -5px;
+        }
+        @media (min-width: 768px) {
+            .reaction-arrow { min-width: 50px; }
+            .reaction-arrow::after { font-size: 1.5rem; }
+        }
+
+        .reaction-condition {
+            font-size: 0.75rem; 
+            font-weight: 500;
+            color: #e11d48;
+            margin-bottom: 2px;
+        }
+
+        /* Styles reused for visual consistency */
+        .balancing-group {
+            display: flex;
+            align-items: flex-end; 
+            gap: 1px;
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <!-- Navbar -->
+    <nav class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i data-lucide="cpu" class="w-8 h-8"></i>
+                <div>
+                    <!-- Changed to Technology Note -->
+                    <h1 class="text-xl font-bold leading-none">Technology Note</h1>
+                </div>
+            </div>
+            <span class="bg-blue-800 bg-opacity-50 px-3 py-1 rounded-full text-sm font-light">บทที่ 2</span>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 py-8 space-y-8">
+
+        <!-- Header Section -->
+        <header class="text-center py-6">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-800 mb-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                บทที่ 2 Kidbright
+            </h1>
+        </header>
+
+        <!-- 2.1 วิธีติดตั้งไดรฟ์เวอร์ (Section 1 & 2 mapped to Layout 6.1) -->
+        <section id="section-2-1" class="scroll-mt-20">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden card-hover">
+                <div class="bg-indigo-50 px-6 py-4 border-b border-indigo-100 flex items-center gap-3">
+                    <span class="bg-indigo-600 text-white w-auto px-2 h-8 rounded-full flex items-center justify-center font-bold text-sm">2.1</span>
+                    <h2 class="text-2xl font-bold text-indigo-900">วิธีติดตั้งไดรฟ์เวอร์คิดไบร์ท ( Driver Kidbright )</h2>
+                </div>
+
+                <div class="p-6 md:p-8">
+                    <div class="mb-6 p-4 bg-yellow-50 rounded-xl border-l-4 border-yellow-400">
+                        <h3 class="font-bold text-yellow-800 text-lg mb-1 flex items-center gap-2">
+                            <i data-lucide="info" class="w-5 h-5"></i> ภาพรวม
+                        </h3>
+                        <p class="text-slate-700">สรุปขั้นตอนการติดตั้ง Driver KidBright เพื่อให้คอมพิวเตอร์สามารถสื่อสารกับบอร์ด KidBright ได้อย่างถูกต้อง</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- ขั้นตอนที่ 1 -->
+                        <div class="bg-green-50 rounded-xl p-5 border border-green-100">
+                            <h3 class="text-green-800 font-bold text-lg mb-3 flex items-center gap-2">
+                                <i data-lucide="download-cloud" class="w-5 h-5"></i> ขั้นตอนที่ 1 : การดาวน์โหลด Driver
+                            </h3>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <span class="bg-green-100 p-1.5 rounded-full mt-0.5"><i data-lucide="search" class="w-4 h-4 text-green-600"></i></span>
+                                    <span>เข้าสู่เว็บไซต์ Google แล้วค้นหาคำว่า "kidbright download"</span>
+                                </li>
+                                <li class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <span class="bg-green-100 p-1.5 rounded-full mt-0.5"><i data-lucide="mouse-pointer-2" class="w-4 h-4 text-green-600"></i></span>
+                                    <span>เลือกผลลัพธ์จากเว็บไซต์ www.kid-bright.org ในหัวข้อ "KidBright Download - Coding at School"</span>
+                                </li>
+                                <li class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <span class="bg-green-100 p-1.5 rounded-full mt-0.5"><i data-lucide="list-filter" class="w-4 h-4 text-green-600"></i></span>
+                                    <span>เมื่อเข้าสู่หน้าดาวน์โหลด ให้เลื่อนไปที่ส่วนของ All Versions ( Windows )</span>
+                                </li>
+                                <li class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <span class="bg-green-100 p-1.5 rounded-full mt-0.5"><i data-lucide="download" class="w-4 h-4 text-green-600"></i></span>
+                                    <span>คลิกดาวน์โหลดที่หัวข้อ "FTDI Driver ( สำหรับ KidBright32 version 1.3 )"</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- ขั้นตอนที่ 2 -->
+                        <div class="bg-blue-50 rounded-xl p-5 border border-blue-100">
+                            <h3 class="text-blue-800 font-bold text-lg mb-3 flex items-center gap-2">
+                                <i data-lucide="folder-cog" class="w-5 h-5"></i> ขั้นตอนที่ 2 : การแตกไฟล์ ( Extract File )
+                            </h3>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <span class="bg-blue-100 p-1.5 rounded-full mt-0.5"><i data-lucide="monitor" class="w-4 h-4 text-blue-600"></i></span>
+                                    <span>หลังจากดาวน์โหลดเสร็จสิ้น ให้เปิดเข้าไปที่ This PC บนหน้าจอคอมพิวเตอร์ของคุณ</span>
+                                </li>
+                                <li class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <span class="bg-blue-100 p-1.5 rounded-full mt-0.5"><i data-lucide="folder-open" class="w-4 h-4 text-blue-600"></i></span>
+                                    <span>เลือกไปที่โฟลเดอร์ Downloads</span>
+                                </li>
+                                <li class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <span class="bg-blue-100 p-1.5 rounded-full mt-0.5"><i data-lucide="file-archive" class="w-4 h-4 text-blue-600"></i></span>
+                                    <span>หาไฟล์ชื่อ CDM21228_Setup ( ซึ่งจะเป็นไฟล์บีบอัดหรือ Zip File ) จากนั้นให้ คลิกขวา</span>
+                                </li>
+                                <li class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <span class="bg-blue-100 p-1.5 rounded-full mt-0.5"><i data-lucide="scissors" class="w-4 h-4 text-blue-600"></i></span>
+                                    <span>เลือกเมนู "แยกไฟล์ลงที่นี่" ( Extract Here )</span>
+                                </li>
+                                <li class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <span class="bg-blue-100 p-1.5 rounded-full mt-0.5"><i data-lucide="folder-plus" class="w-4 h-4 text-blue-600"></i></span>
+                                    <span>คุณจะได้โฟลเดอร์ใหม่ที่ชื่อว่า CDM21228_Setup ปรากฏขึ้นมา</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ขั้นตอนที่ 3 (Mapped to Layout 6.2) -->
+        <section id="section-step-3" class="scroll-mt-20">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden card-hover">
+                <div class="bg-purple-50 px-6 py-4 border-b border-purple-100 flex items-center gap-3">
+                    <span class="bg-purple-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">3</span>
+                    <h2 class="text-2xl font-bold text-purple-900">ขั้นตอนที่ 3 : การเริ่มติดตั้ง ( Installation )</h2>
+                </div>
+
+                <div class="p-6 md:p-8 space-y-8">
+                    <p class="text-slate-600">
+                        เมื่อเตรียมไฟล์เรียบร้อยแล้ว เข้าสู่กระบวนการ <span class="font-bold text-purple-600">ติดตั้งไดรฟ์เวอร์</span> ลงสู่ระบบปฏิบัติการ ประกอบด้วยขั้นตอนสำคัญดังนี้ :
+                    </p>
+
+                    <!-- Diagram for Process Flow (Changed to Vertical) -->
+                    <div class="relative bg-slate-50 rounded-xl p-6 border border-slate-200 text-center">
+                        <div class="flex flex-col items-center justify-center gap-4 text-sm md:text-lg font-bold text-slate-700">
+
+                            <!-- Step 3.1 -->
+                            <div class="group relative w-full max-w-xs">
+                                <div class="bg-white px-5 py-3 rounded-lg shadow-sm border-l-4 border-blue-400 group-hover:border-blue-500 transition-colors w-full">
+                                    เปิดโฟลเดอร์
+                                </div>
+                            </div>
+
+                            <!-- Arrow Down -->
+                            <div class="text-slate-400">
+                                <i data-lucide="arrow-down" class="w-6 h-6"></i>
+                            </div>
+
+                            <!-- Step 3.2 -->
+                            <div class="group relative w-full max-w-xs">
+                                <div class="bg-white px-5 py-3 rounded-lg shadow-sm border-l-4 border-yellow-400 group-hover:border-yellow-500 transition-colors w-full">
+                                    Extract Driver
+                                </div>
+                            </div>
+
+                            <!-- Arrow Down -->
+                            <div class="text-slate-400">
+                                <i data-lucide="arrow-down" class="w-6 h-6"></i>
+                            </div>
+
+                            <!-- Step 3.3 -->
+                            <div class="group relative w-full max-w-xs">
+                                <div class="bg-white px-5 py-3 rounded-lg shadow-sm border-l-4 border-green-400 group-hover:border-green-500 transition-colors w-full">
+                                    Finish
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Detailed Instructions mapped to Symbols Section -->
+                    <div class="space-y-4">
+                        <h3 class="font-bold text-xl text-slate-800 flex items-center gap-2">
+                            <span class="bg-purple-100 text-purple-600 w-6 h-6 rounded-full flex items-center justify-center text-sm">3</span>
+                            รายละเอียดการติดตั้ง
+                        </h3>
+
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <!-- 3.1 เริ่มต้น -->
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                                <h4 class="font-bold text-purple-600 mb-3 border-b pb-2">เริ่มรันโปรแกรม</h4>
+                                <ul class="space-y-3 text-sm">
+                                    <li class="flex items-start gap-2">
+                                        <i data-lucide="folder" class="w-4 h-4 mt-1 text-slate-500"></i>
+                                        <span>เปิดเข้าไปในโฟลเดอร์ที่เพิ่งแตกไฟล์ออกมา</span> 
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <i data-lucide="mouse-pointer-click" class="w-4 h-4 mt-1 text-slate-500"></i>
+                                        <span>แล้วทำการ ดับเบิลคลิก ที่ไอคอนโปรแกรม CDM21228_Setup</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- 3.2 ข้อตกลง -->
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                                <h4 class="font-bold text-purple-600 mb-3 border-b pb-2">ข้อตกลงและติดตั้ง</h4>
+                                <ul class="space-y-3 text-sm">
+                                    <li class="flex items-start gap-2">
+                                        <span>เมื่อหน้าต่าง FTDI CDM Drivers ปรากฏขึ้น ให้กดปุ่ม Extract</span>
+                                    </li>
+                                    <li class="flex flex-col gap-1 bg-slate-50 p-2 rounded">
+                                        <span class="font-bold text-xs text-slate-500">เข้าสู่หน้า License Agreement ( ข้อตกลงการใช้งาน ) :</span>
+                                        <span class="text-xs ml-2">- เลือกช่อง "I accept this agreement"</span>
+                                        <span class="text-xs ml-2">- จากนั้นกดปุ่ม Next ></span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- 3.3 เสร็จสิ้น -->
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                                <h4 class="font-bold text-purple-600 mb-3 border-b pb-2">เสร็จสิ้นสมบูรณ์</h4>
+                                <ul class="space-y-3 text-sm">
+                                    <li class="flex items-start gap-2">
+                                        <i data-lucide="loader" class="w-4 h-4 mt-1 text-slate-500"></i>
+                                        <span>เมื่อการติดตั้งเสร็จสมบูรณ์ จะขึ้นหน้าต่าง Completing the Device Driver Installation Wizard</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <i data-lucide="check-circle" class="w-4 h-4 mt-1 text-green-500"></i>
+                                        <span>กดปุ่ม Finish เพื่อเสร็จสิ้นขั้นตอนการติดตั้ง</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Removed "ตรวจสอบ" Section as requested -->
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-8 text-center text-slate-400 text-sm">
+            <p>2.1 วิธีติดตั้งไดรฟ์เวอร์คิดไบร์ท</p>
+            <!-- Changed Footer Credit -->
+            <p class="mt-2 text-xs opacity-60">By-20nxskypqz</p>
+        </footer>
+
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
