@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.2 Kidbright Sensor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Import Niramit Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Force Niramit font everywhere */
+        body, h1, h2, h3, h4, code, .font-kanit, div, span, p {
+            font-family: 'Niramit', sans-serif !important;
+        }
+
+        body {
+            background-color: #f0f9ff;
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- KIDBRIGHT BLOCK STYLES (ENHANCED) --- */
+        .kb-container {
+            font-family: sans-serif;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        /* Common Block Shape */
+        .kb-block {
+            padding: 8px 12px;
+            border-radius: 4px;
+            color: white;
+            font-size: 0.9rem;
+            box-shadow: 1px 2px 4px rgba(0,0,0,0.2);
+            position: relative;
+            margin-bottom: -2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 40px;
+            z-index: 10;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* Puzzle Connector (Top) */
+        .kb-block::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: 12px;
+            width: 12px;
+            height: 5px;
+            background-color: inherit;
+            clip-path: polygon(0% 100%, 10% 0%, 90% 0%, 100% 100%);
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+        .kb-block.no-top::before { display: none; }
+
+        /* Puzzle Connector (Bottom Notch) */
+        .kb-block::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 12px;
+            width: 12px;
+            height: 4px;
+            background-color: inherit;
+            clip-path: polygon(0% 0%, 10% 100%, 90% 100%, 100% 0%);
+            z-index: 20;
+        }
+        .kb-block.no-bottom::after { display: none; }
+
+        /* C-Shape Blocks */
+        .kb-c-shape {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+        }
+        .kb-c-top {
+            width: auto;
+            min-width: 120px;
+            border-radius: 4px 4px 4px 0;
+        }
+        .kb-c-body {
+            border-left: 16px solid;
+            border-bottom: 4px solid;
+            border-color: inherit;
+            padding: 4px 0 4px 8px;
+            margin-left: 0px;
+            min-height: 20px;
+            width: 100%;
+            border-radius: 0 0 4px 4px;
+            background-color: rgba(255,255,255,0.05);
+        }
+        .kb-c-body-inner {
+             display: flex;
+             flex-direction: column;
+             gap: 2px;
+        }
+
+        /* Specific Colors */
+        .bg-kb-green { background-color: #55af7b; border-color: #489669; }
+        .bg-kb-teal { background-color: #5bbfb0; border-color: #4da396; }
+        .bg-kb-brown { background-color: #959c5d; border-color: #7f854f; }
+        .bg-kb-blue { background-color: #6377c3; border-color: #5364a3; }
+        .bg-kb-red { background-color: #d15657; border-color: #b3494a; }
+        
+        .kb-pill {
+            background-color: #959c5d;
+            border: 1px solid #7f854f;
+            border-radius: 12px;
+            padding: 2px 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: white;
+            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.2);
+            margin-left: auto;
+        }
+
+        .kb-dropdown {
+            width: 0; 
+            height: 0; 
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 5px solid rgba(0,0,0,0.5);
+            margin-left: 4px;
+        }
+
+        /* LED Grid Small */
+        .led-grid-small {
+            display: grid;
+            grid-template-columns: repeat(16, 4px);
+            grid-template-rows: repeat(8, 4px);
+            gap: 1px;
+            background-color: #405060;
+            padding: 2px;
+            border-radius: 2px;
+            margin-top: 4px;
+        }
+        .led-dot-s {
+            width: 4px;
+            height: 4px;
+            background-color: #7a8a99;
+            border-radius: 50%;
+        }
+        .led-dot-s.on {
+            background-color: #ff3333;
+            box-shadow: 0 0 2px #ff3333;
+        }
+
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <!-- Navbar -->
+    <nav class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i data-lucide="cpu" class="w-8 h-8"></i>
+                <div>
+                    <h1 class="text-xl font-bold leading-none">Technology Note</h1>
+                </div>
+            </div>
+            <span class="bg-blue-800 bg-opacity-50 px-3 py-1 rounded-full text-sm font-light">บทที่ 2</span>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 py-8 space-y-8">
+
+        <!-- Header Section -->
+        <header class="text-center py-6">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-800 mb-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                บทที่ 2 Kidbright
+            </h1>
+        </header>
+
+        <!-- 2.2 Kidbright Sensor -->
+        <section id="section-2-2" class="scroll-mt-20">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden card-hover">
+                <div class="bg-indigo-50 px-6 py-4 border-b border-indigo-100 flex items-center gap-3">
+                    <span class="bg-indigo-600 text-white w-auto px-2 h-8 rounded-full flex items-center justify-center font-bold text-sm">2.2</span>
+                    <h2 class="text-2xl font-bold text-indigo-900">Kidbright Sensor</h2>
+                </div>
+
+                <div class="p-6 md:p-8 space-y-8">
+                    
+                    <!-- 1. Introduction -->
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-3 flex items-center gap-2">
+                            <span class="bg-indigo-100 text-indigo-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                            ทำความรู้จักเซนเซอร์บนบอร์ด KidBright
+                        </h3>
+                        <p class="text-slate-700 mb-4 pl-10">
+                            บอร์ด KidBright มีเซนเซอร์พื้นฐานติดตั้งมาให้ 2 ตัว คือ :
+                        </p>
+                        <ul class="list-disc list-inside pl-12 space-y-1 text-slate-700 mb-6">
+                            <li>เซนเซอร์วัดอุณหภูมิ</li>
+                            <li>เซนเซอร์วัดแสง</li>
+                        </ul>
+
+                        <!-- รูปที่ 1 (Board Diagram) - TEXT REMOVED -->
+                        <div class="mx-auto max-w-lg bg-slate-100 p-4 rounded-xl border border-slate-200">
+                            <p class="text-xs text-center text-slate-400 mb-4 font-light">ตำแหน่งเซนเซอร์บนบอร์ด</p>
+                            <div class="bg-blue-800 rounded-2xl p-6 relative shadow-lg h-40 flex items-center justify-center gap-12 border-4 border-blue-900 mt-2">
+                                <!-- Board Decoration -->
+                                <div class="absolute top-2 left-2 w-3 h-3 rounded-full bg-yellow-200 border-2 border-yellow-500"></div>
+                                <div class="absolute top-2 right-2 w-3 h-3 rounded-full bg-yellow-200 border-2 border-yellow-500"></div>
+                                <div class="absolute bottom-2 left-2 w-3 h-3 rounded-full bg-yellow-200 border-2 border-yellow-500"></div>
+                                <div class="absolute bottom-2 right-2 w-3 h-3 rounded-full bg-yellow-200 border-2 border-yellow-500"></div>
+                                <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white opacity-50 text-xs font-bold tracking-widest">KidBright32</div>
+                                
+                                <!-- Temperature Sensor -->
+                                <div class="flex flex-col items-center relative">
+                                    <i data-lucide="arrow-down" class="w-6 h-6 text-red-500 animate-bounce mb-1"></i>
+                                    <div class="border-2 border-red-500 rounded p-1 bg-blue-700">
+                                        <div class="w-8 h-8 bg-black rounded flex items-center justify-center">
+                                            <i data-lucide="thermometer" class="w-5 h-5 text-gray-400"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Light Sensor -->
+                                <div class="flex flex-col items-center relative">
+                                    <i data-lucide="arrow-down" class="w-6 h-6 text-red-500 animate-bounce mb-1"></i>
+                                    <div class="border-2 border-red-500 rounded-full p-1 bg-blue-700">
+                                        <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center border-2 border-gray-400">
+                                            <i data-lucide="sun" class="w-5 h-5 text-orange-500"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-slate-100"></div>
+
+                    <!-- 2. Light Sensor Principle -->
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-3 flex items-center gap-2">
+                            <span class="bg-indigo-100 text-indigo-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                            หลักการทำงานของเซนเซอร์วัดแสง
+                        </h3>
+                        <p class="text-slate-700 mb-2 pl-10">
+                            เซนเซอร์วัดแสงจะอ่านค่าความเข้มข้นของแสงออกมาเป็นตัวเลข :
+                        </p>
+                        <div class="grid grid-cols-2 gap-4 max-w-md mx-auto mb-6 pl-10">
+                            <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg text-center shadow-sm">
+                                <span class="block font-bold text-yellow-900 text-lg mb-2">สว่าง</span>
+                                <div class="text-sm text-slate-700 leading-relaxed">
+                                    ค่าจะ <span class="text-green-600 font-bold text-lg">มาก</span><br>
+                                    ( สูงสุดคือ 100 )
+                                </div>
+                            </div>
+                            <div class="bg-slate-100 border border-slate-300 p-4 rounded-lg text-center shadow-sm">
+                                <span class="block font-bold text-slate-900 text-lg mb-2">มืด</span>
+                                <div class="text-sm text-slate-700 leading-relaxed">
+                                    ค่าจะ <span class="text-red-600 font-bold text-lg">น้อย</span><br>
+                                    ( ต่ำสุดคือ 0 )
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500 mb-6">
+                            <p class="text-sm text-slate-700">
+                                <strong>> ขั้นตอนการเตรียมตัว :</strong> เริ่มต้นต้องเขียนโปรแกรมเพื่ออ่านค่าเซนเซอร์ปัจจุบันก่อน โดยใช้บล็อก Light Level Sensor แสดงผลบนหน้าจอ LED 16x8 เพื่อดูว่าในห้องมีค่าความสว่างเท่าไร
+                            </p>
+                        </div>
+
+                        <!-- รูปที่ 2 (CSS Block Code Simulation - Enhanced) -->
+                        <div class="flex justify-center my-6">
+                            <div class="kb-container">
+                                <!-- Forever Block -->
+                                <div class="kb-c-shape text-white">
+                                    <div class="kb-block kb-c-top bg-kb-green no-top">
+                                        Forever
+                                    </div>
+                                    <div class="kb-c-body bg-kb-green border-kb-green">
+                                        <div class="kb-c-body-inner">
+                                            <!-- LED Block -->
+                                            <div class="kb-block bg-kb-teal">
+                                                LED 16x8 2-chars
+                                                <!-- Sensor Puzzle Piece -->
+                                                <div class="kb-pill">
+                                                    <i data-lucide="sun" class="w-3 h-3 text-red-200 bg-red-800 rounded-full p-0.5"></i>
+                                                    Light Level Sensor
+                                                </div>
+                                            </div>
+                                            <!-- Delay Block -->
+                                            <div class="kb-block bg-kb-green">
+                                                Delay
+                                                <span class="bg-white text-black px-1.5 rounded ml-1 text-xs">0.5</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-slate-100"></div>
+
+                    <!-- 3. Threshold Calculation -->
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-3 flex items-center gap-2">
+                            <span class="bg-indigo-100 text-indigo-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+                            การหา "ค่ากลาง" ( Threshold ) เพื่อตั้งเงื่อนไข
+                        </h3>
+                        <p class="text-slate-700 mb-4 pl-10">
+                            เพื่อให้ระบบแยกแยะได้ว่าตอนไหนคือ "กลางวัน" หรือ "กลางคืน" เราต้องหาค่ากลางมาเป็นเกณฑ์ตัดสิน :
+                        </p>
+                        <ul class="list-none pl-10 space-y-4 text-slate-700 mb-6">
+                            <li class="flex gap-3">
+                                <span class="bg-slate-200 rounded px-2 py-0.5 font-bold h-fit text-sm">บันทึกค่า</span>
+                                <span>จดค่าที่อ่านได้ตอนปล่อยให้แสงสว่างปกติ และตอนใช้มือบังเซนเซอร์ให้มืด</span>
+                            </li>
+                            <li class="flex gap-3 items-start">
+                                <span class="bg-slate-200 rounded px-2 py-0.5 font-bold h-fit text-sm mt-1">คำนวณ</span>
+                                <div class="flex-1">
+                                    <span>นำค่าทั้งสองมาหาค่าเฉลี่ยด้วยสูตร :</span>
+                                    <div class="mt-3 flex justify-center">
+                                        <div class="bg-slate-800 text-white px-6 py-2 rounded-lg font-mono text-lg flex items-center">
+                                            <div class="flex flex-col items-center">
+                                                <span class="border-b border-white pb-1 mb-1">( สว่าง ) + ( มืด )</span>
+                                                <span>2</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="pl-20 text-sm">
+                                <strong>ตัวอย่าง :</strong> ถ้าสว่างได้ 80 และมืดได้ 10 ค่ากลางคือ 
+                                <div class="inline-flex flex-col align-middle text-center mx-1 font-bold text-indigo-700 leading-tight bg-indigo-50 px-2 py-1 rounded">
+                                    <span class="border-b border-indigo-400 pb-0.5 mb-0.5">( 80 + 10 )</span>
+                                    <span>2</span>
+                                </div>
+                                = 45
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="border-t border-slate-100"></div>
+
+                    <!-- 4. Algorithm & Logic -->
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-3 flex items-center gap-2">
+                            <span class="bg-indigo-100 text-indigo-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
+                            การแปลงโจทย์เป็นอัลกอริทึม
+                        </h3>
+                        <p class="text-slate-700 mb-4 pl-10">
+                            เมื่อได้ค่ากลาง ( สมมติคือ 45 ) เราจะวางเงื่อนไขระบบดังนี้ :
+                        </p>
+                        <div class="grid md:grid-cols-2 gap-4 pl-10 mb-8">
+                            <div class="bg-white border border-slate-200 p-4 rounded-lg shadow-sm">
+                                <p class="font-bold text-slate-800 mb-2">กลางวัน ( สว่าง )</p>
+                                <p class="text-sm">ถ้า ค่าเซนเซอร์ <span class="text-indigo-600 font-bold">มากกว่า</span> 45</p>
+                                <div class="flex items-center gap-2 mt-2 text-slate-600 text-sm">
+                                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                    <span>สั่งปิดไฟ และแสดงสัญลักษณ์ X</span>
+                                </div>
+                            </div>
+                            <div class="bg-white border border-slate-200 p-4 rounded-lg shadow-sm">
+                                <p class="font-bold text-slate-800 mb-2">กลางคืน ( มืด )</p>
+                                <p class="text-sm">ถ้า ค่าเซนเซอร์ <span class="text-indigo-600 font-bold">น้อยกว่า</span> 45</p>
+                                <div class="flex items-center gap-2 mt-2 text-slate-600 text-sm">
+                                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                    <span>สั่งเปิดไฟ และแสดงสัญลักษณ์ <i data-lucide="check" class="w-4 h-4 inline text-green-600"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- รูปที่ 3 & 4 (Enhanced CSS Blocks) -->
+                        <div class="flex justify-center bg-slate-100 p-6 rounded-xl border border-slate-200 overflow-x-auto">
+                            <div class="kb-container">
+                                <!-- Forever Block -->
+                                <div class="kb-c-shape">
+                                    <div class="kb-block kb-c-top bg-kb-green no-top">Forever</div>
+                                    <div class="kb-c-body bg-kb-green border-kb-green">
+                                        <div class="kb-c-body-inner">
+                                            
+                                            <!-- Setup Read -->
+                                            <div class="kb-block bg-kb-teal">
+                                                LED 16x8 2-chars
+                                                <div class="kb-pill">
+                                                    <i data-lucide="sun" class="w-3 h-3 text-red-200 bg-red-800 rounded-full p-0.5"></i>
+                                                    Light Level Sensor
+                                                </div>
+                                            </div>
+                                            <div class="kb-block bg-kb-green">
+                                                Delay <span class="bg-white text-black px-1.5 rounded ml-1 text-xs">0.5</span>
+                                            </div>
+
+                                            <!-- IF Block 1 (Day) -->
+                                            <div class="kb-c-shape mt-2">
+                                                <div class="kb-block kb-c-top bg-kb-blue">
+                                                    <i data-lucide="settings" class="w-3 h-3 mr-1"></i> if
+                                                    <div class="kb-pill !bg-kb-brown !border-transparent">
+                                                        <i data-lucide="sun" class="w-3 h-3 text-red-200 bg-red-800 rounded-full p-0.5"></i>
+                                                        Light Level Sensor
+                                                    </div>
+                                                    <span> > </span>
+                                                    <span class="bg-white text-black px-1 rounded mx-1 text-xs">45</span>
+                                                </div>
+                                                <div class="kb-c-body bg-kb-blue border-kb-blue">
+                                                    <div class="kb-c-body-inner">
+                                                        <div class="text-[10px] text-white/70 ml-1">do</div>
+                                                        <!-- Write USB OFF -->
+                                                        <div class="kb-block bg-kb-red">
+                                                            <i data-lucide="plug" class="w-3 h-3 mr-1"></i> Write USB
+                                                            <span class="ml-1 text-xs">Status</span>
+                                                            <span class="bg-[#802020] text-white px-2 py-0.5 rounded ml-1 text-xs flex items-center">Off <span class="kb-dropdown"></span></span>
+                                                        </div>
+                                                        <!-- LED X -->
+                                                        <div class="kb-block bg-kb-teal flex-col items-start !gap-0 !pb-2">
+                                                            LED 16x8
+                                                            <div class="led-grid-small">
+                                                                <!-- X Pattern -->
+                                                                <div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div>
+                                                                <div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s on"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s on"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div>
+                                                                <div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s on"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s on"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div>
+                                                                <div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s on"></div><div class="led-dot-s on"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div>
+                                                                <div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s on"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s on"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div>
+                                                                <div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s on"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s on"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div>
+                                                                <div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div>
+                                                                <div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="kb-block bg-kb-green">
+                                                            Delay <span class="bg-white text-black px-1.5 rounded ml-1 text-xs">0.5</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- IF Block 2 (Night) -->
+                                            <div class="kb-c-shape mt-2">
+                                                <div class="kb-block kb-c-top bg-kb-blue">
+                                                    <i data-lucide="settings" class="w-3 h-3 mr-1"></i> if
+                                                    <div class="kb-pill !bg-kb-brown !border-transparent">
+                                                        <i data-lucide="sun" class="w-3 h-3 text-red-200 bg-red-800 rounded-full p-0.5"></i>
+                                                        Light Level Sensor
+                                                    </div>
+                                                    <span> < </span>
+                                                    <span class="bg-white text-black px-1 rounded mx-1 text-xs">45</span>
+                                                </div>
+                                                <div class="kb-c-body bg-kb-blue border-kb-blue">
+                                                    <div class="kb-c-body-inner">
+                                                        <div class="text-[10px] text-white/70 ml-1">do</div>
+                                                        <!-- Write USB ON -->
+                                                        <div class="kb-block bg-kb-red">
+                                                            <i data-lucide="plug" class="w-3 h-3 mr-1"></i> Write USB
+                                                            <span class="ml-1 text-xs">Status</span>
+                                                            <span class="bg-[#802020] text-white px-2 py-0.5 rounded ml-1 text-xs flex items-center">On <span class="kb-dropdown"></span></span>
+                                                        </div>
+                                                        <!-- LED Check - CORRECTED PATTERN v3 -->
+                                                        <div class="kb-block bg-kb-teal flex-col items-start !gap-0 !pb-2">
+                                                            LED 16x8
+                                                            <div class="led-grid-small">
+                                                                <!-- Row 1 --> <div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div>
+                                                                <!-- Row 2 --> <div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div>
+                                                                <!-- Row 3 --> <div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s on"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div>
+                                                                <!-- Row 4 --> <div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s on"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div>
+                                                                <!-- Row 5 --> <div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s on"></div><div class="led-dot-s"></div><div class="led-dot-s on"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div>
+                                                                <!-- Row 6 --> <div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s on"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div>
+                                                                <!-- Row 7 --> <div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div>
+                                                                <!-- Row 8 --> <div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div><div class="led-dot-s"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="kb-block bg-kb-green">
+                                                            Delay <span class="bg-white text-black px-1.5 rounded ml-1 text-xs">0.5</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-8 text-center text-slate-400 text-sm">
+            <p>2.2 Kidbright Sensor</p>
+            <p class="mt-2 text-xs opacity-60">By-20nxskypqz</p>
+        </footer>
+
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
