@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บทที่ 2 Kidbright : Kidbright IoT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Import Niramit Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Force Niramit font everywhere */
+        body, h1, h2, h3, h4, code, .font-kanit, div, span, p {
+            font-family: 'Niramit', sans-serif !important;
+        }
+
+        body {
+            background-color: #f0f9ff;
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- KIDBRIGHT BLOCK STYLES (COMPACT VERSION) --- */
+        .kb-container {
+            font-family: sans-serif;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            font-size: 0.75rem; /* Reduced font size for mobile */
+        }
+
+        /* Common Block Shape */
+        .kb-block {
+            padding: 4px 8px; /* Reduced padding */
+            border-radius: 4px;
+            color: white;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+            position: relative;
+            margin-bottom: -2px;
+            display: flex;
+            align-items: center;
+            gap: 4px; /* Reduced gap */
+            min-height: 28px; /* Reduced height */
+            z-index: 10;
+            border: 1px solid rgba(0,0,0,0.1);
+            white-space: nowrap;
+        }
+
+        /* Puzzle Connectors */
+        .kb-block::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: 10px; /* Adjusted left */
+            width: 10px; /* Smaller connector */
+            height: 5px;
+            background-color: inherit;
+            clip-path: polygon(0% 100%, 10% 0%, 90% 0%, 100% 100%);
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+        .kb-block.no-top::before { display: none; }
+
+        .kb-block::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 10px; /* Adjusted left */
+            width: 10px; /* Smaller connector */
+            height: 4px;
+            background-color: inherit;
+            clip-path: polygon(0% 0%, 10% 100%, 90% 100%, 100% 0%);
+            z-index: 20;
+        }
+        .kb-block.no-bottom::after { display: none; }
+
+        /* C-Shape Blocks */
+        .kb-c-shape {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+        }
+        .kb-c-top {
+            width: auto;
+            min-width: 100px;
+            border-radius: 4px 4px 4px 0;
+        }
+        .kb-c-body {
+            border-left: 12px solid; /* Thinner spine */
+            border-bottom: 4px solid;
+            border-color: inherit;
+            padding: 2px 0 2px 6px; /* Reduced padding */
+            margin-left: 0px;
+            min-height: 8px;
+            width: 100%;
+            border-radius: 0 0 4px 4px;
+            background-color: rgba(255,255,255,0.05);
+        }
+        .kb-c-body-inner {
+             display: flex;
+             flex-direction: column;
+             gap: 1px;
+        }
+
+        /* Specific Colors */
+        .bg-kb-green { background-color: #55af7b; border-color: #489669; }
+        .bg-kb-teal { background-color: #5bbfb0; border-color: #4da396; }
+        .bg-kb-brown { background-color: #959c5d; border-color: #7f854f; }
+        .bg-kb-blue { background-color: #6377c3; border-color: #5364a3; }
+        .bg-kb-dark-blue { background-color: #4b5bb3; border-color: #3a4699; }
+        .bg-kb-olive { background-color: #94a14c; border-color: #798539; }
+        .bg-kb-gray { background-color: #596675; border-color: #45505c; }
+
+        /* Inner Pills */
+        .kb-pill {
+            background-color: #959c5d;
+            border: 1px solid #7f854f;
+            border-radius: 10px;
+            padding: 0px 6px;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            font-size: 0.65rem; /* Smaller text inside pills */
+            color: white;
+            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.2);
+            height: 20px; /* Fixed height for consistency */
+        }
+        .kb-pill.text-pill {
+            background-color: #ffffff;
+            color: #333;
+            border: none;
+            font-weight: normal;
+        }
+        .kb-pill.switch-pill {
+            background-color: #3c465a;
+            border: 1px solid #2d3545;
+        }
+
+        .kb-dropdown {
+            width: 0; 
+            height: 0; 
+            border-left: 3px solid transparent;
+            border-right: 3px solid transparent;
+            border-top: 4px solid rgba(0,0,0,0.5);
+            margin-left: 3px;
+        }
+
+        /* Responsive Icons inside blocks */
+        .kb-icon {
+            width: 12px;
+            height: 12px;
+        }
+
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <!-- Navbar -->
+    <nav class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i data-lucide="cpu" class="w-8 h-8"></i>
+                <div>
+                    <h1 class="text-xl font-bold leading-none">Technology Note</h1>
+                </div>
+            </div>
+            <span class="bg-blue-800 bg-opacity-50 px-3 py-1 rounded-full text-sm font-light">บทที่ 2</span>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 py-8 space-y-8">
+
+        <!-- Header Section -->
+        <header class="text-center py-6">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-800 mb-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                บทที่ 2 Kidbright
+            </h1>
+        </header>
+
+        <!-- 2.3 Kidbright IoT -->
+        <section id="section-2-3" class="scroll-mt-20">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden card-hover">
+                <div class="bg-cyan-50 px-6 py-4 border-b border-cyan-100 flex items-center gap-3">
+                    <span class="bg-cyan-600 text-white w-auto px-2 h-8 rounded-full flex items-center justify-center font-bold text-sm">2.3</span>
+                    <h2 class="text-2xl font-bold text-cyan-900">Kidbright IoT</h2>
+                </div>
+
+                <div class="p-6 md:p-8 space-y-8">
+                    
+                    <!-- 1. IoT คืออะไร? -->
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-3 flex items-center gap-2">
+                            <span class="bg-cyan-100 text-cyan-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                            IoT คืออะไร ?
+                        </h3>
+                        <ul class="list-disc list-inside pl-6 space-y-2 text-slate-700 leading-relaxed">
+                            <li>IoT ย่อมาจาก Internet of Things</li>
+                            <li>เกิดจากการรวมคำว่า Things ( สิ่งของหลากหลายประเภท ) กับ Internet ( เครือข่ายเชื่อมต่ออุปกรณ์อิเล็กทรอนิกส์ )</li>
+                            <li><strong>ความหมาย :</strong> คือการที่อุปกรณ์ต่าง ๆ รอบตัวเราสามารถเชื่อมต่อและสื่อสารกันได้ผ่านระบบอินเทอร์เน็ต</li>
+                        </ul>
+                    </div>
+
+                    <div class="border-t border-slate-100"></div>
+
+                    <!-- 2. หลักการทำงานและอุปกรณ์ -->
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-3 flex items-center gap-2">
+                            <span class="bg-cyan-100 text-cyan-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                            หลักการทำงานและอุปกรณ์
+                        </h3>
+                        <ul class="list-disc list-inside pl-6 space-y-2 text-slate-700 leading-relaxed">
+                            <li>
+                                <strong>กระบวนการ :</strong> เริ่มจาก โทรศัพท์ ส่งสัญญาณผ่าน อินเทอร์เน็ต ( Cloud ) ไปยัง ไมโครคอนโทรลเลอร์ ( KidBright ) เพื่อควบคุมอุปกรณ์ต่าง ๆ เช่น หลอดไฟ
+                            </li>
+                            <li>
+                                <strong>แอปพลิเคชัน :</strong> ต้องติดตั้งแอปฯ ชื่อ "KidBright IoT" ( พัฒนาโดย NEXPIE ) ลงในมือถือ
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="border-t border-slate-100"></div>
+
+                    <!-- 3. ขั้นตอนการเขียนโปรแกรมและเชื่อมต่อ -->
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-3 flex items-center gap-2">
+                            <span class="bg-cyan-100 text-cyan-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+                            ขั้นตอนการเขียนโปรแกรมและเชื่อมต่อ
+                        </h3>
+                        
+                        <div class="pl-4 space-y-6">
+                            <!-- 3.1 การแสดงค่าเซนเซอร์ -->
+                            <div>
+                                <h4 class="font-bold text-slate-800 mb-2 flex items-center gap-2">
+                                    <i data-lucide="gauge" class="w-4 h-4 text-cyan-600"></i>
+                                    การแสดงค่าเซนเซอร์ :
+                                </h4>
+                                <p class="text-slate-700 mb-4 pl-6">
+                                    เขียนโปรแกรมให้ส่งค่าจาก Light Level Sensor และ Temperature Sensor ไปยังหน้าจอ Dashboard ในมือถือผ่านบล็อก "Gauge"
+                                </p>
+                                
+                                <!-- รูปที่ 1 (CSS Simulation - Gauge Blocks - COMPACT) -->
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 overflow-x-auto flex justify-center">
+                                    <div class="kb-container">
+                                        <!-- Forever -->
+                                        <div class="kb-c-shape">
+                                            <div class="kb-block kb-c-top bg-kb-green no-top">Forever</div>
+                                            <div class="kb-c-body bg-kb-green border-kb-green">
+                                                <div class="kb-c-body-inner">
+                                                    
+                                                    <!-- LED Light -->
+                                                    <div class="kb-block bg-kb-teal">
+                                                        LED 16x8 2-chars
+                                                        <div class="kb-pill">
+                                                            <i data-lucide="sun" class="kb-icon text-red-200 bg-red-800 rounded-full p-0.5"></i>
+                                                            Light Level Sensor
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- Delay -->
+                                                    <div class="kb-block bg-kb-green">
+                                                        Delay <span class="bg-white text-black px-1 rounded ml-1 text-xs">0.5</span>
+                                                    </div>
+
+                                                    <!-- LED Temp -->
+                                                    <div class="kb-block bg-kb-teal">
+                                                        LED 16x8 2-chars
+                                                        <div class="kb-pill !bg-gray-800 !border-gray-600">
+                                                            <i data-lucide="thermometer" class="kb-icon text-gray-200"></i>
+                                                            Temperature Sensor
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Delay -->
+                                                    <div class="kb-block bg-kb-green">
+                                                        Delay <span class="bg-white text-black px-1 rounded ml-1 text-xs">0.5</span>
+                                                    </div>
+
+                                                    <!-- GAUGE 1 (LIGHT) -->
+                                                    <div class="kb-block bg-kb-olive">
+                                                        Send data to <span class="bg-[#d4db9e] text-black px-1 rounded mx-1 text-xs flex items-center">Gauge1 <span class="kb-dropdown"></span></span>
+                                                        <div class="kb-pill">
+                                                            <i data-lucide="sun" class="kb-icon text-red-200 bg-red-800 rounded-full p-0.5"></i>
+                                                            Light Level Sensor
+                                                        </div>
+                                                    </div>
+                                                    <div class="kb-block bg-kb-olive">
+                                                        Config title <span class="bg-white text-black px-1 rounded mx-1 text-xs">LIGHT</span>
+                                                        to <span class="bg-[#d4db9e] text-black px-1 rounded mx-1 text-xs flex items-center">Gauge1 <span class="kb-dropdown"></span></span>
+                                                    </div>
+                                                    <div class="kb-block bg-kb-olive">
+                                                        Config unit <span class="bg-white text-black px-1 rounded mx-1 text-xs">LUX</span>
+                                                        to <span class="bg-[#d4db9e] text-black px-1 rounded mx-1 text-xs flex items-center">Gauge1 <span class="kb-dropdown"></span></span>
+                                                    </div>
+                                                    <div class="kb-block bg-kb-olive">
+                                                        Config color <span class="w-3 h-3 bg-purple-600 rounded-sm mx-1 border border-white"></span>
+                                                        to <span class="bg-[#d4db9e] text-black px-1 rounded mx-1 text-xs flex items-center">Gauge1 <span class="kb-dropdown"></span></span>
+                                                    </div>
+
+                                                    <!-- Delay -->
+                                                    <div class="kb-block bg-kb-green">
+                                                        Delay <span class="bg-white text-black px-1 rounded ml-1 text-xs">0.5</span>
+                                                    </div>
+
+                                                    <!-- GAUGE 2 (TEMP) -->
+                                                    <div class="kb-block bg-kb-olive">
+                                                        Send data to <span class="bg-[#d4db9e] text-black px-1 rounded mx-1 text-xs flex items-center">Gauge2 <span class="kb-dropdown"></span></span>
+                                                        <div class="kb-pill !bg-gray-800 !border-gray-600">
+                                                            <i data-lucide="thermometer" class="kb-icon text-gray-200"></i>
+                                                            Temperature Sensor
+                                                        </div>
+                                                    </div>
+                                                    <div class="kb-block bg-kb-olive">
+                                                        Config title <span class="bg-white text-black px-1 rounded mx-1 text-xs">Temp</span>
+                                                        to <span class="bg-[#d4db9e] text-black px-1 rounded mx-1 text-xs flex items-center">Gauge2 <span class="kb-dropdown"></span></span>
+                                                    </div>
+                                                    <div class="kb-block bg-kb-olive">
+                                                        Config unit <span class="bg-white text-black px-1 rounded mx-1 text-xs">C</span>
+                                                        to <span class="bg-[#d4db9e] text-black px-1 rounded mx-1 text-xs flex items-center">Gauge2 <span class="kb-dropdown"></span></span>
+                                                    </div>
+                                                    <div class="kb-block bg-kb-olive">
+                                                        Config color <span class="w-3 h-3 bg-purple-600 rounded-sm mx-1 border border-white"></span>
+                                                        to <span class="bg-[#d4db9e] text-black px-1 rounded mx-1 text-xs flex items-center">Gauge2 <span class="kb-dropdown"></span></span>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 3.2 Wi-Fi & Sync -->
+                            <div>
+                                <ul class="list-disc list-inside space-y-2 text-slate-700 pl-2">
+                                    <li>
+                                        <strong>การตั้งค่า Wi-Fi :</strong> ต้องระบุชื่อ Wi-Fi ( SSID ) และรหัสผ่านให้ถูกต้อง ( ตัวพิมพ์เล็ก-ใหญ่และเว้นวรรคต้องแม่นยำ ) เพื่อให้บอร์ดเชื่อมต่ออินเทอร์เน็ตได้
+                                    </li>
+                                    <li>
+                                        <strong>การ Sync ข้อมูล :</strong> เมื่ออัปโหลดโปรแกรมลงบอร์ดแล้ว ให้ใช้แอปฯ ในมือถือสแกน QR Code จากหน้าจอโปรแกรม KidBright เพื่อเชื่อมโยงอุปกรณ์
+                                    </li>
+                                    <li>
+                                        <strong>การตรวจสอบสถานะ :</strong> หากเชื่อมต่อสำเร็จ ไฟสถานะ WIFI และ IOT บนบอร์ด KidBright จะสว่างขึ้นทั้ง 2 จุด ( 1.WIFI 2.IoT )
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- 3.3 การเขียนโปรแกรมกดปุ่ม -->
+                            <div>
+                                <h4 class="font-bold text-slate-800 mb-2 flex items-center gap-2">
+                                    <i data-lucide="mouse-pointer-click" class="w-4 h-4 text-cyan-600"></i>
+                                    การเขียนโปรแกรมกดปุ่ม :
+                                </h4>
+                                
+                                <!-- รูปที่ 2 (CSS Simulation - Switch Logic - COMPACT) -->
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 overflow-x-auto flex justify-center">
+                                    <div class="kb-container">
+                                        <!-- Note: Assuming inside a main loop based on indentation in typical block coding -->
+                                        <div class="kb-c-body !bg-transparent !border-l-0 !p-0">
+                                            <div class="kb-c-body-inner">
+                                                
+                                                <!-- Delay -->
+                                                <div class="kb-block bg-kb-green">
+                                                    Delay <span class="bg-white text-black px-1 rounded ml-1 text-xs">0.5</span>
+                                                </div>
+
+                                                <!-- IF Switch 1 -->
+                                                <div class="kb-c-shape mt-1">
+                                                    <div class="kb-block kb-c-top bg-kb-blue">
+                                                        <i data-lucide="settings" class="kb-icon mr-1"></i> if
+                                                        <div class="kb-pill switch-pill">
+                                                            <div class="w-2 h-2 bg-gray-400 rounded-sm border border-gray-500"></div>
+                                                            Switch 1 pressed
+                                                        </div>
+                                                    </div>
+                                                    <div class="kb-c-body bg-kb-blue border-kb-blue">
+                                                        <div class="kb-c-body-inner">
+                                                            <div class="text-[9px] text-white/70 ml-1">do</div>
+                                                            <div class="kb-block bg-kb-teal">
+                                                                LED 16x8 2-chars 
+                                                                <span class="bg-white text-black px-2 rounded mx-1 text-xs">No</span>
+                                                            </div>
+                                                            <div class="kb-block bg-kb-green">
+                                                                Delay <span class="bg-white text-black px-1 rounded ml-1 text-xs">0.5</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- IF Switch 2 -->
+                                                <div class="kb-c-shape mt-2">
+                                                    <div class="kb-block kb-c-top bg-kb-blue">
+                                                        <i data-lucide="settings" class="kb-icon mr-1"></i> if
+                                                        <div class="kb-pill switch-pill">
+                                                            <div class="w-2 h-2 bg-gray-400 rounded-sm border border-gray-500"></div>
+                                                            Switch 2 pressed
+                                                        </div>
+                                                    </div>
+                                                    <div class="kb-c-body bg-kb-blue border-kb-blue">
+                                                        <div class="kb-c-body-inner">
+                                                            <div class="text-[9px] text-white/70 ml-1">do</div>
+                                                            <div class="kb-block bg-kb-teal">
+                                                                LED 16x8 Scroll When Ready 
+                                                                <span class="bg-white text-black px-2 rounded mx-1 text-xs">Your Name</span>
+                                                            </div>
+                                                            <div class="kb-block bg-kb-green">
+                                                                Delay <span class="bg-white text-black px-1 rounded ml-1 text-xs">3</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-8 text-center text-slate-400 text-sm">
+            <p>2.3 Kidbright IoT</p>
+            <p class="mt-2 text-xs opacity-60">By-20nxskypqz</p>
+        </footer>
+
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
