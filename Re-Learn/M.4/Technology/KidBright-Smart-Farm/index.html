@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.4 KidBright Smart Farm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Import Niramit Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Force Niramit font everywhere */
+        body, h1, h2, h3, h4, code, .font-kanit, div, span, p, td, th {
+            font-family: 'Niramit', sans-serif !important;
+        }
+
+        body {
+            background-color: #f0f9ff;
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- KIDBRIGHT BLOCK STYLES (COMPACT VERSION FOR MOBILE) --- */
+        .kb-container {
+            font-family: sans-serif;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            font-size: 0.75rem; /* Reduced size */
+        }
+
+        /* Common Block Shape */
+        .kb-block {
+            padding: 4px 8px; /* Reduced padding */
+            border-radius: 4px;
+            color: white;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+            position: relative;
+            margin-bottom: -2px;
+            display: flex;
+            align-items: center;
+            gap: 4px; /* Reduced gap */
+            min-height: 28px; /* Reduced height */
+            z-index: 10;
+            border: 1px solid rgba(0,0,0,0.1);
+            white-space: nowrap;
+        }
+
+        /* Puzzle Connectors */
+        .kb-block::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: 10px; /* Adjusted */
+            width: 10px; /* Smaller */
+            height: 5px;
+            background-color: inherit;
+            clip-path: polygon(0% 100%, 10% 0%, 90% 0%, 100% 100%);
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+        .kb-block.no-top::before { display: none; }
+
+        .kb-block::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 10px; /* Adjusted */
+            width: 10px; /* Smaller */
+            height: 4px;
+            background-color: inherit;
+            clip-path: polygon(0% 0%, 10% 100%, 90% 100%, 100% 0%);
+            z-index: 20;
+        }
+        .kb-block.no-bottom::after { display: none; }
+
+        /* C-Shape Blocks */
+        .kb-c-shape {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+        }
+        .kb-c-top {
+            width: auto;
+            min-width: 100px;
+            border-radius: 4px 4px 4px 0;
+        }
+        .kb-c-body {
+            border-left: 12px solid; /* Thinner spine */
+            border-bottom: 4px solid;
+            border-color: inherit;
+            padding: 2px 0 2px 6px; /* Reduced padding */
+            margin-left: 0px;
+            min-height: 8px;
+            width: 100%;
+            border-radius: 0 0 4px 4px;
+            background-color: rgba(255,255,255,0.05);
+        }
+        .kb-c-body-inner {
+             display: flex;
+             flex-direction: column;
+             gap: 1px;
+        }
+
+        /* Specific Colors */
+        .bg-kb-green { background-color: #55af7b; border-color: #489669; }
+        .bg-kb-teal { background-color: #5bbfb0; border-color: #4da396; }
+        .bg-kb-clay { background-color: #a07050; border-color: #805840; } /* Input/Output Brown */
+
+        /* Inner Pills */
+        .kb-dropdown {
+            width: 0; 
+            height: 0; 
+            border-left: 3px solid transparent;
+            border-right: 3px solid transparent;
+            border-top: 4px solid rgba(0,0,0,0.5);
+            margin-left: 3px;
+        }
+        
+        /* Table Styles */
+        .custom-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+        .custom-table th, .custom-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .custom-table th {
+            background-color: #f1f5f9;
+            font-weight: bold;
+            color: #334155;
+        }
+        .custom-table tr:last-child td {
+            border-bottom: none;
+        }
+        .custom-table tr:hover td {
+            background-color: #f8fafc;
+        }
+
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <!-- Navbar -->
+    <nav class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i data-lucide="cpu" class="w-8 h-8"></i>
+                <div>
+                    <h1 class="text-xl font-bold leading-none">Technology Note</h1>
+                </div>
+            </div>
+            <span class="bg-blue-800 bg-opacity-50 px-3 py-1 rounded-full text-sm font-light">บทที่ 2</span>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 py-8 space-y-8">
+
+        <!-- Header Section -->
+        <header class="text-center py-6">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-800 mb-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                บทที่ 2 Kidbright
+            </h1>
+        </header>
+
+        <!-- 2.4 KidBright Smart Farm -->
+        <section id="section-2-4" class="scroll-mt-20">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden card-hover">
+                <div class="bg-green-50 px-6 py-4 border-b border-green-100 flex items-center gap-3">
+                    <span class="bg-green-600 text-white w-auto px-2 h-8 rounded-full flex items-center justify-center font-bold text-sm">2.4</span>
+                    <h2 class="text-2xl font-bold text-green-900">KidBright Smart Farm</h2>
+                </div>
+
+                <div class="p-6 md:p-8 space-y-8">
+                    
+                    <!-- 1. แนวคิดของระบบ Smart Farm -->
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-3 flex items-center gap-2">
+                            <span class="bg-green-100 text-green-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                            แนวคิดของระบบ Smart Farm
+                        </h3>
+                        <p class="text-slate-700 mb-4 pl-6">
+                            โปรเจกต์นี้จำลองสถานการณ์ของ "เจมส์" เจ้าของฟาร์มเนื้อที่ 1,000 ไร่ ที่ต้องการนำเทคโนโลยีมาใช้ควมคุมการรดน้ำต้นไม้แทนคนงาน เพื่อวัตถุประสงค์หลักคือ :
+                        </p>
+                        <ul class="list-disc list-inside pl-6 space-y-2 text-slate-700">
+                            <li><strong>เพิ่มผลผลิต</strong> ให้กับฟาร์ม</li>
+                            <li><strong>ลดต้นทุน</strong> ในการจ้างแรงงาน</li>
+                            <li><strong>ทำงานอัตโนมัติ :</strong> ระบบจะรดน้ำเมื่อดินแห้ง และหยุดเมื่อดินมีความชื้น</li>
+                        </ul>
+                    </div>
+
+                    <div class="border-t border-slate-100"></div>
+
+                    <!-- 2. อุปกรณ์ที่ใช้ในระบบ -->
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-3 flex items-center gap-2">
+                            <span class="bg-green-100 text-green-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                            อุปกรณ์ที่ใช้ในระบบ
+                        </h3>
+                        <p class="text-slate-700 mb-4 pl-6">
+                            ระบบแบ่งออกเป็น 3 ส่วนหลักตามโครงสร้างคอมพิวเตอร์พื้นฐาน :
+                        </p>
+                        <div class="pl-6 overflow-x-auto">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>ส่วนการทำงาน</th>
+                                        <th>อุปกรณ์ที่ใช้</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Input ( ตัวป้อน )</td>
+                                        <td>เซนเซอร์วัดความชื้นในดิน</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Process ( การประมวลผล )</td>
+                                        <td>บอร์ด KidBright</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Output ( ตัวส่งออก )</td>
+                                        <td>ปั๊มน้ำขนาดเล็ก</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-slate-100"></div>
+
+                    <!-- 3. การต่อวงจร (Wiring) -->
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-3 flex items-center gap-2">
+                            <span class="bg-green-100 text-green-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+                            การต่อวงจร ( Wiring )
+                        </h3>
+                        <p class="text-slate-700 mb-4 pl-6">
+                            เพื่อให้ระบบทำงานได้ ต้องต่อสายสัญญาณให้ตรงกับตำแหน่งในโปรแกรม ดังนี้ :
+                        </p>
+                        
+                        <div class="pl-6 grid md:grid-cols-2 gap-6">
+                            <div class="bg-amber-50 p-4 rounded-lg border border-amber-100">
+                                <h4 class="font-bold text-amber-800 mb-2">การต่อเซนเซอร์วัดความชื้น</h4>
+                                <ul class="space-y-1 text-sm text-slate-700">
+                                    <li><span class="font-bold">DO</span> ต่อเข้าช่อง <span class="bg-white px-1 rounded border">IN 1</span></li>
+                                    <li><span class="font-bold">GND</span> ต่อเข้าช่อง <span class="bg-white px-1 rounded border">GN</span></li>
+                                    <li><span class="font-bold">VCC</span> ต่อเข้าช่อง <span class="bg-white px-1 rounded border">5V</span></li>
+                                </ul>
+                            </div>
+                            <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                                <h4 class="font-bold text-blue-800 mb-2">การต่อปั๊มน้ำขนาดเล็ก</h4>
+                                <ul class="space-y-1 text-sm text-slate-700">
+                                    <li><span class="font-bold">สายสีดำ ( GND )</span> ต่อเข้าช่อง <span class="bg-white px-1 rounded border">OUT 1</span></li>
+                                    <!-- แก้ไขเป็น 3V3 ตามคำขอ -->
+                                    <li><span class="font-bold">สายสีแดง ( VCC )</span> ต่อเข้าช่อง <span class="bg-white px-1 rounded border">3V3</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-slate-100"></div>
+
+                    <!-- 4. การเขียนโปรแกรมและค่าสถานะ -->
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-3 flex items-center gap-2">
+                            <span class="bg-green-100 text-green-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
+                            การเขียนโปรแกรมและค่าสถานะ
+                        </h3>
+                        <p class="text-slate-700 mb-6 pl-6">
+                            ในการควบคุมระบบ เราต้องทำความเข้าใจบล็อกคำสั่งและค่าที่เซนเซอร์ส่งมา :
+                        </p>
+
+                        <!-- 4.1 Read Block -->
+                        <div class="mb-8 pl-6">
+                            <ul class="list-disc list-inside mb-4">
+                                <li><strong>บล็อกอ่านค่า :</strong> Read Input Status 1 ( ตัวเลขต้องตรงกับช่อง IN ที่เราต่อ )</li>
+                            </ul>
+                            <!-- รูปที่ 1 (CSS Block - Compact) -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 overflow-x-auto flex justify-center mb-6">
+                                <div class="kb-container">
+                                    <div class="kb-block bg-kb-clay w-fit">
+                                        <div class="w-3 h-3 bg-white rounded-full border border-[#d6bba7] mr-1"></div>
+                                        Read Input Status 
+                                        <span class="bg-[#d6bba7] text-black px-1.5 rounded ml-1 text-xs flex items-center">1 <span class="kb-dropdown"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <ul class="list-disc list-inside mb-4">
+                                <li><strong>การเขียนโปรแกรมอ่านค่าเซนเซอร์</strong></li>
+                            </ul>
+                            <!-- รูปที่ 3 (CSS Block - Compact) -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 overflow-x-auto flex justify-center mb-6">
+                                <div class="kb-container">
+                                    <div class="kb-c-shape">
+                                        <div class="kb-block kb-c-top bg-kb-green no-top">Forever</div>
+                                        <div class="kb-c-body bg-kb-green border-kb-green">
+                                            <div class="kb-c-body-inner">
+                                                <div class="kb-block bg-kb-teal">
+                                                    LED 16x8 2-chars
+                                                    <div class="kb-block bg-kb-clay !p-0 !min-h-[20px] !border-none !shadow-none !m-0 !z-0">
+                                                        <div class="w-2 h-2 bg-white rounded-full border border-[#d6bba7] ml-1 mr-1"></div>
+                                                        Read Input Status 
+                                                        <span class="bg-[#d6bba7] text-black px-1 rounded ml-1 text-xs flex items-center">1 <span class="kb-dropdown"></span></span>
+                                                    </div>
+                                                </div>
+                                                <div class="kb-block bg-kb-green">
+                                                    Delay <span class="bg-white text-black px-1.5 rounded ml-1 text-xs">0.5</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 4.2 Write Block -->
+                        <div class="mb-8 pl-6">
+                            <ul class="list-disc list-inside mb-4">
+                                <li><strong>บล็อกสั่งงาน :</strong> Write Output 1 Status On/Off ( เพื่อสั่งจ่ายไฟหรือหยุดจ่ายไฟให้ปั๊มน้ำ )</li>
+                            </ul>
+                            <!-- รูปที่ 2 (CSS Block - Compact) -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 overflow-x-auto flex flex-col items-center gap-4 mb-6">
+                                <div class="flex items-center gap-4">
+                                    <div class="kb-block bg-kb-clay w-fit">
+                                        <div class="w-3 h-3 bg-white rounded-full border border-[#d6bba7] mr-1"></div>
+                                        Write Output 
+                                        <span class="bg-[#d6bba7] text-black px-1.5 rounded mx-1 text-xs flex items-center">1 <span class="kb-dropdown"></span></span>
+                                        Status 
+                                        <span class="bg-[#d6bba7] text-black px-1.5 rounded ml-1 text-xs flex items-center">Off <span class="kb-dropdown"></span></span>
+                                    </div>
+                                    <span class="text-red-500 font-bold text-xs">OFF - ไม่จ่ายไฟ</span>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="kb-block bg-kb-clay w-fit">
+                                        <div class="w-3 h-3 bg-white rounded-full border border-[#d6bba7] mr-1"></div>
+                                        Write Output 
+                                        <span class="bg-[#d6bba7] text-black px-1.5 rounded mx-1 text-xs flex items-center">1 <span class="kb-dropdown"></span></span>
+                                        Status 
+                                        <span class="bg-[#d6bba7] text-black px-1.5 rounded ml-1 text-xs flex items-center">On <span class="kb-dropdown"></span></span>
+                                    </div>
+                                    <span class="text-green-500 font-bold text-xs">ON - จ่ายไฟ</span>
+                                </div>
+                            </div>
+
+                            <ul class="list-disc list-inside mb-4">
+                                <li><strong>การเขียนโปรแกรมควบคุมปั๊มน้ำ</strong></li>
+                            </ul>
+                            <!-- รูปที่ 4 (CSS Block - Compact) -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 overflow-x-auto flex justify-center mb-6">
+                                <div class="kb-container">
+                                    <div class="kb-c-shape">
+                                        <div class="kb-block kb-c-top bg-kb-green no-top">Forever</div>
+                                        <div class="kb-c-body bg-kb-green border-kb-green">
+                                            <div class="kb-c-body-inner">
+                                                <div class="kb-block bg-kb-clay">
+                                                    <div class="w-2 h-2 bg-white rounded-full border border-[#d6bba7] ml-1 mr-1"></div>
+                                                    Write Output 
+                                                    <span class="bg-[#d6bba7] text-black px-1 rounded mx-1 text-xs flex items-center">1 <span class="kb-dropdown"></span></span>
+                                                    Status 
+                                                    <span class="bg-[#d6bba7] text-black px-1 rounded ml-1 text-xs flex items-center">Off <span class="kb-dropdown"></span></span>
+                                                </div>
+                                                <div class="kb-block bg-kb-green">
+                                                    Delay <span class="bg-white text-black px-1.5 rounded ml-1 text-xs">1</span>
+                                                </div>
+                                                <div class="kb-block bg-kb-clay">
+                                                    <div class="w-2 h-2 bg-white rounded-full border border-[#d6bba7] ml-1 mr-1"></div>
+                                                    Write Output 
+                                                    <span class="bg-[#d6bba7] text-black px-1 rounded mx-1 text-xs flex items-center">1 <span class="kb-dropdown"></span></span>
+                                                    Status 
+                                                    <span class="bg-[#d6bba7] text-black px-1 rounded ml-1 text-xs flex items-center">On <span class="kb-dropdown"></span></span>
+                                                </div>
+                                                <div class="kb-block bg-kb-green">
+                                                    Delay <span class="bg-white text-black px-1.5 rounded ml-1 text-xs">1</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 4.3 Logic -->
+                        <div class="pl-6 mb-4">
+                            <ul class="list-disc list-inside space-y-2">
+                                <li>
+                                    <strong>ค่าสถานะ ( Logic ) :</strong>
+                                    <ul class="pl-8 mt-2 space-y-1">
+                                        <li><span class="font-bold text-amber-700">ดินแห้ง :</span> เซนเซอร์จะส่งค่าเป็น <span class="bg-slate-200 px-1 rounded font-mono">1</span></li>
+                                        <li><span class="font-bold text-blue-700">ดินชื้น :</span> เซนเซอร์จะส่งค่าเป็น <span class="bg-slate-200 px-1 rounded font-mono">0</span></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500 ml-6">
+                            <p class="text-sm text-slate-700">
+                                <strong>> เทคนิคการทดสอบ :</strong> สามารถใช้ทิชชูเปียกน้ำแตะที่ขาเซนเซอร์ทั้ง 2 ข้างพร้อมกันเพื่อจำลองสภาวะดินชื้น และสังเกตค่าบนหน้าจอ LED ของบอร์ด KidBright
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-8 text-center text-slate-400 text-sm">
+            <p>2.4 KidBright Smart Farm</p>
+            <p class="mt-2 text-xs opacity-60">By-20nxskypqz</p>
+        </footer>
+
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
