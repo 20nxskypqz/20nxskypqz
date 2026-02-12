@@ -3,481 +3,413 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>บทที่ 2.2 การรักษาดุลยภาพของกรด-เบสของเลือด</title>
-    
-    <!-- Google Fonts: Niramit -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
+    <title>2.2 การรักษาดุลยภาพของกรด-เบสของเลือด</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Lucide Icons -->
+    <!-- Import Niramit Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-
+    <!-- KaTeX for Math Equations -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     <style>
+        /* Force Niramit font everywhere */
+        body, h1, h2, h3, h4, h5, h6, p, span, div, li, a, button, table, th, td {
+            font-family: 'Niramit', sans-serif !important;
+        }
+
         body {
-            font-family: 'Niramit', sans-serif;
+            background-color: #fff1f2; /* Rose-50 background */
+            color: #1e293b; /* Slate-800 text */
+            line-height: 1.8;
         }
-        .scroll-smooth {
-            scroll-behavior: smooth;
+
+        .card-hover {
+            transition: all 0.3s ease;
         }
-        /* Animation for background elements */
-        @keyframes blob {
-            0% { transform: translate(0px, 0px) scale(1); }
-            33% { transform: translate(30px, -50px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-            100% { transform: translate(0px, 0px) scale(1); }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         }
-        .animate-blob {
-            animation: blob 7s infinite;
+
+        /* Highlight styles */
+        .hl-term {
+            font-weight: bold;
+            color: #be123c; /* Rose-700 */
         }
-        .animation-delay-2000 {
-            animation-delay: 2s;
+        .hl-imp {
+            font-weight: bold;
+            background-color: #ffe4e6; /* Rose-100 */
+            padding: 0 4px;
+            border-radius: 4px;
+            color: #9f1239; /* Rose-800 */
+        }
+
+        /* pH Graph Styles */
+        .chart-container {
+            position: relative;
+            height: 200px;
+            width: 100%;
+            border-left: 2px solid #64748b;
+            border-bottom: 2px solid #64748b;
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 selection:bg-rose-200 scroll-smooth font-niramit">
+<body class="text-slate-700">
 
-    <!-- Navigation -->
-    <nav class="bg-white sticky top-0 z-50 shadow-sm border-b border-slate-100">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="flex justify-between items-center h-16">
-                <span class="text-xl font-bold text-slate-800 flex items-center gap-2">
-                    <i data-lucide="flask-conical" class="text-rose-600"></i>
-                    Acid Base Balance
-                </span>
+    <!-- Navbar -->
+    <nav class="bg-gradient-to-r from-rose-600 to-pink-600 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <i data-lucide="activity" class="w-8 h-8"></i>
+                <div>
+                    <h1 class="text-xl font-bold leading-none">Biology Note</h1>
+                </div>
             </div>
+            <span class="bg-rose-800 bg-opacity-50 px-3 py-1 rounded-full text-sm font-light hidden md:inline-block">บทที่ 2</span>
         </div>
     </nav>
 
-    <main class="max-w-5xl mx-auto px-4 py-8 space-y-12">
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto px-4 py-8 space-y-8">
 
-        <!-- Hero Section -->
-        <section class="text-center py-12 bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl text-white shadow-xl relative overflow-hidden">
-            <!-- Decorative background element -->
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-rose-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-64 h-64 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+        <!-- Header Section -->
+        <header class="text-center py-6">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-800 mb-2 text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-pink-600">
+                2.2 การรักษาดุลยภาพของกรด-เบสของเลือด
+            </h1>
+        </header>
 
-            <div class="relative z-10">
-                <h1 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">บทที่ 2 การรักษาดุลยภาพของร่างกาย</h1>
-                <h2 class="text-xl md:text-2xl text-rose-200 font-medium mb-6">2.2 การรักษาดุลยภาพของกรด-เบสของเลือด</h2>
-                
-                <div class="mt-8 flex justify-center gap-4 flex-wrap text-sm md:text-base">
-                    <div class="bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full flex items-center gap-2 border border-white/20">
-                        <i data-lucide="flask-conical" width="18"></i> pH
-                    </div>
-                    <div class="bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full flex items-center gap-2 border border-white/20">
-                        <i data-lucide="activity" width="18"></i> เอนไซม์
-                    </div>
-                    <div class="bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full flex items-center gap-2 border border-white/20">
-                        <i data-lucide="wind" width="18"></i> การหายใจ
-                    </div>
-                </div>
-            </div>
-        </section>
+        <!-- Intro: Enzymes & pH -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8 card-hover">
+            <div class="space-y-6 text-slate-700">
+                <p class="indent-8">
+                    ปฏิกิริยาเคมีต่างๆ ในร่างกายถูกควบคุมโดยเอนไซม์ หลายชนิด เอนไซม์ส่วนใหญ่ทำงานได้ดีในภาวะที่เป็นกลาง เช่น <span class="hl-term">เอนไซม์อะไมเลส (amylase)</span> หากไม่สามารถรักษา ความเป็นกรด-เบส (pH) ให้อยู่ในภาวะสมดุลได้ จะ ส่งผลกระทบต่อการทำงานของเอนไซม์ และการ ทำงานของระบบต่างๆ แต่ยังมีเอนไซม์บางชนิดที่ทำงานได้ดีที่ pH ต่ำ เช่น <span class="hl-term">เอนไซม์เพปซิน (pepsin)</span> ในกระเพาะอาหาร จะทำงาน ได้ดีในภาวะที่เป็นกรด
+                </p>
 
-        <!-- Section 1: Enzymes & pH -->
-        <section>
-            <div class="flex items-start gap-4 mb-6 border-b border-slate-200 pb-4">
-                <div class="p-3 bg-rose-50 rounded-lg text-rose-600">
-                    <i data-lucide="flask-conical" width="32" height="32"></i>
-                </div>
-                <div>
-                    <h2 class="text-2xl font-bold text-slate-800">เอนไซม์และความเป็นกรด-เบส</h2>
-                    <p class="text-slate-500 mt-1">ปัจจัยสำคัญต่อปฏิกิริยาเคมีในร่างกาย</p>
-                </div>
-            </div>
+                <!-- Visualization: pH Graph -->
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <div class="text-center font-bold text-slate-500 mb-6 text-sm">กราฟแสดงอัตราการทำงานของเอนไซม์ที่ค่า pH ต่างๆ</div>
+                    <div class="flex flex-col items-center">
+                        <div class="chart-container relative max-w-lg mx-auto">
+                            <!-- Y Axis Label -->
+                            <div class="absolute -left-10 top-1/2 -rotate-90 text-xs text-slate-500">อัตราการทำงาน</div>
+                            
+                            <!-- Pepsin Curve (pH 2) -->
+                            <svg class="absolute top-0 left-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                <path d="M 0 100 Q 20 0 40 100" fill="none" stroke="#f43f5e" stroke-width="3" />
+                                <text x="20" y="20" font-size="4" fill="#f43f5e">Pepsin (pH 2)</text>
+                            </svg>
 
-            <div class="bg-white rounded-xl shadow-sm p-6 border border-slate-100 mb-6">
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div>
-                        <h3 class="font-bold text-lg mb-4 text-slate-700">พฤติกรรมของเอนไซม์</h3>
-                        <ul class="space-y-3 text-slate-600 list-disc list-inside">
-                            <li>ปฏิกิริยาเคมีต่างๆ ในร่างกายถูกควบคุมโดย <strong>เอนไซม์</strong></li>
-                            <li>หากค่า pH ไม่สมดุล จะส่งผลกระทบต่อการทำงานของเอนไซม์และระบบต่างๆ</li>
-                            <li>เอนไซม์แต่ละชนิดทำงานได้ดีในค่า pH ที่ต่างกัน</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="space-y-4">
-                        <!-- Amylase -->
-                        <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="font-bold text-blue-800 flex items-center gap-2"><i data-lucide="droplet"></i> เอนไซม์อะไมเลส (Amylase)</span>
-                                <span class="bg-blue-200 text-blue-800 text-xs px-2 py-1 rounded-full font-bold">กลาง</span>
+                            <!-- Amylase Curve (pH 7) -->
+                            <svg class="absolute top-0 left-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                <path d="M 50 100 Q 70 0 90 100" fill="none" stroke="#3b82f6" stroke-width="3" />
+                                <text x="70" y="20" font-size="4" fill="#3b82f6">Amylase (pH 7)</text>
+                            </svg>
+
+                            <!-- X Axis Numbers -->
+                            <div class="absolute bottom-[-20px] w-full flex justify-between text-xs text-slate-500 px-2">
+                                <span>0</span><span>2</span><span>4</span><span>6</span><span>7</span><span>8</span><span>10</span><span>12</span><span>14</span>
                             </div>
-                            <p class="text-sm text-blue-900 mb-8">พบในน้ำลาย</p>
-                            <div class="relative pt-2 pb-6">
-                                <div class="relative h-2 bg-blue-200 rounded-full w-full">
-                                    <div class="absolute top-0 bottom-0 w-3 h-3 bg-blue-600 rounded-full shadow-md -mt-0.5" style="left: 50%; transform: translateX(-50%);"></div>
-                                </div>
-                                <div class="absolute w-full flex justify-between text-xs text-slate-500 font-bold mt-2">
-                                    <span>0</span>
-                                    <span class="absolute left-1/2 -translate-x-1/2">7</span>
-                                    <span>14</span>
-                                </div>
-                                <div class="absolute w-full text-center top-0 -mt-6">
-                                    <span class="text-xs font-semibold text-blue-600 bg-blue-100 px-2 py-0.5 rounded shadow-sm">ดีที่สุดที่ pH 7</span>
-                                </div>
-                            </div>
+                            <div class="absolute bottom-[-40px] left-1/2 -translate-x-1/2 text-xs text-slate-500">ค่า pH</div>
                         </div>
-
-                        <!-- Pepsin -->
-                        <div class="bg-orange-50 p-4 rounded-xl border border-orange-100">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="font-bold text-orange-800 flex items-center gap-2"><i data-lucide="flame"></i> เอนไซม์เพปซิน (Pepsin)</span>
-                                <span class="bg-orange-200 text-orange-800 text-xs px-2 py-1 rounded-full font-bold">กรด</span>
-                            </div>
-                            <p class="text-sm text-orange-900 mb-8">พบในกระเพาะอาหาร</p>
-                            <div class="relative pt-2 pb-6">
-                                <div class="relative h-2 bg-orange-200 rounded-full w-full">
-                                    <div class="absolute top-0 bottom-0 w-3 h-3 bg-orange-600 rounded-full shadow-md -mt-0.5" style="left: 14.3%; transform: translateX(-50%);"></div>
-                                </div>
-                                <div class="absolute w-full flex justify-between text-xs text-slate-500 font-bold mt-2">
-                                    <span>0</span>
-                                    <span class="absolute left-1/2 -translate-x-1/2">7</span>
-                                    <span>14</span>
-                                </div>
-                                <div class="absolute top-0 -mt-6" style="left: 14.3%; transform: translateX(-50%);">
-                                    <span class="text-xs font-semibold text-orange-600 bg-orange-100 px-2 py-0.5 rounded shadow-sm">ดีที่สุดที่ pH 2</span>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="mt-10 grid md:grid-cols-2 gap-4 text-sm">
+                        <div class="bg-rose-100 p-3 rounded border border-rose-200 text-rose-800">
+                            <strong>เอนไซม์เพปซิน :</strong> ทำงานดีที่สุดที่ pH 2 (กรด) หาก pH เพิ่มขึ้นการทำงานจะลดลง
+                        </div>
+                        <div class="bg-blue-100 p-3 rounded border border-blue-200 text-blue-800">
+                            <strong>เอนไซม์อะไมเลส :</strong> ทำงานดีที่สุดที่ pH 7 (กลาง) หาก pH เปลี่ยนไปการทำงานจะลดลง
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section 2: Blood Composition -->
-        <section>
-            <div class="flex items-start gap-4 mb-6 border-b border-slate-200 pb-4">
-                <div class="p-3 bg-rose-50 rounded-lg text-rose-600">
-                    <i data-lucide="test-tube" width="32" height="32"></i>
-                </div>
-                <div>
-                    <h2 class="text-2xl font-bold text-slate-800">ส่วนประกอบของเลือด</h2>
-                    <p class="text-slate-500 mt-1">ระบบไหลเวียนที่สำคัญทั่วร่างกาย</p>
-                </div>
-            </div>
-
+        <!-- Blood Composition -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8 card-hover">
+            <h3 class="text-xl font-bold text-slate-800 mb-4 border-b pb-2 flex items-center gap-2">
+                <i data-lucide="droplet" class="w-6 h-6 text-rose-500"></i> ส่วนประกอบของเลือด
+            </h3>
+            
             <div class="grid md:grid-cols-3 gap-6">
                 <!-- Plasma -->
-                <div class="bg-amber-50 rounded-xl p-6 border border-amber-100 hover:shadow-md transition-shadow">
-                    <div class="w-12 h-12 bg-amber-200 rounded-full flex items-center justify-center text-amber-700 mb-4 mx-auto">
-                        <i data-lucide="waves" width="24"></i>
+                <div class="bg-yellow-50 p-4 rounded-xl border border-yellow-200 text-center hover:shadow-md transition">
+                    <div class="w-16 h-16 bg-yellow-200 rounded-full mx-auto mb-3 flex items-center justify-center border-4 border-yellow-100">
+                        <i data-lucide="waves" class="text-yellow-600"></i>
                     </div>
-                    <h3 class="font-bold text-center text-amber-900 mb-3">น้ำเลือด / พลาสมา</h3>
-                    <ul class="text-sm text-amber-800 space-y-2 text-center">
-                        <li>เป็นของเหลว</li>
-                        <li>ประกอบด้วย น้ำ สารอาหาร เอนไซม์ ฮอร์โมน ของเสีย</li>
-                        <li class="font-semibold">ลำเลียงสารไปทั่วร่างกาย</li>
-                    </ul>
+                    <h4 class="font-bold text-yellow-800 mb-2">น้ำเลือด (Plasma)</h4>
+                    <p class="text-sm text-slate-600 text-left">
+                        ส่วนที่เป็นของเหลว ประกอบด้วยน้ำ , สารอาหาร , เอนไซม์ , ฮอร์โมน , แก๊สคาร์บอนไดออกไซด์ และของเสียต่าง ๆ ทำหน้าที่ลำเลียงสารไปยังส่วนต่าง ๆ ของร่างกาย
+                    </p>
                 </div>
 
                 <!-- RBC -->
-                <div class="bg-rose-50 rounded-xl p-6 border border-rose-100 hover:shadow-md transition-shadow">
-                    <div class="w-12 h-12 bg-rose-200 rounded-full flex items-center justify-center text-rose-700 mb-4 mx-auto">
-                        <i data-lucide="circle-dot" width="24"></i>
+                <div class="bg-red-50 p-4 rounded-xl border border-red-200 text-center hover:shadow-md transition">
+                    <div class="w-16 h-16 bg-red-400 rounded-full mx-auto mb-3 border-4 border-red-200 shadow-inner flex items-center justify-center">
+                        <div class="w-8 h-8 bg-red-500 rounded-full shadow-inner opacity-50"></div> <!-- Dimple -->
                     </div>
-                    <h3 class="font-bold text-center text-rose-900 mb-3">เซลล์เม็ดเลือดแดง (Erythrocyte)</h3>
-                    <ul class="text-sm text-rose-800 space-y-2 text-center">
-                        <li>กลมแบน ตรงกลางบุ๋ม ไม่มีนิวเคลียส</li>
+                    <h4 class="font-bold text-red-800 mb-2">เซลล์เม็ดเลือดแดง (Erythrocyte)</h4>
+                    <ul class="text-sm text-slate-600 text-left list-disc list-inside">
+                        <li>รูปร่างกลมแบน ตรงกลางบุ๋ม</li>
+                        <li>ไม่มีนิวเคลียส</li>
                         <li>มีเฮโมโกลบิน</li>
-                        <li class="font-semibold">ลำเลียงแก๊สออกซิเจน</li>
+                        <li>ลำเลียงแก๊สออกซิเจน</li>
                     </ul>
                 </div>
 
                 <!-- WBC -->
-                <div class="bg-slate-50 rounded-xl p-6 border border-slate-200 hover:shadow-md transition-shadow">
-                    <div class="w-12 h-12 bg-slate-200 rounded-full flex items-center justify-center text-slate-700 mb-4 mx-auto">
-                        <i data-lucide="shield" width="24"></i>
+                <div class="bg-purple-50 p-4 rounded-xl border border-purple-200 text-center hover:shadow-md transition">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full mx-auto mb-3 border-4 border-purple-200 flex items-center justify-center relative">
+                        <div class="w-8 h-8 bg-purple-400 rounded-full absolute top-2 right-2"></div> <!-- Nucleus -->
+                        <div class="w-4 h-4 bg-purple-400 rounded-full absolute bottom-3 left-3"></div>
                     </div>
-                    <h3 class="font-bold text-center text-slate-900 mb-3">เซลล์เม็ดเลือดขาว (Leucocyte)</h3>
-                    <ul class="text-sm text-slate-800 space-y-2 text-center">
-                        <li>ใหญ่กว่าเม็ดเลือดแดง มีนิวเคลียส</li>
-                        <li>สร้างแอนติบอดี / กลืนกินเซลล์</li>
-                        <li class="font-semibold">ทำลายเชื้อโรคและสิ่งแปลกปลอม</li>
+                    <h4 class="font-bold text-purple-800 mb-2">เซลล์เม็ดเลือดขาว (Leucocyte)</h4>
+                    <ul class="text-sm text-slate-600 text-left list-disc list-inside">
+                        <li>ขนาดใหญ่กว่าเม็ดเลือดแดง</li>
+                        <li>มีนิวเคลียส</li>
+                        <li>ทำลายเชื้อโรค/สิ่งแปลกปลอม</li>
                     </ul>
                 </div>
             </div>
         </section>
 
-        <!-- Section 3: Acid-Base Regulation Mechanisms -->
-        <section>
-            <div class="flex items-start gap-4 mb-6 border-b border-slate-200 pb-4">
-                <div class="p-3 bg-rose-50 rounded-lg text-rose-600">
-                    <i data-lucide="scale" width="32" height="32"></i>
-                </div>
-                <div>
-                    <h2 class="text-2xl font-bold text-slate-800">กลไกการรักษาดุลยภาพกรด-เบส</h2>
-                    <p class="text-slate-500 mt-1">การควบคุมไฮโดรเจนไอออนในร่างกาย</p>
-                </div>
-            </div>
+        <!-- Acid-Base Balance Mechanism -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8 card-hover">
+            <h3 class="text-xl font-bold text-slate-800 mb-6 border-b pb-2">กลไกการรักษาดุลยภาพกรด-เบส</h3>
+            
+            <p class="indent-8 text-slate-700 mb-4">
+                การที่ร่างกายทำกิจกรรมต่าง ๆ ได้นั้นต้องใช้พลังงานที่ได้จากการหายใจระดับ เซลล์ ซึ่งจะเกิด <span class="hl-imp">แก๊สคาร์บอนไดออกไซด์ (CO₂)</span> แล้วรวมตัวกับน้ำในเลือดเกิด เป็น <span class="hl-imp">กรดคาร์บอนิก (H₂CO₃)</span> แตกตัวให้ <span class="hl-imp">ไฮโดรเจนไอออน (H⁺)</span> และ <span class="hl-imp">ไฮโดรเจนคาร์บอเนตไอออน (HCO₃⁻)</span> ดังสมการ
+            </p>
 
-            <!-- CHEMICAL EQUATION VISUAL -->
-            <div class="mb-8 p-8 bg-slate-800 rounded-xl border border-slate-700 text-white relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-4 opacity-10">
-                    <i data-lucide="flask-conical" width="120" height="120"></i>
-                </div>
-                <h4 class="text-center font-bold text-slate-300 mb-6 uppercase tracking-wider text-sm">สมการการเกิดกรดคาร์บอนิกในเลือด</h4>
-                <div class="flex flex-wrap justify-center items-center gap-4 text-lg md:text-2xl">
-                    <div class="text-center">
-                        <span class="block font-bold text-blue-400">CO₂</span>
-                        <span class="text-xs text-slate-400 font-sans">คาร์บอนไดออกไซด์</span>
-                    </div>
-                    <span class="text-slate-500">+</span>
-                    <div class="text-center">
-                        <span class="block font-bold text-blue-400">H₂O</span>
-                        <span class="text-xs text-slate-400 font-sans">น้ำ</span>
-                    </div>
-                    <i data-lucide="arrow-right-left" class="text-slate-500 mx-2"></i>
-                    <div class="text-center p-2 rounded bg-slate-700/50">
-                        <span class="block font-bold text-yellow-400">H₂CO₃</span>
-                        <span class="text-xs text-slate-400 font-sans">กรดคาร์บอนิก</span>
-                    </div>
-                    <i data-lucide="arrow-right-left" class="text-slate-500 mx-2"></i>
-                    <div class="text-center">
-                        <span class="block font-bold text-rose-400">H⁺</span>
-                        <span class="text-xs text-slate-400 font-sans">ไฮโดรเจนไอออน</span>
-                    </div>
-                    <span class="text-slate-500">+</span>
-                    <div class="text-center">
-                        <span class="block font-bold text-emerald-400">HCO₃⁻</span>
-                        <span class="text-xs text-slate-400 font-sans">ไฮโดรเจนคาร์บอเนต</span>
-                    </div>
-                </div>
-                <div class="mt-6 text-center text-sm text-slate-400 bg-slate-900/50 p-4 rounded-lg">
-                    <p><strong>ความสัมพันธ์ :</strong> ความเข้มข้นของ H⁺ เปลี่ยนแปลงตามกิจกรรมต่างๆ</p>
-                    <div class="flex justify-center gap-8 mt-2">
-                        <span><span class="text-rose-400 font-bold">H⁺ เพิ่ม</span> = เลือดเป็นกรด</span>
-                        <span><span class="text-rose-400 font-bold">H⁺ ลด</span> = เลือดเป็นเบส</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="space-y-8">
-                <!-- Respiratory System -->
-                <div class="bg-white rounded-xl shadow-sm p-6 border border-slate-100">
-                    <h3 class="font-bold text-lg mb-4 text-slate-700 flex items-center gap-2">
-                        <i data-lucide="wind" class="text-sky-500"></i>
-                        1. การหายใจ (ปอด)
-                    </h3>
-                    <p class="text-slate-600 mb-4">
-                        ปอดแลกเปลี่ยนแก๊สบริเวณ <strong>ถุงลมปอด</strong> เพื่อกำจัด CO₂ ที่เกิดจากเมแทบอลิซึม
-                    </p>
-                    <div class="grid md:grid-cols-2 gap-4">
-                        <div class="bg-rose-50 p-4 rounded-lg border border-rose-100">
-                            <strong class="text-rose-800 block mb-2">ภาวะเลือดเป็นกรด (CO₂ / H⁺ สูง)</strong>
-                            <p class="text-sm text-rose-700">กระตุ้นสมองส่วนควบคุมการหายใจ &rarr; <strong>หายใจเร็วและลึก</strong> &rarr; ขับ CO₂ ออกเร็วขึ้น</p>
-                        </div>
-                        <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
-                            <strong class="text-blue-800 block mb-2">ภาวะเลือดเป็นเบส</strong>
-                            <p class="text-sm text-blue-700"><strong>อัตราการหายใจลดลง</strong> &rarr; สะสม CO₂ ในเลือดเพิ่มขึ้น &rarr; เพิ่ม H⁺</p>
-                        </div>
-                    </div>
-                    <div class="mt-4 text-xs text-slate-500 bg-slate-50 p-2 rounded">
-                        * เรากลั้นหายใจไม่ได้นานเพราะ CO₂ สะสมจนร่างกายทนไม่ได้ ต้องบังคับให้หายใจออก (อยู่นอกอำนาจจิตใจ)
-                    </div>
-                </div>
-
-                <!-- Renal System -->
-                <div class="bg-white rounded-xl shadow-sm p-6 border border-slate-100">
-                    <h3 class="font-bold text-lg mb-4 text-slate-700 flex items-center gap-2">
-                        <i data-lucide="filter" class="text-purple-500"></i>
-                        2. การทำงานของไต
-                    </h3>
-                    
-                    <!-- KIDNEY MECHANISM DIAGRAM -->
-                    <div class="bg-slate-50 rounded-xl p-6 border border-slate-200 mb-4">
-                        <h4 class="text-center font-bold text-slate-700 mb-6 bg-white w-fit mx-auto px-4 py-1 rounded-full shadow-sm">การตอบสนองของท่อหน่วยไต</h4>
-                        <div class="grid md:grid-cols-2 gap-8 relative">
-                             <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-slate-300 -ml-px"></div>
-                             
-                             <!-- Acidosis -->
-                             <div class="text-center">
-                                 <div class="font-bold text-rose-600 mb-2">เมื่อเลือดเป็นกรด</div>
-                                 <div class="space-y-2 text-sm">
-                                     <div class="bg-white p-2 rounded border border-rose-200 shadow-sm">
-                                         หลั่ง <span class="text-rose-600 font-bold">H⁺ NH₄⁺</span> เข้าสู่ปัสสาวะ
-                                     </div>
-                                     <div class="bg-white p-2 rounded border border-green-200 shadow-sm">
-                                         ดูดกลับ <span class="text-green-600 font-bold">HCO₃⁻ Na⁺</span> เข้าสู่เลือด
-                                     </div>
-                                 </div>
-                             </div>
-
-                             <!-- Alkalosis -->
-                             <div class="text-center">
-                                <div class="font-bold text-blue-600 mb-2">เมื่อเลือดเป็นเบส</div>
-                                <div class="space-y-2 text-sm">
-                                    <div class="bg-white p-2 rounded border border-slate-200 shadow-sm opacity-75">
-                                        ลดการหลั่ง H⁺
-                                    </div>
-                                    <div class="bg-white p-2 rounded border border-slate-200 shadow-sm opacity-75">
-                                        ลดการดูดกลับสารที่เป็นเบส (HCO₃⁻)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="text-sm text-slate-600">
-                        * กำจัดไอออนส่วนเกินโดยกระบวนการ <strong>หลั่ง (Secretion)</strong>
-                    </p>
-                </div>
-
-                <!-- Buffer System -->
-                <div class="bg-emerald-50 rounded-xl p-6 border border-emerald-100">
-                    <h3 class="font-bold text-lg mb-2 text-emerald-800 flex items-center gap-2">
-                        <i data-lucide="layers" class="text-emerald-600"></i>
-                        3. ระบบบัฟเฟอร์ (Buffer System)
-                    </h3>
-                    <p class="text-emerald-900 text-sm mb-2">
-                        คือ สารละลายที่ต้านทานการเปลี่ยนแปลง pH ให้เปลี่ยนไปน้อยที่สุด
-                    </p>
-                    <ul class="list-disc list-inside text-sm text-emerald-800">
-                        <li>ประกอบด้วย กรดอ่อน+เกลือของกรดอ่อน หรือ เบสอ่อน+เกลือของเบสอ่อน</li>
-                        <li><strong>ตัวอย่าง :</strong> ไฮโดรเจนคาร์บอเนตไอออน ฟอสเฟตไอออน โปรตีน</li>
-                        <li><strong>ข้อดี :</strong> ปรับ pH ได้อย่างรวดเร็ว</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 4: Diseases -->
-        <section>
-            <div class="flex items-start gap-4 mb-6 border-b border-slate-200 pb-4">
-                <div class="p-3 bg-rose-50 rounded-lg text-rose-600">
-                    <i data-lucide="alert-octagon" width="32" height="32"></i>
-                </div>
-                <div>
-                    <h2 class="text-2xl font-bold text-slate-800">โรคเกี่ยวกับไตและทางเดินปัสสาวะ</h2>
-                    <p class="text-slate-500 mt-1">สาเหตุ อาการ และการป้องกัน</p>
-                </div>
-            </div>
-
-            <!-- Risk & Prevention Grid -->
-            <div class="grid md:grid-cols-2 gap-6 mb-8">
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                    <h4 class="font-bold text-slate-700 mb-3 flex items-center gap-2"><i data-lucide="frown"></i> สาเหตุและความเสี่ยง</h4>
-                    <ul class="text-sm text-slate-600 space-y-1 list-disc list-inside">
-                        <li>พันธุกรรม</li>
-                        <li>โรคประจำตัว (เบาหวาน ความดันสูง เก๊าท์)</li>
-                        <li>ทานอาหารรสจัด (เค็ม หวาน เผ็ด)</li>
-                        <li>ดื่มน้ำน้อย ไม่ออกกำลังกาย เครียด</li>
-                        <li>อายุ > 60 ปี</li>
-                    </ul>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                    <h4 class="font-bold text-slate-700 mb-3 flex items-center gap-2"><i data-lucide="bell"></i> อาการเตือน</h4>
-                    <ul class="text-sm text-slate-600 space-y-1 list-disc list-inside">
-                        <li>อ่อนเพลีย ไม่มีแรง</li>
-                        <li>ปัสสาวะผิดปกติ (สี/กลิ่น)</li>
-                        <li>ตัวบวม (น้ำ/เกลือเกิน)</li>
-                        <li>ปวดหลัง ปวดบั้นเอว</li>
-                        <li>คลื่นไส้ อาเจียน</li>
-                    </ul>
-                    <p class="text-xs text-rose-500 mt-2">* ระยะแรกมักไม่แสดงอาการ</p>
-                </div>
-            </div>
-
-            <!-- Disease Types -->
-            <div class="space-y-4">
-                <div class="border-l-4 border-rose-500 bg-white p-4 rounded-r-xl shadow-sm">
-                    <h4 class="font-bold text-rose-700">1. โรคไตวาย (Renal Failure)</h4>
-                    <p class="text-sm text-slate-600 mt-1">ภาวะที่ไตสูญเสียหน้าที่ สะสมของเสียในร่างกาย</p>
-                    <div class="ml-4 mt-2 text-sm">
-                        <p><strong>• เฉียบพลัน :</strong> เกิดเร็ว (อุบัติเหตุ สารพิษ นิ่วอุดตัน) -> <em>อาจฟื้นฟูได้</em></p>
-                        <p><strong>• เรื้อรัง :</strong> ค่อยเป็นค่อยไป (เบาหวาน ความดัน) -> <em>รักษาไม่หาย ต้องฟอก/ปลูกถ่ายไต</em></p>
-                    </div>
-                </div>
-
-                <div class="border-l-4 border-orange-500 bg-white p-4 rounded-r-xl shadow-sm">
-                    <h4 class="font-bold text-orange-700">2. โรคนิ่วในไต (Kidney Stone)</h4>
-                    <p class="text-sm text-slate-600 mt-1">ตะกอน (เช่น แคลเซียม ฟอสเฟต) จับตัวเป็นก้อนแข็งอุดตัน</p>
-                    <p class="text-xs text-slate-500 mt-1">เสี่ยง : ทานผักที่มีออกซาเลตสูง (ผักโขม หน่อไม้ ชะพลู)</p>
-                </div>
-
-                <div class="border-l-4 border-purple-500 bg-white p-4 rounded-r-xl shadow-sm">
-                    <h4 class="font-bold text-purple-700">3. การอักเสบติดเชื้อ</h4>
-                    <ul class="text-sm text-slate-600 mt-1 list-disc list-inside">
-                        <li><strong>กระเพาะปัสสาวะอักเสบ (Cystitis) :</strong> เชื้อ E. coli จากลำไส้ (หญิงเป็นง่ายกว่าชาย)</li>
-                        <li><strong>ท่อปัสสาวะอักเสบ (Urethritis) :</strong> เชื้อจากเพศสัมพันธ์ หรือการระคายเคือง</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Treatment -->
-            <div class="mt-8 bg-slate-100 p-6 rounded-xl">
-                <h4 class="font-bold text-slate-700 mb-2">การบำบัดทดแทนไต (สำหรับไตวายเรื้อรัง)</h4>
-                <div class="grid md:grid-cols-3 gap-4 text-sm text-slate-600 text-center">
-                    <div class="bg-white p-3 rounded shadow-sm">
-                        <strong class="block text-slate-800">การฟอกเลือด</strong>
-                        เครื่องฟอกไต (4-5 ชม./ครั้ง)
-                    </div>
-                    <div class="bg-white p-3 rounded shadow-sm">
-                        <strong class="block text-slate-800">ฟอกทางช่องท้อง</strong>
-                        ทำเองได้ (4 รอบ/วัน)
-                    </div>
-                    <div class="bg-white p-3 rounded shadow-sm">
-                        <strong class="block text-slate-800">ปลูกถ่ายไต</strong>
-                        รับไตจากผู้บริจาค
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 5: Health Check -->
-        <section>
-            <div class="flex items-start gap-4 mb-6 border-b border-slate-200 pb-4">
-                <div class="p-3 bg-rose-50 rounded-lg text-rose-600">
-                    <i data-lucide="clipboard-check" width="32" height="32"></i>
-                </div>
-                <div>
-                    <h2 class="text-2xl font-bold text-slate-800">การตรวจสุขภาพ (การทำงานของไต)</h2>
-                </div>
+            <!-- Chemical Equation -->
+            <div class="bg-slate-800 text-white p-6 rounded-xl text-center text-lg md:text-xl font-mono shadow-inner overflow-x-auto my-6">
+                $$ CO_2 + H_2O \rightleftharpoons H_2CO_3 \rightleftharpoons H^+ + HCO_3^- $$
             </div>
 
             <div class="grid md:grid-cols-2 gap-6">
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                    <h3 class="font-bold text-blue-700 mb-3 flex items-center gap-2"><i data-lucide="flask-conical"></i> การตรวจปัสสาวะ</h3>
-                    <ul class="text-sm text-slate-600 space-y-2 list-disc list-inside">
-                        <li>ความเป็นกรด-เบส (pH)</li>
-                        <li>ความถ่วงจำเพาะ</li>
-                        <li>โปรตีน และ กลูโคส</li>
-                        <li>ตะกอน (เม็ดเลือด แบคทีเรีย ผลึก)</li>
+                <div class="bg-rose-50 p-4 rounded-lg border border-rose-100">
+                    <h4 class="font-bold text-rose-700 mb-2">ภาวะกรด (Acidosis)</h4>
+                    <p class="text-sm text-slate-700">
+                        ถ้า <span class="font-bold text-rose-600">[H⁺] เพิ่มขึ้น</span> (pH ต่ำ)
+                        <br>สาเหตุ : ออกกำลังกายหนัก , เมแทบอลิซึมสูง
+                        <br>ผล : เลือดเป็นกรด
+                    </p>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                    <h4 class="font-bold text-blue-700 mb-2">ภาวะเบส (Alkalosis)</h4>
+                    <p class="text-sm text-slate-700">
+                        ถ้า <span class="font-bold text-blue-600">[H⁺] ลดลง</span> (pH สูง)
+                        <br>ผล : เลือดเป็นเบส
+                    </p>
+                </div>
+            </div>
+
+            <!-- Respiratory & Renal Control -->
+            <div class="mt-8 space-y-6">
+                
+                <!-- 1. Respiratory -->
+                <div class="bg-white border-l-4 border-emerald-500 pl-4 py-2">
+                    <h4 class="font-bold text-emerald-700 text-lg">1. การหายใจ (Respiratory System)</h4>
+                    <p class="text-slate-700 indent-4 mt-2">
+                        แลกเปลี่ยนแก๊สที่ <strong>ปอด บริเวณถุงลมปอด</strong>
+                    </p>
+                    <ul class="list-disc list-inside text-sm text-slate-600 ml-4 mt-2 space-y-1">
+                        <li><strong>เลือดเป็นกรด (CO₂ มาก) :</strong> กระตุ้นสมองส่วนควบคุมการหายใจ -> <strong>หายใจเร็วและลึก</strong> เพื่อขับ CO₂ ออก</li>
+                        <li><strong>เลือดเป็นเบส :</strong> อัตราการหายใจลดลง -> เก็บ CO₂ ไว้ -> เพิ่ม H⁺</li>
+                        <li><strong>การกลั้นหายใจ :</strong> ทำไม่ได้นาน เพราะ CO₂ สะสมจนร่างกายทนไม่ได้ ต้องบังคับให้หายใจออก (กลไกนอกเหนืออำนาจจิตใจ)</li>
                     </ul>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                    <h3 class="font-bold text-rose-700 mb-3 flex items-center gap-2"><i data-lucide="droplet"></i> การตรวจเลือด</h3>
-                    <ul class="text-sm text-slate-600 space-y-2">
-                        <li class="flex justify-between border-b border-slate-100 pb-1">
-                            <span>BUN (Blood Urea Nitrogen)</span>
-                            <span class="text-slate-400 text-xs">ค่ายูเรียไนโตรเจน</span>
-                        </li>
-                        <li class="flex justify-between pt-1">
-                            <span>Creatinine (ครีเอทินีน)</span>
-                            <span class="text-slate-400 text-xs">สารจากกล้ามเนื้อ</span>
-                        </li>
+
+                <!-- 2. Renal -->
+                <div class="bg-white border-l-4 border-indigo-500 pl-4 py-2">
+                    <h4 class="font-bold text-indigo-700 text-lg">2. การทำงานของไต (Renal System)</h4>
+                    <p class="text-slate-700 indent-4 mt-2">
+                        ไตช่วยรักษาดุลยภาพกรด-เบส โดยการ <strong>หลั่ง (Secretion)</strong> และ <strong>ดูดกลับ (Reabsorption)</strong> สารที่ท่อหน่วยไต
+                    </p>
+                    
+                    <!-- Diagram: Kidney Tubule Exchange -->
+                    <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100 mt-4 max-w-2xl mx-auto relative">
+                        <div class="flex justify-between items-center mb-2 text-xs font-bold text-indigo-400">
+                            <span>หลอดเลือด (Blood)</span>
+                            <span>ท่อหน่วยไต (Tubule) -> ปัสสาวะ</span>
+                        </div>
+                        <div class="flex items-center justify-between gap-4 bg-white p-4 rounded-lg shadow-sm">
+                            
+                            <!-- Blood Side -->
+                            <div class="flex-1 text-center border-r border-dashed border-slate-300 pr-4">
+                                <div class="bg-rose-100 text-rose-800 px-2 py-1 rounded mb-2 text-xs">เลือดเป็นกรด (H⁺ สูง)</div>
+                                <div class="text-sm">
+                                    <span class="font-bold text-red-500">H⁺</span> , <span class="font-bold text-purple-500">NH₄⁺</span>
+                                    <i data-lucide="arrow-right" class="inline text-slate-400"></i> ออก
+                                </div>
+                                <div class="text-sm mt-2">
+                                    <span class="font-bold text-blue-500">HCO₃⁻</span> , <span class="font-bold text-blue-500">Na⁺</span>
+                                    <i data-lucide="arrow-left" class="inline text-slate-400"></i> เข้า
+                                </div>
+                            </div>
+
+                            <!-- Tubule Side -->
+                            <div class="flex-1 text-center pl-4">
+                                <div class="text-sm">
+                                    เข้า <i data-lucide="arrow-right" class="inline text-slate-400"></i>
+                                    <span class="font-bold text-red-500">H⁺</span> , <span class="font-bold text-purple-500">NH₄⁺</span>
+                                    (ขับทิ้ง)
+                                </div>
+                                <div class="text-sm mt-2">
+                                    ออก <i data-lucide="arrow-left" class="inline text-slate-400"></i>
+                                    <span class="font-bold text-blue-500">HCO₃⁻</span> , <span class="font-bold text-blue-500">Na⁺</span>
+                                    (เก็บไว้)
+                                </div>
+                            </div>
+
+                        </div>
+                        <p class="text-xs text-center mt-2 text-indigo-600">
+                            * ถ้าเลือดเป็นเบส จะลดการหลั่ง H⁺ และลดการดูดกลับ HCO₃⁻
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 3. Buffer -->
+                <div class="bg-white border-l-4 border-yellow-500 pl-4 py-2">
+                    <h4 class="font-bold text-yellow-700 text-lg">3. ระบบบัฟเฟอร์ (Buffer System)</h4>
+                    <p class="text-slate-700 indent-4 mt-2">
+                        สารละลายที่ต้านทานการเปลี่ยนแปลง pH ให้เปลี่ยนไปน้อยที่สุด ประกอบด้วยกรดอ่อนและเกลือของกรดอ่อน หรือเบสอ่อนกับเกลือของเบสอ่อน
+                        <br><strong>ตัวอย่าง :</strong> ไฮโดรเจนคาร์บอเนตไอออน , ฟอสเฟตไอออน , โปรตีน
+                        <br><strong>ข้อดี :</strong> ปรับค่า pH ได้อย่าง <strong>รวดเร็ว</strong>
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Kidney Diseases & UTI -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8 card-hover">
+            <h3 class="text-xl font-bold text-slate-800 mb-6 border-b pb-2">โรคไตและโรคทางเดินปัสสาวะ</h3>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                
+                <!-- Renal Failure -->
+                <div class="bg-rose-50 p-5 rounded-xl border border-rose-100 relative group">
+                    <div class="absolute top-0 right-0 bg-rose-200 text-rose-800 text-xs px-2 py-1 rounded-bl-lg font-bold">อันตราย</div>
+                    <h4 class="font-bold text-rose-800 mb-3 text-lg">1. โรคไตวาย (Renal Failure)</h4>
+                    <p class="text-sm text-slate-700 mb-2">ไตสูญเสียการทำงาน ของเสียสะสม</p>
+                    
+                    <div class="bg-white p-3 rounded-lg shadow-sm border border-rose-100 mb-2">
+                        <strong class="text-rose-600 text-sm block">1.1 ไตวายเฉียบพลัน (Acute)</strong>
+                        <p class="text-xs text-slate-500">เกิดเร็ว (ชั่วโมง/วัน) จากเสียเลือดมาก , สารพิษ , นิ่วอุดตัน , ไตอักเสบ (รักษาหายได้)</p>
+                    </div>
+                    
+                    <div class="bg-white p-3 rounded-lg shadow-sm border border-rose-100">
+                        <strong class="text-rose-600 text-sm block">1.2 ไตวายเรื้อรัง (Chronic)</strong>
+                        <p class="text-xs text-slate-500">ค่อยเป็นค่อยไป รักษาไม่หายขาด จากเบาหวาน , ความดันสูง ต้องฟอกเลือดหรือปลูกถ่ายไต</p>
+                    </div>
+                </div>
+
+                <!-- Kidney Stones -->
+                <div class="bg-orange-50 p-5 rounded-xl border border-orange-100">
+                    <h4 class="font-bold text-orange-800 mb-3 text-lg">2. โรคนิ่วในไต (Kidney Stone)</h4>
+                    <p class="text-sm text-slate-700 mb-2">ตะกอนสาร (แคลเซียม , ฟอสเฟต , ออกซาเลต) รวมตัวเป็นก้อนแข็ง อุดตันทางเดินปัสสาวะ</p>
+                    <ul class="text-xs text-slate-600 list-disc list-inside bg-white p-3 rounded border border-orange-100">
+                        <li><strong>สาเหตุ :</strong> กรองแร่ธาตุมากเกิน , ติดเชื้อ , อาหาร (ผักโขม , หน่อไม้)</li>
+                        <li><strong>รักษา :</strong> ยาสลาย , คลื่นเสียงความถี่สูง , ผ่าตัด</li>
+                    </ul>
+                </div>
+
+                <!-- Cystitis -->
+                <div class="bg-blue-50 p-5 rounded-xl border border-blue-100">
+                    <h4 class="font-bold text-blue-800 mb-3 text-lg">3. กระเพาะปัสสาวะอักเสบ (Cystitis)</h4>
+                    <p class="text-sm text-slate-700 mb-2">ติดเชื้อแบคทีเรีย (E. coli) จากลำไส้ใหญ่</p>
+                    <ul class="text-xs text-slate-600 list-disc list-inside bg-white p-3 rounded border border-blue-100">
+                        <li><strong>พบมากใน :</strong> เพศหญิง (ท่อปัสสาวะสั้น)</li>
+                        <li><strong>ความเสี่ยง :</strong> หากปล่อยไว้เชื้ออาจลามไปกรวยไต (กรวยไตอักเสบ)</li>
+                    </ul>
+                </div>
+
+                <!-- Urethritis -->
+                <div class="bg-purple-50 p-5 rounded-xl border border-purple-100">
+                    <h4 class="font-bold text-purple-800 mb-3 text-lg">4. ท่อปัสสาวะอักเสบ (Urethritis)</h4>
+                    <p class="text-sm text-slate-700 mb-2">การติดเชื้อ หรือ ระคายเคือง</p>
+                    <ul class="text-xs text-slate-600 list-disc list-inside bg-white p-3 rounded border border-purple-100">
+                        <li><strong>สาเหตุ :</strong> เพศสัมพันธ์ (หนองใน) , E. coli , การสวนท่อ , สารเคมี</li>
+                        <li><strong>อาการ :</strong> ปวด แสบ ขัด ปัสสาวะขุ่น/มีเลือด</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Causes & Prevention -->
+            <div class="mt-8 bg-slate-50 p-6 rounded-xl border border-slate-200">
+                <h4 class="font-bold text-slate-700 mb-4 flex items-center gap-2">
+                    <i data-lucide="shield-alert" class="text-slate-500"></i> ปัจจัยเสี่ยงและการดูแลรักษา
+                </h4>
+                <div class="grid md:grid-cols-2 gap-8 text-sm">
+                    <div>
+                        <strong class="text-red-600 block mb-2">สาเหตุ/ความเสี่ยง</strong>
+                        <ul class="list-disc list-inside text-slate-600 space-y-1">
+                            <li>พันธุกรรม</li>
+                            <li>โรคประจำตัว : ความดันสูง , เบาหวาน , เก๊าท์</li>
+                            <li>อาหารรสจัด (เค็ม , หวาน , เผ็ด)</li>
+                            <li>ดื่มน้ำน้อย , ไม่ออกกำลังกาย , เครียด</li>
+                            <li>อายุ > 60 ปี</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <strong class="text-green-600 block mb-2">การรักษา/บำบัดทดแทนไต</strong>
+                        <ul class="list-disc list-inside text-slate-600 space-y-1">
+                            <li><strong>การฟอกเลือด (Hemodialysis) :</strong> เครื่องไตเทียม 4-5 ชม./ครั้ง</li>
+                            <li><strong>การฟอกไตทางช่องท้อง :</strong> ทำเองได้ 4 รอบ/วัน</li>
+                            <li><strong>การปลูกถ่ายไต (Kidney Transplant) :</strong> ดีที่สุด</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Health Checkup -->
+        <section class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl shadow-sm border border-emerald-100 p-6 md:p-8 card-hover">
+            <h3 class="text-xl font-bold text-emerald-800 mb-4 flex items-center gap-2">
+                <i data-lucide="stethoscope" class="w-6 h-6"></i> การตรวจสุขภาพและการทำงานของไต
+            </h3>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <h4 class="font-bold text-emerald-700 mb-2">1. การตรวจปัสสาวะ (Urinalysis)</h4>
+                    <ul class="text-sm text-slate-600 list-disc list-inside space-y-1">
+                        <li>ความเป็นกรด-เบส (pH)</li>
+                        <li>ความถ่วงจำเพาะ</li>
+                        <li>โปรตีน , กลูโคส (ไม่ควรพบ)</li>
+                        <li>ตะกอน : เม็ดเลือด , แบคทีเรีย , ผลึกนิ่ว</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <h4 class="font-bold text-emerald-700 mb-2">2. การตรวจเลือด</h4>
+                    <ul class="text-sm text-slate-600 list-disc list-inside space-y-1">
+                        <li><strong>BUN (Blood Urea Nitrogen) :</strong> ค่ายูเรียไนโตรเจน</li>
+                        <li><strong>Creatinine :</strong> สารจากเมแทบอลิซึมกล้ามเนื้อ</li>
+                        <li>หากค่าสูงแสดงว่าไตทำงานผิดปกติ</li>
                     </ul>
                 </div>
             </div>
         </section>
 
+        <!-- Footer -->
+        <footer class="py-8 text-center text-slate-400 text-sm border-t border-slate-200 mt-12">
+            <p class="text-rose-800 font-bold text-lg">2.2 การรักษาดุลยภาพของกรด-เบสของเลือด</p>
+            <p class="mt-2 text-xs opacity-60">By-20nxskypqz</p>
+        </footer>
+
     </main>
 
-    <footer class="bg-slate-900 text-slate-400 py-8 text-center text-sm mt-12">
-        <div class="max-w-4xl mx-auto px-4 flex flex-col justify-center items-center gap-2">
-           <i data-lucide="book-open" width="20"></i>
-           <span class="text-base font-semibold">2.2 การรักษาดุลยภาพของกรด-เบสของเลือด</span>
-           <span class="text-xs opacity-70">By-20nxskypqz</span>
-        </div>
-    </footer>
-
-    <!-- Script to render Icons -->
     <script>
         lucide.createIcons();
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false}
+                ]
+            });
+        });
     </script>
 </body>
 </html>
