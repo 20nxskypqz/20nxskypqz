@@ -89,7 +89,7 @@ html
         #game-bg {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
+            z-index: 0;
             background-color: #000;
         }
         
@@ -221,40 +221,14 @@ html
         <div id="screen-game" class="screen">
             <div id="game-bg"></div>
             
-            <!-- Header layout -->
-            <div class="absolute top-6 left-6 text-2xl text-gray-300 z-10 hidden md:block font-bold">
-                คะแนน : <span id="score-display" class="text-white">0</span>
+            <!-- In-game UI : 3D Card Style (z-10, Pointer-events-none so click passes through to touch zones) -->
+            <div class="relative w-[90%] md:w-[75%] max-w-4xl aspect-[21/9] max-h-[50vh] bg-gray-900/80 border-4 border-blue-500 rounded-[2rem] shadow-[0_0_40px_rgba(59,130,246,0.6)] flex items-center justify-center p-8 backdrop-blur-md z-10 flex-col mt-12 pointer-events-none">
+                <div id="word-display" class="z-10 drop-shadow-lg pointer-events-none">คำศัพท์</div>
+                <div id="game-message" class="z-10 text-3xl font-bold text-yellow-400 hidden absolute bottom-6 text-center w-full drop-shadow-md pointer-events-none"></div>
             </div>
             
-            <!-- Circular Progress Timer -->
-            <div class="absolute top-4 left-1/2 transform -translate-x-1/2 z-10 flex items-center justify-center w-24 h-24">
-                <svg class="transform -rotate-90 w-24 h-24">
-                    <!-- Background Circle -->
-                    <circle cx="48" cy="48" r="42" stroke="currentColor" stroke-width="6" fill="transparent" class="text-gray-800/80" />
-                    <!-- Progress Circle -->
-                    <circle id="timer-circle" cx="48" cy="48" r="42" stroke="currentColor" stroke-width="6" fill="transparent" class="text-blue-500 transition-all duration-1000 ease-linear" stroke-dasharray="264" stroke-dashoffset="0" stroke-linecap="round" />
-                </svg>
-                <span class="absolute text-4xl font-bold text-white" id="timer-display">60</span>
-            </div>
-
-            <button onclick="pauseGameAndConfirm()" class="absolute top-6 right-6 p-3 bg-gray-800/80 rounded-full text-white hover:bg-gray-700 z-20 flex items-center justify-center btn shadow-lg">
-                <span class="material-symbols-outlined text-3xl">home</span>
-            </button>
-
-            <!-- Pre-game Countdown -->
-            <div id="countdown-overlay" class="absolute inset-0 bg-black/80 z-20 flex justify-center items-center flex-col gap-10">
-                <div class="text-3xl text-blue-300">นำมือถือวางทาบที่หน้าผาก</div>
-                <div id="countdown-text" class="text-8xl font-bold text-white">3</div>
-            </div>
-
-            <!-- In-game UI : 3D Card Style -->
-            <div class="relative w-[90%] md:w-[75%] max-w-4xl aspect-[21/9] max-h-[50vh] bg-gray-900/80 border-4 border-blue-500 rounded-[2rem] shadow-[0_0_40px_rgba(59,130,246,0.6)] flex items-center justify-center p-8 backdrop-blur-md z-10 flex-col mt-10">
-                <div id="word-display" class="z-10 drop-shadow-lg">คำศัพท์</div>
-                <div id="game-message" class="z-10 text-3xl font-bold text-yellow-400 hidden absolute bottom-6 text-center w-full drop-shadow-md"></div>
-            </div>
-            
-            <!-- Fallback touch controls -->
-            <div class="absolute bottom-6 text-gray-400 text-sm z-10 flex gap-4 text-center w-full justify-center opacity-80 pointer-events-none">
+            <!-- Fallback touch text hints -->
+            <div class="absolute bottom-8 text-gray-400 text-sm z-10 flex gap-4 text-center w-full justify-center opacity-80 pointer-events-none">
                 <div class="flex-1 border-r border-gray-800 flex flex-col items-center">
                     <span class="material-symbols-outlined text-5xl mb-1">chevron_left</span>
                     <span>แตะซ้ายข้าม ( หงายจอ )</span>
@@ -265,13 +239,42 @@ html
                 </div>
             </div>
 
-            <!-- Touch Zones -->
-            <div class="absolute inset-0 flex z-0">
-                <div class="w-1/2 h-full" onclick="handleAnswer(false)"></div>
-                <div class="w-1/2 h-full" onclick="handleAnswer(true)"></div>
+            <!-- Touch Zones (z-20) - Receives clicks for left/right -->
+            <div class="absolute inset-0 flex z-20">
+                <div class="w-1/2 h-full cursor-pointer" onclick="handleAnswer(false)"></div>
+                <div class="w-1/2 h-full cursor-pointer" onclick="handleAnswer(true)"></div>
             </div>
 
-            <!-- Custom Confirm Modal -->
+            <!-- Header overlays (z-30) : Timer and Score (Pointer-events-none) -->
+            <div class="absolute top-10 left-8 text-2xl text-gray-300 z-30 hidden md:block font-bold pointer-events-none">
+                คะแนน : <span id="score-display" class="text-white">0</span>
+            </div>
+            
+            <div class="absolute top-8 left-1/2 transform -translate-x-1/2 z-30 flex items-center justify-center w-24 h-24 pointer-events-none">
+                <svg class="transform -rotate-90 w-24 h-24">
+                    <circle cx="48" cy="48" r="42" stroke="currentColor" stroke-width="6" fill="transparent" class="text-gray-800/80" />
+                    <circle id="timer-circle" cx="48" cy="48" r="42" stroke="currentColor" stroke-width="6" fill="transparent" class="text-blue-500 transition-all duration-1000 ease-linear" stroke-dasharray="264" stroke-dashoffset="0" stroke-linecap="round" />
+                </svg>
+                <span class="absolute text-4xl font-bold text-white" id="timer-display">60</span>
+            </div>
+
+            <!-- Control Buttons (z-40) : Clickable Elements -->
+            <div class="absolute top-10 right-8 flex gap-4 z-40">
+                <button onclick="toggleFullscreen()" class="p-3 bg-gray-800/80 rounded-full text-white hover:bg-gray-700 flex items-center justify-center btn shadow-lg">
+                    <span class="material-symbols-outlined text-3xl" id="fullscreen-icon">fullscreen</span>
+                </button>
+                <button onclick="pauseGameAndConfirm()" class="p-3 bg-gray-800/80 rounded-full text-white hover:bg-gray-700 flex items-center justify-center btn shadow-lg">
+                    <span class="material-symbols-outlined text-3xl">home</span>
+                </button>
+            </div>
+
+            <!-- Pre-game Countdown (z-50) -->
+            <div id="countdown-overlay" class="absolute inset-0 bg-black/80 z-50 flex justify-center items-center flex-col gap-10">
+                <div class="text-3xl text-blue-300">นำมือถือวางทาบที่หน้าผาก</div>
+                <div id="countdown-text" class="text-8xl font-bold text-white">3</div>
+            </div>
+
+            <!-- Custom Confirm Modal (z-50) -->
             <div id="confirm-modal" class="hidden absolute inset-0 bg-black/90 z-50 flex justify-center items-center">
                 <div class="bg-gray-900 p-8 rounded-2xl border border-gray-700 text-center w-11/12 max-w-sm shadow-2xl">
                     <h3 class="text-2xl font-semibold mb-8 text-white leading-relaxed">ต้องการหยุดเล่น และ<br>กลับไปหน้าแรกหรือไม่ ?</h3>
@@ -358,10 +361,40 @@ html
         let isPaused = false;
         let motionCooldown = false;
 
+        // --- Fullscreen Toggle ---
+        function toggleFullscreen() {
+            const doc = window.document;
+            const docEl = doc.documentElement;
+
+            const requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+            const cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+            if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+                if (requestFullScreen) requestFullScreen.call(docEl);
+            } else {
+                if (cancelFullScreen) cancelFullScreen.call(doc);
+            }
+        }
+
+        // Listener for fullscreen changes to update icon dynamically
+        document.addEventListener('fullscreenchange', updateFullscreenIcon);
+        document.addEventListener('webkitfullscreenchange', updateFullscreenIcon);
+        document.addEventListener('mozfullscreenchange', updateFullscreenIcon);
+        document.addEventListener('MSFullscreenChange', updateFullscreenIcon);
+
+        function updateFullscreenIcon() {
+            const icon = document.getElementById('fullscreen-icon');
+            if (!icon) return;
+            if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+                icon.innerText = 'fullscreen_exit';
+            } else {
+                icon.innerText = 'fullscreen';
+            }
+        }
+
         // --- UI Updates ---
         function updateTimerUI(currentLeft, total) {
             document.getElementById('timer-display').innerText = currentLeft;
-            // Calculate stroke-dashoffset for the circle (Circumference of r=42 is approx 264)
             const circumference = 264;
             const offset = circumference - (currentLeft / total) * circumference;
             document.getElementById('timer-circle').style.strokeDashoffset = offset;
