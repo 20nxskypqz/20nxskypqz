@@ -1,13 +1,15 @@
+html
 <!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>เกมทายคำ</title>
+    <title>Thai Kham</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Sarabun -->
+    <!-- Google Fonts: Sarabun & Material Symbols -->
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <style>
         body {
             font-family: 'Sarabun', sans-serif;
@@ -96,7 +98,6 @@
             font-weight: 700;
             line-height: 1.1;
             text-align: center;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
             max-width: 95%;
             word-wrap: break-word;
         }
@@ -117,26 +118,29 @@
 
     <!-- Landscape Warning -->
     <div id="landscape-warning">
-        <svg class="w-16 h-16 mb-4 text-white animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+        <span class="material-symbols-outlined text-6xl mb-4 animate-bounce">screen_rotation</span>
         <h1 class="text-3xl font-bold mb-2">กรุณาหมุนจอ</h1>
         <p class="text-xl">เพื่อประสบการณ์ที่ดีที่สุด โปรดเล่นในแนวนอน</p>
     </div>
 
     <div id="app" class="relative w-full h-full">
 
-        <!-- Screen 1: Home -->
+        <!-- Screen 1 : Home -->
         <div id="screen-home" class="screen active">
-            <h1 class="text-6xl md:text-8xl font-bold mb-10 tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">ทายคำ</h1>
+            <h1 class="text-6xl md:text-8xl font-bold mb-10 tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Thai Kham</h1>
             <button onclick="requestMotionAndGoToMainCategory()" class="btn px-10 py-4 bg-white text-black rounded-full text-2xl font-bold shadow-[0_0_15px_rgba(255,255,255,0.5)] hover:bg-gray-200">
                 เริ่มต้น
             </button>
-            <p class="absolute bottom-4 text-gray-500 text-sm md:text-base">พัฒนาโดย 20nxskypqz V.0.0.1</p>
+            <div class="absolute bottom-4 text-gray-500 text-sm md:text-base text-center">
+                <p>พัฒนาโดย 20nxskypqz</p>
+                <p>V 1.0.0</p>
+            </div>
         </div>
 
-        <!-- Screen 2: Main Category -->
+        <!-- Screen 2 : Main Category -->
         <div id="screen-main-category" class="screen">
-            <button onclick="goToScreen('screen-home')" class="absolute top-4 left-4 p-2 text-gray-400 hover:text-white">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            <button onclick="goToScreen('screen-home')" class="absolute top-4 left-4 p-2 text-gray-400 hover:text-white flex items-center justify-center">
+                <span class="material-symbols-outlined text-4xl">arrow_back</span>
             </button>
             <h2 class="text-4xl font-bold mb-8">เลือกหมวดหมู่หลัก</h2>
             <div class="grid grid-cols-2 gap-6 w-full max-w-2xl">
@@ -151,10 +155,10 @@
             </div>
         </div>
 
-        <!-- Screen 2.5: Sub Category -->
+        <!-- Screen 2.5 : Sub Category -->
         <div id="screen-sub-category" class="screen">
-            <button onclick="goToScreen('screen-main-category')" class="absolute top-4 left-4 p-2 text-gray-400 hover:text-white">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            <button onclick="goToScreen('screen-main-category')" class="absolute top-4 left-4 p-2 text-gray-400 hover:text-white flex items-center justify-center">
+                <span class="material-symbols-outlined text-4xl">arrow_back</span>
             </button>
             <h2 class="text-4xl font-bold mb-8" id="sub-category-title">เลือกหัวข้อ</h2>
             <div id="sub-category-container" class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-3xl">
@@ -162,10 +166,10 @@
             </div>
         </div>
 
-        <!-- Screen 3: Settings -->
+        <!-- Screen 3 : Settings -->
         <div id="screen-settings" class="screen">
-            <button onclick="goToScreen('screen-sub-category')" class="absolute top-4 left-4 p-2 text-gray-400 hover:text-white">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            <button onclick="goToScreen('screen-sub-category')" class="absolute top-4 left-4 p-2 text-gray-400 hover:text-white flex items-center justify-center">
+                <span class="material-symbols-outlined text-4xl">arrow_back</span>
             </button>
             
             <h2 class="text-3xl font-bold mb-6 text-blue-400" id="selected-category-display">หมวดหมู่</h2>
@@ -188,7 +192,7 @@
 
                 <!-- Time -->
                 <div>
-                    <h3 class="text-xl mb-3 font-semibold">เวลา (วินาที)</h3>
+                    <h3 class="text-xl mb-3 font-semibold">เวลา ( วินาที )</h3>
                     <div class="grid grid-cols-5 gap-2 sm:gap-4 radio-btn-group">
                         <input type="radio" name="time" id="time-60" value="60" class="hidden" checked>
                         <label for="time-60" class="py-3 text-center border border-gray-600 text-gray-300 rounded-lg cursor-pointer text-lg font-medium hover:bg-gray-800">60</label>
@@ -213,28 +217,52 @@
             </button>
         </div>
 
-        <!-- Screen 4: Game -->
+        <!-- Screen 4 : Game -->
         <div id="screen-game" class="screen">
             <div id="game-bg"></div>
             
-            <div class="absolute top-4 right-6 text-4xl font-bold z-10" id="timer-display">60</div>
+            <!-- Header layout -->
+            <div class="absolute top-6 left-6 text-2xl text-gray-300 z-10 hidden md:block font-bold">
+                คะแนน : <span id="score-display" class="text-white">0</span>
+            </div>
             
-            <div class="absolute top-4 left-6 text-xl text-gray-400 z-10 hidden md:block">
-                คะแนน: <span id="score-display">0</span>
+            <!-- Circular Progress Timer -->
+            <div class="absolute top-4 left-1/2 transform -translate-x-1/2 z-10 flex items-center justify-center w-24 h-24">
+                <svg class="transform -rotate-90 w-24 h-24">
+                    <!-- Background Circle -->
+                    <circle cx="48" cy="48" r="42" stroke="currentColor" stroke-width="6" fill="transparent" class="text-gray-800/80" />
+                    <!-- Progress Circle -->
+                    <circle id="timer-circle" cx="48" cy="48" r="42" stroke="currentColor" stroke-width="6" fill="transparent" class="text-blue-500 transition-all duration-1000 ease-linear" stroke-dasharray="264" stroke-dashoffset="0" stroke-linecap="round" />
+                </svg>
+                <span class="absolute text-4xl font-bold text-white" id="timer-display">60</span>
             </div>
 
-            <div id="countdown-overlay" class="absolute inset-0 bg-black/80 z-20 flex justify-center items-center flex-col">
-                <div class="text-2xl mb-4 text-blue-300">นำมือถือวางทาบที่หน้าผาก</div>
+            <button onclick="pauseGameAndConfirm()" class="absolute top-6 right-6 p-3 bg-gray-800/80 rounded-full text-white hover:bg-gray-700 z-20 flex items-center justify-center btn shadow-lg">
+                <span class="material-symbols-outlined text-3xl">home</span>
+            </button>
+
+            <!-- Pre-game Countdown -->
+            <div id="countdown-overlay" class="absolute inset-0 bg-black/80 z-20 flex justify-center items-center flex-col gap-10">
+                <div class="text-3xl text-blue-300">นำมือถือวางทาบที่หน้าผาก</div>
                 <div id="countdown-text" class="text-8xl font-bold text-white">3</div>
             </div>
 
-            <div id="word-display" class="z-10">คำศัพท์</div>
-            <div id="game-message" class="z-10 text-3xl font-bold text-yellow-400 hidden mt-4 text-center"></div>
+            <!-- In-game UI : 3D Card Style -->
+            <div class="relative w-[90%] md:w-[75%] max-w-4xl aspect-[21/9] max-h-[50vh] bg-gray-900/80 border-4 border-blue-500 rounded-[2rem] shadow-[0_0_40px_rgba(59,130,246,0.6)] flex items-center justify-center p-8 backdrop-blur-md z-10 flex-col mt-10">
+                <div id="word-display" class="z-10 drop-shadow-lg">คำศัพท์</div>
+                <div id="game-message" class="z-10 text-3xl font-bold text-yellow-400 hidden absolute bottom-6 text-center w-full drop-shadow-md"></div>
+            </div>
             
             <!-- Fallback touch controls -->
-            <div class="absolute bottom-4 text-gray-500 text-sm z-10 flex gap-4 text-center w-full justify-center opacity-70">
-                <div class="flex-1 border-r border-gray-800">👈 แตะซ้ายเพื่อข้าม<br>(หงายจอ)</div>
-                <div class="flex-1">แตะขวาเพื่อทายถูก 👉<br>(คว่ำจอ)</div>
+            <div class="absolute bottom-6 text-gray-400 text-sm z-10 flex gap-4 text-center w-full justify-center opacity-80 pointer-events-none">
+                <div class="flex-1 border-r border-gray-800 flex flex-col items-center">
+                    <span class="material-symbols-outlined text-5xl mb-1">chevron_left</span>
+                    <span>แตะซ้ายข้าม ( หงายจอ )</span>
+                </div>
+                <div class="flex-1 flex flex-col items-center">
+                    <span class="material-symbols-outlined text-5xl mb-1">chevron_right</span>
+                    <span>แตะขวาทายถูก ( คว่ำจอ )</span>
+                </div>
             </div>
 
             <!-- Touch Zones -->
@@ -242,11 +270,22 @@
                 <div class="w-1/2 h-full" onclick="handleAnswer(false)"></div>
                 <div class="w-1/2 h-full" onclick="handleAnswer(true)"></div>
             </div>
+
+            <!-- Custom Confirm Modal -->
+            <div id="confirm-modal" class="hidden absolute inset-0 bg-black/90 z-50 flex justify-center items-center">
+                <div class="bg-gray-900 p-8 rounded-2xl border border-gray-700 text-center w-11/12 max-w-sm shadow-2xl">
+                    <h3 class="text-2xl font-semibold mb-8 text-white leading-relaxed">ต้องการหยุดเล่น และ<br>กลับไปหน้าแรกหรือไม่ ?</h3>
+                    <div class="flex gap-4">
+                        <button onclick="cancelGoHome()" class="btn flex-1 py-3 bg-gray-700 text-white rounded-xl text-xl font-medium hover:bg-gray-600">ยกเลิก</button>
+                        <button onclick="confirmGoHome()" class="btn flex-1 py-3 bg-red-600 text-white rounded-xl text-xl font-medium hover:bg-red-500">ตกลง</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- Screen 5: Result -->
+        <!-- Screen 5 : Result -->
         <div id="screen-result" class="screen">
-            <h2 class="text-4xl font-bold mb-2" id="result-title">หมดเวลา!</h2>
+            <h2 class="text-4xl font-bold mb-2" id="result-title">หมดเวลา !</h2>
             <div class="text-xl text-gray-400 mb-6">คุณทายถูกทั้งหมด</div>
             <div class="text-7xl font-bold text-green-400 mb-8" id="final-score">0</div>
 
@@ -269,7 +308,7 @@
     </div>
 
     <script>
-        // --- Word Database ---
+        // --- Word Database ( Spaced Properly ) ---
         const wordsDB = {
             animals: {
                 easy: ["สุนัข", "แมว", "ไก่", "ลิง", "ช้าง", "งู", "นก", "ปลา", "กระต่าย", "สิงโต", "เสือ", "เป็ด", "ม้า", "กบ", "หมู"],
@@ -279,16 +318,16 @@
             music: {
                 easy: ["ร้องเพลง", "เต้น", "ไมโครโฟน", "กีตาร์", "กลอง", "เปียโน", "หูฟัง", "ลำโพง", "นักร้อง", "วิทยุ", "ปรบมือ", "คอนเสิร์ต", "จังหวะ", "เสียงสูง", "ดนตรี"],
                 medium: ["วงดนตรี", "เนื้อเพลง", "มิวสิควิดีโอ", "อัลบั้ม", "ไวโอลิน", "แซกโซโฟน", "การประสานเสียง", "ฮิปฮอป", "เพลงร็อค", "ดีเจ", "ทำนอง", "โน้ตเพลง", "เพลงกล่อมเด็ก", "เพลงประกอบภาพยนตร์", "รอบออดิชั่น"],
-                hard: ["เมโทรนอม", "การด้นสด (Improvisation)", "วงออเคสตรา", "วงประสานเสียง (A cappella)", "เสียงหลบ (Falsetto)", "เครื่องสังเคราะห์เสียง", "เพลงคลาสสิก", "นักประพันธ์เพลง", "คีย์บอร์ดไฟฟ้า", "ทฤษฎีดนตรี", "แผ่นเสียง", "การเรียบเรียงเสียงประสาน", "จังหวะยก", "เพลงพื้นเมือง", "การกำกับวง (Conducting)"]
+                hard: ["เมโทรนอม", "การด้นสด ( Improvisation )", "วงออเคสตรา", "วงประสานเสียง ( A cappella )", "เสียงหลบ ( Falsetto )", "เครื่องสังเคราะห์เสียง", "เพลงคลาสสิก", "นักประพันธ์เพลง", "คีย์บอร์ดไฟฟ้า", "ทฤษฎีดนตรี", "แผ่นเสียง", "การเรียบเรียงเสียงประสาน", "จังหวะยก", "เพลงพื้นเมือง", "การกำกับวง ( Conducting )"]
             },
             school: {
                 easy: ["ครู", "นักเรียน", "สมุด", "ปากกา", "ดินสอ", "กระเป๋า", "โต๊ะ", "เก้าอี้", "ยางลบ", "ไม้บรรทัด", "กระดานดำ", "ห้องเรียน", "อาหารกลางวัน", "สนามเด็กเล่น", "ธงชาติ"],
                 medium: ["ห้องสมุด", "การบ้าน", "สอบ", "ตารางสอน", "พักเที่ยง", "ผู้อำนวยการ", "สหกรณ์", "ชุดนักเรียน", "เข้าแถว", "กีฬาสี", "ทัศนศึกษา", "ห้องวิทยาศาสตร์", "คอมพิวเตอร์", "พละ", "สมุดพก"],
-                hard: ["หลักสูตร", "ทุนการศึกษา", "วิทยานิพนธ์", "ปฐมนิเทศ", "วิชาการ", "ใบระเบียนแสดงผลการเรียน (Transcript)", "สภานักเรียน", "สารวัตรนักเรียน", "จรรยาบรรณ", "กิจกรรมนันทนาการ", "อะลัมไน (ศิษย์เก่า)", "ภาคการศึกษา", "การโต้วาที", "พิธีมอบประกาศนียบัตร", "ห้องพยาบาล"]
+                hard: ["หลักสูตร", "ทุนการศึกษา", "วิทยานิพนธ์", "ปฐมนิเทศ", "วิชาการ", "ใบระเบียนแสดงผลการเรียน ( Transcript )", "สภานักเรียน", "สารวัตรนักเรียน", "จรรยาบรรณ", "กิจกรรมนันทนาการ", "อะลัมไน ( ศิษย์เก่า )", "ภาคการศึกษา", "การโต้วาที", "พิธีมอบประกาศนียบัตร", "ห้องพยาบาล"]
             },
             biology: {
                 easy: ["ดอกไม้", "ใบไม้", "ต้นไม้", "หัวใจ", "เลือด", "กระดูก", "สมอง", "ฟัน", "นิ้วมือ", "ราก", "ผลไม้", "ร่างกาย", "แสงแดด", "น้ำ", "ตา"],
-                medium: ["เซลล์", "แบคทีเรีย", "ไวรัส", "กล้ามเนื้อ", "ปอด", "กระเพาะอาหาร", "การสังเคราะห์แสง", "ออกซิเจน", "ดีเอ็นเอ (DNA)", "โครงกระดูก", "ส่องกล้องจุลทรรศน์", "ลำไส้", "เส้นประสาท", "เมล็ดพันธุ์", "ผิวหนัง"],
+                medium: ["เซลล์", "แบคทีเรีย", "ไวรัส", "กล้ามเนื้อ", "ปอด", "กระเพาะอาหาร", "การสังเคราะห์แสง", "ออกซิเจน", "ดีเอ็นเอ ( DNA )", "โครงกระดูก", "ส่องกล้องจุลทรรศน์", "ลำไส้", "เส้นประสาท", "เมล็ดพันธุ์", "ผิวหนัง"],
                 hard: ["ไมโทคอนเดรีย", "เอ็นไซม์", "ฮอร์โมน", "วิวัฒนาการ", "ระบบนิเวศ", "การหายใจระดับเซลล์", "โครโมโซม", "แอนติบอดี", "เมตาบอลิซึม", "การแบ่งเซลล์", "พลาสม่า", "ยีนด้อย", "การคัดเลือกโดยธรรมชาติ", "เนื้อเยื่อ", "ห่วงโซ่อาหาร"]
             }
         };
@@ -314,9 +353,19 @@
         let score = 0;
         let timeLeft = 0;
         let timerInterval = null;
-        let history = [];
+        let countdownInterval = null;
         let isGameRunning = false;
+        let isPaused = false;
         let motionCooldown = false;
+
+        // --- UI Updates ---
+        function updateTimerUI(currentLeft, total) {
+            document.getElementById('timer-display').innerText = currentLeft;
+            // Calculate stroke-dashoffset for the circle (Circumference of r=42 is approx 264)
+            const circumference = 264;
+            const offset = circumference - (currentLeft / total) * circumference;
+            document.getElementById('timer-circle').style.strokeDashoffset = offset;
+        }
 
         // --- Navigation ---
         function goToScreen(screenId) {
@@ -325,7 +374,6 @@
         }
 
         async function requestMotionAndGoToMainCategory() {
-            // Request Device Motion permission for iOS 13+ when user first interacts
             if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
                 try {
                     const permissionState = await DeviceMotionEvent.requestPermission();
@@ -333,10 +381,9 @@
                         window.addEventListener('devicemotion', handleDeviceMotion);
                     }
                 } catch (error) {
-                    console.log("Device motion permission error or denied:", error);
+                    console.log("Device motion permission error or denied : ", error);
                 }
             } else {
-                // Non iOS 13+ devices
                 window.addEventListener('devicemotion', handleDeviceMotion);
             }
             goToScreen('screen-main-category');
@@ -345,15 +392,13 @@
         function selectMainCategory(type) {
             const container = document.getElementById('sub-category-container');
             const titleEl = document.getElementById('sub-category-title');
-            container.innerHTML = ''; // clear
+            container.innerHTML = ''; 
 
             if (type === 'general') {
                 titleEl.innerText = 'หมวดทั่วไป';
-                // Using grid-cols-3 for 3 items
                 container.className = 'grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl';
             } else {
                 titleEl.innerText = 'หมวดวิชาการ';
-                // Using grid-cols-1 for 1 item, centering it
                 container.className = 'grid grid-cols-1 gap-4 w-full max-w-md mx-auto';
             }
 
@@ -370,7 +415,7 @@
 
         function selectSubCategory(id, title) {
             currentSubCategory = id;
-            document.getElementById('selected-category-display').innerText = `หมวด: ${title}`;
+            document.getElementById('selected-category-display').innerText = `หมวด : ${title}`;
             goToScreen('screen-settings');
         }
 
@@ -384,27 +429,25 @@
         }
 
         function startPreGame() {
-            // Get settings
             currentDifficulty = document.querySelector('input[name="difficulty"]:checked').value;
             currentTimeSetting = parseInt(document.querySelector('input[name="time"]:checked').value);
             
-            // Prepare words
             remainingWords = shuffleArray([...wordsDB[currentSubCategory][currentDifficulty]]);
             skippedWords = [];
             score = 0;
             history = [];
+            isPaused = false;
             
-            // Reset UI
             document.getElementById('score-display').innerText = '0';
-            document.getElementById('timer-display').innerText = currentTimeSetting;
+            updateTimerUI(currentTimeSetting, currentTimeSetting);
             document.getElementById('word-display').innerText = '';
             document.getElementById('game-message').innerText = '';
             document.getElementById('game-message').classList.add('hidden');
             document.getElementById('game-bg').className = '';
+            document.getElementById('confirm-modal').classList.add('hidden');
             
             goToScreen('screen-game');
             
-            // Countdown
             const countdownOverlay = document.getElementById('countdown-overlay');
             const countdownText = document.getElementById('countdown-text');
             countdownOverlay.classList.remove('hidden');
@@ -413,14 +456,17 @@
             let count = 3;
             countdownText.innerText = count;
             
-            const countInterval = setInterval(() => {
+            if (countdownInterval) clearInterval(countdownInterval);
+            countdownInterval = setInterval(() => {
+                if(isPaused) return; 
+                
                 count--;
                 if (count > 0) {
                     countdownText.innerText = count;
                 } else if (count === 0) {
-                    countdownText.innerText = "เริ่ม!";
+                    countdownText.innerText = "เริ่ม !";
                 } else {
-                    clearInterval(countInterval);
+                    clearInterval(countdownInterval);
                     countdownOverlay.style.display = 'none';
                     startGame();
                 }
@@ -432,30 +478,53 @@
             timeLeft = currentTimeSetting;
             showWord();
             
+            if (timerInterval) clearInterval(timerInterval);
             timerInterval = setInterval(() => {
+                if(isPaused) return;
+
                 timeLeft--;
-                document.getElementById('timer-display').innerText = timeLeft;
+                updateTimerUI(timeLeft, currentTimeSetting);
                 if (timeLeft <= 0) {
-                    endGame("หมดเวลา!");
+                    endGame("หมดเวลา !");
                 }
             }, 1000);
+        }
+
+        function pauseGameAndConfirm() {
+            isPaused = true;
+            document.getElementById('confirm-modal').classList.remove('hidden');
+            document.getElementById('confirm-modal').style.display = 'flex';
+        }
+
+        function cancelGoHome() {
+            isPaused = false;
+            document.getElementById('confirm-modal').classList.add('hidden');
+            document.getElementById('confirm-modal').style.display = 'none';
+        }
+
+        function confirmGoHome() {
+            isGameRunning = false;
+            isPaused = false;
+            if (timerInterval) clearInterval(timerInterval);
+            if (countdownInterval) clearInterval(countdownInterval);
+            
+            document.getElementById('confirm-modal').classList.add('hidden');
+            document.getElementById('confirm-modal').style.display = 'none';
+            goToScreen('screen-home');
         }
 
         function showWord() {
             if (remainingWords.length === 0) {
                 if (skippedWords.length > 0) {
-                    // Loop only skipped words
                     remainingWords = shuffleArray([...skippedWords]);
                     skippedWords = [];
                     
-                    // Show brief notification
                     const msgEl = document.getElementById('game-message');
-                    msgEl.innerText = "วนคำที่ข้าม!";
+                    msgEl.innerText = "วนคำที่ข้าม !";
                     msgEl.classList.remove('hidden');
                     setTimeout(() => msgEl.classList.add('hidden'), 1500);
                 } else {
-                    // All words guessed correctly!
-                    endGame("สุดยอด! ทายครบทุกคำแล้ว");
+                    endGame("สุดยอด ! ทายครบทุกคำแล้ว");
                     return;
                 }
             }
@@ -464,33 +533,29 @@
         }
 
         function handleAnswer(isCorrect) {
-            if (!isGameRunning || motionCooldown) return;
+            if (!isGameRunning || motionCooldown || isPaused) return;
             
             motionCooldown = true;
-            const currentWord = remainingWords.shift(); // Remove the current word from array
+            const currentWord = remainingWords.shift();
             const gameBg = document.getElementById('game-bg');
             
             if (isCorrect) {
                 score++;
                 document.getElementById('score-display').innerText = score;
                 history.push({ word: currentWord, status: 'correct' });
-                // Flash Green
                 gameBg.className = 'flash-green';
             } else {
-                skippedWords.push(currentWord); // Add to skipped for later
+                skippedWords.push(currentWord); 
                 history.push({ word: currentWord, status: 'pass' });
-                // Flash Red
                 gameBg.className = 'flash-red';
             }
 
-            // Remove animation class after it ends
             setTimeout(() => {
                 gameBg.className = '';
             }, 600);
             
             showWord();
             
-            // Short cooldown to prevent accidental double triggering
             setTimeout(() => {
                 motionCooldown = false;
             }, 800);
@@ -501,7 +566,6 @@
             isGameRunning = false;
             clearInterval(timerInterval);
             
-            // Populate Result
             document.getElementById('result-title').innerText = titleText;
             document.getElementById('final-score').innerText = score;
             const historyUl = document.getElementById('history-list-ul');
@@ -510,14 +574,13 @@
             if (history.length === 0) {
                 historyUl.innerHTML = '<li class="text-center text-gray-500 py-4">ไม่ได้ทายคำใดๆ เลย</li>';
             } else {
-                // To keep result screen clean, show last to first (newest at top)
                 const reversedHistory = [...history].reverse();
                 reversedHistory.forEach(item => {
                     const li = document.createElement('li');
                     li.className = 'flex justify-between items-center py-2 border-b border-gray-800';
                     const icon = item.status === 'correct' 
-                        ? '<span class="text-green-500 font-bold">✔ ทายถูก</span>' 
-                        : '<span class="text-red-500 font-bold">✖ ข้าม</span>';
+                        ? '<span class="text-green-500 font-bold flex items-center gap-2"><span class="material-symbols-outlined text-xl">check</span> ทายถูก </span>' 
+                        : '<span class="text-red-500 font-bold flex items-center gap-2"><span class="material-symbols-outlined text-xl">close</span> ข้าม </span>';
                     li.innerHTML = `<span>${item.word}</span> ${icon}`;
                     historyUl.appendChild(li);
                 });
@@ -526,18 +589,15 @@
             goToScreen('screen-result');
         }
 
-        // --- Device Motion Handling ---
         function handleDeviceMotion(event) {
-            if (!isGameRunning || motionCooldown) return;
+            if (!isGameRunning || motionCooldown || isPaused) return;
             
             const z = event.accelerationIncludingGravity.z;
-            if (z === null) return; // Not supported
+            if (z === null) return; 
 
             if (z < -6) {
-                // Face Down -> Correct
                 handleAnswer(true);
             } else if (z > 6) {
-                // Face Up -> Pass
                 handleAnswer(false);
             }
         }
