@@ -1,0 +1,550 @@
+```html
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>เกมทายคำ</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Sarabun -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #000;
+            color: #fff;
+            overflow: hidden;
+            touch-action: none; /* Prevent pull-to-refresh on mobile */
+        }
+
+        .screen {
+            display: none;
+            width: 100vw;
+            height: 100vh;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* Landscape warning for mobile devices */
+        #landscape-warning {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000;
+            color: #fff;
+            z-index: 9999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        @media screen and (orientation: portrait) {
+            #landscape-warning {
+                display: flex;
+            }
+        }
+
+        /* Animations */
+        .flash-green { animation: flashGreen 0.6s ease-out; }
+        .flash-red { animation: flashRed 0.6s ease-out; }
+
+        @keyframes flashGreen {
+            0% { background-color: #22c55e; }
+            100% { background-color: #000; }
+        }
+
+        @keyframes flashRed {
+            0% { background-color: #ef4444; }
+            100% { background-color: #000; }
+        }
+
+        /* Buttons custom styles */
+        .btn {
+            transition: all 0.2s;
+        }
+        .btn:active {
+            transform: scale(0.95);
+        }
+        
+        .radio-btn-group input:checked + label {
+            background-color: #3b82f6;
+            border-color: #3b82f6;
+            color: white;
+        }
+        
+        /* Game Screen specific */
+        #game-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background-color: #000;
+        }
+        
+        #word-display {
+            font-size: 7rem;
+            font-weight: 700;
+            line-height: 1.1;
+            text-align: center;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            max-width: 95%;
+            word-wrap: break-word;
+        }
+        @media (max-width: 768px) {
+            #word-display { font-size: 4.5rem; }
+        }
+
+        .history-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        .history-list::-webkit-scrollbar-thumb {
+            background-color: #4b5563;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Landscape Warning -->
+    <div id="landscape-warning">
+        <svg class="w-16 h-16 mb-4 text-white animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+        <h1 class="text-3xl font-bold mb-2">กรุณาหมุนจอ</h1>
+        <p class="text-xl">เพื่อประสบการณ์ที่ดีที่สุด โปรดเล่นในแนวนอน</p>
+    </div>
+
+    <div id="app" class="relative w-full h-full">
+
+        <!-- Screen 1: Home -->
+        <div id="screen-home" class="screen active">
+            <h1 class="text-6xl md:text-8xl font-bold mb-10 tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">ทายคำ</h1>
+            <button onclick="requestMotionAndGoToMainCategory()" class="btn px-10 py-4 bg-white text-black rounded-full text-2xl font-bold shadow-[0_0_15px_rgba(255,255,255,0.5)] hover:bg-gray-200">
+                เริ่มต้น
+            </button>
+            <p class="absolute bottom-4 text-gray-500 text-sm md:text-base">พัฒนาโดย 20nxskypqz V.0.0.1</p>
+        </div>
+
+        <!-- Screen 2: Main Category -->
+        <div id="screen-main-category" class="screen">
+            <button onclick="goToScreen('screen-home')" class="absolute top-4 left-4 p-2 text-gray-400 hover:text-white">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            <h2 class="text-4xl font-bold mb-8">เลือกหมวดหมู่หลัก</h2>
+            <div class="grid grid-cols-2 gap-6 w-full max-w-2xl">
+                <button onclick="selectMainCategory('general')" class="btn w-full py-8 bg-blue-900 border border-blue-700 rounded-2xl text-3xl font-semibold hover:bg-blue-800 flex flex-col items-center justify-center gap-3">
+                    <span class="text-5xl">🌍</span>
+                    <span>ทั่วไป</span>
+                </button>
+                <button onclick="selectMainCategory('academic')" class="btn w-full py-8 bg-purple-900 border border-purple-700 rounded-2xl text-3xl font-semibold hover:bg-purple-800 flex flex-col items-center justify-center gap-3">
+                    <span class="text-5xl">📚</span>
+                    <span>วิชาการ</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Screen 2.5: Sub Category -->
+        <div id="screen-sub-category" class="screen">
+            <button onclick="goToScreen('screen-main-category')" class="absolute top-4 left-4 p-2 text-gray-400 hover:text-white">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            <h2 class="text-4xl font-bold mb-8" id="sub-category-title">เลือกหัวข้อ</h2>
+            <div id="sub-category-container" class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-3xl">
+                <!-- Dynamically injected -->
+            </div>
+        </div>
+
+        <!-- Screen 3: Settings -->
+        <div id="screen-settings" class="screen">
+            <button onclick="goToScreen('screen-sub-category')" class="absolute top-4 left-4 p-2 text-gray-400 hover:text-white">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            
+            <h2 class="text-3xl font-bold mb-6 text-blue-400" id="selected-category-display">หมวดหมู่</h2>
+
+            <div class="w-full max-w-3xl bg-gray-900 p-6 rounded-2xl border border-gray-800 flex flex-col gap-6">
+                <!-- Difficulty -->
+                <div>
+                    <h3 class="text-xl mb-3 font-semibold">ระดับความยาก</h3>
+                    <div class="flex gap-2 sm:gap-4 radio-btn-group">
+                        <input type="radio" name="difficulty" id="diff-easy" value="easy" class="hidden" checked>
+                        <label for="diff-easy" class="flex-1 py-3 text-center border border-gray-600 text-gray-300 rounded-lg cursor-pointer text-lg font-medium hover:bg-gray-800">ง่าย</label>
+
+                        <input type="radio" name="difficulty" id="diff-medium" value="medium" class="hidden">
+                        <label for="diff-medium" class="flex-1 py-3 text-center border border-gray-600 text-gray-300 rounded-lg cursor-pointer text-lg font-medium hover:bg-gray-800">ปานกลาง</label>
+
+                        <input type="radio" name="difficulty" id="diff-hard" value="hard" class="hidden">
+                        <label for="diff-hard" class="flex-1 py-3 text-center border border-gray-600 text-gray-300 rounded-lg cursor-pointer text-lg font-medium hover:bg-gray-800">ยาก</label>
+                    </div>
+                </div>
+
+                <!-- Time -->
+                <div>
+                    <h3 class="text-xl mb-3 font-semibold">เวลา (วินาที)</h3>
+                    <div class="grid grid-cols-5 gap-2 sm:gap-4 radio-btn-group">
+                        <input type="radio" name="time" id="time-60" value="60" class="hidden" checked>
+                        <label for="time-60" class="py-3 text-center border border-gray-600 text-gray-300 rounded-lg cursor-pointer text-lg font-medium hover:bg-gray-800">60</label>
+
+                        <input type="radio" name="time" id="time-90" value="90" class="hidden">
+                        <label for="time-90" class="py-3 text-center border border-gray-600 text-gray-300 rounded-lg cursor-pointer text-lg font-medium hover:bg-gray-800">90</label>
+
+                        <input type="radio" name="time" id="time-120" value="120" class="hidden">
+                        <label for="time-120" class="py-3 text-center border border-gray-600 text-gray-300 rounded-lg cursor-pointer text-lg font-medium hover:bg-gray-800">120</label>
+
+                        <input type="radio" name="time" id="time-150" value="150" class="hidden">
+                        <label for="time-150" class="py-3 text-center border border-gray-600 text-gray-300 rounded-lg cursor-pointer text-lg font-medium hover:bg-gray-800">150</label>
+
+                        <input type="radio" name="time" id="time-180" value="180" class="hidden">
+                        <label for="time-180" class="py-3 text-center border border-gray-600 text-gray-300 rounded-lg cursor-pointer text-lg font-medium hover:bg-gray-800">180</label>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="startPreGame()" class="btn mt-8 px-12 py-4 bg-blue-500 text-white rounded-full text-2xl font-bold hover:bg-blue-600 shadow-lg shadow-blue-500/30">
+                เริ่มเล่น
+            </button>
+        </div>
+
+        <!-- Screen 4: Game -->
+        <div id="screen-game" class="screen">
+            <div id="game-bg"></div>
+            
+            <div class="absolute top-4 right-6 text-4xl font-bold z-10" id="timer-display">60</div>
+            
+            <div class="absolute top-4 left-6 text-xl text-gray-400 z-10 hidden md:block">
+                คะแนน: <span id="score-display">0</span>
+            </div>
+
+            <div id="countdown-overlay" class="absolute inset-0 bg-black/80 z-20 flex justify-center items-center flex-col">
+                <div class="text-2xl mb-4 text-blue-300">นำมือถือวางทาบที่หน้าผาก</div>
+                <div id="countdown-text" class="text-8xl font-bold text-white">3</div>
+            </div>
+
+            <div id="word-display" class="z-10">คำศัพท์</div>
+            <div id="game-message" class="z-10 text-3xl font-bold text-yellow-400 hidden mt-4 text-center"></div>
+            
+            <!-- Fallback touch controls -->
+            <div class="absolute bottom-4 text-gray-500 text-sm z-10 flex gap-4 text-center w-full justify-center opacity-70">
+                <div class="flex-1 border-r border-gray-800">👈 แตะซ้ายเพื่อข้าม<br>(หงายจอ)</div>
+                <div class="flex-1">แตะขวาเพื่อทายถูก 👉<br>(คว่ำจอ)</div>
+            </div>
+
+            <!-- Touch Zones -->
+            <div class="absolute inset-0 flex z-0">
+                <div class="w-1/2 h-full" onclick="handleAnswer(false)"></div>
+                <div class="w-1/2 h-full" onclick="handleAnswer(true)"></div>
+            </div>
+        </div>
+
+        <!-- Screen 5: Result -->
+        <div id="screen-result" class="screen">
+            <h2 class="text-4xl font-bold mb-2" id="result-title">หมดเวลา!</h2>
+            <div class="text-xl text-gray-400 mb-6">คุณทายถูกทั้งหมด</div>
+            <div class="text-7xl font-bold text-green-400 mb-8" id="final-score">0</div>
+
+            <div class="w-full max-w-2xl bg-gray-900 rounded-xl border border-gray-800 p-4 mb-8 flex-1 max-h-[40vh] overflow-y-auto history-list">
+                <ul id="history-list-ul" class="space-y-2 text-lg">
+                    <!-- History injected here -->
+                </ul>
+            </div>
+
+            <div class="flex gap-4">
+                <button onclick="goToScreen('screen-settings')" class="btn px-8 py-3 bg-gray-700 text-white rounded-full text-xl font-semibold hover:bg-gray-600">
+                    ตั้งค่าใหม่
+                </button>
+                <button onclick="startPreGame()" class="btn px-8 py-3 bg-blue-500 text-white rounded-full text-xl font-bold hover:bg-blue-600 shadow-lg shadow-blue-500/30">
+                    เล่นอีกครั้ง
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- Word Database ---
+        const wordsDB = {
+            animals: {
+                easy: ["สุนัข", "แมว", "ไก่", "ลิง", "ช้าง", "งู", "นก", "ปลา", "กระต่าย", "สิงโต", "เสือ", "เป็ด", "ม้า", "กบ", "หมู"],
+                medium: ["ยีราฟ", "ม้าลาย", "เพนกวิน", "จิงโจ้", "นกฮูก", "ฉลาม", "จระเข้", "ค้างคาว", "เต่า", "อูฐ", "ผีเสื้อ", "ผึ้ง", "ปลาหมึก", "กระรอก", "นกยูง"],
+                hard: ["ตัวตุ่นปากเป็ด", "อาซาโลเทล", "ตัวนิ่ม", "สลอธ", "แมงกะพรุนไฟ", "กิ้งก่าเปลี่ยนสี", "ม้าน้ำ", "นกกระจอกเทศ", "คาปิบาร่า", "มังกรโคโมโด", "แพนด้าแดง", "ปลาปักเป้า", "ตัวกินมด", "แมวน้ำ", "ไฮยีน่า"]
+            },
+            music: {
+                easy: ["ร้องเพลง", "เต้น", "ไมโครโฟน", "กีตาร์", "กลอง", "เปียโน", "หูฟัง", "ลำโพง", "นักร้อง", "วิทยุ", "ปรบมือ", "คอนเสิร์ต", "จังหวะ", "เสียงสูง", "ดนตรี"],
+                medium: ["วงดนตรี", "เนื้อเพลง", "มิวสิควิดีโอ", "อัลบั้ม", "ไวโอลิน", "แซกโซโฟน", "การประสานเสียง", "ฮิปฮอป", "เพลงร็อค", "ดีเจ", "ทำนอง", "โน้ตเพลง", "เพลงกล่อมเด็ก", "เพลงประกอบภาพยนตร์", "รอบออดิชั่น"],
+                hard: ["เมโทรนอม", "การด้นสด (Improvisation)", "วงออเคสตรา", "วงประสานเสียง (A cappella)", "เสียงหลบ (Falsetto)", "เครื่องสังเคราะห์เสียง", "เพลงคลาสสิก", "นักประพันธ์เพลง", "คีย์บอร์ดไฟฟ้า", "ทฤษฎีดนตรี", "แผ่นเสียง", "การเรียบเรียงเสียงประสาน", "จังหวะยก", "เพลงพื้นเมือง", "การกำกับวง (Conducting)"]
+            },
+            school: {
+                easy: ["ครู", "นักเรียน", "สมุด", "ปากกา", "ดินสอ", "กระเป๋า", "โต๊ะ", "เก้าอี้", "ยางลบ", "ไม้บรรทัด", "กระดานดำ", "ห้องเรียน", "อาหารกลางวัน", "สนามเด็กเล่น", "ธงชาติ"],
+                medium: ["ห้องสมุด", "การบ้าน", "สอบ", "ตารางสอน", "พักเที่ยง", "ผู้อำนวยการ", "สหกรณ์", "ชุดนักเรียน", "เข้าแถว", "กีฬาสี", "ทัศนศึกษา", "ห้องวิทยาศาสตร์", "คอมพิวเตอร์", "พละ", "สมุดพก"],
+                hard: ["หลักสูตร", "ทุนการศึกษา", "วิทยานิพนธ์", "ปฐมนิเทศ", "วิชาการ", "ใบระเบียนแสดงผลการเรียน (Transcript)", "สภานักเรียน", "สารวัตรนักเรียน", "จรรยาบรรณ", "กิจกรรมนันทนาการ", "อะลัมไน (ศิษย์เก่า)", "ภาคการศึกษา", "การโต้วาที", "พิธีมอบประกาศนียบัตร", "ห้องพยาบาล"]
+            },
+            biology: {
+                easy: ["ดอกไม้", "ใบไม้", "ต้นไม้", "หัวใจ", "เลือด", "กระดูก", "สมอง", "ฟัน", "นิ้วมือ", "ราก", "ผลไม้", "ร่างกาย", "แสงแดด", "น้ำ", "ตา"],
+                medium: ["เซลล์", "แบคทีเรีย", "ไวรัส", "กล้ามเนื้อ", "ปอด", "กระเพาะอาหาร", "การสังเคราะห์แสง", "ออกซิเจน", "ดีเอ็นเอ (DNA)", "โครงกระดูก", "ส่องกล้องจุลทรรศน์", "ลำไส้", "เส้นประสาท", "เมล็ดพันธุ์", "ผิวหนัง"],
+                hard: ["ไมโทคอนเดรีย", "เอ็นไซม์", "ฮอร์โมน", "วิวัฒนาการ", "ระบบนิเวศ", "การหายใจระดับเซลล์", "โครโมโซม", "แอนติบอดี", "เมตาบอลิซึม", "การแบ่งเซลล์", "พลาสม่า", "ยีนด้อย", "การคัดเลือกโดยธรรมชาติ", "เนื้อเยื่อ", "ห่วงโซ่อาหาร"]
+            }
+        };
+
+        const subCategories = {
+            general: [
+                { id: 'animals', title: 'สัตว์', icon: '🦁', color: 'bg-green-800' },
+                { id: 'school', title: 'โรงเรียน', icon: '🏫', color: 'bg-yellow-700' },
+                { id: 'music', title: 'เพลง', icon: '🎵', color: 'bg-pink-800' }
+            ],
+            academic: [
+                { id: 'biology', title: 'ชีววิทยา', icon: '🧬', color: 'bg-teal-800' }
+            ]
+        };
+
+        // --- Game State ---
+        let currentSubCategory = 'animals';
+        let currentDifficulty = 'easy';
+        let currentTimeSetting = 60;
+        
+        let remainingWords = [];
+        let skippedWords = [];
+        let score = 0;
+        let timeLeft = 0;
+        let timerInterval = null;
+        let history = [];
+        let isGameRunning = false;
+        let motionCooldown = false;
+
+        // --- Navigation ---
+        function goToScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        async function requestMotionAndGoToMainCategory() {
+            // Request Device Motion permission for iOS 13+ when user first interacts
+            if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+                try {
+                    const permissionState = await DeviceMotionEvent.requestPermission();
+                    if (permissionState === 'granted') {
+                        window.addEventListener('devicemotion', handleDeviceMotion);
+                    }
+                } catch (error) {
+                    console.log("Device motion permission error or denied:", error);
+                }
+            } else {
+                // Non iOS 13+ devices
+                window.addEventListener('devicemotion', handleDeviceMotion);
+            }
+            goToScreen('screen-main-category');
+        }
+
+        function selectMainCategory(type) {
+            const container = document.getElementById('sub-category-container');
+            const titleEl = document.getElementById('sub-category-title');
+            container.innerHTML = ''; // clear
+
+            if (type === 'general') {
+                titleEl.innerText = 'หมวดทั่วไป';
+                // Using grid-cols-3 for 3 items
+                container.className = 'grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl';
+            } else {
+                titleEl.innerText = 'หมวดวิชาการ';
+                // Using grid-cols-1 for 1 item, centering it
+                container.className = 'grid grid-cols-1 gap-4 w-full max-w-md mx-auto';
+            }
+
+            subCategories[type].forEach(sub => {
+                const btn = document.createElement('button');
+                btn.className = `btn w-full py-8 ${sub.color} border border-gray-600 rounded-xl text-3xl font-semibold hover:opacity-80 flex flex-col items-center justify-center gap-2`;
+                btn.innerHTML = `<span class="text-4xl">${sub.icon}</span><span>${sub.title}</span>`;
+                btn.onclick = () => selectSubCategory(sub.id, sub.title);
+                container.appendChild(btn);
+            });
+
+            goToScreen('screen-sub-category');
+        }
+
+        function selectSubCategory(id, title) {
+            currentSubCategory = id;
+            document.getElementById('selected-category-display').innerText = `หมวด: ${title}`;
+            goToScreen('screen-settings');
+        }
+
+        // --- Game Logic ---
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function startPreGame() {
+            // Get settings
+            currentDifficulty = document.querySelector('input[name="difficulty"]:checked').value;
+            currentTimeSetting = parseInt(document.querySelector('input[name="time"]:checked').value);
+            
+            // Prepare words
+            remainingWords = shuffleArray([...wordsDB[currentSubCategory][currentDifficulty]]);
+            skippedWords = [];
+            score = 0;
+            history = [];
+            
+            // Reset UI
+            document.getElementById('score-display').innerText = '0';
+            document.getElementById('timer-display').innerText = currentTimeSetting;
+            document.getElementById('word-display').innerText = '';
+            document.getElementById('game-message').innerText = '';
+            document.getElementById('game-message').classList.add('hidden');
+            document.getElementById('game-bg').className = '';
+            
+            goToScreen('screen-game');
+            
+            // Countdown
+            const countdownOverlay = document.getElementById('countdown-overlay');
+            const countdownText = document.getElementById('countdown-text');
+            countdownOverlay.classList.remove('hidden');
+            countdownOverlay.style.display = 'flex';
+            
+            let count = 3;
+            countdownText.innerText = count;
+            
+            const countInterval = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    countdownText.innerText = count;
+                } else if (count === 0) {
+                    countdownText.innerText = "เริ่ม!";
+                } else {
+                    clearInterval(countInterval);
+                    countdownOverlay.style.display = 'none';
+                    startGame();
+                }
+            }, 1000);
+        }
+
+        function startGame() {
+            isGameRunning = true;
+            timeLeft = currentTimeSetting;
+            showWord();
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer-display').innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    endGame("หมดเวลา!");
+                }
+            }, 1000);
+        }
+
+        function showWord() {
+            if (remainingWords.length === 0) {
+                if (skippedWords.length > 0) {
+                    // Loop only skipped words
+                    remainingWords = shuffleArray([...skippedWords]);
+                    skippedWords = [];
+                    
+                    // Show brief notification
+                    const msgEl = document.getElementById('game-message');
+                    msgEl.innerText = "วนคำที่ข้าม!";
+                    msgEl.classList.remove('hidden');
+                    setTimeout(() => msgEl.classList.add('hidden'), 1500);
+                } else {
+                    // All words guessed correctly!
+                    endGame("สุดยอด! ทายครบทุกคำแล้ว");
+                    return;
+                }
+            }
+            
+            document.getElementById('word-display').innerText = remainingWords[0];
+        }
+
+        function handleAnswer(isCorrect) {
+            if (!isGameRunning || motionCooldown) return;
+            
+            motionCooldown = true;
+            const currentWord = remainingWords.shift(); // Remove the current word from array
+            const gameBg = document.getElementById('game-bg');
+            
+            if (isCorrect) {
+                score++;
+                document.getElementById('score-display').innerText = score;
+                history.push({ word: currentWord, status: 'correct' });
+                // Flash Green
+                gameBg.className = 'flash-green';
+            } else {
+                skippedWords.push(currentWord); // Add to skipped for later
+                history.push({ word: currentWord, status: 'pass' });
+                // Flash Red
+                gameBg.className = 'flash-red';
+            }
+
+            // Remove animation class after it ends
+            setTimeout(() => {
+                gameBg.className = '';
+            }, 600);
+            
+            showWord();
+            
+            // Short cooldown to prevent accidental double triggering
+            setTimeout(() => {
+                motionCooldown = false;
+            }, 800);
+        }
+
+        function endGame(titleText) {
+            if (!isGameRunning) return;
+            isGameRunning = false;
+            clearInterval(timerInterval);
+            
+            // Populate Result
+            document.getElementById('result-title').innerText = titleText;
+            document.getElementById('final-score').innerText = score;
+            const historyUl = document.getElementById('history-list-ul');
+            historyUl.innerHTML = '';
+            
+            if (history.length === 0) {
+                historyUl.innerHTML = '<li class="text-center text-gray-500 py-4">ไม่ได้ทายคำใดๆ เลย</li>';
+            } else {
+                // To keep result screen clean, show last to first (newest at top)
+                const reversedHistory = [...history].reverse();
+                reversedHistory.forEach(item => {
+                    const li = document.createElement('li');
+                    li.className = 'flex justify-between items-center py-2 border-b border-gray-800';
+                    const icon = item.status === 'correct' 
+                        ? '<span class="text-green-500 font-bold">✔ ทายถูก</span>' 
+                        : '<span class="text-red-500 font-bold">✖ ข้าม</span>';
+                    li.innerHTML = `<span>${item.word}</span> ${icon}`;
+                    historyUl.appendChild(li);
+                });
+            }
+            
+            goToScreen('screen-result');
+        }
+
+        // --- Device Motion Handling ---
+        function handleDeviceMotion(event) {
+            if (!isGameRunning || motionCooldown) return;
+            
+            const z = event.accelerationIncludingGravity.z;
+            if (z === null) return; // Not supported
+
+            if (z < -6) {
+                // Face Down -> Correct
+                handleAnswer(true);
+            } else if (z > 6) {
+                // Face Up -> Pass
+                handleAnswer(false);
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+```
