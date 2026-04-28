@@ -15,7 +15,7 @@
             background-color: #000;
             color: #fff;
             overflow: hidden;
-            touch-action: none; /* Prevent pull-to-refresh on mobile */
+            touch-action: none; /* Prevent scrolling and pull-to-refresh */
         }
 
         .screen {
@@ -218,68 +218,67 @@
 
         <!-- Screen 4 : Game -->
         <div id="screen-game" class="screen">
+            <!-- Background (z-0) -->
             <div id="game-bg"></div>
             
-            <!-- In-game UI : 3D Card Style (z-10, Pointer-events-none so click passes through to touch zones) -->
-            <div class="relative w-[90%] md:w-[75%] max-w-4xl aspect-[21/9] max-h-[50vh] bg-gray-900/80 border-4 border-blue-500 rounded-[2rem] shadow-[0_0_40px_rgba(59,130,246,0.6)] flex items-center justify-center p-8 backdrop-blur-md z-10 flex-col mt-12 pointer-events-none">
-                <div id="word-display" class="z-10 drop-shadow-lg pointer-events-none">คำศัพท์</div>
-                <div id="game-message" class="z-10 text-3xl font-bold text-yellow-400 hidden absolute bottom-6 text-center w-full drop-shadow-md pointer-events-none"></div>
+            <!-- Touch Zones (z-10) - รับการสัมผัสตรงๆ พื้นที่ทั้งหมดแบ่งครึ่ง ซ้าย-ขวา -->
+            <div class="absolute inset-0 flex z-10 w-full h-full">
+                <div class="w-1/2 h-full cursor-pointer" onpointerdown="handleAnswer(false)"></div>
+                <div class="w-1/2 h-full cursor-pointer" onpointerdown="handleAnswer(true)"></div>
             </div>
-            
-            <!-- Fallback touch text hints -->
-            <div class="absolute bottom-8 text-gray-400 text-sm z-10 flex gap-4 text-center w-full justify-center opacity-80 pointer-events-none">
-                <div class="flex-1 border-r border-gray-800 flex flex-col items-center">
-                    <span class="material-symbols-outlined text-5xl mb-1">chevron_left</span>
-                    <span>แตะซ้ายข้าม ( หงายจอ )</span>
+
+            <!-- UI Layer (z-20) - ปล่อยให้การคลิกทะลุผ่านไปหา Touch Zones ยกเว้นปุ่มกด -->
+            <div class="absolute inset-0 z-20 pointer-events-none flex flex-col justify-center items-center">
+                
+                <!-- Top Bar : ขยับลงมา top-12 เพื่อหลีกเลี่ยงการโดนเบราว์เซอร์ทับ -->
+                <div class="absolute top-12 left-0 w-full px-8 flex justify-between items-start">
+                    
+                    <!-- Score -->
+                    <div class="text-2xl text-gray-300 font-bold hidden md:block bg-gray-900/60 backdrop-blur-md px-5 py-2 rounded-2xl pointer-events-auto border border-gray-700 shadow-lg">
+                        คะแนน : <span id="score-display" class="text-white">0</span>
+                    </div>
+                    
+                    <!-- Circular Timer (อยู่ตรงกลาง) -->
+                    <div class="absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center w-24 h-24">
+                        <svg class="transform -rotate-90 w-24 h-24 drop-shadow-lg">
+                            <circle cx="48" cy="48" r="42" stroke="currentColor" stroke-width="6" fill="transparent" class="text-gray-800/80" />
+                            <circle id="timer-circle" cx="48" cy="48" r="42" stroke="currentColor" stroke-width="6" fill="transparent" class="text-blue-500 transition-all duration-1000 ease-linear" stroke-dasharray="264" stroke-dashoffset="0" stroke-linecap="round" />
+                        </svg>
+                        <span class="absolute text-4xl font-bold text-white drop-shadow-md" id="timer-display">60</span>
+                    </div>
+
+                    <!-- Right Controls : ปุ่มกดกลับหน้าแรก & เต็มจอ -->
+                    <div class="flex gap-4 pointer-events-auto">
+                        <button onclick="toggleFullscreen()" class="p-3 bg-gray-800/80 backdrop-blur-md rounded-full text-white hover:bg-gray-700 flex items-center justify-center btn shadow-lg border border-gray-600">
+                            <span class="material-symbols-outlined text-3xl" id="fullscreen-icon">fullscreen</span>
+                        </button>
+                        <button onclick="pauseGameAndConfirm()" class="p-3 bg-red-600/80 backdrop-blur-md rounded-full text-white hover:bg-red-500 flex items-center justify-center btn shadow-lg border border-red-500">
+                            <span class="material-symbols-outlined text-3xl">home</span>
+                        </button>
+                    </div>
                 </div>
-                <div class="flex-1 flex flex-col items-center">
-                    <span class="material-symbols-outlined text-5xl mb-1">chevron_right</span>
-                    <span>แตะขวาทายถูก ( คว่ำจอ )</span>
+
+                <!-- 3D Card Word Display -->
+                <div class="relative w-[90%] md:w-[75%] max-w-4xl aspect-[21/9] max-h-[50vh] bg-gray-900/80 border-4 border-blue-500 rounded-[2rem] shadow-[0_0_40px_rgba(59,130,246,0.6)] flex items-center justify-center p-8 backdrop-blur-md flex-col mt-20">
+                    <div id="word-display" class="drop-shadow-lg pointer-events-none">คำศัพท์</div>
+                    <div id="game-message" class="text-3xl font-bold text-yellow-400 hidden absolute bottom-6 text-center w-full drop-shadow-md pointer-events-none"></div>
                 </div>
-            </div>
 
-            <!-- Touch Zones (z-20) - Receives clicks for left/right -->
-            <div class="absolute inset-0 flex z-20">
-                <div class="w-1/2 h-full cursor-pointer" onclick="handleAnswer(false)"></div>
-                <div class="w-1/2 h-full cursor-pointer" onclick="handleAnswer(true)"></div>
-            </div>
-
-            <!-- Header overlays (z-30) : Timer and Score (Pointer-events-none) -->
-            <div class="absolute top-10 left-8 text-2xl text-gray-300 z-30 hidden md:block font-bold pointer-events-none">
-                คะแนน : <span id="score-display" class="text-white">0</span>
-            </div>
-            
-            <div class="absolute top-8 left-1/2 transform -translate-x-1/2 z-30 flex items-center justify-center w-24 h-24 pointer-events-none">
-                <svg class="transform -rotate-90 w-24 h-24">
-                    <circle cx="48" cy="48" r="42" stroke="currentColor" stroke-width="6" fill="transparent" class="text-gray-800/80" />
-                    <circle id="timer-circle" cx="48" cy="48" r="42" stroke="currentColor" stroke-width="6" fill="transparent" class="text-blue-500 transition-all duration-1000 ease-linear" stroke-dasharray="264" stroke-dashoffset="0" stroke-linecap="round" />
-                </svg>
-                <span class="absolute text-4xl font-bold text-white" id="timer-display">60</span>
-            </div>
-
-            <!-- Control Buttons (z-40) : Clickable Elements -->
-            <div class="absolute top-10 right-8 flex gap-4 z-40">
-                <button onclick="toggleFullscreen()" class="p-3 bg-gray-800/80 rounded-full text-white hover:bg-gray-700 flex items-center justify-center btn shadow-lg">
-                    <span class="material-symbols-outlined text-3xl" id="fullscreen-icon">fullscreen</span>
-                </button>
-                <button onclick="pauseGameAndConfirm()" class="p-3 bg-gray-800/80 rounded-full text-white hover:bg-gray-700 flex items-center justify-center btn shadow-lg">
-                    <span class="material-symbols-outlined text-3xl">home</span>
-                </button>
             </div>
 
             <!-- Pre-game Countdown (z-50) -->
-            <div id="countdown-overlay" class="absolute inset-0 bg-black/80 z-50 flex justify-center items-center flex-col gap-10">
-                <div class="text-3xl text-blue-300">นำมือถือวางทาบที่หน้าผาก</div>
-                <div id="countdown-text" class="text-8xl font-bold text-white">3</div>
+            <div id="countdown-overlay" class="absolute inset-0 bg-black/90 z-50 flex justify-center items-center flex-col gap-10">
+                <div class="text-3xl text-blue-300 font-semibold">นำมือถือวางทาบที่หน้าผาก</div>
+                <div id="countdown-text" class="text-[10rem] font-bold text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">3</div>
             </div>
 
             <!-- Custom Confirm Modal (z-50) -->
-            <div id="confirm-modal" class="hidden absolute inset-0 bg-black/90 z-50 flex justify-center items-center">
-                <div class="bg-gray-900 p-8 rounded-2xl border border-gray-700 text-center w-11/12 max-w-sm shadow-2xl">
-                    <h3 class="text-2xl font-semibold mb-8 text-white leading-relaxed">ต้องการหยุดเล่น และ<br>กลับไปหน้าแรกหรือไม่ ?</h3>
-                    <div class="flex gap-4">
-                        <button onclick="cancelGoHome()" class="btn flex-1 py-3 bg-gray-700 text-white rounded-xl text-xl font-medium hover:bg-gray-600">ยกเลิก</button>
-                        <button onclick="confirmGoHome()" class="btn flex-1 py-3 bg-red-600 text-white rounded-xl text-xl font-medium hover:bg-red-500">ตกลง</button>
+            <div id="confirm-modal" class="hidden absolute inset-0 bg-black/95 z-50 flex justify-center items-center">
+                <div class="bg-gray-900 p-8 rounded-3xl border border-gray-700 text-center w-11/12 max-w-md shadow-[0_0_50px_rgba(0,0,0,0.8)]">
+                    <h3 class="text-3xl font-semibold mb-10 text-white leading-relaxed">ต้องการหยุดเล่น และ<br>กลับไปหน้าแรกหรือไม่ ?</h3>
+                    <div class="flex gap-6">
+                        <button onclick="cancelGoHome()" class="btn flex-1 py-4 bg-gray-700 text-white rounded-xl text-2xl font-medium hover:bg-gray-600">ยกเลิก</button>
+                        <button onclick="confirmGoHome()" class="btn flex-1 py-4 bg-red-600 text-white rounded-xl text-2xl font-medium hover:bg-red-500 shadow-lg shadow-red-600/30">ตกลง</button>
                     </div>
                 </div>
             </div>
@@ -287,21 +286,21 @@
 
         <!-- Screen 5 : Result -->
         <div id="screen-result" class="screen">
-            <h2 class="text-4xl font-bold mb-2" id="result-title">หมดเวลา !</h2>
-            <div class="text-xl text-gray-400 mb-6">คุณทายถูกทั้งหมด</div>
-            <div class="text-7xl font-bold text-green-400 mb-8" id="final-score">0</div>
+            <h2 class="text-5xl font-bold mb-4" id="result-title">หมดเวลา !</h2>
+            <div class="text-2xl text-gray-400 mb-6">คุณทายถูกทั้งหมด</div>
+            <div class="text-8xl font-bold text-green-400 mb-8 drop-shadow-lg" id="final-score">0</div>
 
-            <div class="w-full max-w-2xl bg-gray-900 rounded-xl border border-gray-800 p-4 mb-8 flex-1 max-h-[40vh] overflow-y-auto history-list">
-                <ul id="history-list-ul" class="space-y-2 text-lg">
+            <div class="w-full max-w-2xl bg-gray-900 rounded-2xl border border-gray-800 p-6 mb-8 flex-1 max-h-[40vh] overflow-y-auto history-list">
+                <ul id="history-list-ul" class="space-y-3 text-xl">
                     <!-- History injected here -->
                 </ul>
             </div>
 
-            <div class="flex gap-4">
-                <button onclick="goToScreen('screen-settings')" class="btn px-8 py-3 bg-gray-700 text-white rounded-full text-xl font-semibold hover:bg-gray-600">
+            <div class="flex gap-6">
+                <button onclick="goToScreen('screen-settings')" class="btn px-10 py-4 bg-gray-700 text-white rounded-full text-2xl font-semibold hover:bg-gray-600">
                     ตั้งค่าใหม่
                 </button>
-                <button onclick="startPreGame()" class="btn px-8 py-3 bg-blue-500 text-white rounded-full text-xl font-bold hover:bg-blue-600 shadow-lg shadow-blue-500/30">
+                <button onclick="startPreGame()" class="btn px-10 py-4 bg-blue-500 text-white rounded-full text-2xl font-bold hover:bg-blue-600 shadow-lg shadow-blue-500/30">
                     เล่นอีกครั้ง
                 </button>
             </div>
@@ -393,6 +392,7 @@
 
         // --- UI Updates ---
         function updateTimerUI(currentLeft, total) {
+            if (currentLeft < 0) currentLeft = 0; // ป้องกันค่าติดลบ
             document.getElementById('timer-display').innerText = currentLeft;
             const circumference = 264;
             const offset = circumference - (currentLeft / total) * circumference;
@@ -469,6 +469,7 @@
             score = 0;
             history = [];
             isPaused = false;
+            isGameRunning = false;
             
             document.getElementById('score-display').innerText = '0';
             updateTimerUI(currentTimeSetting, currentTimeSetting);
@@ -516,7 +517,10 @@
 
                 timeLeft--;
                 updateTimerUI(timeLeft, currentTimeSetting);
+                
+                // ตรวจสอบและบังคับจบเกมทันทีเมื่อหมดเวลา
                 if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
                     endGame("หมดเวลา !");
                 }
             }, 1000);
@@ -594,9 +598,13 @@
         }
 
         function endGame(titleText) {
-            if (!isGameRunning) return;
+            // ป้องกันการทำงานซ้ำซ้อน
+            if (!isGameRunning) return; 
             isGameRunning = false;
-            clearInterval(timerInterval);
+            
+            // ล้างตัวนับเวลาทั้งหมด
+            if (timerInterval) clearInterval(timerInterval);
+            if (countdownInterval) clearInterval(countdownInterval);
             
             document.getElementById('result-title').innerText = titleText;
             document.getElementById('final-score').innerText = score;
@@ -611,8 +619,8 @@
                     const li = document.createElement('li');
                     li.className = 'flex justify-between items-center py-2 border-b border-gray-800';
                     const icon = item.status === 'correct' 
-                        ? '<span class="text-green-500 font-bold flex items-center gap-2"><span class="material-symbols-outlined text-xl">check</span> ทายถูก </span>' 
-                        : '<span class="text-red-500 font-bold flex items-center gap-2"><span class="material-symbols-outlined text-xl">close</span> ข้าม </span>';
+                        ? '<span class="text-green-500 font-bold flex items-center gap-2"><span class="material-symbols-outlined text-2xl">check</span> ทายถูก </span>' 
+                        : '<span class="text-red-500 font-bold flex items-center gap-2"><span class="material-symbols-outlined text-2xl">close</span> ข้าม </span>';
                     li.innerHTML = `<span>${item.word}</span> ${icon}`;
                     historyUl.appendChild(li);
                 });
