@@ -75,7 +75,7 @@
         @keyframes flashWarningSlow { 0%, 100% { opacity: 0; } 50% { opacity: 0.25; } }
         @keyframes flashWarningMed { 0%, 100% { opacity: 0; } 50% { opacity: 0.45; } }
         @keyframes flashWarningFast { 0%, 100% { opacity: 0; } 50% { opacity: 0.7; } }
-
+       
         .warning-slow { animation: flashWarningSlow 1.5s infinite ease-in-out; }
         .warning-med { animation: flashWarningMed 0.7s infinite ease-in-out; }
         .warning-fast { animation: flashWarningFast 0.25s infinite ease-in-out; }
@@ -87,13 +87,13 @@
         .btn:active {
             transform: scale(0.95);
         }
-
+       
         .radio-btn-group input:checked + label {
             background-color: #3b82f6;
             border-color: #3b82f6;
             color: white;
         }
-
+       
         /* Game Screen Layers */
         #game-bg {
             position: absolute;
@@ -110,7 +110,7 @@
             opacity: 0;
             pointer-events: none;
         }
-
+       
         #word-display {
             font-size: 7rem;
             font-weight: 700;
@@ -183,7 +183,7 @@
             <button onclick="goToScreen('screen-sub-category')" class="absolute top-6 left-6 p-2 text-gray-400 hover:text-white flex items-center justify-center btn bg-gray-800 rounded-full z-50">
                 <span class="material-symbols-outlined text-4xl">arrow_back</span>
             </button>
-
+           
             <h2 class="text-3xl font-bold mb-6 mt-10 text-blue-400" id="selected-category-display">หมวดหมู่</h2>
 
             <div class="w-full max-w-3xl bg-gray-900 p-6 rounded-3xl border border-gray-800 flex flex-col gap-6 shadow-2xl">
@@ -231,7 +231,7 @@
 
         <!-- Screen 4 : Game -->
         <div id="screen-game" class="screen p-0 overflow-hidden">
-
+           
             <!-- Layer 0: Background & Flashes -->
             <div id="game-bg"></div>
             <div id="warning-overlay"></div>
@@ -253,12 +253,12 @@
 
             <!-- Layer 3: Top UI Header (z-40) - ทะลุการกดเพื่อส่งไป Layer 2 ยกเว้นปุ่ม -->
             <div class="absolute top-28 left-0 w-full px-10 flex justify-between items-start z-40 pointer-events-none">
-
+               
                 <!-- Score -->
                 <div class="text-2xl text-gray-300 font-bold hidden md:flex items-center bg-gray-900/80 backdrop-blur-md px-6 py-3 rounded-2xl border border-gray-700 shadow-lg pointer-events-auto">
                     คะแนน : <span id="score-display" class="text-white ml-2 text-3xl">0</span>
                 </div>
-
+               
                 <!-- Timer Circle -->
                 <div class="absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center w-32 h-32 -mt-4 pointer-events-none">
                     <svg class="transform -rotate-90 w-32 h-32 drop-shadow-xl">
@@ -363,7 +363,7 @@
         let currentSubCategory = 'animals';
         let currentDifficulty = 'easy';
         let currentTimeSetting = 60;
-
+       
         let remainingWords = [];
         let skippedWords = [];
         let score = 0;
@@ -392,7 +392,7 @@
 
         touchLeft.addEventListener('touchstart', triggerLeft, {passive: false});
         touchLeft.addEventListener('mousedown', triggerLeft);
-
+       
         touchRight.addEventListener('touchstart', triggerRight, {passive: false});
         touchRight.addEventListener('mousedown', triggerRight);
 
@@ -431,7 +431,7 @@
             // ปัดเศษขึ้นเสมอให้เห็นตัวเลขเต็มๆ จนกว่าจะหมดจริงๆ
             const displayTime = Math.ceil(currentLeft);
             document.getElementById('timer-display').innerText = displayTime;
-
+           
             // วงแหวนสมูท (คำนวณจากทศนิยมได้เลย ไม่ต้องรอ CSS Transition)
             const circumference = 351.86;
             const offset = circumference - (currentLeft / total) * circumference;
@@ -516,13 +516,13 @@
         function startPreGame() {
             currentDifficulty = document.querySelector('input[name="difficulty"]:checked').value;
             currentTimeSetting = parseInt(document.querySelector('input[name="time"]:checked').value);
-
+           
             remainingWords = shuffleArray([...wordsDB[currentSubCategory][currentDifficulty]]);
             skippedWords = [];
             score = 0;
             history = [];
             gameState = 'countdown';
-
+           
             document.getElementById('score-display').innerText = '0';
             updateTimerUI(currentTimeSetting, currentTimeSetting);
             updateWarningUI(currentTimeSetting);
@@ -531,23 +531,23 @@
             document.getElementById('game-message').classList.add('hidden');
             document.getElementById('game-bg').className = '';
             document.getElementById('confirm-modal').classList.add('hidden');
-
+           
             goToScreen('screen-game');
-
+           
             const countdownOverlay = document.getElementById('countdown-overlay');
             const countdownText = document.getElementById('countdown-text');
             countdownOverlay.classList.remove('hidden');
             countdownOverlay.style.display = 'flex';
-
+           
             let count = 3;
             countdownText.innerText = count;
-
+           
             if (countdownInterval) clearInterval(countdownInterval);
             cancelAnimationFrame(animationFrameId);
 
             countdownInterval = setInterval(() => {
                 if(gameState !== 'countdown') return;
-
+               
                 count--;
                 if (count > 0) {
                     countdownText.innerText = count;
@@ -564,10 +564,10 @@
         function startGame() {
             gameState = 'playing';
             showWord();
-
+           
             // ตั้งเวลาเป้าหมายอิงจากนาฬิกาจริง
             gameEndTime = Date.now() + (currentTimeSetting * 1000);
-
+           
             // เริ่มลูปเกม (รันทุกๆ เสี้ยววินาทีตามเฟรมเรตจอ)
             animationFrameId = requestAnimationFrame(gameLoop);
         }
@@ -600,11 +600,11 @@
         function pauseGameAndConfirm() {
             if (gameState !== 'playing') return;
             gameState = 'paused';
-
+           
             // บันทึกเวลาที่เหลือไว้
             const now = Date.now();
             pausedTimeLeft = (gameEndTime - now) / 1000;
-
+           
             document.getElementById('confirm-modal').classList.remove('hidden');
             document.getElementById('confirm-modal').style.display = 'flex';
         }
@@ -612,7 +612,7 @@
         function cancelGoHome() {
             document.getElementById('confirm-modal').classList.add('hidden');
             document.getElementById('confirm-modal').style.display = 'none';
-
+           
             // ยืดเวลาจบเกมออกไป แล้วกลับมาเล่นต่อ
             gameEndTime = Date.now() + (pausedTimeLeft * 1000);
             gameState = 'playing';
@@ -623,10 +623,10 @@
             gameState = 'idle';
             cancelAnimationFrame(animationFrameId);
             if (countdownInterval) clearInterval(countdownInterval);
-
+           
             document.getElementById('warning-overlay').className = '';
             document.getElementById('warning-overlay').style.opacity = '0';
-
+           
             document.getElementById('confirm-modal').classList.add('hidden');
             document.getElementById('confirm-modal').style.display = 'none';
             goToScreen('screen-home');
@@ -637,7 +637,7 @@
                 if (skippedWords.length > 0) {
                     remainingWords = shuffleArray([...skippedWords]);
                     skippedWords = [];
-
+                   
                     const msgEl = document.getElementById('game-message');
                     msgEl.innerText = "วนคำที่ข้าม !";
                     msgEl.classList.remove('hidden');
@@ -648,17 +648,17 @@
                     return;
                 }
             }
-
+           
             document.getElementById('word-display').innerText = remainingWords[0];
         }
 
         function handleAnswer(isCorrect) {
             if (gameState !== 'playing' || motionCooldown) return;
-
+           
             motionCooldown = true;
             const currentWord = remainingWords.shift();
             const gameBg = document.getElementById('game-bg');
-
+           
             if (isCorrect) {
                 score++;
                 document.getElementById('score-display').innerText = score;
@@ -673,9 +673,9 @@
             setTimeout(() => {
                 gameBg.className = '';
             }, 600);
-
+           
             showWord();
-
+           
             setTimeout(() => {
                 motionCooldown = false;
             }, 500); // ดีเลย์ตอบสนอง (ปรับเร็วขึ้นเล็กน้อย)
@@ -685,16 +685,16 @@
         function endGameRoutine(titleText) {
             cancelAnimationFrame(animationFrameId);
             if (countdownInterval) clearInterval(countdownInterval);
-
+           
             document.getElementById('warning-overlay').className = '';
             document.getElementById('warning-overlay').style.opacity = '0';
-
+           
             document.getElementById('result-title').innerText = titleText;
             document.getElementById('final-score').innerText = score;
-
+           
             const historyUl = document.getElementById('history-list-ul');
             historyUl.innerHTML = '';
-
+           
             if (history.length === 0) {
                 historyUl.innerHTML = '<li class="text-center text-gray-500 py-4">ไม่ได้ทายคำใดๆ เลย</li>';
             } else {
@@ -704,18 +704,18 @@
                     li.className = 'flex justify-between items-center py-3 border-b border-gray-700';
                     const icon = item.status === 'correct'
                         ? '<span class="text-green-500 font-bold flex items-center gap-2"><span class="material-symbols-outlined text-3xl">check</span> ทายถูก </span>'
-                        : '<span class="text-red-500 font-bold flex items-center gap-2"><span class="material-symbols-outlined text-3xl">close</span> ข้าม </span>';
+                        : '<span class="text-red-500 font-bold flex items-center gap-2"><span class="material-symbols-outlined text-3xl">cycle</span> ข้าม </span>';
                     li.innerHTML = `<span>${item.word}</span> ${icon}`;
                     historyUl.appendChild(li);
                 });
             }
-
+           
             goToScreen('screen-result');
         }
 
         function handleDeviceMotion(event) {
             if (gameState !== 'playing' || motionCooldown) return;
-
+           
             const z = event.accelerationIncludingGravity.z;
             if (z === null) return;
 
