@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Thai Kham</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Sarabun & Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #000;
+            color: #fff;
+            overflow: hidden;
+            touch-action: none; /* ป้องกันการไถหน้าจอ */
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .screen {
+            display: none;
+            width: 100vw;
+            height: 100vh;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* Landscape warning for mobile devices */
+        #landscape-warning {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000;
+            color: #fff;
+            z-index: 9999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        @media screen and (orientation: portrait) {
+            #landscape-warning {
+                display: flex;
+            }
+        }
+
+        /* Animations for Background */
+        .flash-green { animation: flashGreen 0.6s ease-out; }
+        .flash-red { animation: flashRed 0.6s ease-out; }
+
+        @keyframes flashGreen {
+            0% { background-color: #22c55e; }
+            100% { background-color: #000; }
+        }
+        @keyframes flashRed {
+            0% { background-color: #ef4444; }
+            100% { background-color: #000; }
+        }
+
+        /* Warning Animations (Yellow Flashes) */
+        @keyframes flashWarningSlow { 0%, 100% { opacity: 0; } 50% { opacity: 0.25; } }
+        @keyframes flashWarningMed { 0%, 100% { opacity: 0; } 50% { opacity: 0.45; } }
+        @keyframes flashWarningFast { 0%, 100% { opacity: 0; } 50% { opacity: 0.7; } }
+        
+        .warning-slow { animation: flashWarningSlow 1.5s infinite ease-in-out; }
+        .warning-med { animation: flashWarningMed 0.7s infinite ease-in-out; }
+        .warning-fast { animation: flashWarningFast 0.25s infinite ease-in-out; }
+
+        /* Buttons custom styles */
+        .btn {
+            transition: all 0.2s;
+        }
+        .btn:active {
+            transform: scale(0.95);
+        }
+        
+        .radio-btn-group input:checked + label {
+            background-color: #3b82f6;
+            border-color: #3b82f6;
+            color: white;
+        }
+        
+        /* Game Screen Layers */
+        #game-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            background-color: #000;
+        }
+
+        #warning-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 5;
+            background-color: #eab308; /* สีเหลือง */
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        #word-display {
+            font-size: 7rem;
+            font-weight: 700;
+            line-height: 1.1;
+            text-align: center;
+            max-width: 95%;
+            word-wrap: break-word;
+        }
+        @media (max-width: 768px) {
+            #word-display { font-size: 4.5rem; }
+        }
+
+        .history-list::-webkit-scrollbar { width: 8px; }
+        .history-list::-webkit-scrollbar-thumb { background-color: #4b5563; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <!-- Landscape Warning -->
+    <div id="landscape-warning">
+        <span class="material-symbols-outlined text-6xl mb-4 animate-bounce">screen_rotation</span>
+        <h1 class="text-3xl font-bold mb-2">กรุณาหมุนจอ</h1>
+        <p class="text-xl">เพื่อประสบการณ์ที่ดีที่สุด โปรดเล่นในแนวนอน</p>
+    </div>
+
+    <div id="app" class="relative w-full h-full">
+
+        <!-- Screen 1 : Home -->
+        <div id="screen-home" class="screen active">
+            <div class="flex flex-col items-center justify-center mb-12 text-center">
+                <h1 class="text-6xl md:text-8xl font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 drop-shadow-lg mb-2">Thai Kham</h1>
+                <p class="text-gray-400 text-lg md:text-xl font-medium tracking-wide">พัฒนาโดย 20nxskypqz <br> V 1.0.0</p>
+            </div>
+            <button onclick="requestMotionAndGoToMainCategory()" class="btn px-12 py-5 bg-white text-black rounded-full text-3xl font-bold shadow-[0_0_25px_rgba(255,255,255,0.4)] hover:bg-gray-200">
+                เริ่มต้น
+            </button>
+        </div>
+
+        <!-- Screen 2 : Main Category -->
+        <div id="screen-main-category" class="screen">
+            <button onclick="goToScreen('screen-home')" class="absolute top-6 left-6 p-2 text-gray-400 hover:text-white flex items-center justify-center btn bg-gray-800 rounded-full z-50">
+                <span class="material-symbols-outlined text-4xl">arrow_back</span>
+            </button>
+            <h2 class="text-4xl font-bold mb-8 mt-10">เลือกหมวดหมู่หลัก</h2>
+            <div class="grid grid-cols-2 gap-6 w-full max-w-2xl">
+                <button onclick="selectMainCategory('general')" class="btn w-full py-8 bg-blue-900 border border-blue-700 rounded-2xl text-3xl font-semibold hover:bg-blue-800 flex flex-col items-center justify-center gap-3 shadow-lg shadow-blue-900/50">
+                    <span class="text-5xl">🌍</span>
+                    <span>ทั่วไป</span>
+                </button>
+                <button onclick="selectMainCategory('academic')" class="btn w-full py-8 bg-purple-900 border border-purple-700 rounded-2xl text-3xl font-semibold hover:bg-purple-800 flex flex-col items-center justify-center gap-3 shadow-lg shadow-purple-900/50">
+                    <span class="text-5xl">📚</span>
+                    <span>วิชาการ</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Screen 2.5 : Sub Category -->
+        <div id="screen-sub-category" class="screen">
+            <button onclick="goToScreen('screen-main-category')" class="absolute top-6 left-6 p-2 text-gray-400 hover:text-white flex items-center justify-center btn bg-gray-800 rounded-full z-50">
+                <span class="material-symbols-outlined text-4xl">arrow_back</span>
+            </button>
+            <h2 class="text-4xl font-bold mb-8 mt-10" id="sub-category-title">เลือกหัวข้อ</h2>
+            <div id="sub-category-container" class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-3xl">
+                <!-- Dynamically injected -->
+            </div>
+        </div>
+
+        <!-- Screen 3 : Settings -->
+        <div id="screen-settings" class="screen">
+            <button onclick="goToScreen('screen-sub-category')" class="absolute top-6 left-6 p-2 text-gray-400 hover:text-white flex items-center justify-center btn bg-gray-800 rounded-full z-50">
+                <span class="material-symbols-outlined text-4xl">arrow_back</span>
+            </button>
+            
+            <h2 class="text-3xl font-bold mb-6 mt-10 text-blue-400" id="selected-category-display">หมวดหมู่</h2>
+
+            <div class="w-full max-w-3xl bg-gray-900 p-6 rounded-3xl border border-gray-800 flex flex-col gap-6 shadow-2xl">
+                <!-- Difficulty -->
+                <div>
+                    <h3 class="text-xl mb-3 font-semibold">ระดับความยาก</h3>
+                    <div class="flex gap-2 sm:gap-4 radio-btn-group">
+                        <input type="radio" name="difficulty" id="diff-easy" value="easy" class="hidden" checked>
+                        <label for="diff-easy" class="flex-1 py-3 text-center border border-gray-600 text-gray-300 rounded-xl cursor-pointer text-xl font-medium hover:bg-gray-800">ง่าย</label>
+
+                        <input type="radio" name="difficulty" id="diff-medium" value="medium" class="hidden">
+                        <label for="diff-medium" class="flex-1 py-3 text-center border border-gray-600 text-gray-300 rounded-xl cursor-pointer text-xl font-medium hover:bg-gray-800">ปานกลาง</label>
+
+                        <input type="radio" name="difficulty" id="diff-hard" value="hard" class="hidden">
+                        <label for="diff-hard" class="flex-1 py-3 text-center border border-gray-600 text-gray-300 rounded-xl cursor-pointer text-xl font-medium hover:bg-gray-800">ยาก</label>
+                    </div>
+                </div>
+
+                <!-- Time -->
+                <div>
+                    <h3 class="text-xl mb-3 font-semibold">เวลา ( วินาที )</h3>
+                    <div class="grid grid-cols-5 gap-2 sm:gap-4 radio-btn-group">
+                        <input type="radio" name="time" id="time-60" value="60" class="hidden" checked>
+                        <label for="time-60" class="py-3 text-center border border-gray-600 text-gray-300 rounded-xl cursor-pointer text-xl font-medium hover:bg-gray-800">60</label>
+
+                        <input type="radio" name="time" id="time-90" value="90" class="hidden">
+                        <label for="time-90" class="py-3 text-center border border-gray-600 text-gray-300 rounded-xl cursor-pointer text-xl font-medium hover:bg-gray-800">90</label>
+
+                        <input type="radio" name="time" id="time-120" value="120" class="hidden">
+                        <label for="time-120" class="py-3 text-center border border-gray-600 text-gray-300 rounded-xl cursor-pointer text-xl font-medium hover:bg-gray-800">120</label>
+
+                        <input type="radio" name="time" id="time-150" value="150" class="hidden">
+                        <label for="time-150" class="py-3 text-center border border-gray-600 text-gray-300 rounded-xl cursor-pointer text-xl font-medium hover:bg-gray-800">150</label>
+
+                        <input type="radio" name="time" id="time-180" value="180" class="hidden">
+                        <label for="time-180" class="py-3 text-center border border-gray-600 text-gray-300 rounded-xl cursor-pointer text-xl font-medium hover:bg-gray-800">180</label>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="startPreGame()" class="btn mt-8 px-14 py-4 bg-blue-500 text-white rounded-full text-2xl font-bold hover:bg-blue-600 shadow-lg shadow-blue-500/40">
+                เริ่มเล่น
+            </button>
+        </div>
+
+        <!-- Screen 4 : Game -->
+        <div id="screen-game" class="screen p-0 overflow-hidden">
+            
+            <!-- Layer 0: Background & Flashes -->
+            <div id="game-bg"></div>
+            <div id="warning-overlay"></div>
+
+            <!-- Layer 1: Word Card (z-10) -->
+            <div class="absolute inset-0 z-10 w-full h-full flex justify-center items-center pt-56 pb-12 pointer-events-none">
+                <div class="relative w-[92%] md:w-[80%] max-w-5xl aspect-[21/9] max-h-[55vh] bg-gray-900/90 border-[6px] border-blue-500 rounded-[2.5rem] shadow-[0_0_50px_rgba(59,130,246,0.5)] flex items-center justify-center p-8 backdrop-blur-lg flex-col">
+                    <div id="word-display" class="drop-shadow-2xl">คำศัพท์</div>
+                    <div id="game-message" class="text-4xl font-bold text-yellow-400 hidden absolute bottom-8 text-center w-full drop-shadow-lg tracking-wider"></div>
+                </div>
+            </div>
+
+            <!-- Layer 2: Touch Zones (z-30) -->
+            <!-- แก้บัค: เปลี่ยนจาก bg-black/1 (Tailwind ไม่ generate) เป็น inline style -->
+            <div class="absolute inset-0 flex z-30 w-full h-full">
+                <div id="touch-left" class="w-1/2 h-full active:bg-white/5 transition-colors cursor-pointer" style="background: rgba(0,0,0,0.01)"></div>
+                <div id="touch-right" class="w-1/2 h-full active:bg-white/5 transition-colors cursor-pointer" style="background: rgba(0,0,0,0.01)"></div>
+            </div>
+
+            <!-- Layer 3: Top UI Header (z-40) - ทะลุการกดเพื่อส่งไป Layer 2 ยกเว้นปุ่ม -->
+            <div class="absolute top-28 left-0 w-full px-10 flex justify-between items-start z-40 pointer-events-none">
+                
+                <!-- Score -->
+                <div class="text-2xl text-gray-300 font-bold hidden md:flex items-center bg-gray-900/80 backdrop-blur-md px-6 py-3 rounded-2xl border border-gray-700 shadow-lg pointer-events-auto">
+                    คะแนน : <span id="score-display" class="text-white ml-2 text-3xl">0</span>
+                </div>
+                
+                <!-- Timer Circle -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center w-32 h-32 -mt-4 pointer-events-none">
+                    <svg class="transform -rotate-90 w-32 h-32 drop-shadow-xl">
+                        <!-- Circumference = 2 * PI * 56 ≈ 351.86 -->
+                        <circle cx="64" cy="64" r="56" stroke="currentColor" stroke-width="8" fill="transparent" class="text-gray-800/90" />
+                        <circle id="timer-circle" cx="64" cy="64" r="56" stroke="currentColor" stroke-width="8" fill="transparent" class="text-blue-500" stroke-dasharray="351.86" stroke-dashoffset="0" stroke-linecap="round" />
+                    </svg>
+                    <span class="absolute text-5xl font-extrabold text-white drop-shadow-lg" id="timer-display">60</span>
+                </div>
+
+                <!-- Right Buttons -->
+                <div class="flex gap-4 pointer-events-auto">
+                    <button onclick="toggleFullscreen()" class="p-4 bg-gray-800/90 backdrop-blur-md rounded-full text-white hover:bg-gray-700 flex items-center justify-center btn shadow-lg border border-gray-600">
+                        <span class="material-symbols-outlined text-4xl" id="fullscreen-icon">fullscreen</span>
+                    </button>
+                    <button onclick="pauseGameAndConfirm()" class="p-4 bg-red-600/90 backdrop-blur-md rounded-full text-white hover:bg-red-500 flex items-center justify-center btn shadow-lg border border-red-500">
+                        <span class="material-symbols-outlined text-4xl">home</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Layer 4: Countdown (z-50) -->
+            <div id="countdown-overlay" class="absolute inset-0 bg-black/95 z-50 flex justify-center items-center flex-col gap-12 pointer-events-auto">
+                <div class="text-4xl text-blue-300 font-semibold tracking-wide">นำมือถือวางทาบที่หน้าผาก</div>
+                <div id="countdown-text" class="text-[14rem] font-bold text-white leading-none">3</div>
+            </div>
+
+            <!-- Layer 5: Pause Modal (z-50) -->
+            <div id="confirm-modal" class="hidden absolute inset-0 bg-black/95 z-50 flex justify-center items-center pointer-events-auto">
+                <div class="bg-gray-900 p-10 rounded-3xl border-2 border-gray-700 text-center w-11/12 max-w-md shadow-[0_0_60px_rgba(0,0,0,0.8)]">
+                    <h3 class="text-3xl font-semibold mb-10 text-white leading-relaxed">ต้องการหยุดเล่น และ<br>กลับไปหน้าแรกหรือไม่ ?</h3>
+                    <div class="flex gap-6">
+                        <button onclick="cancelGoHome()" class="btn flex-1 py-4 bg-gray-700 text-white rounded-2xl text-2xl font-semibold hover:bg-gray-600">ยกเลิก</button>
+                        <button onclick="confirmGoHome()" class="btn flex-1 py-4 bg-red-600 text-white rounded-2xl text-2xl font-semibold hover:bg-red-500 shadow-lg shadow-red-600/30">ตกลง</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen 5 : Result -->
+        <div id="screen-result" class="screen">
+            <h2 class="text-5xl font-bold mb-2 mt-3" id="result-title">หมดเวลา !</h2>
+            <div class="text-2xl text-gray-400 mb-2">คุณทายถูกทั้งหมด</div>
+            <div class="text-[8rem] leading-none font-bold text-green-400 mb-4 drop-shadow-2xl" id="final-score">0</div>
+
+            <div class="w-full max-w-3xl bg-gray-900 rounded-3xl border border-gray-800 p-6 mb-4 flex-1 max-h-[40vh] overflow-y-auto history-list shadow-inner">
+                <ul id="history-list-ul" class="space-y-4 text-2xl">
+                    <!-- History injected here -->
+                </ul>
+            </div>
+
+            <div class="flex gap-4 mb-3">
+                <button onclick="goToScreen('screen-settings')" class="btn px-7 py-3 bg-gray-700 text-white rounded-full text-xl font-semibold hover:bg-gray-600 shadow-lg">
+                    ตั้งค่าใหม่
+                </button>
+                <button onclick="startPreGame()" class="btn px-8 py-3 bg-blue-500 text-white rounded-full text-xl font-bold hover:bg-blue-600 shadow-lg shadow-blue-500/40">
+                    เล่นอีกครั้ง
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- Word Database ( Spaced Properly ) ---
+        const wordsDB = {
+            animals: {
+                easy: ["สุนัข", "แมว", "ไก่", "ลิง", "ช้าง", "งู", "นก", "ปลา", "กระต่าย", "สิงโต", "เสือ", "เป็ด", "ม้า", "กบ", "หมู"],
+                medium: ["ยีราฟ", "ม้าลาย", "เพนกวิน", "จิงโจ้", "นกฮูก", "ฉลาม", "จระเข้", "ค้างคาว", "เต่า", "อูฐ", "ผีเสื้อ", "ผึ้ง", "ปลาหมึก", "กระรอก", "นกยูง"],
+                hard: ["ตัวตุ่นปากเป็ด", "อาซาโลเทล", "ตัวนิ่ม", "สลอธ", "แมงกะพรุนไฟ", "กิ้งก่าเปลี่ยนสี", "ม้าน้ำ", "นกกระจอกเทศ", "คาปิบาร่า", "มังกรโคโมโด", "แพนด้าแดง", "ปลาปักเป้า", "ตัวกินมด", "แมวน้ำ", "ไฮยีน่า"]
+            },
+            music: {
+                easy: ["ร้องเพลง", "เต้น", "ไมโครโฟน", "กีตาร์", "กลอง", "เปียโน", "หูฟัง", "ลำโพง", "นักร้อง", "วิทยุ", "ปรบมือ", "คอนเสิร์ต", "จังหวะ", "เสียงสูง", "ดนตรี"],
+                medium: ["วงดนตรี", "เนื้อเพลง", "มิวสิควิดีโอ", "อัลบั้ม", "ไวโอลิน", "แซกโซโฟน", "การประสานเสียง", "ฮิปฮอป", "เพลงร็อค", "ดีเจ", "ทำนอง", "โน้ตเพลง", "เพลงกล่อมเด็ก", "เพลงประกอบภาพยนตร์", "รอบออดิชั่น"],
+                hard: ["เมโทรนอม", "การด้นสด ( Improvisation )", "วงออเคสตรา", "วงประสานเสียง ( A cappella )", "เสียงหลบ ( Falsetto )", "เครื่องสังเคราะห์เสียง", "เพลงคลาสสิก", "นักประพันธ์เพลง", "คีย์บอร์ดไฟฟ้า", "ทฤษฎีดนตรี", "แผ่นเสียง", "การเรียบเรียงเสียงประสาน", "จังหวะยก", "เพลงพื้นเมือง", "การกำกับวง ( Conducting )"]
+            },
+            school: {
+                easy: ["ครู", "นักเรียน", "สมุด", "ปากกา", "ดินสอ", "กระเป๋า", "โต๊ะ", "เก้าอี้", "ยางลบ", "ไม้บรรทัด", "กระดานดำ", "ห้องเรียน", "อาหารกลางวัน", "สนามเด็กเล่น", "ธงชาติ"],
+                medium: ["ห้องสมุด", "การบ้าน", "สอบ", "ตารางสอน", "พักเที่ยง", "ผู้อำนวยการ", "สหกรณ์", "ชุดนักเรียน", "เข้าแถว", "กีฬาสี", "ทัศนศึกษา", "ห้องวิทยาศาสตร์", "คอมพิวเตอร์", "พละ", "สมุดพก"],
+                hard: ["หลักสูตร", "ทุนการศึกษา", "วิทยานิพนธ์", "ปฐมนิเทศ", "วิชาการ", "ใบระเบียนแสดงผลการเรียน ( Transcript )", "สภานักเรียน", "สารวัตรนักเรียน", "จรรยาบรรณ", "กิจกรรมนันทนาการ", "อะลัมไน ( ศิษย์เก่า )", "ภาคการศึกษา", "การโต้วาที", "พิธีมอบประกาศนียบัตร", "ห้องพยาบาล"]
+            },
+            biology: {
+                easy: ["ดอกไม้", "ใบไม้", "ต้นไม้", "หัวใจ", "เลือด", "กระดูก", "สมอง", "ฟัน", "นิ้วมือ", "ราก", "ผลไม้", "ร่างกาย", "แสงแดด", "น้ำ", "ตา"],
+                medium: ["เซลล์", "แบคทีเรีย", "ไวรัส", "กล้ามเนื้อ", "ปอด", "กระเพาะอาหาร", "การสังเคราะห์แสง", "ออกซิเจน", "ดีเอ็นเอ ( DNA )", "โครงกระดูก", "ส่องกล้องจุลทรรศน์", "ลำไส้", "เส้นประสาท", "เมล็ดพันธุ์", "ผิวหนัง"],
+                hard: ["ไมโทคอนเดรีย", "เอ็นไซม์", "ฮอร์โมน", "วิวัฒนาการ", "ระบบนิเวศ", "การหายใจระดับเซลล์", "โครโมโซม", "แอนติบอดี", "เมตาบอลิซึม", "การแบ่งเซลล์", "พลาสม่า", "ยีนด้อย", "การคัดเลือกโดยธรรมชาติ", "เนื้อเยื่อ", "ห่วงโซ่อาหาร"]
+            }
+        };
+
+        const subCategories = {
+            general: [
+                { id: 'animals', title: 'สัตว์', icon: '🦁', color: 'bg-green-800' },
+                { id: 'school', title: 'โรงเรียน', icon: '🏫', color: 'bg-yellow-700' },
+                { id: 'music', title: 'เพลง', icon: '🎵', color: 'bg-pink-800' }
+            ],
+            academic: [
+                { id: 'biology', title: 'ชีววิทยา', icon: '🧬', color: 'bg-teal-800' }
+            ]
+        };
+
+        // --- Game State Engine ---
+        let gameState = 'idle'; // idle, countdown, playing, paused, ended
+        let currentSubCategory = 'animals';
+        let currentDifficulty = 'easy';
+        let currentTimeSetting = 60;
+        
+        let remainingWords = [];
+        let skippedWords = [];
+        let score = 0;
+        let gameEndTime = 0; 
+        let pausedTimeLeft = 0; 
+        let animationFrameId = null;
+        let countdownInterval = null;
+        let motionCooldown = false;
+
+        // แก้บัค: ประกาศ history ด้วย let ป้องกันชนกับ window.history ของเบราว์เซอร์
+        let history = [];
+
+        // --- ระบบทัชหน้าจอที่รื้อเขียนใหม่ 100% ---
+        const touchLeft = document.getElementById('touch-left');
+        const touchRight = document.getElementById('touch-right');
+
+        // จัดการ Event สำหรับมือถือ (touchstart) และ คอมพิวเตอร์ (mousedown) เพื่อความชัวร์
+        function triggerLeft(e) {
+            e.preventDefault(); // ป้องกันการ Zoom หรือ Scroll
+            handleAnswer(false);
+        }
+        function triggerRight(e) {
+            e.preventDefault();
+            handleAnswer(true);
+        }
+
+        touchLeft.addEventListener('touchstart', triggerLeft, {passive: false});
+        touchLeft.addEventListener('mousedown', triggerLeft);
+        
+        touchRight.addEventListener('touchstart', triggerRight, {passive: false});
+        touchRight.addEventListener('mousedown', triggerRight);
+
+        // --- Fullscreen Toggle ---
+        function toggleFullscreen() {
+            const doc = window.document;
+            const docEl = doc.documentElement;
+
+            const requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+            const cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+            if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+                if (requestFullScreen) requestFullScreen.call(docEl);
+            } else {
+                if (cancelFullScreen) cancelFullScreen.call(doc);
+            }
+        }
+
+        document.addEventListener('fullscreenchange', updateFullscreenIcon);
+        document.addEventListener('webkitfullscreenchange', updateFullscreenIcon);
+        document.addEventListener('mozfullscreenchange', updateFullscreenIcon);
+        document.addEventListener('MSFullscreenChange', updateFullscreenIcon);
+
+        function updateFullscreenIcon() {
+            const icon = document.getElementById('fullscreen-icon');
+            if (!icon) return;
+            if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+                icon.innerText = 'fullscreen_exit';
+            } else {
+                icon.innerText = 'fullscreen';
+            }
+        }
+
+        // --- UI Updates ---
+        function updateTimerUI(currentLeft, total) {
+            // ปัดเศษขึ้นเสมอให้เห็นตัวเลขเต็มๆ จนกว่าจะหมดจริงๆ
+            const displayTime = Math.ceil(currentLeft);
+            document.getElementById('timer-display').innerText = displayTime;
+            
+            // วงแหวนสมูท (คำนวณจากทศนิยมได้เลย ไม่ต้องรอ CSS Transition)
+            const circumference = 351.86; 
+            const offset = circumference - (currentLeft / total) * circumference;
+            document.getElementById('timer-circle').style.strokeDashoffset = offset;
+        }
+
+        function updateWarningUI(currentLeft) {
+            const overlay = document.getElementById('warning-overlay');
+            if (currentLeft <= 30 && currentLeft > 10) {
+                if(overlay.className !== 'warning-slow') overlay.className = 'warning-slow';
+            } else if (currentLeft <= 10 && currentLeft > 3) {
+                if(overlay.className !== 'warning-med') overlay.className = 'warning-med';
+            } else if (currentLeft <= 3 && currentLeft > 0) {
+                if(overlay.className !== 'warning-fast') overlay.className = 'warning-fast';
+            } else {
+                overlay.className = '';
+                overlay.style.opacity = '0';
+            }
+        }
+
+        // --- Navigation ---
+        function goToScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        async function requestMotionAndGoToMainCategory() {
+            if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+                try {
+                    const permissionState = await DeviceMotionEvent.requestPermission();
+                    if (permissionState === 'granted') {
+                        window.addEventListener('devicemotion', handleDeviceMotion);
+                    }
+                } catch (error) {
+                    console.log("Device motion error");
+                }
+            } else {
+                window.addEventListener('devicemotion', handleDeviceMotion);
+            }
+            goToScreen('screen-main-category');
+        }
+
+        function selectMainCategory(type) {
+            const container = document.getElementById('sub-category-container');
+            const titleEl = document.getElementById('sub-category-title');
+            container.innerHTML = ''; 
+
+            if (type === 'general') {
+                titleEl.innerText = 'หมวดทั่วไป';
+                container.className = 'grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl';
+            } else {
+                titleEl.innerText = 'หมวดวิชาการ';
+                container.className = 'grid grid-cols-1 gap-4 w-full max-w-md mx-auto';
+            }
+
+            subCategories[type].forEach(sub => {
+                const btn = document.createElement('button');
+                btn.className = `btn w-full py-8 ${sub.color} border border-gray-600 rounded-2xl text-3xl font-semibold hover:opacity-80 flex flex-col items-center justify-center gap-2 shadow-lg`;
+                btn.innerHTML = `<span class="text-5xl mb-2">${sub.icon}</span><span>${sub.title}</span>`;
+                btn.onclick = () => selectSubCategory(sub.id, sub.title);
+                container.appendChild(btn);
+            });
+
+            goToScreen('screen-sub-category');
+        }
+
+        function selectSubCategory(id, title) {
+            currentSubCategory = id;
+            document.getElementById('selected-category-display').innerText = `หมวด : ${title}`;
+            goToScreen('screen-settings');
+        }
+
+        // --- Game Logic ---
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function startPreGame() {
+            currentDifficulty = document.querySelector('input[name="difficulty"]:checked').value;
+            currentTimeSetting = parseInt(document.querySelector('input[name="time"]:checked').value);
+            
+            remainingWords = shuffleArray([...wordsDB[currentSubCategory][currentDifficulty]]);
+            skippedWords = [];
+            score = 0;
+            history = [];
+            gameState = 'countdown';
+            
+            document.getElementById('score-display').innerText = '0';
+            updateTimerUI(currentTimeSetting, currentTimeSetting);
+            updateWarningUI(currentTimeSetting);
+            document.getElementById('word-display').innerText = '';
+            document.getElementById('game-message').innerText = '';
+            document.getElementById('game-message').classList.add('hidden');
+            document.getElementById('game-bg').className = '';
+            document.getElementById('confirm-modal').classList.add('hidden');
+            
+            goToScreen('screen-game');
+            
+            const countdownOverlay = document.getElementById('countdown-overlay');
+            const countdownText = document.getElementById('countdown-text');
+            countdownOverlay.classList.remove('hidden');
+            countdownOverlay.style.display = 'flex';
+            
+            let count = 3;
+            countdownText.innerText = count;
+            
+            if (countdownInterval) clearInterval(countdownInterval);
+            cancelAnimationFrame(animationFrameId);
+
+            countdownInterval = setInterval(() => {
+                if(gameState !== 'countdown') return;
+                
+                count--;
+                if (count > 0) {
+                    countdownText.innerText = count;
+                } else if (count === 0) {
+                    countdownText.innerText = "เริ่ม !";
+                } else {
+                    clearInterval(countdownInterval);
+                    countdownOverlay.style.display = 'none';
+                    startGame();
+                }
+            }, 1000);
+        }
+
+        function startGame() {
+            gameState = 'playing';
+            showWord();
+            
+            // ตั้งเวลาเป้าหมายอิงจากนาฬิกาจริง
+            gameEndTime = Date.now() + (currentTimeSetting * 1000);
+            
+            // เริ่มลูปเกม (รันทุกๆ เสี้ยววินาทีตามเฟรมเรตจอ)
+            animationFrameId = requestAnimationFrame(gameLoop);
+        }
+
+        // --- ระบบ Game Loop (แทน setInterval) ---
+        function gameLoop() {
+            if (gameState !== 'playing') return; // หยุดถ้าระบบไม่อยู่ในสถานะ playing
+
+            const now = Date.now();
+            let remaining = (gameEndTime - now) / 1000;
+
+            if (remaining <= 0) {
+                // จบเกม 100% ตรงนี้
+                remaining = 0;
+                updateTimerUI(0, currentTimeSetting);
+                updateWarningUI(0);
+                gameState = 'ended';
+                endGameRoutine("หมดเวลา !");
+                return; // ออกจาก loop
+            }
+
+            // อัปเดต UI ให้สมูท
+            updateTimerUI(remaining, currentTimeSetting);
+            updateWarningUI(remaining);
+
+            // เรียกเฟรมต่อไป
+            animationFrameId = requestAnimationFrame(gameLoop);
+        }
+
+        function pauseGameAndConfirm() {
+            if (gameState !== 'playing') return;
+            gameState = 'paused';
+            
+            // บันทึกเวลาที่เหลือไว้
+            const now = Date.now();
+            pausedTimeLeft = (gameEndTime - now) / 1000;
+            
+            document.getElementById('confirm-modal').classList.remove('hidden');
+            document.getElementById('confirm-modal').style.display = 'flex';
+        }
+
+        function cancelGoHome() {
+            document.getElementById('confirm-modal').classList.add('hidden');
+            document.getElementById('confirm-modal').style.display = 'none';
+            
+            // ยืดเวลาจบเกมออกไป แล้วกลับมาเล่นต่อ
+            gameEndTime = Date.now() + (pausedTimeLeft * 1000);
+            gameState = 'playing';
+            animationFrameId = requestAnimationFrame(gameLoop);
+        }
+
+        function confirmGoHome() {
+            gameState = 'idle';
+            cancelAnimationFrame(animationFrameId);
+            if (countdownInterval) clearInterval(countdownInterval);
+            
+            document.getElementById('warning-overlay').className = '';
+            document.getElementById('warning-overlay').style.opacity = '0';
+            
+            document.getElementById('confirm-modal').classList.add('hidden');
+            document.getElementById('confirm-modal').style.display = 'none';
+            goToScreen('screen-home');
+        }
+
+        function showWord() {
+            if (remainingWords.length === 0) {
+                if (skippedWords.length > 0) {
+                    remainingWords = shuffleArray([...skippedWords]);
+                    skippedWords = [];
+                    
+                    const msgEl = document.getElementById('game-message');
+                    msgEl.innerText = "วนคำที่ข้าม !";
+                    msgEl.classList.remove('hidden');
+                    setTimeout(() => msgEl.classList.add('hidden'), 1500);
+                } else {
+                    gameState = 'ended';
+                    endGameRoutine("สุดยอด ! ทายครบทุกคำแล้ว");
+                    return;
+                }
+            }
+            
+            document.getElementById('word-display').innerText = remainingWords[0];
+        }
+
+        function handleAnswer(isCorrect) {
+            if (gameState !== 'playing' || motionCooldown) return;
+            
+            motionCooldown = true;
+            const currentWord = remainingWords.shift();
+            const gameBg = document.getElementById('game-bg');
+            
+            if (isCorrect) {
+                score++;
+                document.getElementById('score-display').innerText = score;
+                history.push({ word: currentWord, status: 'correct' });
+                gameBg.className = 'flash-green';
+            } else {
+                skippedWords.push(currentWord); 
+                history.push({ word: currentWord, status: 'pass' });
+                gameBg.className = 'flash-red';
+            }
+
+            setTimeout(() => {
+                gameBg.className = '';
+            }, 600);
+            
+            showWord();
+            
+            setTimeout(() => {
+                motionCooldown = false;
+            }, 500); // ดีเลย์ตอบสนอง (ปรับเร็วขึ้นเล็กน้อย)
+        }
+
+        // ฟังก์ชันจบเกม (ล้างระบบทั้งหมด)
+        function endGameRoutine(titleText) {
+            cancelAnimationFrame(animationFrameId);
+            if (countdownInterval) clearInterval(countdownInterval);
+            
+            document.getElementById('warning-overlay').className = '';
+            document.getElementById('warning-overlay').style.opacity = '0';
+            
+            document.getElementById('result-title').innerText = titleText;
+            document.getElementById('final-score').innerText = score;
+            
+            const historyUl = document.getElementById('history-list-ul');
+            historyUl.innerHTML = '';
+            
+            if (history.length === 0) {
+                historyUl.innerHTML = '<li class="text-center text-gray-500 py-4">ไม่ได้ทายคำใดๆ เลย</li>';
+            } else {
+                const reversedHistory = [...history].reverse();
+                reversedHistory.forEach(item => {
+                    const li = document.createElement('li');
+                    li.className = 'flex justify-between items-center py-3 border-b border-gray-700';
+                    const icon = item.status === 'correct' 
+                        ? '<span class="text-green-500 font-bold flex items-center gap-2"><span class="material-symbols-outlined text-3xl">check</span> ทายถูก </span>' 
+                        : '<span class="text-red-500 font-bold flex items-center gap-2"><span class="material-symbols-outlined text-3xl">close</span> ข้าม </span>';
+                    li.innerHTML = `<span>${item.word}</span> ${icon}`;
+                    historyUl.appendChild(li);
+                });
+            }
+            
+            goToScreen('screen-result');
+        }
+
+        function handleDeviceMotion(event) {
+            if (gameState !== 'playing' || motionCooldown) return;
+            
+            const z = event.accelerationIncludingGravity.z;
+            if (z === null) return; 
+
+            if (z < -6) {
+                handleAnswer(true);
+            } else if (z > 6) {
+                handleAnswer(false);
+            }
+        }
+    </script>
+</body>
+</html>
