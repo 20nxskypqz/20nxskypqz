@@ -15,7 +15,7 @@
             background-color: #000;
             color: #fff;
             overflow: hidden;
-            touch-action: none; /* Prevent scrolling and pull-to-refresh */
+            touch-action: none; /* ป้องกันการไถหน้าจอ */
         }
 
         .screen {
@@ -138,16 +138,16 @@
 
         <!-- Screen 2 : Main Category -->
         <div id="screen-main-category" class="screen">
-            <button onclick="goToScreen('screen-home')" class="absolute top-4 left-4 p-2 text-gray-400 hover:text-white flex items-center justify-center">
+            <button onclick="goToScreen('screen-home')" class="absolute top-6 left-6 p-2 text-gray-400 hover:text-white flex items-center justify-center btn bg-gray-800 rounded-full">
                 <span class="material-symbols-outlined text-4xl">arrow_back</span>
             </button>
-            <h2 class="text-4xl font-bold mb-8">เลือกหมวดหมู่หลัก</h2>
+            <h2 class="text-4xl font-bold mb-8 mt-10">เลือกหมวดหมู่หลัก</h2>
             <div class="grid grid-cols-2 gap-6 w-full max-w-2xl">
-                <button onclick="selectMainCategory('general')" class="btn w-full py-8 bg-blue-900 border border-blue-700 rounded-2xl text-3xl font-semibold hover:bg-blue-800 flex flex-col items-center justify-center gap-3">
+                <button onclick="selectMainCategory('general')" class="btn w-full py-8 bg-blue-900 border border-blue-700 rounded-2xl text-3xl font-semibold hover:bg-blue-800 flex flex-col items-center justify-center gap-3 shadow-lg shadow-blue-900/50">
                     <span class="text-5xl">🌍</span>
                     <span>ทั่วไป</span>
                 </button>
-                <button onclick="selectMainCategory('academic')" class="btn w-full py-8 bg-purple-900 border border-purple-700 rounded-2xl text-3xl font-semibold hover:bg-purple-800 flex flex-col items-center justify-center gap-3">
+                <button onclick="selectMainCategory('academic')" class="btn w-full py-8 bg-purple-900 border border-purple-700 rounded-2xl text-3xl font-semibold hover:bg-purple-800 flex flex-col items-center justify-center gap-3 shadow-lg shadow-purple-900/50">
                     <span class="text-5xl">📚</span>
                     <span>วิชาการ</span>
                 </button>
@@ -156,10 +156,10 @@
 
         <!-- Screen 2.5 : Sub Category -->
         <div id="screen-sub-category" class="screen">
-            <button onclick="goToScreen('screen-main-category')" class="absolute top-4 left-4 p-2 text-gray-400 hover:text-white flex items-center justify-center">
+            <button onclick="goToScreen('screen-main-category')" class="absolute top-6 left-6 p-2 text-gray-400 hover:text-white flex items-center justify-center btn bg-gray-800 rounded-full">
                 <span class="material-symbols-outlined text-4xl">arrow_back</span>
             </button>
-            <h2 class="text-4xl font-bold mb-8" id="sub-category-title">เลือกหัวข้อ</h2>
+            <h2 class="text-4xl font-bold mb-8 mt-10" id="sub-category-title">เลือกหัวข้อ</h2>
             <div id="sub-category-container" class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-3xl">
                 <!-- Dynamically injected -->
             </div>
@@ -167,25 +167,25 @@
 
         <!-- Screen 3 : Settings -->
         <div id="screen-settings" class="screen">
-            <button onclick="goToScreen('screen-sub-category')" class="absolute top-4 left-4 p-2 text-gray-400 hover:text-white flex items-center justify-center">
+            <button onclick="goToScreen('screen-sub-category')" class="absolute top-6 left-6 p-2 text-gray-400 hover:text-white flex items-center justify-center btn bg-gray-800 rounded-full">
                 <span class="material-symbols-outlined text-4xl">arrow_back</span>
             </button>
             
-            <h2 class="text-3xl font-bold mb-6 text-blue-400" id="selected-category-display">หมวดหมู่</h2>
+            <h2 class="text-3xl font-bold mb-6 mt-10 text-blue-400" id="selected-category-display">หมวดหมู่</h2>
 
-            <div class="w-full max-w-3xl bg-gray-900 p-6 rounded-2xl border border-gray-800 flex flex-col gap-6">
+            <div class="w-full max-w-3xl bg-gray-900 p-6 rounded-3xl border border-gray-800 flex flex-col gap-6 shadow-2xl">
                 <!-- Difficulty -->
                 <div>
                     <h3 class="text-xl mb-3 font-semibold">ระดับความยาก</h3>
                     <div class="flex gap-2 sm:gap-4 radio-btn-group">
                         <input type="radio" name="difficulty" id="diff-easy" value="easy" class="hidden" checked>
-                        <label for="diff-easy" class="flex-1 py-3 text-center border border-gray-600 text-gray-300 rounded-lg cursor-pointer text-lg font-medium hover:bg-gray-800">ง่าย</label>
+                        <label for="diff-easy" class="flex-1 py-3 text-center border border-gray-600 text-gray-300 rounded-xl cursor-pointer text-xl font-medium hover:bg-gray-800">ง่าย</label>
 
                         <input type="radio" name="difficulty" id="diff-medium" value="medium" class="hidden">
-                        <label for="diff-medium" class="flex-1 py-3 text-center border border-gray-600 text-gray-300 rounded-lg cursor-pointer text-lg font-medium hover:bg-gray-800">ปานกลาง</label>
+                        <label for="diff-medium" class="flex-1 py-3 text-center border border-gray-600 text-gray-300 rounded-xl cursor-pointer text-xl font-medium hover:bg-gray-800">ปานกลาง</label>
 
                         <input type="radio" name="difficulty" id="diff-hard" value="hard" class="hidden">
-                        <label for="diff-hard" class="flex-1 py-3 text-center border border-gray-600 text-gray-300 rounded-lg cursor-pointer text-lg font-medium hover:bg-gray-800">ยาก</label>
+                        <label for="diff-hard" class="flex-1 py-3 text-center border border-gray-600 text-gray-300 rounded-xl cursor-pointer text-xl font-medium hover:bg-gray-800">ยาก</label>
                     </div>
                 </div>
 
@@ -194,91 +194,94 @@
                     <h3 class="text-xl mb-3 font-semibold">เวลา ( วินาที )</h3>
                     <div class="grid grid-cols-5 gap-2 sm:gap-4 radio-btn-group">
                         <input type="radio" name="time" id="time-60" value="60" class="hidden" checked>
-                        <label for="time-60" class="py-3 text-center border border-gray-600 text-gray-300 rounded-lg cursor-pointer text-lg font-medium hover:bg-gray-800">60</label>
+                        <label for="time-60" class="py-3 text-center border border-gray-600 text-gray-300 rounded-xl cursor-pointer text-xl font-medium hover:bg-gray-800">60</label>
 
                         <input type="radio" name="time" id="time-90" value="90" class="hidden">
-                        <label for="time-90" class="py-3 text-center border border-gray-600 text-gray-300 rounded-lg cursor-pointer text-lg font-medium hover:bg-gray-800">90</label>
+                        <label for="time-90" class="py-3 text-center border border-gray-600 text-gray-300 rounded-xl cursor-pointer text-xl font-medium hover:bg-gray-800">90</label>
 
                         <input type="radio" name="time" id="time-120" value="120" class="hidden">
-                        <label for="time-120" class="py-3 text-center border border-gray-600 text-gray-300 rounded-lg cursor-pointer text-lg font-medium hover:bg-gray-800">120</label>
+                        <label for="time-120" class="py-3 text-center border border-gray-600 text-gray-300 rounded-xl cursor-pointer text-xl font-medium hover:bg-gray-800">120</label>
 
                         <input type="radio" name="time" id="time-150" value="150" class="hidden">
-                        <label for="time-150" class="py-3 text-center border border-gray-600 text-gray-300 rounded-lg cursor-pointer text-lg font-medium hover:bg-gray-800">150</label>
+                        <label for="time-150" class="py-3 text-center border border-gray-600 text-gray-300 rounded-xl cursor-pointer text-xl font-medium hover:bg-gray-800">150</label>
 
                         <input type="radio" name="time" id="time-180" value="180" class="hidden">
-                        <label for="time-180" class="py-3 text-center border border-gray-600 text-gray-300 rounded-lg cursor-pointer text-lg font-medium hover:bg-gray-800">180</label>
+                        <label for="time-180" class="py-3 text-center border border-gray-600 text-gray-300 rounded-xl cursor-pointer text-xl font-medium hover:bg-gray-800">180</label>
                     </div>
                 </div>
             </div>
 
-            <button onclick="startPreGame()" class="btn mt-8 px-12 py-4 bg-blue-500 text-white rounded-full text-2xl font-bold hover:bg-blue-600 shadow-lg shadow-blue-500/30">
+            <button onclick="startPreGame()" class="btn mt-8 px-14 py-4 bg-blue-500 text-white rounded-full text-2xl font-bold hover:bg-blue-600 shadow-lg shadow-blue-500/40">
                 เริ่มเล่น
             </button>
         </div>
 
         <!-- Screen 4 : Game -->
-        <div id="screen-game" class="screen">
+        <div id="screen-game" class="screen p-0 overflow-hidden">
+            
             <!-- Background (z-0) -->
             <div id="game-bg"></div>
-            
-            <!-- Touch Zones (z-10) - รับการสัมผัสตรงๆ พื้นที่ทั้งหมดแบ่งครึ่ง ซ้าย-ขวา -->
+
+            <!-- Layer 1 : โซนสัมผัส (z-10) บังคับให้รับสัมผัสได้ 100% -->
             <div class="absolute inset-0 flex z-10 w-full h-full">
-                <div class="w-1/2 h-full cursor-pointer" onpointerdown="handleAnswer(false)"></div>
-                <div class="w-1/2 h-full cursor-pointer" onpointerdown="handleAnswer(true)"></div>
+                <div class="w-1/2 h-full cursor-pointer bg-[rgba(255,255,255,0.01)]" onclick="handleAnswer(false)"></div>
+                <div class="w-1/2 h-full cursor-pointer bg-[rgba(255,255,255,0.01)]" onclick="handleAnswer(true)"></div>
             </div>
 
-            <!-- UI Layer (z-20) - ปล่อยให้การคลิกทะลุผ่านไปหา Touch Zones ยกเว้นปุ่มกด -->
-            <div class="absolute inset-0 z-20 pointer-events-none flex flex-col justify-center items-center">
+            <!-- Layer 2 : UI และ การ์ด (z-20) ทะลุการกดเพื่อส่งไป Layer 1 ยกเว้นปุ่ม -->
+            <div class="absolute inset-0 z-20 pointer-events-none flex flex-col w-full h-full">
                 
-                <!-- Top Bar : ขยับลงมา top-12 เพื่อหลีกเลี่ยงการโดนเบราว์เซอร์ทับ -->
-                <div class="absolute top-12 left-0 w-full px-8 flex justify-between items-start">
+                <!-- แถบด้านบน (ดึงลงมา 112px เพื่อหนีขอบเบราว์เซอร์) -->
+                <div class="absolute top-28 left-0 w-full px-10 flex justify-between items-start z-30">
                     
-                    <!-- Score -->
-                    <div class="text-2xl text-gray-300 font-bold hidden md:block bg-gray-900/60 backdrop-blur-md px-5 py-2 rounded-2xl pointer-events-auto border border-gray-700 shadow-lg">
-                        คะแนน : <span id="score-display" class="text-white">0</span>
+                    <!-- คะแนน -->
+                    <div class="text-2xl text-gray-300 font-bold hidden md:flex items-center bg-gray-900/80 backdrop-blur-md px-6 py-3 rounded-2xl border border-gray-700 shadow-lg pointer-events-auto">
+                        คะแนน : <span id="score-display" class="text-white ml-2 text-3xl">0</span>
                     </div>
                     
-                    <!-- Circular Timer (อยู่ตรงกลาง) -->
-                    <div class="absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center w-24 h-24">
-                        <svg class="transform -rotate-90 w-24 h-24 drop-shadow-lg">
-                            <circle cx="48" cy="48" r="42" stroke="currentColor" stroke-width="6" fill="transparent" class="text-gray-800/80" />
-                            <circle id="timer-circle" cx="48" cy="48" r="42" stroke="currentColor" stroke-width="6" fill="transparent" class="text-blue-500 transition-all duration-1000 ease-linear" stroke-dasharray="264" stroke-dashoffset="0" stroke-linecap="round" />
-                        </svg>
-                        <span class="absolute text-4xl font-bold text-white drop-shadow-md" id="timer-display">60</span>
-                    </div>
-
-                    <!-- Right Controls : ปุ่มกดกลับหน้าแรก & เต็มจอ -->
+                    <!-- ปุ่มควบคุมขวา -->
                     <div class="flex gap-4 pointer-events-auto">
-                        <button onclick="toggleFullscreen()" class="p-3 bg-gray-800/80 backdrop-blur-md rounded-full text-white hover:bg-gray-700 flex items-center justify-center btn shadow-lg border border-gray-600">
-                            <span class="material-symbols-outlined text-3xl" id="fullscreen-icon">fullscreen</span>
+                        <button onclick="toggleFullscreen()" class="p-4 bg-gray-800/90 backdrop-blur-md rounded-full text-white hover:bg-gray-700 flex items-center justify-center btn shadow-lg border border-gray-600">
+                            <span class="material-symbols-outlined text-4xl" id="fullscreen-icon">fullscreen</span>
                         </button>
-                        <button onclick="pauseGameAndConfirm()" class="p-3 bg-red-600/80 backdrop-blur-md rounded-full text-white hover:bg-red-500 flex items-center justify-center btn shadow-lg border border-red-500">
-                            <span class="material-symbols-outlined text-3xl">home</span>
+                        <button onclick="pauseGameAndConfirm()" class="p-4 bg-red-600/90 backdrop-blur-md rounded-full text-white hover:bg-red-500 flex items-center justify-center btn shadow-lg border border-red-500">
+                            <span class="material-symbols-outlined text-4xl">home</span>
                         </button>
                     </div>
                 </div>
 
-                <!-- 3D Card Word Display -->
-                <div class="relative w-[90%] md:w-[75%] max-w-4xl aspect-[21/9] max-h-[50vh] bg-gray-900/80 border-4 border-blue-500 rounded-[2rem] shadow-[0_0_40px_rgba(59,130,246,0.6)] flex items-center justify-center p-8 backdrop-blur-md flex-col mt-20">
-                    <div id="word-display" class="drop-shadow-lg pointer-events-none">คำศัพท์</div>
-                    <div id="game-message" class="text-3xl font-bold text-yellow-400 hidden absolute bottom-6 text-center w-full drop-shadow-md pointer-events-none"></div>
+                <!-- วงแหวนเวลา (ดึงลงมา 96px ให้อยู่กึ่งกลางระดับเดียวกับปุ่ม) -->
+                <div class="absolute top-24 left-1/2 transform -translate-x-1/2 flex items-center justify-center w-32 h-32 z-30 pointer-events-none">
+                    <svg class="transform -rotate-90 w-32 h-32 drop-shadow-xl">
+                        <!-- Circumference = 2 * PI * 56 = 352 -->
+                        <circle cx="64" cy="64" r="56" stroke="currentColor" stroke-width="8" fill="transparent" class="text-gray-800/90" />
+                        <circle id="timer-circle" cx="64" cy="64" r="56" stroke="currentColor" stroke-width="8" fill="transparent" class="text-blue-500 transition-all duration-1000 ease-linear" stroke-dasharray="352" stroke-dashoffset="0" stroke-linecap="round" />
+                    </svg>
+                    <span class="absolute text-5xl font-extrabold text-white drop-shadow-lg" id="timer-display">60</span>
                 </div>
 
+                <!-- การ์ดคำศัพท์ (ดึงลงมา 224px เพื่อให้อยู่ต่ำกว่าเวลา) -->
+                <div class="w-full h-full flex justify-center items-center pt-56 pb-12 pointer-events-none">
+                    <div class="relative w-[92%] md:w-[80%] max-w-5xl aspect-[21/9] max-h-[55vh] bg-gray-900/90 border-[6px] border-blue-500 rounded-[2.5rem] shadow-[0_0_50px_rgba(59,130,246,0.5)] flex items-center justify-center p-8 backdrop-blur-lg flex-col pointer-events-none transition-all">
+                        <div id="word-display" class="drop-shadow-2xl">คำศัพท์</div>
+                        <div id="game-message" class="text-4xl font-bold text-yellow-400 hidden absolute bottom-8 text-center w-full drop-shadow-lg tracking-wider"></div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Pre-game Countdown (z-50) -->
-            <div id="countdown-overlay" class="absolute inset-0 bg-black/90 z-50 flex justify-center items-center flex-col gap-10">
-                <div class="text-3xl text-blue-300 font-semibold">นำมือถือวางทาบที่หน้าผาก</div>
-                <div id="countdown-text" class="text-[10rem] font-bold text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">3</div>
+            <!-- Layer 3 : นับถอยหลัง (z-40) -->
+            <div id="countdown-overlay" class="absolute inset-0 bg-black/95 z-40 flex justify-center items-center flex-col gap-12">
+                <div class="text-4xl text-blue-300 font-semibold tracking-wide">นำมือถือวางทาบที่หน้าผาก</div>
+                <div id="countdown-text" class="text-[12rem] font-bold text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.6)] leading-none">3</div>
             </div>
 
-            <!-- Custom Confirm Modal (z-50) -->
+            <!-- Layer 4 : Modal ออกเกม (z-50) -->
             <div id="confirm-modal" class="hidden absolute inset-0 bg-black/95 z-50 flex justify-center items-center">
-                <div class="bg-gray-900 p-8 rounded-3xl border border-gray-700 text-center w-11/12 max-w-md shadow-[0_0_50px_rgba(0,0,0,0.8)]">
+                <div class="bg-gray-900 p-10 rounded-3xl border-2 border-gray-700 text-center w-11/12 max-w-md shadow-[0_0_60px_rgba(0,0,0,0.8)]">
                     <h3 class="text-3xl font-semibold mb-10 text-white leading-relaxed">ต้องการหยุดเล่น และ<br>กลับไปหน้าแรกหรือไม่ ?</h3>
                     <div class="flex gap-6">
-                        <button onclick="cancelGoHome()" class="btn flex-1 py-4 bg-gray-700 text-white rounded-xl text-2xl font-medium hover:bg-gray-600">ยกเลิก</button>
-                        <button onclick="confirmGoHome()" class="btn flex-1 py-4 bg-red-600 text-white rounded-xl text-2xl font-medium hover:bg-red-500 shadow-lg shadow-red-600/30">ตกลง</button>
+                        <button onclick="cancelGoHome()" class="btn flex-1 py-4 bg-gray-700 text-white rounded-2xl text-2xl font-semibold hover:bg-gray-600">ยกเลิก</button>
+                        <button onclick="confirmGoHome()" class="btn flex-1 py-4 bg-red-600 text-white rounded-2xl text-2xl font-semibold hover:bg-red-500 shadow-lg shadow-red-600/30">ตกลง</button>
                     </div>
                 </div>
             </div>
@@ -286,21 +289,21 @@
 
         <!-- Screen 5 : Result -->
         <div id="screen-result" class="screen">
-            <h2 class="text-5xl font-bold mb-4" id="result-title">หมดเวลา !</h2>
+            <h2 class="text-5xl font-bold mb-4 mt-6" id="result-title">หมดเวลา !</h2>
             <div class="text-2xl text-gray-400 mb-6">คุณทายถูกทั้งหมด</div>
-            <div class="text-8xl font-bold text-green-400 mb-8 drop-shadow-lg" id="final-score">0</div>
+            <div class="text-[8rem] leading-none font-bold text-green-400 mb-10 drop-shadow-2xl" id="final-score">0</div>
 
-            <div class="w-full max-w-2xl bg-gray-900 rounded-2xl border border-gray-800 p-6 mb-8 flex-1 max-h-[40vh] overflow-y-auto history-list">
-                <ul id="history-list-ul" class="space-y-3 text-xl">
+            <div class="w-full max-w-3xl bg-gray-900 rounded-3xl border border-gray-800 p-6 mb-10 flex-1 max-h-[40vh] overflow-y-auto history-list shadow-inner">
+                <ul id="history-list-ul" class="space-y-4 text-2xl">
                     <!-- History injected here -->
                 </ul>
             </div>
 
-            <div class="flex gap-6">
-                <button onclick="goToScreen('screen-settings')" class="btn px-10 py-4 bg-gray-700 text-white rounded-full text-2xl font-semibold hover:bg-gray-600">
+            <div class="flex gap-6 mb-6">
+                <button onclick="goToScreen('screen-settings')" class="btn px-10 py-5 bg-gray-700 text-white rounded-full text-2xl font-semibold hover:bg-gray-600 shadow-lg">
                     ตั้งค่าใหม่
                 </button>
-                <button onclick="startPreGame()" class="btn px-10 py-4 bg-blue-500 text-white rounded-full text-2xl font-bold hover:bg-blue-600 shadow-lg shadow-blue-500/30">
+                <button onclick="startPreGame()" class="btn px-12 py-5 bg-blue-500 text-white rounded-full text-2xl font-bold hover:bg-blue-600 shadow-lg shadow-blue-500/40">
                     เล่นอีกครั้ง
                 </button>
             </div>
@@ -309,7 +312,7 @@
     </div>
 
     <script>
-        // --- Word Database ( Spaced Properly ) ---
+        // --- Word Database ---
         const wordsDB = {
             animals: {
                 easy: ["สุนัข", "แมว", "ไก่", "ลิง", "ช้าง", "งู", "นก", "ปลา", "กระต่าย", "สิงโต", "เสือ", "เป็ด", "ม้า", "กบ", "หมู"],
@@ -374,7 +377,6 @@
             }
         }
 
-        // Listener for fullscreen changes to update icon dynamically
         document.addEventListener('fullscreenchange', updateFullscreenIcon);
         document.addEventListener('webkitfullscreenchange', updateFullscreenIcon);
         document.addEventListener('mozfullscreenchange', updateFullscreenIcon);
@@ -392,9 +394,9 @@
 
         // --- UI Updates ---
         function updateTimerUI(currentLeft, total) {
-            if (currentLeft < 0) currentLeft = 0; // ป้องกันค่าติดลบ
+            if (currentLeft < 0) currentLeft = 0;
             document.getElementById('timer-display').innerText = currentLeft;
-            const circumference = 264;
+            const circumference = 352; // สำหรับ r=56
             const offset = circumference - (currentLeft / total) * circumference;
             document.getElementById('timer-circle').style.strokeDashoffset = offset;
         }
@@ -413,7 +415,7 @@
                         window.addEventListener('devicemotion', handleDeviceMotion);
                     }
                 } catch (error) {
-                    console.log("Device motion permission error or denied : ", error);
+                    console.log("Device motion permission error or denied");
                 }
             } else {
                 window.addEventListener('devicemotion', handleDeviceMotion);
@@ -436,8 +438,8 @@
 
             subCategories[type].forEach(sub => {
                 const btn = document.createElement('button');
-                btn.className = `btn w-full py-8 ${sub.color} border border-gray-600 rounded-xl text-3xl font-semibold hover:opacity-80 flex flex-col items-center justify-center gap-2`;
-                btn.innerHTML = `<span class="text-4xl">${sub.icon}</span><span>${sub.title}</span>`;
+                btn.className = `btn w-full py-8 ${sub.color} border border-gray-600 rounded-2xl text-3xl font-semibold hover:opacity-80 flex flex-col items-center justify-center gap-2 shadow-lg`;
+                btn.innerHTML = `<span class="text-5xl mb-2">${sub.icon}</span><span>${sub.title}</span>`;
                 btn.onclick = () => selectSubCategory(sub.id, sub.title);
                 container.appendChild(btn);
             });
@@ -489,7 +491,10 @@
             let count = 3;
             countdownText.innerText = count;
             
+            // เคลียร์ Interval เก่าถ้ามี ป้องกันบั๊กซ้อน
             if (countdownInterval) clearInterval(countdownInterval);
+            if (timerInterval) clearInterval(timerInterval);
+
             countdownInterval = setInterval(() => {
                 if(isPaused) return; 
                 
@@ -511,16 +516,14 @@
             timeLeft = currentTimeSetting;
             showWord();
             
-            if (timerInterval) clearInterval(timerInterval);
             timerInterval = setInterval(() => {
                 if(isPaused) return;
 
                 timeLeft--;
                 updateTimerUI(timeLeft, currentTimeSetting);
                 
-                // ตรวจสอบและบังคับจบเกมทันทีเมื่อหมดเวลา
+                // ตรวจสอบและบังคับจบเกมทันที 100%
                 if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
                     endGame("หมดเวลา !");
                 }
             }, 1000);
@@ -569,6 +572,7 @@
         }
 
         function handleAnswer(isCorrect) {
+            // เช็คว่ารับคำสั่งได้หรือไม่
             if (!isGameRunning || motionCooldown || isPaused) return;
             
             motionCooldown = true;
@@ -594,18 +598,20 @@
             
             setTimeout(() => {
                 motionCooldown = false;
-            }, 800);
+            }, 800); // ดีเลย์ป้องกันการกดเบิ้ล
         }
 
+        // ฟังก์ชันที่ถูกเรียกเมื่อเวลาหมด หรือ ทายครบ
         function endGame(titleText) {
-            // ป้องกันการทำงานซ้ำซ้อน
+            // ถ้าระบบเกมหยุดอยู่แล้วให้ข้าม ป้องกันรันซ้อน
             if (!isGameRunning) return; 
             isGameRunning = false;
             
-            // ล้างตัวนับเวลาทั้งหมด
-            if (timerInterval) clearInterval(timerInterval);
-            if (countdownInterval) clearInterval(countdownInterval);
+            // ล้างตัวนับเวลาทั้งหมดทันที
+            clearInterval(timerInterval);
+            clearInterval(countdownInterval);
             
+            // เซ็ต UI หน้าผลลัพธ์
             document.getElementById('result-title').innerText = titleText;
             document.getElementById('final-score').innerText = score;
             const historyUl = document.getElementById('history-list-ul');
@@ -617,15 +623,16 @@
                 const reversedHistory = [...history].reverse();
                 reversedHistory.forEach(item => {
                     const li = document.createElement('li');
-                    li.className = 'flex justify-between items-center py-2 border-b border-gray-800';
+                    li.className = 'flex justify-between items-center py-3 border-b border-gray-700';
                     const icon = item.status === 'correct' 
-                        ? '<span class="text-green-500 font-bold flex items-center gap-2"><span class="material-symbols-outlined text-2xl">check</span> ทายถูก </span>' 
-                        : '<span class="text-red-500 font-bold flex items-center gap-2"><span class="material-symbols-outlined text-2xl">close</span> ข้าม </span>';
+                        ? '<span class="text-green-500 font-bold flex items-center gap-2"><span class="material-symbols-outlined text-3xl">check</span> ทายถูก </span>' 
+                        : '<span class="text-red-500 font-bold flex items-center gap-2"><span class="material-symbols-outlined text-3xl">close</span> ข้าม </span>';
                     li.innerHTML = `<span>${item.word}</span> ${icon}`;
                     historyUl.appendChild(li);
                 });
             }
             
+            // เปลี่ยนหน้าจอ
             goToScreen('screen-result');
         }
 
