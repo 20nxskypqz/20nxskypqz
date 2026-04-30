@@ -142,7 +142,7 @@
         <div id="screen-home" class="screen active">
             <div class="flex flex-col items-center justify-center mb-12 text-center">
                 <h1 class="text-6xl md:text-8xl font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 drop-shadow-lg mb-2">Thai Kham</h1>
-                <p class="text-gray-400 text-lg md:text-xl font-medium tracking-wide">พัฒนาโดย 20nxskypqz <br> Version 2026.04.30.04</p>
+                <p class="text-gray-400 text-lg md:text-xl font-medium tracking-wide">พัฒนาโดย 20nxskypqz <br> Version 2026.04.30.05</p>
             </div>
             <button onclick="requestMotionAndGoToMainCategory()" class="btn px-12 py-5 bg-white text-black rounded-full text-3xl font-bold shadow-[0_0_25px_rgba(255,255,255,0.4)] hover:bg-gray-200">
                 เริ่มต้น
@@ -505,17 +505,24 @@
             document.getElementById('sub-category-title').innerText = `หมวด : ${cat.title}`;
             document.getElementById('selected-category-display').innerText = `หมวด : ${cat.title}`;
 
+            // แสดง loading ระหว่างโหลด JSON
+            const container = document.getElementById('sub-category-container');
+            container.innerHTML = '<p class="text-gray-400 text-xl animate-pulse">กำลังโหลด...</p>';
+            goToScreen('screen-sub-category');
+
             // โหลด JSON และ unwrap key ระดับบนสุด เช่น { "animals": { ... } } → { ... }
             try {
                 const res = await fetch(`/Games/ThaiKham/Words/${id}.json`);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 const data = await res.json();
                 loadedWordsDB = data[id] ?? data;
             } catch(e) {
                 loadedWordsDB = {};
-                console.warn(`ไม่พบไฟล์ /Games/ThaiKham/Words/${id}.json`);
+                container.innerHTML = `<p class="text-red-400 text-xl text-center">โหลดไฟล์ไม่ได้<br><span class="text-gray-500 text-lg">/Games/ThaiKham/Words/${id}.json</span></p>`;
+                console.warn(`fetch error: ${e}`);
+                return;
             }
 
-            const container = document.getElementById('sub-category-container');
             container.innerHTML = '';
 
             if (cat.subTopics.length === 0) {
@@ -539,8 +546,6 @@
                     container.appendChild(btn);
                 });
             }
-
-            goToScreen('screen-sub-category');
         }
 
         // --- Game Logic ---
@@ -581,6 +586,12 @@
                 });
             }
             remainingWords = shuffleArray([...allWords]);
+
+            // Guard: ถ้าไม่มีคำเลย ไม่ให้เริ่ม
+            if (remainingWords.length === 0) {
+                alert('ไม่พบคำศัพท์ในหัวข้อนี้ กรุณาตรวจสอบไฟล์ JSON');
+                return;
+            }
             skippedWords = [];
             score = 0;
             history = [];
