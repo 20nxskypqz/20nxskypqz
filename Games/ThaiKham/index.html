@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -142,7 +143,7 @@
         <div id="screen-home" class="screen active">
             <div class="flex flex-col items-center justify-center mb-12 text-center">
                 <h1 class="text-6xl md:text-8xl font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 drop-shadow-lg mb-2">Thai Kham</h1>
-                <p class="text-gray-400 text-lg md:text-xl font-medium tracking-wide">พัฒนาโดย 20nxskypqz <br> V 1.0.0</p>
+                <p class="text-gray-400 text-lg md:text-xl font-medium tracking-wide">พัฒนาโดย 20nxskypqz <br> Version 2026.04.30.02</p>
             </div>
             <button onclick="requestMotionAndGoToMainCategory()" class="btn px-12 py-5 bg-white text-black rounded-full text-3xl font-bold shadow-[0_0_25px_rgba(255,255,255,0.4)] hover:bg-gray-200">
                 เริ่มต้น
@@ -189,13 +190,12 @@
             </div>
         </div>
 
-        <!-- Screen 3 : Sub Topics (display only, all included) -->
+        <!-- Screen 3 : Sub Topics (selectable) -->
         <div id="screen-sub-category" class="screen">
             <button onclick="goToScreen('screen-main-category')" class="absolute top-28 left-6 p-2 text-gray-400 hover:text-white flex items-center justify-center btn bg-gray-800 rounded-full z-50">
                 <span class="material-symbols-outlined text-4xl">arrow_back</span>
             </button>
-            <h2 class="text-4xl font-bold mb-3" id="sub-category-title">หัวข้อในหมวดนี้</h2>
-            <p class="text-gray-400 text-xl mb-8">ทุกหัวข้อถูกรวมไว้ทั้งหมด</p>
+            <h2 class="text-4xl font-bold mb-8" id="sub-category-title">เลือกหัวข้อ</h2>
             <div id="sub-category-container" class="flex flex-wrap justify-center gap-4 w-full max-w-3xl mb-10">
                 <!-- Dynamically injected -->
             </div>
@@ -363,13 +363,7 @@
             university: { title: 'มหาวิทยาลัย',         subTopics: [] },
         };
 
-        const wordsDB = {
-            animals: {
-                land:  { easy: [], medium: [], hard: [] },
-                water: { easy: [], medium: [], hard: [] },
-                air:   { easy: [], medium: [], hard: [] }
-            }
-        };
+        const wordsDB = {}; // ข้อมูลคำศัพท์โหลดจาก JSON ใน /Words/{id}.json
 
         // --- Game State Engine ---
         let gameState = 'idle'; // idle, countdown, playing, paused, ended
@@ -487,11 +481,36 @@
             goToScreen('screen-main-category');
         }
 
-        function selectCategory(id) {
+        let currentSubTopic = 'all'; // 'all' หรือ id ของหัวข้อย่อย
+        let loadedWordsDB = {}; // คำศัพท์ที่โหลดจาก JSON
+
+        function selectSubTopic(id) {
+            currentSubTopic = id;
+            document.querySelectorAll('.subtopic-btn').forEach(btn => {
+                const isSelected = btn.dataset.id === id;
+                if (btn.dataset.id === 'all') {
+                    btn.className = `subtopic-btn btn flex items-center gap-3 rounded-2xl px-6 py-4 text-2xl font-semibold border-2 transition-all ${isSelected ? 'bg-red-600 border-red-400 text-white scale-105' : 'bg-gray-900 border-red-800 text-red-400 hover:bg-red-900/40'}`;
+                } else {
+                    btn.className = `subtopic-btn btn flex items-center gap-3 rounded-2xl px-6 py-4 text-2xl font-semibold border-2 transition-all ${isSelected ? 'bg-blue-600 border-blue-400 text-white scale-105' : 'bg-gray-800 border-gray-600 text-gray-200 hover:bg-gray-700'}`;
+                }
+            });
+        }
+
+        async function selectCategory(id) {
             currentSubCategory = id;
+            currentSubTopic = 'all';
             const cat = categoriesDB[id];
             document.getElementById('sub-category-title').innerText = `หมวด : ${cat.title}`;
             document.getElementById('selected-category-display').innerText = `หมวด : ${cat.title}`;
+
+            // โหลด JSON
+            try {
+                const res = await fetch(`/Words/${id}.json`);
+                loadedWordsDB = await res.json();
+            } catch(e) {
+                loadedWordsDB = {};
+                console.warn(`ไม่พบไฟล์ /Words/${id}.json`);
+            }
 
             const container = document.getElementById('sub-category-container');
             container.innerHTML = '';
@@ -499,11 +518,22 @@
             if (cat.subTopics.length === 0) {
                 container.innerHTML = '<p class="text-gray-500 text-xl">ยังไม่มีหัวข้อย่อย</p>';
             } else {
+                // ปุ่มทั้งหมด (แรก, สีแดง)
+                const allBtn = document.createElement('button');
+                allBtn.className = 'subtopic-btn btn flex items-center gap-3 rounded-2xl px-6 py-4 text-2xl font-semibold border-2 bg-red-600 border-red-400 text-white scale-105';
+                allBtn.dataset.id = 'all';
+                allBtn.innerHTML = `<span class="text-4xl">🔥</span><span>ทั้งหมด</span>`;
+                allBtn.onclick = () => selectSubTopic('all');
+                container.appendChild(allBtn);
+
+                // ปุ่มหัวข้อย่อย
                 cat.subTopics.forEach(sub => {
-                    const chip = document.createElement('div');
-                    chip.className = 'flex items-center gap-3 bg-gray-800 border border-gray-600 rounded-2xl px-6 py-4 text-2xl font-semibold';
-                    chip.innerHTML = `<span class="text-4xl">${sub.icon}</span><span>${sub.title}</span>`;
-                    container.appendChild(chip);
+                    const btn = document.createElement('button');
+                    btn.className = 'subtopic-btn btn flex items-center gap-3 rounded-2xl px-6 py-4 text-2xl font-semibold border-2 bg-gray-800 border-gray-600 text-gray-200 hover:bg-gray-700';
+                    btn.dataset.id = sub.id;
+                    btn.innerHTML = `<span class="text-4xl">${sub.icon}</span><span>${sub.title}</span>`;
+                    btn.onclick = () => selectSubTopic(sub.id);
+                    container.appendChild(btn);
                 });
             }
 
@@ -524,18 +554,20 @@
             currentTimeSetting = parseInt(document.querySelector('input[name="time"]:checked').value);
 
             const cat = categoriesDB[currentSubCategory];
-            const subTopicIds = cat.subTopics.length > 0
+            const subTopicIds = currentSubTopic === 'all'
                 ? cat.subTopics.map(s => s.id)
-                : [null];
+                : [currentSubTopic];
 
             let allWords = [];
-            if (wordsDB[currentSubCategory]) {
-                subTopicIds.forEach(subId => {
-                    const src = subId ? wordsDB[currentSubCategory][subId] : wordsDB[currentSubCategory];
-                    if (src && src[currentDifficulty]) {
-                        allWords = allWords.concat(src[currentDifficulty]);
-                    }
-                });
+            subTopicIds.forEach(subId => {
+                const src = loadedWordsDB[subId];
+                if (src && src[currentDifficulty]) {
+                    allWords = allWords.concat(src[currentDifficulty]);
+                }
+            });
+            // ถ้าไม่มีหัวข้อย่อย ลองดึงตรงๆ
+            if (allWords.length === 0 && loadedWordsDB[currentDifficulty]) {
+                allWords = loadedWordsDB[currentDifficulty];
             }
             remainingWords = shuffleArray([...allWords]);
             skippedWords = [];
