@@ -266,7 +266,10 @@
             const sheetData = globalSheetDetails[sheetIndex];
             
             // สร้างหัวกระดาษใหญ่ๆ สีม่วง
-            const titleText = `${sportName} ${catName} ${levelName}`;
+            let displayCatName = catName;
+            if(catName === "Free Fire") displayCatName = ""; // สำหรับ E-Sport อาจจะไม่ต้องเอาคำว่า Free Fire ไปรวมกับชื่อกีฬา
+            
+            const titleText = `${sportName} ${displayCatName} ${levelName}`;
             
             let tableHTML = '';
             
@@ -342,7 +345,9 @@
 
                 sport.categories.forEach(category => {
                     let catIcon = 'group';
-                    if (category.name.includes('ชาย') && !category.name.includes('หญิง')) catIcon = 'man';
+                    // เช็คคำว่า Free Fire เพื่อให้ใช้ไอคอน wc
+                    if (category.name === 'Free Fire') catIcon = 'wc';
+                    else if (category.name.includes('ชาย') && !category.name.includes('หญิง')) catIcon = 'man';
                     else if (category.name.includes('หญิง') && !category.name.includes('ชาย')) catIcon = 'woman';
                     else if (category.name.includes('ชาย - หญิง') || category.name.includes('คู่ผสม')) catIcon = 'wc';
                     
