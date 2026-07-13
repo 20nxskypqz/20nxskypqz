@@ -1,9 +1,10 @@
+```html
 <!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบตรวจสอบจำนวนนักกีฬา - คณะสีตรัง</title>
+    <title>ระบบตรวจสอบจำนวนนักกีฬาคณะศรีตรัง</title>
     
     <!-- ฟอนต์ Sarabun -->
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -11,21 +12,20 @@
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
     
-    <!-- Tailwind CSS (ผ่าน CDN เพื่อความสวยงาม) -->
+    <!-- Tailwind CSS (ผ่าน CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Custom CSS (สีม่วงตรัง และตั้งค่าการพิมพ์) -->
+    <!-- Custom CSS -->
     <style>
         body {
             font-family: 'Sarabun', sans-serif;
-            background-color: #f3f4f6; /* bg-gray-50 */
+            background-color: #f3f4f6;
         }
         
         .trang-bg { background-color: #5c2d91; }
         .trang-text { color: #5c2d91; }
         .trang-border { border-color: #5c2d91; }
         
-        /* การตั้งค่าสำหรับการสั่งพิมพ์ (Print) */
         @media print {
             body { background-color: white; }
             .no-print { display: none !important; }
@@ -38,7 +38,6 @@
             .card-container { margin-bottom: 1rem; }
         }
 
-        /* Animation หมุนโหลด */
         .spin-anim { animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>
@@ -52,15 +51,14 @@
                 <div class="flex items-center gap-3 w-full md:w-auto">
                     <span class="material-symbols-outlined text-4xl">stadium</span>
                     <div>
-                        <h1 class="text-xl sm:text-2xl font-bold tracking-wide">ระบบตรวจสอบจำนวนนักกีฬา</h1>
-                        <p class="text-xs sm:text-sm opacity-90">เชื่อมโยงข้อมูลจาก Google Sheets (เริ่มนับจากแถว 2)</p>
+                        <h1 class="text-xl sm:text-2xl font-bold tracking-wide">ระบบตรวจสอบจำนวนนักกีฬาคณะศรีตรัง</h1>
                     </div>
                 </div>
 
                 <div class="flex items-center gap-2 sm:gap-4 w-full md:w-auto justify-between md:justify-end">
                     <div class="text-xs sm:text-sm bg-white/20 px-3 py-2 rounded-lg backdrop-blur-sm flex items-center gap-2">
                         <span class="material-symbols-outlined text-sm">schedule</span>
-                        <span id="last-updated-text">อัปเดต: กำลังโหลด...</span>
+                        <span id="last-updated-text">อัปเดต : กำลังโหลด...</span>
                     </div>
                     
                     <div class="flex gap-2 no-print">
@@ -89,22 +87,19 @@
 
         <!-- Dashboard Grid -->
         <div id="dashboard-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 items-start hidden">
-            <!-- ข้อมูลจะถูกสร้างและแทรกที่นี่ด้วย JavaScript -->
+            <!-- Data will be injected here -->
         </div>
 
     </main>
 
     <!-- Footer for Print -->
-    <footer class="hidden print:block mt-8 text-center text-sm text-gray-500 pb-8" id="print-footer">
-        <!-- ข้อมูลเวลาพิมพ์จะอัปเดตผ่าน JS -->
-    </footer>
+    <footer class="hidden print:block mt-8 text-center text-sm text-gray-500 pb-8" id="print-footer"></footer>
 
-    <!-- JavaScript สำหรับควบคุมระบบ -->
     <script>
-        // โครงสร้างข้อมูล อิงตามชื่อหน้าชีต
+        // โครงสร้างข้อมูล อิงตามชื่อหน้าชีต (ลบวงเล็บจำนวนคนรวมในชื่อแล้ว)
         const SPORTS_CONFIG = [
             {
-                id: 'football', name: 'ฟุตบอล (15 คน)', icon: 'sports_soccer',
+                id: 'football', name: 'ฟุตบอล', icon: 'sports_soccer',
                 categories: [
                     { name: 'ชาย', levels: [
                         { name: 'ม.1-ม.2', sheetName: '2. ⚽️ ฟุตบอลชาย ม.1-ม.2', real: 7, sub: 8 },
@@ -118,7 +113,7 @@
                 ]
             },
             {
-                id: 'basketball', name: 'บาสเกตบอล (15 คน)', icon: 'sports_basketball',
+                id: 'basketball', name: 'บาสเกตบอล', icon: 'sports_basketball',
                 categories: [
                     { name: 'ชาย', levels: [
                         { name: 'ม.1-ม.3', sheetName: '7. 🏀 บาสเกตบอลชาย ม.1-ม.3', real: 5, sub: 10 },
@@ -131,7 +126,7 @@
                 ]
             },
             {
-                id: 'volleyball', name: 'วอลเลย์บอล (15 คน)', icon: 'sports_volleyball',
+                id: 'volleyball', name: 'วอลเลย์บอล', icon: 'sports_volleyball',
                 categories: [
                     { name: 'ชาย', levels: [
                         { name: 'ม.1-ม.2', sheetName: '11. 🏐 วอลเลย์บอลชาย ม.1-ม.2', real: 6, sub: 9 },
@@ -145,7 +140,7 @@
                 ]
             },
             {
-                id: 'takraw', name: 'เซปักตะกร้อ (4 คน)', icon: 'sports_martial_arts',
+                id: 'takraw', name: 'เซปักตะกร้อ', icon: 'sports_martial_arts',
                 categories: [
                     { name: 'ชาย', levels: [
                         { name: 'ม.1-ม.2', sheetName: '16. 👟 เซปักตะกร้อชาย ม.1-ม.2', real: 3, sub: 1 },
@@ -189,7 +184,7 @@
                 ]
             },
             {
-                id: 'petanque', name: 'เปตอง (4 คน)', icon: 'sports_baseball',
+                id: 'petanque', name: 'เปตอง', icon: 'sports_baseball',
                 categories: [
                     { name: 'ชาย', levels: [
                         { name: 'ม.1-ม.2', sheetName: '36. 🥎 เปตองชาย ม.1-ม.2', real: 3, sub: 1 },
@@ -224,7 +219,7 @@
                 ]
             },
             {
-                id: 'dancesport', name: 'ลีลาศ (รุ่นละ 4 คน)', icon: 'accessibility_new',
+                id: 'dancesport', name: 'ลีลาศ', icon: 'accessibility_new',
                 categories: [
                     { name: 'ทั่วไป', levels: [
                         { name: 'ม.ต้น', sheetName: '51. 🕺💃 ลีลาศ ม.ต้น', real: 2, sub: 2 },
@@ -233,7 +228,7 @@
                 ]
             },
             {
-                id: 'esport', name: 'E-Sport (5 คน)', icon: 'sports_esports',
+                id: 'esport', name: 'E-Sport', icon: 'sports_esports',
                 categories: [
                     { name: 'Free Fire', levels: [
                         { name: 'ม.1-ม.3', sheetName: '53. 🎮 E - Sport ม.1-ม.3', real: 4, sub: 1 },
@@ -243,53 +238,41 @@
             }
         ];
 
-        // ฟังก์ชันจัดฟอร์แมตเวลา TT : SS - DD / MM / YY
+        // แก้ไขฟอร์แมตเวลา อัปเดต : HH : MM : SS - DD / MM / YY
         function getFormattedDate() {
             const date = new Date();
             const hh = String(date.getHours()).padStart(2, '0');
             const mm = String(date.getMinutes()).padStart(2, '0');
+            const ss = String(date.getSeconds()).padStart(2, '0');
             const dd = String(date.getDate()).padStart(2, '0');
             const month = String(date.getMonth() + 1).padStart(2, '0');
             const yy = String(date.getFullYear()).slice(-2);
-            return `${hh} : ${mm} - ${dd} / ${month} / ${yy}`;
+            return `${hh} : ${mm} : ${ss} - ${dd} / ${month} / ${yy}`;
         }
 
-        // ฟังก์ชันดึงข้อมูล (จำลอง หรือ เปลี่ยนไปต่อ API จริง)
         function fetchData() {
-            // UI States: แสดงโหลดดิ้ง
             document.getElementById('loading-state').classList.remove('hidden');
             document.getElementById('dashboard-container').classList.add('hidden');
             
             const btnIcon = document.getElementById('refresh-icon');
             btnIcon.classList.add('spin-anim');
 
-            // --- ส่วนสำหรับเชื่อม API จริง (ลบ Timeout ด้านล่างออกแล้วใช้ fetch แทน) ---
-            /*
-            fetch('YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL')
-                .then(res => res.json())
-                .then(apiData => {
-                    renderDashboard(apiData);
-                })
-                .catch(err => console.error(err));
-            */
-
-            // จำลองการดีเลย์และการโหลดข้อมูล
             setTimeout(() => {
-                // ข้อมูลสมมติที่เหมือนจะได้จาก Google Sheets JSON API
-                // โดย Key คือชื่อชีต Value คือ จำนวนคนที่นับได้
+                // ข้อมูลสมมติเพื่อทดสอบสถานะต่างๆ (ขาด, พอดี, เกิน)
                 const mockApiData = {
-                    '2. ⚽️ ฟุตบอลชาย ม.1-ม.2': Math.floor(Math.random() * 16),
-                    '14. 🏐 วอลเลย์บอลหญิง ม.1-ม.3': Math.floor(Math.random() * 16),
-                    '36. 🥎 เปตองชาย ม.1-ม.2': 2,
-                    '54. 🎮 E - Sport ม.4-ม.6': 5
+                    '2. ⚽️ ฟุตบอลชาย ม.1-ม.2': 17, // เกิน
+                    '3. ⚽️ ฟุตบอลชาย ม.3-ม.4': 15, // พอดี
+                    '4. ⚽️ ฟุตบอลชาย ม.5-ม.6': 6,  // ขาด
+                    '14. 🏐 วอลเลย์บอลหญิง ม.1-ม.3': 16, // เกิน
+                    '36. 🥎 เปตองชาย ม.1-ม.2': 4, // พอดี
+                    '54. 🎮 E - Sport ม.4-ม.6': 3 // ขาด
                 };
 
                 renderDashboard(mockApiData);
                 
-                // อัปเดตเวลาและ UI
                 const updatedTime = getFormattedDate();
-                document.getElementById('last-updated-text').textContent = `อัปเดต: ${updatedTime}`;
-                document.getElementById('print-footer').textContent = `พิมพ์เมื่อ: ${updatedTime} - ระบบตรวจสอบจำนวนนักกีฬา คณะสีตรัง`;
+                document.getElementById('last-updated-text').textContent = `อัปเดต : ${updatedTime}`;
+                document.getElementById('print-footer').textContent = `พิมพ์เมื่อ : ${updatedTime} - ระบบตรวจสอบจำนวนนักกีฬาคณะศรีตรัง`;
                 
                 document.getElementById('loading-state').classList.add('hidden');
                 document.getElementById('dashboard-container').classList.remove('hidden');
@@ -297,7 +280,6 @@
             }, 800);
         }
 
-        // ฟังก์ชันสร้าง UI (Card) อัตโนมัติจากโครงสร้างข้อมูล
         function renderDashboard(apiData) {
             const container = document.getElementById('dashboard-container');
             let htmlContent = '';
@@ -326,40 +308,51 @@
 
                     category.levels.forEach(level => {
                         const maxTotal = level.real + level.sub;
-                        // ดึงข้อมูลจำนวนคน ถ้าใน mockApiData ไม่มี ให้สุ่มตัวเลขทดสอบ
+                        
+                        // ใช้ข้อมูลสุ่มถ้ายังไม่ได้เซ็ตค่าไว้ เพื่อให้เห็นตัวอย่างทุกสี
                         const registered = apiData[level.sheetName] !== undefined 
                             ? apiData[level.sheetName] 
-                            : Math.floor(Math.random() * (maxTotal + 1));
+                            : Math.floor(Math.random() * (maxTotal + 3)); // สุ่มแบบมีโอกาสเกิน
                         
-                        const percent = Math.min(Math.round((registered / maxTotal) * 100), 100);
+                        // คำนวณความกว้างหลอดพลัง
+                        // 1. ถ้าจำนวนคน <= ตัวจริง
+                        // 2. ถ้ามีทั้งตัวจริง และสำรอง
+                        let realPercent = 0;
+                        let subPercent = 0;
+
+                        if (registered <= level.real) {
+                            realPercent = (registered / maxTotal) * 100;
+                        } else {
+                            realPercent = (level.real / maxTotal) * 100;
+                            const subCount = Math.min(registered - level.real, level.sub);
+                            subPercent = (subCount / maxTotal) * 100;
+                        }
+
+                        // ตัดสินสถานะสี (ขาด = แดง, พอดี = เขียว, เกิน = ม่วง)
+                        let textColor = "text-red-500"; // Default: ขาด
                         const isFull = registered === maxTotal;
                         const isOver = registered > maxTotal;
                         
-                        let progressColor = "bg-purple-500";
-                        let textColor = "trang-text";
-                        
-                        if (isFull) { progressColor = "bg-green-500"; textColor = "text-green-600"; }
-                        if (isOver) { progressColor = "bg-red-500"; textColor = "text-red-600"; }
-                        if (registered === 0) { progressColor = "bg-gray-200"; }
+                        if (isFull) textColor = "text-green-600";
+                        if (isOver) textColor = "trang-text font-bold";
 
                         htmlContent += `
                             <div class="space-y-1">
                                 <div class="flex justify-between items-center text-sm">
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-gray-700">${level.name}</span>
-                                        <span class="text-[10px] text-gray-400 no-print truncate max-w-[150px]" title="${level.sheetName}">
-                                            ชีต: ${level.sheetName.substring(0, 15)}...
-                                        </span>
-                                    </div>
+                                    <span class="font-medium text-gray-700">${level.name}</span>
                                     <span class="font-bold ${textColor}">
                                         ${registered} / ${maxTotal} คน
                                     </span>
                                 </div>
-                                <div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
-                                    <div class="h-2.5 rounded-full ${progressColor} transition-all duration-500" style="width: ${percent}%"></div>
+                                
+                                <!-- Dual Progress Bar -->
+                                <div class="w-full bg-gray-200 rounded-full h-2.5 flex overflow-hidden">
+                                    <div class="h-2.5 bg-purple-600 transition-all duration-500" style="width: ${realPercent}%" title="ตัวจริง"></div>
+                                    <div class="h-2.5 bg-purple-300 transition-all duration-500" style="width: ${subPercent}%" title="สำรอง"></div>
                                 </div>
+                                
                                 <div class="text-[11px] text-gray-500 text-right">
-                                    (ตัวจริง ${level.real} | สำรอง ${level.sub})
+                                    ตัวจริง ${level.real} | สำรอง ${level.sub}
                                 </div>
                             </div>
                         `;
@@ -380,7 +373,6 @@
             container.innerHTML = htmlContent;
         }
 
-        // โหลดข้อมูลครั้งแรกเมื่อเปิดหน้าเว็บ
         window.onload = () => {
             fetchData();
         };
@@ -388,4 +380,3 @@
     </script>
 </body>
 </html>
-
