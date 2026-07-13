@@ -106,11 +106,14 @@
             return `${hh} : ${mm} : ${ss} - ${dd} / ${month} / ${yy}`;
         }
 
-        // =========================================================================
-        // ใช้ลิงก์ API จริงของคุณ
-        // =========================================================================
+        // ลิงก์ API จริงของคุณ
         const API_URL = "https://script.google.com/macros/s/AKfycbyYcyfX0znWZJaf1Tp6SQxV5XEkGJqKO7-s4G5dLjIbw0VD-PeVWb9wLD2VC1F0PpN3/exec"; 
         
+        // ฟังก์ชันช่วยทำความสะอาดชื่อเพื่อเทียบกัน (Fuzzy Match)
+        function cleanString(str) {
+            return str.replace(/[^\w\sก-๙]/gi, '').replace(/\s+/g, '').toLowerCase();
+        }
+
         function fetchData() {
             document.getElementById('loading-state').classList.remove('hidden');
             document.getElementById('dashboard-container').classList.add('hidden');
@@ -118,13 +121,13 @@
             btnIcon.classList.add('spin-anim');
             document.getElementById('loading-text').innerHTML = 'กำลังเชื่อมต่อและดึงข้อมูลจากชีต...';
 
-            // ดึงข้อมูลจริงจาก Google Sheets ผ่าน API ที่สร้างไว้
             fetch(API_URL)
                 .then(response => {
                     if (!response.ok) throw new Error("Network response was not ok");
                     return response.json();
                 })
                 .then(apiData => {
+                    console.log("Raw Data from API:", apiData); // สำหรับเช็กใน Console 
                     renderDashboard(apiData);
                     
                     const updatedTime = getFormattedDate();
@@ -151,6 +154,12 @@
             const container = document.getElementById('dashboard-container');
             let htmlContent = '';
 
+            // สร้าง Object เก็บ key ที่ถูกทำความสะอาดแล้ว
+            const cleanedApiData = {};
+            for (let key in apiData) {
+                cleanedApiData[cleanString(key)] = apiData[key];
+            }
+
             SPORTS_CONFIG.forEach(sport => {
                 htmlContent += `
                     <div class="card-container bg-white rounded-xl shadow-md overflow-hidden print-break-inside-avoid border border-gray-100">
@@ -176,8 +185,11 @@
                     category.levels.forEach(level => {
                         const maxTotal = level.real + level.sub;
                         
-                        // ดึงข้อมูลจำนวนคนจริงจาก API Data ถ้าไม่มีจะให้ค่าเป็น 0
-                        const registered = apiData[level.sheetName] || 0;
+                        // พยายามดึงข้อมูลด้วยชื่อเป๊ะๆ ก่อน ถ้าไม่ได้ ให้เทียบด้วยชื่อที่ถูกทำความสะอาด
+                        let registered = apiData[level.sheetName];
+                        if (registered === undefined) {
+                            registered = cleanedApiData[cleanString(level.sheetName)] || 0;
+                        }
                         
                         let realPercent = 0;
                         let subPercent = 0;
@@ -202,7 +214,7 @@
                                 <div class="flex justify-between items-center text-sm">
                                     <span class="font-medium text-gray-700">${level.name}</span>
                                     <span class="font-bold ${textColor}">
-                                        ${registered} / ${maxTotal} คน
+                                        ${registered} / ${maxTotal}
                                     </span>
                                 </div>
                                 
