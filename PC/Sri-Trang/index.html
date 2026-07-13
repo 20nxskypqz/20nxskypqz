@@ -11,7 +11,7 @@
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
     
-    <!-- Tailwind CSS (ผ่าน CDN) -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Custom CSS -->
@@ -95,7 +95,7 @@
     <footer class="hidden print:block mt-8 text-center text-sm text-gray-500 pb-8" id="print-footer"></footer>
 
     <script>
-        // โครงสร้างข้อมูล อิงตามชื่อหน้าชีต (ลบวงเล็บจำนวนคนรวมในชื่อแล้ว)
+        // โครงสร้างข้อมูล อัปเดตใหม่ตามลำดับชีตล่าสุด (1-49)
         const SPORTS_CONFIG = [
             {
                 id: 'football', name: 'ฟุตบอล', icon: 'sports_soccer',
@@ -156,9 +156,9 @@
                 id: 'tabletennis', name: 'เทเบิลเทนนิส', icon: 'sports_tennis',
                 categories: [
                     { name: 'ชายเดี่ยว', levels: [
-                        { name: 'ม.1-ม.2', sheetName: '21. 🏓 เทเบิลเทนนิสชายเดี่ยว ม.1-ม.2', real: 1, sub: 0 },
-                        { name: 'ม.3-ม.4', sheetName: '22. 🏓 เทเบิลเทนนิสชายเดี่ยว ม.3-ม.4', real: 1, sub: 0 },
-                        { name: 'ม.5-ม.6', sheetName: '23. 🏓 เทเบิลเทนนิสชายเดี่ยว ม.5-ม.6', real: 1, sub: 0 }
+                        { name: 'ม.1-ม.2', sheetName: '21. 🏓 เทเบิลเทนนิสชายเดี่ยว ม.1-ม.', real: 1, sub: 0 },
+                        { name: 'ม.3-ม.4', sheetName: '22. 🏓 เทเบิลเทนนิสชายเดี่ยว ม.3-ม.', real: 1, sub: 0 },
+                        { name: 'ม.5-ม.6', sheetName: '23. 🏓 เทเบิลเทนนิสชายเดี่ยว ม.5-ม.', real: 1, sub: 0 }
                     ]},
                     { name: 'ชายคู่', levels: [
                         { name: 'ม.1-ม.2', sheetName: '24. 🏓 เทเบิลเทนนิสชายคู่ ม.1-ม.2', real: 2, sub: 0 },
@@ -166,9 +166,9 @@
                         { name: 'ม.5-ม.6', sheetName: '26. 🏓 เทเบิลเทนนิสชายคู่ ม.5-ม.6', real: 2, sub: 0 }
                     ]},
                     { name: 'หญิงเดี่ยว', levels: [
-                        { name: 'ม.1-ม.2', sheetName: '27. 🏓 เทเบิลเทนนิสหญิงเดี่ยว ม.1-ม.2', real: 1, sub: 0 },
-                        { name: 'ม.3-ม.4', sheetName: '28. 🏓 เทเบิลเทนนิสหญิงเดี่ยว ม.3-ม.4', real: 1, sub: 0 },
-                        { name: 'ม.5-ม.6', sheetName: '29. 🏓 เทเบิลเทนนิสหญิงเดี่ยว ม.5-ม.6', real: 1, sub: 0 }
+                        { name: 'ม.1-ม.2', sheetName: '27. 🏓 เทเบิลเทนนิสหญิงเดี่ยว ม.1-ม.', real: 1, sub: 0 },
+                        { name: 'ม.3-ม.4', sheetName: '28. 🏓 เทเบิลเทนนิสหญิงเดี่ยว ม.3-ม.', real: 1, sub: 0 },
+                        { name: 'ม.5-ม.6', sheetName: '29. 🏓 เทเบิลเทนนิสหญิงเดี่ยว ม.5-ม.', real: 1, sub: 0 }
                     ]},
                     { name: 'หญิงคู่', levels: [
                         { name: 'ม.1-ม.2', sheetName: '30. 🏓 เทเบิลเทนนิสหญิงคู่ ม.1-ม.2', real: 2, sub: 0 },
@@ -200,20 +200,13 @@
             {
                 id: 'badminton', name: 'แบดมินตัน', icon: 'sports_tennis',
                 categories: [
-                    { name: 'ชายเดี่ยว', levels: [
-                        { name: 'ม.1-ม.2', sheetName: '42. 🏸 แบดมินตันชายเดี่ยว ม.1-ม.2', real: 1, sub: 0 },
-                        { name: 'ม.3-ม.4', sheetName: '43. 🏸 แบดมินตันชายเดี่ยว ม.3-ม.4', real: 1, sub: 0 },
-                        { name: 'ม.5-ม.6', sheetName: '44. 🏸 แบดมินตันชายเดี่ยว ม.5-ม.6', real: 1, sub: 0 }
+                    { name: 'ชายทีม', levels: [
+                        { name: 'ม.ต้น', sheetName: '42. 🏸 แบดมินตันชายทีม ม.1-ม.3', real: 3, sub: 2 },
+                        { name: 'ม.ปลาย', sheetName: '43. 🏸 แบดมินตันชายทีม ม.4-ม.6', real: 3, sub: 2 }
                     ]},
-                    { name: 'หญิงเดี่ยว', levels: [
-                        { name: 'ม.1-ม.2', sheetName: '45. 🏸 แบดมินตันหญิงเดี่ยว ม.1-ม.2', real: 1, sub: 0 },
-                        { name: 'ม.3-ม.4', sheetName: '46. 🏸 แบดมินตันหญิงเดี่ยว ม.3-ม.4', real: 1, sub: 0 },
-                        { name: 'ม.5-ม.6', sheetName: '47. 🏸 แบดมินตันหญิงเดี่ยว ม.5-ม.6', real: 1, sub: 0 }
-                    ]},
-                    { name: 'คู่ผสม', levels: [
-                        { name: 'ม.1-ม.2', sheetName: '48. 🏸 แบดมินตันคู่ผสม ม.1-ม.2', real: 2, sub: 0 },
-                        { name: 'ม.3-ม.4', sheetName: '49. 🏸 แบดมินตันคู่ผสม ม.3-ม.4', real: 2, sub: 0 },
-                        { name: 'ม.5-ม.6', sheetName: '50. 🏸 แบดมินตันคู่ผสม ม.5-ม.6', real: 2, sub: 0 }
+                    { name: 'หญิงทีม', levels: [
+                        { name: 'ม.ต้น', sheetName: '44. 🏸 แบดมินตันหญิงทีม ม.1-ม.3', real: 3, sub: 2 },
+                        { name: 'ม.ปลาย', sheetName: '45. 🏸 แบดมินตันหญิงทีม ม.4-ม.6', real: 3, sub: 2 }
                     ]}
                 ]
             },
@@ -221,8 +214,8 @@
                 id: 'dancesport', name: 'ลีลาศ', icon: 'accessibility_new',
                 categories: [
                     { name: 'ทั่วไป', levels: [
-                        { name: 'ม.ต้น', sheetName: '51. 🕺💃 ลีลาศ ม.ต้น', real: 2, sub: 2 },
-                        { name: 'ม.ปลาย', sheetName: '52. 🕺💃 ลีลาศ ม.ปลาย', real: 2, sub: 2 }
+                        { name: 'ม.ต้น', sheetName: '46. 🕺💃 ลีลาศ ม.ต้น', real: 2, sub: 2 },
+                        { name: 'ม.ปลาย', sheetName: '47. 🕺💃 ลีลาศ ม.ปลาย', real: 2, sub: 2 }
                     ]}
                 ]
             },
@@ -230,14 +223,14 @@
                 id: 'esport', name: 'E-Sport', icon: 'sports_esports',
                 categories: [
                     { name: 'Free Fire', levels: [
-                        { name: 'ม.1-ม.3', sheetName: '53. 🎮 E - Sport ม.1-ม.3', real: 4, sub: 1 },
-                        { name: 'ม.4-ม.6', sheetName: '54. 🎮 E - Sport ม.4-ม.6', real: 4, sub: 1 }
+                        { name: 'ม.1-ม.3', sheetName: '48. 🎮 E - Sport ม.1-ม.3', real: 4, sub: 1 },
+                        { name: 'ม.4-ม.6', sheetName: '49. 🎮 E - Sport ม.4-ม.6', real: 4, sub: 1 }
                     ]}
                 ]
             }
         ];
 
-        // แก้ไขฟอร์แมตเวลา อัปเดต : HH : MM : SS - DD / MM / YY
+        // ฟอร์แมตเวลา อัปเดต : HH : MM : SS - DD / MM / YY
         function getFormattedDate() {
             const date = new Date();
             const hh = String(date.getHours()).padStart(2, '0');
@@ -257,14 +250,11 @@
             btnIcon.classList.add('spin-anim');
 
             setTimeout(() => {
-                // ข้อมูลสมมติเพื่อทดสอบสถานะต่างๆ (ขาด, พอดี, เกิน)
+                // ข้อมูลสมมติเพื่อทดสอบการแสดงผล
                 const mockApiData = {
-                    '2. ⚽️ ฟุตบอลชาย ม.1-ม.2': 17, // เกิน
-                    '3. ⚽️ ฟุตบอลชาย ม.3-ม.4': 15, // พอดี
-                    '4. ⚽️ ฟุตบอลชาย ม.5-ม.6': 6,  // ขาด
-                    '14. 🏐 วอลเลย์บอลหญิง ม.1-ม.3': 16, // เกิน
-                    '36. 🥎 เปตองชาย ม.1-ม.2': 4, // พอดี
-                    '54. 🎮 E - Sport ม.4-ม.6': 3 // ขาด
+                    '42. 🏸 แบดมินตันชายทีม ม.1-ม.3': 4, // พอดี
+                    '43. 🏸 แบดมินตันชายทีม ม.4-ม.6': 6, // เกิน
+                    '44. 🏸 แบดมินตันหญิงทีม ม.1-ม.3': 2, // ขาด
                 };
 
                 renderDashboard(mockApiData);
@@ -308,14 +298,12 @@
                     category.levels.forEach(level => {
                         const maxTotal = level.real + level.sub;
                         
-                        // ใช้ข้อมูลสุ่มถ้ายังไม่ได้เซ็ตค่าไว้ เพื่อให้เห็นตัวอย่างทุกสี
+                        // ถ้าไม่มีข้อมูลจำลอง ให้สุ่มเพื่อความสวยงาม
                         const registered = apiData[level.sheetName] !== undefined 
                             ? apiData[level.sheetName] 
-                            : Math.floor(Math.random() * (maxTotal + 3)); // สุ่มแบบมีโอกาสเกิน
+                            : Math.floor(Math.random() * (maxTotal + 3)); 
                         
-                        // คำนวณความกว้างหลอดพลัง
-                        // 1. ถ้าจำนวนคน <= ตัวจริง
-                        // 2. ถ้ามีทั้งตัวจริง และสำรอง
+                        // คำนวณความกว้างของหลอดพลัง (Dual Progress Bar)
                         let realPercent = 0;
                         let subPercent = 0;
 
@@ -327,13 +315,13 @@
                             subPercent = (subCount / maxTotal) * 100;
                         }
 
-                        // ตัดสินสถานะสี (ขาด = แดง, พอดี = เขียว, เกิน = ม่วง)
-                        let textColor = "text-red-500"; // Default: ขาด
+                        // ตัดสินสถานะสี 
+                        let textColor = "text-red-500"; // ขาด = แดง
                         const isFull = registered === maxTotal;
                         const isOver = registered > maxTotal;
                         
-                        if (isFull) textColor = "text-green-600";
-                        if (isOver) textColor = "trang-text font-bold";
+                        if (isFull) textColor = "text-green-600"; // พอดี = เขียว
+                        if (isOver) textColor = "trang-text font-bold"; // เกิน = ม่วง
 
                         htmlContent += `
                             <div class="space-y-1">
@@ -379,3 +367,5 @@
     </script>
 </body>
 </html>
+
+
