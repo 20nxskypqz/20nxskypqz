@@ -29,10 +29,17 @@
                 gap: 1rem !important;
             }
             .card-container { margin-bottom: 1rem; }
+            
+            /* ซ่อนปุ่มพิมพ์รายชื่อย่อยเมื่อพิมพ์หน้าหลัก */
+            .print-btn-mini { display: none !important; }
         }
 
         .spin-anim { animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
+        
+        /* สไตล์ปุ่มพิมพ์ย่อย */
+        .level-row:hover .print-btn-mini { opacity: 1; }
+        .print-btn-mini { transition: opacity 0.2s; }
     </style>
 </head>
 <body class="min-h-screen pb-10">
@@ -60,7 +67,7 @@
                         </button>
                         <button onclick="window.print()" class="bg-purple-900 text-white hover:bg-purple-950 px-3 sm:px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors border border-white/30 shadow-sm">
                             <span class="material-symbols-outlined">print</span>
-                            <span class="hidden sm:inline">พิมพ์</span>
+                            <span class="hidden sm:inline">ภาพรวม</span>
                         </button>
                     </div>
                 </div>
@@ -83,45 +90,43 @@
     <footer class="hidden print:block mt-8 text-center text-sm text-gray-500 pb-8" id="print-footer"></footer>
 
     <script>
-        // เปลี่ยนมาใช้ Index (ลำดับชีต 1,2,3...) ตามชีตที่เรียงไว้
-        // (0 = หน้าฟอร์ม, 1 = ชีตที่ 2, 2 = ชีตที่ 3, ..., 48 = ชีตที่ 49)
         const SPORTS_CONFIG = [
             { id: 'football', name: 'ฟุตบอล', icon: 'sports_soccer', categories: [ 
-                { name: 'ชาย', levels: [ { name: 'ม.1-ม.2', sheetIndex: 1, real: 7, sub: 8 }, { name: 'ม.3-ม.4', sheetIndex: 2, real: 7, sub: 8 }, { name: 'ม.5-ม.6', sheetIndex: 3, real: 7, sub: 8 } ]}, 
-                { name: 'หญิง', levels: [ { name: 'ม.1-ม.3', sheetIndex: 4, real: 7, sub: 8 }, { name: 'ม.4-ม.6', sheetIndex: 5, real: 7, sub: 8 } ]} 
+                { name: 'ชาย', levels: [ { name: 'ม.1 - ม.2', sheetIndex: 1, real: 7, sub: 8 }, { name: 'ม.3 - ม.4', sheetIndex: 2, real: 7, sub: 8 }, { name: 'ม.5 - ม.6', sheetIndex: 3, real: 7, sub: 8 } ]}, 
+                { name: 'หญิง', levels: [ { name: 'ม.1 - ม.3', sheetIndex: 4, real: 7, sub: 8 }, { name: 'ม.4 - ม.6', sheetIndex: 5, real: 7, sub: 8 } ]} 
             ]},
             { id: 'basketball', name: 'บาสเกตบอล', icon: 'sports_basketball', categories: [ 
-                { name: 'ชาย', levels: [ { name: 'ม.1-ม.3', sheetIndex: 6, real: 5, sub: 10 }, { name: 'ม.4-ม.6', sheetIndex: 7, real: 5, sub: 10 } ]}, 
-                { name: 'หญิง', levels: [ { name: 'ม.1-ม.3', sheetIndex: 8, real: 5, sub: 10 }, { name: 'ม.4-ม.6', sheetIndex: 9, real: 5, sub: 10 } ]} 
+                { name: 'ชาย', levels: [ { name: 'ม.1 - ม.3', sheetIndex: 6, real: 5, sub: 10 }, { name: 'ม.4 - ม.6', sheetIndex: 7, real: 5, sub: 10 } ]}, 
+                { name: 'หญิง', levels: [ { name: 'ม.1 - ม.3', sheetIndex: 8, real: 5, sub: 10 }, { name: 'ม.4 - ม.6', sheetIndex: 9, real: 5, sub: 10 } ]} 
             ]},
             { id: 'volleyball', name: 'วอลเลย์บอล', icon: 'sports_volleyball', categories: [ 
-                { name: 'ชาย', levels: [ { name: 'ม.1-ม.2', sheetIndex: 10, real: 6, sub: 9 }, { name: 'ม.3-ม.4', sheetIndex: 11, real: 6, sub: 9 }, { name: 'ม.5-ม.6', sheetIndex: 12, real: 6, sub: 9 } ]}, 
-                { name: 'หญิง', levels: [ { name: 'ม.1-ม.3', sheetIndex: 13, real: 6, sub: 9 }, { name: 'ม.4-ม.6', sheetIndex: 14, real: 6, sub: 9 } ]} 
+                { name: 'ชาย', levels: [ { name: 'ม.1 - ม.2', sheetIndex: 10, real: 6, sub: 9 }, { name: 'ม.3 - ม.4', sheetIndex: 11, real: 6, sub: 9 }, { name: 'ม.5 - ม.6', sheetIndex: 12, real: 6, sub: 9 } ]}, 
+                { name: 'หญิง', levels: [ { name: 'ม.1 - ม.3', sheetIndex: 13, real: 6, sub: 9 }, { name: 'ม.4 - ม.6', sheetIndex: 14, real: 6, sub: 9 } ]} 
             ]},
             { id: 'takraw', name: 'เซปักตะกร้อ', icon: 'sports_martial_arts', categories: [ 
-                { name: 'ชาย', levels: [ { name: 'ม.1-ม.2', sheetIndex: 15, real: 3, sub: 1 }, { name: 'ม.3-ม.4', sheetIndex: 16, real: 3, sub: 1 }, { name: 'ม.5-ม.6', sheetIndex: 17, real: 3, sub: 1 } ]}, 
-                { name: 'หญิง', levels: [ { name: 'ม.1-ม.3', sheetIndex: 18, real: 3, sub: 1 }, { name: 'ม.4-ม.6', sheetIndex: 19, real: 3, sub: 1 } ]} 
+                { name: 'ชาย', levels: [ { name: 'ม.1 - ม.2', sheetIndex: 15, real: 3, sub: 1 }, { name: 'ม.3 - ม.4', sheetIndex: 16, real: 3, sub: 1 }, { name: 'ม.5 - ม.6', sheetIndex: 17, real: 3, sub: 1 } ]}, 
+                { name: 'หญิง', levels: [ { name: 'ม.1 - ม.3', sheetIndex: 18, real: 3, sub: 1 }, { name: 'ม.4 - ม.6', sheetIndex: 19, real: 3, sub: 1 } ]} 
             ]},
             { id: 'tabletennis', name: 'เทเบิลเทนนิส', icon: 'sports_tennis', categories: [ 
-                { name: 'ชายเดี่ยว', levels: [ { name: 'ม.1-ม.2', sheetIndex: 20, real: 1, sub: 0 }, { name: 'ม.3-ม.4', sheetIndex: 21, real: 1, sub: 0 }, { name: 'ม.5-ม.6', sheetIndex: 22, real: 1, sub: 0 } ]}, 
-                { name: 'ชายคู่', levels: [ { name: 'ม.1-ม.2', sheetIndex: 23, real: 2, sub: 0 }, { name: 'ม.3-ม.4', sheetIndex: 24, real: 2, sub: 0 }, { name: 'ม.5-ม.6', sheetIndex: 25, real: 2, sub: 0 } ]}, 
-                { name: 'หญิงเดี่ยว', levels: [ { name: 'ม.1-ม.2', sheetIndex: 26, real: 1, sub: 0 }, { name: 'ม.3-ม.4', sheetIndex: 27, real: 1, sub: 0 }, { name: 'ม.5-ม.6', sheetIndex: 28, real: 1, sub: 0 } ]}, 
-                { name: 'หญิงคู่', levels: [ { name: 'ม.1-ม.2', sheetIndex: 29, real: 2, sub: 0 }, { name: 'ม.3-ม.4', sheetIndex: 30, real: 2, sub: 0 }, { name: 'ม.5-ม.6', sheetIndex: 31, real: 2, sub: 0 } ]}, 
-                { name: 'คู่ผสม', levels: [ { name: 'ม.1-ม.2', sheetIndex: 32, real: 2, sub: 0 }, { name: 'ม.3-ม.4', sheetIndex: 33, real: 2, sub: 0 }, { name: 'ม.5-ม.6', sheetIndex: 34, real: 2, sub: 0 } ]} 
+                { name: 'ชายเดี่ยว', levels: [ { name: 'ม.1 - ม.2', sheetIndex: 20, real: 1, sub: 0 }, { name: 'ม.3 - ม.4', sheetIndex: 21, real: 1, sub: 0 }, { name: 'ม.5 - ม.6', sheetIndex: 22, real: 1, sub: 0 } ]}, 
+                { name: 'ชายคู่', levels: [ { name: 'ม.1 - ม.2', sheetIndex: 23, real: 2, sub: 0 }, { name: 'ม.3 - ม.4', sheetIndex: 24, real: 2, sub: 0 }, { name: 'ม.5 - ม.6', sheetIndex: 25, real: 2, sub: 0 } ]}, 
+                { name: 'หญิงเดี่ยว', levels: [ { name: 'ม.1 - ม.2', sheetIndex: 26, real: 1, sub: 0 }, { name: 'ม.3 - ม.4', sheetIndex: 27, real: 1, sub: 0 }, { name: 'ม.5 - ม.6', sheetIndex: 28, real: 1, sub: 0 } ]}, 
+                { name: 'หญิงคู่', levels: [ { name: 'ม.1 - ม.2', sheetIndex: 29, real: 2, sub: 0 }, { name: 'ม.3 - ม.4', sheetIndex: 30, real: 2, sub: 0 }, { name: 'ม.5 - ม.6', sheetIndex: 31, real: 2, sub: 0 } ]}, 
+                { name: 'คู่ผสม', levels: [ { name: 'ม.1 - ม.2', sheetIndex: 32, real: 2, sub: 0 }, { name: 'ม.3 - ม.4', sheetIndex: 33, real: 2, sub: 0 }, { name: 'ม.5 - ม.6', sheetIndex: 34, real: 2, sub: 0 } ]} 
             ]},
             { id: 'petanque', name: 'เปตอง', icon: 'sports_baseball', categories: [ 
-                { name: 'ชาย', levels: [ { name: 'ม.1-ม.2', sheetIndex: 35, real: 3, sub: 1 }, { name: 'ม.3-ม.4', sheetIndex: 36, real: 3, sub: 1 }, { name: 'ม.5-ม.6', sheetIndex: 37, real: 3, sub: 1 } ]}, 
-                { name: 'หญิง', levels: [ { name: 'ม.1-ม.2', sheetIndex: 38, real: 3, sub: 1 }, { name: 'ม.3-ม.4', sheetIndex: 39, real: 3, sub: 1 }, { name: 'ม.5-ม.6', sheetIndex: 40, real: 3, sub: 1 } ]} 
+                { name: 'ชาย', levels: [ { name: 'ม.1 - ม.2', sheetIndex: 35, real: 3, sub: 1 }, { name: 'ม.3 - ม.4', sheetIndex: 36, real: 3, sub: 1 }, { name: 'ม.5 - ม.6', sheetIndex: 37, real: 3, sub: 1 } ]}, 
+                { name: 'หญิง', levels: [ { name: 'ม.1 - ม.2', sheetIndex: 38, real: 3, sub: 1 }, { name: 'ม.3 - ม.4', sheetIndex: 39, real: 3, sub: 1 }, { name: 'ม.5 - ม.6', sheetIndex: 40, real: 3, sub: 1 } ]} 
             ]},
             { id: 'badminton', name: 'แบดมินตัน', icon: 'sports_tennis', categories: [ 
-                { name: 'ชายทีม', levels: [ { name: 'ม.ต้น', sheetIndex: 41, real: 3, sub: 2 }, { name: 'ม.ปลาย', sheetIndex: 42, real: 3, sub: 2 } ]}, 
-                { name: 'หญิงทีม', levels: [ { name: 'ม.ต้น', sheetIndex: 43, real: 3, sub: 2 }, { name: 'ม.ปลาย', sheetIndex: 44, real: 3, sub: 2 } ]} 
+                { name: 'ชาย', levels: [ { name: 'ม.1 - ม.3', sheetIndex: 41, real: 3, sub: 2 }, { name: 'ม.4 - ม.6', sheetIndex: 42, real: 3, sub: 2 } ]}, 
+                { name: 'หญิง', levels: [ { name: 'ม.1 - ม.3', sheetIndex: 43, real: 3, sub: 2 }, { name: 'ม.4 - ม.6', sheetIndex: 44, real: 3, sub: 2 } ]} 
             ]},
             { id: 'dancesport', name: 'ลีลาศ', icon: 'accessibility_new', categories: [ 
-                { name: 'ทั่วไป', levels: [ { name: 'ม.ต้น', sheetIndex: 45, real: 2, sub: 2 }, { name: 'ม.ปลาย', sheetIndex: 46, real: 2, sub: 2 } ]} 
+                { name: 'ชาย - หญิง', levels: [ { name: 'ม.ต้น', sheetIndex: 45, real: 2, sub: 2 }, { name: 'ม.ปลาย', sheetIndex: 46, real: 2, sub: 2 } ]} 
             ]},
             { id: 'esport', name: 'E-Sport', icon: 'sports_esports', categories: [ 
-                { name: 'Free Fire', levels: [ { name: 'ม.1-ม.3', sheetIndex: 47, real: 4, sub: 1 }, { name: 'ม.4-ม.6', sheetIndex: 48, real: 4, sub: 1 } ]} 
+                { name: 'Free Fire', levels: [ { name: 'ม.1 - ม.3', sheetIndex: 47, real: 4, sub: 1 }, { name: 'ม.4 - ม.6', sheetIndex: 48, real: 4, sub: 1 } ]} 
             ]}
         ];
 
@@ -136,7 +141,6 @@
             return `${hh} : ${mm} : ${ss} - ${dd} / ${month} / ${yy}`;
         }
 
-        // ลิงก์ API เดิมของคุณที่ได้ Deploy ไว้
         const API_URL = "https://script.google.com/macros/s/AKfycbyYcyfX0znWZJaf1Tp6SQxV5XEkGJqKO7-s4G5dLjIbw0VD-PeVWb9wLD2VC1F0PpN3/exec"; 
         
         function fetchData() {
@@ -152,9 +156,7 @@
                     return response.json();
                 })
                 .then(apiData => {
-                    // apiData ตอนนี้จะเป็น { "1": 15, "2": 7, "3": 0, ... }
                     console.log("Data loaded by sheet index:", apiData); 
-                    
                     renderDashboard(apiData);
                     
                     const updatedTime = getFormattedDate();
@@ -177,6 +179,12 @@
                 });
         }
 
+        // ฟังก์ชันจำลองการกดพิมพ์รายชื่อ (เตรียมไว้สำหรับอนาคต)
+        function printCategoryDetails(sportName, catName, levelName, sheetIndex) {
+            alert(`ฟีเจอร์กำลังพัฒนา: พิมพ์รายชื่อของ ${sportName} ${catName} รุ่น ${levelName} (จากชีต index ${sheetIndex})`);
+            // ในอนาคตสามารถใส่โค้ดเปิด Popup ดึงรายชื่อมาแสดงและสั่งพิมพ์ได้ที่นี่
+        }
+
         function renderDashboard(apiData) {
             const container = document.getElementById('dashboard-container');
             let htmlContent = '';
@@ -192,7 +200,11 @@
                 `;
 
                 sport.categories.forEach(category => {
-                    const catIcon = category.name.includes('ชาย') ? 'man' : (category.name.includes('หญิง') ? 'woman' : 'group');
+                    // กำหนดไอคอนให้เข้ากับเพศ
+                    let catIcon = 'group';
+                    if (category.name === 'ชาย' || category.name === 'ชายเดี่ยว' || category.name === 'ชายคู่') catIcon = 'man';
+                    else if (category.name === 'หญิง' || category.name === 'หญิงเดี่ยว' || category.name === 'หญิงคู่') catIcon = 'woman';
+                    else if (category.name === 'ชาย - หญิง' || category.name === 'คู่ผสม') catIcon = 'wc';
                     
                     htmlContent += `
                         <div class="space-y-3">
@@ -205,9 +217,6 @@
 
                     category.levels.forEach(level => {
                         const maxTotal = level.real + level.sub;
-                        
-                        // ดึงข้อมูลโดยตรงจาก Index ลำดับชีต 
-                        // apiData แปลง key ที่เป็นตัวเลขกลับเป็น string ให้เอง
                         const registered = apiData[level.sheetIndex] || 0;
                         
                         let realPercent = 0;
@@ -228,11 +237,17 @@
                         if (isFull) textColor = "text-green-600";
                         if (isOver) textColor = "trang-text font-bold";
 
+                        // เพิ่มคลาส level-row เพื่อให้แสดงปุ่มพิมพ์เมื่อเอาเมาส์ชี้
                         htmlContent += `
-                            <div class="space-y-1">
+                            <div class="space-y-1 relative level-row group">
                                 <div class="flex justify-between items-center text-sm">
                                     <div class="flex flex-col">
-                                        <span class="font-medium text-gray-700">${level.name}</span>
+                                        <span class="font-medium text-gray-700 flex items-center gap-2">
+                                            ${level.name}
+                                            <button onclick="printCategoryDetails('${sport.name}', '${category.name}', '${level.name}', ${level.sheetIndex})" class="print-btn-mini opacity-0 lg:hidden group-hover:inline-flex bg-gray-100 hover:bg-gray-200 text-gray-600 rounded px-1.5 py-0.5 text-[10px] items-center gap-1 cursor-pointer" title="พิมพ์รายชื่อ">
+                                                <span class="material-symbols-outlined text-[12px]">print</span> พิมพ์
+                                            </button>
+                                        </span>
                                     </div>
                                     <span class="font-bold ${textColor}">
                                         ${registered} / ${maxTotal}
