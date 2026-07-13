@@ -1,0 +1,445 @@
+import React, { useState, useEffect } from 'react';
+
+// โครงสร้างข้อมูลผูกกับ "ชื่อหน้าชีต" ตรงตามลิงก์ที่ให้มา
+const SPORTS_CONFIG = [
+  {
+    id: 'football',
+    name: 'ฟุตบอล (15 คน)',
+    icon: 'sports_soccer',
+    categories: [
+      {
+        name: 'ชาย',
+        levels: [
+          { name: 'ม.1-ม.2', sheetName: '2. ⚽️ ฟุตบอลชาย ม.1-ม.2', real: 7, sub: 8 },
+          { name: 'ม.3-ม.4', sheetName: '3. ⚽️ ฟุตบอลชาย ม.3-ม.4', real: 7, sub: 8 },
+          { name: 'ม.5-ม.6', sheetName: '4. ⚽️ ฟุตบอลชาย ม.5-ม.6', real: 7, sub: 8 }
+        ]
+      },
+      {
+        name: 'หญิง',
+        levels: [
+          { name: 'ม.1-ม.3', sheetName: '5. ⚽️ ฟุตบอลหญิง ม.1-ม.3', real: 7, sub: 8 },
+          { name: 'ม.4-ม.6', sheetName: '6. ⚽️ ฟุตบอลหญิง ม.4-ม.6', real: 7, sub: 8 }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'basketball',
+    name: 'บาสเกตบอล (15 คน)',
+    icon: 'sports_basketball',
+    categories: [
+      {
+        name: 'ชาย',
+        levels: [
+          { name: 'ม.1-ม.3', sheetName: '7. 🏀 บาสเกตบอลชาย ม.1-ม.3', real: 5, sub: 10 },
+          { name: 'ม.4-ม.6', sheetName: '8. 🏀 บาสเกตบอลชาย ม.4-ม.6', real: 5, sub: 10 }
+        ]
+      },
+      {
+        name: 'หญิง',
+        levels: [
+          { name: 'ม.1-ม.3', sheetName: '9. 🏀 บาสเกตบอลหญิง ม.1-ม.3', real: 5, sub: 10 },
+          { name: 'ม.4-ม.6', sheetName: '10. 🏀 บาสเกตบอลหญิง ม.4-ม.6', real: 5, sub: 10 }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'volleyball',
+    name: 'วอลเลย์บอล (15 คน)',
+    icon: 'sports_volleyball',
+    categories: [
+      {
+        name: 'ชาย',
+        levels: [
+          { name: 'ม.1-ม.2', sheetName: '11. 🏐 วอลเลย์บอลชาย ม.1-ม.2', real: 6, sub: 9 },
+          { name: 'ม.3-ม.4', sheetName: '12. 🏐 วอลเลย์บอลชาย ม.3-ม.4', real: 6, sub: 9 },
+          { name: 'ม.5-ม.6', sheetName: '13. 🏐 วอลเลย์บอลชาย ม.5-ม.6', real: 6, sub: 9 }
+        ]
+      },
+      {
+        name: 'หญิง',
+        levels: [
+          { name: 'ม.1-ม.3', sheetName: '14. 🏐 วอลเลย์บอลหญิง ม.1-ม.3', real: 6, sub: 9 },
+          { name: 'ม.4-ม.6', sheetName: '15. 🏐 วอลเลย์บอลหญิง ม.4-ม.6', real: 6, sub: 9 }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'takraw',
+    name: 'เซปักตะกร้อ (4 คน)',
+    icon: 'sports_martial_arts',
+    categories: [
+      {
+        name: 'ชาย',
+        levels: [
+          { name: 'ม.1-ม.2', sheetName: '16. 👟 เซปักตะกร้อชาย ม.1-ม.2', real: 3, sub: 1 },
+          { name: 'ม.3-ม.4', sheetName: '17. 👟 เซปักตะกร้อชาย ม.3-ม.4', real: 3, sub: 1 },
+          { name: 'ม.5-ม.6', sheetName: '18. 👟 เซปักตะกร้อชาย ม.5-ม.6', real: 3, sub: 1 }
+        ]
+      },
+      {
+        name: 'หญิง',
+        levels: [
+          { name: 'ม.1-ม.3', sheetName: '19. 👟 เซปักตะกร้อหญิง ม.1-ม.3', real: 3, sub: 1 },
+          { name: 'ม.4-ม.6', sheetName: '20. 👟 เซปักตะกร้อหญิง ม.4-ม.6', real: 3, sub: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'tabletennis',
+    name: 'เทเบิลเทนนิส',
+    icon: 'sports_tennis',
+    categories: [
+      {
+        name: 'ชายเดี่ยว',
+        levels: [
+          { name: 'ม.1-ม.2', sheetName: '21. 🏓 เทเบิลเทนนิสชายเดี่ยว ม.1-ม.2', real: 1, sub: 0 },
+          { name: 'ม.3-ม.4', sheetName: '22. 🏓 เทเบิลเทนนิสชายเดี่ยว ม.3-ม.4', real: 1, sub: 0 },
+          { name: 'ม.5-ม.6', sheetName: '23. 🏓 เทเบิลเทนนิสชายเดี่ยว ม.5-ม.6', real: 1, sub: 0 }
+        ]
+      },
+      {
+        name: 'ชายคู่',
+        levels: [
+          { name: 'ม.1-ม.2', sheetName: '24. 🏓 เทเบิลเทนนิสชายคู่ ม.1-ม.2', real: 2, sub: 0 },
+          { name: 'ม.3-ม.4', sheetName: '25. 🏓 เทเบิลเทนนิสชายคู่ ม.3-ม.4', real: 2, sub: 0 },
+          { name: 'ม.5-ม.6', sheetName: '26. 🏓 เทเบิลเทนนิสชายคู่ ม.5-ม.6', real: 2, sub: 0 }
+        ]
+      },
+      {
+        name: 'หญิงเดี่ยว',
+        levels: [
+          { name: 'ม.1-ม.2', sheetName: '27. 🏓 เทเบิลเทนนิสหญิงเดี่ยว ม.1-ม.2', real: 1, sub: 0 },
+          { name: 'ม.3-ม.4', sheetName: '28. 🏓 เทเบิลเทนนิสหญิงเดี่ยว ม.3-ม.4', real: 1, sub: 0 },
+          { name: 'ม.5-ม.6', sheetName: '29. 🏓 เทเบิลเทนนิสหญิงเดี่ยว ม.5-ม.6', real: 1, sub: 0 }
+        ]
+      },
+      {
+        name: 'หญิงคู่',
+        levels: [
+          { name: 'ม.1-ม.2', sheetName: '30. 🏓 เทเบิลเทนนิสหญิงคู่ ม.1-ม.2', real: 2, sub: 0 },
+          { name: 'ม.3-ม.4', sheetName: '31. 🏓 เทเบิลเทนนิสหญิงคู่ ม.3-ม.4', real: 2, sub: 0 },
+          { name: 'ม.5-ม.6', sheetName: '32. 🏓 เทเบิลเทนนิสหญิงคู่ ม.5-ม.6', real: 2, sub: 0 }
+        ]
+      },
+      {
+        name: 'คู่ผสม',
+        levels: [
+          { name: 'ม.1-ม.2', sheetName: '33. 🏓 เทเบิลเทนนิสคู่ผสม ม.1-ม.2', real: 2, sub: 0 },
+          { name: 'ม.3-ม.4', sheetName: '34. 🏓 เทเบิลเทนนิสคู่ผสม ม.3-ม.4', real: 2, sub: 0 },
+          { name: 'ม.5-ม.6', sheetName: '35. 🏓 เทเบิลเทนนิสคู่ผสม ม.5-ม.6', real: 2, sub: 0 }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'petanque',
+    name: 'เปตอง (4 คน)',
+    icon: 'sports_baseball',
+    categories: [
+      {
+        name: 'ชาย',
+        levels: [
+          { name: 'ม.1-ม.2', sheetName: '36. 🥎 เปตองชาย ม.1-ม.2', real: 3, sub: 1 },
+          { name: 'ม.3-ม.4', sheetName: '37. 🥎 เปตองชาย ม.3-ม.4', real: 3, sub: 1 },
+          { name: 'ม.5-ม.6', sheetName: '38. 🥎 เปตองชาย ม.5-ม.6', real: 3, sub: 1 }
+        ]
+      },
+      {
+        name: 'หญิง',
+        levels: [
+          { name: 'ม.1-ม.2', sheetName: '39. 🥎 เปตองหญิง ม.1-ม.2', real: 3, sub: 1 },
+          { name: 'ม.3-ม.4', sheetName: '40. 🥎 เปตองหญิง ม.3-ม.4', real: 3, sub: 1 },
+          { name: 'ม.5-ม.6', sheetName: '41. 🥎 เปตองหญิง ม.5-ม.6', real: 3, sub: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'badminton',
+    name: 'แบดมินตัน',
+    icon: 'sports_tennis',
+    categories: [
+      {
+        name: 'ชายเดี่ยว',
+        levels: [
+          { name: 'ม.1-ม.2', sheetName: '42. 🏸 แบดมินตันชายเดี่ยว ม.1-ม.2', real: 1, sub: 0 },
+          { name: 'ม.3-ม.4', sheetName: '43. 🏸 แบดมินตันชายเดี่ยว ม.3-ม.4', real: 1, sub: 0 },
+          { name: 'ม.5-ม.6', sheetName: '44. 🏸 แบดมินตันชายเดี่ยว ม.5-ม.6', real: 1, sub: 0 }
+        ]
+      },
+      {
+        name: 'หญิงเดี่ยว',
+        levels: [
+          { name: 'ม.1-ม.2', sheetName: '45. 🏸 แบดมินตันหญิงเดี่ยว ม.1-ม.2', real: 1, sub: 0 },
+          { name: 'ม.3-ม.4', sheetName: '46. 🏸 แบดมินตันหญิงเดี่ยว ม.3-ม.4', real: 1, sub: 0 },
+          { name: 'ม.5-ม.6', sheetName: '47. 🏸 แบดมินตันหญิงเดี่ยว ม.5-ม.6', real: 1, sub: 0 }
+        ]
+      },
+      {
+        name: 'คู่ผสม',
+        levels: [
+          { name: 'ม.1-ม.2', sheetName: '48. 🏸 แบดมินตันคู่ผสม ม.1-ม.2', real: 2, sub: 0 },
+          { name: 'ม.3-ม.4', sheetName: '49. 🏸 แบดมินตันคู่ผสม ม.3-ม.4', real: 2, sub: 0 },
+          { name: 'ม.5-ม.6', sheetName: '50. 🏸 แบดมินตันคู่ผสม ม.5-ม.6', real: 2, sub: 0 }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'dancesport',
+    name: 'ลีลาศ (รุ่นละ 4 คน)',
+    icon: 'accessibility_new',
+    categories: [
+      {
+        name: 'ทั่วไป',
+        levels: [
+          { name: 'ม.ต้น', sheetName: '51. 🕺💃 ลีลาศ ม.ต้น', real: 2, sub: 2 },
+          { name: 'ม.ปลาย', sheetName: '52. 🕺💃 ลีลาศ ม.ปลาย', real: 2, sub: 2 }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'esport',
+    name: 'E-Sport (5 คน)',
+    icon: 'sports_esports',
+    categories: [
+      {
+        name: 'Free Fire',
+        levels: [
+          { name: 'ม.1-ม.3', sheetName: '53. 🎮 E - Sport ม.1-ม.3', real: 4, sub: 1 },
+          { name: 'ม.4-ม.6', sheetName: '54. 🎮 E - Sport ม.4-ม.6', real: 4, sub: 1 }
+        ]
+      }
+    ]
+  }
+];
+
+export default function App() {
+  const [data, setData] = useState([]);
+  const [lastUpdated, setLastUpdated] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // โหลดฟอนต์ Sarabun และ Icons
+    const fontLink = document.createElement('link');
+    fontLink.href = 'https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap';
+    fontLink.rel = 'stylesheet';
+    document.head.appendChild(fontLink);
+
+    const iconLink = document.createElement('link');
+    iconLink.href = 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200';
+    iconLink.rel = 'stylesheet';
+    document.head.appendChild(iconLink);
+
+    const style = document.createElement('style');
+    style.innerHTML = `
+      body { font-family: 'Sarabun', sans-serif; background-color: #f3f4f6; }
+      .trang-bg { background-color: #5c2d91; }
+      .trang-text { color: #5c2d91; }
+      .trang-border { border-color: #5c2d91; }
+      
+      @media print {
+        body { background-color: white; }
+        .no-print { display: none !important; }
+        .print-break-inside-avoid { break-inside: avoid; }
+        .shadow-md { box-shadow: none !important; border: 1px solid #e5e7eb; }
+        .grid-cols-1 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .xl\\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      }
+    `;
+    document.head.appendChild(style);
+
+    fetchData();
+
+    return () => {
+      document.head.removeChild(fontLink);
+      document.head.removeChild(iconLink);
+      document.head.removeChild(style);
+    };
+  }, []);
+
+  const formatDateTime = (date) => {
+    const hh = String(date.getHours()).padStart(2, '0');
+    const mm = String(date.getMinutes()).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const yy = String(date.getFullYear()).slice(-2);
+    return `${hh} : ${mm} - ${dd} / ${month} / ${yy}`;
+  };
+
+  const fetchData = () => {
+    setIsLoading(true);
+    
+    // จำลองผลลัพธ์จากการดึง API Google Sheets ด้วยวิธี "นับข้อมูลจากแถว 2" 
+    // ในแอปจริง คุณจะได้รับ JSON แบบนี้กลับมาจาก Web App ของ Apps Script
+    setTimeout(() => {
+      const mockApiData = {
+        '2. ⚽️ ฟุตบอลชาย ม.1-ม.2': Math.floor(Math.random() * 16),
+        '3. ⚽️ ฟุตบอลชาย ม.3-ม.4': Math.floor(Math.random() * 16),
+        '54. 🎮 E - Sport ม.4-ม.6': Math.floor(Math.random() * 6),
+        // ... (สมมติว่าดึงข้อมูลมาครบทุกชีต)
+      };
+
+      const processedData = SPORTS_CONFIG.map(sport => {
+        return {
+          ...sport,
+          categories: sport.categories.map(cat => ({
+            ...cat,
+            levels: cat.levels.map(level => {
+              const maxTotal = level.real + level.sub;
+              // ค้นหาจำนวนคนโดยอ้างอิงจาก 'sheetName' เป็น Key หลัก
+              // ถ้ายังไม่มีระบบจริง ขอสุ่มตัวเลขเพื่อทดสอบหลอดสถานะไปก่อน
+              const registeredCount = mockApiData[level.sheetName] !== undefined 
+                ? mockApiData[level.sheetName] 
+                : Math.floor(Math.random() * (maxTotal + 1)); 
+              
+              return {
+                ...level,
+                registered: registeredCount,
+                max: maxTotal
+              };
+            })
+          }))
+        };
+      });
+
+      setData(processedData);
+      setLastUpdated(formatDateTime(new Date()));
+      setIsLoading(false);
+    }, 800);
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 pb-10">
+      {/* Header */}
+      <header className="trang-bg text-white shadow-lg sticky top-0 z-10 print-break-inside-avoid">
+        <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-3">
+              <span className="material-symbols-outlined text-4xl">stadium</span>
+              <div>
+                <h1 className="text-2xl font-bold tracking-wide">ระบบตรวจสอบจำนวนนักกีฬา</h1>
+                <p className="text-sm opacity-90">ข้อมูลเชื่อมโยงจาก Google Sheets อัตโนมัติ</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
+              <div className="text-sm bg-white/20 px-4 py-2 rounded-lg backdrop-blur-sm flex items-center gap-2">
+                <span className="material-symbols-outlined text-sm">schedule</span>
+                <span>อัปเดต: {lastUpdated || 'กำลังโหลด...'}</span>
+              </div>
+              
+              <div className="flex gap-2 no-print">
+                <button 
+                  onClick={fetchData}
+                  disabled={isLoading}
+                  className="bg-white trang-text hover:bg-gray-100 px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors disabled:opacity-50 shadow-sm"
+                >
+                  <span className={`material-symbols-outlined ${isLoading ? 'animate-spin' : ''}`}>sync</span>
+                  <span className="hidden sm:inline">รีเฟรช</span>
+                </button>
+                <button 
+                  onClick={handlePrint}
+                  className="bg-purple-900 text-white hover:bg-purple-950 px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors border border-white/30 shadow-sm"
+                >
+                  <span className="material-symbols-outlined">print</span>
+                  <span className="hidden sm:inline">พิมพ์</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        
+        {isLoading && data.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-20 text-gray-500">
+            <span className="material-symbols-outlined text-6xl animate-spin mb-4 trang-text">autorenew</span>
+            <p className="text-lg font-medium">กำลังเชื่อมต่อและดึงข้อมูลจากชีต...</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 items-start">
+            {data.map((sport) => (
+              <div key={sport.id} className="bg-white rounded-xl shadow-md overflow-hidden print-break-inside-avoid border border-gray-100">
+                <div className="trang-bg text-white px-4 py-3 flex items-center gap-2">
+                  <span className="material-symbols-outlined">{sport.icon}</span>
+                  <h2 className="text-lg font-bold">{sport.name}</h2>
+                </div>
+                
+                <div className="p-4 space-y-5">
+                  {sport.categories.map((category, catIdx) => (
+                    <div key={catIdx} className="space-y-3">
+                      <div className="flex items-center gap-2 border-b pb-1">
+                        <span className="material-symbols-outlined trang-text text-sm">
+                          {category.name.includes('ชาย') ? 'man' : category.name.includes('หญิง') ? 'woman' : 'group'}
+                        </span>
+                        <h3 className="font-semibold text-gray-800">
+                          {category.name}
+                        </h3>
+                      </div>
+                      
+                      <div className="space-y-3 pl-2">
+                        {category.levels.map((level, lvlIdx) => {
+                          const percent = Math.round((level.registered / level.max) * 100);
+                          const isFull = level.registered === level.max;
+                          const isOver = level.registered > level.max;
+                          
+                          let progressColor = "bg-purple-500";
+                          if (isFull) progressColor = "bg-green-500";
+                          if (isOver) progressColor = "bg-red-500";
+                          if (level.registered === 0) progressColor = "bg-gray-200";
+
+                          return (
+                            <div key={lvlIdx} className="space-y-1">
+                              <div className="flex justify-between items-center text-sm">
+                                <div className="flex flex-col">
+                                  <span className="font-medium text-gray-700">{level.name}</span>
+                                  <span className="text-[10px] text-gray-400 no-print truncate max-w-[120px]" title={level.sheetName}>
+                                    ดึงจาก: {level.sheetName}
+                                  </span>
+                                </div>
+                                <span className={`font-bold ${isFull ? 'text-green-600' : isOver ? 'text-red-600' : 'trang-text'}`}>
+                                  {level.registered} / {level.max} คน
+                                </span>
+                              </div>
+                              <div className="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
+                                <div 
+                                  className={`h-2.5 rounded-full ${progressColor} transition-all duration-500`}
+                                  style={{ width: `${Math.min(percent, 100)}%` }}
+                                ></div>
+                              </div>
+                              <div className="text-[11px] text-gray-500 text-right">
+                                (ตัวจริง {level.real} | สำรอง {level.sub})
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+      </main>
+
+      <footer className="hidden print:block mt-8 text-center text-sm text-gray-500">
+        พิมพ์เมื่อ: {formatDateTime(new Date())} - ระบบตรวจสอบจำนวนนักกีฬา
+      </footer>
+    </div>
+  )
+}
