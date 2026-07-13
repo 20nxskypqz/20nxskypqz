@@ -83,16 +83,46 @@
     <footer class="hidden print:block mt-8 text-center text-sm text-gray-500 pb-8" id="print-footer"></footer>
 
     <script>
+        // เปลี่ยนมาใช้ Index (ลำดับชีต 1,2,3...) ตามชีตที่เรียงไว้
+        // (0 = หน้าฟอร์ม, 1 = ชีตที่ 2, 2 = ชีตที่ 3, ..., 48 = ชีตที่ 49)
         const SPORTS_CONFIG = [
-            { id: 'football', name: 'ฟุตบอล', icon: 'sports_soccer', categories: [ { name: 'ชาย', levels: [ { name: 'ม.1-ม.2', sheetName: '2. ⚽️ ฟุตบอลชาย ม.1-ม.2', real: 7, sub: 8 }, { name: 'ม.3-ม.4', sheetName: '3. ⚽️ ฟุตบอลชาย ม.3-ม.4', real: 7, sub: 8 }, { name: 'ม.5-ม.6', sheetName: '4. ⚽️ ฟุตบอลชาย ม.5-ม.6', real: 7, sub: 8 } ]}, { name: 'หญิง', levels: [ { name: 'ม.1-ม.3', sheetName: '5. ⚽️ ฟุตบอลหญิง ม.1-ม.3', real: 7, sub: 8 }, { name: 'ม.4-ม.6', sheetName: '6. ⚽️ ฟุตบอลหญิง ม.4-ม.6', real: 7, sub: 8 } ]} ] },
-            { id: 'basketball', name: 'บาสเกตบอล', icon: 'sports_basketball', categories: [ { name: 'ชาย', levels: [ { name: 'ม.1-ม.3', sheetName: '7. 🏀 บาสเกตบอลชาย ม.1-ม.3', real: 5, sub: 10 }, { name: 'ม.4-ม.6', sheetName: '8. 🏀 บาสเกตบอลชาย ม.4-ม.6', real: 5, sub: 10 } ]}, { name: 'หญิง', levels: [ { name: 'ม.1-ม.3', sheetName: '9. 🏀 บาสเกตบอลหญิง ม.1-ม.3', real: 5, sub: 10 }, { name: 'ม.4-ม.6', sheetName: '10. 🏀 บาสเกตบอลหญิง ม.4-ม.6', real: 5, sub: 10 } ]} ] },
-            { id: 'volleyball', name: 'วอลเลย์บอล', icon: 'sports_volleyball', categories: [ { name: 'ชาย', levels: [ { name: 'ม.1-ม.2', sheetName: '11. 🏐 วอลเลย์บอลชาย ม.1-ม.2', real: 6, sub: 9 }, { name: 'ม.3-ม.4', sheetName: '12. 🏐 วอลเลย์บอลชาย ม.3-ม.4', real: 6, sub: 9 }, { name: 'ม.5-ม.6', sheetName: '13. 🏐 วอลเลย์บอลชาย ม.5-ม.6', real: 6, sub: 9 } ]}, { name: 'หญิง', levels: [ { name: 'ม.1-ม.3', sheetName: '14. 🏐 วอลเลย์บอลหญิง ม.1-ม.3', real: 6, sub: 9 }, { name: 'ม.4-ม.6', sheetName: '15. 🏐 วอลเลย์บอลหญิง ม.4-ม.6', real: 6, sub: 9 } ]} ] },
-            { id: 'takraw', name: 'เซปักตะกร้อ', icon: 'sports_martial_arts', categories: [ { name: 'ชาย', levels: [ { name: 'ม.1-ม.2', sheetName: '16. 👟 เซปักตะกร้อชาย ม.1-ม.2', real: 3, sub: 1 }, { name: 'ม.3-ม.4', sheetName: '17. 👟 เซปักตะกร้อชาย ม.3-ม.4', real: 3, sub: 1 }, { name: 'ม.5-ม.6', sheetName: '18. 👟 เซปักตะกร้อชาย ม.5-ม.6', real: 3, sub: 1 } ]}, { name: 'หญิง', levels: [ { name: 'ม.1-ม.3', sheetName: '19. 👟 เซปักตะกร้อหญิง ม.1-ม.3', real: 3, sub: 1 }, { name: 'ม.4-ม.6', sheetName: '20. 👟 เซปักตะกร้อหญิง ม.4-ม.6', real: 3, sub: 1 } ]} ] },
-            { id: 'tabletennis', name: 'เทเบิลเทนนิส', icon: 'sports_tennis', categories: [ { name: 'ชายเดี่ยว', levels: [ { name: 'ม.1-ม.2', sheetName: '21. 🏓 เทเบิลเทนนิสชายเดี่ยว ม.1-ม.', real: 1, sub: 0 }, { name: 'ม.3-ม.4', sheetName: '22. 🏓 เทเบิลเทนนิสชายเดี่ยว ม.3-ม.', real: 1, sub: 0 }, { name: 'ม.5-ม.6', sheetName: '23. 🏓 เทเบิลเทนนิสชายเดี่ยว ม.5-ม.', real: 1, sub: 0 } ]}, { name: 'ชายคู่', levels: [ { name: 'ม.1-ม.2', sheetName: '24. 🏓 เทเบิลเทนนิสชายคู่ ม.1-ม.2', real: 2, sub: 0 }, { name: 'ม.3-ม.4', sheetName: '25. 🏓 เทเบิลเทนนิสชายคู่ ม.3-ม.4', real: 2, sub: 0 }, { name: 'ม.5-ม.6', sheetName: '26. 🏓 เทเบิลเทนนิสชายคู่ ม.5-ม.6', real: 2, sub: 0 } ]}, { name: 'หญิงเดี่ยว', levels: [ { name: 'ม.1-ม.2', sheetName: '27. 🏓 เทเบิลเทนนิสหญิงเดี่ยว ม.1-ม.', real: 1, sub: 0 }, { name: 'ม.3-ม.4', sheetName: '28. 🏓 เทเบิลเทนนิสหญิงเดี่ยว ม.3-ม.', real: 1, sub: 0 }, { name: 'ม.5-ม.6', sheetName: '29. 🏓 เทเบิลเทนนิสหญิงเดี่ยว ม.5-ม.', real: 1, sub: 0 } ]}, { name: 'หญิงคู่', levels: [ { name: 'ม.1-ม.2', sheetName: '30. 🏓 เทเบิลเทนนิสหญิงคู่ ม.1-ม.2', real: 2, sub: 0 }, { name: 'ม.3-ม.4', sheetName: '31. 🏓 เทเบิลเทนนิสหญิงคู่ ม.3-ม.4', real: 2, sub: 0 }, { name: 'ม.5-ม.6', sheetName: '32. 🏓 เทเบิลเทนนิสหญิงคู่ ม.5-ม.6', real: 2, sub: 0 } ]}, { name: 'คู่ผสม', levels: [ { name: 'ม.1-ม.2', sheetName: '33. 🏓 เทเบิลเทนนิสคู่ผสม ม.1-ม.2', real: 2, sub: 0 }, { name: 'ม.3-ม.4', sheetName: '34. 🏓 เทเบิลเทนนิสคู่ผสม ม.3-ม.4', real: 2, sub: 0 }, { name: 'ม.5-ม.6', sheetName: '35. 🏓 เทเบิลเทนนิสคู่ผสม ม.5-ม.6', real: 2, sub: 0 } ]} ] },
-            { id: 'petanque', name: 'เปตอง', icon: 'sports_baseball', categories: [ { name: 'ชาย', levels: [ { name: 'ม.1-ม.2', sheetName: '36. 🥎 เปตองชาย ม.1-ม.2', real: 3, sub: 1 }, { name: 'ม.3-ม.4', sheetName: '37. 🥎 เปตองชาย ม.3-ม.4', real: 3, sub: 1 }, { name: 'ม.5-ม.6', sheetName: '38. 🥎 เปตองชาย ม.5-ม.6', real: 3, sub: 1 } ]}, { name: 'หญิง', levels: [ { name: 'ม.1-ม.2', sheetName: '39. 🥎 เปตองหญิง ม.1-ม.2', real: 3, sub: 1 }, { name: 'ม.3-ม.4', sheetName: '40. 🥎 เปตองหญิง ม.3-ม.4', real: 3, sub: 1 }, { name: 'ม.5-ม.6', sheetName: '41. 🥎 เปตองหญิง ม.5-ม.6', real: 3, sub: 1 } ]} ] },
-            { id: 'badminton', name: 'แบดมินตัน', icon: 'sports_tennis', categories: [ { name: 'ชายทีม', levels: [ { name: 'ม.ต้น', sheetName: '42. 🏸 แบดมินตันชายทีม ม.1-ม.3', real: 3, sub: 2 }, { name: 'ม.ปลาย', sheetName: '43. 🏸 แบดมินตันชายทีม ม.4-ม.6', real: 3, sub: 2 } ]}, { name: 'หญิงทีม', levels: [ { name: 'ม.ต้น', sheetName: '44. 🏸 แบดมินตันหญิงทีม ม.1-ม.3', real: 3, sub: 2 }, { name: 'ม.ปลาย', sheetName: '45. 🏸 แบดมินตันหญิงทีม ม.4-ม.6', real: 3, sub: 2 } ]} ] },
-            { id: 'dancesport', name: 'ลีลาศ', icon: 'accessibility_new', categories: [ { name: 'ทั่วไป', levels: [ { name: 'ม.ต้น', sheetName: '46. 🕺💃 ลีลาศ ม.ต้น', real: 2, sub: 2 }, { name: 'ม.ปลาย', sheetName: '47. 🕺💃 ลีลาศ ม.ปลาย', real: 2, sub: 2 } ]} ] },
-            { id: 'esport', name: 'E-Sport', icon: 'sports_esports', categories: [ { name: 'Free Fire', levels: [ { name: 'ม.1-ม.3', sheetName: '48. 🎮 E - Sport ม.1-ม.3', real: 4, sub: 1 }, { name: 'ม.4-ม.6', sheetName: '49. 🎮 E - Sport ม.4-ม.6', real: 4, sub: 1 } ]} ] }
+            { id: 'football', name: 'ฟุตบอล', icon: 'sports_soccer', categories: [ 
+                { name: 'ชาย', levels: [ { name: 'ม.1-ม.2', sheetIndex: 1, real: 7, sub: 8 }, { name: 'ม.3-ม.4', sheetIndex: 2, real: 7, sub: 8 }, { name: 'ม.5-ม.6', sheetIndex: 3, real: 7, sub: 8 } ]}, 
+                { name: 'หญิง', levels: [ { name: 'ม.1-ม.3', sheetIndex: 4, real: 7, sub: 8 }, { name: 'ม.4-ม.6', sheetIndex: 5, real: 7, sub: 8 } ]} 
+            ]},
+            { id: 'basketball', name: 'บาสเกตบอล', icon: 'sports_basketball', categories: [ 
+                { name: 'ชาย', levels: [ { name: 'ม.1-ม.3', sheetIndex: 6, real: 5, sub: 10 }, { name: 'ม.4-ม.6', sheetIndex: 7, real: 5, sub: 10 } ]}, 
+                { name: 'หญิง', levels: [ { name: 'ม.1-ม.3', sheetIndex: 8, real: 5, sub: 10 }, { name: 'ม.4-ม.6', sheetIndex: 9, real: 5, sub: 10 } ]} 
+            ]},
+            { id: 'volleyball', name: 'วอลเลย์บอล', icon: 'sports_volleyball', categories: [ 
+                { name: 'ชาย', levels: [ { name: 'ม.1-ม.2', sheetIndex: 10, real: 6, sub: 9 }, { name: 'ม.3-ม.4', sheetIndex: 11, real: 6, sub: 9 }, { name: 'ม.5-ม.6', sheetIndex: 12, real: 6, sub: 9 } ]}, 
+                { name: 'หญิง', levels: [ { name: 'ม.1-ม.3', sheetIndex: 13, real: 6, sub: 9 }, { name: 'ม.4-ม.6', sheetIndex: 14, real: 6, sub: 9 } ]} 
+            ]},
+            { id: 'takraw', name: 'เซปักตะกร้อ', icon: 'sports_martial_arts', categories: [ 
+                { name: 'ชาย', levels: [ { name: 'ม.1-ม.2', sheetIndex: 15, real: 3, sub: 1 }, { name: 'ม.3-ม.4', sheetIndex: 16, real: 3, sub: 1 }, { name: 'ม.5-ม.6', sheetIndex: 17, real: 3, sub: 1 } ]}, 
+                { name: 'หญิง', levels: [ { name: 'ม.1-ม.3', sheetIndex: 18, real: 3, sub: 1 }, { name: 'ม.4-ม.6', sheetIndex: 19, real: 3, sub: 1 } ]} 
+            ]},
+            { id: 'tabletennis', name: 'เทเบิลเทนนิส', icon: 'sports_tennis', categories: [ 
+                { name: 'ชายเดี่ยว', levels: [ { name: 'ม.1-ม.2', sheetIndex: 20, real: 1, sub: 0 }, { name: 'ม.3-ม.4', sheetIndex: 21, real: 1, sub: 0 }, { name: 'ม.5-ม.6', sheetIndex: 22, real: 1, sub: 0 } ]}, 
+                { name: 'ชายคู่', levels: [ { name: 'ม.1-ม.2', sheetIndex: 23, real: 2, sub: 0 }, { name: 'ม.3-ม.4', sheetIndex: 24, real: 2, sub: 0 }, { name: 'ม.5-ม.6', sheetIndex: 25, real: 2, sub: 0 } ]}, 
+                { name: 'หญิงเดี่ยว', levels: [ { name: 'ม.1-ม.2', sheetIndex: 26, real: 1, sub: 0 }, { name: 'ม.3-ม.4', sheetIndex: 27, real: 1, sub: 0 }, { name: 'ม.5-ม.6', sheetIndex: 28, real: 1, sub: 0 } ]}, 
+                { name: 'หญิงคู่', levels: [ { name: 'ม.1-ม.2', sheetIndex: 29, real: 2, sub: 0 }, { name: 'ม.3-ม.4', sheetIndex: 30, real: 2, sub: 0 }, { name: 'ม.5-ม.6', sheetIndex: 31, real: 2, sub: 0 } ]}, 
+                { name: 'คู่ผสม', levels: [ { name: 'ม.1-ม.2', sheetIndex: 32, real: 2, sub: 0 }, { name: 'ม.3-ม.4', sheetIndex: 33, real: 2, sub: 0 }, { name: 'ม.5-ม.6', sheetIndex: 34, real: 2, sub: 0 } ]} 
+            ]},
+            { id: 'petanque', name: 'เปตอง', icon: 'sports_baseball', categories: [ 
+                { name: 'ชาย', levels: [ { name: 'ม.1-ม.2', sheetIndex: 35, real: 3, sub: 1 }, { name: 'ม.3-ม.4', sheetIndex: 36, real: 3, sub: 1 }, { name: 'ม.5-ม.6', sheetIndex: 37, real: 3, sub: 1 } ]}, 
+                { name: 'หญิง', levels: [ { name: 'ม.1-ม.2', sheetIndex: 38, real: 3, sub: 1 }, { name: 'ม.3-ม.4', sheetIndex: 39, real: 3, sub: 1 }, { name: 'ม.5-ม.6', sheetIndex: 40, real: 3, sub: 1 } ]} 
+            ]},
+            { id: 'badminton', name: 'แบดมินตัน', icon: 'sports_tennis', categories: [ 
+                { name: 'ชายทีม', levels: [ { name: 'ม.ต้น', sheetIndex: 41, real: 3, sub: 2 }, { name: 'ม.ปลาย', sheetIndex: 42, real: 3, sub: 2 } ]}, 
+                { name: 'หญิงทีม', levels: [ { name: 'ม.ต้น', sheetIndex: 43, real: 3, sub: 2 }, { name: 'ม.ปลาย', sheetIndex: 44, real: 3, sub: 2 } ]} 
+            ]},
+            { id: 'dancesport', name: 'ลีลาศ', icon: 'accessibility_new', categories: [ 
+                { name: 'ทั่วไป', levels: [ { name: 'ม.ต้น', sheetIndex: 45, real: 2, sub: 2 }, { name: 'ม.ปลาย', sheetIndex: 46, real: 2, sub: 2 } ]} 
+            ]},
+            { id: 'esport', name: 'E-Sport', icon: 'sports_esports', categories: [ 
+                { name: 'Free Fire', levels: [ { name: 'ม.1-ม.3', sheetIndex: 47, real: 4, sub: 1 }, { name: 'ม.4-ม.6', sheetIndex: 48, real: 4, sub: 1 } ]} 
+            ]}
         ];
 
         function getFormattedDate() {
@@ -106,14 +136,9 @@
             return `${hh} : ${mm} : ${ss} - ${dd} / ${month} / ${yy}`;
         }
 
-        // ลิงก์ API จริงของคุณ
+        // ลิงก์ API เดิมของคุณที่ได้ Deploy ไว้
         const API_URL = "https://script.google.com/macros/s/AKfycbyYcyfX0znWZJaf1Tp6SQxV5XEkGJqKO7-s4G5dLjIbw0VD-PeVWb9wLD2VC1F0PpN3/exec"; 
         
-        // ฟังก์ชันช่วยทำความสะอาดชื่อเพื่อเทียบกัน (Fuzzy Match)
-        function cleanString(str) {
-            return str.replace(/[^\w\sก-๙]/gi, '').replace(/\s+/g, '').toLowerCase();
-        }
-
         function fetchData() {
             document.getElementById('loading-state').classList.remove('hidden');
             document.getElementById('dashboard-container').classList.add('hidden');
@@ -127,7 +152,9 @@
                     return response.json();
                 })
                 .then(apiData => {
-                    console.log("Raw Data from API:", apiData); // สำหรับเช็กใน Console 
+                    // apiData ตอนนี้จะเป็น { "1": 15, "2": 7, "3": 0, ... }
+                    console.log("Data loaded by sheet index:", apiData); 
+                    
                     renderDashboard(apiData);
                     
                     const updatedTime = getFormattedDate();
@@ -141,7 +168,7 @@
                     console.error("Error fetching data:", error);
                     document.getElementById('loading-text').innerHTML = `
                         <span class="text-red-500 font-bold block mb-2">เกิดข้อผิดพลาดในการดึงข้อมูล</span>
-                        กรุณาตรวจสอบลิงก์ API หรือการตั้งค่าสิทธิ์ (CORS) ใน Google Apps Script<br>
+                        กรุณาตรวจสอบลิงก์ API ว่าอัปเดตเวอร์ชันใหม่เรียบร้อยแล้ว<br>
                         <span class="text-sm font-normal">รายละเอียด: ${error.message}</span>
                     `;
                 })
@@ -153,12 +180,6 @@
         function renderDashboard(apiData) {
             const container = document.getElementById('dashboard-container');
             let htmlContent = '';
-
-            // สร้าง Object เก็บ key ที่ถูกทำความสะอาดแล้ว
-            const cleanedApiData = {};
-            for (let key in apiData) {
-                cleanedApiData[cleanString(key)] = apiData[key];
-            }
 
             SPORTS_CONFIG.forEach(sport => {
                 htmlContent += `
@@ -185,11 +206,9 @@
                     category.levels.forEach(level => {
                         const maxTotal = level.real + level.sub;
                         
-                        // พยายามดึงข้อมูลด้วยชื่อเป๊ะๆ ก่อน ถ้าไม่ได้ ให้เทียบด้วยชื่อที่ถูกทำความสะอาด
-                        let registered = apiData[level.sheetName];
-                        if (registered === undefined) {
-                            registered = cleanedApiData[cleanString(level.sheetName)] || 0;
-                        }
+                        // ดึงข้อมูลโดยตรงจาก Index ลำดับชีต 
+                        // apiData แปลง key ที่เป็นตัวเลขกลับเป็น string ให้เอง
+                        const registered = apiData[level.sheetIndex] || 0;
                         
                         let realPercent = 0;
                         let subPercent = 0;
@@ -212,7 +231,9 @@
                         htmlContent += `
                             <div class="space-y-1">
                                 <div class="flex justify-between items-center text-sm">
-                                    <span class="font-medium text-gray-700">${level.name}</span>
+                                    <div class="flex flex-col">
+                                        <span class="font-medium text-gray-700">${level.name}</span>
+                                    </div>
                                     <span class="font-bold ${textColor}">
                                         ${registered} / ${maxTotal}
                                     </span>
