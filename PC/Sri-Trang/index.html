@@ -19,32 +19,77 @@
         .trang-text { color: #5c2d91; }
         .trang-border { border-color: #5c2d91; }
         
-        @media print {
-            body { background-color: white; }
-            .no-print { display: none !important; }
-            .print-break-inside-avoid { break-inside: avoid; }
-            .shadow-md { box-shadow: none !important; border: 1px solid #e5e7eb; }
-            #dashboard-container { 
-                grid-template-columns: repeat(2, minmax(0, 1fr)) !important; 
-                gap: 1rem !important;
-            }
-            .card-container { margin-bottom: 1rem; }
-            
-            /* ซ่อนปุ่มพิมพ์รายชื่อย่อยเมื่อพิมพ์หน้าหลัก */
-            .print-btn-mini { display: none !important; }
+        /* สไตล์ปุ่มพิมพ์ย่อย */
+        .level-row:hover .print-btn-mini { opacity: 1; transform: scale(1); }
+        .print-btn-mini { 
+            transition: all 0.2s; 
+            opacity: 0;
+            transform: scale(0.95);
         }
 
         .spin-anim { animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
-        
-        /* สไตล์ปุ่มพิมพ์ย่อย */
-        .level-row:hover .print-btn-mini { opacity: 1; }
-        .print-btn-mini { transition: opacity 0.2s; }
+
+        /* ========================================================
+           การตั้งค่าสำหรับการสั่งพิมพ์ (Print CSS) สุดเนี๊ยบ
+           ======================================================== */
+        @media print {
+            body { 
+                background-color: white !important; 
+                margin: 0 !important;
+                padding: 0 !important;
+                color: black !important;
+            }
+            
+            /* ซ่อนทุกอย่างที่ไม่ได้เกี่ยวกับการพิมพ์รายละเอียด */
+            body > *:not(#print-area) { display: none !important; }
+            
+            /* แสดงเฉพาะพื้นที่ที่เราจะพิมพ์ */
+            #print-area { 
+                display: block !important; 
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                margin: 0;
+                padding: 1cm;
+            }
+
+            /* แต่งตารางตอนพิมพ์ให้สวย */
+            .print-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+                font-size: 14pt;
+            }
+            .print-table th, .print-table td {
+                border: 1px solid #000 !important;
+                padding: 8px;
+                text-align: left;
+            }
+            .print-table th {
+                background-color: #f3f4f6 !important;
+                font-weight: bold;
+                -webkit-print-color-adjust: exact; 
+                print-color-adjust: exact;
+            }
+            
+            /* หัวกระดาษตอนพิมพ์ */
+            .print-header {
+                font-size: 24pt !important;
+                font-weight: bold !important;
+                text-align: center;
+                margin-bottom: 20px;
+                border-bottom: 2px solid #000;
+                padding-bottom: 10px;
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen pb-10">
 
-    <header class="trang-bg text-white shadow-lg sticky top-0 z-10 print-break-inside-avoid">
+    <!-- Header หน้าแรก -->
+    <header class="trang-bg text-white shadow-lg sticky top-0 z-10">
         <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div class="flex items-center gap-3 w-full md:w-auto">
@@ -60,14 +105,10 @@
                         <span id="last-updated-text">อัปเดต : กำลังโหลด...</span>
                     </div>
                     
-                    <div class="flex gap-2 no-print">
+                    <div class="flex gap-2">
                         <button onclick="fetchData()" id="refresh-btn" class="bg-white trang-text hover:bg-gray-100 px-3 sm:px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors shadow-sm">
                             <span class="material-symbols-outlined" id="refresh-icon">sync</span>
                             <span class="hidden sm:inline">รีเฟรช</span>
-                        </button>
-                        <button onclick="window.print()" class="bg-purple-900 text-white hover:bg-purple-950 px-3 sm:px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors border border-white/30 shadow-sm">
-                            <span class="material-symbols-outlined">print</span>
-                            <span class="hidden sm:inline">ภาพรวม</span>
                         </button>
                     </div>
                 </div>
@@ -75,19 +116,63 @@
         </div>
     </header>
 
+    <!-- Main Content หน้าแรก -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-        
         <div id="loading-state" class="flex flex-col items-center justify-center py-20 text-gray-500">
             <span class="material-symbols-outlined text-6xl spin-anim mb-4 trang-text">autorenew</span>
             <p class="text-lg font-medium" id="loading-text">กำลังเชื่อมต่อและดึงข้อมูลจากชีต...</p>
         </div>
 
         <div id="dashboard-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 items-start hidden">
+            <!-- ข้อมูลหลอดพลังจะมาอยู่ตรงนี้ -->
         </div>
-
     </main>
 
-    <footer class="hidden print:block mt-8 text-center text-sm text-gray-500 pb-8" id="print-footer"></footer>
+    <!-- =========================================================
+         Modal สำหรับแสดงตัวอย่างรายชื่อก่อนพิมพ์ (ซ่อนไว้เป็นค่าเริ่มต้น)
+         ========================================================= -->
+    <div id="print-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col overflow-hidden">
+            
+            <!-- Modal Header -->
+            <div class="trang-bg text-white px-6 py-4 flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined">print</span>
+                    <h2 class="text-xl font-bold">เตรียมพิมพ์รายชื่อ</h2>
+                </div>
+                <button onclick="closeModal()" class="text-white/80 hover:text-white transition-colors">
+                    <span class="material-symbols-outlined text-3xl">close</span>
+                </button>
+            </div>
+
+            <!-- Modal Body (Preview Area) -->
+            <div class="p-6 overflow-y-auto bg-gray-50 flex-grow">
+                <div class="bg-white border p-8 shadow-sm rounded-lg min-h-[500px]" id="modal-preview-content">
+                    <!-- เนื้อหาตารางจะมาแทรกตรงนี้เพื่อโชว์เป็นตัวอย่าง -->
+                </div>
+            </div>
+
+            <!-- Modal Footer (ปุ่มกดพิมพ์จริง) -->
+            <div class="border-t p-4 bg-white flex justify-end gap-3">
+                <button onclick="closeModal()" class="px-5 py-2 text-gray-600 hover:bg-gray-100 rounded-lg font-medium transition-colors">
+                    ยกเลิก
+                </button>
+                <button onclick="executePrint()" class="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-bold flex items-center gap-2 transition-colors shadow-md">
+                    <span class="material-symbols-outlined">print</span>
+                    ยืนยันการพิมพ์
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================
+         พื้นที่ลับสำหรับสั่งพิมพ์ (Print Area) 
+         จะโผล่มาเฉพาะตอนที่เบราว์เซอร์เข้าสู่โหมดพิมพ์เท่านั้น
+         ========================================================= -->
+    <div id="print-area" class="hidden">
+        <!-- เนื้อหาสำหรับพิมพ์จะถูก Inject เข้ามาตรงนี้ -->
+    </div>
+
 
     <script>
         const SPORTS_CONFIG = [
@@ -141,8 +226,12 @@
             return `${hh} : ${mm} : ${ss} - ${dd} / ${month} / ${yy}`;
         }
 
+        // ลิงก์ API ของคุณ
         const API_URL = "https://script.google.com/macros/s/AKfycbyYcyfX0znWZJaf1Tp6SQxV5XEkGJqKO7-s4G5dLjIbw0VD-PeVWb9wLD2VC1F0PpN3/exec"; 
         
+        // ตัวแปรเก็บข้อมูลรายชื่อทั้งหมดที่ดึงมา
+        let globalSheetDetails = {};
+
         function fetchData() {
             document.getElementById('loading-state').classList.remove('hidden');
             document.getElementById('dashboard-container').classList.add('hidden');
@@ -156,12 +245,16 @@
                     return response.json();
                 })
                 .then(apiData => {
-                    console.log("Data loaded by sheet index:", apiData); 
-                    renderDashboard(apiData);
+                    console.log("Data loaded:", apiData); 
+                    
+                    // ดึง counts ไปสร้าง Dashboard
+                    renderDashboard(apiData.counts);
+                    
+                    // เก็บ details ไว้ในตัวแปร Global เพื่อใช้ตอนสั่งพิมพ์
+                    globalSheetDetails = apiData.details;
                     
                     const updatedTime = getFormattedDate();
                     document.getElementById('last-updated-text').textContent = `อัปเดต : ${updatedTime}`;
-                    document.getElementById('print-footer').textContent = `พิมพ์เมื่อ : ${updatedTime} - ระบบตรวจสอบจำนวนนักกีฬาคณะศรีตรัง`;
                     
                     document.getElementById('loading-state').classList.add('hidden');
                     document.getElementById('dashboard-container').classList.remove('hidden');
@@ -170,7 +263,7 @@
                     console.error("Error fetching data:", error);
                     document.getElementById('loading-text').innerHTML = `
                         <span class="text-red-500 font-bold block mb-2">เกิดข้อผิดพลาดในการดึงข้อมูล</span>
-                        กรุณาตรวจสอบลิงก์ API ว่าอัปเดตเวอร์ชันใหม่เรียบร้อยแล้ว<br>
+                        กรุณาตรวจสอบลิงก์ API หรือตรวจสอบว่าอัปเดตโค้ด Apps Script ใหม่และ Deploy แล้ว<br>
                         <span class="text-sm font-normal">รายละเอียด: ${error.message}</span>
                     `;
                 })
@@ -179,19 +272,95 @@
                 });
         }
 
-        // ฟังก์ชันจำลองการกดพิมพ์รายชื่อ (เตรียมไว้สำหรับอนาคต)
-        function printCategoryDetails(sportName, catName, levelName, sheetIndex) {
-            alert(`ฟีเจอร์กำลังพัฒนา: พิมพ์รายชื่อของ ${sportName} ${catName} รุ่น ${levelName} (จากชีต index ${sheetIndex})`);
-            // ในอนาคตสามารถใส่โค้ดเปิด Popup ดึงรายชื่อมาแสดงและสั่งพิมพ์ได้ที่นี่
+        // =================================================================
+        // ระบบจัดการการพิมพ์รายชื่อ
+        // =================================================================
+        function openPrintPreview(sportName, catName, levelName, sheetIndex) {
+            const modal = document.getElementById('print-modal');
+            const previewContent = document.getElementById('modal-preview-content');
+            const printArea = document.getElementById('print-area');
+            
+            // ดึงข้อมูลของชีตนี้จากที่เก็บไว้
+            const sheetData = globalSheetDetails[sheetIndex];
+            
+            // สร้างหัวกระดาษใหญ่ๆ (Title)
+            const titleText = `${sportName}${catName} ${levelName}`;
+            
+            let tableHTML = '';
+            
+            if (!sheetData || !sheetData.rows || sheetData.rows.length === 0) {
+                tableHTML = `<div class="text-center text-gray-500 py-10 text-lg">ยังไม่มีผู้สมัครในรายการนี้</div>`;
+            } else {
+                // สร้างตาราง
+                tableHTML = `<table class="print-table w-full text-left">`;
+                
+                // หัวตาราง (ดึงมาจากชีต)
+                tableHTML += `<thead><tr>`;
+                tableHTML += `<th class="w-12 text-center">ลำดับ</th>`; // คอลัมน์เลขลำดับที่เพิ่มเอง
+                sheetData.headers.forEach(header => {
+                    tableHTML += `<th>${header}</th>`;
+                });
+                tableHTML += `</tr></thead><tbody>`;
+                
+                // ข้อมูลนักกีฬา
+                sheetData.rows.forEach((row, rowIndex) => {
+                    tableHTML += `<tr>`;
+                    tableHTML += `<td class="text-center">${rowIndex + 1}</td>`; // ใส่เลขลำดับ
+                    row.forEach(cell => {
+                        // ป้องกันข้อมูล undefined
+                        const cellData = (cell === null || cell === undefined) ? "" : cell;
+                        tableHTML += `<td>${cellData}</td>`;
+                    });
+                    tableHTML += `</tr>`;
+                });
+                tableHTML += `</tbody></table>`;
+            }
+
+            // โครงสร้าง HTML ที่จะใช้ทั้งในหน้า Preview และหน้าตอน Print
+            const fullContentHTML = `
+                <div class="print-header font-bold text-center text-2xl mb-6 pb-2 border-b-2 border-gray-800 text-black">
+                    ${titleText}
+                </div>
+                ${tableHTML}
+            `;
+
+            // เอาไปใส่ใน Modal (เพื่อให้คนดูก่อน)
+            previewContent.innerHTML = fullContentHTML;
+            
+            // เอาไปใส่ใน Print Area (พื้นที่ลับที่โผล่มาตอนกด Ctrl+P)
+            printArea.innerHTML = fullContentHTML;
+
+            // เปิด Modal
+            modal.classList.remove('hidden');
         }
 
-        function renderDashboard(apiData) {
+        function closeModal() {
+            document.getElementById('print-modal').classList.add('hidden');
+        }
+
+        function executePrint() {
+            window.print();
+        }
+        
+        // ปิด Modal ถ่ากดพื้นที่สีดำรอบนอก
+        window.onclick = function(event) {
+            const modal = document.getElementById('print-modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+
+        // =================================================================
+        // ระบบวาดแดชบอร์ดหลอดพลัง
+        // =================================================================
+        function renderDashboard(apiCountsData) {
             const container = document.getElementById('dashboard-container');
             let htmlContent = '';
 
             SPORTS_CONFIG.forEach(sport => {
                 htmlContent += `
-                    <div class="card-container bg-white rounded-xl shadow-md overflow-hidden print-break-inside-avoid border border-gray-100">
+                    <div class="card-container bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 print-break-inside-avoid">
                         <div class="trang-bg text-white px-4 py-3 flex items-center gap-2">
                             <span class="material-symbols-outlined">${sport.icon}</span>
                             <h2 class="text-lg font-bold">${sport.name}</h2>
@@ -200,11 +369,10 @@
                 `;
 
                 sport.categories.forEach(category => {
-                    // กำหนดไอคอนให้เข้ากับเพศ
                     let catIcon = 'group';
-                    if (category.name === 'ชาย' || category.name === 'ชายเดี่ยว' || category.name === 'ชายคู่') catIcon = 'man';
-                    else if (category.name === 'หญิง' || category.name === 'หญิงเดี่ยว' || category.name === 'หญิงคู่') catIcon = 'woman';
-                    else if (category.name === 'ชาย - หญิง' || category.name === 'คู่ผสม') catIcon = 'wc';
+                    if (category.name.includes('ชาย') && !category.name.includes('หญิง')) catIcon = 'man';
+                    else if (category.name.includes('หญิง') && !category.name.includes('ชาย')) catIcon = 'woman';
+                    else if (category.name.includes('ชาย - หญิง') || category.name.includes('คู่ผสม')) catIcon = 'wc';
                     
                     htmlContent += `
                         <div class="space-y-3">
@@ -217,7 +385,8 @@
 
                     category.levels.forEach(level => {
                         const maxTotal = level.real + level.sub;
-                        const registered = apiData[level.sheetIndex] || 0;
+                        // ดึงข้อมูลจำนวนคนจาก Object apiCountsData
+                        const registered = apiCountsData[level.sheetIndex] || 0;
                         
                         let realPercent = 0;
                         let subPercent = 0;
@@ -237,15 +406,15 @@
                         if (isFull) textColor = "text-green-600";
                         if (isOver) textColor = "trang-text font-bold";
 
-                        // เพิ่มคลาส level-row เพื่อให้แสดงปุ่มพิมพ์เมื่อเอาเมาส์ชี้
+                        // เพิ่มปุ่มพิมพ์ในแต่ละรายการ (เรียก openPrintPreview)
                         htmlContent += `
                             <div class="space-y-1 relative level-row group">
                                 <div class="flex justify-between items-center text-sm">
                                     <div class="flex flex-col">
                                         <span class="font-medium text-gray-700 flex items-center gap-2">
                                             ${level.name}
-                                            <button onclick="printCategoryDetails('${sport.name}', '${category.name}', '${level.name}', ${level.sheetIndex})" class="print-btn-mini opacity-0 lg:hidden group-hover:inline-flex bg-gray-100 hover:bg-gray-200 text-gray-600 rounded px-1.5 py-0.5 text-[10px] items-center gap-1 cursor-pointer" title="พิมพ์รายชื่อ">
-                                                <span class="material-symbols-outlined text-[12px]">print</span> พิมพ์
+                                            <button onclick="openPrintPreview('${sport.name}', '${category.name}', '${level.name}', ${level.sheetIndex})" class="print-btn-mini lg:hidden group-hover:inline-flex bg-gray-100 hover:bg-purple-100 hover:text-purple-700 text-gray-500 rounded px-2 py-0.5 text-[11px] items-center gap-1 cursor-pointer font-medium border shadow-sm">
+                                                <span class="material-symbols-outlined text-[14px]">print</span> พิมพ์รายชื่อ
                                             </button>
                                         </span>
                                     </div>
