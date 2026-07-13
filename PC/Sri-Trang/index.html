@@ -256,7 +256,7 @@
         }
 
         // =================================================================
-        // ระบบจัดการการพิมพ์รายชื่อ (อัปเดตสไตล์)
+        // ระบบจัดการการพิมพ์รายชื่อ 
         // =================================================================
         function openPrintPreview(sportName, catName, levelName, sheetIndex) {
             const modal = document.getElementById('print-modal');
@@ -267,7 +267,7 @@
             
             // สร้างหัวกระดาษใหญ่ๆ สีม่วง
             let displayCatName = catName;
-            if(catName === "Free Fire") displayCatName = ""; // สำหรับ E-Sport อาจจะไม่ต้องเอาคำว่า Free Fire ไปรวมกับชื่อกีฬา
+            if(catName === "Free Fire") displayCatName = ""; 
             
             const titleText = `${sportName} ${displayCatName} ${levelName}`;
             
@@ -278,7 +278,6 @@
             } else {
                 tableHTML = `<table class="print-table w-full text-left">`;
                 
-                // หัวตาราง (CSS ทำให้เป็นสีม่วงอ่อนตอนพิมพ์)
                 tableHTML += `<thead><tr>`;
                 tableHTML += `<th class="w-12 text-center border-b-2 border-purple-300">ลำดับ</th>`;
                 sheetData.headers.forEach(header => {
@@ -298,7 +297,6 @@
                 tableHTML += `</tbody></table>`;
             }
 
-            // ใช้คลาส trang-text เพื่อให้สีม่วงบนหน้าจอด้วย
             const fullContentHTML = `
                 <div class="print-header trang-text font-bold text-center text-2xl mb-6 pb-2 border-b-2 border-purple-900">
                     ${titleText}
@@ -327,7 +325,7 @@
         }
 
         // =================================================================
-        // สร้าง Dashboard (อัปเดตปุ่มพิมพ์ให้แสดงตลอด)
+        // สร้าง Dashboard 
         // =================================================================
         function renderDashboard(apiCountsData) {
             const container = document.getElementById('dashboard-container');
@@ -344,17 +342,26 @@
                 `;
 
                 sport.categories.forEach(category => {
-                    let catIcon = 'group';
-                    // เช็คคำว่า Free Fire เพื่อให้ใช้ไอคอน wc
-                    if (category.name === 'Free Fire') catIcon = 'wc';
-                    else if (category.name.includes('ชาย') && !category.name.includes('หญิง')) catIcon = 'man';
-                    else if (category.name.includes('หญิง') && !category.name.includes('ชาย')) catIcon = 'woman';
-                    else if (category.name.includes('ชาย - หญิง') || category.name.includes('คู่ผสม')) catIcon = 'wc';
+                    // กำหนดไอคอน (รองรับไอคอนคู่ชาย/คู่หญิง)
+                    let iconHTML = '';
+                    if (category.name === 'Free Fire' || category.name.includes('ชาย - หญิง') || category.name.includes('คู่ผสม')) {
+                        iconHTML = `<span class="material-symbols-outlined trang-text text-[16px]">wc</span>`;
+                    } else if (category.name === 'ชายคู่') {
+                        iconHTML = `<div class="flex items-center"><span class="material-symbols-outlined trang-text text-[16px]">man</span><span class="material-symbols-outlined trang-text text-[16px] -ml-1">man</span></div>`;
+                    } else if (category.name === 'หญิงคู่') {
+                        iconHTML = `<div class="flex items-center"><span class="material-symbols-outlined trang-text text-[16px]">woman</span><span class="material-symbols-outlined trang-text text-[16px] -ml-1">woman</span></div>`;
+                    } else if (category.name.includes('ชาย')) {
+                        iconHTML = `<span class="material-symbols-outlined trang-text text-[16px]">man</span>`;
+                    } else if (category.name.includes('หญิง')) {
+                        iconHTML = `<span class="material-symbols-outlined trang-text text-[16px]">woman</span>`;
+                    } else {
+                        iconHTML = `<span class="material-symbols-outlined trang-text text-[16px]">group</span>`;
+                    }
                     
                     htmlContent += `
                         <div class="space-y-3">
                             <div class="flex items-center gap-2 border-b pb-1">
-                                <span class="material-symbols-outlined trang-text text-sm">${catIcon}</span>
+                                ${iconHTML}
                                 <h3 class="font-semibold text-gray-800">${category.name}</h3>
                             </div>
                             <div class="space-y-3 pl-2">
@@ -382,7 +389,6 @@
                         if (isFull) textColor = "text-green-600";
                         if (isOver) textColor = "trang-text font-bold";
 
-                        // ปุ่มพิมพ์จะแสดงตลอดเวลา ไม่ต้อง hover แล้ว
                         htmlContent += `
                             <div class="space-y-1 relative level-row">
                                 <div class="flex justify-between items-center text-sm">
