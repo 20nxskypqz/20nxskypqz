@@ -23,7 +23,7 @@
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
         /* ========================================================
-           การตั้งค่าสำหรับการสั่งพิมพ์ (Print CSS)
+           การตั้งค่าสำหรับการสั่งพิมพ์ (Print CSS) 
            ======================================================== */
         @media print {
             body { 
@@ -33,10 +33,8 @@
                 color: black !important;
             }
             
-            /* ซ่อนทุกอย่างที่ไม่ได้เกี่ยวกับการพิมพ์รายละเอียด */
             body > *:not(#print-area) { display: none !important; }
             
-            /* แสดงเฉพาะพื้นที่ที่เราจะพิมพ์ */
             #print-area { 
                 display: block !important; 
                 position: absolute;
@@ -44,19 +42,17 @@
                 top: 0;
                 width: 100%;
                 margin: 0;
-                padding: 1cm;
             }
 
-            /* แต่งตารางตอนพิมพ์ให้สวย */
             .print-table {
                 width: 100%;
                 border-collapse: collapse;
-                margin-top: 20px;
+                margin-top: 15px; /* ลด margin ลงนิดนึง */
                 font-size: 14pt;
-                page-break-inside: auto; /* ให้ตารางแบ่งหน้าได้ถ้าคนเยอะ */
+                page-break-inside: auto; 
             }
             .print-table tr {
-                page-break-inside: avoid; /* ไม่ให้แถวโดนตัดครึ่งหน้า */
+                page-break-inside: avoid; 
                 page-break-after: auto;
             }
             .print-table th, .print-table td {
@@ -72,7 +68,6 @@
                 print-color-adjust: exact;
             }
             
-            /* หัวกระดาษตอนพิมพ์ สีม่วง */
             .print-header {
                 font-size: 26pt !important;
                 font-weight: bold !important;
@@ -85,9 +80,21 @@
                 print-color-adjust: exact;
             }
 
-            /* ควบคุมการขึ้นหน้าใหม่ของแต่ละกีฬา */
-            .page-break-before {
+            /* ควบคุมการขึ้นหน้าใหม่ แก้ไขสำหรับ iOS */
+            .page-container {
+                display: block; 
+                width: 100%;
+                /* เพิ่ม Padding ด้านบนกันวรรณยุกต์ติดขอบกระดาษ */
+                padding-top: 1.5cm !important; 
+                padding-left: 1cm;
+                padding-right: 1cm;
+                padding-bottom: 1cm;
+            }
+            
+            /* ใช้ทั้ง 2 แบบครอบคลุมเบราว์เซอร์เก่าและใหม่ */
+            .force-page-break {
                 page-break-before: always;
+                break-before: page;
             }
         }
     </style>
@@ -115,10 +122,10 @@
                             <span class="material-symbols-outlined" id="refresh-icon">sync</span>
                             <span class="hidden sm:inline">รีเฟรช</span>
                         </button>
-                        <!-- เพิ่มปุ่มพิมพ์ทั้งหมดตรงนี้ -->
+                        <!-- เปลี่ยนไอคอนและชื่อ -->
                         <button onclick="openPrintAllPreview()" class="bg-purple-900 text-white hover:bg-purple-950 px-3 sm:px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors border border-white/30 shadow-sm">
-                            <span class="material-symbols-outlined">print_batch</span>
-                            <span class="hidden sm:inline">พิมพ์ทั้งหมด (All)</span>
+                            <span class="material-symbols-outlined">print</span>
+                            <span class="hidden sm:inline">พิมพ์ทั้งหมด</span>
                         </button>
                     </div>
                 </div>
@@ -158,7 +165,6 @@
 
             <div class="p-6 overflow-y-auto bg-gray-50 flex-grow">
                 <div class="bg-white border p-8 shadow-sm rounded-lg min-h-[500px]" id="modal-preview-content">
-                    <!-- เนื้อหาตารางจะมาแทรกตรงนี้เพื่อโชว์เป็นตัวอย่าง -->
                 </div>
             </div>
 
@@ -270,7 +276,7 @@
         }
 
         // =================================================================
-        // Helper: สร้างตาราง HTML ของแต่ละการแข่งขัน
+        // Helper: สร้างตาราง HTML ของแต่ละการแข่งขัน (ปรับปรุงคลาสหน้าใหม่)
         // =================================================================
         function generateTableHTML(sportName, catName, levelName, sheetIndex, isFirstElement = false) {
             const sheetData = globalSheetDetails[sheetIndex];
@@ -306,11 +312,13 @@
                 tableHTML += `</tbody></table>`;
             }
             
-            // ใช้คลาส page-break-before ถ้าไม่ใช่หน้าแรก (เพื่อปัดขึ้นหน้าใหม่เสมอเมื่อสั่งพิมพ์)
-            const breakClass = isFirstElement ? '' : 'page-break-before mt-8 pt-8 border-t-4 border-dashed border-gray-200 print:border-none print:mt-0 print:pt-0';
+            // เพิ่ม force-page-break สำหรับ iOS 
+            const breakClass = isFirstElement ? '' : 'force-page-break';
+            // เพิ่ม class page-container เพื่อให้แสดงผลบน iOS ถูกต้องและเว้นที่ด้านบนให้วรรณยุกต์
+            const displayStyle = isFirstElement ? 'padding-top: 1cm; padding-left: 1cm; padding-right: 1cm; padding-bottom: 1cm;' : '';
 
             return `
-                <div class="${breakClass}">
+                <div class="page-container ${breakClass}" style="${displayStyle}">
                     <div class="print-header trang-text font-bold text-center text-2xl mb-6 pb-2 border-b-2 border-purple-900">
                         ${titleText}
                     </div>
@@ -324,7 +332,6 @@
         // ระบบจัดการการพิมพ์ (พิมพ์เดี่ยว และ พิมพ์ทั้งหมด)
         // =================================================================
         
-        // พิมพ์เดี่ยว (แบบเดิม)
         function openPrintPreview(sportName, catName, levelName, sheetIndex) {
             const modal = document.getElementById('print-modal');
             const previewContent = document.getElementById('modal-preview-content');
@@ -333,6 +340,7 @@
             document.getElementById('modal-title').textContent = "เตรียมพิมพ์รายชื่อ (เดี่ยว)";
             document.getElementById('modal-icon').textContent = "print";
 
+            // true คือหน้าแรกเสมอ จะไม่ force page break ตอนเริ่ม
             const fullContentHTML = generateTableHTML(sportName, catName, levelName, sheetIndex, true);
 
             previewContent.innerHTML = fullContentHTML;
@@ -340,9 +348,7 @@
             modal.classList.remove('hidden');
         }
         
-        // พิมพ์ทั้งหมด (วนลูปทุกกีฬา ทุกรุ่น)
         function openPrintAllPreview() {
-            // เช็คก่อนว่าโหลดข้อมูลเสร็จหรือยัง
             if(Object.keys(globalSheetDetails).length === 0) {
                 alert("กรุณารอโหลดข้อมูลให้เสร็จก่อนสั่งพิมพ์ทั้งหมดครับ");
                 return;
@@ -353,12 +359,11 @@
             const printArea = document.getElementById('print-area');
             
             document.getElementById('modal-title').textContent = "เตรียมพิมพ์รายชื่อทั้งหมด (48 รายการ)";
-            document.getElementById('modal-icon').textContent = "print_batch";
+            document.getElementById('modal-icon').textContent = "print";
             
             previewContent.innerHTML = '<div class="text-center py-10"><span class="material-symbols-outlined text-4xl spin-anim text-purple-600">autorenew</span><p class="mt-2">กำลังรวบรวมข้อมูลทั้งหมด 48 รายการ...</p></div>';
             modal.classList.remove('hidden');
 
-            // ใช้ setTimeout เพื่อให้ Modal โชว์ขึ้นมาก่อนแล้วค่อยประมวลผล (กันค้าง)
             setTimeout(() => {
                 let allHTML = '';
                 let isFirst = true;
@@ -367,7 +372,7 @@
                     sport.categories.forEach(category => {
                         category.levels.forEach(level => {
                             allHTML += generateTableHTML(sport.name, category.name, level.name, level.sheetIndex, isFirst);
-                            isFirst = false;
+                            isFirst = false; // อันถัดไปจะเป็น force page break ทั้งหมด
                         });
                     });
                 });
