@@ -23,7 +23,7 @@
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
         /* ========================================================
-           การตั้งค่าสำหรับการสั่งพิมพ์ (Print CSS) สุดเนี๊ยบ
+           การตั้งค่าสำหรับการสั่งพิมพ์ (Print CSS)
            ======================================================== */
         @media print {
             body { 
@@ -53,6 +53,11 @@
                 border-collapse: collapse;
                 margin-top: 20px;
                 font-size: 14pt;
+                page-break-inside: auto; /* ให้ตารางแบ่งหน้าได้ถ้าคนเยอะ */
+            }
+            .print-table tr {
+                page-break-inside: avoid; /* ไม่ให้แถวโดนตัดครึ่งหน้า */
+                page-break-after: auto;
             }
             .print-table th, .print-table td {
                 border: 1px solid #000 !important;
@@ -60,7 +65,6 @@
                 text-align: left;
             }
             .print-table th {
-                /* หัวตารางสีม่วงอ่อน */
                 background-color: #f3e8ff !important; 
                 color: #5c2d91 !important;
                 font-weight: bold;
@@ -79,6 +83,11 @@
                 color: #5c2d91 !important;
                 -webkit-print-color-adjust: exact; 
                 print-color-adjust: exact;
+            }
+
+            /* ควบคุมการขึ้นหน้าใหม่ของแต่ละกีฬา */
+            .page-break-before {
+                page-break-before: always;
             }
         }
     </style>
@@ -105,6 +114,11 @@
                         <button onclick="fetchData()" id="refresh-btn" class="bg-white trang-text hover:bg-gray-100 px-3 sm:px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors shadow-sm">
                             <span class="material-symbols-outlined" id="refresh-icon">sync</span>
                             <span class="hidden sm:inline">รีเฟรช</span>
+                        </button>
+                        <!-- เพิ่มปุ่มพิมพ์ทั้งหมดตรงนี้ -->
+                        <button onclick="openPrintAllPreview()" class="bg-purple-900 text-white hover:bg-purple-950 px-3 sm:px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors border border-white/30 shadow-sm">
+                            <span class="material-symbols-outlined">print_batch</span>
+                            <span class="hidden sm:inline">พิมพ์ทั้งหมด (All)</span>
                         </button>
                     </div>
                 </div>
@@ -134,8 +148,8 @@
             
             <div class="trang-bg text-white px-6 py-4 flex justify-between items-center">
                 <div class="flex items-center gap-2">
-                    <span class="material-symbols-outlined">print</span>
-                    <h2 class="text-xl font-bold">เตรียมพิมพ์รายชื่อ</h2>
+                    <span class="material-symbols-outlined" id="modal-icon">print</span>
+                    <h2 class="text-xl font-bold" id="modal-title">เตรียมพิมพ์รายชื่อ</h2>
                 </div>
                 <button onclick="closeModal()" class="text-white/80 hover:text-white transition-colors">
                     <span class="material-symbols-outlined text-3xl">close</span>
@@ -256,16 +270,11 @@
         }
 
         // =================================================================
-        // ระบบจัดการการพิมพ์รายชื่อ 
+        // Helper: สร้างตาราง HTML ของแต่ละการแข่งขัน
         // =================================================================
-        function openPrintPreview(sportName, catName, levelName, sheetIndex) {
-            const modal = document.getElementById('print-modal');
-            const previewContent = document.getElementById('modal-preview-content');
-            const printArea = document.getElementById('print-area');
-            
+        function generateTableHTML(sportName, catName, levelName, sheetIndex, isFirstElement = false) {
             const sheetData = globalSheetDetails[sheetIndex];
             
-            // สร้างหัวกระดาษใหญ่ๆ สีม่วง
             let displayCatName = catName;
             if(catName === "Free Fire") displayCatName = ""; 
             
@@ -274,9 +283,9 @@
             let tableHTML = '';
             
             if (!sheetData || !sheetData.rows || sheetData.rows.length === 0) {
-                tableHTML = `<div class="text-center text-gray-500 py-10 text-lg">ยังไม่มีผู้สมัครในรายการนี้</div>`;
+                tableHTML = `<div class="text-center text-gray-500 py-6 text-lg border border-dashed border-gray-300 bg-gray-50 mb-10">ยังไม่มีผู้สมัครในรายการนี้</div>`;
             } else {
-                tableHTML = `<table class="print-table w-full text-left">`;
+                tableHTML = `<table class="print-table w-full text-left mb-10">`;
                 
                 tableHTML += `<thead><tr>`;
                 tableHTML += `<th class="w-12 text-center border-b-2 border-purple-300">ลำดับ</th>`;
@@ -296,17 +305,76 @@
                 });
                 tableHTML += `</tbody></table>`;
             }
+            
+            // ใช้คลาส page-break-before ถ้าไม่ใช่หน้าแรก (เพื่อปัดขึ้นหน้าใหม่เสมอเมื่อสั่งพิมพ์)
+            const breakClass = isFirstElement ? '' : 'page-break-before mt-8 pt-8 border-t-4 border-dashed border-gray-200 print:border-none print:mt-0 print:pt-0';
 
-            const fullContentHTML = `
-                <div class="print-header trang-text font-bold text-center text-2xl mb-6 pb-2 border-b-2 border-purple-900">
-                    ${titleText}
+            return `
+                <div class="${breakClass}">
+                    <div class="print-header trang-text font-bold text-center text-2xl mb-6 pb-2 border-b-2 border-purple-900">
+                        ${titleText}
+                    </div>
+                    ${tableHTML}
                 </div>
-                ${tableHTML}
             `;
+        }
+
+
+        // =================================================================
+        // ระบบจัดการการพิมพ์ (พิมพ์เดี่ยว และ พิมพ์ทั้งหมด)
+        // =================================================================
+        
+        // พิมพ์เดี่ยว (แบบเดิม)
+        function openPrintPreview(sportName, catName, levelName, sheetIndex) {
+            const modal = document.getElementById('print-modal');
+            const previewContent = document.getElementById('modal-preview-content');
+            const printArea = document.getElementById('print-area');
+            
+            document.getElementById('modal-title').textContent = "เตรียมพิมพ์รายชื่อ (เดี่ยว)";
+            document.getElementById('modal-icon').textContent = "print";
+
+            const fullContentHTML = generateTableHTML(sportName, catName, levelName, sheetIndex, true);
 
             previewContent.innerHTML = fullContentHTML;
             printArea.innerHTML = fullContentHTML;
             modal.classList.remove('hidden');
+        }
+        
+        // พิมพ์ทั้งหมด (วนลูปทุกกีฬา ทุกรุ่น)
+        function openPrintAllPreview() {
+            // เช็คก่อนว่าโหลดข้อมูลเสร็จหรือยัง
+            if(Object.keys(globalSheetDetails).length === 0) {
+                alert("กรุณารอโหลดข้อมูลให้เสร็จก่อนสั่งพิมพ์ทั้งหมดครับ");
+                return;
+            }
+
+            const modal = document.getElementById('print-modal');
+            const previewContent = document.getElementById('modal-preview-content');
+            const printArea = document.getElementById('print-area');
+            
+            document.getElementById('modal-title').textContent = "เตรียมพิมพ์รายชื่อทั้งหมด (48 รายการ)";
+            document.getElementById('modal-icon').textContent = "print_batch";
+            
+            previewContent.innerHTML = '<div class="text-center py-10"><span class="material-symbols-outlined text-4xl spin-anim text-purple-600">autorenew</span><p class="mt-2">กำลังรวบรวมข้อมูลทั้งหมด 48 รายการ...</p></div>';
+            modal.classList.remove('hidden');
+
+            // ใช้ setTimeout เพื่อให้ Modal โชว์ขึ้นมาก่อนแล้วค่อยประมวลผล (กันค้าง)
+            setTimeout(() => {
+                let allHTML = '';
+                let isFirst = true;
+
+                SPORTS_CONFIG.forEach(sport => {
+                    sport.categories.forEach(category => {
+                        category.levels.forEach(level => {
+                            allHTML += generateTableHTML(sport.name, category.name, level.name, level.sheetIndex, isFirst);
+                            isFirst = false;
+                        });
+                    });
+                });
+
+                previewContent.innerHTML = allHTML;
+                printArea.innerHTML = allHTML;
+            }, 100);
         }
 
         function closeModal() {
@@ -342,7 +410,6 @@
                 `;
 
                 sport.categories.forEach(category => {
-                    // กำหนดไอคอน (รองรับไอคอนคู่ชาย/คู่หญิง)
                     let iconHTML = '';
                     if (category.name === 'Free Fire' || category.name.includes('ชาย - หญิง') || category.name.includes('คู่ผสม')) {
                         iconHTML = `<span class="material-symbols-outlined trang-text text-[16px]">wc</span>`;
