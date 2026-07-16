@@ -179,7 +179,6 @@
     <!-- พื้นที่ลับสำหรับสั่งพิมพ์ -->
     <div id="print-area" class="hidden"></div>
 
-
     <script>
         const SPORTS_CONFIG = [
             { id: 'football', name: 'ฟุตบอล', icon: 'sports_soccer', categories: [ 
@@ -322,7 +321,7 @@
         }
 
         // =================================================================
-        // ระบบจัดการการพิมพ์ (พิมพ์เดี่ยว และ พิมพ์ทั้งหมด)
+        // ระบบจัดการการพิมพ์
         // =================================================================
         function openPrintPreview(sportName, catName, levelName, sheetIndex) {
             const modal = document.getElementById('print-modal');
@@ -442,7 +441,7 @@
                         let realFill = 0;
                         let subFill = 0;
 
-                        // ตัวเลขสำหรับแสดงผล ตัวจริง X / Max | สำรอง Y / Max
+                        // ตัวเลขสำหรับแสดงผล 
                         let currentReal = 0;
                         let currentSub = 0;
 
@@ -460,36 +459,25 @@
                             }
                         }
 
-                        // สร้างข้อความ ตัวจริง / สำรอง
-                        let detailText = `ตัวจริง ${currentReal} / ${level.real}`;
-                        if (level.sub > 0) {
-                            detailText += ` | สำรอง ${currentSub} / ${level.sub}`;
-                        }
-
-                        let textColor = "text-red-500"; 
-                        const isFull = registered === maxTotal;
-                        const isOver = registered > maxTotal;
-                        
-                        if (isFull) textColor = "text-green-600";
-                        if (isOver) textColor = "trang-text font-bold";
+                        // จัดสีให้ "ตัวจริง" (ครบสีม่วง / ขาดสีแดง)
+                        let realColorClass = currentReal >= level.real ? "trang-text" : "text-red-500";
 
                         htmlContent += `
                             <div class="space-y-1 relative level-row">
-                                <div class="flex justify-between items-center text-sm">
-                                    <div class="flex flex-col w-3/4">
-                                        <span class="font-medium text-gray-700 flex flex-wrap items-center gap-2">
-                                            ${level.name}
-                                            <button onclick="openPrintPreview('${sport.name}', '${category.name}', '${level.name}', ${level.sheetIndex})" class="bg-purple-100 hover:bg-purple-200 text-purple-700 rounded px-2 py-1 text-[11px] flex items-center gap-1 cursor-pointer font-medium border shadow-sm transition-colors">
-                                                <span class="material-symbols-outlined text-[14px]">print</span> พิมพ์
-                                            </button>
-                                        </span>
+                                <div class="flex justify-between items-center gap-2">
+                                    <div class="flex items-center gap-2 flex-wrap">
+                                        <span class="font-medium text-gray-700 text-sm">${level.name}</span>
+                                        <button onclick="openPrintPreview('${sport.name}', '${category.name}', '${level.name}', ${level.sheetIndex})" class="bg-purple-50 hover:bg-purple-100 text-purple-700 rounded px-2 py-0.5 text-[11px] flex items-center gap-1 cursor-pointer font-medium transition-colors border border-purple-100">
+                                            <span class="material-symbols-outlined text-[13px]">print</span> พิมพ์
+                                        </button>
                                     </div>
-                                    <span class="font-bold ${textColor} w-1/4 text-right">
-                                        ${registered} / ${maxTotal}
-                                    </span>
+                                    <div class="text-right text-[11px] sm:text-xs">
+                                        <span class="${realColorClass} font-bold">ตัวจริง ${currentReal} / ${level.real}</span>
+                                        ${level.sub > 0 ? `<span class="text-gray-300 mx-1">|</span><span class="text-gray-500">สำรอง ${currentSub} / ${level.sub}</span>` : ''}
+                                    </div>
                                 </div>
                                 
-                                <div class="w-full flex gap-1 h-2.5 items-center mt-1">
+                                <div class="w-full flex gap-1 h-2.5 items-center mt-1.5">
                                     <div class="bg-gray-200 rounded-full h-full flex overflow-hidden" style="width: ${realContainerWidth}%" title="ตัวจริง">
                                         <div class="h-full bg-purple-600 transition-all duration-500" style="width: ${realFill}%"></div>
                                     </div>
@@ -499,10 +487,6 @@
                                         <div class="h-full bg-purple-300 transition-all duration-500" style="width: ${subFill}%"></div>
                                     </div>
                                     ` : ''}
-                                </div>
-                                
-                                <div class="text-[11px] text-gray-500 text-right mt-1">
-                                    ${detailText}
                                 </div>
                             </div>
                         `;
