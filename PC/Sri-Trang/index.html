@@ -23,7 +23,7 @@
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
         /* ========================================================
-           การตั้งค่าสำหรับการสั่งพิมพ์ (Print CSS) 
+           การตั้งค่าสำหรับการสั่งพิมพ์ (Print CSS)
            ======================================================== */
         @media print {
             body { 
@@ -47,7 +47,7 @@
             .print-table {
                 width: 100%;
                 border-collapse: collapse;
-                margin-top: 15px; /* ลด margin ลงนิดนึง */
+                margin-top: 15px; 
                 font-size: 14pt;
                 page-break-inside: auto; 
             }
@@ -84,14 +84,12 @@
             .page-container {
                 display: block; 
                 width: 100%;
-                /* เพิ่ม Padding ด้านบนกันวรรณยุกต์ติดขอบกระดาษ */
                 padding-top: 1.5cm !important; 
                 padding-left: 1cm;
                 padding-right: 1cm;
                 padding-bottom: 1cm;
             }
             
-            /* ใช้ทั้ง 2 แบบครอบคลุมเบราว์เซอร์เก่าและใหม่ */
             .force-page-break {
                 page-break-before: always;
                 break-before: page;
@@ -122,7 +120,6 @@
                             <span class="material-symbols-outlined" id="refresh-icon">sync</span>
                             <span class="hidden sm:inline">รีเฟรช</span>
                         </button>
-                        <!-- เปลี่ยนไอคอนและชื่อ -->
                         <button onclick="openPrintAllPreview()" class="bg-purple-900 text-white hover:bg-purple-950 px-3 sm:px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors border border-white/30 shadow-sm">
                             <span class="material-symbols-outlined">print</span>
                             <span class="hidden sm:inline">พิมพ์ทั้งหมด</span>
@@ -276,7 +273,7 @@
         }
 
         // =================================================================
-        // Helper: สร้างตาราง HTML ของแต่ละการแข่งขัน (ปรับปรุงคลาสหน้าใหม่)
+        // Helper: สร้างตาราง HTML ของแต่ละการแข่งขัน
         // =================================================================
         function generateTableHTML(sportName, catName, levelName, sheetIndex, isFirstElement = false) {
             const sheetData = globalSheetDetails[sheetIndex];
@@ -312,9 +309,7 @@
                 tableHTML += `</tbody></table>`;
             }
             
-            // เพิ่ม force-page-break สำหรับ iOS 
             const breakClass = isFirstElement ? '' : 'force-page-break';
-            // เพิ่ม class page-container เพื่อให้แสดงผลบน iOS ถูกต้องและเว้นที่ด้านบนให้วรรณยุกต์
             const displayStyle = isFirstElement ? 'padding-top: 1cm; padding-left: 1cm; padding-right: 1cm; padding-bottom: 1cm;' : '';
 
             return `
@@ -327,11 +322,9 @@
             `;
         }
 
-
         // =================================================================
         // ระบบจัดการการพิมพ์ (พิมพ์เดี่ยว และ พิมพ์ทั้งหมด)
         // =================================================================
-        
         function openPrintPreview(sportName, catName, levelName, sheetIndex) {
             const modal = document.getElementById('print-modal');
             const previewContent = document.getElementById('modal-preview-content');
@@ -340,7 +333,6 @@
             document.getElementById('modal-title').textContent = "เตรียมพิมพ์รายชื่อ (เดี่ยว)";
             document.getElementById('modal-icon').textContent = "print";
 
-            // true คือหน้าแรกเสมอ จะไม่ force page break ตอนเริ่ม
             const fullContentHTML = generateTableHTML(sportName, catName, levelName, sheetIndex, true);
 
             previewContent.innerHTML = fullContentHTML;
@@ -372,7 +364,7 @@
                     sport.categories.forEach(category => {
                         category.levels.forEach(level => {
                             allHTML += generateTableHTML(sport.name, category.name, level.name, level.sheetIndex, isFirst);
-                            isFirst = false; // อันถัดไปจะเป็น force page break ทั้งหมด
+                            isFirst = false; 
                         });
                     });
                 });
@@ -398,7 +390,7 @@
         }
 
         // =================================================================
-        // สร้าง Dashboard 
+        // สร้าง Dashboard (ระบบหลอดพลังใหม่ แยกหลอดตามสัดส่วนจริง)
         // =================================================================
         function renderDashboard(apiCountsData) {
             const container = document.getElementById('dashboard-container');
@@ -443,15 +435,22 @@
                         const maxTotal = level.real + level.sub;
                         const registered = apiCountsData[level.sheetIndex] || 0;
                         
-                        let realPercent = 0;
-                        let subPercent = 0;
+                        // คำนวณความกว้างพื้นฐานของแต่ละหลอดตามสัดส่วนพื้นที่ (Real Container vs Sub Container)
+                        let realContainerWidth = (level.real / maxTotal) * 100;
+                        let subContainerWidth = level.sub > 0 ? (level.sub / maxTotal) * 100 : 0;
+                        
+                        // คำนวณการเติมสีในหลอดของใครของมัน (%)
+                        let realFill = 0;
+                        let subFill = 0;
 
                         if (registered <= level.real) {
-                            realPercent = (registered / maxTotal) * 100;
+                            realFill = (registered / level.real) * 100;
+                            subFill = 0;
                         } else {
-                            realPercent = (level.real / maxTotal) * 100;
-                            const subCount = Math.min(registered - level.real, level.sub);
-                            subPercent = (subCount / maxTotal) * 100;
+                            realFill = 100; // ตัวจริงเต็มแล้ว
+                            if (level.sub > 0) {
+                                subFill = Math.min(((registered - level.real) / level.sub) * 100, 100);
+                            }
                         }
 
                         let textColor = "text-red-500"; 
@@ -477,9 +476,19 @@
                                     </span>
                                 </div>
                                 
-                                <div class="w-full bg-gray-200 rounded-full h-2.5 flex overflow-hidden">
-                                    <div class="h-2.5 bg-purple-600 transition-all duration-500" style="width: ${realPercent}%" title="ตัวจริง"></div>
-                                    <div class="h-2.5 bg-purple-300 transition-all duration-500" style="width: ${subPercent}%" title="สำรอง"></div>
+                                <!-- เปลี่ยนการแสดงผลเป็นหลอด 2 อันแยกกัน -->
+                                <div class="w-full flex gap-1 h-2.5 items-center">
+                                    <!-- หลอดตัวจริง -->
+                                    <div class="bg-gray-200 rounded-full h-full flex overflow-hidden" style="width: ${realContainerWidth}%" title="ตัวจริง (โควต้า ${level.real})">
+                                        <div class="h-full bg-purple-600 transition-all duration-500" style="width: ${realFill}%"></div>
+                                    </div>
+                                    
+                                    <!-- หลอดสำรอง (ถ้ามีโควต้าสำรอง) -->
+                                    ${level.sub > 0 ? `
+                                    <div class="bg-gray-200 rounded-full h-full flex overflow-hidden" style="width: ${subContainerWidth}%" title="สำรอง (โควต้า ${level.sub})">
+                                        <div class="h-full bg-purple-300 transition-all duration-500" style="width: ${subFill}%"></div>
+                                    </div>
+                                    ` : ''}
                                 </div>
                                 
                                 <div class="text-[11px] text-gray-500 text-right">
