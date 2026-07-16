@@ -80,7 +80,6 @@
                 print-color-adjust: exact;
             }
 
-            /* ควบคุมการขึ้นหน้าใหม่ แก้ไขสำหรับ iOS */
             .page-container {
                 display: block; 
                 width: 100%;
@@ -390,7 +389,7 @@
         }
 
         // =================================================================
-        // สร้าง Dashboard (ระบบหลอดพลังใหม่ แยกหลอดตามสัดส่วนจริง)
+        // สร้าง Dashboard 
         // =================================================================
         function renderDashboard(apiCountsData) {
             const container = document.getElementById('dashboard-container');
@@ -435,22 +434,36 @@
                         const maxTotal = level.real + level.sub;
                         const registered = apiCountsData[level.sheetIndex] || 0;
                         
-                        // คำนวณความกว้างพื้นฐานของแต่ละหลอดตามสัดส่วนพื้นที่ (Real Container vs Sub Container)
+                        // คำนวณความกว้างหลอด
                         let realContainerWidth = (level.real / maxTotal) * 100;
                         let subContainerWidth = level.sub > 0 ? (level.sub / maxTotal) * 100 : 0;
                         
-                        // คำนวณการเติมสีในหลอดของใครของมัน (%)
+                        // คำนวณการเติมสีในหลอด
                         let realFill = 0;
                         let subFill = 0;
+
+                        // ตัวเลขสำหรับแสดงผล ตัวจริง X / Max | สำรอง Y / Max
+                        let currentReal = 0;
+                        let currentSub = 0;
 
                         if (registered <= level.real) {
                             realFill = (registered / level.real) * 100;
                             subFill = 0;
+                            currentReal = registered;
+                            currentSub = 0;
                         } else {
-                            realFill = 100; // ตัวจริงเต็มแล้ว
+                            realFill = 100; 
+                            currentReal = level.real;
+                            currentSub = registered - level.real;
                             if (level.sub > 0) {
                                 subFill = Math.min(((registered - level.real) / level.sub) * 100, 100);
                             }
+                        }
+
+                        // สร้างข้อความ ตัวจริง / สำรอง
+                        let detailText = `ตัวจริง ${currentReal} / ${level.real}`;
+                        if (level.sub > 0) {
+                            detailText += ` | สำรอง ${currentSub} / ${level.sub}`;
                         }
 
                         let textColor = "text-red-500"; 
@@ -476,23 +489,20 @@
                                     </span>
                                 </div>
                                 
-                                <!-- เปลี่ยนการแสดงผลเป็นหลอด 2 อันแยกกัน -->
-                                <div class="w-full flex gap-1 h-2.5 items-center">
-                                    <!-- หลอดตัวจริง -->
-                                    <div class="bg-gray-200 rounded-full h-full flex overflow-hidden" style="width: ${realContainerWidth}%" title="ตัวจริง (โควต้า ${level.real})">
+                                <div class="w-full flex gap-1 h-2.5 items-center mt-1">
+                                    <div class="bg-gray-200 rounded-full h-full flex overflow-hidden" style="width: ${realContainerWidth}%" title="ตัวจริง">
                                         <div class="h-full bg-purple-600 transition-all duration-500" style="width: ${realFill}%"></div>
                                     </div>
                                     
-                                    <!-- หลอดสำรอง (ถ้ามีโควต้าสำรอง) -->
                                     ${level.sub > 0 ? `
-                                    <div class="bg-gray-200 rounded-full h-full flex overflow-hidden" style="width: ${subContainerWidth}%" title="สำรอง (โควต้า ${level.sub})">
+                                    <div class="bg-gray-200 rounded-full h-full flex overflow-hidden" style="width: ${subContainerWidth}%" title="สำรอง">
                                         <div class="h-full bg-purple-300 transition-all duration-500" style="width: ${subFill}%"></div>
                                     </div>
                                     ` : ''}
                                 </div>
                                 
-                                <div class="text-[11px] text-gray-500 text-right">
-                                    ตัวจริง ${level.real} | สำรอง ${level.sub}
+                                <div class="text-[11px] text-gray-500 text-right mt-1">
+                                    ${detailText}
                                 </div>
                             </div>
                         `;
