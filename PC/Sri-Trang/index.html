@@ -93,7 +93,18 @@
                 page-break-before: always;
                 break-before: page;
             }
+
+            /* สไตล์สำหรับพื้นที่ลงนาม (พิมพ์เดี่ยว) */
+            .signature-section {
+                margin-top: 50px;
+                page-break-inside: avoid;
+            }
         }
+
+        /* ตกแต่งตารางตั้งค่าตอนเลือกคนใน Modal */
+        .config-table th { background-color: #f3e8ff; color: #5c2d91; padding: 12px 8px; text-align: left; border: 1px solid #e5e7eb; }
+        .config-table td { padding: 10px 8px; border: 1px solid #e5e7eb; }
+        .config-table tr:hover { background-color: #f9fafb; }
     </style>
 </head>
 <body class="min-h-screen pb-10">
@@ -119,7 +130,7 @@
                             <span class="material-symbols-outlined" id="refresh-icon">sync</span>
                             <span class="hidden sm:inline">รีเฟรช</span>
                         </button>
-                        <button onclick="openPrintAllPreview()" class="bg-purple-900 text-white hover:bg-purple-950 px-3 sm:px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors border border-white/30 shadow-sm">
+                        <button onclick="executePrintAll()" class="bg-purple-900 text-white hover:bg-purple-950 px-3 sm:px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors border border-white/30 shadow-sm">
                             <span class="material-symbols-outlined">print</span>
                             <span class="hidden sm:inline">พิมพ์ทั้งหมด</span>
                         </button>
@@ -130,45 +141,41 @@
     </header>
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-        
         <div id="loading-state" class="flex flex-col items-center justify-center py-20 text-gray-500">
             <span class="material-symbols-outlined text-6xl spin-anim mb-4 trang-text">autorenew</span>
             <p class="text-lg font-medium" id="loading-text">กำลังเชื่อมต่อและดึงข้อมูลจากชีต...</p>
         </div>
-
-        <div id="dashboard-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 items-start hidden">
-        </div>
-
+        <div id="dashboard-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 items-start hidden"></div>
     </main>
 
     <footer class="hidden print:block mt-8 text-center text-sm text-gray-500 pb-8" id="print-footer"></footer>
 
     <!-- =========================================================
-         Modal สำหรับแสดงตัวอย่างรายชื่อก่อนพิมพ์
+         Modal สำหรับการตั้งค่าก่อนพิมพ์ (เลือกคน + เลือกสถานะ)
          ========================================================= -->
     <div id="print-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col overflow-hidden">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-6xl max-h-[90vh] flex flex-col overflow-hidden">
             
             <div class="trang-bg text-white px-6 py-4 flex justify-between items-center">
                 <div class="flex items-center gap-2">
-                    <span class="material-symbols-outlined" id="modal-icon">print</span>
-                    <h2 class="text-xl font-bold" id="modal-title">เตรียมพิมพ์รายชื่อ</h2>
+                    <span class="material-symbols-outlined" id="modal-icon">checklist</span>
+                    <h2 class="text-xl font-bold" id="modal-title">ตั้งค่าการพิมพ์รายชื่อนักกีฬา</h2>
                 </div>
                 <button onclick="closeModal()" class="text-white/80 hover:text-white transition-colors">
                     <span class="material-symbols-outlined text-3xl">close</span>
                 </button>
             </div>
 
-            <div class="p-6 overflow-y-auto bg-gray-50 flex-grow">
-                <div class="bg-white border p-8 shadow-sm rounded-lg min-h-[500px]" id="modal-preview-content">
-                </div>
+            <!-- พื้นที่ตั้งค่า (แสดงตารางที่มี Checkbox และ Dropdown) -->
+            <div class="p-6 overflow-y-auto bg-white flex-grow" id="modal-config-content">
+                <!-- ตารางตั้งค่าจะถูกสร้างขึ้นที่นี่ด้วย JavaScript -->
             </div>
 
-            <div class="border-t p-4 bg-white flex justify-end gap-3">
-                <button onclick="closeModal()" class="px-5 py-2 text-gray-600 hover:bg-gray-100 rounded-lg font-medium transition-colors">
+            <div class="border-t p-4 bg-gray-50 flex justify-end gap-3">
+                <button onclick="closeModal()" class="px-5 py-2 text-gray-600 hover:bg-gray-200 bg-white border border-gray-300 rounded-lg font-medium transition-colors">
                     ยกเลิก
                 </button>
-                <button onclick="executePrint()" class="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-bold flex items-center gap-2 transition-colors shadow-md">
+                <button onclick="confirmSinglePrint()" class="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-bold flex items-center gap-2 transition-colors shadow-md">
                     <span class="material-symbols-outlined">print</span>
                     ยืนยันการพิมพ์
                 </button>
@@ -176,8 +183,16 @@
         </div>
     </div>
 
+    <!-- โหลดดิ้ง Overlay (ใช้ตอนกำลังจัดหน้ากระดาษเตรียมพิมพ์) -->
+    <div id="print-loading-overlay" class="fixed inset-0 bg-white/90 z-[60] hidden flex-col items-center justify-center">
+        <span class="material-symbols-outlined text-6xl spin-anim mb-4 trang-text">autorenew</span>
+        <p class="text-xl font-bold text-gray-800">กำลังจัดเตรียมหน้ากระดาษพิมพ์...</p>
+        <p class="text-gray-500 mt-2">กรุณารอสักครู่ เบราว์เซอร์จะเปิดหน้าต่างพิมพ์ให้อัตโนมัติ</p>
+    </div>
+
     <!-- พื้นที่ลับสำหรับสั่งพิมพ์ -->
     <div id="print-area" class="hidden"></div>
+
 
     <script>
         const SPORTS_CONFIG = [
@@ -234,6 +249,9 @@
         const API_URL = "https://script.google.com/macros/s/AKfycbyYcyfX0znWZJaf1Tp6SQxV5XEkGJqKO7-s4G5dLjIbw0VD-PeVWb9wLD2VC1F0PpN3/exec"; 
         
         let globalSheetDetails = {};
+        
+        // ตัวแปรเก็บค่าคอนฟิกของการกดพิมพ์เดี่ยวชั่วคราว
+        let currentSinglePrintConfig = null;
 
         function fetchData() {
             document.getElementById('loading-state').classList.remove('hidden');
@@ -270,15 +288,203 @@
                 });
         }
 
+
         // =================================================================
-        // Helper: สร้างตาราง HTML ของแต่ละการแข่งขัน
+        // ระบบพิมพ์เดี่ยว (ขั้นตอนที่ 1: เปิดหน้าตั้งค่าเลือกคนและสถานะ)
         // =================================================================
-        function generateTableHTML(sportName, catName, levelName, sheetIndex, isFirstElement = false) {
-            const sheetData = globalSheetDetails[sheetIndex];
+        function openSinglePrintConfig(sportName, catName, levelName, sheetIndex) {
+            const modal = document.getElementById('print-modal');
+            const configContent = document.getElementById('modal-config-content');
             
+            // เก็บข้อมูลไว้ใช้ตอนกดยืนยัน
+            currentSinglePrintConfig = { sportName, catName, levelName, sheetIndex };
+
             let displayCatName = catName;
             if(catName === "Free Fire") displayCatName = ""; 
+            const titleText = `${sportName} ${displayCatName} ${levelName}`;
             
+            document.getElementById('modal-title').innerHTML = `เลือกรายชื่อที่จะพิมพ์: <span class="text-purple-300">${titleText}</span>`;
+
+            const sheetData = globalSheetDetails[sheetIndex];
+            
+            if (!sheetData || !sheetData.rows || sheetData.rows.length === 0) {
+                configContent.innerHTML = `<div class="text-center text-gray-500 py-10 text-lg">ไม่มีข้อมูลรายชื่อผู้สมัครให้เลือกพิมพ์</div>`;
+            } else {
+                let tableHTML = `
+                    <div class="mb-4 text-sm text-gray-600 bg-purple-50 p-3 rounded-lg border border-purple-100 flex items-start gap-2">
+                        <span class="material-symbols-outlined text-purple-500 text-lg">info</span>
+                        <p>กรุณาติ๊กเลือกคนที่จะพิมพ์ และกำหนดสถานะ <b>"ตัวจริง"</b> หรือ <b>"ตัวสำรอง"</b><br>
+                        <span class="text-xs text-purple-700">* คนที่ไม่ได้ถูกติ๊กจะไม่ปรากฏในหน้ากระดาษ และถ้าปล่อยสถานะเป็นว่างเปล่า ก็จะแสดงเป็นช่องว่าง</span></p>
+                    </div>
+                    <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+                        <table class="config-table w-full text-sm whitespace-nowrap">
+                            <thead>
+                                <tr>
+                                    <th class="w-10 text-center">
+                                        <input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this)" class="w-4 h-4 cursor-pointer accent-purple-600">
+                                    </th>
+                                    <th class="w-16 text-center">ลำดับ</th>
+                `;
+                
+                // หัวตารางจากชีต
+                sheetData.headers.forEach(header => {
+                    tableHTML += `<th>${header}</th>`;
+                });
+                
+                tableHTML += `<th class="w-32 text-center bg-purple-100 border-l-2 border-purple-300">ระบุสถานะ</th></tr></thead><tbody id="configTableBody">`;
+                
+                // แถวข้อมูล
+                sheetData.rows.forEach((row, rowIndex) => {
+                    tableHTML += `<tr class="print-row-config">`;
+                    // Checkbox ค่าเริ่มต้นคือไม่เลือก
+                    tableHTML += `<td class="text-center"><input type="checkbox" class="row-checkbox w-4 h-4 cursor-pointer accent-purple-600"></td>`;
+                    tableHTML += `<td class="text-center text-gray-500">${rowIndex + 1}</td>`;
+                    
+                    row.forEach(cell => {
+                        const cellData = (cell === null || cell === undefined) ? "" : cell;
+                        tableHTML += `<td>${cellData}</td>`;
+                    });
+                    
+                    // Dropdown สำหรับเลือกสถานะ
+                    tableHTML += `
+                        <td class="text-center border-l-2 border-purple-100">
+                            <select class="row-status border border-gray-300 rounded p-1.5 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-sm w-full bg-white">
+                                <option value="">เลือกสถานะ...</option>
+                                <option value="ตัวจริง">ตัวจริง</option>
+                                <option value="ตัวสำรอง">ตัวสำรอง</option>
+                            </select>
+                        </td>
+                    `;
+                    tableHTML += `</tr>`;
+                });
+                
+                tableHTML += `</tbody></table></div>`;
+                configContent.innerHTML = tableHTML;
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        // ฟังก์ชันช่วยเหลือสำหรับ Checkbox เลือกทั้งหมด
+        function toggleSelectAll(selectAllCheckbox) {
+            const checkboxes = document.querySelectorAll('.row-checkbox');
+            checkboxes.forEach(cb => {
+                cb.checked = selectAllCheckbox.checked;
+            });
+        }
+
+        function closeModal() {
+            document.getElementById('print-modal').classList.add('hidden');
+            currentSinglePrintConfig = null;
+        }
+
+
+        // =================================================================
+        // ระบบพิมพ์เดี่ยว (ขั้นตอนที่ 2: จัดเรียงข้อมูล นำไปสร้างหน้ากระดาษ และสั่งพิมพ์)
+        // =================================================================
+        function confirmSinglePrint() {
+            if(!currentSinglePrintConfig) return;
+
+            const { sportName, catName, levelName, sheetIndex } = currentSinglePrintConfig;
+            const sheetData = globalSheetDetails[sheetIndex];
+            
+            // อ่านค่าจากตารางที่ผู้ใช้ติ๊ก
+            const configRows = document.querySelectorAll('.print-row-config');
+            let selectedData = [];
+            
+            configRows.forEach((tr, index) => {
+                const isChecked = tr.querySelector('.row-checkbox').checked;
+                if(isChecked) {
+                    const statusVal = tr.querySelector('.row-status').value;
+                    selectedData.push({
+                        originalRow: sheetData.rows[index],
+                        status: statusVal
+                    });
+                }
+            });
+
+            if(selectedData.length === 0) {
+                alert("กรุณาติ๊กเลือกรายชื่ออย่างน้อย 1 คนเพื่อพิมพ์ครับ");
+                return;
+            }
+
+            // กฎการจัดเรียง (Sorting): ตัวจริง -> ตัวสำรอง -> ว่างเปล่า
+            const statusOrder = { "ตัวจริง": 1, "ตัวสำรอง": 2, "": 3 };
+            selectedData.sort((a, b) => statusOrder[a.status] - statusOrder[b.status]);
+
+            // นำข้อมูลที่ผ่านการกรอง/จัดเรียงแล้ว ไปสร้าง HTML
+            let displayCatName = catName;
+            if(catName === "Free Fire") displayCatName = ""; 
+            const titleText = `${sportName} ${displayCatName} ${levelName}`;
+            
+            let tableHTML = `<table class="print-table w-full text-left mb-8">`;
+            tableHTML += `<thead><tr>`;
+            tableHTML += `<th class="w-12 text-center border-b-2 border-purple-300">ลำดับ</th>`;
+            sheetData.headers.forEach(header => {
+                tableHTML += `<th class="border-b-2 border-purple-300">${header}</th>`;
+            });
+            // เพิ่มคอลัมน์สถานะเฉพาะการพิมพ์เดี่ยว
+            tableHTML += `<th class="border-b-2 border-purple-300 text-center w-24">สถานะ</th>`;
+            tableHTML += `</tr></thead><tbody>`;
+            
+            selectedData.forEach((item, index) => {
+                tableHTML += `<tr>`;
+                tableHTML += `<td class="text-center">${index + 1}</td>`;
+                item.originalRow.forEach(cell => {
+                    const cellData = (cell === null || cell === undefined) ? "" : cell;
+                    tableHTML += `<td>${cellData}</td>`;
+                });
+                // แสดงสถานะที่เลือกมา
+                tableHTML += `<td class="text-center font-bold">${item.status}</td>`;
+                tableHTML += `</tr>`;
+            });
+            tableHTML += `</tbody></table>`;
+
+            // เพิ่มช่องลายเซ็นนักเรียนผู้รับผิดชอบ
+            const signatureHTML = `
+                <div class="signature-section mt-12 mb-8">
+                    <p class="font-bold text-center text-lg mb-8">นักเรียนผู้รับผิดชอบ</p>
+                    <div class="flex justify-around w-full max-w-4xl mx-auto">
+                        <div class="text-center">
+                            <p class="mb-3">ลงชื่อ...................................................................</p>
+                            <p>(...................................................................)</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="mb-3">ลงชื่อ...................................................................</p>
+                            <p>(...................................................................)</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const fullContentHTML = `
+                <div class="page-container" style="padding-top: 1cm; padding-left: 1cm; padding-right: 1cm; padding-bottom: 1cm;">
+                    <div class="print-header trang-text font-bold text-center text-2xl mb-6 pb-2 border-b-2 border-purple-900">
+                        ${titleText}
+                    </div>
+                    ${tableHTML}
+                    ${signatureHTML}
+                </div>
+            `;
+
+            // นำโค้ดไปใส่ Print Area และปิด Modal จากนั้นสั่งพิมพ์
+            document.getElementById('print-area').innerHTML = fullContentHTML;
+            closeModal();
+
+            // หน่วงเวลาให้เบราว์เซอร์จัดการ CSS เสร็จก่อนสั่งพิมพ์
+            setTimeout(() => {
+                window.print();
+            }, 300);
+        }
+
+
+        // =================================================================
+        // ระบบพิมพ์ทั้งหมด (พิมพ์รวดเดียวจบ 48 รายการ ใช้โครงสร้างแบบเดิม)
+        // =================================================================
+        function generateBasicTableHTML(sportName, catName, levelName, sheetIndex, isFirstElement = false) {
+            const sheetData = globalSheetDetails[sheetIndex];
+            let displayCatName = catName;
+            if(catName === "Free Fire") displayCatName = ""; 
             const titleText = `${sportName} ${displayCatName} ${levelName}`;
             
             let tableHTML = '';
@@ -287,7 +493,6 @@
                 tableHTML = `<div class="text-center text-gray-500 py-6 text-lg border border-dashed border-gray-300 bg-gray-50 mb-10">ยังไม่มีผู้สมัครในรายการนี้</div>`;
             } else {
                 tableHTML = `<table class="print-table w-full text-left mb-10">`;
-                
                 tableHTML += `<thead><tr>`;
                 tableHTML += `<th class="w-12 text-center border-b-2 border-purple-300">ลำดับ</th>`;
                 sheetData.headers.forEach(header => {
@@ -296,7 +501,7 @@
                 tableHTML += `</tr></thead><tbody>`;
                 
                 sheetData.rows.forEach((row, rowIndex) => {
-                    tableHTML += `<tr class="hover:bg-gray-50">`;
+                    tableHTML += `<tr>`;
                     tableHTML += `<td class="text-center">${rowIndex + 1}</td>`;
                     row.forEach(cell => {
                         const cellData = (cell === null || cell === undefined) ? "" : cell;
@@ -310,6 +515,7 @@
             const breakClass = isFirstElement ? '' : 'force-page-break';
             const displayStyle = isFirstElement ? 'padding-top: 1cm; padding-left: 1cm; padding-right: 1cm; padding-bottom: 1cm;' : '';
 
+            // ไม่เพิ่มคอลัมน์สถานะและไม่มีลายเซ็น
             return `
                 <div class="page-container ${breakClass}" style="${displayStyle}">
                     <div class="print-header trang-text font-bold text-center text-2xl mb-6 pb-2 border-b-2 border-purple-900">
@@ -320,39 +526,15 @@
             `;
         }
 
-        // =================================================================
-        // ระบบจัดการการพิมพ์
-        // =================================================================
-        function openPrintPreview(sportName, catName, levelName, sheetIndex) {
-            const modal = document.getElementById('print-modal');
-            const previewContent = document.getElementById('modal-preview-content');
-            const printArea = document.getElementById('print-area');
-            
-            document.getElementById('modal-title').textContent = "เตรียมพิมพ์รายชื่อ (เดี่ยว)";
-            document.getElementById('modal-icon').textContent = "print";
-
-            const fullContentHTML = generateTableHTML(sportName, catName, levelName, sheetIndex, true);
-
-            previewContent.innerHTML = fullContentHTML;
-            printArea.innerHTML = fullContentHTML;
-            modal.classList.remove('hidden');
-        }
-        
-        function openPrintAllPreview() {
+        function executePrintAll() {
             if(Object.keys(globalSheetDetails).length === 0) {
                 alert("กรุณารอโหลดข้อมูลให้เสร็จก่อนสั่งพิมพ์ทั้งหมดครับ");
                 return;
             }
 
-            const modal = document.getElementById('print-modal');
-            const previewContent = document.getElementById('modal-preview-content');
-            const printArea = document.getElementById('print-area');
-            
-            document.getElementById('modal-title').textContent = "เตรียมพิมพ์รายชื่อทั้งหมด (48 รายการ)";
-            document.getElementById('modal-icon').textContent = "print";
-            
-            previewContent.innerHTML = '<div class="text-center py-10"><span class="material-symbols-outlined text-4xl spin-anim text-purple-600">autorenew</span><p class="mt-2">กำลังรวบรวมข้อมูลทั้งหมด 48 รายการ...</p></div>';
-            modal.classList.remove('hidden');
+            // แสดงหน้าจอโหลดก่อน เพราะลูปสร้างหน้า 48 หน้าอาจจะกินเวลาเสี้ยววินาที
+            document.getElementById('print-loading-overlay').classList.remove('hidden');
+            document.getElementById('print-loading-overlay').classList.add('flex');
 
             setTimeout(() => {
                 let allHTML = '';
@@ -361,24 +543,25 @@
                 SPORTS_CONFIG.forEach(sport => {
                     sport.categories.forEach(category => {
                         category.levels.forEach(level => {
-                            allHTML += generateTableHTML(sport.name, category.name, level.name, level.sheetIndex, isFirst);
+                            allHTML += generateBasicTableHTML(sport.name, category.name, level.name, level.sheetIndex, isFirst);
                             isFirst = false; 
                         });
                     });
                 });
 
-                previewContent.innerHTML = allHTML;
-                printArea.innerHTML = allHTML;
-            }, 100);
+                document.getElementById('print-area').innerHTML = allHTML;
+                
+                // ซ่อนโหลดดิ้งและเรียกหน้าต่างพิมพ์
+                document.getElementById('print-loading-overlay').classList.add('hidden');
+                document.getElementById('print-loading-overlay').classList.remove('flex');
+                
+                setTimeout(() => {
+                    window.print();
+                }, 100);
+                
+            }, 300);
         }
 
-        function closeModal() {
-            document.getElementById('print-modal').classList.add('hidden');
-        }
-
-        function executePrint() {
-            window.print();
-        }
         
         window.onclick = function(event) {
             const modal = document.getElementById('print-modal');
@@ -387,8 +570,9 @@
             }
         }
 
+
         // =================================================================
-        // สร้าง Dashboard 
+        // สร้าง Dashboard (UI หน้าแรกหลัก)
         // =================================================================
         function renderDashboard(apiCountsData) {
             const container = document.getElementById('dashboard-container');
@@ -433,15 +617,12 @@
                         const maxTotal = level.real + level.sub;
                         const registered = apiCountsData[level.sheetIndex] || 0;
                         
-                        // คำนวณความกว้างหลอด
                         let realContainerWidth = (level.real / maxTotal) * 100;
                         let subContainerWidth = level.sub > 0 ? (level.sub / maxTotal) * 100 : 0;
                         
-                        // คำนวณการเติมสีในหลอด
                         let realFill = 0;
                         let subFill = 0;
 
-                        // ตัวเลขสำหรับแสดงผล 
                         let currentReal = 0;
                         let currentSub = 0;
 
@@ -459,15 +640,15 @@
                             }
                         }
 
-                        // จัดสีให้ "ตัวจริง" (ครบสีม่วง / ขาดสีแดง)
                         let realColorClass = currentReal >= level.real ? "trang-text" : "text-red-500";
 
+                        // เปลี่ยนปุ่มจาก openPrintPreview เป็น openSinglePrintConfig เพื่อเปิดหน้าตั้งค่า
                         htmlContent += `
                             <div class="space-y-1 relative level-row">
                                 <div class="flex justify-between items-center gap-2">
                                     <div class="flex items-center gap-2 flex-wrap">
                                         <span class="font-medium text-gray-700 text-sm">${level.name}</span>
-                                        <button onclick="openPrintPreview('${sport.name}', '${category.name}', '${level.name}', ${level.sheetIndex})" class="bg-purple-50 hover:bg-purple-100 text-purple-700 rounded px-2 py-0.5 text-[11px] flex items-center gap-1 cursor-pointer font-medium transition-colors border border-purple-100">
+                                        <button onclick="openSinglePrintConfig('${sport.name}', '${category.name}', '${level.name}', ${level.sheetIndex})" class="bg-purple-50 hover:bg-purple-100 text-purple-700 rounded px-2 py-0.5 text-[11px] flex items-center gap-1 cursor-pointer font-medium transition-colors border border-purple-100 shadow-sm">
                                             <span class="material-symbols-outlined text-[13px]">print</span> พิมพ์
                                         </button>
                                     </div>
@@ -484,7 +665,7 @@
                                     
                                     ${level.sub > 0 ? `
                                     <div class="bg-gray-200 rounded-full h-full flex overflow-hidden" style="width: ${subContainerWidth}%" title="สำรอง">
-                                        <div class="h-full bg-purple-300 transition-all duration-500" style="width: ${subFill}%"></div>
+                                        <div class="h-full bg-gray-400 transition-all duration-500" style="width: ${subFill}%"></div>
                                     </div>
                                     ` : ''}
                                 </div>
