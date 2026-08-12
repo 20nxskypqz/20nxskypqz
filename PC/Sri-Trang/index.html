@@ -94,14 +94,12 @@
                 break-before: page;
             }
 
-            /* สไตล์สำหรับพื้นที่ลงนาม (พิมพ์เดี่ยว) */
             .signature-section {
                 margin-top: 50px;
                 page-break-inside: avoid;
             }
         }
 
-        /* ตกแต่งตารางตั้งค่าตอนเลือกคนใน Modal */
         .config-table th { background-color: #f3e8ff; color: #5c2d91; padding: 12px 8px; text-align: left; border: 1px solid #e5e7eb; }
         .config-table td { padding: 10px 8px; border: 1px solid #e5e7eb; }
         .config-table tr:hover { background-color: #f9fafb; }
@@ -151,7 +149,7 @@
     <footer class="hidden print:block mt-8 text-center text-sm text-gray-500 pb-8" id="print-footer"></footer>
 
     <!-- =========================================================
-         Modal สำหรับการตั้งค่าก่อนพิมพ์ (เลือกคน + เลือกสถานะ)
+         Modal สำหรับการตั้งค่าก่อนพิมพ์ (เลือกคน + เลือกสถานะ + ชื่อคนเซ็น)
          ========================================================= -->
     <div id="print-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-6xl max-h-[90vh] flex flex-col overflow-hidden">
@@ -166,13 +164,13 @@
                 </button>
             </div>
 
-            <!-- พื้นที่ตั้งค่า (แสดงตารางที่มี Checkbox และ Dropdown) -->
-            <div class="p-6 overflow-y-auto bg-white flex-grow" id="modal-config-content">
-                <!-- ตารางตั้งค่าจะถูกสร้างขึ้นที่นี่ด้วย JavaScript -->
+            <!-- พื้นที่ตั้งค่า -->
+            <div class="p-6 overflow-y-auto bg-gray-50 flex-grow" id="modal-config-content">
+                <!-- เนื้อหาแบบฟอร์มจะถูกสร้างขึ้นที่นี่ -->
             </div>
 
-            <div class="border-t p-4 bg-gray-50 flex justify-end gap-3">
-                <button onclick="closeModal()" class="px-5 py-2 text-gray-600 hover:bg-gray-200 bg-white border border-gray-300 rounded-lg font-medium transition-colors">
+            <div class="border-t p-4 bg-white flex justify-end gap-3 shadow-inner">
+                <button onclick="closeModal()" class="px-5 py-2 text-gray-600 hover:bg-gray-200 bg-gray-100 border border-transparent rounded-lg font-medium transition-colors">
                     ยกเลิก
                 </button>
                 <button onclick="confirmSinglePrint()" class="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-bold flex items-center gap-2 transition-colors shadow-md">
@@ -250,7 +248,6 @@
         
         let globalSheetDetails = {};
         
-        // ตัวแปรเก็บค่าคอนฟิกของการกดพิมพ์เดี่ยวชั่วคราว
         let currentSinglePrintConfig = null;
 
         function fetchData() {
@@ -290,33 +287,55 @@
 
 
         // =================================================================
-        // ระบบพิมพ์เดี่ยว (ขั้นตอนที่ 1: เปิดหน้าตั้งค่าเลือกคนและสถานะ)
+        // ระบบพิมพ์เดี่ยว (เปิดหน้าตั้งค่า)
         // =================================================================
         function openSinglePrintConfig(sportName, catName, levelName, sheetIndex) {
             const modal = document.getElementById('print-modal');
             const configContent = document.getElementById('modal-config-content');
             
-            // เก็บข้อมูลไว้ใช้ตอนกดยืนยัน
             currentSinglePrintConfig = { sportName, catName, levelName, sheetIndex };
 
             let displayCatName = catName;
             if(catName === "Free Fire") displayCatName = ""; 
             const titleText = `${sportName} ${displayCatName} ${levelName}`;
             
-            document.getElementById('modal-title').innerHTML = `เลือกรายชื่อที่จะพิมพ์: <span class="text-purple-300">${titleText}</span>`;
+            document.getElementById('modal-title').innerHTML = `ตั้งค่าเอกสาร: <span class="text-purple-300">${titleText}</span>`;
 
             const sheetData = globalSheetDetails[sheetIndex];
             
+            // ค้นหา Index ของคอลัมน์ที่มีคำว่า "ชื่อเล่น" เพื่อข้ามการแสดงผล
+            const skipColIndex = sheetData && sheetData.headers ? sheetData.headers.findIndex(h => h.includes('ชื่อเล่น')) : -1;
+
             if (!sheetData || !sheetData.rows || sheetData.rows.length === 0) {
                 configContent.innerHTML = `<div class="text-center text-gray-500 py-10 text-lg">ไม่มีข้อมูลรายชื่อผู้สมัครให้เลือกพิมพ์</div>`;
             } else {
-                let tableHTML = `
-                    <div class="mb-4 text-sm text-gray-600 bg-purple-50 p-3 rounded-lg border border-purple-100 flex items-start gap-2">
-                        <span class="material-symbols-outlined text-purple-500 text-lg">info</span>
-                        <p>กรุณาติ๊กเลือกคนที่จะพิมพ์ และกำหนดสถานะ <b>"ตัวจริง"</b> หรือ <b>"ตัวสำรอง"</b><br>
-                        <span class="text-xs text-purple-700">* คนที่ไม่ได้ถูกติ๊กจะไม่ปรากฏในหน้ากระดาษ และถ้าปล่อยสถานะเป็นว่างเปล่า ก็จะแสดงเป็นช่องว่าง</span></p>
+                // ส่วนตั้งค่าผู้รับผิดชอบ
+                let configTopHTML = `
+                    <div class="mb-5 bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                        <h3 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-purple-600">edit_document</span> 
+                            ระบุนักเรียนผู้รับผิดชอบ (จะแสดงท้ายเอกสาร)
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">คนที่ 1</label>
+                                <input type="text" id="resp-student-1" class="w-full border border-gray-300 p-2 rounded-md outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500" placeholder="พิมพ์ชื่อ-สกุล (ปล่อยว่างได้)">
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">คนที่ 2</label>
+                                <input type="text" id="resp-student-2" class="w-full border border-gray-300 p-2 rounded-md outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500" placeholder="พิมพ์ชื่อ-สกุล (ปล่อยว่างได้)">
+                            </div>
+                        </div>
                     </div>
-                    <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+                `;
+
+                // ส่วนตารางเลือกคน
+                let tableHTML = `
+                    <div class="mb-3 text-sm text-gray-600 flex items-start gap-2">
+                        <span class="material-symbols-outlined text-purple-500 text-lg">info</span>
+                        <p>ติ๊กเลือกคนที่จะพิมพ์ และกำหนดสถานะ (คนที่ไม่ได้ติ๊กและคอลัมน์ <b>"ชื่อเล่น"</b> จะถูกซ่อนอัตโนมัติ)</p>
+                    </div>
+                    <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm bg-white">
                         <table class="config-table w-full text-sm whitespace-nowrap">
                             <thead>
                                 <tr>
@@ -326,26 +345,26 @@
                                     <th class="w-16 text-center">ลำดับ</th>
                 `;
                 
-                // หัวตารางจากชีต
-                sheetData.headers.forEach(header => {
-                    tableHTML += `<th>${header}</th>`;
+                sheetData.headers.forEach((header, idx) => {
+                    if (idx !== skipColIndex) {
+                        tableHTML += `<th>${header}</th>`;
+                    }
                 });
                 
                 tableHTML += `<th class="w-32 text-center bg-purple-100 border-l-2 border-purple-300">ระบุสถานะ</th></tr></thead><tbody id="configTableBody">`;
                 
-                // แถวข้อมูล
                 sheetData.rows.forEach((row, rowIndex) => {
                     tableHTML += `<tr class="print-row-config">`;
-                    // Checkbox ค่าเริ่มต้นคือไม่เลือก
                     tableHTML += `<td class="text-center"><input type="checkbox" class="row-checkbox w-4 h-4 cursor-pointer accent-purple-600"></td>`;
                     tableHTML += `<td class="text-center text-gray-500">${rowIndex + 1}</td>`;
                     
-                    row.forEach(cell => {
-                        const cellData = (cell === null || cell === undefined) ? "" : cell;
-                        tableHTML += `<td>${cellData}</td>`;
+                    row.forEach((cell, idx) => {
+                        if (idx !== skipColIndex) {
+                            const cellData = (cell === null || cell === undefined) ? "" : cell;
+                            tableHTML += `<td>${cellData}</td>`;
+                        }
                     });
                     
-                    // Dropdown สำหรับเลือกสถานะ
                     tableHTML += `
                         <td class="text-center border-l-2 border-purple-100">
                             <select class="row-status border border-gray-300 rounded p-1.5 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-sm w-full bg-white">
@@ -359,13 +378,13 @@
                 });
                 
                 tableHTML += `</tbody></table></div>`;
-                configContent.innerHTML = tableHTML;
+                
+                configContent.innerHTML = configTopHTML + tableHTML;
             }
 
             modal.classList.remove('hidden');
         }
 
-        // ฟังก์ชันช่วยเหลือสำหรับ Checkbox เลือกทั้งหมด
         function toggleSelectAll(selectAllCheckbox) {
             const checkboxes = document.querySelectorAll('.row-checkbox');
             checkboxes.forEach(cb => {
@@ -380,15 +399,23 @@
 
 
         // =================================================================
-        // ระบบพิมพ์เดี่ยว (ขั้นตอนที่ 2: จัดเรียงข้อมูล นำไปสร้างหน้ากระดาษ และสั่งพิมพ์)
+        // ระบบพิมพ์เดี่ยว (ยืนยันและสร้างหน้ากระดาษ)
         // =================================================================
         function confirmSinglePrint() {
             if(!currentSinglePrintConfig) return;
 
             const { sportName, catName, levelName, sheetIndex } = currentSinglePrintConfig;
             const sheetData = globalSheetDetails[sheetIndex];
+            const skipColIndex = sheetData.headers.findIndex(h => h.includes('ชื่อเล่น'));
             
-            // อ่านค่าจากตารางที่ผู้ใช้ติ๊ก
+            // อ่านค่าคนรับผิดชอบ
+            let std1 = document.getElementById('resp-student-1')?.value.trim();
+            let std2 = document.getElementById('resp-student-2')?.value.trim();
+            
+            // ถัาไม่ได้พิมพ์อะไร ให้ใช้เส้นประ
+            std1 = std1 ? std1 : "...................................................................";
+            std2 = std2 ? std2 : "...................................................................";
+
             const configRows = document.querySelectorAll('.print-row-config');
             let selectedData = [];
             
@@ -408,11 +435,10 @@
                 return;
             }
 
-            // กฎการจัดเรียง (Sorting): ตัวจริง -> ตัวสำรอง -> ว่างเปล่า
+            // เรียงลำดับ ตัวจริง -> สำรอง -> ว่าง
             const statusOrder = { "ตัวจริง": 1, "ตัวสำรอง": 2, "": 3 };
             selectedData.sort((a, b) => statusOrder[a.status] - statusOrder[b.status]);
 
-            // นำข้อมูลที่ผ่านการกรอง/จัดเรียงแล้ว ไปสร้าง HTML
             let displayCatName = catName;
             if(catName === "Free Fire") displayCatName = ""; 
             const titleText = `${sportName} ${displayCatName} ${levelName}`;
@@ -420,38 +446,40 @@
             let tableHTML = `<table class="print-table w-full text-left mb-8">`;
             tableHTML += `<thead><tr>`;
             tableHTML += `<th class="w-12 text-center border-b-2 border-purple-300">ลำดับ</th>`;
-            sheetData.headers.forEach(header => {
-                tableHTML += `<th class="border-b-2 border-purple-300">${header}</th>`;
+            
+            sheetData.headers.forEach((header, idx) => {
+                if(idx !== skipColIndex) tableHTML += `<th class="border-b-2 border-purple-300">${header}</th>`;
             });
-            // เพิ่มคอลัมน์สถานะเฉพาะการพิมพ์เดี่ยว
+            
             tableHTML += `<th class="border-b-2 border-purple-300 text-center w-24">สถานะ</th>`;
             tableHTML += `</tr></thead><tbody>`;
             
             selectedData.forEach((item, index) => {
                 tableHTML += `<tr>`;
                 tableHTML += `<td class="text-center">${index + 1}</td>`;
-                item.originalRow.forEach(cell => {
-                    const cellData = (cell === null || cell === undefined) ? "" : cell;
-                    tableHTML += `<td>${cellData}</td>`;
+                item.originalRow.forEach((cell, idx) => {
+                    if (idx !== skipColIndex) {
+                        const cellData = (cell === null || cell === undefined) ? "" : cell;
+                        tableHTML += `<td>${cellData}</td>`;
+                    }
                 });
-                // แสดงสถานะที่เลือกมา
                 tableHTML += `<td class="text-center font-bold">${item.status}</td>`;
                 tableHTML += `</tr>`;
             });
             tableHTML += `</tbody></table>`;
 
-            // เพิ่มช่องลายเซ็นนักเรียนผู้รับผิดชอบ
+            // ส่วนลายเซ็นที่ดึงค่ามาจาก Input
             const signatureHTML = `
                 <div class="signature-section mt-12 mb-8">
                     <p class="font-bold text-center text-lg mb-8">นักเรียนผู้รับผิดชอบ</p>
                     <div class="flex justify-around w-full max-w-4xl mx-auto">
                         <div class="text-center">
                             <p class="mb-3">ลงชื่อ...................................................................</p>
-                            <p>(...................................................................)</p>
+                            <p>(${std1})</p>
                         </div>
                         <div class="text-center">
                             <p class="mb-3">ลงชื่อ...................................................................</p>
-                            <p>(...................................................................)</p>
+                            <p>(${std2})</p>
                         </div>
                     </div>
                 </div>
@@ -467,11 +495,9 @@
                 </div>
             `;
 
-            // นำโค้ดไปใส่ Print Area และปิด Modal จากนั้นสั่งพิมพ์
             document.getElementById('print-area').innerHTML = fullContentHTML;
             closeModal();
 
-            // หน่วงเวลาให้เบราว์เซอร์จัดการ CSS เสร็จก่อนสั่งพิมพ์
             setTimeout(() => {
                 window.print();
             }, 300);
@@ -479,10 +505,11 @@
 
 
         // =================================================================
-        // ระบบพิมพ์ทั้งหมด (พิมพ์รวดเดียวจบ 48 รายการ ใช้โครงสร้างแบบเดิม)
+        // ระบบพิมพ์ทั้งหมด (ซ่อนคอลัมน์ชื่อเล่นด้วย)
         // =================================================================
         function generateBasicTableHTML(sportName, catName, levelName, sheetIndex, isFirstElement = false) {
             const sheetData = globalSheetDetails[sheetIndex];
+            
             let displayCatName = catName;
             if(catName === "Free Fire") displayCatName = ""; 
             const titleText = `${sportName} ${displayCatName} ${levelName}`;
@@ -492,20 +519,24 @@
             if (!sheetData || !sheetData.rows || sheetData.rows.length === 0) {
                 tableHTML = `<div class="text-center text-gray-500 py-6 text-lg border border-dashed border-gray-300 bg-gray-50 mb-10">ยังไม่มีผู้สมัครในรายการนี้</div>`;
             } else {
+                const skipColIndex = sheetData.headers.findIndex(h => h.includes('ชื่อเล่น'));
+
                 tableHTML = `<table class="print-table w-full text-left mb-10">`;
                 tableHTML += `<thead><tr>`;
                 tableHTML += `<th class="w-12 text-center border-b-2 border-purple-300">ลำดับ</th>`;
-                sheetData.headers.forEach(header => {
-                    tableHTML += `<th class="border-b-2 border-purple-300">${header}</th>`;
+                sheetData.headers.forEach((header, idx) => {
+                    if (idx !== skipColIndex) tableHTML += `<th class="border-b-2 border-purple-300">${header}</th>`;
                 });
                 tableHTML += `</tr></thead><tbody>`;
                 
                 sheetData.rows.forEach((row, rowIndex) => {
                     tableHTML += `<tr>`;
                     tableHTML += `<td class="text-center">${rowIndex + 1}</td>`;
-                    row.forEach(cell => {
-                        const cellData = (cell === null || cell === undefined) ? "" : cell;
-                        tableHTML += `<td>${cellData}</td>`;
+                    row.forEach((cell, idx) => {
+                        if (idx !== skipColIndex) {
+                            const cellData = (cell === null || cell === undefined) ? "" : cell;
+                            tableHTML += `<td>${cellData}</td>`;
+                        }
                     });
                     tableHTML += `</tr>`;
                 });
@@ -515,7 +546,6 @@
             const breakClass = isFirstElement ? '' : 'force-page-break';
             const displayStyle = isFirstElement ? 'padding-top: 1cm; padding-left: 1cm; padding-right: 1cm; padding-bottom: 1cm;' : '';
 
-            // ไม่เพิ่มคอลัมน์สถานะและไม่มีลายเซ็น
             return `
                 <div class="page-container ${breakClass}" style="${displayStyle}">
                     <div class="print-header trang-text font-bold text-center text-2xl mb-6 pb-2 border-b-2 border-purple-900">
@@ -532,7 +562,6 @@
                 return;
             }
 
-            // แสดงหน้าจอโหลดก่อน เพราะลูปสร้างหน้า 48 หน้าอาจจะกินเวลาเสี้ยววินาที
             document.getElementById('print-loading-overlay').classList.remove('hidden');
             document.getElementById('print-loading-overlay').classList.add('flex');
 
@@ -551,7 +580,6 @@
 
                 document.getElementById('print-area').innerHTML = allHTML;
                 
-                // ซ่อนโหลดดิ้งและเรียกหน้าต่างพิมพ์
                 document.getElementById('print-loading-overlay').classList.add('hidden');
                 document.getElementById('print-loading-overlay').classList.remove('flex');
                 
@@ -562,17 +590,8 @@
             }, 300);
         }
 
-        
-        window.onclick = function(event) {
-            const modal = document.getElementById('print-modal');
-            if (event.target === modal) {
-                closeModal();
-            }
-        }
-
-
         // =================================================================
-        // สร้าง Dashboard (UI หน้าแรกหลัก)
+        // สร้าง Dashboard 
         // =================================================================
         function renderDashboard(apiCountsData) {
             const container = document.getElementById('dashboard-container');
@@ -622,7 +641,6 @@
                         
                         let realFill = 0;
                         let subFill = 0;
-
                         let currentReal = 0;
                         let currentSub = 0;
 
@@ -642,7 +660,6 @@
 
                         let realColorClass = currentReal >= level.real ? "trang-text" : "text-red-500";
 
-                        // เปลี่ยนปุ่มจาก openPrintPreview เป็น openSinglePrintConfig เพื่อเปิดหน้าตั้งค่า
                         htmlContent += `
                             <div class="space-y-1 relative level-row">
                                 <div class="flex justify-between items-center gap-2">
