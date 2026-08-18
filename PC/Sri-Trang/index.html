@@ -188,7 +188,6 @@
 
     <div id="print-area" class="hidden"></div>
 
-
     <script>
         const SPORTS_CONFIG = [
             { id: 'football', name: 'ฟุตบอล', icon: 'sports_soccer', categories: [ 
@@ -244,7 +243,6 @@
         const API_URL = "https://script.google.com/macros/s/AKfycbyYcyfX0znWZJaf1Tp6SQxV5XEkGJqKO7-s4G5dLjIbw0VD-PeVWb9wLD2VC1F0PpN3/exec"; 
         
         let globalSheetDetails = {};
-        
         let currentSinglePrintConfig = null;
 
         function fetchData() {
@@ -282,7 +280,6 @@
                 });
         }
 
-
         // =================================================================
         // ระบบพิมพ์เดี่ยว (เปิดหน้าตั้งค่า)
         // =================================================================
@@ -296,11 +293,10 @@
             if(catName === "Free Fire") displayCatName = ""; 
             const titleText = `${sportName} ${displayCatName} ${levelName}`;
             
-            document.getElementById('modal-title').innerHTML = `ตั้งค่าเอกสาร : <span class="text-purple-300">${titleText}</span>`;
+            document.getElementById('modal-title').innerHTML = `ตั้งค่าเอกสาร: <span class="text-purple-300">${titleText}</span>`;
 
             const sheetData = globalSheetDetails[sheetIndex];
-            
-            const skipColIndex = sheetData && sheetData.headers ? sheetData.headers.findIndex(h => h.includes('ชื่อเล่น')) : -1;
+            const skipColIndex = (sheetData && sheetData.headers) ? sheetData.headers.findIndex(h => h.includes('ชื่อเล่น')) : -1;
 
             if (!sheetData || !sheetData.rows || sheetData.rows.length === 0) {
                 configContent.innerHTML = `<div class="text-center text-gray-500 py-10 text-lg">ไม่มีข้อมูลรายชื่อผู้สมัครให้เลือกพิมพ์</div>`;
@@ -309,7 +305,7 @@
                     <div class="mb-5 bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
                         <h3 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
                             <span class="material-symbols-outlined text-purple-600">edit_document</span> 
-                            ระบุนักเรียนผู้รับผิดชอบ
+                            ระบุนักเรียนผู้รับผิดชอบ (จะแสดงท้ายเอกสาร)
                         </h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
@@ -327,7 +323,7 @@
                 let tableHTML = `
                     <div class="mb-3 text-sm text-gray-600 flex items-start gap-2">
                         <span class="material-symbols-outlined text-purple-500 text-lg">info</span>
-                        <p>ติ๊กเลือกคนที่จะพิมพ์ และกำหนดสถานะ</p>
+                        <p>ติ๊กเลือกคนที่จะพิมพ์ และกำหนดสถานะ (คนที่ไม่ได้ติ๊กและคอลัมน์ <b>"ชื่อเล่น"</b> จะถูกซ่อนอัตโนมัติ)</p>
                     </div>
                     <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm bg-white">
                         <table class="config-table w-full text-sm whitespace-nowrap">
@@ -391,7 +387,6 @@
             currentSinglePrintConfig = null;
         }
 
-
         // =================================================================
         // ระบบพิมพ์เดี่ยว (ยืนยันและสร้างหน้ากระดาษ)
         // =================================================================
@@ -400,13 +395,11 @@
 
             const { sportName, catName, levelName, sheetIndex } = currentSinglePrintConfig;
             const sheetData = globalSheetDetails[sheetIndex];
-            const skipColIndex = sheetData.headers.findIndex(h => h.includes('ชื่อเล่น'));
+            const skipColIndex = (sheetData && sheetData.headers) ? sheetData.headers.findIndex(h => h.includes('ชื่อเล่น')) : -1;
             
-            // อ่านค่าคนรับผิดชอบ
             let std1Input = document.getElementById('resp-student-1')?.value.trim();
             let std2Input = document.getElementById('resp-student-2')?.value.trim();
             
-            // ถัาไม่ได้พิมพ์อะไร ให้ใช้เส้นประ ถ้าพิมพ์มาให้ใช้ชื่อนั้นแทนเลยทั้ง 2 จุด
             let std1 = std1Input ? std1Input : "...................................................................";
             let std2 = std2Input ? std2Input : "...................................................................";
 
@@ -461,7 +454,6 @@
             });
             tableHTML += `</tbody></table>`;
 
-            // ส่วนลายเซ็น ใช้ตัวแปร std1 และ std2 ทั้งบนบรรทัดและในวงเล็บ
             const signatureHTML = `
                 <div class="signature-section mt-12 mb-8">
                     <p class="font-bold text-center text-lg mb-8">นักเรียนผู้รับผิดชอบ</p>
@@ -496,7 +488,6 @@
             }, 300);
         }
 
-
         // =================================================================
         // ระบบพิมพ์ทั้งหมด
         // =================================================================
@@ -512,7 +503,7 @@
             if (!sheetData || !sheetData.rows || sheetData.rows.length === 0) {
                 tableHTML = `<div class="text-center text-gray-500 py-6 text-lg border border-dashed border-gray-300 bg-gray-50 mb-10">ยังไม่มีผู้สมัครในรายการนี้</div>`;
             } else {
-                const skipColIndex = sheetData.headers.findIndex(h => h.includes('ชื่อเล่น'));
+                const skipColIndex = (sheetData && sheetData.headers) ? sheetData.headers.findIndex(h => h.includes('ชื่อเล่น')) : -1;
 
                 tableHTML = `<table class="print-table w-full text-left mb-10">`;
                 tableHTML += `<thead><tr>`;
@@ -584,7 +575,7 @@
         }
 
         // =================================================================
-        // สร้าง Dashboard
+        // สร้าง Dashboard 
         // =================================================================
         function renderDashboard(apiCountsData) {
             const container = document.getElementById('dashboard-container');
