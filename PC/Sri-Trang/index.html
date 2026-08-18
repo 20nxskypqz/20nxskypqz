@@ -189,6 +189,13 @@
     <div id="print-area" class="hidden"></div>
 
     <script>
+        // ==========================================
+        // การตั้งค่าแก้ปัญหาข้อมูลเคลื่อน (SHEET_OFFSET)
+        // ==========================================
+        // ถ้าข้อมูลเคลื่อนผิดชีต ให้ปรับตัวเลขตรงนี้ (เช่นเปลี่ยนเป็น -1, 0 หรือ 1)
+        const SHEET_OFFSET = 1; 
+
+
         const SPORTS_CONFIG = [
             { id: 'football', name: 'ฟุตบอล', icon: 'sports_soccer', categories: [ 
                 { name: 'ชาย', levels: [ { name: 'ม.1 - ม.2', sheetIndex: 1, real: 7, sub: 8 }, { name: 'ม.3 - ม.4', sheetIndex: 2, real: 7, sub: 8 }, { name: 'ม.5 - ม.6', sheetIndex: 3, real: 7, sub: 8 } ]}, 
@@ -280,6 +287,7 @@
                 });
         }
 
+
         // =================================================================
         // ระบบพิมพ์เดี่ยว (เปิดหน้าตั้งค่า)
         // =================================================================
@@ -295,7 +303,10 @@
             
             document.getElementById('modal-title').innerHTML = `ตั้งค่าเอกสาร: <span class="text-purple-300">${titleText}</span>`;
 
-            const sheetData = globalSheetDetails[sheetIndex];
+            // บวก SHEET_OFFSET เข้าไปตรงนี้
+            const targetIndex = sheetIndex + SHEET_OFFSET;
+            const sheetData = globalSheetDetails[targetIndex];
+            
             const skipColIndex = (sheetData && sheetData.headers) ? sheetData.headers.findIndex(h => h.includes('ชื่อเล่น')) : -1;
 
             if (!sheetData || !sheetData.rows || sheetData.rows.length === 0) {
@@ -394,7 +405,11 @@
             if(!currentSinglePrintConfig) return;
 
             const { sportName, catName, levelName, sheetIndex } = currentSinglePrintConfig;
-            const sheetData = globalSheetDetails[sheetIndex];
+            
+            // บวก SHEET_OFFSET เข้าไปตรงนี้
+            const targetIndex = sheetIndex + SHEET_OFFSET;
+            const sheetData = globalSheetDetails[targetIndex];
+            
             const skipColIndex = (sheetData && sheetData.headers) ? sheetData.headers.findIndex(h => h.includes('ชื่อเล่น')) : -1;
             
             let std1Input = document.getElementById('resp-student-1')?.value.trim();
@@ -492,7 +507,10 @@
         // ระบบพิมพ์ทั้งหมด
         // =================================================================
         function generateBasicTableHTML(sportName, catName, levelName, sheetIndex, isFirstElement = false) {
-            const sheetData = globalSheetDetails[sheetIndex];
+            
+            // บวก SHEET_OFFSET เข้าไปตรงนี้
+            const targetIndex = sheetIndex + SHEET_OFFSET;
+            const sheetData = globalSheetDetails[targetIndex];
             
             let displayCatName = catName;
             if(catName === "Free Fire") displayCatName = ""; 
@@ -618,7 +636,10 @@
 
                     category.levels.forEach(level => {
                         const maxTotal = level.real + level.sub;
-                        const registered = apiCountsData[level.sheetIndex] || 0;
+                        
+                        // บวก SHEET_OFFSET เข้าไปตรงนี้
+                        const targetIndex = level.sheetIndex + SHEET_OFFSET;
+                        const registered = apiCountsData[targetIndex] || 0;
                         
                         let realContainerWidth = (level.real / maxTotal) * 100;
                         let subContainerWidth = level.sub > 0 ? (level.sub / maxTotal) * 100 : 0;
