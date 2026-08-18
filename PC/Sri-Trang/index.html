@@ -192,9 +192,7 @@
         // ==========================================
         // การตั้งค่าแก้ปัญหาข้อมูลเคลื่อน (SHEET_OFFSET)
         // ==========================================
-        // ถ้าข้อมูลเคลื่อนผิดชีต ให้ปรับตัวเลขตรงนี้ (เช่นเปลี่ยนเป็น -1, 0 หรือ 1)
         const SHEET_OFFSET = 1; 
-
 
         const SPORTS_CONFIG = [
             { id: 'football', name: 'ฟุตบอล', icon: 'sports_soccer', categories: [ 
@@ -233,6 +231,11 @@
             ]},
             { id: 'esport', name: 'E-Sport', icon: 'sports_esports', categories: [ 
                 { name: 'Free Fire', levels: [ { name: 'ม.1 - ม.3', sheetIndex: 47, real: 4, sub: 1 }, { name: 'ม.4 - ม.6', sheetIndex: 48, real: 4, sub: 1 } ]} 
+            ]},
+            { id: 'badminton_extra', name: 'แบดมินตัน', icon: 'sports_tennis', categories: [ 
+                { name: 'ชายเดี่ยว', levels: [ { name: 'ม.1 - ม.2', sheetIndex: 49, real: 1, sub: 0 }, { name: 'ม.3 - ม.4', sheetIndex: 50, real: 1, sub: 0 }, { name: 'ม.5 - ม.6', sheetIndex: 51, real: 1, sub: 0 } ]}, 
+                { name: 'หญิงเดี่ยว', levels: [ { name: 'ม.1 - ม.2', sheetIndex: 52, real: 1, sub: 0 }, { name: 'ม.3 - ม.4', sheetIndex: 53, real: 1, sub: 0 }, { name: 'ม.5 - ม.6', sheetIndex: 54, real: 1, sub: 0 } ]}, 
+                { name: 'คู่ผสม', levels: [ { name: 'ม.1 - ม.3', sheetIndex: 55, real: 2, sub: 0 }, { name: 'ม.4 - ม.6', sheetIndex: 56, real: 2, sub: 0 } ]} 
             ]}
         ];
 
@@ -303,7 +306,6 @@
             
             document.getElementById('modal-title').innerHTML = `ตั้งค่าเอกสาร: <span class="text-purple-300">${titleText}</span>`;
 
-            // บวก SHEET_OFFSET เข้าไปตรงนี้
             const targetIndex = sheetIndex + SHEET_OFFSET;
             const sheetData = globalSheetDetails[targetIndex];
             
@@ -406,7 +408,6 @@
 
             const { sportName, catName, levelName, sheetIndex } = currentSinglePrintConfig;
             
-            // บวก SHEET_OFFSET เข้าไปตรงนี้
             const targetIndex = sheetIndex + SHEET_OFFSET;
             const sheetData = globalSheetDetails[targetIndex];
             
@@ -508,7 +509,6 @@
         // =================================================================
         function generateBasicTableHTML(sportName, catName, levelName, sheetIndex, isFirstElement = false) {
             
-            // บวก SHEET_OFFSET เข้าไปตรงนี้
             const targetIndex = sheetIndex + SHEET_OFFSET;
             const sheetData = globalSheetDetails[targetIndex];
             
@@ -637,7 +637,6 @@
                     category.levels.forEach(level => {
                         const maxTotal = level.real + level.sub;
                         
-                        // บวก SHEET_OFFSET เข้าไปตรงนี้
                         const targetIndex = level.sheetIndex + SHEET_OFFSET;
                         const registered = apiCountsData[targetIndex] || 0;
                         
