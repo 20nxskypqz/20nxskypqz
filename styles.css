@@ -1,4 +1,4 @@
-/* 2026.10.03.03 */
+/* 2026.10.03.04 */
 :root{
   --bg:#f9f9f9; --card:#fff; --ink:#111; --muted:#666;
   --shadow:0 6px 24px rgba(0,0,0,.08);
@@ -85,8 +85,8 @@ body.dark-mode .btn-danger{ background:#f43f5e; border-color:#f43f5e; }
 .root-hub{ display:flex; flex:1; flex-direction:column; align-items:center; justify-content:center; margin:16px auto 28px; }
 .link-orbit{ --orbit-size:min(84vw, 540px); position:relative; width:var(--orbit-size); aspect-ratio:1; margin:0 auto; border:clamp(12px, 2.8vw, 20px) solid #f8fafc; border-radius:50%; background:conic-gradient(from -90deg, #f94144 0deg 68deg, #fff 68deg 72deg, #f9c74f 72deg 140deg, #fff 140deg 144deg, #43aa8b 144deg 212deg, #fff 212deg 216deg, #577590 216deg 284deg, #fff 284deg 288deg, #9b5de5 288deg 356deg, #fff 356deg 360deg); box-shadow:0 18px 42px rgba(111,63,130,.22), inset 0 0 0 1px rgba(255,255,255,.8); animation:orbit-spin 26s linear infinite; }
 .link-orbit::after{ content:''; position:absolute; inset:25%; z-index:2; border:clamp(7px, 1.6vw, 11px) solid #f8fafc; border-radius:50%; background:var(--card); box-shadow:0 5px 18px rgba(58,31,76,.16), inset 0 0 0 1px rgba(109,61,132,.12); }
-.orbit-link{ position:absolute; z-index:3; display:grid; place-items:center; width:18%; aspect-ratio:1; border:0; border-radius:50%; color:#fff; text-decoration:none; filter:drop-shadow(0 2px 2px rgba(0,0,0,.14)); translate:-50% -50%; animation:orbit-spin-reverse 26s linear infinite; }
-.orbit-link .material-symbols-outlined{ font-size:clamp(1.7rem, 6.5vw, 3.25rem); font-variation-settings:'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 48; }
+.orbit-link{ position:absolute; z-index:3; display:flex; align-items:center; justify-content:center; width:18%; aspect-ratio:1; border:0; border-radius:50%; color:#fff; text-decoration:none; filter:drop-shadow(0 2px 2px rgba(0,0,0,.14)); translate:-50% -50%; animation:orbit-spin-reverse 26s linear infinite; }
+.orbit-link .material-symbols-outlined{ display:block; font-size:clamp(1.7rem, 6.5vw, 3.25rem); font-variation-settings:'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 48; line-height:1; }
 .orbit-about{ top:18.9%; left:71%; }.orbit-study{ top:60.3%; left:86.1%; }.orbit-work{ top:87.5%; left:51.3%; }.orbit-games{ top:62.8%; left:14.8%; }.orbit-entertainment{ top:20.5%; left:26.9%; }
 .orbit-tooltip{ position:absolute; left:50%; bottom:calc(100% + 12px); width:max-content; max-width:min(76vw, 290px); padding:6px 11px; border-radius:999px; background:#3f244e; color:#fff; font-size:clamp(.78rem, 2.7vw, 1rem); font-weight:700; line-height:1.35; opacity:0; pointer-events:none; text-align:center; transform:translate(-50%, 6px); transition:opacity .2s ease, transform .2s ease; }
 .orbit-link:hover .orbit-tooltip, .orbit-link:focus-visible .orbit-tooltip, .orbit-link:active .orbit-tooltip{ opacity:1; transform:translate(-50%, 0); }
