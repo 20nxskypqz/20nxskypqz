@@ -724,10 +724,10 @@
       "topic": "หมวดเรื่องย่อย",
       "q": "โจทย์คำถาม...",
       "options": [
-        "ก. ตัวเลือกที่ 1",
-        "ข. ตัวเลือกที่ 2",
-        "ค. ตัวเลือกที่ 3",
-        "ง. ตัวเลือกที่ 4"
+        "ตัวเลือกที่ 1",
+        "ตัวเลือกที่ 2",
+        "ตัวเลือกที่ 3",
+        "ตัวเลือกที่ 4"
       ],
       "optionExplanations": [
         "อธิบายว่าทำไม ก. ถึงผิด...",
@@ -788,8 +788,6 @@
             signInWithPopup,
             signInWithEmailAndPassword,
             createUserWithEmailAndPassword,
-            signInAnonymously,
-            signInWithCustomToken,
             onAuthStateChanged,
             signOut
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -798,7 +796,6 @@
             collection,
             doc,
             setDoc,
-            getDocs,
             onSnapshot
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
@@ -822,12 +819,17 @@
         const db = getFirestore(app);
         const googleProvider = new GoogleAuthProvider();
 
+        const LOCAL_SUBJECTS_KEY = 'folioquiz_subjects_v1';
+        const LOCAL_HISTORY_KEY = 'folioquiz_history_v1';
+        const LOCAL_USER_KEY = 'folioquiz_active_user_v1';
+
         let subjectsData = [];
         let registeredUsers = [
             { identifier: 'Admin', password: '140425', role: 'admin' }
         ];
         let currentUser = null;
         let authMode = 'login';
+        let firestoreListenersAttached = false;
 
         let selectedSubjectId = null;
         let selectedExamSetId = null;
@@ -860,6 +862,54 @@
 
         const THAI_OPTION_LABELS = ['ก', 'ข', 'ค', 'ง', 'จ', 'ฉ', 'ช', 'ซ', 'ฌ', 'ญ'];
 
+        function stripOptionPrefix(text) {
+            if (typeof text !== 'string') return '';
+            return text.trim().replace(/^(?:[กขคงจฉชซฌญ]|[A-Za-z]|[0-9]+)\s*[\.\)\-:]\s*/, '').trim();
+        }
+
+        function formatOptionWithLabel(optIdx, rawText) {
+            const label = THAI_OPTION_LABELS[optIdx] || (optIdx + 1);
+            const clean = stripOptionPrefix(rawText);
+            return `${label}. ${clean}`;
+        }
+
+        function loadLocalBackup() {
+            try {
+                const rawSubjects = localStorage.getItem(LOCAL_SUBJECTS_KEY);
+                if (rawSubjects) {
+                    const parsed = JSON.parse(rawSubjects);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        subjectsData = parsed;
+                    }
+                }
+                const rawHistory = localStorage.getItem(LOCAL_HISTORY_KEY);
+                if (rawHistory) {
+                    const parsedH = JSON.parse(rawHistory);
+                    if (Array.isArray(parsedH) && parsedH.length > 0) {
+                        userHistoryRecords = parsedH;
+                    }
+                }
+            } catch (e) {}
+        }
+
+        function saveLocalBackup() {
+            try {
+                localStorage.setItem(LOCAL_SUBJECTS_KEY, JSON.stringify(subjectsData));
+                localStorage.setItem(LOCAL_HISTORY_KEY, JSON.stringify(userHistoryRecords));
+            } catch (e) {}
+        }
+
+        function mergeByKey(localList, remoteList, keyName) {
+            const map = new Map();
+            (localList || []).forEach(item => {
+                if (item && item[keyName]) map.set(item[keyName], item);
+            });
+            (remoteList || []).forEach(item => {
+                if (item && item[keyName]) map.set(item[keyName], item);
+            });
+            return Array.from(map.values());
+        }
+
         function isAdminRouteAuthorized() {
             const path = window.location.pathname || '';
             const hash = window.location.hash || '';
@@ -867,7 +917,10 @@
             return (
                 path.includes('/FolioQuiz/Admin') ||
                 hash.includes('/FolioQuiz/Admin') ||
-                search.includes('/FolioQuiz/Admin')
+                search.includes('/FolioQuiz/Admin') ||
+                path.endsWith('/Admin') ||
+                path.endsWith('/Admin/') ||
+                path.endsWith('/Admin/index.html')
             );
         }
 
@@ -883,55 +936,84 @@
             }
         }
 
-        async function initFirebaseConnection() {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
+        function attachFirestoreListeners() {
+            if (firestoreListenersAttached) return;
+            firestoreListenersAttached = true;
+
+            const subjectsCol = collection(db, 'artifacts', appId, 'public', 'data', 'subjects');
+            onSnapshot(subjectsCol, (snapshot) => {
+                const loaded = [];
+                snapshot.forEach(docSnap => loaded.push(docSnap.data()));
+
+                if (loaded.length > 0) {
+                    subjectsData = mergeByKey(subjectsData, loaded, 'subjectId');
+                    saveLocalBackup();
                 }
 
-                const subjectsCol = collection(db, 'artifacts', appId, 'public', 'data', 'subjects');
-                onSnapshot(subjectsCol, (snapshot) => {
-                    const loaded = [];
-                    snapshot.forEach(docSnap => loaded.push(docSnap.data()));
-                    subjectsData = loaded;
+                if (subjectsData.length > 0 && !selectedSubjectId) {
+                    selectedSubjectId = subjectsData[0].subjectId;
+                    selectedExamSetId = subjectsData[0].examSets?.[0]?.id || null;
+                }
 
-                    if (subjectsData.length > 0 && !selectedSubjectId) {
-                        selectedSubjectId = subjectsData[0].subjectId;
-                        selectedExamSetId = subjectsData[0].examSets?.[0]?.id || null;
-                    }
+                renderDashboardSubjects();
+                if (!document.getElementById('view-admin').classList.contains('hidden')) {
+                    renderAdminView();
+                }
+            }, () => {});
 
-                    renderDashboardSubjects();
-                    if (!document.getElementById('view-admin').classList.contains('hidden')) {
-                        renderAdminView();
-                    }
-                }, () => {});
+            const historyCol = collection(db, 'artifacts', appId, 'public', 'data', 'examHistory');
+            onSnapshot(historyCol, (snapshot) => {
+                const loadedHistory = [];
+                snapshot.forEach(docSnap => loadedHistory.push(docSnap.data()));
 
-                const historyCol = collection(db, 'artifacts', appId, 'public', 'data', 'examHistory');
-                onSnapshot(historyCol, (snapshot) => {
-                    const loadedHistory = [];
-                    snapshot.forEach(docSnap => loadedHistory.push(docSnap.data()));
-                    loadedHistory.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-                    userHistoryRecords = loadedHistory;
-                    if (!document.getElementById('view-stats').classList.contains('hidden')) {
-                        renderUserStatsView();
+                if (loadedHistory.length > 0) {
+                    userHistoryRecords = mergeByKey(userHistoryRecords, loadedHistory, 'attemptId');
+                    userHistoryRecords.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+                    saveLocalBackup();
+                }
+
+                if (!document.getElementById('view-stats').classList.contains('hidden')) {
+                    renderUserStatsView();
+                }
+            }, () => {});
+        }
+
+        async function initFirebaseConnection() {
+            loadLocalBackup();
+
+            if (subjectsData.length > 0 && !selectedSubjectId) {
+                selectedSubjectId = subjectsData[0].subjectId;
+                selectedExamSetId = subjectsData[0].examSets?.[0]?.id || null;
+            }
+
+            const savedUserSession = localStorage.getItem(LOCAL_USER_KEY);
+            if (savedUserSession) {
+                loginSuccess(savedUserSession, false);
+            }
+
+            attachFirestoreListeners();
+
+            onAuthStateChanged(auth, (user) => {
+                if (user && !user.isAnonymous && (user.email || user.displayName)) {
+                    const saved = localStorage.getItem(LOCAL_USER_KEY);
+                    if (saved) {
+                        loginSuccess(saved, false);
                     }
-                }, () => {});
-            } catch (err) {}
+                }
+            });
         }
 
         async function saveSubjectToFirestore(subjectObj) {
+            saveLocalBackup();
             try {
-                if (!auth.currentUser) return;
                 await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'subjects', subjectObj.subjectId), subjectObj);
             } catch (e) {}
         }
 
         async function saveExamAttemptRecord(recordObj) {
             userHistoryRecords.unshift(recordObj);
+            saveLocalBackup();
             try {
-                if (!auth.currentUser) return;
                 await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'examHistory', recordObj.attemptId), recordObj);
             } catch (e) {}
         }
@@ -1046,7 +1128,7 @@
             try {
                 const result = await signInWithPopup(auth, googleProvider);
                 const userEmail = result.user?.email || result.user?.displayName || 'Gmail User';
-                loginSuccess(userEmail);
+                loginSuccess(userEmail, true);
                 showToast(`เข้าสู่ระบบสำเร็จ : ${userEmail}`, 'check_circle');
             } catch (error) {
                 showToast('ไม่สามารถเปิดป๊อปอัป Google ได้ กรุณาตรวจสอบโดเมนใน Firebase Authentication', 'warning');
@@ -1064,7 +1146,7 @@
             }
 
             if (authMode === 'login' && identifier.toLowerCase() === 'admin' && password === '140425') {
-                loginSuccess('Admin');
+                loginSuccess('Admin', true);
                 showToast('เข้าสู่ระบบด้วยบัญชี Admin สำเร็จ', 'verified');
                 return;
             }
@@ -1074,7 +1156,7 @@
             if (authMode === 'register') {
                 try {
                     await createUserWithEmailAndPassword(auth, emailFormatted, password);
-                    loginSuccess(identifier);
+                    loginSuccess(identifier, true);
                     showToast(`ตั้งชื่อผู้ใช้สำเร็จ : ${identifier}`, 'check_circle');
                     return;
                 } catch (err) {
@@ -1084,7 +1166,7 @@
                         return;
                     }
                     registeredUsers.push({ identifier, password, role: 'user' });
-                    loginSuccess(identifier);
+                    loginSuccess(identifier, true);
                     showToast(`ตั้งชื่อผู้ใช้สำเร็จ : ${identifier}`, 'check_circle');
                     return;
                 }
@@ -1092,14 +1174,14 @@
 
             try {
                 await signInWithEmailAndPassword(auth, emailFormatted, password);
-                loginSuccess(identifier);
+                loginSuccess(identifier, true);
                 showToast(`ยินดีต้อนรับ : ${identifier}`, 'verified');
             } catch (err) {
                 const matchedUser = registeredUsers.find(
                     u => u.identifier.toLowerCase() === identifier.toLowerCase() && u.password === password
                 );
                 if (matchedUser) {
-                    loginSuccess(matchedUser.identifier);
+                    loginSuccess(matchedUser.identifier, true);
                     showToast(`ยินดีต้อนรับ : ${matchedUser.identifier}`, 'verified');
                 } else {
                     showToast('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', 'error');
@@ -1107,18 +1189,37 @@
             }
         }
 
-        function loginSuccess(displayName) {
+        function loginSuccess(displayName, shouldRedirect = true) {
             currentUser = displayName;
+            try {
+                localStorage.setItem(LOCAL_USER_KEY, displayName);
+            } catch (e) {}
+
             document.getElementById('currentUserDisplay').textContent = displayName;
-            if (isAdminRouteAuthorized()) {
-                navigateTo('admin');
+
+            if (shouldRedirect) {
+                if (isAdminRouteAuthorized()) {
+                    navigateTo('admin');
+                } else {
+                    navigateTo('dashboard');
+                }
             } else {
-                navigateTo('dashboard');
+                const isAtLogin = !document.getElementById('view-login').classList.contains('hidden');
+                if (isAtLogin) {
+                    if (isAdminRouteAuthorized()) {
+                        navigateTo('admin');
+                    } else {
+                        navigateTo('dashboard');
+                    }
+                }
             }
         }
 
         async function logoutUser() {
             currentUser = null;
+            try {
+                localStorage.removeItem(LOCAL_USER_KEY);
+            } catch (e) {}
             document.getElementById('loginPassword').value = '';
             try {
                 await signOut(auth);
@@ -1437,7 +1538,7 @@
 
         function buildExplanationHTML(q, userAnsIdx) {
             const isCorrect = userAnsIdx === q.answerIndex;
-            const correctChoiceText = q.options[q.answerIndex];
+            const correctChoiceText = formatOptionWithLabel(q.answerIndex, q.options[q.answerIndex]);
             const correctReason = (q.optionExplanations && q.optionExplanations[q.answerIndex])
                 ? q.optionExplanations[q.answerIndex]
                 : (q.explanation || 'เป็นคำตอบที่ถูกต้องตามหลักเกณฑ์');
@@ -1451,7 +1552,9 @@
                     </div>
                 `;
             } else {
-                const wrongChoiceText = userAnsIdx !== null && userAnsIdx !== undefined ? q.options[userAnsIdx] : 'ไม่ได้เลือกคำตอบ';
+                const wrongChoiceText = userAnsIdx !== null && userAnsIdx !== undefined
+                    ? formatOptionWithLabel(userAnsIdx, q.options[userAnsIdx])
+                    : 'ไม่ได้เลือกคำตอบ';
                 const wrongReason = (userAnsIdx !== null && userAnsIdx !== undefined && q.optionExplanations && q.optionExplanations[userAnsIdx])
                     ? q.optionExplanations[userAnsIdx]
                     : 'ตัวเลือกนี้ไม่ตรงตามเงื่อนไขของโจทย์';
@@ -1523,10 +1626,12 @@
 
             const isInstant = activeSession.feedbackMode === 'instant';
             const hasAnsweredThis = selectedAns !== null;
+            const isLocked = isInstant && hasAnsweredThis;
 
             currentQ.options.forEach((optionText, optIdx) => {
                 const isThisSelected = selectedAns === optIdx;
                 const isThisCorrect = optIdx === currentQ.answerIndex;
+                const cleanOptionText = stripOptionPrefix(optionText);
 
                 let cardClass = 'bg-retro-bg hover:bg-retro-cream/70 border-retro-ink text-retro-ink';
                 let badgeClass = 'bg-retro-paper border-retro-ink text-retro-ink';
@@ -1552,8 +1657,11 @@
 
                 const optionBtn = document.createElement('button');
                 optionBtn.type = 'button';
-                optionBtn.onclick = () => selectAnswerChoice(optIdx);
-                optionBtn.className = `w-full text-left p-3.5 sm:p-4 rounded-xl border-2 transition-all flex items-center justify-between gap-3 ${cardClass}`;
+                optionBtn.disabled = isLocked;
+                if (!isLocked) {
+                    optionBtn.onclick = () => selectAnswerChoice(optIdx);
+                }
+                optionBtn.className = `w-full text-left p-3.5 sm:p-4 rounded-xl border-2 transition-all flex items-center justify-between gap-3 ${cardClass} ${isLocked ? 'cursor-default' : 'cursor-pointer'}`;
 
                 const badgeLetter = THAI_OPTION_LABELS[optIdx] || (optIdx + 1);
 
@@ -1562,7 +1670,7 @@
                         <span class="w-8 h-8 rounded-lg border-2 flex items-center justify-center font-bold text-sm shrink-0 ${badgeClass}">
                             ${badgeLetter}
                         </span>
-                        <span class="text-sm sm:text-base font-medium leading-snug break-words">${optionText}</span>
+                        <span class="text-sm sm:text-base font-medium leading-snug break-words">${cleanOptionText}</span>
                     </div>
                     <div class="shrink-0">
                         ${rightStatusIcon}
@@ -1595,6 +1703,9 @@
         }
 
         function selectAnswerChoice(optIdx) {
+            if (activeSession.feedbackMode === 'instant' && activeSession.userAnswers[activeSession.currentIndex] !== null) {
+                return;
+            }
             activeSession.userAnswers[activeSession.currentIndex] = optIdx;
             renderCurrentExamQuestion();
         }
@@ -1642,7 +1753,7 @@
                 details: activeSession.questions.map((q, i) => ({
                     q: q.q,
                     topic: q.topic || 'ทั่วไป',
-                    options: q.options,
+                    options: q.options.map(opt => stripOptionPrefix(opt)),
                     optionExplanations: q.optionExplanations || [],
                     answerIndex: q.answerIndex,
                     userAnswer: activeSession.userAnswers[i],
@@ -1658,8 +1769,8 @@
             activeSession.questions.forEach((q, idx) => {
                 const userAns = activeSession.userAnswers[idx];
                 const isCorrect = userAns === q.answerIndex;
-                const userAnsText = userAns !== null ? q.options[userAns] : 'ไม่ได้เลือกคำตอบ';
-                const correctAnsText = q.options[q.answerIndex];
+                const userAnsText = userAns !== null ? formatOptionWithLabel(userAns, q.options[userAns]) : 'ไม่ได้เลือกคำตอบ';
+                const correctAnsText = formatOptionWithLabel(q.answerIndex, q.options[q.answerIndex]);
 
                 const item = document.createElement('div');
                 item.className = 'retro-card-sm p-4 sm:p-5 space-y-3';
@@ -1773,9 +1884,9 @@
             (rec.details || []).forEach((qItem, idx) => {
                 const isCorrect = qItem.userAnswer === qItem.answerIndex;
                 const userAnsText = qItem.userAnswer !== null && qItem.userAnswer !== undefined
-                    ? qItem.options[qItem.userAnswer]
+                    ? formatOptionWithLabel(qItem.userAnswer, qItem.options[qItem.userAnswer])
                     : 'ไม่ได้เลือกคำตอบ';
-                const correctAnsText = qItem.options[qItem.answerIndex];
+                const correctAnsText = formatOptionWithLabel(qItem.answerIndex, qItem.options[qItem.answerIndex]);
 
                 const row = document.createElement('div');
                 row.className = 'retro-card-sm p-4 space-y-2 bg-retro-paper';
@@ -1948,7 +2059,7 @@
                         </span>
                         <input type="text" required value="${optObj.text.replace(/"/g, '&quot;')}"
                             oninput="window.updateAdminOptText(${idx}, this.value)"
-                            placeholder="ข้อความตัวเลือก ${labelChar}."
+                            placeholder="ข้อความตัวเลือก ${labelChar}. (ไม่ต้องพิมพ์ ${labelChar}. นำหน้า)"
                             class="flex-grow p-1.5 bg-retro-paper border border-retro-ink rounded text-sm">
                         <span class="text-[11px] font-bold px-2 py-0.5 rounded ${isCorrect ? 'bg-retro-secondary text-white' : 'bg-retro-danger/15 text-retro-danger'}">
                             ${isCorrect ? 'ข้อที่ถูก' : 'ข้อที่ผิด'}
@@ -2023,11 +2134,7 @@
             const topic = document.getElementById('adminQuestionTopic').value.trim() || 'ทั่วไป';
             const explanation = document.getElementById('adminQuestionExplanation').value.trim();
 
-            const formattedOptions = adminBuilderOptions.map((opt, i) => {
-                const clean = opt.text.trim();
-                const prefix = `${THAI_OPTION_LABELS[i] || (i + 1)}. `;
-                return clean.startsWith(prefix) ? clean : `${prefix}${clean}`;
-            });
+            const cleanedOptions = adminBuilderOptions.map(opt => stripOptionPrefix(opt.text));
 
             const optionExplanations = adminBuilderOptions.map((opt, i) => {
                 if (opt.reason.trim()) return opt.reason.trim();
@@ -2037,7 +2144,7 @@
             targetSet.questions.push({
                 topic,
                 q: prompt,
-                options: formattedOptions,
+                options: cleanedOptions,
                 optionExplanations,
                 answerIndex: adminCorrectOptionIndex,
                 explanation
@@ -2119,7 +2226,8 @@
                 }
 
                 const normalizedQuestions = parsed.questions.map(qItem => {
-                    const opts = Array.isArray(qItem.options) ? qItem.options : [];
+                    const rawOpts = Array.isArray(qItem.options) ? qItem.options : [];
+                    const opts = rawOpts.map(o => stripOptionPrefix(o));
                     const ansIdx = typeof qItem.answerIndex === 'number' ? qItem.answerIndex : 0;
                     const mainExp = qItem.explanation || '';
                     const optExps = opts.map((_, idx) => {
