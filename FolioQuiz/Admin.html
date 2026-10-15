@@ -89,6 +89,10 @@
             background-color: #344E68;
         }
 
+        .gf-top-strip-danger::before {
+            background-color: #B83B2A;
+        }
+
         .retro-btn {
             border: 2px solid #2B2623;
             box-shadow: 3px 3px 0px #2B2623;
@@ -547,10 +551,16 @@
             </div>
 
             <div class="retro-card p-5 sm:p-6 space-y-4">
-                <h3 class="text-base sm:text-lg font-bold flex items-center gap-2 border-b-2 border-retro-cream pb-2.5">
-                    <span class="material-symbols-outlined text-retro-primary">list_alt</span>
-                    <span>ประวัติการทำข้อสอบ (กดที่รายการเพื่อดูรายละเอียดรายข้อ)</span>
-                </h3>
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b-2 border-retro-cream pb-2.5">
+                    <h3 class="text-base sm:text-lg font-bold flex items-center gap-2">
+                        <span class="material-symbols-outlined text-retro-primary">list_alt</span>
+                        <span>ประวัติการทำข้อสอบ (กดที่รายการเพื่อดูรายละเอียดรายข้อ)</span>
+                    </h3>
+                    <button id="clearAllUserHistoryBtn" type="button" onclick="requestDeleteAllUserHistory()" class="hidden retro-btn bg-retro-danger text-white px-3 py-1.5 rounded-lg text-xs font-bold items-center gap-1">
+                        <span class="material-symbols-outlined text-sm">delete_sweep</span>
+                        <span>ล้างประวัติทั้งหมด</span>
+                    </button>
+                </div>
                 <div id="userStatsHistoryList" class="space-y-3"></div>
             </div>
 
@@ -594,13 +604,21 @@
                         </h3>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-xs font-bold text-retro-muted mb-1">วิชา :</label>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-retro-muted">วิชา :</label>
                                 <select id="adminTargetSubjectSelect" onchange="handleAdminSubjectSelectChange()" class="w-full p-2.5 bg-retro-bg border-2 border-retro-ink rounded-lg text-sm font-bold"></select>
+                                <button id="deleteSubjectBtn" type="button" onclick="requestDeleteSubject()" class="w-full retro-btn bg-retro-paper hover:bg-retro-danger hover:text-white text-retro-danger py-1.5 px-2.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1">
+                                    <span class="material-symbols-outlined text-sm">delete</span>
+                                    <span>ลบวิชานี้</span>
+                                </button>
                             </div>
-                            <div>
-                                <label class="block text-xs font-bold text-retro-muted mb-1">ชุดข้อสอบ / ปี :</label>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-retro-muted">ชุดข้อสอบ / ปี :</label>
                                 <select id="adminTargetExamSetSelect" onchange="handleAdminExamSetSelectChange()" class="w-full p-2.5 bg-retro-bg border-2 border-retro-ink rounded-lg text-sm font-bold"></select>
+                                <button id="deleteExamSetBtn" type="button" onclick="requestDeleteExamSet()" class="w-full retro-btn bg-retro-paper hover:bg-retro-danger hover:text-white text-retro-danger py-1.5 px-2.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1">
+                                    <span class="material-symbols-outlined text-sm">delete</span>
+                                    <span>ลบชุดข้อสอบ / ปีนี้</span>
+                                </button>
                             </div>
                         </div>
 
@@ -775,6 +793,29 @@
         </div>
     </footer>
 
+    <div id="confirmDeleteModal" class="fixed inset-0 z-50 hidden bg-retro-ink/60 backdrop-blur-[1px] flex items-center justify-center p-4">
+        <div class="retro-card gf-top-strip-danger max-w-md w-full pt-7 pb-6 px-5 sm:px-6 space-y-4">
+            <div class="flex items-start gap-3">
+                <div class="w-11 h-11 rounded-full bg-[#FCE8E6] border-2 border-retro-ink flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined text-2xl text-retro-danger">warning</span>
+                </div>
+                <div class="space-y-1">
+                    <h3 id="confirmModalTitle" class="text-base sm:text-lg font-bold text-retro-ink">ยืนยันการลบข้อมูล</h3>
+                    <p id="confirmModalMessage" class="text-xs sm:text-sm text-retro-muted leading-relaxed"></p>
+                </div>
+            </div>
+            <div class="flex items-center justify-end gap-2.5 pt-2 border-t border-dashed border-retro-ink/20">
+                <button type="button" onclick="closeConfirmModal()" class="retro-btn bg-retro-cream hover:bg-retro-bg text-retro-ink font-bold py-2 px-4 rounded-lg text-xs sm:text-sm">
+                    ยกเลิก
+                </button>
+                <button id="confirmModalAcceptBtn" type="button" onclick="executeConfirmedDelete()" class="retro-btn bg-retro-danger text-white font-bold py-2 px-4 rounded-lg text-xs sm:text-sm flex items-center gap-1">
+                    <span class="material-symbols-outlined text-base">delete</span>
+                    <span>ยืนยันการลบ</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div id="retroToast" class="fixed bottom-5 right-5 z-50 hidden max-w-sm retro-card bg-retro-ink text-retro-paper px-4 py-3 flex items-center gap-3">
         <span id="retroToastIcon" class="material-symbols-outlined text-retro-accent">info</span>
         <p id="retroToastMessage" class="text-xs sm:text-sm font-semibold"></p>
@@ -796,6 +837,7 @@
             collection,
             doc,
             setDoc,
+            deleteDoc,
             onSnapshot
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
@@ -822,6 +864,8 @@
         const LOCAL_SUBJECTS_KEY = 'folioquiz_subjects_v1';
         const LOCAL_HISTORY_KEY = 'folioquiz_history_v1';
         const LOCAL_USER_KEY = 'folioquiz_active_user_v1';
+        const LOCAL_DELETED_SUBJECTS_KEY = 'folioquiz_deleted_subjects_v1';
+        const LOCAL_DELETED_HISTORY_KEY = 'folioquiz_deleted_history_v1';
 
         let subjectsData = [];
         let registeredUsers = [
@@ -851,6 +895,9 @@
 
         let examTimerInterval = null;
         let userHistoryRecords = [];
+        let deletedSubjectIds = new Set();
+        let deletedHistoryIds = new Set();
+        let pendingConfirmAction = null;
 
         let adminBuilderOptions = [
             { text: '', reason: '' },
@@ -875,18 +922,28 @@
 
         function loadLocalBackup() {
             try {
+                const rawDelSubj = localStorage.getItem(LOCAL_DELETED_SUBJECTS_KEY);
+                if (rawDelSubj) {
+                    const parsedDelS = JSON.parse(rawDelSubj);
+                    if (Array.isArray(parsedDelS)) deletedSubjectIds = new Set(parsedDelS);
+                }
+                const rawDelHist = localStorage.getItem(LOCAL_DELETED_HISTORY_KEY);
+                if (rawDelHist) {
+                    const parsedDelH = JSON.parse(rawDelHist);
+                    if (Array.isArray(parsedDelH)) deletedHistoryIds = new Set(parsedDelH);
+                }
                 const rawSubjects = localStorage.getItem(LOCAL_SUBJECTS_KEY);
                 if (rawSubjects) {
                     const parsed = JSON.parse(rawSubjects);
-                    if (Array.isArray(parsed) && parsed.length > 0) {
-                        subjectsData = parsed;
+                    if (Array.isArray(parsed)) {
+                        subjectsData = parsed.filter(s => s && !deletedSubjectIds.has(s.subjectId));
                     }
                 }
                 const rawHistory = localStorage.getItem(LOCAL_HISTORY_KEY);
                 if (rawHistory) {
                     const parsedH = JSON.parse(rawHistory);
-                    if (Array.isArray(parsedH) && parsedH.length > 0) {
-                        userHistoryRecords = parsedH;
+                    if (Array.isArray(parsedH)) {
+                        userHistoryRecords = parsedH.filter(h => h && !deletedHistoryIds.has(h.attemptId));
                     }
                 }
             } catch (e) {}
@@ -896,16 +953,22 @@
             try {
                 localStorage.setItem(LOCAL_SUBJECTS_KEY, JSON.stringify(subjectsData));
                 localStorage.setItem(LOCAL_HISTORY_KEY, JSON.stringify(userHistoryRecords));
+                localStorage.setItem(LOCAL_DELETED_SUBJECTS_KEY, JSON.stringify(Array.from(deletedSubjectIds)));
+                localStorage.setItem(LOCAL_DELETED_HISTORY_KEY, JSON.stringify(Array.from(deletedHistoryIds)));
             } catch (e) {}
         }
 
-        function mergeByKey(localList, remoteList, keyName) {
+        function mergeByKey(localList, remoteList, keyName, deletedSet) {
             const map = new Map();
             (localList || []).forEach(item => {
-                if (item && item[keyName]) map.set(item[keyName], item);
+                if (item && item[keyName] && (!deletedSet || !deletedSet.has(item[keyName]))) {
+                    map.set(item[keyName], item);
+                }
             });
             (remoteList || []).forEach(item => {
-                if (item && item[keyName]) map.set(item[keyName], item);
+                if (item && item[keyName] && (!deletedSet || !deletedSet.has(item[keyName]))) {
+                    map.set(item[keyName], item);
+                }
             });
             return Array.from(map.values());
         }
@@ -945,14 +1008,15 @@
                 const loaded = [];
                 snapshot.forEach(docSnap => loaded.push(docSnap.data()));
 
-                if (loaded.length > 0) {
-                    subjectsData = mergeByKey(subjectsData, loaded, 'subjectId');
-                    saveLocalBackup();
-                }
+                subjectsData = mergeByKey(subjectsData, loaded, 'subjectId', deletedSubjectIds);
+                saveLocalBackup();
 
-                if (subjectsData.length > 0 && !selectedSubjectId) {
+                if (subjectsData.length > 0 && (!selectedSubjectId || !subjectsData.some(s => s.subjectId === selectedSubjectId))) {
                     selectedSubjectId = subjectsData[0].subjectId;
                     selectedExamSetId = subjectsData[0].examSets?.[0]?.id || null;
+                } else if (subjectsData.length === 0) {
+                    selectedSubjectId = null;
+                    selectedExamSetId = null;
                 }
 
                 renderDashboardSubjects();
@@ -966,11 +1030,9 @@
                 const loadedHistory = [];
                 snapshot.forEach(docSnap => loadedHistory.push(docSnap.data()));
 
-                if (loadedHistory.length > 0) {
-                    userHistoryRecords = mergeByKey(userHistoryRecords, loadedHistory, 'attemptId');
-                    userHistoryRecords.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-                    saveLocalBackup();
-                }
+                userHistoryRecords = mergeByKey(userHistoryRecords, loadedHistory, 'attemptId', deletedHistoryIds);
+                userHistoryRecords.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+                saveLocalBackup();
 
                 if (!document.getElementById('view-stats').classList.contains('hidden')) {
                     renderUserStatsView();
@@ -1004,18 +1066,58 @@
         }
 
         async function saveSubjectToFirestore(subjectObj) {
+            deletedSubjectIds.delete(subjectObj.subjectId);
             saveLocalBackup();
             try {
                 await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'subjects', subjectObj.subjectId), subjectObj);
             } catch (e) {}
         }
 
+        async function removeSubjectFromFirestore(subjectId) {
+            deletedSubjectIds.add(subjectId);
+            subjectsData = subjectsData.filter(s => s.subjectId !== subjectId);
+            saveLocalBackup();
+            try {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'subjects', subjectId));
+            } catch (e) {}
+        }
+
         async function saveExamAttemptRecord(recordObj) {
+            deletedHistoryIds.delete(recordObj.attemptId);
             userHistoryRecords.unshift(recordObj);
             saveLocalBackup();
             try {
                 await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'examHistory', recordObj.attemptId), recordObj);
             } catch (e) {}
+        }
+
+        async function removeExamAttemptFromFirestore(attemptId) {
+            deletedHistoryIds.add(attemptId);
+            userHistoryRecords = userHistoryRecords.filter(r => r.attemptId !== attemptId);
+            saveLocalBackup();
+            try {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'examHistory', attemptId));
+            } catch (e) {}
+        }
+
+        function openConfirmModal(title, message, onConfirmCallback) {
+            document.getElementById('confirmModalTitle').textContent = title;
+            document.getElementById('confirmModalMessage').textContent = message;
+            pendingConfirmAction = onConfirmCallback;
+            document.getElementById('confirmDeleteModal').classList.remove('hidden');
+        }
+
+        function closeConfirmModal() {
+            pendingConfirmAction = null;
+            document.getElementById('confirmDeleteModal').classList.add('hidden');
+        }
+
+        async function executeConfirmedDelete() {
+            const action = pendingConfirmAction;
+            closeConfirmModal();
+            if (typeof action === 'function') {
+                await action();
+            }
         }
 
         function stopExamTimer() {
@@ -1811,6 +1913,15 @@
                 r => (r.user || '').toLowerCase() === activeUsername.toLowerCase()
             );
 
+            const clearAllBtn = document.getElementById('clearAllUserHistoryBtn');
+            if (myRecords.length > 0) {
+                clearAllBtn.classList.remove('hidden');
+                clearAllBtn.classList.add('inline-flex');
+            } else {
+                clearAllBtn.classList.add('hidden');
+                clearAllBtn.classList.remove('inline-flex');
+            }
+
             const totalAttempts = myRecords.length;
             const avgPercent = totalAttempts > 0
                 ? Math.round(myRecords.reduce((acc, r) => acc + (r.percent || 0), 0) / totalAttempts)
@@ -1856,16 +1967,58 @@
                             โหมด : ${orderText} • ${feedbackText} • ${timeSpentText}
                         </p>
                     </div>
-                    <div class="flex sm:flex-col items-center sm:items-end justify-between gap-1 shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-dashed border-retro-ink/20">
+                    <div class="flex sm:flex-col items-center sm:items-end justify-between gap-2 shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-dashed border-retro-ink/20">
                         <span class="text-base sm:text-lg font-bold text-retro-primary">${rec.score} / ${rec.total} (${rec.percent}%)</span>
-                        <span class="text-xs font-bold text-retro-secondary inline-flex items-center gap-0.5">
-                            <span>ดูรายละเอียด</span>
-                            <span class="material-symbols-outlined text-sm">chevron_right</span>
-                        </span>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-retro-secondary inline-flex items-center gap-0.5">
+                                <span>ดูรายละเอียด</span>
+                                <span class="material-symbols-outlined text-sm">chevron_right</span>
+                            </span>
+                            <button type="button" onclick="window.requestDeleteSingleHistory(event, '${rec.attemptId}')" title="ลบประวัตินี้" class="retro-btn bg-retro-paper hover:bg-retro-danger hover:text-white text-retro-danger px-2 py-1 rounded text-xs font-bold inline-flex items-center gap-0.5">
+                                <span class="material-symbols-outlined text-sm">delete</span>
+                                <span>ลบ</span>
+                            </button>
+                        </div>
                     </div>
                 `;
                 listEl.appendChild(card);
             });
+        }
+
+        function requestDeleteSingleHistory(event, attemptId) {
+            if (event) event.stopPropagation();
+            const rec = userHistoryRecords.find(r => r.attemptId === attemptId);
+            if (!rec) return;
+
+            openConfirmModal(
+                'ยืนยันการลบประวัติการทำข้อสอบ',
+                `คุณต้องการลบประวัติการทำข้อสอบ "${rec.examTitle}" เมื่อ ${rec.dateString} ใช่หรือไม่?`,
+                async () => {
+                    await removeExamAttemptFromFirestore(attemptId);
+                    renderUserStatsView();
+                    showToast('ลบประวัติการทำข้อสอบเรียบร้อยแล้ว', 'delete');
+                }
+            );
+        }
+
+        function requestDeleteAllUserHistory() {
+            const activeUsername = currentUser || 'Admin';
+            const myRecords = userHistoryRecords.filter(
+                r => (r.user || '').toLowerCase() === activeUsername.toLowerCase()
+            );
+            if (myRecords.length === 0) return;
+
+            openConfirmModal(
+                'ยืนยันการล้างประวัติการทำข้อสอบทั้งหมด',
+                `คุณต้องการลบประวัติการทำข้อสอบทั้งหมด ${myRecords.length} รายการของบัญชี "${activeUsername}" ใช่หรือไม่?`,
+                async () => {
+                    for (const rec of myRecords) {
+                        await removeExamAttemptFromFirestore(rec.attemptId);
+                    }
+                    renderUserStatsView();
+                    showToast('ล้างประวัติการทำข้อสอบทั้งหมดเรียบร้อยแล้ว', 'delete_sweep');
+                }
+            );
         }
 
         function openStatsAttemptDetail(attemptId) {
@@ -1914,6 +2067,9 @@
         function renderAdminView() {
             const subjSelect = document.getElementById('adminTargetSubjectSelect');
             const setSelect = document.getElementById('adminTargetExamSetSelect');
+            const delSubjBtn = document.getElementById('deleteSubjectBtn');
+            const delSetBtn = document.getElementById('deleteExamSetBtn');
+
             subjSelect.innerHTML = '';
             setSelect.innerHTML = '';
 
@@ -1927,7 +2083,12 @@
                 emptySetOpt.value = '';
                 emptySetOpt.textContent = '-- ยังไม่มีชุดข้อสอบ --';
                 setSelect.appendChild(emptySetOpt);
+
+                if (delSubjBtn) delSubjBtn.disabled = true;
+                if (delSetBtn) delSetBtn.disabled = true;
             } else {
+                if (delSubjBtn) delSubjBtn.disabled = false;
+
                 if (!selectedSubjectId || !subjectsData.some(s => s.subjectId === selectedSubjectId)) {
                     selectedSubjectId = subjectsData[0].subjectId;
                 }
@@ -1942,6 +2103,7 @@
 
                 const currentSubj = subjectsData.find(s => s.subjectId === selectedSubjectId) || subjectsData[0];
                 if (currentSubj && currentSubj.examSets && currentSubj.examSets.length > 0) {
+                    if (delSetBtn) delSetBtn.disabled = false;
                     if (!selectedExamSetId || !currentSubj.examSets.some(e => e.id === selectedExamSetId)) {
                         selectedExamSetId = currentSubj.examSets[0].id;
                     }
@@ -1953,6 +2115,7 @@
                         setSelect.appendChild(opt);
                     });
                 } else {
+                    if (delSetBtn) delSetBtn.disabled = true;
                     const emptySetOpt = document.createElement('option');
                     emptySetOpt.value = '';
                     emptySetOpt.textContent = '-- ยังไม่มีชุดข้อสอบ --';
@@ -1962,6 +2125,58 @@
 
             renderAdminOptionsBuilder();
             renderAdminCurrentExamQuestionsList();
+        }
+
+        function requestDeleteSubject() {
+            const targetSubj = subjectsData.find(s => s.subjectId === selectedSubjectId);
+            if (!targetSubj) {
+                showToast('ไม่มีรายวิชาให้ลบ', 'warning');
+                return;
+            }
+
+            openConfirmModal(
+                'ยืนยันการลบรายวิชา',
+                `คุณต้องการลบวิชา "${targetSubj.subjectTitle}" และชุดข้อสอบทั้งหมดในวิชานี้ (${targetSubj.examSets?.length || 0} ชุด) ใช่หรือไม่?`,
+                async () => {
+                    await removeSubjectFromFirestore(targetSubj.subjectId);
+                    if (subjectsData.length > 0) {
+                        selectedSubjectId = subjectsData[0].subjectId;
+                        selectedExamSetId = subjectsData[0].examSets?.[0]?.id || null;
+                    } else {
+                        selectedSubjectId = null;
+                        selectedExamSetId = null;
+                    }
+                    renderAdminView();
+                    renderDashboardSubjects();
+                    showToast(`ลบวิชา "${targetSubj.subjectTitle}" เรียบร้อยแล้ว`, 'delete');
+                }
+            );
+        }
+
+        function requestDeleteExamSet() {
+            const targetSubj = subjectsData.find(s => s.subjectId === selectedSubjectId);
+            const targetSet = getCurrentSelectedExamSet();
+            if (!targetSubj || !targetSet) {
+                showToast('ไม่มีชุดข้อสอบให้ลบ', 'warning');
+                return;
+            }
+
+            openConfirmModal(
+                'ยืนยันการลบชุดข้อสอบ / ปี',
+                `คุณต้องการลบชุดข้อสอบ "${targetSet.setLabel}" (${targetSet.questions?.length || 0} ข้อ) ออกจากวิชา "${targetSubj.subjectTitle}" ใช่หรือไม่?`,
+                async () => {
+                    targetSubj.examSets = (targetSubj.examSets || []).filter(s => s.id !== targetSet.id);
+                    if (targetSubj.examSets.length > 0) {
+                        selectedExamSetId = targetSubj.examSets[0].id;
+                    } else {
+                        selectedExamSetId = null;
+                    }
+                    await saveSubjectToFirestore(targetSubj);
+                    renderAdminView();
+                    renderDashboardSubjects();
+                    showToast(`ลบชุดข้อสอบ "${targetSet.setLabel}" เรียบร้อยแล้ว`, 'delete');
+                }
+            );
         }
 
         function handleAdminSubjectSelectChange() {
@@ -2190,14 +2405,23 @@
             });
         }
 
-        async function deleteQuestionFromAdmin(qIdx) {
+        function deleteQuestionFromAdmin(qIdx) {
             const targetSubj = subjectsData.find(s => s.subjectId === selectedSubjectId);
             const targetSet = getCurrentSelectedExamSet();
             if (!targetSubj || !targetSet) return;
-            targetSet.questions.splice(qIdx, 1);
-            await saveSubjectToFirestore(targetSubj);
-            renderAdminView();
-            showToast('ลบข้อสอบเรียบร้อยแล้ว', 'delete');
+            const targetQ = targetSet.questions[qIdx];
+            if (!targetQ) return;
+
+            openConfirmModal(
+                'ยืนยันการลบข้อสอบรายข้อ',
+                `คุณต้องการลบข้อที่ ${qIdx + 1} : "${targetQ.q}" ใช่หรือไม่?`,
+                async () => {
+                    targetSet.questions.splice(qIdx, 1);
+                    await saveSubjectToFirestore(targetSubj);
+                    renderAdminView();
+                    showToast('ลบข้อสอบเรียบร้อยแล้ว', 'delete');
+                }
+            );
         }
 
         function copyPatternTemplate() {
@@ -2304,8 +2528,12 @@
             restartCurrentExam,
             openStatsAttemptDetail,
             closeStatsAttemptDetail,
+            requestDeleteSingleHistory,
+            requestDeleteAllUserHistory,
             handleAdminSubjectSelectChange,
             handleAdminExamSetSelectChange,
+            requestDeleteSubject,
+            requestDeleteExamSet,
             toggleNewExamSetBox,
             createNewExamSetFromAdmin,
             setAdminCorrectIdx,
@@ -2317,7 +2545,9 @@
             handleAdminAddQuestion,
             deleteQuestionFromAdmin,
             copyPatternTemplate,
-            importExamFromJsonPattern
+            importExamFromJsonPattern,
+            closeConfirmModal,
+            executeConfirmedDelete
         });
 
         window.addEventListener('hashchange', () => {
