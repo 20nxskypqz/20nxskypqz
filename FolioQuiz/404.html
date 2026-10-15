@@ -1,0 +1,2231 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>FolioQuiz — (โฟลิโอควิซ)</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sarabun: ['Sarabun', 'sans-serif'],
+                    },
+                    colors: {
+                        retro: {
+                            bg: '#F4EFE6',
+                            paper: '#FFFDF9',
+                            cream: '#EAE2D3',
+                            ink: '#2B2623',
+                            muted: '#6E655F',
+                            primary: '#E86F2C',
+                            secondary: '#3D6B58',
+                            accent: '#F2A93B',
+                            navy: '#344E68',
+                            danger: '#B83B2A',
+                            border: '#2B2623'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            font-family: 'Sarabun', sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #F4EFE6;
+            background-image: radial-gradient(#D5CBB8 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: #2B2623;
+        }
+
+        .retro-card {
+            background-color: #FFFDF9;
+            border: 2px solid #2B2623;
+            box-shadow: 4px 4px 0px #2B2623;
+            border-radius: 0.75rem;
+        }
+
+        .retro-card-sm {
+            background-color: #FFFDF9;
+            border: 2px solid #2B2623;
+            box-shadow: 2px 2px 0px #2B2623;
+            border-radius: 0.5rem;
+        }
+
+        .gf-top-strip {
+            position: relative;
+            overflow: hidden;
+        }
+        .gf-top-strip::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background-color: #E86F2C;
+            border-bottom: 2px solid #2B2623;
+        }
+
+        .gf-top-strip-green::before {
+            background-color: #3D6B58;
+        }
+
+        .gf-top-strip-navy::before {
+            background-color: #344E68;
+        }
+
+        .retro-btn {
+            border: 2px solid #2B2623;
+            box-shadow: 3px 3px 0px #2B2623;
+            transition: all 0.12s ease-in-out;
+        }
+        .retro-btn:hover:not(:disabled) {
+            transform: translate(-1px, -1px);
+            box-shadow: 4px 4px 0px #2B2623;
+        }
+        .retro-btn:active:not(:disabled) {
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0px #2B2623;
+        }
+        .retro-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            box-shadow: 1px 1px 0px #2B2623;
+        }
+
+        input[type="range"].retro-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 12px;
+            background: #EAE2D3;
+            border: 2px solid #2B2623;
+            border-radius: 999px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        input[type="range"].retro-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #E86F2C;
+            border: 2px solid #2B2623;
+            box-shadow: 2px 2px 0px #2B2623;
+            cursor: grab;
+            transition: transform 0.1s ease;
+        }
+
+        input[type="range"].retro-slider::-webkit-slider-thumb:active {
+            cursor: grabbing;
+            transform: scale(1.12);
+            background: #F2A93B;
+        }
+
+        input[type="range"].retro-slider::-moz-range-thumb {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #E86F2C;
+            border: 2px solid #2B2623;
+            box-shadow: 2px 2px 0px #2B2623;
+            cursor: grab;
+        }
+
+        .material-symbols-outlined {
+            vertical-align: middle;
+            user-select: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-retro-accent selection:text-retro-ink">
+
+    <header class="sticky top-0 z-30 bg-retro-paper border-b-2 border-retro-ink px-4 py-3 shadow-sm">
+        <div class="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="handleLogoClick()">
+                <div class="w-10 h-10 rounded-lg bg-retro-primary border-2 border-retro-ink flex items-center justify-center shadow-[2px_2px_0px_#2B2623]">
+                    <svg class="w-6 h-6 text-retro-paper" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                        <path d="M9 7h6"></path>
+                        <path d="M9 11h4"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-lg sm:text-xl font-bold tracking-tight leading-none text-retro-ink">FolioQuiz</h1>
+                    <p class="text-xs text-retro-muted font-medium">(โฟลิโอควิซ)</p>
+                </div>
+            </div>
+
+            <div id="headerUserControls" class="hidden items-center gap-2 sm:gap-3">
+                <button id="navDashboardBtn" onclick="navigateTo('dashboard')" class="retro-btn bg-retro-cream hover:bg-retro-accent/30 text-retro-ink px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-base">library_books</span>
+                    <span>เลือกวิชา</span>
+                </button>
+
+                <button id="navAdminBtn" onclick="navigateTo('admin')" class="hidden retro-btn bg-retro-navy text-retro-paper px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold items-center gap-1.5">
+                    <span class="material-symbols-outlined text-base">database</span>
+                    <span>ระบบหลังบ้าน</span>
+                </button>
+
+                <button type="button" onclick="navigateTo('stats')" title="ดูสถิติการทำข้อสอบ" class="retro-btn bg-retro-bg hover:bg-retro-cream border-2 border-retro-ink px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-base text-retro-primary">account_circle</span>
+                    <span id="currentUserDisplay">Admin</span>
+                </button>
+
+                <button onclick="logoutUser()" title="ออกจากระบบ" class="retro-btn bg-retro-paper hover:bg-retro-danger hover:text-white text-retro-ink p-1.5 rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-lg">logout</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow w-full max-w-5xl mx-auto px-3 sm:px-6 py-6 sm:py-8">
+
+        <section id="view-login" class="max-w-md mx-auto my-2 sm:my-6">
+            <div class="retro-card gf-top-strip pt-7 pb-6 px-5 sm:px-8">
+                <div class="flex justify-center mb-4">
+                    <div class="w-16 h-16 rounded-full bg-retro-cream border-2 border-retro-ink flex items-center justify-center shadow-[3px_3px_0px_#2B2623]">
+                        <svg class="w-9 h-9 text-retro-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                            <polyline points="6 9.5 6 16 12 19 18 16 18 9.5"></polyline>
+                            <line x1="22" y1="7" x2="22" y2="15"></line>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold text-retro-ink">เข้าสู่ระบบ FolioQuiz</h2>
+                </div>
+
+                <div class="mb-5">
+                    <button type="button" onclick="handleGoogleSignIn()" class="w-full retro-btn bg-retro-paper hover:bg-retro-cream text-retro-ink font-semibold py-2.5 px-4 rounded-lg flex items-center justify-center gap-3 text-sm sm:text-base">
+                        <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                        <span>เข้าสู่ระบบด้วย Gmail</span>
+                    </button>
+                </div>
+
+                <div class="relative flex py-2 items-center mb-4">
+                    <div class="flex-grow border-t-2 border-dashed border-retro-ink/30"></div>
+                    <span class="flex-shrink mx-3 text-xs font-bold text-retro-muted bg-retro-paper px-2">หรือ</span>
+                    <div class="flex-grow border-t-2 border-dashed border-retro-ink/30"></div>
+                </div>
+
+                <div>
+                    <div class="grid grid-cols-2 gap-2 p-1 bg-retro-cream border-2 border-retro-ink rounded-lg mb-4">
+                        <button id="tabLoginMode" type="button" onclick="switchAuthTab('login')" class="py-1.5 rounded-md text-xs sm:text-sm font-bold bg-retro-primary text-retro-paper border border-retro-ink shadow-sm">
+                            เข้าสู่ระบบ
+                        </button>
+                        <button id="tabRegisterMode" type="button" onclick="switchAuthTab('register')" class="py-1.5 rounded-md text-xs sm:text-sm font-bold text-retro-ink hover:bg-retro-paper/60">
+                            ตั้งชื่อผู้ใช้ใหม่
+                        </button>
+                    </div>
+
+                    <form id="authForm" onsubmit="handleCredentialSubmit(event)" class="space-y-4">
+                        <div>
+                            <label for="loginIdentifier" class="block text-sm font-bold text-retro-ink mb-1">
+                                ชื่อผู้ใช้ หรือ Gmail <span class="text-retro-danger">*</span>
+                            </label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-retro-muted text-lg">person</span>
+                                <input id="loginIdentifier" type="text" required placeholder="ชื่อผู้ใช้ หรือ example@gmail.com"
+                                    class="w-full pl-10 pr-3 py-2.5 bg-retro-bg border-2 border-retro-ink rounded-lg text-sm focus:outline-none focus:bg-retro-paper focus:ring-2 focus:ring-retro-primary">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="loginPassword" class="block text-sm font-bold text-retro-ink mb-1">
+                                รหัสผ่าน <span class="text-retro-danger">*</span>
+                            </label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-retro-muted text-lg">key</span>
+                                <input id="loginPassword" type="password" required placeholder="กรอกรหัสผ่าน"
+                                    class="w-full pl-10 pr-10 py-2.5 bg-retro-bg border-2 border-retro-ink rounded-lg text-sm focus:outline-none focus:bg-retro-paper focus:ring-2 focus:ring-retro-primary">
+                                <button type="button" onclick="togglePasswordVisibility()" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-retro-muted hover:text-retro-ink">
+                                    <span id="eyeIcon" class="material-symbols-outlined text-lg">visibility</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button id="authSubmitBtn" type="submit" class="w-full retro-btn bg-retro-primary text-retro-paper font-bold py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 text-base">
+                            <span class="material-symbols-outlined text-xl">login</span>
+                            <span id="authSubmitText">เข้าสู่ระบบ</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-dashboard" class="hidden space-y-6">
+
+            <div id="dashboard-step-subjects" class="space-y-5">
+                <div class="retro-card gf-top-strip pt-6 pb-5 px-5 sm:px-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-xl sm:text-2xl font-bold text-retro-ink">เลือกรายวิชา</h2>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-semibold bg-retro-bg border-2 border-retro-ink px-3 py-1.5 rounded-lg flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-base text-retro-secondary">folder_special</span>
+                            <span>วิชาทั้งหมด : <strong id="totalSubjectCountBadge">0</strong> วิชา</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div id="subjectCardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+            </div>
+
+            <div id="dashboard-step-config" class="hidden max-w-2xl mx-auto">
+                <div class="retro-card gf-top-strip-green pt-6 pb-6 px-5 sm:px-7 space-y-5">
+                    <div class="flex items-center justify-between border-b-2 border-dashed border-retro-ink/20 pb-3">
+                        <div>
+                            <h3 id="configSubjectTitle" class="text-lg sm:text-xl font-bold text-retro-ink">ชื่อวิชา</h3>
+                            <p id="configSubjectCategory" class="text-xs text-retro-muted mt-0.5">หมวดหมู่</p>
+                        </div>
+                        <button type="button" onclick="backToSubjectList()" class="retro-btn bg-retro-cream text-retro-ink px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1">
+                            <span class="material-symbols-outlined text-sm">arrow_back</span>
+                            <span>เปลี่ยนวิชา</span>
+                        </button>
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <label for="examSetDropdown" class="block text-sm font-bold text-retro-ink flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-base text-retro-primary">library_books</span>
+                            <span>เลือกชุดข้อสอบ / ปี :</span>
+                        </label>
+                        <select id="examSetDropdown" onchange="handleExamSetDropdownChange()" class="w-full p-2.5 bg-retro-bg border-2 border-retro-ink rounded-lg text-sm font-bold focus:outline-none focus:bg-retro-paper"></select>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-bold text-retro-ink flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-base text-retro-primary">swap_vert</span>
+                            <span>รูปแบบการจัดเรียงข้อสอบ :</span>
+                        </label>
+                        <div id="orderModeOptionsContainer" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5"></div>
+
+                        <div id="topicFilterWrapper" class="hidden pt-2">
+                            <label for="topicSelectDropdown" class="block text-xs font-bold text-retro-muted mb-1">เลือกหมวดเรื่องย่อย :</label>
+                            <select id="topicSelectDropdown" class="w-full p-2 bg-retro-paper border-2 border-retro-ink rounded-lg text-sm font-semibold">
+                                <option value="ALL">ทุกเรื่องรวมกัน</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2 pt-1">
+                        <label class="block text-sm font-bold text-retro-ink flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-base text-retro-secondary">lightbulb</span>
+                            <span>รูปแบบการเฉลย :</span>
+                        </label>
+                        <div id="feedbackModeOptionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5"></div>
+                    </div>
+
+                    <div class="space-y-2 pt-1">
+                        <label class="block text-sm font-bold text-retro-ink flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-base text-retro-primary">timer</span>
+                            <span>การจับเวลา :</span>
+                        </label>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                            <label class="cursor-pointer flex items-center gap-2.5 p-2.5 rounded-lg border-2 border-retro-ink bg-retro-bg hover:bg-retro-cream/60 transition-colors">
+                                <input type="radio" name="timerMode" value="none" checked onchange="updateTimerModeUI()" class="w-4 h-4 accent-[#E86F2C]">
+                                <span class="text-sm font-bold flex-grow">ไม่จับเวลา</span>
+                                <span class="material-symbols-outlined text-base text-retro-muted">timer_off</span>
+                            </label>
+                            <label class="cursor-pointer flex items-center gap-2.5 p-2.5 rounded-lg border-2 border-retro-ink bg-retro-bg hover:bg-retro-cream/60 transition-colors">
+                                <input type="radio" name="timerMode" value="stopwatch" onchange="updateTimerModeUI()" class="w-4 h-4 accent-[#E86F2C]">
+                                <span class="text-sm font-bold flex-grow">จับเวลาเดินหน้า</span>
+                                <span class="material-symbols-outlined text-base text-retro-muted">schedule</span>
+                            </label>
+                            <label class="cursor-pointer flex items-center gap-2.5 p-2.5 rounded-lg border-2 border-retro-ink bg-retro-bg hover:bg-retro-cream/60 transition-colors">
+                                <input type="radio" name="timerMode" value="countdown" onchange="updateTimerModeUI()" class="w-4 h-4 accent-[#E86F2C]">
+                                <span class="text-sm font-bold flex-grow">นับถอยหลัง</span>
+                                <span class="material-symbols-outlined text-base text-retro-muted">hourglass_top</span>
+                            </label>
+                        </div>
+
+                        <div id="countdownMinutesWrapper" class="hidden pt-2 flex items-center gap-2">
+                            <label for="countdownMinutesInput" class="text-xs font-bold text-retro-muted">เวลาที่ต้องการ (นาที) :</label>
+                            <input id="countdownMinutesInput" type="number" min="1" max="300" value="15"
+                                class="w-24 p-1.5 bg-retro-paper border-2 border-retro-ink rounded-lg text-sm font-bold text-center">
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="button" onclick="startSelectedExam()" class="w-full retro-btn bg-retro-primary hover:bg-[#d45d1c] text-retro-paper font-bold py-3 px-5 rounded-xl flex items-center justify-center gap-2 text-base">
+                            <span class="material-symbols-outlined">play_arrow</span>
+                            <span>เริ่มทำข้อสอบ</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <section id="view-exam" class="hidden max-w-3xl mx-auto space-y-5">
+
+            <div class="retro-card gf-top-strip pt-6 pb-4 px-4 sm:px-6 text-center relative">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                    <button type="button" onclick="navigateTo('dashboard')" class="inline-flex items-center gap-1 text-xs font-bold text-retro-muted hover:text-retro-ink bg-retro-cream px-2.5 py-1 rounded border border-retro-ink">
+                        <span class="material-symbols-outlined text-sm">arrow_back</span>
+                        <span>ออกจากการสอบ</span>
+                    </button>
+                    <div class="flex flex-wrap items-center gap-1.5">
+                        <div id="examTimerBadge" class="hidden items-center gap-1 text-xs font-bold px-2.5 py-0.5 rounded bg-retro-paper border-2 border-retro-ink text-retro-ink shadow-[1px_1px_0px_#2B2623]">
+                            <span class="material-symbols-outlined text-sm text-retro-primary">timer</span>
+                            <span id="examTimerText">00:00</span>
+                        </div>
+                        <div id="examModeBadgeContainer" class="flex items-center gap-1.5"></div>
+                    </div>
+                </div>
+
+                <h2 id="examCenterTitle" class="text-xl sm:text-2xl md:text-3xl font-bold text-retro-ink text-center mx-auto max-w-xl leading-snug">
+                    ชื่อข้อสอบ
+                </h2>
+                <p id="examCenterSubtitle" class="text-xs sm:text-sm text-retro-muted mt-1 text-center"></p>
+            </div>
+
+            <div class="retro-card-sm px-4 sm:px-6 py-3.5 bg-retro-paper">
+                <div class="flex items-center gap-3 sm:gap-4">
+                    <span class="material-symbols-outlined text-retro-primary shrink-0">linear_scale</span>
+
+                    <div class="flex-grow flex items-center">
+                        <input id="questionRangeSlider" type="range" min="1" max="5" value="1" step="1"
+                            oninput="handleSliderDrag(this.value)"
+                            class="retro-slider"
+                            aria-label="เลื่อนไปยังข้อสอบ">
+                    </div>
+
+                    <div class="shrink-0 bg-retro-cream border-2 border-retro-ink px-3 py-1 rounded-lg font-bold text-sm sm:text-base text-retro-ink shadow-[2px_2px_0px_#2B2623]">
+                        <span>ข้อที่ </span>
+                        <span id="sliderQuestionCounter" class="text-retro-primary">1/1</span>
+                    </div>
+                </div>
+
+                <div id="questionPillsBar" class="flex items-center gap-1.5 overflow-x-auto pt-3 pb-1 mt-2 border-t border-dashed border-retro-ink/20"></div>
+            </div>
+
+            <div class="retro-card p-5 sm:p-7 space-y-5">
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b-2 border-retro-cream pb-3">
+                    <span id="questionTopicBadge" class="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded bg-retro-cream border border-retro-ink text-retro-ink"></span>
+                    <span id="questionChoicesCountHint" class="text-xs text-retro-muted font-semibold"></span>
+                </div>
+
+                <div class="py-1">
+                    <h3 id="questionPromptText" class="text-base sm:text-lg md:text-xl font-bold text-retro-ink leading-relaxed"></h3>
+                </div>
+
+                <div id="questionChoicesContainer" class="space-y-3" role="radiogroup"></div>
+
+                <div id="instantFeedbackBox" class="hidden p-4 rounded-xl border-2 border-retro-ink bg-retro-cream/70 space-y-2.5">
+                    <div class="flex items-center gap-2 font-bold text-sm sm:text-base" id="instantFeedbackHeader"></div>
+                    <div id="instantFeedbackDetails" class="space-y-2 text-xs sm:text-sm text-retro-ink leading-relaxed"></div>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between gap-3 pt-1">
+                <button id="prevQuestionBtn" type="button" onclick="goToRelativeQuestion(-1)"
+                    class="retro-btn bg-retro-paper hover:bg-retro-cream text-retro-ink font-bold py-2.5 px-4 sm:px-6 rounded-xl flex items-center gap-2 text-sm sm:text-base">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                    <span>ย้อนกลับ</span>
+                </button>
+
+                <button id="finishExamBtn" type="button" onclick="submitAndShowSummary()"
+                    class="retro-btn bg-retro-secondary text-retro-paper font-bold py-2.5 px-4 sm:px-5 rounded-xl flex items-center gap-1.5 text-sm sm:text-base">
+                    <span class="material-symbols-outlined">task_alt</span>
+                    <span>ส่งคำตอบ</span>
+                </button>
+
+                <button id="nextQuestionBtn" type="button" onclick="goToRelativeQuestion(1)"
+                    class="retro-btn bg-retro-primary text-retro-paper font-bold py-2.5 px-4 sm:px-6 rounded-xl flex items-center gap-2 text-sm sm:text-base">
+                    <span>ถัดไป</span>
+                    <span class="material-symbols-outlined">arrow_forward</span>
+                </button>
+            </div>
+        </section>
+
+        <section id="view-summary" class="hidden max-w-3xl mx-auto space-y-6">
+            <div class="retro-card gf-top-strip-green pt-7 pb-6 px-5 sm:px-8 text-center space-y-4">
+                <div class="w-16 h-16 mx-auto rounded-full bg-retro-cream border-2 border-retro-ink flex items-center justify-center shadow-[3px_3px_0px_#2B2623]">
+                    <span class="material-symbols-outlined text-3xl text-retro-secondary">emoji_events</span>
+                </div>
+                <div>
+                    <h2 id="summaryExamTitle" class="text-2xl font-bold text-retro-ink">สรุปผลการทำข้อสอบ</h2>
+                    <p id="summaryExamMeta" class="text-sm text-retro-muted mt-1"></p>
+                </div>
+
+                <div class="inline-block bg-retro-bg border-2 border-retro-ink rounded-xl px-8 py-4 shadow-[3px_3px_0px_#2B2623]">
+                    <p class="text-xs font-bold uppercase text-retro-muted">คะแนนที่ได้</p>
+                    <p id="summaryScoreNumber" class="text-3xl sm:text-4xl font-bold text-retro-primary mt-1">0 / 0</p>
+                    <p id="summaryScorePercent" class="text-xs font-semibold text-retro-secondary mt-1">คิดเป็น 0%</p>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-3 pt-2">
+                    <button type="button" onclick="restartCurrentExam()" class="retro-btn bg-retro-primary text-retro-paper font-bold py-2 px-5 rounded-lg flex items-center gap-1.5 text-sm">
+                        <span class="material-symbols-outlined text-lg">replay</span>
+                        <span>ทำอีกครั้ง</span>
+                    </button>
+                    <button type="button" onclick="navigateTo('dashboard')" class="retro-btn bg-retro-cream text-retro-ink font-bold py-2 px-5 rounded-lg flex items-center gap-1.5 text-sm">
+                        <span class="material-symbols-outlined text-lg">library_books</span>
+                        <span>กลับหน้าเลือกวิชา</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <h3 class="text-lg font-bold flex items-center gap-2">
+                    <span class="material-symbols-outlined text-retro-primary">fact_check</span>
+                    <span>เฉลยรายข้อ</span>
+                </h3>
+                <div id="summaryReviewList" class="space-y-4"></div>
+            </div>
+        </section>
+
+        <section id="view-stats" class="hidden max-w-4xl mx-auto space-y-6">
+            <div class="retro-card gf-top-strip pt-6 pb-5 px-5 sm:px-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-full bg-retro-cream border-2 border-retro-ink flex items-center justify-center shadow-[2px_2px_0px_#2B2623]">
+                        <span class="material-symbols-outlined text-2xl text-retro-primary">monitoring</span>
+                    </div>
+                    <div>
+                        <h2 class="text-xl sm:text-2xl font-bold text-retro-ink">สถิติการทำข้อสอบ</h2>
+                        <p class="text-xs sm:text-sm text-retro-muted font-semibold">ผู้ใช้ : <span id="statsUsernameLabel" class="text-retro-ink font-bold"></span></p>
+                    </div>
+                </div>
+                <button type="button" onclick="navigateTo('dashboard')" class="retro-btn bg-retro-cream text-retro-ink px-4 py-2 rounded-lg text-xs sm:text-sm font-bold flex items-center gap-1.5 self-start sm:self-center">
+                    <span class="material-symbols-outlined text-base">arrow_back</span>
+                    <span>กลับหน้าเลือกวิชา</span>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="retro-card-sm p-4 bg-retro-paper flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-retro-primary text-white border-2 border-retro-ink flex items-center justify-center">
+                        <span class="material-symbols-outlined">history_edu</span>
+                    </div>
+                    <div>
+                        <p class="text-xs text-retro-muted font-bold">จำนวนครั้งที่ทำข้อสอบ</p>
+                        <p id="statTotalAttempts" class="text-xl font-bold text-retro-ink">0 ครั้ง</p>
+                    </div>
+                </div>
+                <div class="retro-card-sm p-4 bg-retro-paper flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-retro-secondary text-white border-2 border-retro-ink flex items-center justify-center">
+                        <span class="material-symbols-outlined">percent</span>
+                    </div>
+                    <div>
+                        <p class="text-xs text-retro-muted font-bold">คะแนนเฉลี่ยรวม</p>
+                        <p id="statAverageScore" class="text-xl font-bold text-retro-secondary">0%</p>
+                    </div>
+                </div>
+                <div class="retro-card-sm p-4 bg-retro-paper flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-retro-accent text-retro-ink border-2 border-retro-ink flex items-center justify-center">
+                        <span class="material-symbols-outlined">workspace_premium</span>
+                    </div>
+                    <div>
+                        <p class="text-xs text-retro-muted font-bold">คะแนนสูงสุดที่ทำได้</p>
+                        <p id="statBestScore" class="text-xl font-bold text-retro-primary">0%</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="retro-card p-5 sm:p-6 space-y-4">
+                <h3 class="text-base sm:text-lg font-bold flex items-center gap-2 border-b-2 border-retro-cream pb-2.5">
+                    <span class="material-symbols-outlined text-retro-primary">list_alt</span>
+                    <span>ประวัติการทำข้อสอบ (กดที่รายการเพื่อดูรายละเอียดรายข้อ)</span>
+                </h3>
+                <div id="userStatsHistoryList" class="space-y-3"></div>
+            </div>
+
+            <div id="statsAttemptDetailBox" class="hidden retro-card gf-top-strip-green pt-6 pb-6 px-5 sm:px-7 space-y-4">
+                <div class="flex items-center justify-between border-b-2 border-dashed border-retro-ink/20 pb-3">
+                    <div>
+                        <h4 id="detailBoxTitle" class="text-base sm:text-lg font-bold text-retro-ink">รายละเอียดผลการทำข้อสอบ</h4>
+                        <p id="detailBoxMeta" class="text-xs text-retro-muted mt-0.5"></p>
+                    </div>
+                    <button type="button" onclick="closeStatsAttemptDetail()" class="retro-btn bg-retro-cream text-retro-ink px-3 py-1 rounded text-xs font-bold">
+                        ปิดรายละเอียด
+                    </button>
+                </div>
+                <div id="detailBoxQuestionsList" class="space-y-3"></div>
+            </div>
+        </section>
+
+        <section id="view-admin" class="hidden space-y-6">
+            <div class="retro-card gf-top-strip-navy pt-6 pb-5 px-5 sm:px-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-retro-cream border border-retro-ink text-xs font-bold mb-2">
+                        <span class="material-symbols-outlined text-sm text-retro-navy">admin_panel_settings</span>
+                        <span>/FolioQuiz/Admin</span>
+                    </div>
+                    <h2 class="text-xl sm:text-2xl font-bold text-retro-ink">ระบบจัดการคลังข้อสอบหลังบ้าน</h2>
+                </div>
+                <button type="button" onclick="navigateTo('dashboard')" class="retro-btn bg-retro-cream text-retro-ink px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-1.5 self-start sm:self-center shrink-0">
+                    <span class="material-symbols-outlined text-base">arrow_back</span>
+                    <span>กลับหน้าเลือกวิชา</span>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+                <div class="lg:col-span-7 space-y-6">
+
+                    <div class="retro-card p-5 sm:p-6 space-y-4">
+                        <h3 class="text-base sm:text-lg font-bold flex items-center gap-2 border-b-2 border-retro-cream pb-2.5">
+                            <span class="material-symbols-outlined text-retro-primary">folder_open</span>
+                            <span>ส่วนที่ 1 : เลือกวิชาและชุดข้อสอบ</span>
+                        </h3>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-retro-muted mb-1">วิชา :</label>
+                                <select id="adminTargetSubjectSelect" onchange="handleAdminSubjectSelectChange()" class="w-full p-2.5 bg-retro-bg border-2 border-retro-ink rounded-lg text-sm font-bold"></select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-retro-muted mb-1">ชุดข้อสอบ / ปี :</label>
+                                <select id="adminTargetExamSetSelect" onchange="handleAdminExamSetSelectChange()" class="w-full p-2.5 bg-retro-bg border-2 border-retro-ink rounded-lg text-sm font-bold"></select>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-2 pt-1">
+                            <button type="button" onclick="toggleNewExamSetBox()" class="retro-btn bg-retro-cream hover:bg-retro-accent/40 text-retro-ink py-2 px-3 rounded-lg text-xs font-bold flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-base">add_circle</span>
+                                <span>เพิ่มวิชา / ชุดข้อสอบใหม่</span>
+                            </button>
+                        </div>
+
+                        <div id="newExamSetBox" class="hidden p-4 bg-retro-cream/60 border-2 border-dashed border-retro-ink rounded-xl space-y-3">
+                            <h4 class="text-sm font-bold text-retro-ink">สร้างวิชาหรือชุดข้อสอบใหม่</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold mb-1">ชื่อวิชา *</label>
+                                    <input id="newSubjectTitleInput" type="text" placeholder="เช่น ภาษาไทย" class="w-full p-2 bg-retro-paper border-2 border-retro-ink rounded-lg text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold mb-1">ชื่อชุดข้อสอบ / ปี *</label>
+                                    <input id="newExamSetLabelInput" type="text" placeholder="เช่น ชุดที่ 1 (ปี 2569)" class="w-full p-2 bg-retro-paper border-2 border-retro-ink rounded-lg text-sm">
+                                </div>
+                            </div>
+
+                            <div class="space-y-1.5 pt-1">
+                                <label class="block text-xs font-bold">การตั้งค่าที่ชุดข้อสอบนี้รองรับ :</label>
+                                <div class="flex flex-wrap gap-3 text-xs font-semibold">
+                                    <label class="flex items-center gap-1"><input type="checkbox" id="chkAllowSeq" checked> เรียงข้อ</label>
+                                    <label class="flex items-center gap-1"><input type="checkbox" id="chkAllowRand" checked> สุ่มข้อ</label>
+                                    <label class="flex items-center gap-1"><input type="checkbox" id="chkAllowTopic" checked> เลือกตามเรื่องย่อย</label>
+                                    <label class="flex items-center gap-1"><input type="checkbox" id="chkAllowInstant" checked> เฉลยในข้อเลย</label>
+                                    <label class="flex items-center gap-1"><input type="checkbox" id="chkAllowAfter" checked> เฉลยหลังทำเสร็จ</label>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-end gap-2">
+                                <button type="button" onclick="toggleNewExamSetBox()" class="px-3 py-1.5 text-xs font-bold text-retro-muted hover:text-retro-ink">ยกเลิก</button>
+                                <button type="button" onclick="createNewExamSetFromAdmin()" class="retro-btn bg-retro-secondary text-white px-4 py-1.5 rounded-lg text-xs font-bold">บันทึก</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="retro-card p-5 sm:p-6 space-y-4">
+                        <div class="flex items-center justify-between border-b-2 border-retro-cream pb-2.5">
+                            <h3 class="text-base sm:text-lg font-bold flex items-center gap-2">
+                                <span class="material-symbols-outlined text-retro-secondary">quiz</span>
+                                <span>ส่วนที่ 2 : เพิ่มโจทย์ ตัวเลือก และคำอธิบายถูก/ผิดรายตัวเลือก</span>
+                            </h3>
+                        </div>
+
+                        <form id="adminAddQuestionForm" onsubmit="handleAdminAddQuestion(event)" class="space-y-4">
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <div class="sm:col-span-2">
+                                    <label class="block text-xs font-bold mb-1">โจทย์คำถาม *</label>
+                                    <textarea id="adminQuestionPrompt" rows="2" required placeholder="พิมพ์โจทย์ข้อสอบ..."
+                                        class="w-full p-2.5 bg-retro-bg border-2 border-retro-ink rounded-lg text-sm"></textarea>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold mb-1">หมวดเรื่องย่อย :</label>
+                                    <input id="adminQuestionTopic" type="text" placeholder="เช่น ไวยากรณ์"
+                                        class="w-full p-2.5 bg-retro-bg border-2 border-retro-ink rounded-lg text-sm">
+                                </div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <div class="flex flex-wrap items-center justify-between gap-2">
+                                    <label class="text-xs font-bold text-retro-ink">
+                                        ตัวเลือก (ติ๊กข้อที่ถูก) พร้อมคำอธิบายว่าทำไมแต่ละข้อถึงถูกหรือผิด *
+                                    </label>
+                                    <div class="flex items-center gap-1.5">
+                                        <button type="button" onclick="setAdminOptionCount(4)" class="px-2 py-1 text-xs font-bold rounded border border-retro-ink bg-retro-cream hover:bg-retro-accent/40">4 ตัวเลือก</button>
+                                        <button type="button" onclick="setAdminOptionCount(5)" class="px-2 py-1 text-xs font-bold rounded border border-retro-ink bg-retro-cream hover:bg-retro-accent/40">5 ตัวเลือก</button>
+                                        <button type="button" onclick="setAdminOptionCount(6)" class="px-2 py-1 text-xs font-bold rounded border border-retro-ink bg-retro-cream hover:bg-retro-accent/40">6 ตัวเลือก</button>
+                                        <button type="button" onclick="addSingleAdminOption()" class="px-2 py-1 text-xs font-bold rounded border border-retro-ink bg-retro-secondary text-white flex items-center gap-0.5">
+                                            <span class="material-symbols-outlined text-sm">add</span> เพิ่ม
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="adminOptionsBuilderList" class="space-y-2.5"></div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold mb-1">คำอธิบายสรุปหลักของข้อที่ถูกต้อง *</label>
+                                <textarea id="adminQuestionExplanation" rows="2" required placeholder="สรุปหลักการหรือเหตุผลเพิ่มเติมของคำตอบที่ถูกต้อง..."
+                                    class="w-full p-2.5 bg-retro-bg border-2 border-retro-ink rounded-lg text-sm"></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full retro-btn bg-retro-primary text-retro-paper font-bold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 text-sm sm:text-base">
+                                <span class="material-symbols-outlined">save</span>
+                                <span>บันทึกข้อสอบลงฐานข้อมูล</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="retro-card p-5 sm:p-6 space-y-4">
+                        <div class="flex items-center justify-between border-b-2 border-retro-cream pb-2.5">
+                            <div>
+                                <h3 class="text-base font-bold flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-retro-navy">code_blocks</span>
+                                    <span>แพตเทิร์นโครงสร้าง JSON</span>
+                                </h3>
+                            </div>
+                            <button type="button" onclick="copyPatternTemplate()" class="retro-btn bg-retro-cream text-retro-ink px-2.5 py-1 rounded text-xs font-bold flex items-center gap-1">
+                                <span class="material-symbols-outlined text-sm">content_copy</span>
+                                <span>คัดลอก</span>
+                            </button>
+                        </div>
+
+                        <div class="bg-retro-bg border-2 border-retro-ink rounded-lg p-3 text-xs space-y-1.5 font-mono overflow-x-auto">
+<pre id="patternCodePreview" class="text-[11px] leading-relaxed text-retro-ink">{
+  "subjectTitle": "ชื่อวิชา",
+  "category": "หมวดวิชา",
+  "setLabel": "ชุดที่ 1 (ปี 2569)",
+  "title": "ชื่อข้อสอบตรงกลางหน้าจอ",
+  "allowedOrderModes": ["sequential", "random", "topic"],
+  "allowedFeedbackModes": ["instant", "after"],
+  "questions": [
+    {
+      "topic": "หมวดเรื่องย่อย",
+      "q": "โจทย์คำถาม...",
+      "options": [
+        "ก. ตัวเลือกที่ 1",
+        "ข. ตัวเลือกที่ 2",
+        "ค. ตัวเลือกที่ 3",
+        "ง. ตัวเลือกที่ 4"
+      ],
+      "optionExplanations": [
+        "อธิบายว่าทำไม ก. ถึงผิด...",
+        "อธิบายว่าทำไม ข. ถึงถูกต้อง...",
+        "อธิบายว่าทำไม ค. ถึงผิด...",
+        "อธิบายว่าทำไม ง. ถึงผิด..."
+      ],
+      "answerIndex": 1,
+      "explanation": "คำอธิบายสรุปหลักของข้อที่ถูกต้อง..."
+    }
+  ]
+}</pre>
+                        </div>
+
+                        <div class="space-y-2 pt-2 border-t-2 border-dashed border-retro-ink/20">
+                            <label class="block text-xs font-bold text-retro-ink">นำเข้า JSON :</label>
+                            <textarea id="jsonImportTextarea" rows="5" placeholder="วางโค้ด JSON ตามโครงสร้างด้านบนที่นี่..."
+                                class="w-full p-2.5 bg-retro-bg border-2 border-retro-ink rounded-lg text-xs font-mono"></textarea>
+                            <div class="flex gap-2">
+                                <button type="button" onclick="importExamFromJsonPattern()" class="retro-btn bg-retro-navy text-white py-2 px-3 rounded-lg text-xs font-bold w-full flex items-center justify-center gap-1">
+                                    <span class="material-symbols-outlined text-sm">upload_file</span>
+                                    <span>นำเข้าข้อมูลข้อสอบ</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="pt-3 border-t-2 border-dashed border-retro-ink/20 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-retro-ink">ข้อสอบในชุดที่เลือก :</span>
+                                <span id="adminCurrentSetCount" class="text-xs font-bold text-retro-primary">0 ข้อ</span>
+                            </div>
+                            <div id="adminQuestionsPreviewList" class="max-h-56 overflow-y-auto space-y-2 pr-1"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-retro-paper border-t-2 border-retro-ink py-3 px-4 text-center text-xs text-retro-muted mt-8">
+        <div class="max-w-5xl mx-auto flex flex-col items-center justify-center leading-relaxed">
+            <span class="font-semibold text-retro-ink">© 2026 FolioQuiz</span>
+            <span class="font-semibold text-retro-ink">20nxskypqz</span>
+        </div>
+    </footer>
+
+    <div id="retroToast" class="fixed bottom-5 right-5 z-50 hidden max-w-sm retro-card bg-retro-ink text-retro-paper px-4 py-3 flex items-center gap-3">
+        <span id="retroToastIcon" class="material-symbols-outlined text-retro-accent">info</span>
+        <p id="retroToastMessage" class="text-xs sm:text-sm font-semibold"></p>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import {
+            getAuth,
+            GoogleAuthProvider,
+            signInWithPopup,
+            signInWithEmailAndPassword,
+            createUserWithEmailAndPassword,
+            signInAnonymously,
+            signInWithCustomToken,
+            onAuthStateChanged,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import {
+            getFirestore,
+            collection,
+            doc,
+            setDoc,
+            getDocs,
+            onSnapshot
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const userFirebaseConfig = {
+            apiKey: "AIzaSyDqqZrjTvR2u7rgG-_3NdUBKcfUvXYJiHY",
+            authDomain: "folioquiz.firebaseapp.com",
+            projectId: "folioquiz",
+            storageBucket: "folioquiz.firebasestorage.app",
+            messagingSenderId: "808010454147",
+            appId: "1:808010454147:web:46351fa4fa507c6cd9f7b6",
+            measurementId: "G-FPBY277HWM"
+        };
+
+        const activeFirebaseConfig = typeof __firebase_config !== 'undefined'
+            ? JSON.parse(__firebase_config)
+            : userFirebaseConfig;
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'folioquiz';
+        const app = initializeApp(activeFirebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const googleProvider = new GoogleAuthProvider();
+
+        let subjectsData = [];
+        let registeredUsers = [
+            { identifier: 'Admin', password: '140425', role: 'admin' }
+        ];
+        let currentUser = null;
+        let authMode = 'login';
+
+        let selectedSubjectId = null;
+        let selectedExamSetId = null;
+
+        let activeSession = {
+            examTitle: '',
+            examCategory: '',
+            setLabel: '',
+            orderMode: 'sequential',
+            selectedTopic: 'ALL',
+            feedbackMode: 'instant',
+            timerMode: 'none',
+            elapsedSeconds: 0,
+            remainingSeconds: 0,
+            questions: [],
+            userAnswers: [],
+            currentIndex: 0
+        };
+
+        let examTimerInterval = null;
+        let userHistoryRecords = [];
+
+        let adminBuilderOptions = [
+            { text: '', reason: '' },
+            { text: '', reason: '' },
+            { text: '', reason: '' },
+            { text: '', reason: '' }
+        ];
+        let adminCorrectOptionIndex = 0;
+
+        const THAI_OPTION_LABELS = ['ก', 'ข', 'ค', 'ง', 'จ', 'ฉ', 'ช', 'ซ', 'ฌ', 'ญ'];
+
+        function isAdminRouteAuthorized() {
+            const path = window.location.pathname || '';
+            const hash = window.location.hash || '';
+            const search = window.location.search || '';
+            return (
+                path.includes('/FolioQuiz/Admin') ||
+                hash.includes('/FolioQuiz/Admin') ||
+                search.includes('/FolioQuiz/Admin')
+            );
+        }
+
+        function updateAdminNavVisibility() {
+            const adminBtn = document.getElementById('navAdminBtn');
+            if (!adminBtn) return;
+            if (isAdminRouteAuthorized()) {
+                adminBtn.classList.remove('hidden');
+                adminBtn.classList.add('flex');
+            } else {
+                adminBtn.classList.add('hidden');
+                adminBtn.classList.remove('flex');
+            }
+        }
+
+        async function initFirebaseConnection() {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                const subjectsCol = collection(db, 'artifacts', appId, 'public', 'data', 'subjects');
+                onSnapshot(subjectsCol, (snapshot) => {
+                    const loaded = [];
+                    snapshot.forEach(docSnap => loaded.push(docSnap.data()));
+                    subjectsData = loaded;
+
+                    if (subjectsData.length > 0 && !selectedSubjectId) {
+                        selectedSubjectId = subjectsData[0].subjectId;
+                        selectedExamSetId = subjectsData[0].examSets?.[0]?.id || null;
+                    }
+
+                    renderDashboardSubjects();
+                    if (!document.getElementById('view-admin').classList.contains('hidden')) {
+                        renderAdminView();
+                    }
+                }, () => {});
+
+                const historyCol = collection(db, 'artifacts', appId, 'public', 'data', 'examHistory');
+                onSnapshot(historyCol, (snapshot) => {
+                    const loadedHistory = [];
+                    snapshot.forEach(docSnap => loadedHistory.push(docSnap.data()));
+                    loadedHistory.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+                    userHistoryRecords = loadedHistory;
+                    if (!document.getElementById('view-stats').classList.contains('hidden')) {
+                        renderUserStatsView();
+                    }
+                }, () => {});
+            } catch (err) {}
+        }
+
+        async function saveSubjectToFirestore(subjectObj) {
+            try {
+                if (!auth.currentUser) return;
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'subjects', subjectObj.subjectId), subjectObj);
+            } catch (e) {}
+        }
+
+        async function saveExamAttemptRecord(recordObj) {
+            userHistoryRecords.unshift(recordObj);
+            try {
+                if (!auth.currentUser) return;
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'examHistory', recordObj.attemptId), recordObj);
+            } catch (e) {}
+        }
+
+        function stopExamTimer() {
+            if (examTimerInterval) {
+                clearInterval(examTimerInterval);
+                examTimerInterval = null;
+            }
+        }
+
+        function formatSecondsToMMSS(totalSec) {
+            const mins = Math.floor(Math.max(0, totalSec) / 60);
+            const secs = Math.floor(Math.max(0, totalSec) % 60);
+            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        function showToast(message, iconName = 'info') {
+            const toast = document.getElementById('retroToast');
+            const msgEl = document.getElementById('retroToastMessage');
+            const iconEl = document.getElementById('retroToastIcon');
+
+            msgEl.textContent = message;
+            iconEl.textContent = iconName;
+            toast.classList.remove('hidden');
+
+            clearTimeout(window._toastTimer);
+            window._toastTimer = setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3400);
+        }
+
+        function navigateTo(viewName) {
+            if (viewName === 'admin' && !isAdminRouteAuthorized()) {
+                showToast('ระบบหลังบ้านเข้าได้เฉพาะลิงก์ /FolioQuiz/Admin เท่านั้น', 'lock');
+                return;
+            }
+
+            if (viewName !== 'exam') {
+                stopExamTimer();
+            }
+
+            const views = ['login', 'dashboard', 'exam', 'summary', 'stats', 'admin'];
+            views.forEach(v => {
+                const el = document.getElementById(`view-${v}`);
+                if (el) el.classList.add('hidden');
+            });
+
+            const target = document.getElementById(`view-${viewName}`);
+            if (target) target.classList.remove('hidden');
+
+            const headerControls = document.getElementById('headerUserControls');
+            if (viewName === 'login') {
+                headerControls.classList.add('hidden');
+                headerControls.classList.remove('flex');
+            } else {
+                headerControls.classList.remove('hidden');
+                headerControls.classList.add('flex');
+                updateAdminNavVisibility();
+            }
+
+            if (viewName === 'dashboard') {
+                backToSubjectList();
+                renderDashboardSubjects();
+            } else if (viewName === 'stats') {
+                renderUserStatsView();
+            } else if (viewName === 'admin') {
+                renderAdminView();
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function handleLogoClick() {
+            if (currentUser) {
+                navigateTo('dashboard');
+            } else {
+                navigateTo('login');
+            }
+        }
+
+        function switchAuthTab(mode) {
+            authMode = mode;
+            const tabLogin = document.getElementById('tabLoginMode');
+            const tabRegister = document.getElementById('tabRegisterMode');
+            const submitText = document.getElementById('authSubmitText');
+
+            if (mode === 'login') {
+                tabLogin.className = 'py-1.5 rounded-md text-xs sm:text-sm font-bold bg-retro-primary text-retro-paper border border-retro-ink shadow-sm';
+                tabRegister.className = 'py-1.5 rounded-md text-xs sm:text-sm font-bold text-retro-ink hover:bg-retro-paper/60';
+                submitText.textContent = 'เข้าสู่ระบบ';
+            } else {
+                tabRegister.className = 'py-1.5 rounded-md text-xs sm:text-sm font-bold bg-retro-secondary text-retro-paper border border-retro-ink shadow-sm';
+                tabLogin.className = 'py-1.5 rounded-md text-xs sm:text-sm font-bold text-retro-ink hover:bg-retro-paper/60';
+                submitText.textContent = 'ตั้งชื่อผู้ใช้และเข้าสู่ระบบ';
+            }
+        }
+
+        function togglePasswordVisibility() {
+            const input = document.getElementById('loginPassword');
+            const icon = document.getElementById('eyeIcon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = 'visibility_off';
+            } else {
+                input.type = 'password';
+                icon.textContent = 'visibility';
+            }
+        }
+
+        async function handleGoogleSignIn() {
+            try {
+                const result = await signInWithPopup(auth, googleProvider);
+                const userEmail = result.user?.email || result.user?.displayName || 'Gmail User';
+                loginSuccess(userEmail);
+                showToast(`เข้าสู่ระบบสำเร็จ : ${userEmail}`, 'check_circle');
+            } catch (error) {
+                showToast('ไม่สามารถเปิดป๊อปอัป Google ได้ กรุณาตรวจสอบโดเมนใน Firebase Authentication', 'warning');
+            }
+        }
+
+        async function handleCredentialSubmit(e) {
+            e.preventDefault();
+            const identifier = document.getElementById('loginIdentifier').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+
+            if (!identifier || !password) {
+                showToast('กรุณากรอกข้อมูลให้ครบถ้วน', 'warning');
+                return;
+            }
+
+            if (authMode === 'login' && identifier.toLowerCase() === 'admin' && password === '140425') {
+                loginSuccess('Admin');
+                showToast('เข้าสู่ระบบด้วยบัญชี Admin สำเร็จ', 'verified');
+                return;
+            }
+
+            const emailFormatted = identifier.includes('@') ? identifier : `${identifier.toLowerCase()}@folioquiz.app`;
+
+            if (authMode === 'register') {
+                try {
+                    await createUserWithEmailAndPassword(auth, emailFormatted, password);
+                    loginSuccess(identifier);
+                    showToast(`ตั้งชื่อผู้ใช้สำเร็จ : ${identifier}`, 'check_circle');
+                    return;
+                } catch (err) {
+                    const exists = registeredUsers.find(u => u.identifier.toLowerCase() === identifier.toLowerCase());
+                    if (exists) {
+                        showToast('ชื่อผู้ใช้นี้มีในระบบแล้ว', 'error');
+                        return;
+                    }
+                    registeredUsers.push({ identifier, password, role: 'user' });
+                    loginSuccess(identifier);
+                    showToast(`ตั้งชื่อผู้ใช้สำเร็จ : ${identifier}`, 'check_circle');
+                    return;
+                }
+            }
+
+            try {
+                await signInWithEmailAndPassword(auth, emailFormatted, password);
+                loginSuccess(identifier);
+                showToast(`ยินดีต้อนรับ : ${identifier}`, 'verified');
+            } catch (err) {
+                const matchedUser = registeredUsers.find(
+                    u => u.identifier.toLowerCase() === identifier.toLowerCase() && u.password === password
+                );
+                if (matchedUser) {
+                    loginSuccess(matchedUser.identifier);
+                    showToast(`ยินดีต้อนรับ : ${matchedUser.identifier}`, 'verified');
+                } else {
+                    showToast('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', 'error');
+                }
+            }
+        }
+
+        function loginSuccess(displayName) {
+            currentUser = displayName;
+            document.getElementById('currentUserDisplay').textContent = displayName;
+            if (isAdminRouteAuthorized()) {
+                navigateTo('admin');
+            } else {
+                navigateTo('dashboard');
+            }
+        }
+
+        async function logoutUser() {
+            currentUser = null;
+            document.getElementById('loginPassword').value = '';
+            try {
+                await signOut(auth);
+            } catch (e) {}
+            navigateTo('login');
+            showToast('ออกจากระบบเรียบร้อยแล้ว', 'logout');
+        }
+
+        function renderDashboardSubjects() {
+            const container = document.getElementById('subjectCardsContainer');
+            const totalBadge = document.getElementById('totalSubjectCountBadge');
+            totalBadge.textContent = subjectsData.length;
+
+            container.innerHTML = '';
+
+            if (subjectsData.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full retro-card p-8 text-center space-y-2">
+                        <span class="material-symbols-outlined text-4xl text-retro-muted">folder_off</span>
+                        <p class="text-base font-bold text-retro-ink">ยังไม่มีรายวิชาในคลังข้อสอบ</p>
+                    </div>
+                `;
+                return;
+            }
+
+            subjectsData.forEach((subj) => {
+                const totalSets = subj.examSets?.length || 0;
+                const totalQuestions = (subj.examSets || []).reduce((acc, s) => acc + (s.questions?.length || 0), 0);
+
+                const card = document.createElement('div');
+                card.onclick = () => openSubjectConfiguration(subj.subjectId);
+                card.className = 'cursor-pointer retro-card p-5 hover:bg-retro-cream/50 transition-all flex flex-col justify-between gap-4';
+
+                card.innerHTML = `
+                    <div class="flex items-start gap-3.5">
+                        <div class="w-11 h-11 rounded-lg bg-retro-primary text-white border-2 border-retro-ink flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-2xl">${subj.icon || 'folder'}</span>
+                        </div>
+                        <div class="min-w-0">
+                            <h4 class="text-base sm:text-lg font-bold text-retro-ink leading-snug">${subj.subjectTitle}</h4>
+                            <p class="text-xs text-retro-muted mt-0.5">${subj.category || ''}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between pt-3 border-t border-dashed border-retro-ink/20 text-xs font-bold text-retro-ink">
+                        <span>มีข้อสอบ : ${totalSets} ชุด (${totalQuestions} ข้อ)</span>
+                        <span class="inline-flex items-center gap-1 text-retro-primary">
+                            <span>เลือกวิชา</span>
+                            <span class="material-symbols-outlined text-base">arrow_forward</span>
+                        </span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function openSubjectConfiguration(subjectId) {
+            const subj = subjectsData.find(s => s.subjectId === subjectId);
+            if (!subj || !subj.examSets || subj.examSets.length === 0) {
+                showToast('วิชานี้ยังไม่มีชุดข้อสอบ', 'warning');
+                return;
+            }
+
+            selectedSubjectId = subjectId;
+            selectedExamSetId = subj.examSets[0].id;
+
+            document.getElementById('dashboard-step-subjects').classList.add('hidden');
+            document.getElementById('dashboard-step-config').classList.remove('hidden');
+
+            document.getElementById('configSubjectTitle').textContent = subj.subjectTitle;
+            document.getElementById('configSubjectCategory').textContent = subj.category || '';
+
+            const dropdown = document.getElementById('examSetDropdown');
+            dropdown.innerHTML = '';
+            subj.examSets.forEach(setItem => {
+                const opt = document.createElement('option');
+                opt.value = setItem.id;
+                opt.textContent = `${setItem.setLabel} (${setItem.questions.length} ข้อ)`;
+                dropdown.appendChild(opt);
+            });
+
+            renderAllowedSettingsForCurrentSet();
+        }
+
+        function backToSubjectList() {
+            document.getElementById('dashboard-step-config').classList.add('hidden');
+            document.getElementById('dashboard-step-subjects').classList.remove('hidden');
+        }
+
+        function handleExamSetDropdownChange() {
+            selectedExamSetId = document.getElementById('examSetDropdown').value;
+            renderAllowedSettingsForCurrentSet();
+        }
+
+        function getCurrentSelectedExamSet() {
+            const subj = subjectsData.find(s => s.subjectId === selectedSubjectId);
+            if (!subj || !subj.examSets || subj.examSets.length === 0) return null;
+            return subj.examSets.find(e => e.id === selectedExamSetId) || subj.examSets[0];
+        }
+
+        function renderAllowedSettingsForCurrentSet() {
+            const currentSet = getCurrentSelectedExamSet();
+            if (!currentSet) return;
+
+            const allowedOrders = currentSet.allowedOrderModes || ['sequential', 'random', 'topic'];
+            const allowedFeedbacks = currentSet.allowedFeedbackModes || ['instant', 'after'];
+
+            const orderContainer = document.getElementById('orderModeOptionsContainer');
+            orderContainer.innerHTML = '';
+
+            const orderMeta = [
+                { key: 'sequential', label: 'เรียงข้อ', icon: 'format_list_numbered' },
+                { key: 'random', label: 'สุ่มข้อ', icon: 'shuffle' },
+                { key: 'topic', label: 'ตามเรื่องย่อย', icon: 'category' }
+            ];
+
+            let firstOrderChecked = false;
+            orderMeta.forEach(item => {
+                if (!allowedOrders.includes(item.key)) return;
+                const checkedAttr = !firstOrderChecked ? 'checked' : '';
+                firstOrderChecked = true;
+
+                const labelEl = document.createElement('label');
+                labelEl.className = 'cursor-pointer flex items-center gap-2.5 p-2.5 rounded-lg border-2 border-retro-ink bg-retro-bg hover:bg-retro-cream/60 transition-colors';
+                labelEl.innerHTML = `
+                    <input type="radio" name="orderMode" value="${item.key}" ${checkedAttr} onchange="updateOrderModeUI()" class="w-4 h-4 accent-[#E86F2C]">
+                    <span class="text-sm font-bold flex-grow">${item.label}</span>
+                    <span class="material-symbols-outlined text-base text-retro-muted">${item.icon}</span>
+                `;
+                orderContainer.appendChild(labelEl);
+            });
+
+            const topicDropdown = document.getElementById('topicSelectDropdown');
+            const topics = Array.from(new Set((currentSet.questions || []).map(q => q.topic || 'ทั่วไป')));
+            topicDropdown.innerHTML = `<option value="ALL">ทุกเรื่องรวมกัน (${(currentSet.questions || []).length} ข้อ)</option>`;
+            topics.forEach(t => {
+                const count = (currentSet.questions || []).filter(q => (q.topic || 'ทั่วไป') === t).length;
+                const opt = document.createElement('option');
+                opt.value = t;
+                opt.textContent = `เรื่อง : ${t} (${count} ข้อ)`;
+                topicDropdown.appendChild(opt);
+            });
+
+            updateOrderModeUI();
+
+            const feedbackContainer = document.getElementById('feedbackModeOptionsContainer');
+            feedbackContainer.innerHTML = '';
+
+            const feedbackMeta = [
+                { key: 'instant', label: 'เฉลยในข้อเลย' },
+                { key: 'after', label: 'เฉลยหลังทำเสร็จ' }
+            ];
+
+            let firstFeedbackChecked = false;
+            feedbackMeta.forEach(item => {
+                if (!allowedFeedbacks.includes(item.key)) return;
+                const checkedAttr = !firstFeedbackChecked ? 'checked' : '';
+                firstFeedbackChecked = true;
+
+                const labelEl = document.createElement('label');
+                labelEl.className = 'cursor-pointer flex items-center gap-2.5 p-3 rounded-lg border-2 border-retro-ink bg-retro-bg hover:bg-retro-cream/60 transition-colors';
+                labelEl.innerHTML = `
+                    <input type="radio" name="feedbackMode" value="${item.key}" ${checkedAttr} class="w-4 h-4 accent-[#3D6B58]">
+                    <span class="text-sm font-bold">${item.label}</span>
+                `;
+                feedbackContainer.appendChild(labelEl);
+            });
+        }
+
+        function updateOrderModeUI() {
+            const selectedOrder = document.querySelector('input[name="orderMode"]:checked')?.value || 'sequential';
+            const topicWrapper = document.getElementById('topicFilterWrapper');
+            if (selectedOrder === 'topic') {
+                topicWrapper.classList.remove('hidden');
+            } else {
+                topicWrapper.classList.add('hidden');
+            }
+        }
+
+        function updateTimerModeUI() {
+            const selectedTimer = document.querySelector('input[name="timerMode"]:checked')?.value || 'none';
+            const minutesWrapper = document.getElementById('countdownMinutesWrapper');
+            if (selectedTimer === 'countdown') {
+                minutesWrapper.classList.remove('hidden');
+            } else {
+                minutesWrapper.classList.add('hidden');
+            }
+        }
+
+        function startSelectedExam() {
+            const subj = subjectsData.find(s => s.subjectId === selectedSubjectId);
+            const examSet = getCurrentSelectedExamSet();
+            if (!examSet || !examSet.questions || examSet.questions.length === 0) {
+                showToast('ชุดข้อสอบนี้ยังไม่มีคำถาม', 'warning');
+                return;
+            }
+
+            const orderMode = document.querySelector('input[name="orderMode"]:checked')?.value || 'sequential';
+            const feedbackMode = document.querySelector('input[name="feedbackMode"]:checked')?.value || 'instant';
+            const selectedTopic = document.getElementById('topicSelectDropdown').value || 'ALL';
+            const timerMode = document.querySelector('input[name="timerMode"]:checked')?.value || 'none';
+            const countdownMins = Math.max(1, parseInt(document.getElementById('countdownMinutesInput')?.value || '15', 10));
+
+            let pool = JSON.parse(JSON.stringify(examSet.questions));
+
+            if (orderMode === 'topic' && selectedTopic !== 'ALL') {
+                pool = pool.filter(q => (q.topic || 'ทั่วไป') === selectedTopic);
+            } else if (orderMode === 'topic' && selectedTopic === 'ALL') {
+                pool.sort((a, b) => (a.topic || '').localeCompare(b.topic || ''));
+            } else if (orderMode === 'random') {
+                for (let i = pool.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [pool[i], pool[j]] = [pool[j], pool[i]];
+                }
+            }
+
+            if (pool.length === 0) {
+                showToast('ไม่มีข้อสอบในหมวดเรื่องที่เลือก', 'warning');
+                return;
+            }
+
+            activeSession = {
+                examTitle: examSet.title || `${subj.subjectTitle} — ${examSet.setLabel}`,
+                examCategory: subj.subjectTitle,
+                setLabel: examSet.setLabel,
+                orderMode,
+                selectedTopic,
+                feedbackMode,
+                timerMode,
+                elapsedSeconds: 0,
+                remainingSeconds: countdownMins * 60,
+                questions: pool,
+                userAnswers: new Array(pool.length).fill(null),
+                currentIndex: 0
+            };
+
+            document.getElementById('examCenterTitle').textContent = activeSession.examTitle;
+            document.getElementById('examCenterSubtitle').textContent = activeSession.examCategory;
+
+            const orderLabel = orderMode === 'random' ? 'สุ่มข้อ' : (orderMode === 'topic' ? `ตามเรื่อง : ${selectedTopic}` : 'เรียงข้อ');
+            const feedbackLabel = feedbackMode === 'instant' ? 'เฉลยในข้อเลย' : 'เฉลยหลังทำเสร็จ';
+            document.getElementById('examModeBadgeContainer').innerHTML = `
+                <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-retro-cream border border-retro-ink">${orderLabel}</span>
+                <span class="text-[11px] font-bold px-2 py-0.5 rounded ${feedbackMode === 'instant' ? 'bg-retro-secondary text-white' : 'bg-retro-primary text-white'} border border-retro-ink">${feedbackLabel}</span>
+            `;
+
+            const slider = document.getElementById('questionRangeSlider');
+            slider.min = 1;
+            slider.max = pool.length;
+            slider.value = 1;
+
+            navigateTo('exam');
+            setupExamTimerDisplay();
+            renderCurrentExamQuestion();
+        }
+
+        function setupExamTimerDisplay() {
+            stopExamTimer();
+            const badge = document.getElementById('examTimerBadge');
+            const textEl = document.getElementById('examTimerText');
+
+            if (activeSession.timerMode === 'none') {
+                badge.classList.add('hidden');
+                badge.classList.remove('inline-flex');
+                return;
+            }
+
+            badge.classList.remove('hidden');
+            badge.classList.add('inline-flex');
+
+            const updateClock = () => {
+                if (activeSession.timerMode === 'stopwatch') {
+                    textEl.textContent = formatSecondsToMMSS(activeSession.elapsedSeconds);
+                } else if (activeSession.timerMode === 'countdown') {
+                    textEl.textContent = formatSecondsToMMSS(activeSession.remainingSeconds);
+                }
+            };
+
+            updateClock();
+
+            examTimerInterval = setInterval(() => {
+                activeSession.elapsedSeconds++;
+                if (activeSession.timerMode === 'countdown') {
+                    activeSession.remainingSeconds--;
+                    updateClock();
+                    if (activeSession.remainingSeconds <= 0) {
+                        stopExamTimer();
+                        showToast('หมดเวลาทำข้อสอบ ระบบส่งคำตอบอัตโนมัติ', 'alarm');
+                        submitAndShowSummary();
+                    }
+                } else {
+                    updateClock();
+                }
+            }, 1000);
+        }
+
+        function handleSliderDrag(val) {
+            const targetIdx = parseInt(val, 10) - 1;
+            if (targetIdx >= 0 && targetIdx < activeSession.questions.length) {
+                activeSession.currentIndex = targetIdx;
+                renderCurrentExamQuestion();
+            }
+        }
+
+        function goToRelativeQuestion(step) {
+            const nextIdx = activeSession.currentIndex + step;
+            if (nextIdx >= 0 && nextIdx < activeSession.questions.length) {
+                activeSession.currentIndex = nextIdx;
+                renderCurrentExamQuestion();
+            }
+        }
+
+        function jumpToQuestionIndex(idx) {
+            activeSession.currentIndex = idx;
+            renderCurrentExamQuestion();
+        }
+
+        function buildExplanationHTML(q, userAnsIdx) {
+            const isCorrect = userAnsIdx === q.answerIndex;
+            const correctChoiceText = q.options[q.answerIndex];
+            const correctReason = (q.optionExplanations && q.optionExplanations[q.answerIndex])
+                ? q.optionExplanations[q.answerIndex]
+                : (q.explanation || 'เป็นคำตอบที่ถูกต้องตามหลักเกณฑ์');
+
+            if (isCorrect) {
+                return `
+                    <div class="p-3 rounded-lg bg-[#E5F2EA] border border-retro-secondary text-retro-ink">
+                        <p class="font-bold text-retro-secondary">ทำไมข้อ ${correctChoiceText} ถึงถูกต้อง :</p>
+                        <p class="mt-0.5">${correctReason}</p>
+                        ${q.explanation && q.explanation !== correctReason ? `<p class="mt-1 text-retro-muted">สรุปเพิ่มเติม : ${q.explanation}</p>` : ''}
+                    </div>
+                `;
+            } else {
+                const wrongChoiceText = userAnsIdx !== null && userAnsIdx !== undefined ? q.options[userAnsIdx] : 'ไม่ได้เลือกคำตอบ';
+                const wrongReason = (userAnsIdx !== null && userAnsIdx !== undefined && q.optionExplanations && q.optionExplanations[userAnsIdx])
+                    ? q.optionExplanations[userAnsIdx]
+                    : 'ตัวเลือกนี้ไม่ตรงตามเงื่อนไขของโจทย์';
+
+                return `
+                    <div class="space-y-2">
+                        <div class="p-3 rounded-lg bg-[#FCE8E6] border border-retro-danger text-retro-ink">
+                            <p class="font-bold text-retro-danger">ทำไมข้อที่คุณเลือก (${wrongChoiceText}) ถึงผิด :</p>
+                            <p class="mt-0.5">${wrongReason}</p>
+                        </div>
+                        <div class="p-3 rounded-lg bg-[#E5F2EA] border border-retro-secondary text-retro-ink">
+                            <p class="font-bold text-retro-secondary">ทำไมข้อที่ถูก (${correctChoiceText}) ถึงถูกต้อง :</p>
+                            <p class="mt-0.5">${correctReason}</p>
+                            ${q.explanation && q.explanation !== correctReason ? `<p class="mt-1 text-retro-muted">อธิบายเพิ่มเติม : ${q.explanation}</p>` : ''}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function renderCurrentExamQuestion() {
+            const total = activeSession.questions.length;
+            const idx = activeSession.currentIndex;
+            const currentQ = activeSession.questions[idx];
+            const selectedAns = activeSession.userAnswers[idx];
+
+            const slider = document.getElementById('questionRangeSlider');
+            slider.value = idx + 1;
+            document.getElementById('sliderQuestionCounter').textContent = `${idx + 1}/${total}`;
+
+            const pillsBar = document.getElementById('questionPillsBar');
+            pillsBar.innerHTML = '';
+            activeSession.questions.forEach((_, qIndex) => {
+                const isCurrent = qIndex === idx;
+                const ans = activeSession.userAnswers[qIndex];
+                const isAnswered = ans !== null;
+
+                let pillStyle = 'bg-retro-bg text-retro-muted border-retro-ink/40';
+                if (isCurrent) {
+                    pillStyle = 'bg-retro-primary text-white border-retro-ink font-bold shadow-[2px_2px_0px_#2B2623]';
+                } else if (isAnswered) {
+                    if (activeSession.feedbackMode === 'instant') {
+                        const isCorrect = ans === activeSession.questions[qIndex].answerIndex;
+                        pillStyle = isCorrect
+                            ? 'bg-retro-secondary text-white border-retro-ink'
+                            : 'bg-retro-danger text-white border-retro-ink';
+                    } else {
+                        pillStyle = 'bg-retro-accent/50 text-retro-ink border-retro-ink font-bold';
+                    }
+                }
+
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.onclick = () => jumpToQuestionIndex(qIndex);
+                btn.className = `w-7 h-7 rounded-md border text-xs shrink-0 flex items-center justify-center transition-all ${pillStyle}`;
+                btn.textContent = qIndex + 1;
+                pillsBar.appendChild(btn);
+            });
+
+            document.getElementById('questionTopicBadge').innerHTML = `
+                <span class="material-symbols-outlined text-sm">bookmark</span>
+                <span>หมวดเรื่อง : ${currentQ.topic || 'ทั่วไป'}</span>
+            `;
+            document.getElementById('questionChoicesCountHint').textContent = `ตัวเลือก : ${currentQ.options.length} ข้อ`;
+            document.getElementById('questionPromptText').textContent = `ข้อที่ ${idx + 1}. ${currentQ.q}`;
+
+            const choicesContainer = document.getElementById('questionChoicesContainer');
+            choicesContainer.innerHTML = '';
+
+            const isInstant = activeSession.feedbackMode === 'instant';
+            const hasAnsweredThis = selectedAns !== null;
+
+            currentQ.options.forEach((optionText, optIdx) => {
+                const isThisSelected = selectedAns === optIdx;
+                const isThisCorrect = optIdx === currentQ.answerIndex;
+
+                let cardClass = 'bg-retro-bg hover:bg-retro-cream/70 border-retro-ink text-retro-ink';
+                let badgeClass = 'bg-retro-paper border-retro-ink text-retro-ink';
+                let rightStatusIcon = '';
+
+                if (hasAnsweredThis && isInstant) {
+                    if (isThisCorrect) {
+                        cardClass = 'bg-[#E5F2EA] border-retro-secondary text-retro-ink shadow-[3px_3px_0px_#3D6B58]';
+                        badgeClass = 'bg-retro-secondary text-white border-retro-ink';
+                        rightStatusIcon = `<span class="material-symbols-outlined text-retro-secondary font-bold">check_circle</span>`;
+                    } else if (isThisSelected && !isThisCorrect) {
+                        cardClass = 'bg-[#FCE8E6] border-retro-danger text-retro-ink shadow-[3px_3px_0px_#B83B2A]';
+                        badgeClass = 'bg-retro-danger text-white border-retro-ink';
+                        rightStatusIcon = `<span class="material-symbols-outlined text-retro-danger font-bold">cancel</span>`;
+                    } else {
+                        cardClass = 'bg-retro-bg/60 border-retro-ink/40 text-retro-muted opacity-75';
+                    }
+                } else if (isThisSelected) {
+                    cardClass = 'bg-retro-cream border-retro-primary text-retro-ink shadow-[3px_3px_0px_#E86F2C] ring-1 ring-retro-primary';
+                    badgeClass = 'bg-retro-primary text-white border-retro-ink';
+                    rightStatusIcon = `<span class="material-symbols-outlined text-retro-primary">radio_button_checked</span>`;
+                }
+
+                const optionBtn = document.createElement('button');
+                optionBtn.type = 'button';
+                optionBtn.onclick = () => selectAnswerChoice(optIdx);
+                optionBtn.className = `w-full text-left p-3.5 sm:p-4 rounded-xl border-2 transition-all flex items-center justify-between gap-3 ${cardClass}`;
+
+                const badgeLetter = THAI_OPTION_LABELS[optIdx] || (optIdx + 1);
+
+                optionBtn.innerHTML = `
+                    <div class="flex items-center gap-3 min-w-0">
+                        <span class="w-8 h-8 rounded-lg border-2 flex items-center justify-center font-bold text-sm shrink-0 ${badgeClass}">
+                            ${badgeLetter}
+                        </span>
+                        <span class="text-sm sm:text-base font-medium leading-snug break-words">${optionText}</span>
+                    </div>
+                    <div class="shrink-0">
+                        ${rightStatusIcon}
+                    </div>
+                `;
+                choicesContainer.appendChild(optionBtn);
+            });
+
+            const feedbackBox = document.getElementById('instantFeedbackBox');
+            const feedbackHeader = document.getElementById('instantFeedbackHeader');
+            const feedbackDetails = document.getElementById('instantFeedbackDetails');
+
+            if (isInstant && hasAnsweredThis) {
+                const isCorrect = selectedAns === currentQ.answerIndex;
+                feedbackBox.classList.remove('hidden');
+                if (isCorrect) {
+                    feedbackHeader.className = 'flex items-center gap-2 font-bold text-sm sm:text-base text-retro-secondary';
+                    feedbackHeader.innerHTML = `<span class="material-symbols-outlined">verified</span><span>คำตอบถูกต้อง</span>`;
+                } else {
+                    feedbackHeader.className = 'flex items-center gap-2 font-bold text-sm sm:text-base text-retro-danger';
+                    feedbackHeader.innerHTML = `<span class="material-symbols-outlined">cancel</span><span>คำตอบยังไม่ถูกต้อง</span>`;
+                }
+                feedbackDetails.innerHTML = buildExplanationHTML(currentQ, selectedAns);
+            } else {
+                feedbackBox.classList.add('hidden');
+            }
+
+            document.getElementById('prevQuestionBtn').disabled = (idx === 0);
+            document.getElementById('nextQuestionBtn').disabled = (idx === total - 1);
+        }
+
+        function selectAnswerChoice(optIdx) {
+            activeSession.userAnswers[activeSession.currentIndex] = optIdx;
+            renderCurrentExamQuestion();
+        }
+
+        function submitAndShowSummary() {
+            stopExamTimer();
+            const total = activeSession.questions.length;
+            let correctCount = 0;
+
+            activeSession.questions.forEach((q, idx) => {
+                if (activeSession.userAnswers[idx] === q.answerIndex) {
+                    correctCount++;
+                }
+            });
+
+            const percent = Math.round((correctCount / total) * 100);
+            const durationText = activeSession.timerMode !== 'none'
+                ? ` • ใช้เวลา : ${formatSecondsToMMSS(activeSession.elapsedSeconds)}`
+                : '';
+
+            document.getElementById('summaryExamTitle').textContent = activeSession.examTitle;
+            document.getElementById('summaryExamMeta').textContent = `จำนวน : ${total} ข้อ${durationText}`;
+            document.getElementById('summaryScoreNumber').textContent = `${correctCount} / ${total}`;
+            document.getElementById('summaryScorePercent').textContent = `คิดเป็น ${percent}%`;
+
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('th-TH', { day: '2-digit', month: 'short', year: 'numeric' }) +
+                            ' ' + now.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
+
+            const attemptRecord = {
+                attemptId: 'att-' + Date.now(),
+                user: currentUser || 'ผู้ใช้งานทั่วไป',
+                subjectTitle: activeSession.examCategory,
+                examTitle: activeSession.examTitle,
+                setLabel: activeSession.setLabel || '',
+                orderMode: activeSession.orderMode,
+                feedbackMode: activeSession.feedbackMode,
+                timerMode: activeSession.timerMode,
+                elapsedSeconds: activeSession.elapsedSeconds,
+                score: correctCount,
+                total: total,
+                percent: percent,
+                dateString: dateStr,
+                timestamp: Date.now(),
+                details: activeSession.questions.map((q, i) => ({
+                    q: q.q,
+                    topic: q.topic || 'ทั่วไป',
+                    options: q.options,
+                    optionExplanations: q.optionExplanations || [],
+                    answerIndex: q.answerIndex,
+                    userAnswer: activeSession.userAnswers[i],
+                    explanation: q.explanation || ''
+                }))
+            };
+
+            saveExamAttemptRecord(attemptRecord);
+
+            const reviewList = document.getElementById('summaryReviewList');
+            reviewList.innerHTML = '';
+
+            activeSession.questions.forEach((q, idx) => {
+                const userAns = activeSession.userAnswers[idx];
+                const isCorrect = userAns === q.answerIndex;
+                const userAnsText = userAns !== null ? q.options[userAns] : 'ไม่ได้เลือกคำตอบ';
+                const correctAnsText = q.options[q.answerIndex];
+
+                const item = document.createElement('div');
+                item.className = 'retro-card-sm p-4 sm:p-5 space-y-3';
+                item.innerHTML = `
+                    <div class="flex items-start justify-between gap-2">
+                        <span class="text-xs font-bold px-2 py-0.5 rounded border border-retro-ink bg-retro-cream">
+                            ข้อที่ ${idx + 1} • ${q.topic || 'ทั่วไป'}
+                        </span>
+                        <span class="text-xs font-bold px-2.5 py-0.5 rounded border border-retro-ink ${isCorrect ? 'bg-retro-secondary text-white' : 'bg-retro-danger text-white'}">
+                            ${isCorrect ? 'ตอบถูก' : 'ตอบผิด'}
+                        </span>
+                    </div>
+                    <p class="font-bold text-sm sm:text-base text-retro-ink">${q.q}</p>
+                    <div class="text-xs sm:text-sm space-y-1 bg-retro-bg p-3 rounded-lg border border-retro-ink/40">
+                        <p><strong>คำตอบของคุณ :</strong> <span class="${isCorrect ? 'text-retro-secondary font-bold' : 'text-retro-danger font-bold'}">${userAnsText}</span></p>
+                        <p><strong>คำตอบที่ถูกต้อง :</strong> <span class="text-retro-secondary font-bold">${correctAnsText}</span></p>
+                    </div>
+                    <div class="text-xs sm:text-sm">
+                        ${buildExplanationHTML(q, userAns)}
+                    </div>
+                `;
+                reviewList.appendChild(item);
+            });
+
+            navigateTo('summary');
+        }
+
+        function restartCurrentExam() {
+            startSelectedExam();
+        }
+
+        function renderUserStatsView() {
+            const activeUsername = currentUser || 'Admin';
+            document.getElementById('statsUsernameLabel').textContent = activeUsername;
+            document.getElementById('statsAttemptDetailBox').classList.add('hidden');
+
+            const myRecords = userHistoryRecords.filter(
+                r => (r.user || '').toLowerCase() === activeUsername.toLowerCase()
+            );
+
+            const totalAttempts = myRecords.length;
+            const avgPercent = totalAttempts > 0
+                ? Math.round(myRecords.reduce((acc, r) => acc + (r.percent || 0), 0) / totalAttempts)
+                : 0;
+            const bestPercent = totalAttempts > 0
+                ? Math.max(...myRecords.map(r => r.percent || 0))
+                : 0;
+
+            document.getElementById('statTotalAttempts').textContent = `${totalAttempts} ครั้ง`;
+            document.getElementById('statAverageScore').textContent = `${avgPercent}%`;
+            document.getElementById('statBestScore').textContent = `${bestPercent}%`;
+
+            const listEl = document.getElementById('userStatsHistoryList');
+            listEl.innerHTML = '';
+
+            if (myRecords.length === 0) {
+                listEl.innerHTML = `
+                    <div class="p-6 text-center bg-retro-bg border-2 border-dashed border-retro-ink/30 rounded-xl text-sm text-retro-muted font-semibold">
+                        ยังไม่มีประวัติการทำข้อสอบของบัญชีนี้
+                    </div>
+                `;
+                return;
+            }
+
+            myRecords.forEach((rec) => {
+                const orderText = rec.orderMode === 'random' ? 'สุ่มข้อ' : (rec.orderMode === 'topic' ? 'ตามเรื่องย่อย' : 'เรียงข้อ');
+                const feedbackText = rec.feedbackMode === 'instant' ? 'เฉลยในข้อเลย' : 'เฉลยหลังทำเสร็จ';
+                const timeSpentText = rec.timerMode && rec.timerMode !== 'none'
+                    ? `เวลาที่ใช้ : ${formatSecondsToMMSS(rec.elapsedSeconds || 0)}`
+                    : 'ไม่จับเวลา';
+
+                const card = document.createElement('div');
+                card.onclick = () => openStatsAttemptDetail(rec.attemptId);
+                card.className = 'cursor-pointer retro-card-sm p-4 hover:bg-retro-cream/60 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3';
+                card.innerHTML = `
+                    <div class="space-y-1">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="text-xs font-bold px-2 py-0.5 rounded bg-retro-primary text-white border border-retro-ink">${rec.subjectTitle}</span>
+                            <span class="text-xs text-retro-muted font-semibold">${rec.dateString}</span>
+                        </div>
+                        <h4 class="text-sm sm:text-base font-bold text-retro-ink">${rec.examTitle}</h4>
+                        <p class="text-xs text-retro-muted font-medium">
+                            โหมด : ${orderText} • ${feedbackText} • ${timeSpentText}
+                        </p>
+                    </div>
+                    <div class="flex sm:flex-col items-center sm:items-end justify-between gap-1 shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-dashed border-retro-ink/20">
+                        <span class="text-base sm:text-lg font-bold text-retro-primary">${rec.score} / ${rec.total} (${rec.percent}%)</span>
+                        <span class="text-xs font-bold text-retro-secondary inline-flex items-center gap-0.5">
+                            <span>ดูรายละเอียด</span>
+                            <span class="material-symbols-outlined text-sm">chevron_right</span>
+                        </span>
+                    </div>
+                `;
+                listEl.appendChild(card);
+            });
+        }
+
+        function openStatsAttemptDetail(attemptId) {
+            const rec = userHistoryRecords.find(r => r.attemptId === attemptId);
+            if (!rec) return;
+
+            const box = document.getElementById('statsAttemptDetailBox');
+            box.classList.remove('hidden');
+
+            document.getElementById('detailBoxTitle').textContent = `${rec.examTitle} — คะแนน ${rec.score}/${rec.total} (${rec.percent}%)`;
+            document.getElementById('detailBoxMeta').textContent = `ทำเมื่อ : ${rec.dateString}`;
+
+            const qList = document.getElementById('detailBoxQuestionsList');
+            qList.innerHTML = '';
+
+            (rec.details || []).forEach((qItem, idx) => {
+                const isCorrect = qItem.userAnswer === qItem.answerIndex;
+                const userAnsText = qItem.userAnswer !== null && qItem.userAnswer !== undefined
+                    ? qItem.options[qItem.userAnswer]
+                    : 'ไม่ได้เลือกคำตอบ';
+                const correctAnsText = qItem.options[qItem.answerIndex];
+
+                const row = document.createElement('div');
+                row.className = 'retro-card-sm p-4 space-y-2 bg-retro-paper';
+                row.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-retro-cream border border-retro-ink">ข้อที่ ${idx + 1} • ${qItem.topic}</span>
+                        <span class="text-xs font-bold px-2 py-0.5 rounded border border-retro-ink ${isCorrect ? 'bg-retro-secondary text-white' : 'bg-retro-danger text-white'}">${isCorrect ? 'ตอบถูก' : 'ตอบผิด'}</span>
+                    </div>
+                    <p class="text-sm font-bold text-retro-ink">${qItem.q}</p>
+                    <p class="text-xs"><strong>คำตอบที่เลือก :</strong> <span class="${isCorrect ? 'text-retro-secondary font-bold' : 'text-retro-danger font-bold'}">${userAnsText}</span> | <strong>เฉลย :</strong> <span class="text-retro-secondary font-bold">${correctAnsText}</span></p>
+                    <div class="text-xs">
+                        ${buildExplanationHTML(qItem, qItem.userAnswer)}
+                    </div>
+                `;
+                qList.appendChild(row);
+            });
+
+            box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function closeStatsAttemptDetail() {
+            document.getElementById('statsAttemptDetailBox').classList.add('hidden');
+        }
+
+        function renderAdminView() {
+            const subjSelect = document.getElementById('adminTargetSubjectSelect');
+            const setSelect = document.getElementById('adminTargetExamSetSelect');
+            subjSelect.innerHTML = '';
+            setSelect.innerHTML = '';
+
+            if (subjectsData.length === 0) {
+                const emptySubjOpt = document.createElement('option');
+                emptySubjOpt.value = '';
+                emptySubjOpt.textContent = '-- ยังไม่มีรายวิชา (กดเพิ่มใหม่ด้านล่าง) --';
+                subjSelect.appendChild(emptySubjOpt);
+
+                const emptySetOpt = document.createElement('option');
+                emptySetOpt.value = '';
+                emptySetOpt.textContent = '-- ยังไม่มีชุดข้อสอบ --';
+                setSelect.appendChild(emptySetOpt);
+            } else {
+                if (!selectedSubjectId || !subjectsData.some(s => s.subjectId === selectedSubjectId)) {
+                    selectedSubjectId = subjectsData[0].subjectId;
+                }
+
+                subjectsData.forEach(subj => {
+                    const opt = document.createElement('option');
+                    opt.value = subj.subjectId;
+                    opt.textContent = subj.subjectTitle;
+                    if (subj.subjectId === selectedSubjectId) opt.selected = true;
+                    subjSelect.appendChild(opt);
+                });
+
+                const currentSubj = subjectsData.find(s => s.subjectId === selectedSubjectId) || subjectsData[0];
+                if (currentSubj && currentSubj.examSets && currentSubj.examSets.length > 0) {
+                    if (!selectedExamSetId || !currentSubj.examSets.some(e => e.id === selectedExamSetId)) {
+                        selectedExamSetId = currentSubj.examSets[0].id;
+                    }
+                    currentSubj.examSets.forEach(setItem => {
+                        const opt = document.createElement('option');
+                        opt.value = setItem.id;
+                        opt.textContent = `${setItem.setLabel} (${setItem.questions.length} ข้อ)`;
+                        if (setItem.id === selectedExamSetId) opt.selected = true;
+                        setSelect.appendChild(opt);
+                    });
+                } else {
+                    const emptySetOpt = document.createElement('option');
+                    emptySetOpt.value = '';
+                    emptySetOpt.textContent = '-- ยังไม่มีชุดข้อสอบ --';
+                    setSelect.appendChild(emptySetOpt);
+                }
+            }
+
+            renderAdminOptionsBuilder();
+            renderAdminCurrentExamQuestionsList();
+        }
+
+        function handleAdminSubjectSelectChange() {
+            selectedSubjectId = document.getElementById('adminTargetSubjectSelect').value;
+            const subj = subjectsData.find(s => s.subjectId === selectedSubjectId);
+            if (subj && subj.examSets && subj.examSets.length > 0) {
+                selectedExamSetId = subj.examSets[0].id;
+            } else {
+                selectedExamSetId = null;
+            }
+            renderAdminView();
+        }
+
+        function handleAdminExamSetSelectChange() {
+            selectedExamSetId = document.getElementById('adminTargetExamSetSelect').value;
+            renderAdminCurrentExamQuestionsList();
+        }
+
+        function toggleNewExamSetBox() {
+            document.getElementById('newExamSetBox').classList.toggle('hidden');
+        }
+
+        async function createNewExamSetFromAdmin() {
+            const subjTitle = document.getElementById('newSubjectTitleInput').value.trim();
+            const setLabel = document.getElementById('newExamSetLabelInput').value.trim();
+
+            if (!subjTitle || !setLabel) {
+                showToast('กรุณากรอกชื่อวิชาและชื่อชุดข้อสอบ', 'warning');
+                return;
+            }
+
+            const allowedOrderModes = [];
+            if (document.getElementById('chkAllowSeq').checked) allowedOrderModes.push('sequential');
+            if (document.getElementById('chkAllowRand').checked) allowedOrderModes.push('random');
+            if (document.getElementById('chkAllowTopic').checked) allowedOrderModes.push('topic');
+            if (allowedOrderModes.length === 0) allowedOrderModes.push('sequential');
+
+            const allowedFeedbackModes = [];
+            if (document.getElementById('chkAllowInstant').checked) allowedFeedbackModes.push('instant');
+            if (document.getElementById('chkAllowAfter').checked) allowedFeedbackModes.push('after');
+            if (allowedFeedbackModes.length === 0) allowedFeedbackModes.push('instant');
+
+            let targetSubj = subjectsData.find(s => s.subjectTitle === subjTitle);
+            if (!targetSubj) {
+                targetSubj = {
+                    subjectId: 'subj-' + Date.now(),
+                    subjectTitle: subjTitle,
+                    category: 'หมวดวิชาทั่วไป',
+                    icon: 'assignment',
+                    examSets: []
+                };
+                subjectsData.push(targetSubj);
+            }
+
+            const newSetId = 'set-' + Date.now();
+            targetSubj.examSets.push({
+                id: newSetId,
+                setLabel,
+                title: `${subjTitle} — ${setLabel}`,
+                allowedOrderModes,
+                allowedFeedbackModes,
+                questions: []
+            });
+
+            selectedSubjectId = targetSubj.subjectId;
+            selectedExamSetId = newSetId;
+
+            await saveSubjectToFirestore(targetSubj);
+
+            document.getElementById('newSubjectTitleInput').value = '';
+            document.getElementById('newExamSetLabelInput').value = '';
+            document.getElementById('newExamSetBox').classList.add('hidden');
+
+            renderAdminView();
+            showToast(`บันทึกชุดข้อสอบ "${setLabel}" เรียบร้อยแล้ว`, 'check_circle');
+        }
+
+        function renderAdminOptionsBuilder() {
+            const list = document.getElementById('adminOptionsBuilderList');
+            list.innerHTML = '';
+
+            adminBuilderOptions.forEach((optObj, idx) => {
+                const labelChar = THAI_OPTION_LABELS[idx] || (idx + 1);
+                const isCorrect = adminCorrectOptionIndex === idx;
+                const row = document.createElement('div');
+                row.className = `p-3 rounded-lg border-2 ${isCorrect ? 'border-retro-secondary bg-[#E5F2EA]/50' : 'border-retro-ink/40 bg-retro-bg'} space-y-2`;
+                row.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <input type="radio" name="adminCorrectIndex" ${isCorrect ? 'checked' : ''}
+                            onchange="window.setAdminCorrectIdx(${idx})"
+                            title="ตั้งเป็นข้อที่ถูกต้อง"
+                            class="w-4 h-4 accent-[#3D6B58] cursor-pointer shrink-0">
+                        <span class="w-7 h-7 rounded ${isCorrect ? 'bg-retro-secondary text-white' : 'bg-retro-cream text-retro-ink'} border border-retro-ink flex items-center justify-center text-xs font-bold shrink-0">
+                            ${labelChar}.
+                        </span>
+                        <input type="text" required value="${optObj.text.replace(/"/g, '&quot;')}"
+                            oninput="window.updateAdminOptText(${idx}, this.value)"
+                            placeholder="ข้อความตัวเลือก ${labelChar}."
+                            class="flex-grow p-1.5 bg-retro-paper border border-retro-ink rounded text-sm">
+                        <span class="text-[11px] font-bold px-2 py-0.5 rounded ${isCorrect ? 'bg-retro-secondary text-white' : 'bg-retro-danger/15 text-retro-danger'}">
+                            ${isCorrect ? 'ข้อที่ถูก' : 'ข้อที่ผิด'}
+                        </span>
+                        ${adminBuilderOptions.length > 2 ? `
+                            <button type="button" onclick="window.removeAdminOptionAt(${idx})" class="text-retro-muted hover:text-retro-danger p-1">
+                                <span class="material-symbols-outlined text-base">delete</span>
+                            </button>
+                        ` : ''}
+                    </div>
+                    <div class="pl-9">
+                        <input type="text" required value="${optObj.reason.replace(/"/g, '&quot;')}"
+                            oninput="window.updateAdminOptReason(${idx}, this.value)"
+                            placeholder="${isCorrect ? 'คำอธิบายว่าทำไมตัวเลือก ' + labelChar + '. ถึงถูกต้อง *' : 'คำอธิบายว่าทำไมตัวเลือก ' + labelChar + '. ถึงผิด *'}"
+                            class="w-full p-1.5 bg-retro-paper border border-retro-ink/60 rounded text-xs">
+                    </div>
+                `;
+                list.appendChild(row);
+            });
+        }
+
+        function setAdminCorrectIdx(idx) {
+            adminCorrectOptionIndex = idx;
+            renderAdminOptionsBuilder();
+        }
+
+        function updateAdminOptText(idx, val) {
+            adminBuilderOptions[idx].text = val;
+        }
+
+        function updateAdminOptReason(idx, val) {
+            adminBuilderOptions[idx].reason = val;
+        }
+
+        function setAdminOptionCount(count) {
+            while (adminBuilderOptions.length < count) {
+                adminBuilderOptions.push({ text: '', reason: '' });
+            }
+            if (adminBuilderOptions.length > count) {
+                adminBuilderOptions = adminBuilderOptions.slice(0, count);
+            }
+            if (adminCorrectOptionIndex >= count) {
+                adminCorrectOptionIndex = 0;
+            }
+            renderAdminOptionsBuilder();
+        }
+
+        function addSingleAdminOption() {
+            adminBuilderOptions.push({ text: '', reason: '' });
+            renderAdminOptionsBuilder();
+        }
+
+        function removeAdminOptionAt(idx) {
+            if (adminBuilderOptions.length <= 2) return;
+            adminBuilderOptions.splice(idx, 1);
+            if (adminCorrectOptionIndex >= adminBuilderOptions.length) {
+                adminCorrectOptionIndex = 0;
+            }
+            renderAdminOptionsBuilder();
+        }
+
+        async function handleAdminAddQuestion(e) {
+            e.preventDefault();
+            const targetSubj = subjectsData.find(s => s.subjectId === selectedSubjectId);
+            const targetSet = getCurrentSelectedExamSet();
+            if (!targetSubj || !targetSet) {
+                showToast('กรุณาสร้างหรือเลือกวิชาและชุดข้อสอบในส่วนที่ 1 ก่อน', 'warning');
+                return;
+            }
+
+            const prompt = document.getElementById('adminQuestionPrompt').value.trim();
+            const topic = document.getElementById('adminQuestionTopic').value.trim() || 'ทั่วไป';
+            const explanation = document.getElementById('adminQuestionExplanation').value.trim();
+
+            const formattedOptions = adminBuilderOptions.map((opt, i) => {
+                const clean = opt.text.trim();
+                const prefix = `${THAI_OPTION_LABELS[i] || (i + 1)}. `;
+                return clean.startsWith(prefix) ? clean : `${prefix}${clean}`;
+            });
+
+            const optionExplanations = adminBuilderOptions.map((opt, i) => {
+                if (opt.reason.trim()) return opt.reason.trim();
+                return i === adminCorrectOptionIndex ? explanation : 'ไม่ตรงตามเงื่อนไขที่ถูกต้องของโจทย์';
+            });
+
+            targetSet.questions.push({
+                topic,
+                q: prompt,
+                options: formattedOptions,
+                optionExplanations,
+                answerIndex: adminCorrectOptionIndex,
+                explanation
+            });
+
+            await saveSubjectToFirestore(targetSubj);
+
+            document.getElementById('adminQuestionPrompt').value = '';
+            document.getElementById('adminQuestionExplanation').value = '';
+            adminBuilderOptions = adminBuilderOptions.map(() => ({ text: '', reason: '' }));
+            adminCorrectOptionIndex = 0;
+
+            renderAdminView();
+            showToast('บันทึกข้อสอบเรียบร้อยแล้ว', 'check_circle');
+        }
+
+        function renderAdminCurrentExamQuestionsList() {
+            const targetSet = getCurrentSelectedExamSet();
+            const listEl = document.getElementById('adminQuestionsPreviewList');
+            const countEl = document.getElementById('adminCurrentSetCount');
+
+            listEl.innerHTML = '';
+            if (!targetSet || !targetSet.questions) {
+                countEl.textContent = '0 ข้อ';
+                return;
+            }
+
+            countEl.textContent = `${targetSet.questions.length} ข้อ`;
+
+            targetSet.questions.forEach((q, idx) => {
+                const div = document.createElement('div');
+                div.className = 'p-2.5 bg-retro-bg border border-retro-ink rounded-lg flex items-start justify-between gap-2 text-xs';
+                div.innerHTML = `
+                    <div class="min-w-0">
+                        <p class="font-bold text-retro-ink truncate">${idx + 1}. ${q.q}</p>
+                        <p class="text-retro-muted">หมวด : ${q.topic || 'ทั่วไป'} • ${q.options.length} ตัวเลือก</p>
+                    </div>
+                    <button type="button" onclick="window.deleteQuestionFromAdmin(${idx})" class="text-retro-muted hover:text-retro-danger shrink-0">
+                        <span class="material-symbols-outlined text-base">delete</span>
+                    </button>
+                `;
+                listEl.appendChild(div);
+            });
+        }
+
+        async function deleteQuestionFromAdmin(qIdx) {
+            const targetSubj = subjectsData.find(s => s.subjectId === selectedSubjectId);
+            const targetSet = getCurrentSelectedExamSet();
+            if (!targetSubj || !targetSet) return;
+            targetSet.questions.splice(qIdx, 1);
+            await saveSubjectToFirestore(targetSubj);
+            renderAdminView();
+            showToast('ลบข้อสอบเรียบร้อยแล้ว', 'delete');
+        }
+
+        function copyPatternTemplate() {
+            const text = document.getElementById('patternCodePreview').textContent;
+            const tempInput = document.createElement('textarea');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            showToast('คัดลอกแพตเทิร์น JSON แล้ว', 'content_copy');
+        }
+
+        async function importExamFromJsonPattern() {
+            const raw = document.getElementById('jsonImportTextarea').value.trim();
+            if (!raw) {
+                showToast('กรุณาวางโค้ด JSON ก่อนนำเข้า', 'warning');
+                return;
+            }
+
+            try {
+                const parsed = JSON.parse(raw);
+                if (!parsed.title || !Array.isArray(parsed.questions)) {
+                    showToast('โครงสร้าง JSON ไม่ถูกต้อง', 'error');
+                    return;
+                }
+
+                const normalizedQuestions = parsed.questions.map(qItem => {
+                    const opts = Array.isArray(qItem.options) ? qItem.options : [];
+                    const ansIdx = typeof qItem.answerIndex === 'number' ? qItem.answerIndex : 0;
+                    const mainExp = qItem.explanation || '';
+                    const optExps = opts.map((_, idx) => {
+                        if (Array.isArray(qItem.optionExplanations) && qItem.optionExplanations[idx]) {
+                            return qItem.optionExplanations[idx];
+                        }
+                        return idx === ansIdx ? mainExp : 'ตัวเลือกนี้ไม่ตรงตามเงื่อนไขที่ถูกต้องของโจทย์';
+                    });
+
+                    return {
+                        topic: qItem.topic || 'ทั่วไป',
+                        q: qItem.q || '',
+                        options: opts,
+                        optionExplanations: optExps,
+                        answerIndex: ansIdx,
+                        explanation: mainExp
+                    };
+                });
+
+                const subjTitle = parsed.subjectTitle || parsed.title;
+                let targetSubj = subjectsData.find(s => s.subjectTitle === subjTitle);
+                if (!targetSubj) {
+                    targetSubj = {
+                        subjectId: 'subj-' + Date.now(),
+                        subjectTitle: subjTitle,
+                        category: parsed.category || 'หมวดวิชาทั่วไป',
+                        icon: 'integration_instructions',
+                        examSets: []
+                    };
+                    subjectsData.push(targetSubj);
+                }
+
+                const newSetId = 'set-' + Date.now();
+                targetSubj.examSets.push({
+                    id: newSetId,
+                    setLabel: parsed.setLabel || 'ชุดมาตรฐาน',
+                    title: parsed.title,
+                    allowedOrderModes: parsed.allowedOrderModes || ['sequential', 'random', 'topic'],
+                    allowedFeedbackModes: parsed.allowedFeedbackModes || ['instant', 'after'],
+                    questions: normalizedQuestions
+                });
+
+                selectedSubjectId = targetSubj.subjectId;
+                selectedExamSetId = newSetId;
+                await saveSubjectToFirestore(targetSubj);
+
+                document.getElementById('jsonImportTextarea').value = '';
+                renderAdminView();
+                showToast(`นำเข้า "${parsed.title}" สำเร็จ`, 'check_circle');
+            } catch (err) {
+                showToast('รูปแบบ JSON ไม่ถูกต้อง', 'error');
+            }
+        }
+
+        Object.assign(window, {
+            handleLogoClick,
+            navigateTo,
+            logoutUser,
+            switchAuthTab,
+            togglePasswordVisibility,
+            handleGoogleSignIn,
+            handleCredentialSubmit,
+            openSubjectConfiguration,
+            backToSubjectList,
+            handleExamSetDropdownChange,
+            updateOrderModeUI,
+            updateTimerModeUI,
+            startSelectedExam,
+            handleSliderDrag,
+            goToRelativeQuestion,
+            jumpToQuestionIndex,
+            selectAnswerChoice,
+            submitAndShowSummary,
+            restartCurrentExam,
+            openStatsAttemptDetail,
+            closeStatsAttemptDetail,
+            handleAdminSubjectSelectChange,
+            handleAdminExamSetSelectChange,
+            toggleNewExamSetBox,
+            createNewExamSetFromAdmin,
+            setAdminCorrectIdx,
+            updateAdminOptText,
+            updateAdminOptReason,
+            setAdminOptionCount,
+            addSingleAdminOption,
+            removeAdminOptionAt,
+            handleAdminAddQuestion,
+            deleteQuestionFromAdmin,
+            copyPatternTemplate,
+            importExamFromJsonPattern
+        });
+
+        window.addEventListener('hashchange', () => {
+            updateAdminNavVisibility();
+            if (isAdminRouteAuthorized() && currentUser) {
+                navigateTo('admin');
+            }
+        });
+
+        window.onload = function () {
+            initFirebaseConnection();
+            updateAdminNavVisibility();
+            renderDashboardSubjects();
+            renderAdminView();
+        };
+    </script>
+</body>
+</html>
